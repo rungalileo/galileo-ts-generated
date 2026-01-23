@@ -1,0 +1,56 @@
+# RunDB
+
+## Example Usage
+
+```typescript
+import { RunDB } from "galileo-generated/models";
+
+let value: RunDB = {
+  createdBy: "<value>",
+  numSamples: 967758,
+  winner: true,
+  id: "<value>",
+  createdAt: new Date("2025-05-27T05:07:52.214Z"),
+  updatedAt: new Date("2025-03-14T13:42:00.459Z"),
+  lastUpdatedBy: "<value>",
+  creator: {
+    id: "<value>",
+    email: "Fannie21@hotmail.com",
+    organizationId: "<value>",
+    organizationName: "<value>",
+    createdAt: new Date("2026-12-16T08:21:29.962Z"),
+    updatedAt: new Date("2024-01-30T09:49:31.375Z"),
+  },
+  loggedSplits: [
+    "<value 1>",
+    "<value 2>",
+    "<value 3>",
+  ],
+  loggedInferenceNames: [
+    "<value 1>",
+    "<value 2>",
+  ],
+};
+```
+
+## Fields
+
+| Field                                                                                         | Type                                                                                          | Required                                                                                      | Description                                                                                   |
+| --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `name`                                                                                        | *string*                                                                                      | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `projectId`                                                                                   | *string*                                                                                      | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `createdBy`                                                                                   | *string*                                                                                      | :heavy_check_mark:                                                                            | N/A                                                                                           |
+| `numSamples`                                                                                  | *number*                                                                                      | :heavy_check_mark:                                                                            | N/A                                                                                           |
+| `winner`                                                                                      | *boolean*                                                                                     | :heavy_check_mark:                                                                            | N/A                                                                                           |
+| `datasetHash`                                                                                 | *string*                                                                                      | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `datasetVersionId`                                                                            | *string*                                                                                      | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `id`                                                                                          | *string*                                                                                      | :heavy_check_mark:                                                                            | N/A                                                                                           |
+| `createdAt`                                                                                   | [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) | :heavy_check_mark:                                                                            | N/A                                                                                           |
+| `updatedAt`                                                                                   | [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) | :heavy_check_mark:                                                                            | N/A                                                                                           |
+| `taskType`                                                                                    | [models.TaskType](../models/tasktype.md)                                                      | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `lastUpdatedBy`                                                                               | *string*                                                                                      | :heavy_check_mark:                                                                            | N/A                                                                                           |
+| `runTags`                                                                                     | [models.RunTagDB](../models/runtagdb.md)[]                                                    | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `exampleContentId`                                                                            | *string*                                                                                      | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `creator`                                                                                     | [models.UserDB](../models/userdb.md)                                                          | :heavy_check_mark:                                                                            | N/A                                                                                           |
+| `loggedSplits`                                                                                | *string*[]                                                                                    | :heavy_check_mark:                                                                            | N/A                                                                                           |
+| `loggedInferenceNames`                                                                        | *string*[]                                                                                    | :heavy_check_mark:                                                                            | N/A                                                                                           |
