@@ -1,0 +1,45 @@
+# BasePromptTemplateVersionResponse
+
+Base response from API for a prompt template version.
+
+## Example Usage
+
+```typescript
+import { BasePromptTemplateVersionResponse } from "galileo-generated/models";
+
+let value: BasePromptTemplateVersionResponse = {
+  template: [],
+  version: 21388,
+  settings: {},
+  id: "<value>",
+  modelChanged: true,
+  settingsChanged: true,
+  contentChanged: true,
+  createdAt: new Date("2025-04-23T19:35:45.719Z"),
+  updatedAt: new Date("2024-06-15T16:06:06.640Z"),
+  createdByUser: {
+    id: "<value>",
+    email: "Jeanie.Bradtke34@yahoo.com",
+  },
+};
+```
+
+## Fields
+
+| Field                                                                                                                   | Type                                                                                                                    | Required                                                                                                                | Description                                                                                                             |
+| ----------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `template`                                                                                                              | *models.BasePromptTemplateVersionResponseTemplate*                                                                      | :heavy_check_mark:                                                                                                      | N/A                                                                                                                     |
+| `raw`                                                                                                                   | *boolean*                                                                                                               | :heavy_minus_sign:                                                                                                      | N/A                                                                                                                     |
+| `version`                                                                                                               | *number*                                                                                                                | :heavy_check_mark:                                                                                                      | N/A                                                                                                                     |
+| `settings`                                                                                                              | [models.PromptRunSettings](../models/promptrunsettings.md)                                                              | :heavy_check_mark:                                                                                                      | Prompt run settings.                                                                                                    |
+| `outputType`                                                                                                            | *string*                                                                                                                | :heavy_minus_sign:                                                                                                      | N/A                                                                                                                     |
+| `id`                                                                                                                    | *string*                                                                                                                | :heavy_check_mark:                                                                                                      | N/A                                                                                                                     |
+| `modelChanged`                                                                                                          | *boolean*                                                                                                               | :heavy_check_mark:                                                                                                      | N/A                                                                                                                     |
+| ~~`linesAdded`~~                                                                                                        | *number*                                                                                                                | :heavy_minus_sign:                                                                                                      | : warning: ** DEPRECATED **: This will be removed in a future release, please migrate away from it as soon as possible. |
+| ~~`linesEdited`~~                                                                                                       | *number*                                                                                                                | :heavy_minus_sign:                                                                                                      | : warning: ** DEPRECATED **: This will be removed in a future release, please migrate away from it as soon as possible. |
+| ~~`linesRemoved`~~                                                                                                      | *number*                                                                                                                | :heavy_minus_sign:                                                                                                      | : warning: ** DEPRECATED **: This will be removed in a future release, please migrate away from it as soon as possible. |
+| `settingsChanged`                                                                                                       | *boolean*                                                                                                               | :heavy_check_mark:                                                                                                      | N/A                                                                                                                     |
+| `contentChanged`                                                                                                        | *boolean*                                                                                                               | :heavy_check_mark:                                                                                                      | N/A                                                                                                                     |
+| `createdAt`                                                                                                             | [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)                           | :heavy_check_mark:                                                                                                      | N/A                                                                                                                     |
+| `updatedAt`                                                                                                             | [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)                           | :heavy_check_mark:                                                                                                      | N/A                                                                                                                     |
+| `createdByUser`                                                                                                         | [models.UserInfo](../models/userinfo.md)                                                                                | :heavy_check_mark:                                                                                                      | N/A                                                                                                                     |

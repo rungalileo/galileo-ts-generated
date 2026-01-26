@@ -1,0 +1,19 @@
+workflowVersion: 1.0.0
+speakeasyVersion: latest
+sources:
+    FastAPI:
+        inputs:
+            - location: ../openapi.json
+        output: .speakeasy/out.openapi.yaml
+        registry:
+            location: registry.speakeasyapi.dev/galileo-ai/ts-sdk/fast-api
+targets:
+    galileo-generated:
+        target: typescript
+        source: FastAPI
+        codeSamples:
+            registry:
+                location: registry.speakeasyapi.dev/galileo-ai/ts-sdk/fast-api-typescript-code-samples
+            labelOverride:
+                fixedValue: Typescript (SDK)
+            blocking: false

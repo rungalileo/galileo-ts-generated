@@ -1,0 +1,37 @@
+speakeasyVersion: 1.701.1
+sources:
+    FastAPI:
+        sourceNamespace: fast-api
+        sourceRevisionDigest: sha256:77b96dc3fca31d830fc2d94bbda89c7eb5305067851640f74526c2ec315ee6d5
+        sourceBlobDigest: sha256:6398584e5cdddd10f073884cced625f8bf35b4c3b4650a0d847595c2e386c499
+        tags:
+            - latest
+            - 0.1.0
+targets:
+    galileo-generated:
+        source: FastAPI
+        sourceNamespace: fast-api
+        sourceRevisionDigest: sha256:77b96dc3fca31d830fc2d94bbda89c7eb5305067851640f74526c2ec315ee6d5
+        sourceBlobDigest: sha256:6398584e5cdddd10f073884cced625f8bf35b4c3b4650a0d847595c2e386c499
+        codeSamplesNamespace: fast-api-typescript-code-samples
+        codeSamplesRevisionDigest: sha256:e32ea2c2c4dc8113015f9ba350b47ca19b769c1357fa2b01ead5caaa174314ec
+workflow:
+    workflowVersion: 1.0.0
+    speakeasyVersion: latest
+    sources:
+        FastAPI:
+            inputs:
+                - location: ../openapi.json
+            output: .speakeasy/out.openapi.yaml
+            registry:
+                location: registry.speakeasyapi.dev/galileo-ai/ts-sdk/fast-api
+    targets:
+        galileo-generated:
+            target: typescript
+            source: FastAPI
+            codeSamples:
+                registry:
+                    location: registry.speakeasyapi.dev/galileo-ai/ts-sdk/fast-api-typescript-code-samples
+                labelOverride:
+                    fixedValue: Typescript (SDK)
+                blocking: false

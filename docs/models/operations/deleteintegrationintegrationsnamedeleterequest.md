@@ -1,0 +1,17 @@
+# DeleteIntegrationIntegrationsNameDeleteRequest
+
+## Example Usage
+
+```typescript
+import { DeleteIntegrationIntegrationsNameDeleteRequest } from "galileo-generated/models/operations";
+
+let value: DeleteIntegrationIntegrationsNameDeleteRequest = {
+  name: "nvidia",
+};
+```
+
+## Fields
+
+| Field                                                     | Type                                                      | Required                                                  | Description                                               |
+| --------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------- |
+| `name`                                                    | [models.IntegrationName](../../models/integrationname.md) | :heavy_check_mark:                                        | N/A                                                       |
