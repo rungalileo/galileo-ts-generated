@@ -3,7 +3,7 @@ speakeasyVersion: latest
 sources:
     FastAPI:
         inputs:
-            - location: ../openapi.json
+            - location: https://api.galileo.ai/client/openapi.json
         output: .speakeasy/out.openapi.yaml
         registry:
             location: registry.speakeasyapi.dev/galileo-ai/ts-sdk/fast-api

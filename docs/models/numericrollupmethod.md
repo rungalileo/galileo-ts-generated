@@ -1,13 +1,13 @@
-# ApiSchemasMetricRollUpNumericRollUpMethod
+# NumericRollUpMethod
 
 Roll up methods for aggregating numeric metrics up the session/trace/span hierarchy.
 
 ## Example Usage
 
 ```typescript
-import { ApiSchemasMetricRollUpNumericRollUpMethod } from "galileo-generated/models";
+import { NumericRollUpMethod } from "galileo-generated/models";
 
-let value: ApiSchemasMetricRollUpNumericRollUpMethod = "average";
+let value: NumericRollUpMethod = "sum";
 ```
 
 ## Values

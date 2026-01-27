@@ -8,7 +8,7 @@ import { ColumnInfo } from "galileo-generated/models";
 let value: ColumnInfo = {
   id: "<id>",
   category: "user_metadata",
-  dataType: "prompt",
+  dataType: "playground",
 };
 ```
 
