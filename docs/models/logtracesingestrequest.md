@@ -14,7 +14,7 @@ let value: LogTracesIngestRequest = {
     {
       input: "who is a smart LLM?",
       output: "I am!",
-      createdAt: new Date("2026-01-21T20:20:26.885480Z"),
+      createdAt: new Date("2026-01-23T02:44:16.440780Z"),
       userMetadata: {},
       tags: [],
       metrics: {},
@@ -33,7 +33,7 @@ let value: LogTracesIngestRequest = {
             role: "user",
           },
           name: "",
-          createdAt: new Date("2026-01-21T20:20:26.885443Z"),
+          createdAt: new Date("2026-01-23T02:44:16.440738Z"),
           userMetadata: {},
           tags: [],
           metrics: {},

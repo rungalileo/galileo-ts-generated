@@ -8,7 +8,7 @@ import { LogRecordsColumnInfo } from "galileo-generated/models";
 let value: LogRecordsColumnInfo = {
   id: "<id>",
   category: "feedback",
-  dataType: "timestamp",
+  dataType: "string_list",
 };
 ```
 

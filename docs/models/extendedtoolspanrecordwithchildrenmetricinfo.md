@@ -51,22 +51,25 @@ const value: models.MetricPending = {
 };
 ```
 
+### `models.MetricRollUp`
+
+```typescript
+const value: models.MetricRollUp = {
+  statusType: "roll_up",
+};
+```
+
 ### `models.MetricSuccess`
 
 ```typescript
 const value: models.MetricSuccess = {
   statusType: "success",
-  value: [
-    {
-      rating: {
-        feedbackType: "star",
-        value: 978650,
-      },
-      createdAt: new Date("2026-04-30T12:52:20.290Z"),
-      createdBy: "<value>",
-    },
-    "<value>",
-  ],
+  value: {
+    hallucinationSeverity: 0,
+    start: 829158,
+    end: 490363,
+    hallucination: 9786.5,
+  },
 };
 ```
 
