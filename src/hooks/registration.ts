@@ -1,6 +1,6 @@
+import { ErrorCleanerHook } from "./error-cleaner.js";
 import { TokenManagementHook } from "./token-management.js";
 import type { Hooks } from "./types.js";
-//import { ErrorCleanerHook } from "./error-cleaner.js";
 
 /*
  * This file is only ever generated once on the first generation and then is free to be modified.
@@ -15,6 +15,6 @@ export function initHooks(hooks: Hooks) {
 	hooks.registerAfterSuccessHook(tokenHook);
 
 	// Register error cleaning hook
-	//const errorCleanerHook = new ErrorCleanerHook();
-	//hooks.registerAfterErrorHook(errorCleanerHook);
+	const errorCleanerHook = new ErrorCleanerHook();
+	hooks.registerAfterErrorHook(errorCleanerHook);
 }

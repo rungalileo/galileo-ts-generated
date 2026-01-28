@@ -1,4 +1,4 @@
-import { AuthConfigStore, GalileoGenerated } from "../index.js";
+import { EnvConfigStore, GalileoGenerated, SDKOptions } from "../index.js";
 import { Token } from "../models/token.js";
 import type { Result } from "../types/fp.js";
 import { OK, ERR } from "../types/fp.js";
@@ -20,26 +20,28 @@ export class BaseEntity {
 	}
 
 	static getCLient(): GalileoGenerated {
-		BaseEntity.client ??= new GalileoGenerated();
+		const envConfig = EnvConfigStore.get();
+		const clientConfig: SDKOptions = envConfig?.apiUrl ? { serverURL: envConfig.apiUrl } : {};
+		BaseEntity.client ??= new GalileoGenerated(clientConfig);
 		return BaseEntity.client;
 	}
 
 	static async authenticate(): Promise<string | null> {
-		const authConfig = AuthConfigStore.get();
+		const authConfig = EnvConfigStore.get();
 		
 		let result: Token | undefined;		
 		if(authConfig?.apiKey){
-			result = await BaseEntity.client?.auth.loginApiKeyLoginApiKeyPost({
+			result = await BaseEntity.getCLient().auth.loginApiKeyLoginApiKeyPost({
 				apiKey:authConfig.apiKey,
 			});
 		}else if(authConfig?.login?.username && authConfig?.login?.password){
-			result = await BaseEntity.client?.auth.loginEmailLoginPost({
+			result = await BaseEntity.getCLient().auth.loginEmailLoginPost({
 				username:authConfig.login.username,
 				password:authConfig.login.password,
 			});
 		}
 		/*else if(authConfig?.sso?.idToken && authConfig?.sso?.provider){
-			result = await BaseEntity.client?.auth.ssoLoginPost({
+			result = await BaseEntity.getCLient().auth.ssoLoginPost({
 				idToken:authConfig.sso.idToken,
 				provider:authConfig.sso.provider,
 			});
@@ -50,7 +52,7 @@ export class BaseEntity {
 
 	protected ensureNotDeleted(): void {
 		if (this.deleted) {
-			throw new Error("Cannot perform operation on deleted project");
+			throw new Error("Cannot perform operation on deleted entity");
 		}
 	}
 
