@@ -11,6 +11,9 @@ targets:
     galileo-generated:
         target: typescript
         source: FastAPI
+        publish:
+            npm:
+                token: $npm_token
         codeSamples:
             registry:
                 location: registry.speakeasyapi.dev/galileo-ai/ts-sdk/fast-api-typescript-code-samples
