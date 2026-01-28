@@ -3,7 +3,7 @@ speakeasyVersion: latest
 sources:
     FastAPI:
         inputs:
-            - location: ../openapi.json
+            - location: https://api.galileo.ai/client/openapi.json
         output: .speakeasy/out.openapi.yaml
         registry:
             location: registry.speakeasyapi.dev/galileo-ai/ts-sdk/fast-api
@@ -11,6 +11,9 @@ targets:
     galileo-generated:
         target: typescript
         source: FastAPI
+        publish:
+            npm:
+                token: $npm_token
         codeSamples:
             registry:
                 location: registry.speakeasyapi.dev/galileo-ai/ts-sdk/fast-api-typescript-code-samples

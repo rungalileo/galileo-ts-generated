@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.ApiSchemasMetricRollUpNumericRollUpMethod[]`
+### `models.NumericRollUpMethod[]`
 
 ```typescript
-const value: models.ApiSchemasMetricRollUpNumericRollUpMethod[] = [];
+const value: models.NumericRollUpMethod[] = [];
 ```
 
 ### `models.CategoricalRollUpMethod[]`

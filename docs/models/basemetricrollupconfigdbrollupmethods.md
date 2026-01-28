@@ -5,10 +5,10 @@ List of roll up methods to apply to the metric. For numeric scorers we support d
 
 ## Supported Types
 
-### `models.ApiSchemasMetricRollUpNumericRollUpMethod[]`
+### `models.NumericRollUpMethod[]`
 
 ```typescript
-const value: models.ApiSchemasMetricRollUpNumericRollUpMethod[] = [];
+const value: models.NumericRollUpMethod[] = [];
 ```
 
 ### `models.CategoricalRollUpMethod[]`
