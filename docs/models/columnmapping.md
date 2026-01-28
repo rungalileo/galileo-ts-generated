@@ -11,6 +11,10 @@ let value: ColumnMapping = {
     columns: [],
     flatten: false,
   },
+  generatedOutput: {
+    columns: [],
+    flatten: false,
+  },
   metadata: {
     columns: [],
     flatten: false,
@@ -24,4 +28,5 @@ let value: ColumnMapping = {
 | ------------------------------ | ------------------------------ | ------------------------------ | ------------------------------ |
 | `input`                        | *models.ColumnMappingInput*    | :heavy_check_mark:             | N/A                            |
 | `output`                       | *models.ColumnMappingOutput*   | :heavy_check_mark:             | N/A                            |
+| `generatedOutput`              | *models.GeneratedOutput*       | :heavy_check_mark:             | N/A                            |
 | `metadata`                     | *models.ColumnMappingMetadata* | :heavy_check_mark:             | N/A                            |

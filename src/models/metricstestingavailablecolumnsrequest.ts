@@ -46,6 +46,10 @@ export type MetricsTestingAvailableColumnsRequest = {
    * List of required scorer names for composite scorers. Columns will be generated for these scorers.
    */
   requiredScorers?: Array<string> | null | undefined;
+  /**
+   * The score type for registered scorers (e.g., 'bool', 'int', 'float', 'str'). Used to determine the correct data_type for the column. Provided by validation result.
+   */
+  scoreType?: string | null | undefined;
 };
 
 /** @internal */
@@ -58,6 +62,7 @@ export type MetricsTestingAvailableColumnsRequest$Outbound = {
   cot_enabled: boolean;
   metric_key: string;
   required_scorers?: Array<string> | null | undefined;
+  score_type?: string | null | undefined;
 };
 
 /** @internal */
@@ -75,6 +80,7 @@ export const MetricsTestingAvailableColumnsRequest$outboundSchema:
       cotEnabled: z._default(z.boolean(), false),
       metricKey: z._default(z.string(), "generated_scorer_validation"),
       requiredScorers: z.optional(z.nullable(z.array(z.string()))),
+      scoreType: z.optional(z.nullable(z.string())),
     }),
     z.transform((v) => {
       return remap$(v, {
@@ -85,6 +91,7 @@ export const MetricsTestingAvailableColumnsRequest$outboundSchema:
         cotEnabled: "cot_enabled",
         metricKey: "metric_key",
         requiredScorers: "required_scorers",
+        scoreType: "score_type",
       });
     }),
   );

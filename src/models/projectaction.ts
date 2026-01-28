@@ -31,9 +31,6 @@ export const ProjectAction = {
   DismissAlert: "dismiss_alert",
   EditSlice: "edit_slice",
   EditEdit: "edit_edit",
-  CreateAnnotationQueue: "create_annotation_queue",
-  UpdateAnnotationQueue: "update_annotation_queue",
-  DeleteAnnotationQueue: "delete_annotation_queue",
 } as const;
 export type ProjectAction = OpenEnum<typeof ProjectAction>;
 

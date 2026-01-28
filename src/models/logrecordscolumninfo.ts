@@ -6,6 +6,8 @@
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
+import * as openEnums from "../types/enums.js";
+import { OpenEnum } from "../types/enums.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import {
@@ -26,6 +28,12 @@ import {
 } from "./metricthreshold.js";
 import { ScorerConfig, ScorerConfig$inboundSchema } from "./scorerconfig.js";
 import { StepType, StepType$inboundSchema } from "./steptype.js";
+
+export const LabelColor = {
+  Positive: "positive",
+  Negative: "negative",
+} as const;
+export type LabelColor = OpenEnum<typeof LabelColor>;
 
 export type LogRecordsColumnInfo = {
   /**
@@ -105,7 +113,15 @@ export type LogRecordsColumnInfo = {
    * Thresholds for the column, if this is a metrics column.
    */
   threshold?: MetricThreshold | null | undefined;
+  /**
+   * Type of label color for the column, if this is a multilabel metric column.
+   */
+  labelColor?: LabelColor | null | undefined;
 };
+
+/** @internal */
+export const LabelColor$inboundSchema: z.ZodMiniType<LabelColor, unknown> =
+  openEnums.inboundSchema(LabelColor);
 
 /** @internal */
 export const LogRecordsColumnInfo$inboundSchema: z.ZodMiniType<
@@ -133,6 +149,7 @@ export const LogRecordsColumnInfo$inboundSchema: z.ZodMiniType<
     insight_type: z.optional(z.nullable(InsightType$inboundSchema)),
     filter_type: z.optional(z.nullable(LogRecordsFilterType$inboundSchema)),
     threshold: z.optional(z.nullable(MetricThreshold$inboundSchema)),
+    label_color: z.optional(z.nullable(LabelColor$inboundSchema)),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -148,6 +165,7 @@ export const LogRecordsColumnInfo$inboundSchema: z.ZodMiniType<
       "scorer_id": "scorerId",
       "insight_type": "insightType",
       "filter_type": "filterType",
+      "label_color": "labelColor",
     });
   }),
 );

@@ -20,6 +20,10 @@ export type DatasetCopyRecordData = {
    * A flag to control appending vs prepending
    */
   prepend?: boolean | undefined;
+  /**
+   * If True, write trace output to generated_output column; if False, write to output column (backward compatible)
+   */
+  useGeneratedOutputColumn?: boolean | undefined;
 };
 
 /** @internal */
@@ -28,6 +32,7 @@ export type DatasetCopyRecordData$Outbound = {
   project_id: string;
   ids: Array<string>;
   prepend: boolean;
+  use_generated_output_column: boolean;
 };
 
 /** @internal */
@@ -40,11 +45,13 @@ export const DatasetCopyRecordData$outboundSchema: z.ZodMiniType<
     projectId: z.string(),
     ids: z.array(z.string()),
     prepend: z._default(z.boolean(), true),
+    useGeneratedOutputColumn: z._default(z.boolean(), false),
   }),
   z.transform((v) => {
     return remap$(v, {
       editType: "edit_type",
       projectId: "project_id",
+      useGeneratedOutputColumn: "use_generated_output_column",
     });
   }),
 );

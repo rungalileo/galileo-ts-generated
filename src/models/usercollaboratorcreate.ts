@@ -10,15 +10,25 @@ import {
   CollaboratorRole$outboundSchema,
 } from "./collaboratorrole.js";
 
+/**
+ * Create a user collaborator using either user_id or email.
+ *
+ * @remarks
+ *
+ * When using email, if the user doesn't exist in the organization,
+ * they will be invited automatically.
+ */
 export type UserCollaboratorCreate = {
   role?: CollaboratorRole | undefined;
-  userId: string;
+  userId?: string | null | undefined;
+  userEmail?: string | null | undefined;
 };
 
 /** @internal */
 export type UserCollaboratorCreate$Outbound = {
   role?: string | undefined;
-  user_id: string;
+  user_id?: string | null | undefined;
+  user_email?: string | null | undefined;
 };
 
 /** @internal */
@@ -28,11 +38,13 @@ export const UserCollaboratorCreate$outboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     role: z.optional(CollaboratorRole$outboundSchema),
-    userId: z.string(),
+    userId: z.optional(z.nullable(z.string())),
+    userEmail: z.optional(z.nullable(z.string())),
   }),
   z.transform((v) => {
     return remap$(v, {
       userId: "user_id",
+      userEmail: "user_email",
     });
   }),
 );

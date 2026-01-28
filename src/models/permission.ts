@@ -8,6 +8,10 @@ import { safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { smartUnion } from "../types/smartUnion.js";
+import {
+  AnnotationQueueAction,
+  AnnotationQueueAction$inboundSchema,
+} from "./annotationqueueaction.js";
 import { ApiKeyAction, ApiKeyAction$inboundSchema } from "./apikeyaction.js";
 import { DatasetAction, DatasetAction$inboundSchema } from "./datasetaction.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -50,7 +54,8 @@ export type PermissionAction =
   | FineTunedScorerAction
   | DatasetAction
   | IntegrationAction
-  | OrganizationAction;
+  | OrganizationAction
+  | AnnotationQueueAction;
 
 export type Permission = {
   action:
@@ -64,7 +69,8 @@ export type Permission = {
     | FineTunedScorerAction
     | DatasetAction
     | IntegrationAction
-    | OrganizationAction;
+    | OrganizationAction
+    | AnnotationQueueAction;
   allowed: boolean;
   message?: string | null | undefined;
 };
@@ -85,6 +91,7 @@ export const PermissionAction$inboundSchema: z.ZodMiniType<
   DatasetAction$inboundSchema,
   IntegrationAction$inboundSchema,
   OrganizationAction$inboundSchema,
+  AnnotationQueueAction$inboundSchema,
 ]);
 
 export function permissionActionFromJSON(
@@ -112,6 +119,7 @@ export const Permission$inboundSchema: z.ZodMiniType<Permission, unknown> = z
       DatasetAction$inboundSchema,
       IntegrationAction$inboundSchema,
       OrganizationAction$inboundSchema,
+      AnnotationQueueAction$inboundSchema,
     ]),
     allowed: types.boolean(),
     message: z.optional(z.nullable(types.string())),

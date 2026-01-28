@@ -8,9 +8,7 @@ import { CreateUserProjectCollaboratorsProjectsProjectIdUsersPostRequest } from 
 let value: CreateUserProjectCollaboratorsProjectsProjectIdUsersPostRequest = {
   projectId: "<value>",
   body: [
-    {
-      userId: "<value>",
-    },
+    {},
   ],
 };
 ```

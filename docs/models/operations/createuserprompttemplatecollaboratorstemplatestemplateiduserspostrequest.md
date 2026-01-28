@@ -9,9 +9,7 @@ let value:
   CreateUserPromptTemplateCollaboratorsTemplatesTemplateIdUsersPostRequest = {
     templateId: "<value>",
     body: [
-      {
-        userId: "<value>",
-      },
+      {},
     ],
   };
 ```

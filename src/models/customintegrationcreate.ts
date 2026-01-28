@@ -9,6 +9,11 @@ import {
   CustomAuthenticationType,
   CustomAuthenticationType$outboundSchema,
 } from "./customauthenticationtype.js";
+import {
+  CustomLLMConfig,
+  CustomLLMConfig$Outbound,
+  CustomLLMConfig$outboundSchema,
+} from "./customllmconfig.js";
 
 export type CustomIntegrationCreate = {
   authenticationType?: CustomAuthenticationType | undefined;
@@ -32,6 +37,10 @@ export type CustomIntegrationCreate = {
    * OAuth2 token URL for custom OAuth2 authentication. If not provided, defaults to the endpoint.
    */
   oauth2TokenUrl?: string | null | undefined;
+  /**
+   * Optional configuration for a custom LiteLLM handler class. When specified, the handler's acompletion() method is used instead of the default litellm.acompletion().
+   */
+  customLlmConfig?: CustomLLMConfig | null | undefined;
   token?: string | null | undefined;
 };
 
@@ -43,6 +52,7 @@ export type CustomIntegrationCreate$Outbound = {
   endpoint: string;
   authentication_scope?: string | null | undefined;
   oauth2_token_url?: string | null | undefined;
+  custom_llm_config?: CustomLLMConfig$Outbound | null | undefined;
   token?: string | null | undefined;
 };
 
@@ -58,6 +68,7 @@ export const CustomIntegrationCreate$outboundSchema: z.ZodMiniType<
     endpoint: z.string(),
     authenticationScope: z.optional(z.nullable(z.string())),
     oauth2TokenUrl: z.optional(z.nullable(z.string())),
+    customLlmConfig: z.optional(z.nullable(CustomLLMConfig$outboundSchema)),
     token: z.optional(z.nullable(z.string())),
   }),
   z.transform((v) => {
@@ -66,6 +77,7 @@ export const CustomIntegrationCreate$outboundSchema: z.ZodMiniType<
       defaultModel: "default_model",
       authenticationScope: "authentication_scope",
       oauth2TokenUrl: "oauth2_token_url",
+      customLlmConfig: "custom_llm_config",
     });
   }),
 );
