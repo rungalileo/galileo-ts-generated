@@ -4,7 +4,6 @@
  */
 
 export * from "./lib/config.js";
-export * from "./lib/env-config.js";
 export * as files from "./lib/files.js";
 export { HTTPClient } from "./lib/http.js";
 export type { Fetcher, HTTPClientOptions } from "./lib/http.js";
