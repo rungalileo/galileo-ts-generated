@@ -4,7 +4,9 @@
 
 import { isBrowserLike, isDeno, isNodeLike } from "./runtime.js";
 
-export type AuthConfig = {
+export type EnvConfig = {
+  apiUrl?: string;
+  consoleUrl?: string;
   apiKey?: string;
   login?: { username?: string; password?: string };
   sso?: Record<string, unknown>;
@@ -17,39 +19,41 @@ const ENV_USERNAME = "GALILEO_USERNAME";
 const ENV_PASSWORD = "GALILEO_PASSWORD";
 const ENV_SSO_ID_TOKEN = "GALILEO_SSO_ID_TOKEN";
 const ENV_SSO_PROVIDER = "GALILEO_SSO_PROVIDER";
+const ENV_GALILEO_API_URL = "GALILEO_API_URL";
+const ENV_GALILEO_CONSOLE_URL = "GALILEO_CONSOLE_URL";
 
 // biome-ignore lint/complexity/noStaticOnlyClass: Singleton-like store.
-export class AuthConfigStore {
-  static #config: AuthConfig | null = null;
+export class EnvConfigStore {
+  static #config: EnvConfig | null = null;
 
-  static set(config: AuthConfig): void {
-    AuthConfigStore.#config = normalizeAuthConfig(config);
+  static set(config: EnvConfig): void {
+    EnvConfigStore.#config = normalizeEnvConfig(config);
   }
 
   static clear(): void {
-    AuthConfigStore.#config = null;
+    EnvConfigStore.#config = null;
   }
 
-  static refreshFromEnvironment(): AuthConfig | null {
+  static refreshFromEnvironment(): EnvConfig | null {
     const config = resolveConfigFromEnvironment();
-    AuthConfigStore.#config = config;
+    EnvConfigStore.#config = config;
     return config;
   }
 
-  static get(): AuthConfig | null {
-    if (AuthConfigStore.#config) {
-      return AuthConfigStore.#config;
+  static get(): EnvConfig | null {
+    if (EnvConfigStore.#config) {
+      return EnvConfigStore.#config;
     }
 
-    return AuthConfigStore.refreshFromEnvironment();
+    return EnvConfigStore.refreshFromEnvironment();
   }
 
-  static getRedacted(): AuthConfig | null {
-    return redactAuthConfig(AuthConfigStore.get());
+  static getRedacted(): EnvConfig | null {
+    return redactEnvConfig(EnvConfigStore.get());
   }
 }
 
-function resolveConfigFromEnvironment(): AuthConfig | null {
+function resolveConfigFromEnvironment(): EnvConfig | null {
   if (isBrowserLike()) {
     return (
       readFromBrowserGlobal(DEFAULT_BROWSER_GLOBAL)
@@ -64,7 +68,7 @@ function resolveConfigFromEnvironment(): AuthConfig | null {
   return null;
 }
 
-function readFromBrowserGlobal(globalName: string): AuthConfig | null {
+function readFromBrowserGlobal(globalName: string): EnvConfig | null {
   const gt = typeof globalThis === "undefined"
     ? null
     : (globalThis as Record<string, unknown>);
@@ -72,10 +76,10 @@ function readFromBrowserGlobal(globalName: string): AuthConfig | null {
     return null;
   }
 
-  return parseAuthConfigValue(gt[globalName]);
+  return parseEnvConfigValue(gt[globalName]);
 }
 
-function readFromLocalStorage(key: string): AuthConfig | null {
+function readFromLocalStorage(key: string): EnvConfig | null {
   if (typeof globalThis === "undefined") {
     return null;
   }
@@ -85,13 +89,13 @@ function readFromLocalStorage(key: string): AuthConfig | null {
       return null;
     }
     const raw = globalThis.localStorage?.getItem(key);
-    return parseAuthConfigValue(raw);
+    return parseEnvConfigValue(raw);
   } catch {
     return null;
   }
 }
 
-function readFromEnv(): AuthConfig | null {
+function readFromEnv(): EnvConfig | null {
   const env = readEnvObject();
   if (!env) {
     return null;
@@ -100,6 +104,8 @@ function readFromEnv(): AuthConfig | null {
   const apiKey = env[ENV_API_KEY];
   const username = env[ENV_USERNAME];
   const password = env[ENV_PASSWORD];
+  const apiUrl = env[ENV_GALILEO_API_URL];
+  const consoleUrl = env[ENV_GALILEO_CONSOLE_URL];
   const ssoIdToken = env[ENV_SSO_ID_TOKEN];
   const ssoProvider = env[ENV_SSO_PROVIDER];
 
@@ -119,6 +125,8 @@ function readFromEnv(): AuthConfig | null {
       ? { login: { ...(username ? { username } : {}), ...(password ? { password } : {}) } }
       : {}),
     ...(sso ? { sso } : {}),
+    ...(apiUrl ? { apiUrl } : {}),
+    ...(consoleUrl ? { consoleUrl } : {}),
   };
 }
 
@@ -140,17 +148,17 @@ function readEnvObject(): Record<string, string | undefined> | null {
   return null;
 }
 
-function parseAuthConfigValue(value: unknown): AuthConfig | null {
+function parseEnvConfigValue(value: unknown): EnvConfig | null {
   if (value == null) {
     return null;
   }
 
   if (typeof value === "string") {
     const parsed = parseJSON(value);
-    return normalizeAuthConfig(parsed);
+    return normalizeEnvConfig(parsed);
   }
 
-  return normalizeAuthConfig(value);
+  return normalizeEnvConfig(value);
 }
 
 function parseJSON(value: string): unknown {
@@ -161,7 +169,7 @@ function parseJSON(value: string): unknown {
   }
 }
 
-function normalizeAuthConfig(value: unknown): AuthConfig | null {
+function normalizeEnvConfig(value: unknown): EnvConfig | null {
   if (!value || typeof value !== "object") {
     return null;
   }
@@ -182,7 +190,7 @@ function normalizeAuthConfig(value: unknown): AuthConfig | null {
   };
 }
 
-function normalizeLogin(value: unknown): AuthConfig["login"] | undefined {
+function normalizeLogin(value: unknown): EnvConfig["login"] | undefined {
   if (!value || typeof value !== "object") {
     return undefined;
   }
@@ -206,7 +214,7 @@ function normalizeSSO(value: unknown): Record<string, unknown> | undefined {
   return value as Record<string, unknown>;
 }
 
-function redactAuthConfig(config: AuthConfig | null): AuthConfig | null {
+function redactEnvConfig(config: EnvConfig | null): EnvConfig | null {
   if (!config) {
     return null;
   }

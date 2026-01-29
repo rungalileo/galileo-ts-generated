@@ -50,6 +50,7 @@ export class TokenManagementHook
 
     // Skip if no token is stored
     const token = await BaseEntity.getToken();
+
     if (!token) {
       return request;
     }
@@ -119,4 +120,3 @@ export class TokenManagementHook
     return response;
   }
 }
-

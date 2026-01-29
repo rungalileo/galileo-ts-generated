@@ -1,7 +1,7 @@
 configVersion: 2.0.0
 generation:
   devContainers:
-    enabled: true
+    enabled: false
     schemaPath: .speakeasy/out.openapi.yaml
   sdkClassName: GalileoGenerated
   maintainOpenAPIOrder: true
@@ -27,7 +27,7 @@ generation:
     allOfMergeStrategy: shallowMerge
   requestBodyFieldName: body
   persistentEdits:
-    enabled: "true"
+    enabled: "false"
   tests:
     generateTests: false
     generateNewTests: true
