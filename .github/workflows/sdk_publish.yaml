@@ -19,5 +19,5 @@ jobs:
       target: galileo-generated
     secrets:
       github_access_token: ${{ secrets.GALILEO_AUTOMATION_GITHUB_TOKEN }}
-      npm_token: ${{ secrets.NPM_TOKEN }}
+      npm_token: ${{ secrets.TYPESCRIPT_GENERATED_NPM_TOKEN }}
       speakeasy_api_key: ${{ secrets.SPEAKEASY_API_KEY }}
