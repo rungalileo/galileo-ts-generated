@@ -5,6 +5,8 @@ permissions:
   pull-requests: write
   statuses: write
   id-token: write
+env:
+  NODE_AUTH_TOKEN: ${{ secrets.TYPESCRIPT_GENERATED_NPM_TOKEN }}
 "on":
   push:
     branches:
