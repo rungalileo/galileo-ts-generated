@@ -33,7 +33,7 @@ generation:
     generateNewTests: true
     skipResponseBodyAssertions: false
 typescript:
-  version: 0.0.2
+  version: 0.1.0
   acceptHeaderEnum: false
   additionalDependencies:
     dependencies: {}
@@ -72,6 +72,7 @@ typescript:
   inputModelSuffix: input
   jsonpath: rfc9535
   laxMode: lax
+  legacyFileNaming: true
   maxMethodParams: 0
   methodArguments: infer-optional-args
   modelPropertyCasing: camel

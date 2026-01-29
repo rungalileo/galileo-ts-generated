@@ -8,9 +8,7 @@ import { CreateUserDatasetCollaboratorsDatasetsDatasetIdUsersPostRequest } from 
 let value: CreateUserDatasetCollaboratorsDatasetsDatasetIdUsersPostRequest = {
   datasetId: "<value>",
   body: [
-    {
-      userId: "<value>",
-    },
+    {},
   ],
 };
 ```

@@ -24,7 +24,7 @@ const value: models.GroupMemberAction = "update_role";
 ### `models.ProjectAction`
 
 ```typescript
-const value: models.ProjectAction = "rename_run";
+const value: models.ProjectAction = "delete_run";
 ```
 
 ### `models.RegisteredScorerAction`
@@ -67,5 +67,11 @@ const value: models.IntegrationAction = "delete";
 
 ```typescript
 const value: models.OrganizationAction = "rename";
+```
+
+### `models.AnnotationQueueAction`
+
+```typescript
+const value: models.AnnotationQueueAction = "update";
 ```
 
