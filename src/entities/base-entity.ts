@@ -1,7 +1,8 @@
-import { EnvConfigStore, GalileoGenerated, SDKOptions } from "../index.js";
+import { GalileoGenerated, SDKOptions } from "../index.js";
 import { Token } from "../models/token.js";
 import type { Result } from "../types/fp.js";
 import { OK, ERR } from "../types/fp.js";
+import { EnvConfigStore } from "../lib/env-config.js";
 
 export class BaseEntity {
 	protected static token: string | null = null;
