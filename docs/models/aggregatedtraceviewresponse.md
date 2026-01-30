@@ -30,11 +30,13 @@ let value: AggregatedTraceViewResponse = {
         target: "<value>",
         weight: 1839.51,
         occurrences: 165589,
+        traceCount: 360800,
+        traceIds: [],
       },
     ],
   },
-  numTraces: 360800,
-  numSessions: 241014,
+  numTraces: 558078,
+  numSessions: 813511,
   hasAllTraces: false,
 };
 ```

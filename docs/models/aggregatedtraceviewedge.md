@@ -10,6 +10,10 @@ let value: AggregatedTraceViewEdge = {
   target: "<value>",
   weight: 2410.91,
   occurrences: 534090,
+  traceCount: 96095,
+  traceIds: [
+    "<value 1>",
+  ],
 };
 ```
 
@@ -21,3 +25,5 @@ let value: AggregatedTraceViewEdge = {
 | `target`           | *string*           | :heavy_check_mark: | N/A                |
 | `weight`           | *number*           | :heavy_check_mark: | N/A                |
 | `occurrences`      | *number*           | :heavy_check_mark: | N/A                |
+| `traceCount`       | *number*           | :heavy_check_mark: | N/A                |
+| `traceIds`         | *string*[]         | :heavy_check_mark: | N/A                |

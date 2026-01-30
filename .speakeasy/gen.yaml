@@ -33,16 +33,15 @@ generation:
     generateNewTests: true
     skipResponseBodyAssertions: false
 typescript:
-  version: 0.1.1
+  version: 0.1.2
   acceptHeaderEnum: false
   additionalDependencies:
     dependencies: {}
     devDependencies: {}
     peerDependencies: {}
   additionalPackageJSON: {}
-  additionalScripts: {
-    "code-generation": "speakeasy run --watch"
-  }
+  additionalScripts:
+    code-generation: speakeasy run --watch
   alwaysIncludeInboundAndOutbound: false
   author: Speakeasy
   baseErrorName: GalileoGeneratedError

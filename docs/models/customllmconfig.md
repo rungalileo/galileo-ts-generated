@@ -11,15 +11,15 @@ that handles acompletion() calls with custom request/response transformation.
 import { CustomLLMConfig } from "galileo-generated/models";
 
 let value: CustomLLMConfig = {
-  module: "<value>",
+  fileName: "example.file",
   className: "<value>",
 };
 ```
 
 ## Fields
 
-| Field                                                               | Type                                                                | Required                                                            | Description                                                         |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `module`                                                            | *string*                                                            | :heavy_check_mark:                                                  | Fully qualified Python module path (e.g., 'mycompany.llm.handlers') |
-| `className`                                                         | *string*                                                            | :heavy_check_mark:                                                  | Class name within the module (must be a litellm.CustomLLM subclass) |
-| `initKwargs`                                                        | Record<string, *any*>                                               | :heavy_minus_sign:                                                  | Optional keyword arguments to pass to the CustomLLM constructor     |
+| Field                                                                   | Type                                                                    | Required                                                                | Description                                                             |
+| ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| `fileName`                                                              | *string*                                                                | :heavy_check_mark:                                                      | Python file name containing the CustomLLM class (e.g., 'my_handler.py') |
+| `className`                                                             | *string*                                                                | :heavy_check_mark:                                                      | Class name within the module (must be a litellm.CustomLLM subclass)     |
+| `initKwargs`                                                            | Record<string, *any*>                                                   | :heavy_minus_sign:                                                      | Optional keyword arguments to pass to the CustomLLM constructor         |

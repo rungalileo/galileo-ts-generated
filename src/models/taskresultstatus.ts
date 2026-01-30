@@ -8,6 +8,7 @@ import { OpenEnum } from "../types/enums.js";
 
 export const TaskResultStatus = {
   Pending: "pending",
+  Started: "started",
   Completed: "completed",
   Failed: "failed",
 } as const;
