@@ -40,7 +40,9 @@ typescript:
     devDependencies: {}
     peerDependencies: {}
   additionalPackageJSON: {}
-  additionalScripts: {}
+  additionalScripts: {
+    "code-generation": "speakeasy run --watch"
+  }
   alwaysIncludeInboundAndOutbound: false
   author: Speakeasy
   baseErrorName: GalileoGeneratedError
