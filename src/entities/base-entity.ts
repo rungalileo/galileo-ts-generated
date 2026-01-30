@@ -20,6 +20,12 @@ export class BaseEntity {
 		BaseEntity.token = token;
 	}
 
+	/** Test-only: clears static token and client for isolated tests. */
+	static resetForTesting(): void {
+		BaseEntity.token = null;
+		BaseEntity.client = null;
+	}
+
 	static getCLient(): GalileoGenerated {
 		const config = GalileoConfig.get();
 		const snap = config.snapshot;
