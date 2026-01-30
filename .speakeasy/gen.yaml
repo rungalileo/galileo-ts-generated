@@ -83,7 +83,7 @@ typescript:
   maxMethodParams: 0
   methodArguments: infer-optional-args
   modelPropertyCasing: camel
-  moduleFormat: esm
+  moduleFormat: dual
   multipartArrayFormat: standard
   outputModelSuffix: output
   packageName: galileo-generated
