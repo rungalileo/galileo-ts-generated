@@ -1,5 +1,4 @@
-/// <reference types="jest" />
-/// <reference types="node" />
+import { describe, test, expect, afterEach, vi } from 'vitest';
 import { GalileoConfig } from '../../lib/galileo-config.js';
 
 const ENV_KEYS = [
@@ -230,7 +229,7 @@ describe('GalileoConfig', () => {
       apiKey: 'log-key',
       apiUrl: 'https://api.example.com',
     });
-    const spy = jest.spyOn(console, 'info').mockImplementation(() => {});
+    const spy = vi.spyOn(console, 'info').mockImplementation(() => {});
     expect(() => config.logConfig()).not.toThrow();
     spy.mockRestore();
   });

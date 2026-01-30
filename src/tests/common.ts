@@ -1,17 +1,18 @@
 import { http, HttpResponse } from 'msw';
+import { vi } from 'vitest';
 
 export const TEST_HOST = 'http://localhost:8088';
 
 const MOCK_ACCESS_TOKEN = 'test-access-token';
 
-const loginApiKeyHandler = jest.fn().mockImplementation(() => {
+const loginApiKeyHandler = vi.fn().mockImplementation(() => {
   return HttpResponse.json({
     access_token: MOCK_ACCESS_TOKEN,
     token_type: 'bearer',
   });
 });
 
-const loginEmailHandler = jest.fn().mockImplementation(() => {
+const loginEmailHandler = vi.fn().mockImplementation(() => {
   return HttpResponse.json({
     access_token: MOCK_ACCESS_TOKEN,
     token_type: 'bearer',

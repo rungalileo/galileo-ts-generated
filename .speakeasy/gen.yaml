@@ -38,17 +38,15 @@ typescript:
   additionalDependencies:
     dependencies: {}
     devDependencies: {
-      "@types/jest": "^29.5.14",
       "@types/node": "^22.10.0",
-      "jest": "^29.7.0",
       "msw": "^2.7.0",
-      "ts-jest": "^29.2.6",
+      "vitest": "^2.1.0"
     }
     peerDependencies: {}
   additionalPackageJSON: {}
   additionalScripts: {
-    "test": "jest --detectOpenHandles --forceExit",
-    "test:watch": "jest --watch"
+    "test": "vitest run",
+    "test:watch": "vitest"
   }
   alwaysIncludeInboundAndOutbound: false
   author: Galileo/Speakeasy

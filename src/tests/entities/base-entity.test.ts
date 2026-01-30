@@ -1,13 +1,15 @@
-/// <reference types="jest" />
+import { describe, test, expect, afterEach, vi } from 'vitest';
 import { BaseEntity } from '../../entities/base-entity.js';
 import { GalileoConfig } from '../../lib/galileo-config.js';
 import type { Result } from '../../types/fp.js';
 
-const mockLoginApiKey = jest.fn().mockResolvedValue({ accessToken: 'mock-token' });
-const mockLoginEmail = jest.fn().mockResolvedValue({ accessToken: 'mock-token' });
+const { mockLoginApiKey, mockLoginEmail } = vi.hoisted(() => ({
+  mockLoginApiKey: vi.fn().mockResolvedValue({ accessToken: 'mock-token' }),
+  mockLoginEmail: vi.fn().mockResolvedValue({ accessToken: 'mock-token' }),
+}));
 
-jest.mock('../../index.js', () => ({
-  GalileoGenerated: jest.fn().mockImplementation(() => ({
+vi.mock('../../index.js', () => ({
+  GalileoGenerated: vi.fn().mockImplementation(() => ({
     auth: {
       loginApiKeyLoginApiKeyPost: mockLoginApiKey,
       loginEmailLoginPost: mockLoginEmail,
@@ -29,7 +31,7 @@ class TestEntity extends BaseEntity {
 
 describe('BaseEntity', () => {
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     GalileoConfig.reset();
     BaseEntity.resetForTesting();
   });
