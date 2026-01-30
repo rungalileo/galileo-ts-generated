@@ -19,9 +19,9 @@ import { SDKValidationError } from "./errors/sdkvalidationerror.js";
  */
 export type CustomLLMConfig = {
   /**
-   * Fully qualified Python module path (e.g., 'mycompany.llm.handlers')
+   * Python file name containing the CustomLLM class (e.g., 'my_handler.py')
    */
-  module: string;
+  fileName: string;
   /**
    * Class name within the module (must be a litellm.CustomLLM subclass)
    */
@@ -38,12 +38,13 @@ export const CustomLLMConfig$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    module: types.string(),
+    file_name: types.string(),
     class_name: types.string(),
     init_kwargs: z.optional(z.nullable(z.record(z.string(), z.any()))),
   }),
   z.transform((v) => {
     return remap$(v, {
+      "file_name": "fileName",
       "class_name": "className",
       "init_kwargs": "initKwargs",
     });
@@ -51,7 +52,7 @@ export const CustomLLMConfig$inboundSchema: z.ZodMiniType<
 );
 /** @internal */
 export type CustomLLMConfig$Outbound = {
-  module: string;
+  file_name: string;
   class_name: string;
   init_kwargs?: { [k: string]: any } | null | undefined;
 };
@@ -62,12 +63,13 @@ export const CustomLLMConfig$outboundSchema: z.ZodMiniType<
   CustomLLMConfig
 > = z.pipe(
   z.object({
-    module: z.string(),
+    fileName: z.string(),
     className: z.string(),
     initKwargs: z.optional(z.nullable(z.record(z.string(), z.any()))),
   }),
   z.transform((v) => {
     return remap$(v, {
+      fileName: "file_name",
       className: "class_name",
       initKwargs: "init_kwargs",
     });
