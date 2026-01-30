@@ -2,7 +2,7 @@ import { GalileoGenerated, SDKOptions } from "../index.js";
 import { Token } from "../models/token.js";
 import type { Result } from "../types/fp.js";
 import { OK, ERR } from "../types/fp.js";
-import { EnvConfigStore } from "../lib/env-config.js";
+import { GalileoConfig } from "../lib/galileo-config.js";
 
 export class BaseEntity {
 	protected static token: string | null = null;
@@ -21,26 +21,28 @@ export class BaseEntity {
 	}
 
 	static getCLient(): GalileoGenerated {
-		const envConfig = EnvConfigStore.get();
-		const clientConfig: SDKOptions = envConfig?.apiUrl ? { serverURL: envConfig.apiUrl } : {};
+		const config = GalileoConfig.get();
+		const snap = config.snapshot;
+		const clientConfig: SDKOptions = snap.apiUrl ? { serverURL: snap.apiUrl } : {};
 		BaseEntity.client ??= new GalileoGenerated(clientConfig);
 		return BaseEntity.client;
 	}
 
 	static async authenticate(): Promise<string | null> {
-		const authConfig = EnvConfigStore.get();
-		
-		let result: Token | undefined;		
-		if(authConfig?.apiKey){
+		const authConfig = GalileoConfig.get().snapshot;
+
+		let result: Token | undefined;
+		if (authConfig?.apiKey) {
 			result = await BaseEntity.getCLient().auth.loginApiKeyLoginApiKeyPost({
-				apiKey:authConfig.apiKey,
+				apiKey: authConfig.apiKey,
 			});
-		}else if(authConfig?.login?.username && authConfig?.login?.password){
+		} else if (authConfig?.login?.username && authConfig?.login?.password) {
 			result = await BaseEntity.getCLient().auth.loginEmailLoginPost({
-				username:authConfig.login.username,
-				password:authConfig.login.password,
+				username: authConfig.login.username,
+				password: authConfig.login.password,
 			});
 		}
+		// CONFIGURE LOGIN/SOCIAL ENDPOINT BEFORE ENABLING THIS
 		/*else if(authConfig?.sso?.idToken && authConfig?.sso?.provider){
 			result = await BaseEntity.getCLient().auth.ssoLoginPost({
 				idToken:authConfig.sso.idToken,

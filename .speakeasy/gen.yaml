@@ -60,7 +60,7 @@ typescript:
   formStringArrayEncodeMode: array
   forwardCompatibleEnumsByDefault: true
   forwardCompatibleUnionsByDefault: tagged-only
-  generateExamples: true
+  generateExamples: false
   imports:
     option: openapi
     paths:
@@ -77,7 +77,7 @@ typescript:
   maxMethodParams: 0
   methodArguments: infer-optional-args
   modelPropertyCasing: camel
-  moduleFormat: dual
+  moduleFormat: esm
   multipartArrayFormat: standard
   outputModelSuffix: output
   packageName: galileo-generated
