@@ -1,42 +1,25 @@
-# AGENTS.md
-
-This file provides guidance to AI coding agents when working with code in this repository.
-
 ## Project Overview
 
-This is a TypeScript SDK for the Galileo API, generated using Speakeasy. The SDK is type-safe and supports both ESM and CommonJS via `tshy` dual module build system.
+This is a TypeScript SDK for the Galileo API, generated using Speakeasy. The SDK is type-safe and supports both ESM and CommonJS via `tshy` dual module build system. For installation, usage examples, and API overview, see [README.md](README.md).
 
-For installation, usage examples, and API overview, see [README.md](README.md).
+## Common Commands
 
-## Project Structure
-
-galileo-ts-generated/
-├── src/           # TypeScript source (sdk/, funcs/, models/, entities/, hooks/, lib/)
-├── examples/      # Example scripts and .env.template
-├── docs/          # Generated docs (models/, sdks/, lib/)
-├── .speakeasy/    # Speakeasy config (gen.yaml, workflow.yaml)
-├── .github/       # Workflows (sdk_generation, sdk_publish, test, validate-pr-title)
-└── dist/          # Build output (esm/, commonjs/) from npm run build
-
-## Key Commands
-
-### Build
 ```bash
-npm run build
-```
-Builds the project using tshy, which generates both ESM (`dist/esm/`) and CommonJS (`dist/commonjs/`) outputs.
+# Build
+npm run build              # tshy build → dist/esm/ and dist/commonjs/
 
-### Linting
-```bash
-npm run lint
-```
-Runs ESLint with TypeScript support. Configuration in `eslint.config.mjs`.
+# Linting
+npm run lint               # ESLint (config: eslint.config.mjs)
 
-### Code Generation
-```bash
-npm run code-generation
+# Code generation
+npm run code-generation    # Regenerate SDK from OpenAPI spec via Speakeasy
+
+# CI / automation
+# sdk_generation.yaml  - Triggers regeneration and opens a PR
+# sdk_publish.yaml      - Publishes package to npm
+# test.yaml             - Runs lint (no test suite currently)
+# validate-pr-title.yaml - Validates PR title format
 ```
-Regenerates SDK code from the OpenAPI spec using Speakeasy. This is the primary way to update generated code.
 
 ## Architecture
 
@@ -44,118 +27,99 @@ Regenerates SDK code from the OpenAPI spec using Speakeasy. This is the primary 
 
 This repository uses **Speakeasy** for automatic code generation from an OpenAPI specification. Most of the codebase is generated and should not be manually edited.
 
-**Generated (DO NOT EDIT manually):**
-- All files in `src/funcs/` - Individual API operation functions
-- All files in `src/models/` - Type definitions and Zod schemas
-- All files in `src/sdk/` (except noted below) - SDK service classes
-- Most files in `src/lib/` - Core SDK utilities
-
-**Safe to Edit (survives regeneration):**
-- `src/entities/` - Custom entity classes
-- `src/hooks/` - Custom SDK hooks
-  - `registration.ts` - Hook initialization (safe to modify)
-  - `token-management.ts` - Auth token handling (custom)
-  - `error-cleaner.ts` - Error transformation (custom)
-- `src/lib/galileo-config.ts` - Galileo-specific configuration
-- `src/lib/env-config.ts` - Environment configuration store
-- `src/lib/runtime.ts` - Runtime detection utilities
-
-**Configuration:**
-- `.speakeasy/gen.yaml` - Speakeasy generation config (edit this instead of `package.json` for dependencies/scripts)
-
-### Authentication Flow
-
-The SDK supports multiple authentication methods, managed through hooks:
-
-1. **Environment-based configuration** (`src/lib/env-config.ts`):
-   - Reads from env vars: `GALILEO_API_KEY`, `GALILEO_USERNAME`, `GALILEO_PASSWORD`, `GALILEO_SSO_ID_TOKEN`, `GALILEO_SSO_PROVIDER`
-   - Also supports: `GALILEO_CONSOLE_URL`, `GALILEO_API_URL`, `GALILEO_PROJECT`, `GALILEO_LOG_STREAM`
-   - Browser support via `globalThis.__GALILEO_AUTH__` or localStorage
-
-2. **Token management** (`src/hooks/token-management.ts`):
-   - Implements `BeforeRequestHook` to inject JWT tokens
-   - Implements `AfterSuccessHook` to cache tokens from auth responses
-   - Automatic token refresh via OAuth2 password flow
-
-3. **Base entity pattern** (`src/entities/base-entity.ts`):
-   - Provides `authenticate()` method for explicit login
-   - Caches SDK client instance
-   - Supports API key, username/password, and SSO authentication
+- **Generated (DO NOT EDIT manually):** `src/funcs/`, `src/models/`, `src/sdk/`, most of `src/lib/`
+- **Safe to edit (survives regeneration):** `src/entities/`, `src/hooks/` (e.g. `registration.ts`, `token-management.ts`, `error-cleaner.ts`), `src/lib/galileo-config.ts`, `src/lib/env-config.ts`, `src/lib/runtime.ts`
+- **Configuration:** Edit `.speakeasy/gen.yaml` for generation and dependencies—not `package.json` directly.
 
 ### SDK Structure
 
-The SDK uses a namespace/service pattern:
+The SDK uses a namespace/service pattern. Root class: `GalileoGenerated` in `src/sdk/sdk.ts`. Services: `health`, `auth`, `datasets`, `projects`, `logStream`, `trace`, `experiment`, `prompts`, `protect`, and others. Each service lives in `src/sdk/<service>.ts` and wraps functions from `src/funcs/`.
 
-```
-GalileoGenerated (root SDK class in src/sdk/sdk.ts)
-├── health
-├── auth
-├── datasets
-├── projects
-├── logStream
-├── trace
-├── experiment
-├── prompts
-├── protect
-└── ... (other services)
-```
+### Authentication Flow
 
-Each service namespace (e.g., `datasets`) is implemented in `src/sdk/<service>.ts` and wraps individual function calls from `src/funcs/`.
+- **Config source** (`src/lib/env-config.ts`): Node/Deno use environment variables; browser uses `globalThis.__GALILEO_AUTH__` or localStorage (`galileo_auth_config`). Resolution forks by detected runtime—not a single priority list.
+- **Token management** (`src/hooks/token-management.ts`): `BeforeRequestHook` injects JWT; `AfterSuccessHook` caches tokens.
+- **Entities** (`src/entities/base-entity.ts`): `authenticate()`, cached client, supports API key, username/password, and SSO.
 
 ### Hook System
 
-Custom hooks are registered in `src/hooks/registration.ts`:
-- `TokenManagementHook` - Handles JWT token injection and caching
-- `ErrorCleanerHook` - Transforms/cleans error responses
+Hooks are registered in `src/hooks/registration.ts`: `TokenManagementHook` (before request + after success), `ErrorCleanerHook` (after error). To add a hook: implement `BeforeRequestHook`, `AfterSuccessHook`, or `AfterErrorHook`, then register in `initHooks()`.
 
-To add new hooks:
-1. Create hook class implementing `BeforeRequestHook`, `AfterSuccessHook`, or `AfterErrorHook`
-2. Register in `initHooks()` function in `registration.ts`
+### Key Directories
+
+- `src/sdk/` – SDK service classes (generated)
+- `src/funcs/` – Per-operation functions (generated)
+- `src/models/` – Types and Zod schemas (generated)
+- `src/entities/` – Custom entity classes (safe to edit)
+- `src/hooks/` – Custom hooks and registration (safe to edit)
+- `src/lib/` – Core utilities; `galileo-config.ts`, `env-config.ts`, `runtime.ts` are safe to edit
+- `.speakeasy/` – Speakeasy config (`gen.yaml`, `workflow.yaml`)
+- `examples/` – Example scripts and `.env.template`
+- `docs/` – Generated docs
 
 ### Build System
 
-Uses `tshy` for dual ESM/CommonJS builds:
-- Source: `src/**/*.ts`
-- Output: `dist/esm/` (ES modules) and `dist/commonjs/` (CommonJS)
-- TypeScript config: `tsconfig.json` with strict mode enabled
-- The `tshy` section in `package.json` defines module exports
+`tshy` dual build: source `src/**/*.ts` → `dist/esm/` and `dist/commonjs/`. TypeScript: `tsconfig.json` (strict). Module exports: `tshy` section in `package.json`.
 
-## GitHub Actions
+## Key Patterns
 
-- **sdk_generation.yaml** - Triggers SDK regeneration and creates a PR
-- **sdk_publish.yaml** - Publishes package to npm
-- **test.yaml** - Runs linting (no test suite currently configured)
-- **validate-pr-title.yaml** - Validates PR title format
+### Instantiating the SDK
 
-## Development Guidelines
+```typescript
+import { GalileoGenerated } from "galileo-generated";
 
-### Implementing Features
+// Rely on env / browser config (resolution forks by runtime)
+const sdk = new GalileoGenerated();
 
-1. **For API changes**: Update the OpenAPI spec and run `npm run code-generation`
-2. **For custom logic**: Add to `src/entities/` or create custom hooks in `src/hooks/`
-3. **For config changes**: Edit `.speakeasy/gen.yaml` (not `package.json` directly)
-4. **For contributing**: This repository is generated; do not open PRs that edit generated files. See [CONTRIBUTING.md](CONTRIBUTING.md) for issue reporting and upstream fixes.
+// Or explicit options
+const sdk = new GalileoGenerated({
+  serverURL: process.env["GALILEO_CONSOLE_URL"],
+});
+```
 
-### Modifying Dependencies
+### Adding a Custom Hook
 
-Edit `.speakeasy/gen.yaml` under `typescript.additionalDependencies` instead of `package.json`. Speakeasy will regenerate `package.json` on the next generation run.
+```typescript
+// In src/hooks/registration.ts
+import type { BeforeRequestHook, Hooks } from "./types.js";
 
-### TypeScript Strictness
+class MyHook implements BeforeRequestHook {
+  async beforeRequest(hookCtx, request) {
+    // ...
+    return request;
+  }
+}
 
-This project uses TypeScript's strictest settings (`tsconfig.json`):
-- All strict flags enabled
-- `noUncheckedIndexedAccess: true`
-- `exactOptionalPropertyTypes: true`
+export function initHooks(hooks: Hooks) {
+  hooks.registerBeforeRequestHook(new MyHook());
+  // ... existing TokenManagementHook, ErrorCleanerHook
+}
+```
 
-Ensure new code adheres to these strict typing requirements.
+### Using Entities
 
-### Environment Configuration Priority
+```typescript
+import { BaseEntity } from "galileo-generated/entities/base-entity.js";
 
-Explicit constructor options always take precedence. After that, resolution **forks by detected runtime**—Node.js/Deno and browser use different sources; they are not ordered relative to each other.
+// Get token (uses env/browser config, caches client)
+const token = await BaseEntity.getToken();
 
-- **Priority 1 (all runtimes):** Explicit constructor options
-- **Node.js / Deno:** Environment variables (e.g. `GALILEO_API_KEY`, `GALILEO_CONSOLE_URL`)
-- **Browser:** `globalThis.__GALILEO_AUTH__`, then fallback to localStorage (`galileo_auth_config`)
+// Get shared SDK client
+const client = BaseEntity.getCLient();
+```
+
+## Testing
+
+- No test suite is currently configured. CI runs lint only (`test.yaml`).
+- To run lint locally: `npm run lint`.
+
+## Configuration
+
+Explicit constructor options always take precedence. After that, resolution **forks by detected runtime** (Node/Deno vs browser), not a single global order.
+
+- **All runtimes:** Explicit constructor options first.
+- **Node.js / Deno:** Environment variables (e.g. `GALILEO_API_KEY`, `GALILEO_CONSOLE_URL`).
+- **Browser:** `globalThis.__GALILEO_AUTH__`, then localStorage `galileo_auth_config`.
 
 ### Environment Variables (Quick Reference)
 
@@ -168,3 +132,11 @@ Explicit constructor options always take precedence. After that, resolution **fo
 | `GALILEO_API_URL` | Alternative API URL |
 | `GALILEO_PROJECT` | Default project |
 | `GALILEO_LOG_STREAM` | Default log stream |
+
+### Required Practices
+
+- Use TypeScript strict settings: all strict flags, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`. Ensure new code complies.
+- For API changes: update the OpenAPI spec and run `npm run code-generation`.
+- For custom logic: add code in `src/entities/` or new hooks in `src/hooks/`; register hooks in `initHooks()`.
+- For dependencies: edit `.speakeasy/gen.yaml` under `typescript.additionalDependencies`; Speakeasy regenerates `package.json`.
+- This repo is generated; do not open PRs that edit generated files. Report issues and suggest fixes via [CONTRIBUTING.md](CONTRIBUTING.md).
