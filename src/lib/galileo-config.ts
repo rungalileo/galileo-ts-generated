@@ -4,6 +4,9 @@
 
 import { isBrowserLike, isDeno, isNodeLike } from "./runtime.js";
 
+/**
+ * Configuration input for the Galileo SDK (URLs, auth, project, and log stream).
+ */
 export type GalileoConfigInput = {
   consoleUrl?: string;
   apiUrl?: string;
@@ -19,6 +22,9 @@ export type GalileoConfigInput = {
   logStreamName?: string;
 };
 
+/**
+ * Authentication credentials (API key, username/password, or SSO).
+ */
 export type AuthCredentials = {
   apiKey?: string;
   username?: string;
@@ -27,7 +33,9 @@ export type AuthCredentials = {
   ssoProvider?: string;
 };
 
-/** Snapshot shape for base-entity compatibility: apiUrl, apiKey, login, sso */
+/**
+ * Snapshot shape for base-entity compatibility: apiUrl, apiKey, login, and sso.
+ */
 export type GalileoConfigSnapshot = {
   apiUrl?: string;
   apiKey?: string;
@@ -35,18 +43,33 @@ export type GalileoConfigSnapshot = {
   sso?: { idToken?: string; provider?: string };
 };
 
+/** Browser global key for auth config (e.g. window.__GALILEO_AUTH__). */
 const DEFAULT_BROWSER_GLOBAL = "__GALILEO_AUTH__";
+/** localStorage key for persisted auth config. */
 const DEFAULT_LOCAL_STORAGE_KEY = "galileo_auth_config";
+
+/** Environment variable names used when resolving config from process/Deno env. */
+/** API key for Galileo API authentication. */
 const ENV_API_KEY = "GALILEO_API_KEY";
+/** Username for email/password login. */
 const ENV_USERNAME = "GALILEO_USERNAME";
+/** Password for email/password login. */
 const ENV_PASSWORD = "GALILEO_PASSWORD";
+/** SSO ID token for social/login. */
 const ENV_SSO_ID_TOKEN = "GALILEO_SSO_ID_TOKEN";
+/** SSO provider identifier. */
 const ENV_SSO_PROVIDER = "GALILEO_SSO_PROVIDER";
+/** Galileo API base URL. */
 const ENV_GALILEO_API_URL = "GALILEO_API_URL";
+/** Galileo console base URL (used to derive API URL when GALILEO_API_URL is unset). */
 const ENV_GALILEO_CONSOLE_URL = "GALILEO_CONSOLE_URL";
+/** Project name; same meaning as GALILEO_PROJECT_NAME (this one takes precedence). */
 const ENV_GALILEO_PROJECT = "GALILEO_PROJECT";
+/** Project name; same meaning as GALILEO_PROJECT (fallback if GALILEO_PROJECT is unset). */
 const ENV_GALILEO_PROJECT_NAME = "GALILEO_PROJECT_NAME";
+/** Log stream identifier; same meaning as GALILEO_LOG_STREAM_NAME (this one takes precedence). */
 const ENV_GALILEO_LOG_STREAM = "GALILEO_LOG_STREAM";
+/** Log stream identifier; same meaning as GALILEO_LOG_STREAM (fallback if GALILEO_LOG_STREAM is unset). */
 const ENV_GALILEO_LOG_STREAM_NAME = "GALILEO_LOG_STREAM_NAME";
 
 function readEnvObject(): Record<string, string | undefined> | null {
@@ -245,6 +268,9 @@ function resolveApiUrl(
   return resolved;
 }
 
+/**
+ * Singleton configuration for the Galileo SDK (env-aware across Node, Deno, and browser).
+ */
 export class GalileoConfig {
   private static instance: GalileoConfig | null = null;
 
@@ -276,7 +302,10 @@ export class GalileoConfig {
     this.logStreamName = input.logStreamName;
   }
 
-  /** Snapshot for base-entity: apiUrl (resolved), apiKey, login, sso */
+  /**
+   * Returns a snapshot compatible with BaseEntity: apiUrl (resolved), apiKey, login, and sso.
+   * @returns The config snapshot for entity authentication and API URL.
+   */
   get snapshot(): GalileoConfigSnapshot {
     const apiUrl = this.apiUrl ?? this.getApiUrl();
     const login =
@@ -305,6 +334,11 @@ export class GalileoConfig {
     };
   }
 
+  /**
+   * Returns the singleton config instance, merging environment and optional overrides.
+   * @param overrides - (Optional) Config values to merge over environment and defaults.
+   * @returns The GalileoConfig instance.
+   */
   public static get(overrides: GalileoConfigInput = {}): GalileoConfig {
     const hasOverrides = Object.keys(overrides).length > 0;
     if (!GalileoConfig.instance || hasOverrides) {
@@ -316,14 +350,26 @@ export class GalileoConfig {
     return GalileoConfig.instance;
   }
 
+  /**
+   * Clears the singleton instance. Next get() will rebuild from environment and overrides.
+   */
   public static reset(): void {
     GalileoConfig.instance = null;
   }
 
+  /**
+   * Returns the API base URL, resolved from consoleUrl or explicit apiUrl.
+   * @param projectType - (Optional) Project type used when neither apiUrl nor consoleUrl is set (e.g. "gen_ai").
+   * @returns The resolved API URL.
+   */
   public getApiUrl(projectType?: string): string {
     return resolveApiUrl(this.consoleUrl, this.apiUrl, projectType);
   }
 
+  /**
+   * Returns the current auth credentials (API key, username/password, or SSO).
+   * @returns The AuthCredentials object with present values.
+   */
   public getAuthCredentials(): AuthCredentials {
     return {
       ...(this.apiKey !== undefined ? { apiKey: this.apiKey } : {}),
@@ -338,6 +384,9 @@ export class GalileoConfig {
     };
   }
 
+  /**
+   * Logs a safe summary of the config to the console (passwords and tokens omitted).
+   */
   public logConfig(): void {
     const safe = {
       consoleUrl: this.consoleUrl,

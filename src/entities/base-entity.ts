@@ -4,6 +4,9 @@ import type { Result } from "../types/fp.js";
 import { OK, ERR } from "../types/fp.js";
 import { GalileoConfig } from "../lib/galileo-config.js";
 
+/**
+ * Base class for Galileo SDK entities with shared authentication and API client management.
+ */
 export class BaseEntity {
 	protected static token: string | null = null;
 	protected static client: GalileoGenerated | null = null;
@@ -11,21 +14,35 @@ export class BaseEntity {
 
 	constructor() {}
 
+	/**
+	 * Returns the current authentication token, performing authentication if none is set.
+	 * @returns A promise that resolves to the access token, or null if authentication fails.
+	 */
 	static async getToken(): Promise<string | null> {
 		BaseEntity.token ??= await BaseEntity.authenticate();
 		return BaseEntity.token;
 	}
 
+	/**
+	 * Sets the authentication token for API requests.
+	 * @param token - The access token to use for authentication.
+	 */
 	static setToken(token: string): void {
 		BaseEntity.token = token;
 	}
 
-	/** Test-only: clears static token and client for isolated tests. */
+	/**
+	 * Clears the static token and client. For use in tests only.
+	 */
 	static resetForTesting(): void {
 		BaseEntity.token = null;
 		BaseEntity.client = null;
 	}
 
+	/**
+	 * Returns the shared Galileo API client instance, creating it from config if needed.
+	 * @returns The GalileoGenerated API client.
+	 */
 	static getCLient(): GalileoGenerated {
 		const config = GalileoConfig.get();
 		const snap = config.snapshot;
@@ -34,6 +51,10 @@ export class BaseEntity {
 		return BaseEntity.client;
 	}
 
+	/**
+	 * Authenticates with the Galileo API using configured API key or login credentials.
+	 * @returns A promise that resolves to the access token, or null if authentication fails or is not configured.
+	 */
 	static async authenticate(): Promise<string | null> {
 		const authConfig = GalileoConfig.get().snapshot;
 
