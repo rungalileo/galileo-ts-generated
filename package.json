@@ -1,7 +1,7 @@
 {
   "name": "galileo-generated",
-  "version": "0.1.2",
-  "author": "Speakeasy",
+  "version": "0.1.3",
+  "author": "Galileo/Speakeasy",
   "type": "module",
   "tshy": {
     "sourceDialects": [
@@ -27,8 +27,8 @@
     "lint": "eslint --cache --max-warnings=0 src",
     "build": "tshy",
     "prepublishOnly": "npm run build",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test": "vitest run"
   },
   "peerDependencies": {},
   "devDependencies": {
