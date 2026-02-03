@@ -5,6 +5,7 @@ generation:
     schemaPath: .speakeasy/out.openapi.yaml
   sdkClassName: GalileoGenerated
   maintainOpenAPIOrder: true
+  versioningStrategy: manual
   usageSnippets:
     optionalPropertyRendering: withExample
     sdkInitStyle: constructor
