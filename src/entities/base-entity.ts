@@ -70,14 +70,17 @@ export class BaseEntity {
 			});
 		}
 		// CONFIGURE LOGIN/SOCIAL ENDPOINT BEFORE ENABLING THIS FEATURE
-		/*else if(authConfig?.sso?.idToken && authConfig?.sso?.provider){
-			result = await BaseEntity.getCLient().auth.ssoLoginPost({
-				idToken:authConfig.sso.idToken,
-				provider:authConfig.sso.provider,
-			});
-		}*/
+		else if(authConfig?.sso?.idToken && authConfig?.sso?.provider){
+			console.info('SSO authentication is not supported yet');
+		}
 
 		return result?.accessToken ?? null;
+	}
+
+	protected ensureNotDeleted(): void {
+		if (this.deleted) {
+			throw new Error("Cannot perform operation on deleted entity");
+		}
 	}
 
 	protected static async safeExecute<T>(
