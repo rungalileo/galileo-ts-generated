@@ -1,6 +1,6 @@
 {
   "name": "galileo-generated",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "author": "Galileo/Speakeasy",
   "type": "module",
   "tshy": {
@@ -27,8 +27,8 @@
     "lint": "eslint --cache --max-warnings=0 src",
     "build": "tshy",
     "prepublishOnly": "npm run build",
-    "test:watch": "vitest",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "peerDependencies": {},
   "devDependencies": {
