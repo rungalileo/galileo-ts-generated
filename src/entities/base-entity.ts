@@ -69,7 +69,7 @@ export class BaseEntity {
 				password: authConfig.login.password,
 			});
 		}
-		// CONFIGURE LOGIN/SOCIAL ENDPOINT BEFORE ENABLING THIS
+		// CONFIGURE LOGIN/SOCIAL ENDPOINT BEFORE ENABLING THIS FEATURE
 		/*else if(authConfig?.sso?.idToken && authConfig?.sso?.provider){
 			result = await BaseEntity.getCLient().auth.ssoLoginPost({
 				idToken:authConfig.sso.idToken,
