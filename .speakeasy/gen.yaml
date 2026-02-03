@@ -32,8 +32,9 @@ generation:
     generateTests: false
     generateNewTests: true
     skipResponseBodyAssertions: false
+  versioningStrategy: manual
 typescript:
-  version: 0.1.3
+  version: 0.1.4
   acceptHeaderEnum: false
   additionalDependencies:
     dependencies: {}
