@@ -1,5 +1,4 @@
 {
-    "pull-request-title-pattern": "^(feat|fix|perf|docs|chore)[^:]*: .+$",
     "packages": {
       ".": {
         "release-type": "node",
