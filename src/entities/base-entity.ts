@@ -69,13 +69,10 @@ export class BaseEntity {
 				password: authConfig.login.password,
 			});
 		}
-		// CONFIGURE LOGIN/SOCIAL ENDPOINT BEFORE ENABLING THIS
-		/*else if(authConfig?.sso?.idToken && authConfig?.sso?.provider){
-			result = await BaseEntity.getCLient().auth.ssoLoginPost({
-				idToken:authConfig.sso.idToken,
-				provider:authConfig.sso.provider,
-			});
-		}*/
+		// CONFIGURE LOGIN/SOCIAL ENDPOINT BEFORE ENABLING THIS FEATURE
+		else if(authConfig?.sso?.idToken && authConfig?.sso?.provider){
+			console.info('SSO authentication is not supported yet');
+		}
 
 		return result?.accessToken ?? null;
 	}
