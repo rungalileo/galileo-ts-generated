@@ -80,12 +80,6 @@ export class BaseEntity {
 		return result?.accessToken ?? null;
 	}
 
-	protected ensureNotDeleted(): void {
-		if (this.deleted) {
-			throw new Error("Cannot perform operation on deleted entity");
-		}
-	}
-
 	protected static async safeExecute<T>(
 		operation: () => Promise<T>
 	): Promise<Result<T, Error>> {
