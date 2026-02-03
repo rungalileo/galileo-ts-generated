@@ -70,9 +70,12 @@ export class BaseEntity {
 			});
 		}
 		// CONFIGURE LOGIN/SOCIAL ENDPOINT BEFORE ENABLING THIS FEATURE
-		else if(authConfig?.sso?.idToken && authConfig?.sso?.provider){
-			console.info('SSO authentication is not supported yet');
-		}
+		/*else if(authConfig?.sso?.idToken && authConfig?.sso?.provider){
+			result = await BaseEntity.getCLient().auth.ssoLoginPost({
+				idToken:authConfig.sso.idToken,
+				provider:authConfig.sso.provider,
+			});
+		}*/
 
 		return result?.accessToken ?? null;
 	}
