@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/rungalileo/galileo-ts-generated/compare/galileo-generated-v0.2.1...galileo-generated-v0.2.2) (2026-02-05)
+
+
+### Miscellaneous
+
+* **setup:** Corrected version in gen.yaml, added repository information. ([#28](https://github.com/rungalileo/galileo-ts-generated/issues/28)) ([91ac292](https://github.com/rungalileo/galileo-ts-generated/commit/91ac2928d86787c0d337316fddbf48719d381c1c))
+
 ## [0.2.1](https://github.com/rungalileo/galileo-ts-generated/compare/galileo-generated-v0.2.0...galileo-generated-v0.2.1) (2026-02-03)
 
 
