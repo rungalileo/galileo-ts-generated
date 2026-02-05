@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.3](https://github.com/rungalileo/galileo-ts-generated/compare/galileo-generated-v0.2.2...galileo-generated-v0.2.3) (2026-02-05)
+
+
+### Miscellaneous
+
+* **setup:** Configured trusted publishing so release-please can publish to npm without a token ([#30](https://github.com/rungalileo/galileo-ts-generated/issues/30)) ([d6cae97](https://github.com/rungalileo/galileo-ts-generated/commit/d6cae979ca76e976adc8f20249f3371c85f25126))
+
 ## [0.2.2](https://github.com/rungalileo/galileo-ts-generated/compare/galileo-generated-v0.2.1...galileo-generated-v0.2.2) (2026-02-05)
 
 
