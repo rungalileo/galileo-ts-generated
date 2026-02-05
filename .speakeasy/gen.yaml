@@ -50,6 +50,7 @@ typescript:
   additionalScripts:
     test: vitest run
     test:watch: vitest
+    code-generation: speakeasy run
   alwaysIncludeInboundAndOutbound: false
   author: Galileo/Speakeasy
   baseErrorName: GalileoGeneratedError
