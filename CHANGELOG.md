@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.4](https://github.com/rungalileo/galileo-ts-generated/compare/galileo-generated-v0.2.3...galileo-generated-v0.2.4) (2026-02-05)
+
+
+### Miscellaneous
+
+* **setup:** Removing unecessary npm token ([#32](https://github.com/rungalileo/galileo-ts-generated/issues/32)) ([63d55e5](https://github.com/rungalileo/galileo-ts-generated/commit/63d55e5d8d83f701679cbfb25457b4813ea89157))
+
 ## [0.2.3](https://github.com/rungalileo/galileo-ts-generated/compare/galileo-generated-v0.2.2...galileo-generated-v0.2.3) (2026-02-05)
 
 
