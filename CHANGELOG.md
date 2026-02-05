@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.5](https://github.com/rungalileo/galileo-ts-generated/compare/galileo-generated-v0.2.4...galileo-generated-v0.2.5) (2026-02-05)
+
+
+### Miscellaneous
+
+* **setup:** Updating npm and forcing provenance configuration. ([#34](https://github.com/rungalileo/galileo-ts-generated/issues/34)) ([82c5c12](https://github.com/rungalileo/galileo-ts-generated/commit/82c5c1273fc09d5a334268a90e00b84e8942a26b))
+
 ## [0.2.4](https://github.com/rungalileo/galileo-ts-generated/compare/galileo-generated-v0.2.3...galileo-generated-v0.2.4) (2026-02-05)
 
 
