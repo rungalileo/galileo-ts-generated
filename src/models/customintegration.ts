@@ -17,7 +17,25 @@ import {
 } from "./customllmconfig.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 
+/**
+ * Read model for custom integrations.
+ *
+ * @remarks
+ *
+ * api_key_value is not stored in extra (it's encrypted in the token column),
+ * so we override the parent validator to skip requiring it on read.
+ */
 export type CustomIntegration = {
+  /**
+   * Authentication types for custom integrations.
+   *
+   * @remarks
+   *
+   * Values:
+   * - none: No authentication required
+   * - oauth2: OAuth2 token-based authentication
+   * - api_key: API key header-based authentication
+   */
   authenticationType?: CustomAuthenticationType | undefined;
   /**
    * List of model names for the custom integration
@@ -40,6 +58,14 @@ export type CustomIntegration = {
    */
   oauth2TokenUrl?: string | null | undefined;
   /**
+   * HTTP header name to use for API key authentication (e.g., 'X-API-Key', 'Authorization').
+   */
+  apiKeyHeader?: string | null | undefined;
+  /**
+   * API key value to send in the specified header for authentication.
+   */
+  apiKeyValue?: string | null | undefined;
+  /**
    * Optional configuration for a custom LiteLLM handler class. When specified, the handler's acompletion() method is used instead of the default litellm.acompletion().
    */
   customLlmConfig?: CustomLLMConfig | null | undefined;
@@ -60,6 +86,8 @@ export const CustomIntegration$inboundSchema: z.ZodMiniType<
     endpoint: types.string(),
     authentication_scope: z.optional(z.nullable(types.string())),
     oauth2_token_url: z.optional(z.nullable(types.string())),
+    api_key_header: z.optional(z.nullable(types.string())),
+    api_key_value: z.optional(z.nullable(types.string())),
     custom_llm_config: z.optional(z.nullable(CustomLLMConfig$inboundSchema)),
     id: z.optional(z.nullable(types.string())),
     name: types.literal("custom"),
@@ -71,6 +99,8 @@ export const CustomIntegration$inboundSchema: z.ZodMiniType<
       "default_model": "defaultModel",
       "authentication_scope": "authenticationScope",
       "oauth2_token_url": "oauth2TokenUrl",
+      "api_key_header": "apiKeyHeader",
+      "api_key_value": "apiKeyValue",
       "custom_llm_config": "customLlmConfig",
     });
   }),

@@ -1,6 +1,6 @@
 {
   "name": "galileo-generated",
-  "version": "0.2.1",
+  "version": "0.1.4",
   "author": "Galileo/Speakeasy",
   "type": "module",
   "tshy": {
@@ -32,9 +32,9 @@
   },
   "peerDependencies": {},
   "devDependencies": {
-    "@eslint/js": "^9.19.0",
+    "@eslint/js": "^9.26.0",
     "@types/node": "^22.10.0",
-    "eslint": "^9.19.0",
+    "eslint": "^9.26.0",
     "globals": "^15.14.0",
     "msw": "^2.7.0",
     "tshy": "^2.0.0",

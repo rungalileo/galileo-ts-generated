@@ -449,9 +449,6 @@ export class Integrations extends ClientSDK {
 
   /**
    * Create Or Update Integration
-   *
-   * @remarks
-   * Create or update a custom integration for this user.
    */
   async createOrUpdateIntegrationIntegrationsCustomPut(
     security: operations.CreateOrUpdateIntegrationIntegrationsCustomPutSecurity,
