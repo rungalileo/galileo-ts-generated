@@ -95,6 +95,18 @@ Execute action *Generate SDK* to trigger a new PR with proposed changes based on
 
 <!-- End Code Generation Instructions -->
 
+<!-- Start Release Instructions -->
+## Release Instructions
+
+Release is managed by workflow Release-Please. Every commit to main will trigger generation of a "Release PR" for review, when this is approved the version bump is merged back to main, release notes are updated and the workflow generates a new release on Github (new tag) and new package in NPM.
+
+If a release PR already exists, new commits will be bundled into it until someone approves and merges into main.
+
+> [!NOTE]
+> Release-Please is triggered by commits formatted according to Semantic Release standards. Squash and merge is the preferable option to resolve a PR, since it preserves the commit title (which is already validated by workflow rules in the project). If you choose another strategy, make sure the commit title follows Semantic Release rules so that it triggers Release-Please.
+
+<!-- End Release Instructions -->
+
 
 <!-- Start Requirements [requirements] -->
 ## Requirements
