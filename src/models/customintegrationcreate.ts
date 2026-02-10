@@ -13,8 +13,38 @@ import {
   CustomLLMConfig$Outbound,
   CustomLLMConfig$outboundSchema,
 } from "./customllmconfig.js";
+import {
+  MultiModalModelIntegrationConfig,
+  MultiModalModelIntegrationConfig$Outbound,
+  MultiModalModelIntegrationConfig$outboundSchema,
+} from "./multimodalmodelintegrationconfig.js";
 
+/**
+ * Schema for creating custom integrations.
+ *
+ * @remarks
+ *
+ * Inherits api_key field validation from CustomConfig:
+ * - api_key_header and api_key_value are required when authentication_type is api_key
+ *
+ * Token field is only used for oauth2 authentication (contains OAuth2 client credentials).
+ * For api_key auth, the api_key_value field is used instead.
+ */
 export type CustomIntegrationCreate = {
+  /**
+   * Configuration for multi-modal (file upload) capabilities.
+   */
+  multiModalConfig?: MultiModalModelIntegrationConfig | null | undefined;
+  /**
+   * Authentication types for custom integrations.
+   *
+   * @remarks
+   *
+   * Values:
+   * - none: No authentication required
+   * - oauth2: OAuth2 token-based authentication
+   * - api_key: API key header-based authentication
+   */
   authenticationType?: CustomAuthenticationType | undefined;
   /**
    * List of model names for the custom integration
@@ -37,6 +67,14 @@ export type CustomIntegrationCreate = {
    */
   oauth2TokenUrl?: string | null | undefined;
   /**
+   * HTTP header name to use for API key authentication (e.g., 'X-API-Key', 'Authorization').
+   */
+  apiKeyHeader?: string | null | undefined;
+  /**
+   * API key value to send in the specified header for authentication.
+   */
+  apiKeyValue?: string | null | undefined;
+  /**
    * Optional configuration for a custom LiteLLM handler class. When specified, the handler's acompletion() method is used instead of the default litellm.acompletion().
    */
   customLlmConfig?: CustomLLMConfig | null | undefined;
@@ -45,12 +83,18 @@ export type CustomIntegrationCreate = {
 
 /** @internal */
 export type CustomIntegrationCreate$Outbound = {
+  multi_modal_config?:
+    | MultiModalModelIntegrationConfig$Outbound
+    | null
+    | undefined;
   authentication_type?: string | undefined;
   models: Array<string>;
   default_model?: string | null | undefined;
   endpoint: string;
   authentication_scope?: string | null | undefined;
   oauth2_token_url?: string | null | undefined;
+  api_key_header?: string | null | undefined;
+  api_key_value?: string | null | undefined;
   custom_llm_config?: CustomLLMConfig$Outbound | null | undefined;
   token?: string | null | undefined;
 };
@@ -61,21 +105,29 @@ export const CustomIntegrationCreate$outboundSchema: z.ZodMiniType<
   CustomIntegrationCreate
 > = z.pipe(
   z.object({
+    multiModalConfig: z.optional(
+      z.nullable(MultiModalModelIntegrationConfig$outboundSchema),
+    ),
     authenticationType: z.optional(CustomAuthenticationType$outboundSchema),
     models: z.array(z.string()),
     defaultModel: z.optional(z.nullable(z.string())),
     endpoint: z.string(),
     authenticationScope: z.optional(z.nullable(z.string())),
     oauth2TokenUrl: z.optional(z.nullable(z.string())),
+    apiKeyHeader: z.optional(z.nullable(z.string())),
+    apiKeyValue: z.optional(z.nullable(z.string())),
     customLlmConfig: z.optional(z.nullable(CustomLLMConfig$outboundSchema)),
     token: z.optional(z.nullable(z.string())),
   }),
   z.transform((v) => {
     return remap$(v, {
+      multiModalConfig: "multi_modal_config",
       authenticationType: "authentication_type",
       defaultModel: "default_model",
       authenticationScope: "authentication_scope",
       oauth2TokenUrl: "oauth2_token_url",
+      apiKeyHeader: "api_key_header",
+      apiKeyValue: "api_key_value",
       customLlmConfig: "custom_llm_config",
     });
   }),

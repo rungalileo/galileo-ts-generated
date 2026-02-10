@@ -29,9 +29,6 @@ import { Result } from "../types/fp.js";
 
 /**
  * Create Or Update Integration
- *
- * @remarks
- * Create or update a custom integration for this user.
  */
 export function integrationsCreateOrUpdateIntegrationIntegrationsCustomPut(
   client: GalileoGeneratedCore,

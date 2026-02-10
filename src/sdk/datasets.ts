@@ -309,7 +309,10 @@ export class Datasets extends ClientSDK {
     request:
       operations.UpdateDatasetContentDatasetsDatasetIdContentPatchRequest,
     options?: RequestOptions,
-  ): Promise<any> {
+  ): Promise<
+    | operations.UpdateDatasetContentDatasetsDatasetIdContentPatchResponse
+    | undefined
+  > {
     return unwrapAsync(
       datasetsUpdateDatasetContentDatasetsDatasetIdContentPatch(
         this,
@@ -347,7 +350,7 @@ export class Datasets extends ClientSDK {
       operations.UpsertDatasetContentDatasetsDatasetIdContentPutSecurity,
     request: operations.UpsertDatasetContentDatasetsDatasetIdContentPutRequest,
     options?: RequestOptions,
-  ): Promise<any> {
+  ): Promise<void> {
     return unwrapAsync(datasetsUpsertDatasetContentDatasetsDatasetIdContentPut(
       this,
       security,

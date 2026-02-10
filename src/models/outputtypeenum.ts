@@ -17,6 +17,7 @@ export const OutputTypeEnum = {
   Freeform: "freeform",
   Percentage: "percentage",
   Multilabel: "multilabel",
+  RetrievedChunkListBoolean: "retrieved_chunk_list_boolean",
   BooleanMultilabel: "boolean_multilabel",
 } as const;
 /**

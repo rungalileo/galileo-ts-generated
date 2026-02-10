@@ -3,7 +3,6 @@
  */
 
 import * as z from "zod/v4-mini";
-import { remap as remap$ } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
@@ -13,11 +12,11 @@ import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 export type DocumentMetadata = boolean | string | number | number;
 
 export type Document = {
+  metadata?: { [k: string]: boolean | string | number | number } | undefined;
   /**
    * Content of the document.
    */
-  pageContent: string;
-  metadata?: { [k: string]: boolean | string | number | number } | undefined;
+  content: string;
 };
 
 /** @internal */
@@ -57,9 +56,8 @@ export function documentMetadataFromJSON(
 }
 
 /** @internal */
-export const Document$inboundSchema: z.ZodMiniType<Document, unknown> = z.pipe(
-  z.object({
-    page_content: types.string(),
+export const Document$inboundSchema: z.ZodMiniType<Document, unknown> = z
+  .object({
     metadata: types.optional(
       z.record(
         z.string(),
@@ -71,39 +69,27 @@ export const Document$inboundSchema: z.ZodMiniType<Document, unknown> = z.pipe(
         ]),
       ),
     ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "page_content": "pageContent",
-    });
-  }),
-);
+    content: types.string(),
+  });
 /** @internal */
 export type Document$Outbound = {
-  page_content: string;
   metadata?: { [k: string]: boolean | string | number | number } | undefined;
+  content: string;
 };
 
 /** @internal */
 export const Document$outboundSchema: z.ZodMiniType<
   Document$Outbound,
   Document
-> = z.pipe(
-  z.object({
-    pageContent: z.string(),
-    metadata: z.optional(
-      z.record(
-        z.string(),
-        smartUnion([z.boolean(), z.string(), z.int(), z.number()]),
-      ),
+> = z.object({
+  metadata: z.optional(
+    z.record(
+      z.string(),
+      smartUnion([z.boolean(), z.string(), z.int(), z.number()]),
     ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      pageContent: "page_content",
-    });
-  }),
-);
+  ),
+  content: z.string(),
+});
 
 export function documentToJSON(document: Document): string {
   return JSON.stringify(Document$outboundSchema.parse(document));

@@ -4,6 +4,9 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
+import { safeParse } from "../../lib/schemas.js";
+import { Result as SafeParseResult } from "../../types/fp.js";
+import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
 
 export type UpdateDatasetContentDatasetsDatasetIdContentPatchSecurity = {
@@ -19,6 +22,10 @@ export type UpdateDatasetContentDatasetsDatasetIdContentPatchRequest = {
    */
   ifMatch?: string | null | undefined;
   body: models.UpdateDatasetContentRequest;
+};
+
+export type UpdateDatasetContentDatasetsDatasetIdContentPatchResponse = {
+  headers: { [k: string]: Array<string> };
 };
 
 /** @internal */
@@ -97,5 +104,36 @@ export function updateDatasetContentDatasetsDatasetIdContentPatchRequestToJSON(
   return JSON.stringify(
     UpdateDatasetContentDatasetsDatasetIdContentPatchRequest$outboundSchema
       .parse(updateDatasetContentDatasetsDatasetIdContentPatchRequest),
+  );
+}
+
+/** @internal */
+export const UpdateDatasetContentDatasetsDatasetIdContentPatchResponse$inboundSchema:
+  z.ZodMiniType<
+    UpdateDatasetContentDatasetsDatasetIdContentPatchResponse,
+    unknown
+  > = z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+      });
+    }),
+  );
+
+export function updateDatasetContentDatasetsDatasetIdContentPatchResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  UpdateDatasetContentDatasetsDatasetIdContentPatchResponse,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      UpdateDatasetContentDatasetsDatasetIdContentPatchResponse$inboundSchema
+        .parse(JSON.parse(x)),
+    `Failed to parse 'UpdateDatasetContentDatasetsDatasetIdContentPatchResponse' from JSON`,
   );
 }

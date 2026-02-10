@@ -13,10 +13,18 @@ import {
 } from "./awscredentialtype.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import { Model, Model$inboundSchema } from "./model.js";
+import {
+  MultiModalModelIntegrationConfig,
+  MultiModalModelIntegrationConfig$inboundSchema,
+} from "./multimodalmodelintegrationconfig.js";
 
 export type AwsSageMakerIntegration = {
   credentialType?: AwsCredentialType | undefined;
   region: string;
+  /**
+   * Configuration for multi-modal (file upload) capabilities.
+   */
+  multiModalConfig?: MultiModalModelIntegrationConfig | null | undefined;
   models?: Array<Model> | undefined;
   id?: string | null | undefined;
   name: "aws_sagemaker";
@@ -31,6 +39,9 @@ export const AwsSageMakerIntegration$inboundSchema: z.ZodMiniType<
   z.object({
     credential_type: types.optional(AwsCredentialType$inboundSchema),
     region: z._default(types.string(), "us-west-2"),
+    multi_modal_config: z.optional(
+      z.nullable(MultiModalModelIntegrationConfig$inboundSchema),
+    ),
     models: types.optional(z.array(Model$inboundSchema)),
     id: z.optional(z.nullable(types.string())),
     name: types.literal("aws_sagemaker"),
@@ -39,6 +50,7 @@ export const AwsSageMakerIntegration$inboundSchema: z.ZodMiniType<
   z.transform((v) => {
     return remap$(v, {
       "credential_type": "credentialType",
+      "multi_modal_config": "multiModalConfig",
     });
   }),
 );

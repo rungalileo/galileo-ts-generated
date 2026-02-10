@@ -6,7 +6,7 @@
 import { Document } from "galileo-generated/models";
 
 let value: Document = {
-  pageContent: "<value>",
+  content: "<value>",
 };
 ```
 
@@ -14,5 +14,5 @@ let value: Document = {
 
 | Field                                     | Type                                      | Required                                  | Description                               |
 | ----------------------------------------- | ----------------------------------------- | ----------------------------------------- | ----------------------------------------- |
-| `pageContent`                             | *string*                                  | :heavy_check_mark:                        | Content of the document.                  |
 | `metadata`                                | Record<string, *models.DocumentMetadata*> | :heavy_minus_sign:                        | N/A                                       |
+| `content`                                 | *string*                                  | :heavy_check_mark:                        | Content of the document.                  |
