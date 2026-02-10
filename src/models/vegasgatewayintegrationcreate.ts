@@ -4,8 +4,17 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import {
+  MultiModalModelIntegrationConfig,
+  MultiModalModelIntegrationConfig$Outbound,
+  MultiModalModelIntegrationConfig$outboundSchema,
+} from "./multimodalmodelintegrationconfig.js";
 
 export type VegasGatewayIntegrationCreate = {
+  /**
+   * Configuration for multi-modal (file upload) capabilities.
+   */
+  multiModalConfig?: MultiModalModelIntegrationConfig | null | undefined;
   endpoint: string;
   useCase: string;
   token: string;
@@ -13,6 +22,10 @@ export type VegasGatewayIntegrationCreate = {
 
 /** @internal */
 export type VegasGatewayIntegrationCreate$Outbound = {
+  multi_modal_config?:
+    | MultiModalModelIntegrationConfig$Outbound
+    | null
+    | undefined;
   endpoint: string;
   use_case: string;
   token: string;
@@ -24,12 +37,16 @@ export const VegasGatewayIntegrationCreate$outboundSchema: z.ZodMiniType<
   VegasGatewayIntegrationCreate
 > = z.pipe(
   z.object({
+    multiModalConfig: z.optional(
+      z.nullable(MultiModalModelIntegrationConfig$outboundSchema),
+    ),
     endpoint: z.string(),
     useCase: z.string(),
     token: z.string(),
   }),
   z.transform((v) => {
     return remap$(v, {
+      multiModalConfig: "multi_modal_config",
       useCase: "use_case",
     });
   }),

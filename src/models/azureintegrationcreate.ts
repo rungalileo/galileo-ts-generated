@@ -13,8 +13,17 @@ import {
   AzureModelDeployment$Outbound,
   AzureModelDeployment$outboundSchema,
 } from "./azuremodeldeployment.js";
+import {
+  MultiModalModelIntegrationConfig,
+  MultiModalModelIntegrationConfig$Outbound,
+  MultiModalModelIntegrationConfig$outboundSchema,
+} from "./multimodalmodelintegrationconfig.js";
 
 export type AzureIntegrationCreate = {
+  /**
+   * Configuration for multi-modal (file upload) capabilities.
+   */
+  multiModalConfig?: MultiModalModelIntegrationConfig | null | undefined;
   proxy?: boolean | undefined;
   endpoint: string;
   apiVersion?: string | undefined;
@@ -40,6 +49,10 @@ export type AzureIntegrationCreate = {
 
 /** @internal */
 export type AzureIntegrationCreate$Outbound = {
+  multi_modal_config?:
+    | MultiModalModelIntegrationConfig$Outbound
+    | null
+    | undefined;
   proxy: boolean;
   endpoint: string;
   api_version: string;
@@ -63,6 +76,9 @@ export const AzureIntegrationCreate$outboundSchema: z.ZodMiniType<
   AzureIntegrationCreate
 > = z.pipe(
   z.object({
+    multiModalConfig: z.optional(
+      z.nullable(MultiModalModelIntegrationConfig$outboundSchema),
+    ),
     proxy: z._default(z.boolean(), false),
     endpoint: z.string(),
     apiVersion: z._default(z.string(), "2025-03-01-preview"),
@@ -82,6 +98,7 @@ export const AzureIntegrationCreate$outboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return remap$(v, {
+      multiModalConfig: "multi_modal_config",
       apiVersion: "api_version",
       azureDeployment: "azure_deployment",
       authenticationType: "authentication_type",

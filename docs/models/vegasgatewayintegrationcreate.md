@@ -14,8 +14,9 @@ let value: VegasGatewayIntegrationCreate = {
 
 ## Fields
 
-| Field              | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `endpoint`         | *string*           | :heavy_check_mark: | N/A                |
-| `useCase`          | *string*           | :heavy_check_mark: | N/A                |
-| `token`            | *string*           | :heavy_check_mark: | N/A                |
+| Field                                                                                    | Type                                                                                     | Required                                                                                 | Description                                                                              |
+| ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `multiModalConfig`                                                                       | [models.MultiModalModelIntegrationConfig](../models/multimodalmodelintegrationconfig.md) | :heavy_minus_sign:                                                                       | Configuration for multi-modal (file upload) capabilities.                                |
+| `endpoint`                                                                               | *string*                                                                                 | :heavy_check_mark:                                                                       | N/A                                                                                      |
+| `useCase`                                                                                | *string*                                                                                 | :heavy_check_mark:                                                                       | N/A                                                                                      |
+| `token`                                                                                  | *string*                                                                                 | :heavy_check_mark:                                                                       | N/A                                                                                      |

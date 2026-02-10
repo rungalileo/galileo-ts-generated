@@ -1,7 +1,11 @@
 {
   "name": "galileo-generated",
-  "version": "0.2.5",
+  "version": "0.2.1",
   "author": "Galileo/Speakeasy",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rungalileo/galileo-ts-generated.git"
+  },
   "type": "module",
   "tshy": {
     "sourceDialects": [
@@ -19,22 +23,19 @@
     }
   },
   "sideEffects": false,
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/rungalileo/galileo-ts-generated.git"
-  },
   "scripts": {
     "lint": "eslint --cache --max-warnings=0 src",
     "build": "tshy",
     "prepublishOnly": "npm run build",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "code-generation": "speakeasy run"
   },
   "peerDependencies": {},
   "devDependencies": {
-    "@eslint/js": "^9.19.0",
+    "@eslint/js": "^9.26.0",
     "@types/node": "^22.10.0",
-    "eslint": "^9.19.0",
+    "eslint": "^9.26.0",
     "globals": "^15.14.0",
     "msw": "^2.7.0",
     "tshy": "^2.0.0",

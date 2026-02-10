@@ -1076,7 +1076,7 @@ run();
 
 ### Response
 
-**Promise\<[any](../../models/.md)\>**
+**Promise\<[operations.UpdateDatasetContentDatasetsDatasetIdContentPatchResponse](../../models/operations/updatedatasetcontentdatasetsdatasetidcontentpatchresponse.md)\>**
 
 ### Errors
 
@@ -1173,7 +1173,7 @@ import { GalileoGenerated } from "galileo-generated";
 const galileoGenerated = new GalileoGenerated();
 
 async function run() {
-  const result = await galileoGenerated.datasets.upsertDatasetContentDatasetsDatasetIdContentPut({
+  await galileoGenerated.datasets.upsertDatasetContentDatasetsDatasetIdContentPut({
     apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
   }, {
     datasetId: "<value>",
@@ -1182,7 +1182,7 @@ async function run() {
     },
   });
 
-  console.log(result);
+
 }
 
 run();
@@ -1211,7 +1211,7 @@ async function run() {
   });
   if (res.ok) {
     const { value: result } = res;
-    console.log(result);
+    
   } else {
     console.log("datasetsUpsertDatasetContentDatasetsDatasetIdContentPut failed:", res.error);
   }
@@ -1232,7 +1232,7 @@ run();
 
 ### Response
 
-**Promise\<[any](../../models/.md)\>**
+**Promise\<void\>**
 
 ### Errors
 

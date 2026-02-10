@@ -951,7 +951,7 @@ run();
 
 
 **Inherit from [`GalileoGeneratedError`](./src/models/errors/galileogeneratederror.ts)**:
-* [`HTTPValidationError`](./src/models/errors/httpvalidationerror.ts): Validation Error. Status code `422`. Applicable to 201 of 259 methods.*
+* [`HTTPValidationError`](./src/models/errors/httpvalidationerror.ts): Status code `422`. Applicable to 201 of 259 methods.*
 * [`ResponseValidationError`](./src/models/errors/responsevalidationerror.ts): Type mismatch between the data returned from the server and the structure expected by the SDK. See `error.rawValue` for the raw value and `error.pretty()` for a nicely formatted multi-line string.
 
 </details>

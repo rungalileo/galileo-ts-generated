@@ -1435,7 +1435,7 @@ run();
 
 ## createOrUpdateIntegrationIntegrationsCustomPut
 
-Create or update a custom integration for this user.
+Create Or Update Integration
 
 ### Example Usage
 
