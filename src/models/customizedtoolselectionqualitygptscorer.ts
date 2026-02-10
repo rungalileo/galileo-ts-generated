@@ -120,6 +120,7 @@ export type CustomizedToolSelectionQualityGPTScorer = {
   registeredScorerId?: string | null | undefined;
   generatedScorerId?: string | null | undefined;
   scorerVersionId?: string | null | undefined;
+  userCode?: string | null | undefined;
   canCopyToLlm?: boolean | null | undefined;
   scoreableNodeTypes?: Array<NodeType> | null | undefined;
   cotEnabled?: boolean | null | undefined;
@@ -325,6 +326,7 @@ export const CustomizedToolSelectionQualityGPTScorer$inboundSchema:
       registered_scorer_id: z.optional(z.nullable(types.string())),
       generated_scorer_id: z.optional(z.nullable(types.string())),
       scorer_version_id: z.optional(z.nullable(types.string())),
+      user_code: z.optional(z.nullable(types.string())),
       can_copy_to_llm: z.optional(z.nullable(types.boolean())),
       scoreable_node_types: z.optional(
         z.nullable(z.array(NodeType$inboundSchema)),
@@ -373,6 +375,7 @@ export const CustomizedToolSelectionQualityGPTScorer$inboundSchema:
         "registered_scorer_id": "registeredScorerId",
         "generated_scorer_id": "generatedScorerId",
         "scorer_version_id": "scorerVersionId",
+        "user_code": "userCode",
         "can_copy_to_llm": "canCopyToLlm",
         "scoreable_node_types": "scoreableNodeTypes",
         "cot_enabled": "cotEnabled",
@@ -414,6 +417,7 @@ export type CustomizedToolSelectionQualityGPTScorer$Outbound = {
   registered_scorer_id?: string | null | undefined;
   generated_scorer_id?: string | null | undefined;
   scorer_version_id?: string | null | undefined;
+  user_code?: string | null | undefined;
   can_copy_to_llm?: boolean | null | undefined;
   scoreable_node_types?: Array<string> | null | undefined;
   cot_enabled?: boolean | null | undefined;
@@ -477,6 +481,7 @@ export const CustomizedToolSelectionQualityGPTScorer$outboundSchema:
       registeredScorerId: z.optional(z.nullable(z.string())),
       generatedScorerId: z.optional(z.nullable(z.string())),
       scorerVersionId: z.optional(z.nullable(z.string())),
+      userCode: z.optional(z.nullable(z.string())),
       canCopyToLlm: z.optional(z.nullable(z.boolean())),
       scoreableNodeTypes: z.optional(
         z.nullable(z.array(NodeType$outboundSchema)),
@@ -523,6 +528,7 @@ export const CustomizedToolSelectionQualityGPTScorer$outboundSchema:
         registeredScorerId: "registered_scorer_id",
         generatedScorerId: "generated_scorer_id",
         scorerVersionId: "scorer_version_id",
+        userCode: "user_code",
         canCopyToLlm: "can_copy_to_llm",
         scoreableNodeTypes: "scoreable_node_types",
         cotEnabled: "cot_enabled",

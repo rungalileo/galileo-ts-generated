@@ -15,6 +15,11 @@ import {
   InputMap$outboundSchema,
 } from "./inputmap.js";
 import {
+  InputModality,
+  InputModality$inboundSchema,
+  InputModality$outboundSchema,
+} from "./inputmodality.js";
+import {
   LLMIntegration,
   LLMIntegration$inboundSchema,
   LLMIntegration$outboundSchema,
@@ -44,6 +49,10 @@ export type Model = {
   userRole?: string | null | undefined;
   assistantRole?: string | null | undefined;
   systemSupported?: boolean | undefined;
+  /**
+   * Input modalities that the model can accept.
+   */
+  inputModalities?: Array<InputModality> | undefined;
   /**
    * Alternative names for the model, used for matching with various current, versioned or legacy names.
    */
@@ -81,6 +90,7 @@ export const Model$inboundSchema: z.ZodMiniType<Model, unknown> = z.pipe(
     user_role: z.optional(z.nullable(types.string())),
     assistant_role: z.optional(z.nullable(types.string())),
     system_supported: z._default(types.boolean(), false),
+    input_modalities: types.optional(z.array(InputModality$inboundSchema)),
     alternative_names: types.optional(z.array(types.string())),
     input_token_limit: z.optional(z.nullable(types.number())),
     output_token_limit: z.optional(z.nullable(types.number())),
@@ -104,6 +114,7 @@ export const Model$inboundSchema: z.ZodMiniType<Model, unknown> = z.pipe(
       "user_role": "userRole",
       "assistant_role": "assistantRole",
       "system_supported": "systemSupported",
+      "input_modalities": "inputModalities",
       "alternative_names": "alternativeNames",
       "input_token_limit": "inputTokenLimit",
       "output_token_limit": "outputTokenLimit",
@@ -132,6 +143,7 @@ export type Model$Outbound = {
   user_role?: string | null | undefined;
   assistant_role?: string | null | undefined;
   system_supported: boolean;
+  input_modalities?: Array<string> | undefined;
   alternative_names?: Array<string> | undefined;
   input_token_limit?: number | null | undefined;
   output_token_limit?: number | null | undefined;
@@ -161,6 +173,7 @@ export const Model$outboundSchema: z.ZodMiniType<Model$Outbound, Model> = z
       userRole: z.optional(z.nullable(z.string())),
       assistantRole: z.optional(z.nullable(z.string())),
       systemSupported: z._default(z.boolean(), false),
+      inputModalities: z.optional(z.array(InputModality$outboundSchema)),
       alternativeNames: z.optional(z.array(z.string())),
       inputTokenLimit: z.optional(z.nullable(z.int())),
       outputTokenLimit: z.optional(z.nullable(z.int())),
@@ -184,6 +197,7 @@ export const Model$outboundSchema: z.ZodMiniType<Model$Outbound, Model> = z
         userRole: "user_role",
         assistantRole: "assistant_role",
         systemSupported: "system_supported",
+        inputModalities: "input_modalities",
         alternativeNames: "alternative_names",
         inputTokenLimit: "input_token_limit",
         outputTokenLimit: "output_token_limit",

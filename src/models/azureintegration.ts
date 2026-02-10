@@ -16,8 +16,16 @@ import {
   AzureModelDeployment$inboundSchema,
 } from "./azuremodeldeployment.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
+import {
+  MultiModalModelIntegrationConfig,
+  MultiModalModelIntegrationConfig$inboundSchema,
+} from "./multimodalmodelintegrationconfig.js";
 
 export type AzureIntegration = {
+  /**
+   * Configuration for multi-modal (file upload) capabilities.
+   */
+  multiModalConfig?: MultiModalModelIntegrationConfig | null | undefined;
   proxy: boolean;
   endpoint: string;
   apiVersion: string;
@@ -49,6 +57,9 @@ export const AzureIntegration$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
+    multi_modal_config: z.optional(
+      z.nullable(MultiModalModelIntegrationConfig$inboundSchema),
+    ),
     proxy: z._default(types.boolean(), false),
     endpoint: types.string(),
     api_version: z._default(types.string(), "2025-03-01-preview"),
@@ -72,6 +83,7 @@ export const AzureIntegration$inboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return remap$(v, {
+      "multi_modal_config": "multiModalConfig",
       "api_version": "apiVersion",
       "azure_deployment": "azureDeployment",
       "authentication_type": "authenticationType",

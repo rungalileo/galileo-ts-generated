@@ -1,41 +1,41 @@
 lockVersion: 2.0.0
 id: 963d6757-8952-4717-850f-8bd8a5ed659c
 management:
-  docChecksum: e793d5a39985ec047e184ab8cb3e047e
+  docChecksum: 433d83574bfafe109facca96176de7dd
   docVersion: 0.1.0
-  speakeasyVersion: 1.701.1
-  generationVersion: 2.799.0
-  releaseVersion: 0.1.4
-  configChecksum: 9378a8aaf5a45a28868e9d13583da39e
+  speakeasyVersion: 1.705.0
+  generationVersion: 2.808.1
+  releaseVersion: 0.2.5
+  configChecksum: 0afa5c4b0c7e3ac62e5a49a280d8115c
   repoURL: https://github.com/rungalileo/galileo-ts-generated.git
   installationURL: https://github.com/rungalileo/galileo-ts-generated
   published: true
 persistentEdits:
-  generation_id: e1633d99-e3c5-4454-9cd9-b71a963c75e2
-  pristine_commit_hash: 3d21e1b6e177a472afeaf12873b32ccbee4e1ac0
-  pristine_tree_hash: 3f6542f35ae7fef1319d8fbdfb54ef1e7ea0da76
+  generation_id: d523a895-3338-4703-96d6-a4fa601e4162
+  pristine_commit_hash: 4801d69fd13a5d1f257bea44b2975c8af925a336
+  pristine_tree_hash: f5a2b2ded4867585cfaa9321c3aea9d1e6e7a4c0
 features:
   typescript:
     additionalDependencies: 0.1.0
     additionalProperties: 0.1.3
-    constsAndDefaults: 0.1.12
-    core: 3.26.22
+    constsAndDefaults: 0.1.13
+    core: 3.26.27
     defaultEnabledRetries: 0.1.0
     deprecations: 2.81.1
     enumUnions: 0.1.0
     envVarSecurityUsage: 0.1.2
-    globalSecurity: 2.82.14
+    globalSecurity: 2.82.15
     globalSecurityCallbacks: 0.1.0
     globalSecurityFlattening: 0.1.0
     globalServerURLs: 2.83.0
     methodArguments: 0.1.2
-    methodSecurity: 2.82.6
+    methodSecurity: 2.82.7
     nullables: 0.1.1
     oauth2Password: 0.1.2
-    responseFormat: 0.2.3
+    responseFormat: 0.3.0
     retries: 2.83.0
     sdkHooks: 0.4.0
-    unions: 2.86.3
+    unions: 2.86.4
     uploadStreams: 0.1.0
 trackedFiles:
   .gitattributes:
@@ -172,20 +172,20 @@ trackedFiles:
     pristine_git_object: a7c5ad15562e54579996a05f73d8722a0709d957
   docs/models/annotationqueueaction.md:
     id: d0627c129481
-    last_write_checksum: sha1:f2184bf88a57c7170858264ca76968f05e1ef865
-    pristine_git_object: a65d7f906891bd63ae2ab4efaca2e7950637186e
+    last_write_checksum: sha1:3b7df5865c8f990fae8fcd3bd64007eb58cc45ce
+    pristine_git_object: 951304402052b85b4436cff15c61c291b84cb939
   docs/models/anthropicauthenticationtype.md:
     id: dbf9f41eb681
     last_write_checksum: sha1:55934023f609bb884ff8c6795407f9cd4eeade28
     pristine_git_object: ad419501d4925ca6cca86c69bc6e142d24965fa4
   docs/models/anthropicintegration.md:
     id: 42d13e1cb853
-    last_write_checksum: sha1:bd4abbddbe5dbe09ed910668d2f2826521c2ae4b
-    pristine_git_object: 726e9a736075044b11cb4bd1d00d9ce9edc91aa1
+    last_write_checksum: sha1:38852e5fdd898f986f73ecb49f694eac0fbcc51a
+    pristine_git_object: 1fa9c5407269b4e90348ae0b6fe23c35b502c4b3
   docs/models/anthropicintegrationcreate.md:
     id: d770469f6d30
-    last_write_checksum: sha1:0d0e4dd5b7808f119f8b37c7b6da1c4e59e34a73
-    pristine_git_object: f31cb72c212253b10bd0d1b41977cc5aa058968f
+    last_write_checksum: sha1:700a40dd12537732f9cb7adac055797ca719b825
+    pristine_git_object: 39843177dd1d46672b8bdb9f9ca72f71287a22e5
   docs/models/apikeyaction.md:
     id: c7a62f7df65c
     last_write_checksum: sha1:16dc3d7f7eb40a1eb34d34e24f6d45f1edfee684
@@ -220,40 +220,40 @@ trackedFiles:
     pristine_git_object: 5e8c6a39947344eee8604d9f91d98ea8286362f8
   docs/models/awsbedrockintegration.md:
     id: 4b160f5d82b9
-    last_write_checksum: sha1:b9b67cf15a0a6828e13f42529723796b56aa55ef
-    pristine_git_object: 4954bb4f40b05913a040f182d1fa1d420a25c24e
+    last_write_checksum: sha1:bc2102327c8af50d82bbcb6522d2f5a3846f9869
+    pristine_git_object: eb8ad93eb7832d07e0f1bcf9e4f2ab5a21020fde
   docs/models/awscredentialtype.md:
     id: 13d09b06a168
     last_write_checksum: sha1:748d58e1eece05b72a4e93231d6ac3ea4bc9f8eb
     pristine_git_object: 20f8348aed92beefbd019de8984baf82bb40ae90
   docs/models/awssagemakerintegration.md:
     id: 79c04998e660
-    last_write_checksum: sha1:f37f4d7bfad804df00f69ddc634f76f83096fb22
-    pristine_git_object: 014e43f3bea0518f1b707f361e4942ffbfde0f5b
+    last_write_checksum: sha1:8cfb5aa60cf57ce026f0d5180c9462aca9a140ab
+    pristine_git_object: 8e8751e99a7513b33025bf6d41201d4e10bad201
   docs/models/awssagemakerintegrationcreate.md:
     id: 420e516d7fdf
-    last_write_checksum: sha1:2293b43e449d697e8c49d5a49aa52e0a3369b88b
-    pristine_git_object: 53c8d286867846c5a1024176b8490499ef2f9a9b
+    last_write_checksum: sha1:1d4675802c37638268c767eabd6d3e6a55a11a1a
+    pristine_git_object: bad1df9f8fb28fc7bdb57d823818f2e3f17bf7b0
   docs/models/azureauthenticationtype.md:
     id: eae33e4230a6
     last_write_checksum: sha1:85610fbca8ad01b0b01ca1ea5b606d03698beb8b
     pristine_git_object: 9e96387d805b0b88d480485a22fbe888f28be59e
   docs/models/azureintegration.md:
     id: 70c9bd99cdda
-    last_write_checksum: sha1:4e36455cfe00cf29201885c90da0a7edd7f76429
-    pristine_git_object: e6c601b95091ad2dd1e53229ae574e09509bde23
+    last_write_checksum: sha1:416ece05384a406850f93baf6145032aa4de9649
+    pristine_git_object: 8949e55df1289e7613026ce857ba56b07aabfe26
   docs/models/azureintegrationcreate.md:
     id: 69a38fac78cd
-    last_write_checksum: sha1:5ece59e4e3dc4a26c37f4e3fddca96f4d72eedb8
-    pristine_git_object: 45a608bcbd821e8dbeb4303d09966ad2022675f4
+    last_write_checksum: sha1:9a35387e5dfbf2cebbc03c51f6db5605eeb488c6
+    pristine_git_object: 34527a8cccfaddda8d39ac593a2728fd12112d0e
   docs/models/azuremodeldeployment.md:
     id: f411eb957c33
     last_write_checksum: sha1:b105e749160db852d3c431c9862262429f710fb6
     pristine_git_object: d62c2f7cad34518099b774eb38f8596a04d08600
   docs/models/baseawsintegrationcreate.md:
     id: a313b9bde692
-    last_write_checksum: sha1:a93190f3b2ec7a80fd4c93f431c5ee4aaf16746b
-    pristine_git_object: 948cdc20c7d2a397c125c147bbb5fdacb0a63ffc
+    last_write_checksum: sha1:529dbcb4310754f4923c0e438404e46a7c70d29d
+    pristine_git_object: ba8f39c320c880b810f91f3c4407dbccd9a6fc5c
   docs/models/basefinetunedscorerdb.md:
     id: 6acaf40d59c8
     last_write_checksum: sha1:03826d2088bc231de6e49f86cc65a8711e551f91
@@ -304,8 +304,8 @@ trackedFiles:
     pristine_git_object: 9f82894a15ee8b8b00666bbd562eae6762569363
   docs/models/basescorer.md:
     id: 87d704a2c049
-    last_write_checksum: sha1:303642ce04c2c0c288bdcbb448aace4876bad479
-    pristine_git_object: 8e6ba60784c0b645d2ae4ab28f57c90ef292ec97
+    last_write_checksum: sha1:0f722c5e47d12d653e661ec6322bfa5acd01b86a
+    pristine_git_object: 5f83e245d0826b2a34de691d21d1455ed8eaacf6
   docs/models/basescorerclassnametovocabix.md:
     id: ffc3ac3510e9
     last_write_checksum: sha1:80ac8667f3e88c1be21a13ac6a4bca62dfa44b9b
@@ -480,8 +480,8 @@ trackedFiles:
     pristine_git_object: 150fab6e0efb60ec6a6c05d063484fd5075da420
   docs/models/columncategory.md:
     id: 1ea315739e52
-    last_write_checksum: sha1:a1f3b0ef047ff35054b37dc3f14b974e85388653
-    pristine_git_object: 2d74de842e0e8e8acf54dce598e366a032982325
+    last_write_checksum: sha1:5c459b49da0cf169768b04c7abbffea23cc46c0c
+    pristine_git_object: 9a1ce860df15a53a2a0506250f1bb1b23a0acdd0
   docs/models/columninfo.md:
     id: a1ed1f15d1e1
     last_write_checksum: sha1:7c42b32bdfd3e90e0579a7facb4c32304a014891
@@ -628,20 +628,20 @@ trackedFiles:
     pristine_git_object: 1e969c08e4a617946161cb84771a23f77a5e019b
   docs/models/customauthenticationtype.md:
     id: 7a711c242f92
-    last_write_checksum: sha1:a6eb094d7076b48220d3ea4530923445074f1f5d
-    pristine_git_object: ff7ca6682ead64a9f6b428da4fddf391b72777a0
+    last_write_checksum: sha1:a06847d30ea53e363dffdd2d4378c0d36fd9accf
+    pristine_git_object: f4612a0fb608edca9f28699a11d02515f3bb1177
   docs/models/customintegration.md:
     id: fa3d5ac5f875
-    last_write_checksum: sha1:10b309c711f11ef98024c2ff5dc74dd4d69ef215
-    pristine_git_object: e9e5de30cd9911be18ebd6b929087f14d4ce62bf
+    last_write_checksum: sha1:7cdad8af7463be6afb828b257a26ef7f31f5805e
+    pristine_git_object: cd102eb9409b47fc40ee4f69ee19493b6e76b7b7
   docs/models/customintegrationcreate.md:
     id: 888dca0f909f
-    last_write_checksum: sha1:a4cb8bf258791b420ab8f2390d75e3d0477bef98
-    pristine_git_object: 96b1bb599f1167aac0ac73bbfc5454ff6f01db06
+    last_write_checksum: sha1:0b74ec6e2eaa91a1ab50c4e3d92ab419ddbbc689
+    pristine_git_object: 3473dc9466a3e55c248927428f0c5e61838abdb1
   docs/models/customizedagenticsessionsuccessgptscorer.md:
     id: 6e990b597fb4
-    last_write_checksum: sha1:a703e9c4c0d1b38abc9c051eef231d7d948b8507
-    pristine_git_object: 1ee28af4b4dbfa644c774e28bf1c032da898946a
+    last_write_checksum: sha1:69c2b9e1774c250f3ad1753f3bcb2309c01b2bc0
+    pristine_git_object: 0478547b6bc016f7af76c25cfc76db09ff082804
   docs/models/customizedagenticsessionsuccessgptscorerclassnametovocabix.md:
     id: 83914aebbccf
     last_write_checksum: sha1:169dce75ba6cf5c7fe0482f7ac3fabbc85e6065b
@@ -656,8 +656,8 @@ trackedFiles:
     pristine_git_object: 38c42dc414c93e51b657674873dd1d035f147aeb
   docs/models/customizedagenticworkflowsuccessgptscorer.md:
     id: ccf0080e7f58
-    last_write_checksum: sha1:a7f29b0431655260488826d472a9058d4491905b
-    pristine_git_object: fb151e4588fd7f5da47aacc80d9eb30842b53d06
+    last_write_checksum: sha1:7ee69e6b8771264f2b4e4b56b3b962077c834396
+    pristine_git_object: 48483b7905643de7c41a1e74d372edd71120af47
   docs/models/customizedagenticworkflowsuccessgptscorerclassnametovocabix.md:
     id: 7db09102aa1e
     last_write_checksum: sha1:b90b0bebc289955d62b678f0b54373d6c6cea027
@@ -672,8 +672,8 @@ trackedFiles:
     pristine_git_object: 15eabd95d41dd7189d9502435a4bfe8b1753a9d4
   docs/models/customizedchunkattributionutilizationgptscorer.md:
     id: 3c69f81bbfc3
-    last_write_checksum: sha1:38f9d185225375671b5133b3de9b37444a17856c
-    pristine_git_object: 502eb518e58cbec27fdcb5879f4ca2205f88da6d
+    last_write_checksum: sha1:524b66d6cfe4e9b7fa823b9a9f0449c3dc64ec79
+    pristine_git_object: f8cd21d7504f63775a226a898511dd254bea25e0
   docs/models/customizedchunkattributionutilizationgptscorerclassnametovocabix.md:
     id: 4e76cfd8ff3b
     last_write_checksum: sha1:bcef47f0829a214783cdb15933cbb8739b261c17
@@ -688,8 +688,8 @@ trackedFiles:
     pristine_git_object: 799d778ed0a424936c64679d9bfad2a1f596460d
   docs/models/customizedcompletenessgptscorer.md:
     id: a58ee32ef5cd
-    last_write_checksum: sha1:695cdfccb488939e113b7e1aa2376caa18fb9f8f
-    pristine_git_object: 388f348c14a4e09703224cb4d26d7d4cf41be7dd
+    last_write_checksum: sha1:edc9e68cdada2b4a179a16d01f00a896a6a61b39
+    pristine_git_object: 5b41cf2f6d30f630b60cbaed2217f7a337ee4f3c
   docs/models/customizedcompletenessgptscorerclassnametovocabix.md:
     id: 5220cc721007
     last_write_checksum: sha1:528b48b888cf8762ee2d40f1a3b2aa93cac54c59
@@ -704,8 +704,8 @@ trackedFiles:
     pristine_git_object: 6d78115d3abd4d24ab5dde92c4e7d967438e03c3
   docs/models/customizedfactualitygptscorer.md:
     id: 8a837f2f55f0
-    last_write_checksum: sha1:a737f89bcea183d53e06bb8528e24da8c0730b72
-    pristine_git_object: 17d9bcc2b8391e0e457358cef98de427bd3ea4cd
+    last_write_checksum: sha1:c1c1a9a3b788bb582d1aefff2907ca97d1d86b0c
+    pristine_git_object: 15c2502418706f1bfbe50fb01ae7f4c4d3e64339
   docs/models/customizedfactualitygptscorerclassnametovocabix.md:
     id: fcbdc058e0e2
     last_write_checksum: sha1:0dc21b612bf5913fe5eadd7aa64a70add762dd45
@@ -720,8 +720,8 @@ trackedFiles:
     pristine_git_object: e4884c992e4e3ccb22ef0b138f61d9284962e70a
   docs/models/customizedgroundednessgptscorer.md:
     id: c48655eeef48
-    last_write_checksum: sha1:fba5e6ae593b25842253d8182a3462c8ca22b599
-    pristine_git_object: 11e68777907c70a51c2ca1ec95a0b14144332959
+    last_write_checksum: sha1:417a40f9a028b5c5c8e422e271420a9dcb361462
+    pristine_git_object: 6813d35b02a2853361def2da109d542dffd8b189
   docs/models/customizedgroundednessgptscorerclassnametovocabix.md:
     id: 870c6de74aee
     last_write_checksum: sha1:e6fc3b13933968922385b6b71ba8d0e26069917a
@@ -736,8 +736,8 @@ trackedFiles:
     pristine_git_object: f4285adf33799456f10e9be3a9a722bf69124916
   docs/models/customizedgroundtruthadherencegptscorer.md:
     id: b21a90063561
-    last_write_checksum: sha1:969c92961998724b1bbb81158adb93eee00c49a5
-    pristine_git_object: 7514a97b4bc44c1c49aeca82a51bd82492b8ab6d
+    last_write_checksum: sha1:1cbfea285479fe38dac5b1e64db0a6db2a88bce4
+    pristine_git_object: be3436c809394d75023601264966828becce499f
   docs/models/customizedgroundtruthadherencegptscorerclassnametovocabix.md:
     id: a106d28b46a3
     last_write_checksum: sha1:2bb953a9ae5dc667f6b2ba50f5865d3f09aa3a59
@@ -752,8 +752,8 @@ trackedFiles:
     pristine_git_object: 6d2e184db1d655201b0419487b4e040788e13238
   docs/models/customizedinputsexistgptscorer.md:
     id: 982c52904d29
-    last_write_checksum: sha1:65e4d8b138225ad2d8f1fd2e89e511d6064375e8
-    pristine_git_object: 6e53bcfe743dcb92aba18c3318a4ed1d08c582a2
+    last_write_checksum: sha1:4dc6baca0c49cd02f909f378bb079c5b7f248082
+    pristine_git_object: 2531420026b61a4abe70f6c944d25f16b4a3655c
   docs/models/customizedinputsexistgptscorerclassnametovocabix.md:
     id: 3d92e5411f44
     last_write_checksum: sha1:e62e99d70500979edc66b5a3386e993051d2b68c
@@ -768,8 +768,8 @@ trackedFiles:
     pristine_git_object: f92b578d2d8cffd04719902ce1c8c3b901111053
   docs/models/customizedinputtoxicitygptscorer.md:
     id: 6bdad5f226a3
-    last_write_checksum: sha1:bcb8ade88dd8d1cda9514521a479c157bc292faf
-    pristine_git_object: a8444d09395d66655a26e6e74099af075d576a37
+    last_write_checksum: sha1:c07e5eadc1f1ae2dfceace32e22d9408e8776022
+    pristine_git_object: a8a11432e37cd5650d018077b540b3eaa323d198
   docs/models/customizedinputtoxicitygptscorerclassnametovocabix.md:
     id: b8fa907b7eb9
     last_write_checksum: sha1:38c67de5ab87231bdf85abff6e7be0f8140eb1db
@@ -784,8 +784,8 @@ trackedFiles:
     pristine_git_object: 90c708cf359d0f5e7ce54d40defcf3538309c588
   docs/models/customizedinstructionadherencegptscorer.md:
     id: 53d9149ae844
-    last_write_checksum: sha1:1ebab7e3924a22e00ce633acf8c959685c284f75
-    pristine_git_object: 2d67ae22da5b5679fca5f04e2ba0164cc665cdcd
+    last_write_checksum: sha1:e9b94bf65ec60e46059739da1bf5d005cb44b062
+    pristine_git_object: 32a6420bd6ee7efe9cec16bd25a464f5ada27b0e
   docs/models/customizedinstructionadherencegptscorerclassnametovocabix.md:
     id: 30c0559fa278
     last_write_checksum: sha1:62b05ae599c4b57dc47f6f9aa9e436f1392a7f53
@@ -800,8 +800,8 @@ trackedFiles:
     pristine_git_object: 617ba0aa75ba76b3a41ad1d97fb667200cd9cbb0
   docs/models/customizedpromptinjectiongptscorer.md:
     id: e53f2a27b02d
-    last_write_checksum: sha1:f7ff191c31484c5e8e4fb17e244c807b8dd9b937
-    pristine_git_object: 1bd6cddb8a424e90ddf62a7ad2f2b3291d0b85b0
+    last_write_checksum: sha1:eadfa58ff86346e986ad15c088fac1be75586eb9
+    pristine_git_object: 1df33b1da7e77defc96b6c0009d290db85f80802
   docs/models/customizedpromptinjectiongptscorerclassnametovocabix.md:
     id: a05c26327c7a
     last_write_checksum: sha1:18fa36ecba46432aa2ef85b0f2ec4c1b97c32cd6
@@ -816,8 +816,8 @@ trackedFiles:
     pristine_git_object: 2a3670b577c0b828ad0e23f7a96ba483a8bb1e37
   docs/models/customizedsexistgptscorer.md:
     id: 1314f5a39ba0
-    last_write_checksum: sha1:f0ddd6a4ef5df13d5d17f187fd16f3beca1a8e3c
-    pristine_git_object: 6ff503e347ea964e92cb9ae78a846f829d6dae66
+    last_write_checksum: sha1:e45051a5fefe495844e85f5d67fe3bea338cbfac
+    pristine_git_object: 841f4e89ed3d340d9138517b3b3d473ca1551489
   docs/models/customizedsexistgptscorerclassnametovocabix.md:
     id: cade634f1676
     last_write_checksum: sha1:0e072352c8d4a8944010470b135d693966b30412
@@ -832,8 +832,8 @@ trackedFiles:
     pristine_git_object: 65de004bf5176d1be2802456a6de35fe607ae3a7
   docs/models/customizedtoolerrorrategptscorer.md:
     id: 0bc2155464ad
-    last_write_checksum: sha1:6abc15be0881c68b9c9cd8c0c372bb7befb50e22
-    pristine_git_object: b64163d0f5e93c3a83910cdc1887aa9f2fb96bf5
+    last_write_checksum: sha1:a408be0ff1f8370b19227c91d6484cf515f071be
+    pristine_git_object: 120acfa662d2d36032c8756cb64d0d52e66df03d
   docs/models/customizedtoolerrorrategptscorerclassnametovocabix.md:
     id: 30aed1d4c843
     last_write_checksum: sha1:13470ea4ac3a8cbde678fb9d358678a75731d2b1
@@ -848,8 +848,8 @@ trackedFiles:
     pristine_git_object: 7c4921c254f1ddf112d4b38f732952194e516cff
   docs/models/customizedtoolselectionqualitygptscorer.md:
     id: 8544063fe1e3
-    last_write_checksum: sha1:f06551025f7c648e63f80e4e9f39bf3708d9741b
-    pristine_git_object: 3a789a8fcdf6627ccc3832c9cefcc9b7a06226bb
+    last_write_checksum: sha1:e20471ab66460983018df1ca29231a35cee707c4
+    pristine_git_object: 57715793cc621c2a7bc6fe5ba666233e9fa4d02d
   docs/models/customizedtoolselectionqualitygptscorerclassnametovocabix.md:
     id: 5c60625e4897
     last_write_checksum: sha1:347401ff368b27705b21076b9b35ab113faea540
@@ -864,8 +864,8 @@ trackedFiles:
     pristine_git_object: 0ad54183395005c81abef366ae98c01d66022f22
   docs/models/customizedtoxicitygptscorer.md:
     id: d859aa376603
-    last_write_checksum: sha1:3a22c8ca9b3d298bb94fcecb8b90c2a29dadaf6f
-    pristine_git_object: 86f9f8d277210ea9f9543408792af36f74a663f9
+    last_write_checksum: sha1:8b235a9624948100bad2ce9e8f387cf494b5f9cb
+    pristine_git_object: a03945e9cbb9330a9f4875e0da2b6888271c073a
   docs/models/customizedtoxicitygptscorerclassnametovocabix.md:
     id: 97b8049b67c8
     last_write_checksum: sha1:e0c7090e33b47dc84b67e4a308578f078c343a85
@@ -1120,8 +1120,8 @@ trackedFiles:
     pristine_git_object: 879fbcd66781767a6c11434336908c0add63d7f3
   docs/models/document.md:
     id: cd1d2a444370
-    last_write_checksum: sha1:3cba5eeac38ed50b55a769343c97517a74cccad6
-    pristine_git_object: fc156f5f7808734647b2e1bd7e5710d660fb12f1
+    last_write_checksum: sha1:24e2efdb900d60af421b32c56ed986ef15620cf7
+    pristine_git_object: 192ca7a884a30085ba6c218a399529321d65e3da
   docs/models/documentmetadata.md:
     id: 4e38d3813c9d
     last_write_checksum: sha1:25856b4a69c440a8f3343c532f262f93deafd395
@@ -1584,8 +1584,8 @@ trackedFiles:
     pristine_git_object: f890533c94e8a11714dd704c3b45c210f94950ca
   docs/models/galileocoreschemassharedscorersscorernamescorername.md:
     id: 4f807e1816b4
-    last_write_checksum: sha1:9ab34ca403ef6b7fc1e2a39681bf411f01ae8e4e
-    pristine_git_object: 88ef23b5ea682e96e67c38fb2bb4457faae64c30
+    last_write_checksum: sha1:338801680c6b77d8b79b346b63aa3eb80e7b38d6
+    pristine_git_object: 62b8572368c6b3663fabf6ccc5917b2685297cd1
   docs/models/generatedoutput.md:
     id: 6dfe5d8440af
     last_write_checksum: sha1:18e647baeeb7b25f0646fb9c5b9240473fbf3e2c
@@ -1670,6 +1670,10 @@ trackedFiles:
     id: 4fc64312bde9
     last_write_checksum: sha1:2f2749220e84ae9606864526fcaa8251c03063cc
     pristine_git_object: a95448abe6a9f3e9e84c44e349a96e8aeb81e737
+  docs/models/inputmodality.md:
+    id: 4f5310c12bd7
+    last_write_checksum: sha1:40966024d97d5dda17ab072250a52e7e3b7505de
+    pristine_git_object: ea191021d58850f30acc4eebfa5b6b5816e44a91
   docs/models/inputpiiscorer.md:
     id: a65773743dd0
     last_write_checksum: sha1:0dcd25cdedf9e0813b2d41a49f785383cbc756c6
@@ -1952,8 +1956,8 @@ trackedFiles:
     pristine_git_object: b1b9175c407b331750299ea158ac965df3bac581
   docs/models/logrecordsavailablecolumnsresponse.md:
     id: 1fbf3af46e38
-    last_write_checksum: sha1:a6aebf019a650b4f85d1ad9b951b219f9a800599
-    pristine_git_object: b59d215875bb2861d8c2426acce54f497230de55
+    last_write_checksum: sha1:3225923e92eca954db973ff7e39c524d4e4c7563
+    pristine_git_object: 768e39515ae18888e7b30d8f65eeef295c0b5d7c
   docs/models/logrecordsbooleanfilter.md:
     id: 124f58b160b6
     last_write_checksum: sha1:30caecbd39c2b1ccbb142d9d7a31a09518126059
@@ -2052,8 +2056,8 @@ trackedFiles:
     pristine_git_object: 361ed880ecff32c171e0b42498e81569c03c0e3c
   docs/models/logrecordspartialqueryresponse.md:
     id: 9528846c205c
-    last_write_checksum: sha1:bfbedf38bd106a7c0b26605abe19d0e01cd54e6a
-    pristine_git_object: 53ffe2418ea3eb2be7556d02eff28087ca553f75
+    last_write_checksum: sha1:0b6bf36004d23584857e046b70e7ad1178a7eecb
+    pristine_git_object: 993e84bcf06287248e846f27bec65baa8c9e9ec5
   docs/models/logrecordspartialqueryresponserecord.md:
     id: b58776881846
     last_write_checksum: sha1:92323417d9bf483d73c3a0858f50ccfd0c583a85
@@ -2080,8 +2084,8 @@ trackedFiles:
     pristine_git_object: 17e2f6257423a2fd01f69680911c7e87990fa5c0
   docs/models/logrecordsqueryresponse.md:
     id: 248e8d0f0a6f
-    last_write_checksum: sha1:84886fc420490d924491fe15d22d63871a1f6d0d
-    pristine_git_object: eff72dd54d1bf9d054624b2a7f20773543a78d04
+    last_write_checksum: sha1:83cff82d17745ed838e855374d31d772e8656123
+    pristine_git_object: d3a76f96c86a6dafbab76f35f47091a676b5e52c
   docs/models/logrecordsqueryresponserecord.md:
     id: 8ec18a085a4a
     last_write_checksum: sha1:17dcf368d02de7c13a4eca5781cbdae8ed47a7af
@@ -2104,8 +2108,8 @@ trackedFiles:
     pristine_git_object: 6bda660ecb08ff67903cf1c0c0ac5896aa85a3c2
   docs/models/logspansingestrequest.md:
     id: f881bca86bc0
-    last_write_checksum: sha1:0a293101d7bb243c7e4d8170ce67541dca236002
-    pristine_git_object: 9c33348b0918ef794ee4feed1e9222f98ee9f32a
+    last_write_checksum: sha1:7676c692f03d657662aaba9b17025312b14056e7
+    pristine_git_object: 9def6275c91e9197a927df756a095dbce535eabd
   docs/models/logspansingestrequestspan.md:
     id: 348da472c19d
     last_write_checksum: sha1:356433baa28258e9d7db8516df68c32f982e5453
@@ -2212,8 +2216,8 @@ trackedFiles:
     pristine_git_object: a96c3af234fe7db7ee211120dd30acec2738125b
   docs/models/logtracesingestrequest.md:
     id: d66946267900
-    last_write_checksum: sha1:0077fe55bf2adda7ed454a60c16fd15f9d505b68
-    pristine_git_object: ce4510b0df0608ff2392c3d1ca0de803589d7d3b
+    last_write_checksum: sha1:20248e6b9b363798240297de777da71c6f173701
+    pristine_git_object: 95b34c54e546d5547715bd5d40f3c34217e5ccb2
   docs/models/logtracesingestresponse.md:
     id: f9c294b90fda
     last_write_checksum: sha1:7f9b145ebc7fd8405a6fb6d440a2395d0b879c8d
@@ -2360,8 +2364,8 @@ trackedFiles:
     pristine_git_object: bdf87c51137e048c10e97dfe020f218e24c0acf3
   docs/models/model.md:
     id: 66e0236ac289
-    last_write_checksum: sha1:b1729129d5aa122f4083d81dfd76ca6dd2317515
-    pristine_git_object: a20bac44f14473adb0caf200cf1f7b9abe97d1c0
+    last_write_checksum: sha1:95c55ea65e797dd9fb942df097cd710dbb673812
+    pristine_git_object: 080c091a784ddffd72e2d1d871df76a90a2d1812
   docs/models/modelcostby.md:
     id: 0af4d3820d27
     last_write_checksum: sha1:7c9cf4cba906e10f6a76c77673eced4fc86ed526
@@ -2370,6 +2374,10 @@ trackedFiles:
     id: 9f69805691d1
     last_write_checksum: sha1:274f48cca43efc27b1b16b6ba0ba2802cca7d579
     pristine_git_object: b061dcfd1ff1e68fa5f5cca033f28a4732e1067b
+  docs/models/multimodalmodelintegrationconfig.md:
+    id: a78e007866c6
+    last_write_checksum: sha1:e11d67d2555c7eaca4887ad5b03d338fc25279cb
+    pristine_git_object: fa71b79c3f1f2ec6fd7f1bd3fbb5296dcca7e409
   docs/models/name.md:
     id: 6ee802922293
     last_write_checksum: sha1:79a45614891e61f6c9445df543f127693c9ff389
@@ -3468,16 +3476,16 @@ trackedFiles:
     pristine_git_object: 12e270b815902243b75553442410660773277844
   docs/models/operations/logspansprojectsprojectidspanspostrequest.md:
     id: cfc951f7cc7f
-    last_write_checksum: sha1:73484906bb98cf15cf87e0a8f3a432f44d11c78e
-    pristine_git_object: e625a2d4e9bc14fcc39ad821f3ee8ba3c5a9bfef
+    last_write_checksum: sha1:f3fd54154ab3baa3e925b8985c711bd9bd588292
+    pristine_git_object: d41426d95196fc7b1709a7d74985a97cb9cfd944
   docs/models/operations/logspansprojectsprojectidspanspostsecurity.md:
     id: e61ef385751a
     last_write_checksum: sha1:85309a50a6febeffb568d30f0d0dcb145032f27a
     pristine_git_object: 91ced8c3d2813b6e1cc96bfbd3d3248696d0ff75
   docs/models/operations/logtracesprojectsprojectidtracespostrequest.md:
     id: 95e069b8366b
-    last_write_checksum: sha1:0914d8a0943ebcf0ac3cd7359d474a08b4d325d1
-    pristine_git_object: 28248d3c01ce46ffde4b8afec623c7a066386a1a
+    last_write_checksum: sha1:31b442fb437560398f85e9a6fb438e4e21628b93
+    pristine_git_object: 5d36e4f83b1f6ebcf44b0d2daf4448996961ac13
   docs/models/operations/logtracesprojectsprojectidtracespostsecurity.md:
     id: cfdbe8596392
     last_write_checksum: sha1:426cbfb51d0d3951c67d7c9a63d483c262996440
@@ -3710,6 +3718,10 @@ trackedFiles:
     id: 85c8856cfba5
     last_write_checksum: sha1:2462b8c564cc5791641e818a9b3c7c4fe7151027
     pristine_git_object: 69597f2b6b6a8edcb934ed6412cd97fda1f9393c
+  docs/models/operations/updatedatasetcontentdatasetsdatasetidcontentpatchresponse.md:
+    id: f9b0f343274b
+    last_write_checksum: sha1:ceb4ea59964c71c1504299b6c0ca61d09be89494
+    pristine_git_object: 691a3c96f754026f4afa1848811cd4d81cec2f70
   docs/models/operations/updatedatasetcontentdatasetsdatasetidcontentpatchsecurity.md:
     id: 630fab0fb3df
     last_write_checksum: sha1:ca886099e07dbd69f3377d1bd6a902f6c24cf2d2
@@ -4000,8 +4012,8 @@ trackedFiles:
     pristine_git_object: 65c1cf8311a2d53a101e49f3e2fd902563ca1975
   docs/models/outputtypeenum.md:
     id: 58f8bc32e1e8
-    last_write_checksum: sha1:15d90289da5afb0da0e46bd3aa469662a749fd7f
-    pristine_git_object: d7b6c8d89815a9d99c5fdd16336e3c0a7e2d6e8c
+    last_write_checksum: sha1:cb041b8e3e8e86f161a7de685af5e50d5b925654
+    pristine_git_object: 6f997ea24a42c677f3dc8dded70ad0f872cd4849
   docs/models/overrideaction.md:
     id: 7998ae7419c2
     last_write_checksum: sha1:d69735f43ad3ae2510dfb3de2340bc181fef09bf
@@ -4124,8 +4136,8 @@ trackedFiles:
     pristine_git_object: e0cb8de90a01180d4b86eeb867c31e34d5f4ee54
   docs/models/permission.md:
     id: 2e72d664ef50
-    last_write_checksum: sha1:2f8b2549824b0c4c63af1a49e637f8b88ee96996
-    pristine_git_object: 5d21f901dc1f48ba35fbcc7b277845b90d96b0cc
+    last_write_checksum: sha1:8c8998f2b40f8fb51592061790c34af7738c988a
+    pristine_git_object: 3c6bd7da2b093dba49482f46eac10437a25e1757
   docs/models/permissionaction.md:
     id: 1db356a79a9f
     last_write_checksum: sha1:bfb26ce13e40d8f2c85ffdd64772ed246eaf8de6
@@ -5024,8 +5036,8 @@ trackedFiles:
     pristine_git_object: 9ffcc9ca959d3a3f3f7c1ef301ec4952e236da04
   docs/models/vegasgatewayintegrationcreate.md:
     id: ff5607e03957
-    last_write_checksum: sha1:e2c80a07be6cd696746298221d625f191f596e4b
-    pristine_git_object: c13eaae3e3a25e4c96025278fcb0199c8fcd7833
+    last_write_checksum: sha1:185df5d990cb2b0e28308a2466fe14864846fbb8
+    pristine_git_object: bacdcb8b268788ec19d21e1250f4efb1836d5dd0
   docs/models/vertexaiintegration.md:
     id: e0191b0b7d9a
     last_write_checksum: sha1:0e988c6e218616a6d7ad961de0f2b7292806df27
@@ -5084,8 +5096,8 @@ trackedFiles:
     pristine_git_object: 5ee1c92b694f81032ec7c042edf083a3dadf0cea
   docs/sdks/datasets/README.md:
     id: deb5d90f4faf
-    last_write_checksum: sha1:1a67fb85ebd95b5dd2a791801cb837febe65abc4
-    pristine_git_object: 50925220715a6c4aeb783b9364df4c752c5ff927
+    last_write_checksum: sha1:a7d8e3692b64a7784925e18ea0adbdd621634fad
+    pristine_git_object: ebde4efad2d1408d513071f930dd942a0ac7af30
   docs/sdks/edits/README.md:
     id: 67dbe1ca1700
     last_write_checksum: sha1:717f491a476a39d10a9d91ab709d5ca07f7d7c76
@@ -5104,8 +5116,8 @@ trackedFiles:
     pristine_git_object: d0de2d9eb40c3deb780be621ab151704603c6324
   docs/sdks/integrations/README.md:
     id: 7b29664808c0
-    last_write_checksum: sha1:bb3b9c02db3eb74c5507cd03f62896036ec4aa9b
-    pristine_git_object: c023a760452c0a404f98fc6224a70ed4ed2e8b56
+    last_write_checksum: sha1:db2f7a5a1240901a2ca1f1540de1a1df9ad67748
+    pristine_git_object: c91f1a25cd194c88eaea012177532a1b24bd7ca5
   docs/sdks/jobs/README.md:
     id: 7371cdc8b89a
     last_write_checksum: sha1:f25e11ecd0f9fee6b1f3847618b6f705436fad11
@@ -5120,8 +5132,8 @@ trackedFiles:
     pristine_git_object: 99e45be8c985fcbd7e9d75d3e50e8d622e424dbe
   docs/sdks/projects/README.md:
     id: 1c5f71754e17
-    last_write_checksum: sha1:1407b33cf6039155b32648fdf8afe079cb78b0c9
-    pristine_git_object: 4a800f618cca68d6aaba74e4c54b830f7d9b4cb1
+    last_write_checksum: sha1:e37de2ed6693ba2580d1980077e9f81706ef44e8
+    pristine_git_object: 9dca8f747d7b5e2ed831ca7b8eb2e18c73839567
   docs/sdks/prompts/README.md:
     id: b32ccd6b7936
     last_write_checksum: sha1:d7f01cd20f1847ca5884e2dfb93fe589e539d6aa
@@ -5144,8 +5156,8 @@ trackedFiles:
     pristine_git_object: 386d16e724e092e5f37f86774751d26642b26c8f
   docs/sdks/trace/README.md:
     id: 09c5a0f351fb
-    last_write_checksum: sha1:58407e280830b1b36893556d68edf5d59bd19d34
-    pristine_git_object: c2e359cf9466a1532c247ef4e28a35d108f82c5d
+    last_write_checksum: sha1:eb2b2846a6ebe63a09239b92957ab4fce92ef9fd
+    pristine_git_object: 15d96fcb5482f7dbd34e2977ba3c5808b85e1f8f
   eslint.config.mjs:
     id: 461c8d07f6da
     last_write_checksum: sha1:9398f326377fe47f67af2df6eb6370750c0790b4
@@ -5168,12 +5180,12 @@ trackedFiles:
     pristine_git_object: b715b39aad605a3925f361c2be3dd5d60dc791b2
   jsr.json:
     id: 7f6ab7767282
-    last_write_checksum: sha1:fb3231b6eee1fd9fd6de2c3d1c508284f916ea8b
-    pristine_git_object: 27e8084028e2aad8a0e50d562d4487f5c85e267f
+    last_write_checksum: sha1:4e7995e40950b48ce1839e2effe21e146b0dd7a5
+    pristine_git_object: 045a4568920ba97f27e4de579ac94277e8fc0c9f
   package.json:
     id: 7030d0b2f71b
-    last_write_checksum: sha1:1d38249fdc95c4d91afce4c97863c641928effa8
-    pristine_git_object: ba8e16093c6a55b20823974b02b3f333dbc5b94f
+    last_write_checksum: sha1:7f9e00320bab37a714749f6adee30b2eb8c88f8e
+    pristine_git_object: 1fc10b36264c5b68530cb2217b38e9da5361c939
   src/core.ts:
     id: f431fdbcd144
     last_write_checksum: sha1:ebd2d19d9cff815e56fa920777338fc21c9a678c
@@ -5284,8 +5296,8 @@ trackedFiles:
     pristine_git_object: 3a05d8ad5b2c003af844d3d82404235277e97639
   src/funcs/datasetsUpdateDatasetContentDatasetsDatasetIdContentPatch.ts:
     id: a7d09296b4f2
-    last_write_checksum: sha1:ee32ebb028fcdf944054545ccf60d6fbcad0aec6
-    pristine_git_object: 786b3d5bb446a51153d698415be0c86f83ee8a1c
+    last_write_checksum: sha1:4529bfd846ad20717086e273f8d046f0e7d2ca89
+    pristine_git_object: 42bf9abc55b7620197d6a03d02f274aa79088b0b
   src/funcs/datasetsUpdateDatasetDatasetsDatasetIdPatch.ts:
     id: 67940b644ea0
     last_write_checksum: sha1:0762f8e20d09bf7db8c4824994c2f8771f912538
@@ -5312,8 +5324,8 @@ trackedFiles:
     pristine_git_object: 48f17eb46e355d3691006c6728ba430cec9b0dd3
   src/funcs/datasetsUpsertDatasetContentDatasetsDatasetIdContentPut.ts:
     id: 81f748e0a4b0
-    last_write_checksum: sha1:049651406492277255e9cc3a82326225255dcc07
-    pristine_git_object: d8c87764cf91aab1253b142ca3f70bf66f6c4815
+    last_write_checksum: sha1:31c71772bbcc16892e839ed002fd73e48fff1a23
+    pristine_git_object: c21bdf9b19d857612332c6104a36115d854f43b3
   src/funcs/experimentCreateExperimentProjectsProjectIdExperimentsPost.ts:
     id: a3c6b19e0c86
     last_write_checksum: sha1:50b3904a165630297c0a8655b973a4309e468877
@@ -5408,8 +5420,8 @@ trackedFiles:
     pristine_git_object: abc527b460fda818d54fd89bd558fc687a363643
   src/funcs/integrationsCreateOrUpdateIntegrationIntegrationsCustomPut.ts:
     id: 9e26ce0ab6f2
-    last_write_checksum: sha1:1423785b44926814e0df6b35ac9a451e028b3c9d
-    pristine_git_object: d716f4080a23c211a606d5bb0f8c35e02a1d5a51
+    last_write_checksum: sha1:b6f57d6ac785c39fdd2a7315473eb438a4cb2574
+    pristine_git_object: 82683c931e09f6c65cd54a1b1ed56bb60006b950
   src/funcs/integrationsCreateOrUpdateIntegrationIntegrationsLabelstudioPut.ts:
     id: 9dac6a3e16e1
     last_write_checksum: sha1:032fbbbcc0cf72a80912dbfd34f66e6fab71ebf5
@@ -6036,8 +6048,8 @@ trackedFiles:
     pristine_git_object: 44be0eae8246521b230e8e711a88eff738fc015d
   src/lib/config.ts:
     id: 320761608fb3
-    last_write_checksum: sha1:6aea740f09721c56664b5848b05cba9c41f3e273
-    pristine_git_object: a3a144e181ebd41e71f52d438cd1850102dfedd9
+    last_write_checksum: sha1:8802c66cb162d59ba6aee723573047c107e89709
+    pristine_git_object: 518c9ed60ee6c4206248d647f3146f5269d2d91d
   src/lib/dlv.ts:
     id: b1988214835a
     last_write_checksum: sha1:1dd3e3fbb4550c4bf31f5ef997faff355d6f3250
@@ -6156,20 +6168,20 @@ trackedFiles:
     pristine_git_object: e73ab5d86c10ab9ca26d09a6cc544f9df38ad764
   src/models/annotationqueueaction.ts:
     id: "214609383120"
-    last_write_checksum: sha1:828000c77a668435a0e7d70e6c5651521e31fcb9
-    pristine_git_object: 6561e3c39a93bd96e82b87b82cf04cd07e7c1d24
+    last_write_checksum: sha1:d33268b9409ec311fc6ea5664f714534b6c15b6c
+    pristine_git_object: 1cc5e47e87753cff494ba1a8e5254de2feb2a16b
   src/models/anthropicauthenticationtype.ts:
     id: 0d5535268085
     last_write_checksum: sha1:c70266239e479cfd1e68761aeb5a53090281a01f
     pristine_git_object: 1e4a9b5463576591905e265614d01ba36db40bf4
   src/models/anthropicintegration.ts:
     id: 0680234f3180
-    last_write_checksum: sha1:0c0d12fbff46c30fc84d5ba776c0bfe9f2de7d63
-    pristine_git_object: 5e112c01897ba0bff77e6e2882be9da072018c4d
+    last_write_checksum: sha1:1fab372f8789f16eaec7a50d932769e77ab67beb
+    pristine_git_object: b0bdd43efdb727053f6495d397eb891675634a88
   src/models/anthropicintegrationcreate.ts:
     id: ff4c4e53400b
-    last_write_checksum: sha1:a5b4b9ac01434b56ad1be3cf60db7eb7f0b9fedb
-    pristine_git_object: 87aace4353f9c7f1bf432e8793a1f6548b4dcb2a
+    last_write_checksum: sha1:55f14e1efb3c292c22a005ce7d0c0ba3e2b22209
+    pristine_git_object: 7ab097e294ce7398298d19936e7b1a96d74af1ba
   src/models/apikeyaction.ts:
     id: c776cdbe2a99
     last_write_checksum: sha1:14ed33947046f41acf4a2fff120e75857c39f09f
@@ -6204,40 +6216,40 @@ trackedFiles:
     pristine_git_object: deba43de6ed4f2e35b36ae237f859246de52eb05
   src/models/awsbedrockintegration.ts:
     id: 8f1e8d93d366
-    last_write_checksum: sha1:a3bab27c9377b54f2a1e6905c449185ee6b5d7f9
-    pristine_git_object: 89da13ba9e3778e595d7cfb4e749bdc15615d74b
+    last_write_checksum: sha1:082a6909ed1e6b8b24752dbe56fa27dbbdc42242
+    pristine_git_object: 913dbfa033ef1822ad0c7a576243a7f108d6f563
   src/models/awscredentialtype.ts:
     id: b0b86cb633ca
     last_write_checksum: sha1:d490847ee7c100a86a70d17186d1831ce71ded8c
     pristine_git_object: 0c17af4f8cc126f0730f33ee8aa65fe399914b82
   src/models/awssagemakerintegration.ts:
     id: 9a31c6017899
-    last_write_checksum: sha1:1fc351defd9e095b6759da1edb8bea9e3fb0f52c
-    pristine_git_object: 90cf8d0373a7b355de1238cab5c8555f4ba61130
+    last_write_checksum: sha1:07f4b5a917533430bbc2c6f231108f5295fb8fa9
+    pristine_git_object: b3fdc87a4102bddf076962ec1c6e2bc557c9e787
   src/models/awssagemakerintegrationcreate.ts:
     id: 8ec2e6815ff3
-    last_write_checksum: sha1:78cfd919cc5b2937063a6d17df5c0076918c4b8e
-    pristine_git_object: 728233d46a4f7baf226e5a861042f6e854f56e3c
+    last_write_checksum: sha1:761a30e6878924e20e098813953c58071b2f0610
+    pristine_git_object: 17d8ff4a165dd74c2081a3c73d6acd37f202df54
   src/models/azureauthenticationtype.ts:
     id: 0bc8213d00ae
     last_write_checksum: sha1:ed9b76f509f538413c28586c239acbf04e037c6b
     pristine_git_object: 6a2780e4a4570fc3b5b750f186c023f5978cc913
   src/models/azureintegration.ts:
     id: ba48771a1275
-    last_write_checksum: sha1:2af4d7cddeff4c41a991417664af55035cca249c
-    pristine_git_object: e14a28cd27bbc772420049b66584fe3035035446
+    last_write_checksum: sha1:6e106012d814be995bf56b9f9f18086f68fe830f
+    pristine_git_object: fa265f0b0aa3ecd93953a0d0f2ae13d93e6c5f83
   src/models/azureintegrationcreate.ts:
     id: f9da9b8dc9da
-    last_write_checksum: sha1:2f58b2d796ab718e5714319f887a5a69886236e0
-    pristine_git_object: 2eb695b8fe5cd72719e23037544c37e49b4a5c0f
+    last_write_checksum: sha1:763551d81f968a61285c33b77a8a00f1abb20924
+    pristine_git_object: 25253115aff7b0e68fc3fcac6fc1e07b00d448ab
   src/models/azuremodeldeployment.ts:
     id: 04192cbc8036
     last_write_checksum: sha1:069e32ccdbe556419b07923a6f0061f1e14d56f5
     pristine_git_object: bc01bb22b136ad0dc01eb98aeeb292679154ce6f
   src/models/baseawsintegrationcreate.ts:
     id: 9eec5939ac0d
-    last_write_checksum: sha1:15f68702c3845fa5c6c441b2f78b2e00e790cdaf
-    pristine_git_object: 1c41c4bacec7c96e9ba8fcbe3b2fb94b8260f59e
+    last_write_checksum: sha1:e9631a9d21e0bca5de36707a3be4c8a79ee2746e
+    pristine_git_object: c9811cde04ebf907d104a269024af96a3f499cf7
   src/models/basefinetunedscorerdb.ts:
     id: 7c7546bd8373
     last_write_checksum: sha1:210dabde2a4da69a2495c3102161b65c8802cc5d
@@ -6268,8 +6280,8 @@ trackedFiles:
     pristine_git_object: 48da237cf6f138b9dca1904b54ab372a4ff28ac7
   src/models/basescorer.ts:
     id: 86cb0ea77a01
-    last_write_checksum: sha1:407db665ae0ff9acf82e913da03c9cb14fdcae0d
-    pristine_git_object: b8fe1e618177536558435e0ade9e3764ae954f1a
+    last_write_checksum: sha1:991869da28ef5b2681c8abe16bd02357b8e80fc3
+    pristine_git_object: b7dc857edc12f37a2fb59891a31747d880c7d820
   src/models/basescorerversiondb.ts:
     id: c22fad8852b9
     last_write_checksum: sha1:b76ef27397e86a11658d8d098171dc76c8b1c312
@@ -6372,8 +6384,8 @@ trackedFiles:
     pristine_git_object: e6c53b74436b5a08e9b826c995326f7d63bd387d
   src/models/columncategory.ts:
     id: 02715682def8
-    last_write_checksum: sha1:f8501bf5d550e2ca13d33f0e72df26094e4ca72f
-    pristine_git_object: dda0c3877cbe5eacebc377243439df74f3e17851
+    last_write_checksum: sha1:72d6289976d6ebb42f50f89d4ac8cda2a9fecb34
+    pristine_git_object: d270900f7de874f578e27165de4c684561594015
   src/models/columninfo.ts:
     id: 3260e47736ee
     last_write_checksum: sha1:a7b2b095e1df7ab0bb9dc3981d7b3d5487f89b22
@@ -6444,76 +6456,76 @@ trackedFiles:
     pristine_git_object: a80a024a06467c03e7b1867faa7364c0cbf9172c
   src/models/customauthenticationtype.ts:
     id: 1ed740857588
-    last_write_checksum: sha1:006a7cf7f37d84800440d7fb63552ec2152c84eb
-    pristine_git_object: f0ee7a0e9500f109909ebdf5fd39ab9fde8a0af3
+    last_write_checksum: sha1:a65aca427852035f1cd5d3d0e01ce987901a7bad
+    pristine_git_object: 4f079e0abb720a61d2be7a42dbf2c3e2c743eaa7
   src/models/customintegration.ts:
     id: b3e71534b474
-    last_write_checksum: sha1:0719c58be40962a7bacd9a19739da7d53c813570
-    pristine_git_object: b54451e4ff7d028c25d15c9ba35f95057b8d7008
+    last_write_checksum: sha1:92d659664ce4d913a24d3866a6e35cee03586d1a
+    pristine_git_object: aca8af6db5bfba9712b4e3b746cc0f1d549eb98e
   src/models/customintegrationcreate.ts:
     id: b9f85ff2da7d
-    last_write_checksum: sha1:b930225b4a42e1b1b1db64747f69bc7f56bcbab8
-    pristine_git_object: 7b02565d0945966bb949dad866f72abbba5f00fe
+    last_write_checksum: sha1:224bb318ec85c7c3a7efadc2f11539e320996916
+    pristine_git_object: a26b185de36a5fa91674fc62dff80e1d5e9704b2
   src/models/customizedagenticsessionsuccessgptscorer.ts:
     id: 33e3e5cae2bb
-    last_write_checksum: sha1:c2617bef350d3ef7d223519d8db3ef37edba15fa
-    pristine_git_object: 7a9dda754d89f7658e205e5518f8cb3658d16f78
+    last_write_checksum: sha1:9ef45ec4de555370643ca00e096be1fe150cfff5
+    pristine_git_object: 89551fe587a2712bfd0e46dcde27bc0bfe766550
   src/models/customizedagenticworkflowsuccessgptscorer.ts:
     id: e9eb59edc198
-    last_write_checksum: sha1:828cf659028a240e7a67c806cd9536fbef1d51ae
-    pristine_git_object: 05dd3345df2d02716c5bd441b88fdcac0bf5b993
+    last_write_checksum: sha1:0a2983904892b1868c4622821fd05c430de98470
+    pristine_git_object: 76cff069b2278545a3015fdb325be6e25b383880
   src/models/customizedchunkattributionutilizationgptscorer.ts:
     id: beb67d7957d1
-    last_write_checksum: sha1:09daf618e9cf7903112795dbb5f1086aea2eb846
-    pristine_git_object: 0754678fae19b03ac0927d7b1055b3df8828a0f8
+    last_write_checksum: sha1:023f2158100420b1ba96487dfc4ec4fa4a1a920f
+    pristine_git_object: 9ee891bb608a7de18c0f06587af6afe5877817c2
   src/models/customizedcompletenessgptscorer.ts:
     id: 59334115aafd
-    last_write_checksum: sha1:181a29c1b65b986d7bc86f98c5f12fdbdeb55702
-    pristine_git_object: 0389feb8165b3882be77db25d124a5a47f282429
+    last_write_checksum: sha1:19f0799ad07bf285d2920eba43bc7e88acfb3d96
+    pristine_git_object: 77bd2905d0672cf82b883ef959d442514d966dd2
   src/models/customizedfactualitygptscorer.ts:
     id: 515a824c44a1
-    last_write_checksum: sha1:8b0994c56f9ad0f6638cc577ebc1645c70e3974a
-    pristine_git_object: c3b769e9fcd30cb504cf6faa306be96327e33bb6
+    last_write_checksum: sha1:ab509c6a702eb7b2cf4227f923ad924b84ca2144
+    pristine_git_object: 727bf52143c654f9aed7bae6ca19af7381abaaf1
   src/models/customizedgroundednessgptscorer.ts:
     id: 8748bcb5e456
-    last_write_checksum: sha1:05ce2b43fb450b80178e262d232930086b023917
-    pristine_git_object: 9ae76f373f8ada8935cba7d4f18915f0d231d8f0
+    last_write_checksum: sha1:4db67984f13f918fe1dfd2e388ff3a881066ba6c
+    pristine_git_object: 032226a97de6c4deb6dcb9c62d56d1d3b0991482
   src/models/customizedgroundtruthadherencegptscorer.ts:
     id: 02d3c99e4598
-    last_write_checksum: sha1:ab0ecff3b1c395975dbdc4f3709ddc79ad9693d1
-    pristine_git_object: 307362cf69540e85326c27ff82e39547bc7c6332
+    last_write_checksum: sha1:799ba86a37ac502361b63950e803b5f3c5208265
+    pristine_git_object: 96aaef488f9602504909b3ecf8324753cf0d71f7
   src/models/customizedinputsexistgptscorer.ts:
     id: 83dd0f30fb8f
-    last_write_checksum: sha1:1114d41d9461dcde068696734823b99521c8af0d
-    pristine_git_object: e27ff7025696b7e3a71105008441685c93032810
+    last_write_checksum: sha1:1c5b5a91c7ead87862f9a5c736ebefb0253d1e03
+    pristine_git_object: 6c4d44c42ff0aa876cc2be242e4d5909d24757e8
   src/models/customizedinputtoxicitygptscorer.ts:
     id: 5c176d1f5d09
-    last_write_checksum: sha1:5cb415e7c241465883c190870768bb3bebf90cd6
-    pristine_git_object: 99c55f7dd5bf56bb644b095caf3985e5ea8188a9
+    last_write_checksum: sha1:0a79beab05242784cc51cab7b1ebdf4c39f88fb2
+    pristine_git_object: b778ceec4de1cc3dce02087c805c66a2447d969b
   src/models/customizedinstructionadherencegptscorer.ts:
     id: "335386760414"
-    last_write_checksum: sha1:c42fcdcc89c5aed13638113888bc068a4ff8cb38
-    pristine_git_object: 5c2f9bde3ad61210821403e39f2233d93fcc2598
+    last_write_checksum: sha1:79dd0b7768cd5a5df178afca32f4624786d9932d
+    pristine_git_object: 5844e4d8a6f1e3f89e2c0062480268683c7a0bd6
   src/models/customizedpromptinjectiongptscorer.ts:
     id: 20e48cefe5da
-    last_write_checksum: sha1:169e2bf8cf35e4184b550a6c75ec7d2cb19334a3
-    pristine_git_object: 6ff77286913b1d8c1f574f0707f1314e31a23e9f
+    last_write_checksum: sha1:18d3ce264fd962a240fd3a1f3ea571687aef71f8
+    pristine_git_object: f2155f8d372dcd780e9c5baaab41b1f8468b7c1a
   src/models/customizedsexistgptscorer.ts:
     id: 7332e10d094e
-    last_write_checksum: sha1:cf34b82eb4f82eabb4ac7ddea953e1ed5781eb7c
-    pristine_git_object: 026f196dea04d59dd1ed2588a6becd88eb880b9a
+    last_write_checksum: sha1:780aaffad8ddd3748ace014b9ae64d7a3bfcbb0f
+    pristine_git_object: f7c9177891b668ad5ab6173a059d661f4e5ad292
   src/models/customizedtoolerrorrategptscorer.ts:
     id: 80c25d1e9916
-    last_write_checksum: sha1:2b059b9c7269a976279ded6ebd516c446280d834
-    pristine_git_object: 82fc7cf53ef7e7248c497ec34c52f52a200436b2
+    last_write_checksum: sha1:b35f79454f79f51571d53d8c7f2a754cd409369f
+    pristine_git_object: 56ccbce1f77e2c860f10cb51dbe60963ed16f334
   src/models/customizedtoolselectionqualitygptscorer.ts:
     id: 8337fb3aa115
-    last_write_checksum: sha1:24f311a6c54436241502ab0a5db2f0c7cc92f394
-    pristine_git_object: f0b16302b2d2da13dd9de38fec03999b7232fd23
+    last_write_checksum: sha1:300a32f61eda22a91e713b855be304efcd46e3be
+    pristine_git_object: cd23d024cc3583e1a1d2923af0ad8ce3037b0284
   src/models/customizedtoxicitygptscorer.ts:
     id: bdb93e235e01
-    last_write_checksum: sha1:7529e427b30002d4e473297fa783b4476bff4fdc
-    pristine_git_object: 5b4485dede1e376531c94f762d855e27f262bb03
+    last_write_checksum: sha1:4ce7e16039649d5e9a14d917c459d20d5db1b385
+    pristine_git_object: ed54f8517f5157f8aa5839f9dc0f65dd154dcfff
   src/models/customllmconfig.ts:
     id: e1385a42154b
     last_write_checksum: sha1:2674acb3d414473d717f17bf01dc35ec39135294
@@ -6704,8 +6716,8 @@ trackedFiles:
     pristine_git_object: dfa36dd4710ccc9a7ec8587ca1011ade1ed1a698
   src/models/document.ts:
     id: d5b45ebda84c
-    last_write_checksum: sha1:406001476d487954409f9c2d3e478455dbeca433
-    pristine_git_object: c1d4823f27868b6f836f65c2c0cba70d65ec57ec
+    last_write_checksum: sha1:27e8410fa2d6c18f33206dca1efcf0397ea40649
+    pristine_git_object: be33169276b68239aaee9da442522c3538c8a9ab
   src/models/editaction.ts:
     id: 56a5dd2813d9
     last_write_checksum: sha1:4e276ae08ca1784d4237eda4347340a7726f6da4
@@ -6960,8 +6972,8 @@ trackedFiles:
     pristine_git_object: 8f229a3f4bab8b6d0b6224efeab6f8d527aca048
   src/models/galileocoreschemassharedscorersscorernamescorername.ts:
     id: 1be06319f40a
-    last_write_checksum: sha1:da0b7f7f54acf4b7864d8afa548bbde96b8371d1
-    pristine_git_object: feb45cdbc3a9868ebd38c86ea8e984d850a43084
+    last_write_checksum: sha1:f4452cfab26173de83d93e11ff294fa971cc9682
+    pristine_git_object: 9ad83ace05927494192c97e78bd2333e0a2d3af7
   src/models/generatedscoreraction.ts:
     id: 642b69f32d50
     last_write_checksum: sha1:b76e8eb2b0496a6b398ec28e1c6d4a19ce80f55b
@@ -7036,12 +7048,16 @@ trackedFiles:
     pristine_git_object: 77cc406d97cbaea308e83d6d51ca19a8c7d8a431
   src/models/index.ts:
     id: f93644b0f37e
-    last_write_checksum: sha1:7e279d31feecf4ae7c5da1741d10d7f64d7a5bf5
-    pristine_git_object: 83c88310c617d78db2a9588c90e4e6dc4d27cff2
+    last_write_checksum: sha1:da35d302defe41a4622b460400841490b99e3e1d
+    pristine_git_object: 26174e7bc45f796b93da32ba9120efad3cbb453f
   src/models/inputmap.ts:
     id: 1c1da53c4e25
     last_write_checksum: sha1:470824588961d58e762d1f0ebda1549746e5c139
     pristine_git_object: 8287663749cc26e4c38002bfe86d964a703c4532
+  src/models/inputmodality.ts:
+    id: 771d5d4c91ec
+    last_write_checksum: sha1:b4363f228d1fc39aec792d6fb0d101d6bb04f8b4
+    pristine_git_object: 4c82545bbe1c8d8e79d31e3ba03fc99362c36e83
   src/models/inputpiiscorer.ts:
     id: 5e38b5dce8dd
     last_write_checksum: sha1:d14e1a045f72e51eca62236fe3c4b95ff46b7490
@@ -7520,8 +7536,8 @@ trackedFiles:
     pristine_git_object: 37252ab23a557780fc0cbf70e26c09fe0b718b03
   src/models/model.ts:
     id: b99d4c14e794
-    last_write_checksum: sha1:9d5455dd64ff7675bc5860c95dfb3b66306943c0
-    pristine_git_object: 42b474a2563eceef7c628d93d6c11c306e989cb0
+    last_write_checksum: sha1:4816fa99affe5ccf16054688541debfbe9d98df2
+    pristine_git_object: 7aababab31193c2a7338d3c9338e3e925643b872
   src/models/modelcostby.ts:
     id: 97f51309596b
     last_write_checksum: sha1:438b09746dca896bf6943836f1e568bf542c9a93
@@ -7530,6 +7546,10 @@ trackedFiles:
     id: 9b70d48515b1
     last_write_checksum: sha1:f08b0b5129609d90e24bf536939909c9a2f96429
     pristine_git_object: fa5ae577fe4d8f87f8180c283ce9cbb5d7d0b581
+  src/models/multimodalmodelintegrationconfig.ts:
+    id: 7196561f447e
+    last_write_checksum: sha1:915f0468469499e0011e3883c643b73ec334598e
+    pristine_git_object: 7304d530d212f19e8cbffba90f329e797598b52f
   src/models/name.ts:
     id: ce4e2601706b
     last_write_checksum: sha1:449a0191931082875cd84b25cb70ffc4cac05658
@@ -8280,8 +8300,8 @@ trackedFiles:
     pristine_git_object: 778e78c6ead8a218d12afc35fe8c6fda187f74b2
   src/models/operations/updatedatasetcontentdatasetsdatasetidcontentpatch.ts:
     id: 901ac3096c45
-    last_write_checksum: sha1:a675fe79a4500eae3ca351a72420c4453c4d1165
-    pristine_git_object: 7b89fe5d685e9bdc78975938459970414042b867
+    last_write_checksum: sha1:671d1a2df98722a85f11c1451ff8738391256a57
+    pristine_git_object: 66b60ab0637c316a83c1f0467e10d2456ea26fdf
   src/models/operations/updatedatasetdatasetsdatasetidpatch.ts:
     id: ea6b222e0027
     last_write_checksum: sha1:54e47742458855d8f8621a4fc27ab04cc2dad973
@@ -8432,8 +8452,8 @@ trackedFiles:
     pristine_git_object: 3b30a05bef5117c2dbd9aa0cc39eda0868942e03
   src/models/outputtypeenum.ts:
     id: 11229a65f6e7
-    last_write_checksum: sha1:0d937634d75a87c85241a8e510b2cfef2d90a865
-    pristine_git_object: b56fd6c831e3c2a85017c146eb4e68e18079ba62
+    last_write_checksum: sha1:220e6fc770f8c637c88f5c86eec739b6db14815e
+    pristine_git_object: 6f68650765500ea830d154328bbc624e4f343bb4
   src/models/overrideaction.ts:
     id: f6724862c77e
     last_write_checksum: sha1:44cd6354787839a328f950ea904d1b20c4284f1a
@@ -9124,8 +9144,8 @@ trackedFiles:
     pristine_git_object: 26c3f5153a9f30c217f8a42493a736284774264c
   src/models/vegasgatewayintegrationcreate.ts:
     id: 0a632ed2f668
-    last_write_checksum: sha1:8b744eab1c912474ff2abfb49f0fb149e7e5bdb4
-    pristine_git_object: 650b0362050465fbc2619dd7a06c6a0a790c7236
+    last_write_checksum: sha1:c9a133864e0da843952b1fe19936665e307e4af1
+    pristine_git_object: 22b10233be681aa23f183854adc81baccfc5077c
   src/models/vertexaiintegration.ts:
     id: c578428a84a9
     last_write_checksum: sha1:38acdf49c33b290e364b307cd5b97edfaa1b5c2f
@@ -9164,8 +9184,8 @@ trackedFiles:
     pristine_git_object: b2a9ba26d8e90683c249963daa23d6ac6ab4cc3b
   src/sdk/datasets.ts:
     id: 2f1e89a21914
-    last_write_checksum: sha1:6769cbdb457866ca0f65f95e9bbff10774f11d22
-    pristine_git_object: 22669814421bff4179cf49276c17343627e6261c
+    last_write_checksum: sha1:b3fa53544fe3688311d73a177a3b7bfdbf58d232
+    pristine_git_object: 638173977ddff57648316c6b1dfa71a7d02dd555
   src/sdk/edits.ts:
     id: eae08c6e830d
     last_write_checksum: sha1:9254e4d6a06c8e09c538209dfb9c1fbd9bc0023b
@@ -9188,8 +9208,8 @@ trackedFiles:
     pristine_git_object: ecac2264817bb369ff2dbf0f0e9029807e67ff77
   src/sdk/integrations.ts:
     id: eafed585af5a
-    last_write_checksum: sha1:5ff347a79ffce22f4215d3db103dc84aecc75790
-    pristine_git_object: 0206ac00975085aa367acfe478e2194c6fd32a2d
+    last_write_checksum: sha1:d7a01679ecbe2ea78bf36af9cc54645854350964
+    pristine_git_object: 6d64021761c567974b203e0da890aacdb33c5d0b
   src/sdk/jobs.ts:
     id: ed817c4ea3a4
     last_write_checksum: sha1:d8330b91fac79cbe32a9d19a175b06d96c40836a
@@ -9280,8 +9300,8 @@ trackedFiles:
     pristine_git_object: c79b3f53a3dd922aa2ace5a4191c8652cf9a8e89
   src/types/smartUnion.ts:
     id: b65a1bd4c0e9
-    last_write_checksum: sha1:1c953daab9a58749c64fd35f88680d30cd93bf83
-    pristine_git_object: 1d70c0a7d3b55df372217a8f7c936eb7759767f0
+    last_write_checksum: sha1:99e330c8c082bae49bbb1ee424191769121de1ea
+    pristine_git_object: 71cccf36d0356940a59bd0c19e9d8ddb8baae8e7
   src/types/streams.ts:
     id: f99be9c4bf14
     last_write_checksum: sha1:cc9ced2dd34a76c3a1bd7784ccda1cc3b37ab9a9
@@ -10003,7 +10023,7 @@ examples:
         path:
           project_id: "<value>"
       requestBody:
-        application/json: {"log_stream_id": "00000000-0000-0000-0000-000000000000", "reliable": true, "session_id": "00000000-0000-0000-0000-000000000000", "traces": [{"type": "trace", "input": "who is a smart LLM?", "output": "I am!", "name": "", "created_at": "2026-01-30T02:28:27.105101Z", "user_metadata": {}, "tags": [], "metrics": {}, "dataset_metadata": {}, "spans": [{"type": "llm", "input": [{"content": "Question: who is a smart LLM?", "role": "user"}], "output": {"content": "I am!", "role": "user"}, "name": "", "created_at": "2026-01-30T02:28:27.105066Z", "user_metadata": {}, "tags": [], "metrics": {}, "dataset_metadata": {}}]}], "is_complete": true, "include_trace_ids": false}
+        application/json: {"log_stream_id": "00000000-0000-0000-0000-000000000000", "reliable": true, "session_id": "00000000-0000-0000-0000-000000000000", "traces": [{"type": "trace", "input": "who is a smart LLM?", "output": "I am!", "name": "", "created_at": "2026-02-09T22:24:09.288054Z", "user_metadata": {}, "tags": [], "metrics": {}, "dataset_metadata": {}, "spans": [{"type": "llm", "input": [{"content": "Question: who is a smart LLM?", "role": "user"}], "output": {"content": "I am!", "role": "user"}, "name": "", "created_at": "2026-02-09T22:24:09.288011Z", "user_metadata": {}, "tags": [], "metrics": {}, "dataset_metadata": {}}]}], "is_complete": true, "include_trace_ids": false}
       responses:
         "200":
           application/json: {"project_id": "<value>", "project_name": "<value>", "records_count": 244954, "traces_count": 451455}
@@ -10066,7 +10086,7 @@ examples:
         application/json: {"log_stream_id": "00000000-0000-0000-0000-000000000000"}
       responses:
         "200":
-          application/json: {"columns": [{"id": "input", "label": "Input", "category": "standard", "description": "Input to the trace or span.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "session", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "output", "label": "Output", "category": "standard", "description": "Output of the trace or span.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "session", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "name", "label": "Name", "category": "standard", "description": "Name of the trace, span or session.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "session", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "created_at", "label": "Created", "category": "standard", "description": "Timestamp of the trace or span's creation.", "group_label": "Standard", "data_type": "timestamp", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "session", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "date"}, {"id": "tags", "label": "Tags", "category": "standard", "description": "Tags associated with this trace or span.", "group_label": "Standard", "data_type": "string_list", "multi_valued": true, "sortable": false, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "collection"}, {"id": "status_code", "label": "Status Code", "category": "standard", "description": "Status code of the trace or span. Used for logging failure or error states.", "group_label": "Standard", "data_type": "integer", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": true, "filter_type": "number"}, {"id": "external_id", "label": "External Id", "category": "standard", "description": "A user-provided session, trace or span ID.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "session", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": true, "filter_type": "text"}, {"id": "dataset_input", "label": "Dataset Input", "category": "standard", "description": "Input to the dataset associated with this trace", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "dataset_output", "label": "Dataset Output", "category": "standard", "description": "Output from the dataset associated with this trace", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "id", "label": "ID", "category": "standard", "description": "Galileo ID of the session, trace or span", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "session", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "session_id", "label": "Session ID", "category": "standard", "description": "Galileo ID of the session containing the trace (or the same value as id for a trace)", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "project_id", "label": "Project ID", "category": "standard", "description": "Galileo ID of the project associated with this trace or span", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "run_id", "label": "Run ID", "category": "standard", "description": "Galileo ID of the run (log stream or experiment) associated with this trace or span", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "updated_at", "label": "Last Updated", "category": "standard", "description": "Timestamp of the session or trace or span's last update", "group_label": "Standard", "data_type": "timestamp", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": true, "filter_type": "date"}, {"id": "has_children", "label": "Has Children", "category": "standard", "description": "Whether or not this trace or span has child spans", "group_label": "Standard", "data_type": "boolean", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": true, "filter_type": "boolean"}, {"id": "is_complete", "label": "Is Complete", "category": "standard", "description": "Whether the parent trace is complete or not", "group_label": "Standard", "data_type": "boolean", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "boolean"}, {"id": "type", "label": "Type", "category": "standard", "description": "Type of the trace, span or session.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "allowed_values": ["retriever", "trace", "session", "agent", "llm", "tool", "workflow"], "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "trace_id", "label": "Trace ID", "category": "standard", "description": "Galileo ID of the trace containing the span (or the same value as id for a trace)", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "parent_id", "label": "Parent ID", "category": "standard", "description": "Galileo ID of the parent of this span", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "step_number", "label": "Step Number", "category": "standard", "description": "Topological step number of the span.", "group_label": "Standard", "data_type": "integer", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": true, "filter_type": "number"}, {"id": "agent_type", "label": "Agent Type", "category": "standard", "description": "Agent type.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "allowed_values": ["judge", "supervisor", "react", "reflection", "router", "default", "classifier", "planner"], "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "tools", "label": "Tools", "category": "standard", "description": "List of available tools passed to the LLM on invocation.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["llm"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "model", "label": "Model", "category": "standard", "description": "Model used for this span.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["llm"], "complex": false, "is_optional": true, "filter_type": "text"}, {"id": "temperature", "label": "Temperature", "category": "standard", "description": "Temperature used for generation.", "group_label": "Standard", "data_type": "floating_point", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["llm"], "complex": false, "is_optional": true, "filter_type": "number"}, {"id": "finish_reason", "label": "Finish Reason", "category": "standard", "description": "Reason for finishing.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["llm"], "complex": false, "is_optional": true, "filter_type": "text"}, {"id": "tool_call_id", "label": "Tool Call Id", "category": "standard", "description": "ID of the tool call.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["tool"], "complex": false, "is_optional": true, "filter_type": "text"}, {"id": "metrics/toxicity", "label": "Output Toxicity (SLM)", "category": "metric", "description": "Measures the presence and severity of harmful, offensive, or abusive language in the model's response", "group_label": "Safety Metrics", "data_type": "floating_point", "data_unit": "percentage", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": [], "complex": false, "is_optional": false, "filter_type": "number", "threshold": {"inverted": true, "buckets": [0.5, 0.8], "display_value_levels": ["Low", "Medium", "High"]}}, {"id": "metrics/bleu", "label": "BLEU - DEPRECATED", "category": "metric", "description": "BLEU is a case-sensitive measurement of the difference between an model generation and target generation at the sentence-level.", "group_label": "Output Quality", "data_type": "floating_point", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": [], "complex": false, "is_optional": false, "filter_type": "number"}]}
+          application/json: {"columns": [{"id": "input", "label": "Input", "category": "standard", "description": "Input to the trace or span.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "session", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "output", "label": "Output", "category": "standard", "description": "Output of the trace or span.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "session", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "name", "label": "Name", "category": "standard", "description": "Name of the trace, span or session.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "session", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "created_at", "label": "Created", "category": "standard", "description": "Timestamp of the trace or span's creation.", "group_label": "Standard", "data_type": "timestamp", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "session", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "date"}, {"id": "tags", "label": "Tags", "category": "standard", "description": "Tags associated with this trace or span.", "group_label": "Standard", "data_type": "string_list", "multi_valued": true, "sortable": false, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "collection"}, {"id": "status_code", "label": "Status Code", "category": "standard", "description": "Status code of the trace or span. Used for logging failure or error states.", "group_label": "Standard", "data_type": "integer", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": true, "filter_type": "number"}, {"id": "external_id", "label": "External Id", "category": "standard", "description": "A user-provided session, trace or span ID.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "session", "workflow", "trace"], "complex": false, "is_optional": true, "filter_type": "text"}, {"id": "dataset_input", "label": "Dataset Input", "category": "standard", "description": "Input to the dataset associated with this trace", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "dataset_output", "label": "Dataset Output", "category": "standard", "description": "Output from the dataset associated with this trace", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "id", "label": "ID", "category": "standard", "description": "Galileo ID of the session, trace or span", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "session", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "session_id", "label": "Session ID", "category": "standard", "description": "Galileo ID of the session containing the trace (or the same value as id for a trace)", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "project_id", "label": "Project ID", "category": "standard", "description": "Galileo ID of the project associated with this trace or span", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "run_id", "label": "Run ID", "category": "standard", "description": "Galileo ID of the run (log stream or experiment) associated with this trace or span", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "updated_at", "label": "Last Updated", "category": "standard", "description": "Timestamp of the session or trace or span's last update", "group_label": "Standard", "data_type": "timestamp", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": true, "filter_type": "date"}, {"id": "has_children", "label": "Has Children", "category": "standard", "description": "Whether or not this trace or span has child spans", "group_label": "Standard", "data_type": "boolean", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": true, "filter_type": "boolean"}, {"id": "is_complete", "label": "Is Complete", "category": "standard", "description": "Whether the parent trace is complete or not", "group_label": "Standard", "data_type": "boolean", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "boolean"}, {"id": "type", "label": "Type", "category": "standard", "description": "Type of the trace, span or session.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "allowed_values": ["agent", "tool", "retriever", "llm", "session", "workflow", "trace"], "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "trace_id", "label": "Trace ID", "category": "standard", "description": "Galileo ID of the trace containing the span (or the same value as id for a trace)", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "parent_id", "label": "Parent ID", "category": "standard", "description": "Galileo ID of the parent of this span", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "step_number", "label": "Step Number", "category": "standard", "description": "Topological step number of the span.", "group_label": "Standard", "data_type": "integer", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow"], "complex": false, "is_optional": true, "filter_type": "number"}, {"id": "agent_type", "label": "Agent Type", "category": "standard", "description": "Agent type.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "allowed_values": ["supervisor", "judge", "classifier", "router", "reflection", "react", "default", "planner"], "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "tools", "label": "Tools", "category": "standard", "description": "List of available tools passed to the LLM on invocation.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["llm"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "model", "label": "Model", "category": "standard", "description": "Model used for this span.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["llm"], "complex": false, "is_optional": true, "filter_type": "text"}, {"id": "temperature", "label": "Temperature", "category": "standard", "description": "Temperature used for generation.", "group_label": "Standard", "data_type": "floating_point", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["llm"], "complex": false, "is_optional": true, "filter_type": "number"}, {"id": "finish_reason", "label": "Finish Reason", "category": "standard", "description": "Reason for finishing.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["llm"], "complex": false, "is_optional": true, "filter_type": "text"}, {"id": "tool_call_id", "label": "Tool Call Id", "category": "standard", "description": "ID of the tool call.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["tool"], "complex": false, "is_optional": true, "filter_type": "text"}, {"id": "metrics/toxicity", "label": "Output Toxicity (SLM)", "category": "metric", "description": "Measures the presence and severity of harmful, offensive, or abusive language in the model's response", "group_label": "Safety Metrics", "data_type": "floating_point", "data_unit": "percentage", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": [], "complex": false, "is_optional": false, "filter_type": "number", "threshold": {"inverted": true, "buckets": [0.5, 0.8], "display_value_levels": ["Low", "Medium", "High"]}}, {"id": "metrics/bleu", "label": "BLEU - DEPRECATED", "category": "metric", "description": "BLEU is a case-sensitive measurement of the difference between an model generation and target generation at the sentence-level.", "group_label": "Output Quality", "data_type": "floating_point", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": [], "complex": false, "is_optional": false, "filter_type": "number"}]}
         "422":
           application/json: {}
   metrics_testing_available_columns_projects__project_id__metrics_testing_available_columns_post:
@@ -10078,7 +10098,7 @@ examples:
         application/json: {"name": "<value>", "cot_enabled": false, "metric_key": "generated_scorer_validation"}
       responses:
         "200":
-          application/json: {"columns": [{"id": "input", "label": "Input", "category": "standard", "description": "Input to the trace or span.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "session", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "output", "label": "Output", "category": "standard", "description": "Output of the trace or span.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "session", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "name", "label": "Name", "category": "standard", "description": "Name of the trace, span or session.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "session", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "created_at", "label": "Created", "category": "standard", "description": "Timestamp of the trace or span's creation.", "group_label": "Standard", "data_type": "timestamp", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "session", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "date"}, {"id": "tags", "label": "Tags", "category": "standard", "description": "Tags associated with this trace or span.", "group_label": "Standard", "data_type": "string_list", "multi_valued": true, "sortable": false, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "collection"}, {"id": "status_code", "label": "Status Code", "category": "standard", "description": "Status code of the trace or span. Used for logging failure or error states.", "group_label": "Standard", "data_type": "integer", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": true, "filter_type": "number"}, {"id": "external_id", "label": "External Id", "category": "standard", "description": "A user-provided session, trace or span ID.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "session", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": true, "filter_type": "text"}, {"id": "dataset_input", "label": "Dataset Input", "category": "standard", "description": "Input to the dataset associated with this trace", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "dataset_output", "label": "Dataset Output", "category": "standard", "description": "Output from the dataset associated with this trace", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "id", "label": "ID", "category": "standard", "description": "Galileo ID of the session, trace or span", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "session", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "session_id", "label": "Session ID", "category": "standard", "description": "Galileo ID of the session containing the trace (or the same value as id for a trace)", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "project_id", "label": "Project ID", "category": "standard", "description": "Galileo ID of the project associated with this trace or span", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "run_id", "label": "Run ID", "category": "standard", "description": "Galileo ID of the run (log stream or experiment) associated with this trace or span", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "updated_at", "label": "Last Updated", "category": "standard", "description": "Timestamp of the session or trace or span's last update", "group_label": "Standard", "data_type": "timestamp", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": true, "filter_type": "date"}, {"id": "has_children", "label": "Has Children", "category": "standard", "description": "Whether or not this trace or span has child spans", "group_label": "Standard", "data_type": "boolean", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": true, "filter_type": "boolean"}, {"id": "is_complete", "label": "Is Complete", "category": "standard", "description": "Whether the parent trace is complete or not", "group_label": "Standard", "data_type": "boolean", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "boolean"}, {"id": "type", "label": "Type", "category": "standard", "description": "Type of the trace, span or session.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "allowed_values": ["retriever", "trace", "session", "agent", "llm", "tool", "workflow"], "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "trace_id", "label": "Trace ID", "category": "standard", "description": "Galileo ID of the trace containing the span (or the same value as id for a trace)", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "parent_id", "label": "Parent ID", "category": "standard", "description": "Galileo ID of the parent of this span", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "step_number", "label": "Step Number", "category": "standard", "description": "Topological step number of the span.", "group_label": "Standard", "data_type": "integer", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": true, "filter_type": "number"}, {"id": "agent_type", "label": "Agent Type", "category": "standard", "description": "Agent type.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "allowed_values": ["judge", "supervisor", "react", "reflection", "router", "default", "classifier", "planner"], "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "tools", "label": "Tools", "category": "standard", "description": "List of available tools passed to the LLM on invocation.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["llm"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "model", "label": "Model", "category": "standard", "description": "Model used for this span.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["llm"], "complex": false, "is_optional": true, "filter_type": "text"}, {"id": "temperature", "label": "Temperature", "category": "standard", "description": "Temperature used for generation.", "group_label": "Standard", "data_type": "floating_point", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["llm"], "complex": false, "is_optional": true, "filter_type": "number"}, {"id": "finish_reason", "label": "Finish Reason", "category": "standard", "description": "Reason for finishing.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["llm"], "complex": false, "is_optional": true, "filter_type": "text"}, {"id": "tool_call_id", "label": "Tool Call Id", "category": "standard", "description": "ID of the tool call.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["tool"], "complex": false, "is_optional": true, "filter_type": "text"}, {"id": "metrics/toxicity", "label": "Output Toxicity (SLM)", "category": "metric", "description": "Measures the presence and severity of harmful, offensive, or abusive language in the model's response", "group_label": "Safety Metrics", "data_type": "floating_point", "data_unit": "percentage", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": [], "complex": false, "is_optional": false, "filter_type": "number", "threshold": {"inverted": true, "buckets": [0.5, 0.8], "display_value_levels": ["Low", "Medium", "High"]}}, {"id": "metrics/bleu", "label": "BLEU - DEPRECATED", "category": "metric", "description": "BLEU is a case-sensitive measurement of the difference between an model generation and target generation at the sentence-level.", "group_label": "Output Quality", "data_type": "floating_point", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": [], "complex": false, "is_optional": false, "filter_type": "number"}]}
+          application/json: {"columns": [{"id": "input", "label": "Input", "category": "standard", "description": "Input to the trace or span.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "session", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "output", "label": "Output", "category": "standard", "description": "Output of the trace or span.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "session", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "name", "label": "Name", "category": "standard", "description": "Name of the trace, span or session.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "session", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "created_at", "label": "Created", "category": "standard", "description": "Timestamp of the trace or span's creation.", "group_label": "Standard", "data_type": "timestamp", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "session", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "date"}, {"id": "tags", "label": "Tags", "category": "standard", "description": "Tags associated with this trace or span.", "group_label": "Standard", "data_type": "string_list", "multi_valued": true, "sortable": false, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "collection"}, {"id": "status_code", "label": "Status Code", "category": "standard", "description": "Status code of the trace or span. Used for logging failure or error states.", "group_label": "Standard", "data_type": "integer", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": true, "filter_type": "number"}, {"id": "external_id", "label": "External Id", "category": "standard", "description": "A user-provided session, trace or span ID.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "session", "workflow", "trace"], "complex": false, "is_optional": true, "filter_type": "text"}, {"id": "dataset_input", "label": "Dataset Input", "category": "standard", "description": "Input to the dataset associated with this trace", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "dataset_output", "label": "Dataset Output", "category": "standard", "description": "Output from the dataset associated with this trace", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "id", "label": "ID", "category": "standard", "description": "Galileo ID of the session, trace or span", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "session", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "session_id", "label": "Session ID", "category": "standard", "description": "Galileo ID of the session containing the trace (or the same value as id for a trace)", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "project_id", "label": "Project ID", "category": "standard", "description": "Galileo ID of the project associated with this trace or span", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "run_id", "label": "Run ID", "category": "standard", "description": "Galileo ID of the run (log stream or experiment) associated with this trace or span", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "updated_at", "label": "Last Updated", "category": "standard", "description": "Timestamp of the session or trace or span's last update", "group_label": "Standard", "data_type": "timestamp", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": true, "filter_type": "date"}, {"id": "has_children", "label": "Has Children", "category": "standard", "description": "Whether or not this trace or span has child spans", "group_label": "Standard", "data_type": "boolean", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": true, "filter_type": "boolean"}, {"id": "is_complete", "label": "Is Complete", "category": "standard", "description": "Whether the parent trace is complete or not", "group_label": "Standard", "data_type": "boolean", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "boolean"}, {"id": "type", "label": "Type", "category": "standard", "description": "Type of the trace, span or session.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "allowed_values": ["agent", "tool", "retriever", "llm", "session", "workflow", "trace"], "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "trace_id", "label": "Trace ID", "category": "standard", "description": "Galileo ID of the trace containing the span (or the same value as id for a trace)", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "parent_id", "label": "Parent ID", "category": "standard", "description": "Galileo ID of the parent of this span", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "step_number", "label": "Step Number", "category": "standard", "description": "Topological step number of the span.", "group_label": "Standard", "data_type": "integer", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow"], "complex": false, "is_optional": true, "filter_type": "number"}, {"id": "agent_type", "label": "Agent Type", "category": "standard", "description": "Agent type.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "allowed_values": ["supervisor", "judge", "classifier", "router", "reflection", "react", "default", "planner"], "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "tools", "label": "Tools", "category": "standard", "description": "List of available tools passed to the LLM on invocation.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["llm"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "model", "label": "Model", "category": "standard", "description": "Model used for this span.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["llm"], "complex": false, "is_optional": true, "filter_type": "text"}, {"id": "temperature", "label": "Temperature", "category": "standard", "description": "Temperature used for generation.", "group_label": "Standard", "data_type": "floating_point", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["llm"], "complex": false, "is_optional": true, "filter_type": "number"}, {"id": "finish_reason", "label": "Finish Reason", "category": "standard", "description": "Reason for finishing.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["llm"], "complex": false, "is_optional": true, "filter_type": "text"}, {"id": "tool_call_id", "label": "Tool Call Id", "category": "standard", "description": "ID of the tool call.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["tool"], "complex": false, "is_optional": true, "filter_type": "text"}, {"id": "metrics/toxicity", "label": "Output Toxicity (SLM)", "category": "metric", "description": "Measures the presence and severity of harmful, offensive, or abusive language in the model's response", "group_label": "Safety Metrics", "data_type": "floating_point", "data_unit": "percentage", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": [], "complex": false, "is_optional": false, "filter_type": "number", "threshold": {"inverted": true, "buckets": [0.5, 0.8], "display_value_levels": ["Low", "Medium", "High"]}}, {"id": "metrics/bleu", "label": "BLEU - DEPRECATED", "category": "metric", "description": "BLEU is a case-sensitive measurement of the difference between an model generation and target generation at the sentence-level.", "group_label": "Output Quality", "data_type": "floating_point", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": [], "complex": false, "is_optional": false, "filter_type": "number"}]}
         "422":
           application/json: {}
   spans_available_columns_projects__project_id__spans_available_columns_post:
@@ -10090,7 +10110,7 @@ examples:
         application/json: {"log_stream_id": "00000000-0000-0000-0000-000000000000"}
       responses:
         "200":
-          application/json: {"columns": [{"id": "input", "label": "Input", "category": "standard", "description": "Input to the trace or span.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "session", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "output", "label": "Output", "category": "standard", "description": "Output of the trace or span.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "session", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "name", "label": "Name", "category": "standard", "description": "Name of the trace, span or session.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "session", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "created_at", "label": "Created", "category": "standard", "description": "Timestamp of the trace or span's creation.", "group_label": "Standard", "data_type": "timestamp", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "session", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "date"}, {"id": "tags", "label": "Tags", "category": "standard", "description": "Tags associated with this trace or span.", "group_label": "Standard", "data_type": "string_list", "multi_valued": true, "sortable": false, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "collection"}, {"id": "status_code", "label": "Status Code", "category": "standard", "description": "Status code of the trace or span. Used for logging failure or error states.", "group_label": "Standard", "data_type": "integer", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": true, "filter_type": "number"}, {"id": "external_id", "label": "External Id", "category": "standard", "description": "A user-provided session, trace or span ID.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "session", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": true, "filter_type": "text"}, {"id": "dataset_input", "label": "Dataset Input", "category": "standard", "description": "Input to the dataset associated with this trace", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "dataset_output", "label": "Dataset Output", "category": "standard", "description": "Output from the dataset associated with this trace", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "id", "label": "ID", "category": "standard", "description": "Galileo ID of the session, trace or span", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "session", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "session_id", "label": "Session ID", "category": "standard", "description": "Galileo ID of the session containing the trace (or the same value as id for a trace)", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "project_id", "label": "Project ID", "category": "standard", "description": "Galileo ID of the project associated with this trace or span", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "run_id", "label": "Run ID", "category": "standard", "description": "Galileo ID of the run (log stream or experiment) associated with this trace or span", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "updated_at", "label": "Last Updated", "category": "standard", "description": "Timestamp of the session or trace or span's last update", "group_label": "Standard", "data_type": "timestamp", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": true, "filter_type": "date"}, {"id": "has_children", "label": "Has Children", "category": "standard", "description": "Whether or not this trace or span has child spans", "group_label": "Standard", "data_type": "boolean", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": true, "filter_type": "boolean"}, {"id": "is_complete", "label": "Is Complete", "category": "standard", "description": "Whether the parent trace is complete or not", "group_label": "Standard", "data_type": "boolean", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "boolean"}, {"id": "type", "label": "Type", "category": "standard", "description": "Type of the trace, span or session.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "allowed_values": ["retriever", "trace", "session", "agent", "llm", "tool", "workflow"], "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "trace_id", "label": "Trace ID", "category": "standard", "description": "Galileo ID of the trace containing the span (or the same value as id for a trace)", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "parent_id", "label": "Parent ID", "category": "standard", "description": "Galileo ID of the parent of this span", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "step_number", "label": "Step Number", "category": "standard", "description": "Topological step number of the span.", "group_label": "Standard", "data_type": "integer", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": true, "filter_type": "number"}, {"id": "agent_type", "label": "Agent Type", "category": "standard", "description": "Agent type.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "allowed_values": ["judge", "supervisor", "react", "reflection", "router", "default", "classifier", "planner"], "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "tools", "label": "Tools", "category": "standard", "description": "List of available tools passed to the LLM on invocation.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["llm"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "model", "label": "Model", "category": "standard", "description": "Model used for this span.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["llm"], "complex": false, "is_optional": true, "filter_type": "text"}, {"id": "temperature", "label": "Temperature", "category": "standard", "description": "Temperature used for generation.", "group_label": "Standard", "data_type": "floating_point", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["llm"], "complex": false, "is_optional": true, "filter_type": "number"}, {"id": "finish_reason", "label": "Finish Reason", "category": "standard", "description": "Reason for finishing.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["llm"], "complex": false, "is_optional": true, "filter_type": "text"}, {"id": "tool_call_id", "label": "Tool Call Id", "category": "standard", "description": "ID of the tool call.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["tool"], "complex": false, "is_optional": true, "filter_type": "text"}, {"id": "metrics/toxicity", "label": "Output Toxicity (SLM)", "category": "metric", "description": "Measures the presence and severity of harmful, offensive, or abusive language in the model's response", "group_label": "Safety Metrics", "data_type": "floating_point", "data_unit": "percentage", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": [], "complex": false, "is_optional": false, "filter_type": "number", "threshold": {"inverted": true, "buckets": [0.5, 0.8], "display_value_levels": ["Low", "Medium", "High"]}}, {"id": "metrics/bleu", "label": "BLEU - DEPRECATED", "category": "metric", "description": "BLEU is a case-sensitive measurement of the difference between an model generation and target generation at the sentence-level.", "group_label": "Output Quality", "data_type": "floating_point", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": [], "complex": false, "is_optional": false, "filter_type": "number"}]}
+          application/json: {"columns": [{"id": "input", "label": "Input", "category": "standard", "description": "Input to the trace or span.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "session", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "output", "label": "Output", "category": "standard", "description": "Output of the trace or span.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "session", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "name", "label": "Name", "category": "standard", "description": "Name of the trace, span or session.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "session", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "created_at", "label": "Created", "category": "standard", "description": "Timestamp of the trace or span's creation.", "group_label": "Standard", "data_type": "timestamp", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "session", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "date"}, {"id": "tags", "label": "Tags", "category": "standard", "description": "Tags associated with this trace or span.", "group_label": "Standard", "data_type": "string_list", "multi_valued": true, "sortable": false, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "collection"}, {"id": "status_code", "label": "Status Code", "category": "standard", "description": "Status code of the trace or span. Used for logging failure or error states.", "group_label": "Standard", "data_type": "integer", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": true, "filter_type": "number"}, {"id": "external_id", "label": "External Id", "category": "standard", "description": "A user-provided session, trace or span ID.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "session", "workflow", "trace"], "complex": false, "is_optional": true, "filter_type": "text"}, {"id": "dataset_input", "label": "Dataset Input", "category": "standard", "description": "Input to the dataset associated with this trace", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "dataset_output", "label": "Dataset Output", "category": "standard", "description": "Output from the dataset associated with this trace", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "id", "label": "ID", "category": "standard", "description": "Galileo ID of the session, trace or span", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "session", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "session_id", "label": "Session ID", "category": "standard", "description": "Galileo ID of the session containing the trace (or the same value as id for a trace)", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "project_id", "label": "Project ID", "category": "standard", "description": "Galileo ID of the project associated with this trace or span", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "run_id", "label": "Run ID", "category": "standard", "description": "Galileo ID of the run (log stream or experiment) associated with this trace or span", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "updated_at", "label": "Last Updated", "category": "standard", "description": "Timestamp of the session or trace or span's last update", "group_label": "Standard", "data_type": "timestamp", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": true, "filter_type": "date"}, {"id": "has_children", "label": "Has Children", "category": "standard", "description": "Whether or not this trace or span has child spans", "group_label": "Standard", "data_type": "boolean", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": true, "filter_type": "boolean"}, {"id": "is_complete", "label": "Is Complete", "category": "standard", "description": "Whether the parent trace is complete or not", "group_label": "Standard", "data_type": "boolean", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "boolean"}, {"id": "type", "label": "Type", "category": "standard", "description": "Type of the trace, span or session.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "allowed_values": ["agent", "tool", "retriever", "llm", "session", "workflow", "trace"], "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "trace_id", "label": "Trace ID", "category": "standard", "description": "Galileo ID of the trace containing the span (or the same value as id for a trace)", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "parent_id", "label": "Parent ID", "category": "standard", "description": "Galileo ID of the parent of this span", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "step_number", "label": "Step Number", "category": "standard", "description": "Topological step number of the span.", "group_label": "Standard", "data_type": "integer", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow"], "complex": false, "is_optional": true, "filter_type": "number"}, {"id": "agent_type", "label": "Agent Type", "category": "standard", "description": "Agent type.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "allowed_values": ["supervisor", "judge", "classifier", "router", "reflection", "react", "default", "planner"], "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "tools", "label": "Tools", "category": "standard", "description": "List of available tools passed to the LLM on invocation.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["llm"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "model", "label": "Model", "category": "standard", "description": "Model used for this span.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["llm"], "complex": false, "is_optional": true, "filter_type": "text"}, {"id": "temperature", "label": "Temperature", "category": "standard", "description": "Temperature used for generation.", "group_label": "Standard", "data_type": "floating_point", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["llm"], "complex": false, "is_optional": true, "filter_type": "number"}, {"id": "finish_reason", "label": "Finish Reason", "category": "standard", "description": "Reason for finishing.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["llm"], "complex": false, "is_optional": true, "filter_type": "text"}, {"id": "tool_call_id", "label": "Tool Call Id", "category": "standard", "description": "ID of the tool call.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["tool"], "complex": false, "is_optional": true, "filter_type": "text"}, {"id": "metrics/toxicity", "label": "Output Toxicity (SLM)", "category": "metric", "description": "Measures the presence and severity of harmful, offensive, or abusive language in the model's response", "group_label": "Safety Metrics", "data_type": "floating_point", "data_unit": "percentage", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": [], "complex": false, "is_optional": false, "filter_type": "number", "threshold": {"inverted": true, "buckets": [0.5, 0.8], "display_value_levels": ["Low", "Medium", "High"]}}, {"id": "metrics/bleu", "label": "BLEU - DEPRECATED", "category": "metric", "description": "BLEU is a case-sensitive measurement of the difference between an model generation and target generation at the sentence-level.", "group_label": "Output Quality", "data_type": "floating_point", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": [], "complex": false, "is_optional": false, "filter_type": "number"}]}
         "422":
           application/json: {}
   query_traces_projects__project_id__traces_search_post:
@@ -10102,7 +10122,7 @@ examples:
         application/json: {"starting_token": 0, "limit": 100, "log_stream_id": "00000000-0000-0000-0000-000000000000", "filters": [{"column_id": "<id>", "operator": "eq", "value": "example input", "case_sensitive": true, "type": "text"}], "sort": {"column_id": "<id>", "ascending": false, "sort_type": "column"}, "truncate_fields": false, "include_counts": false}
       responses:
         "200":
-          application/json: {"starting_token": 0, "limit": 100, "paginated": true, "next_starting_token": 2, "records": [{"type": "trace", "input": "Who is a smart LLM?", "output": "I am", "name": "", "created_at": "2026-01-30T02:28:27.154371Z", "user_metadata": {}, "tags": [], "metrics": {"duration_ns": 4}, "dataset_metadata": {}, "id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "session_id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "trace_id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "project_id": "0d4e3799-3861-4759-875f-9ae14c167b0a", "run_id": "74aec44e-ec21-4c9f-a3e2-b2ab2b81b4db", "feedback_rating_info": {}, "is_complete": true}, {"type": "llm", "input": [{"content": "Who is a smart LLM?", "role": "user"}], "output": {"content": "I am", "role": "user"}, "name": "", "created_at": "2026-01-30T02:28:27.154532Z", "user_metadata": {}, "tags": [], "metrics": {"duration_ns": 4, "num_input_tokens": 4, "num_output_tokens": 2, "num_total_tokens": 6}, "dataset_metadata": {}, "id": "1edc2401-24b4-448c-a392-b36932293061", "session_id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "trace_id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "project_id": "0d4e3799-3861-4759-875f-9ae14c167b0a", "run_id": "74aec44e-ec21-4c9f-a3e2-b2ab2b81b4db", "feedback_rating_info": {}, "parent_id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "is_complete": true}]}
+          application/json: {"starting_token": 0, "limit": 100, "paginated": true, "next_starting_token": 2, "records": [{"type": "trace", "input": "Who is a smart LLM?", "output": "I am", "name": "", "created_at": "2026-02-09T22:24:09.342875Z", "user_metadata": {}, "tags": [], "metrics": {"duration_ns": 4}, "dataset_metadata": {}, "id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "session_id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "trace_id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "project_id": "0d4e3799-3861-4759-875f-9ae14c167b0a", "run_id": "74aec44e-ec21-4c9f-a3e2-b2ab2b81b4db", "feedback_rating_info": {}, "is_complete": true}, {"type": "llm", "input": [{"content": "Who is a smart LLM?", "role": "user"}], "output": {"content": "I am", "role": "user"}, "name": "", "created_at": "2026-02-09T22:24:09.343082Z", "user_metadata": {}, "tags": [], "metrics": {"duration_ns": 4, "num_input_tokens": 4, "num_output_tokens": 2, "num_total_tokens": 6}, "dataset_metadata": {}, "id": "1edc2401-24b4-448c-a392-b36932293061", "session_id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "trace_id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "project_id": "0d4e3799-3861-4759-875f-9ae14c167b0a", "run_id": "74aec44e-ec21-4c9f-a3e2-b2ab2b81b4db", "feedback_rating_info": {}, "parent_id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "is_complete": true}]}
         "422":
           application/json: {}
   query_partial_traces_projects__project_id__traces_partial_search_post:
@@ -10114,7 +10134,7 @@ examples:
         application/json: {"starting_token": 0, "limit": 100, "log_stream_id": "00000000-0000-0000-0000-000000000000", "filters": [{"column_id": "<id>", "operator": "eq", "value": "example input", "case_sensitive": true, "type": "text"}], "sort": {"column_id": "<id>", "ascending": false, "sort_type": "column"}, "truncate_fields": false, "include_counts": false, "select_columns": {"column_ids": ["id", "metrics/agentic_session_success", "metrics/completeness_gpt"], "include_all_metrics": false, "include_all_feedback": false}}
       responses:
         "200":
-          application/json: {"starting_token": 0, "limit": 100, "paginated": true, "next_starting_token": 2, "records": [{"type": "trace", "input": "Who is a smart LLM?", "name": "", "created_at": "2026-01-30T02:28:27.158110Z", "user_metadata": {}, "tags": [], "metrics": {}, "dataset_metadata": {}, "id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "feedback_rating_info": {}, "is_complete": true}, {"type": "llm", "input": [{"content": "Who is a smart LLM?", "role": "user"}], "output": {"content": "", "role": "assistant"}, "name": "", "created_at": "2026-01-30T02:28:27.158288Z", "user_metadata": {}, "tags": [], "metrics": {}, "dataset_metadata": {}, "id": "1edc2401-24b4-448c-a392-b36932293061", "feedback_rating_info": {}, "is_complete": true}]}
+          application/json: {"starting_token": 0, "limit": 100, "paginated": true, "next_starting_token": 2, "records": [{"type": "trace", "input": "Who is a smart LLM?", "name": "", "created_at": "2026-02-09T22:24:09.347206Z", "user_metadata": {}, "tags": [], "metrics": {}, "dataset_metadata": {}, "id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "feedback_rating_info": {}, "is_complete": true}, {"type": "llm", "input": [{"content": "Who is a smart LLM?", "role": "user"}], "output": {"content": "", "role": "assistant"}, "name": "", "created_at": "2026-02-09T22:24:09.347380Z", "user_metadata": {}, "tags": [], "metrics": {}, "dataset_metadata": {}, "id": "1edc2401-24b4-448c-a392-b36932293061", "feedback_rating_info": {}, "is_complete": true}]}
         "422":
           application/json: {}
   count_traces_projects__project_id__traces_count_post:
@@ -10135,7 +10155,7 @@ examples:
         path:
           project_id: "<value>"
       requestBody:
-        application/json: {"log_stream_id": "00000000-0000-0000-0000-000000000000", "reliable": true, "spans": [{"type": "workflow", "input": "who is a smart LLM?", "output": "I am!", "name": "", "created_at": "2026-01-30T02:28:27.126511Z", "user_metadata": {}, "tags": [], "metrics": {}, "dataset_metadata": {}, "spans": [{"type": "llm", "input": [{"content": "Question: who is a smart LLM?", "role": "user"}], "output": {"content": "I am!", "role": "user"}, "name": "", "created_at": "2026-01-30T02:28:27.111542Z", "user_metadata": {}, "tags": [], "metrics": {}, "dataset_metadata": {}, "id": "22222222-2222-4222-a222-222222222222"}]}], "trace_id": "11000011-0000-0000-0000-110000110000", "parent_id": "11000011-0000-0000-0000-110000110000"}
+        application/json: {"log_stream_id": "00000000-0000-0000-0000-000000000000", "reliable": true, "spans": [{"type": "workflow", "input": "who is a smart LLM?", "output": "I am!", "name": "", "created_at": "2026-02-09T22:24:09.312097Z", "user_metadata": {}, "tags": [], "metrics": {}, "dataset_metadata": {}, "spans": [{"type": "llm", "input": [{"content": "Question: who is a smart LLM?", "role": "user"}], "output": {"content": "I am!", "role": "user"}, "name": "", "created_at": "2026-02-09T22:24:09.295292Z", "user_metadata": {}, "tags": [], "metrics": {}, "dataset_metadata": {}, "id": "22222222-2222-4222-a222-222222222222"}]}], "trace_id": "11000011-0000-0000-0000-110000110000", "parent_id": "11000011-0000-0000-0000-110000110000"}
       responses:
         "200":
           application/json: {"project_id": "<value>", "project_name": "<value>", "records_count": 48080, "trace_id": "<value>", "parent_id": "<value>"}
@@ -10150,7 +10170,7 @@ examples:
         application/json: {"starting_token": 0, "limit": 100, "log_stream_id": "00000000-0000-0000-0000-000000000000", "filters": [{"column_id": "<id>", "operator": "eq", "value": "example input", "case_sensitive": true, "type": "text"}], "sort": {"column_id": "<id>", "ascending": false, "sort_type": "column"}, "truncate_fields": false, "include_counts": false}
       responses:
         "200":
-          application/json: {"starting_token": 0, "limit": 100, "paginated": true, "next_starting_token": 2, "records": [{"type": "trace", "input": "Who is a smart LLM?", "output": "I am", "name": "", "created_at": "2026-01-30T02:28:27.154371Z", "user_metadata": {}, "tags": [], "metrics": {"duration_ns": 4}, "dataset_metadata": {}, "id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "session_id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "trace_id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "project_id": "0d4e3799-3861-4759-875f-9ae14c167b0a", "run_id": "74aec44e-ec21-4c9f-a3e2-b2ab2b81b4db", "feedback_rating_info": {}, "is_complete": true}, {"type": "llm", "input": [{"content": "Who is a smart LLM?", "role": "user"}], "output": {"content": "I am", "role": "user"}, "name": "", "created_at": "2026-01-30T02:28:27.154532Z", "user_metadata": {}, "tags": [], "metrics": {"duration_ns": 4, "num_input_tokens": 4, "num_output_tokens": 2, "num_total_tokens": 6}, "dataset_metadata": {}, "id": "1edc2401-24b4-448c-a392-b36932293061", "session_id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "trace_id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "project_id": "0d4e3799-3861-4759-875f-9ae14c167b0a", "run_id": "74aec44e-ec21-4c9f-a3e2-b2ab2b81b4db", "feedback_rating_info": {}, "parent_id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "is_complete": true}]}
+          application/json: {"starting_token": 0, "limit": 100, "paginated": true, "next_starting_token": 2, "records": [{"type": "trace", "input": "Who is a smart LLM?", "output": "I am", "name": "", "created_at": "2026-02-09T22:24:09.342875Z", "user_metadata": {}, "tags": [], "metrics": {"duration_ns": 4}, "dataset_metadata": {}, "id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "session_id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "trace_id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "project_id": "0d4e3799-3861-4759-875f-9ae14c167b0a", "run_id": "74aec44e-ec21-4c9f-a3e2-b2ab2b81b4db", "feedback_rating_info": {}, "is_complete": true}, {"type": "llm", "input": [{"content": "Who is a smart LLM?", "role": "user"}], "output": {"content": "I am", "role": "user"}, "name": "", "created_at": "2026-02-09T22:24:09.343082Z", "user_metadata": {}, "tags": [], "metrics": {"duration_ns": 4, "num_input_tokens": 4, "num_output_tokens": 2, "num_total_tokens": 6}, "dataset_metadata": {}, "id": "1edc2401-24b4-448c-a392-b36932293061", "session_id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "trace_id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "project_id": "0d4e3799-3861-4759-875f-9ae14c167b0a", "run_id": "74aec44e-ec21-4c9f-a3e2-b2ab2b81b4db", "feedback_rating_info": {}, "parent_id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "is_complete": true}]}
         "422":
           application/json: {}
   query_partial_spans_projects__project_id__spans_partial_search_post:
@@ -10162,7 +10182,7 @@ examples:
         application/json: {"starting_token": 0, "limit": 100, "log_stream_id": "00000000-0000-0000-0000-000000000000", "filters": [{"column_id": "<id>", "operator": "eq", "value": "example input", "case_sensitive": true, "type": "text"}], "sort": {"column_id": "<id>", "ascending": false, "sort_type": "column"}, "truncate_fields": false, "include_counts": false, "select_columns": {"column_ids": ["id", "metrics/agentic_session_success", "metrics/completeness_gpt"], "include_all_metrics": false, "include_all_feedback": false}}
       responses:
         "200":
-          application/json: {"starting_token": 0, "limit": 100, "paginated": true, "next_starting_token": 2, "records": [{"type": "trace", "input": "Who is a smart LLM?", "name": "", "created_at": "2026-01-30T02:28:27.158110Z", "user_metadata": {}, "tags": [], "metrics": {}, "dataset_metadata": {}, "id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "feedback_rating_info": {}, "is_complete": true}, {"type": "llm", "input": [{"content": "Who is a smart LLM?", "role": "user"}], "output": {"content": "", "role": "assistant"}, "name": "", "created_at": "2026-01-30T02:28:27.158288Z", "user_metadata": {}, "tags": [], "metrics": {}, "dataset_metadata": {}, "id": "1edc2401-24b4-448c-a392-b36932293061", "feedback_rating_info": {}, "is_complete": true}]}
+          application/json: {"starting_token": 0, "limit": 100, "paginated": true, "next_starting_token": 2, "records": [{"type": "trace", "input": "Who is a smart LLM?", "name": "", "created_at": "2026-02-09T22:24:09.347206Z", "user_metadata": {}, "tags": [], "metrics": {}, "dataset_metadata": {}, "id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "feedback_rating_info": {}, "is_complete": true}, {"type": "llm", "input": [{"content": "Who is a smart LLM?", "role": "user"}], "output": {"content": "", "role": "assistant"}, "name": "", "created_at": "2026-02-09T22:24:09.347380Z", "user_metadata": {}, "tags": [], "metrics": {}, "dataset_metadata": {}, "id": "1edc2401-24b4-448c-a392-b36932293061", "feedback_rating_info": {}, "is_complete": true}]}
         "422":
           application/json: {}
   count_spans_projects__project_id__spans_count_post:
@@ -10210,7 +10230,7 @@ examples:
         application/json: {"starting_token": 0, "limit": 100, "log_stream_id": "00000000-0000-0000-0000-000000000000", "filters": [{"column_id": "<id>", "operator": "eq", "value": "example input", "case_sensitive": true, "type": "text"}], "sort": {"column_id": "<id>", "ascending": false, "sort_type": "column"}, "truncate_fields": false, "include_counts": false}
       responses:
         "200":
-          application/json: {"starting_token": 0, "limit": 100, "paginated": true, "next_starting_token": 2, "records": [{"type": "trace", "input": "Who is a smart LLM?", "output": "I am", "name": "", "created_at": "2026-01-30T02:28:27.154371Z", "user_metadata": {}, "tags": [], "metrics": {"duration_ns": 4}, "dataset_metadata": {}, "id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "session_id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "trace_id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "project_id": "0d4e3799-3861-4759-875f-9ae14c167b0a", "run_id": "74aec44e-ec21-4c9f-a3e2-b2ab2b81b4db", "feedback_rating_info": {}, "is_complete": true}, {"type": "llm", "input": [{"content": "Who is a smart LLM?", "role": "user"}], "output": {"content": "I am", "role": "user"}, "name": "", "created_at": "2026-01-30T02:28:27.154532Z", "user_metadata": {}, "tags": [], "metrics": {"duration_ns": 4, "num_input_tokens": 4, "num_output_tokens": 2, "num_total_tokens": 6}, "dataset_metadata": {}, "id": "1edc2401-24b4-448c-a392-b36932293061", "session_id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "trace_id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "project_id": "0d4e3799-3861-4759-875f-9ae14c167b0a", "run_id": "74aec44e-ec21-4c9f-a3e2-b2ab2b81b4db", "feedback_rating_info": {}, "parent_id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "is_complete": true}]}
+          application/json: {"starting_token": 0, "limit": 100, "paginated": true, "next_starting_token": 2, "records": [{"type": "trace", "input": "Who is a smart LLM?", "output": "I am", "name": "", "created_at": "2026-02-09T22:24:09.342875Z", "user_metadata": {}, "tags": [], "metrics": {"duration_ns": 4}, "dataset_metadata": {}, "id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "session_id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "trace_id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "project_id": "0d4e3799-3861-4759-875f-9ae14c167b0a", "run_id": "74aec44e-ec21-4c9f-a3e2-b2ab2b81b4db", "feedback_rating_info": {}, "is_complete": true}, {"type": "llm", "input": [{"content": "Who is a smart LLM?", "role": "user"}], "output": {"content": "I am", "role": "user"}, "name": "", "created_at": "2026-02-09T22:24:09.343082Z", "user_metadata": {}, "tags": [], "metrics": {"duration_ns": 4, "num_input_tokens": 4, "num_output_tokens": 2, "num_total_tokens": 6}, "dataset_metadata": {}, "id": "1edc2401-24b4-448c-a392-b36932293061", "session_id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "trace_id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "project_id": "0d4e3799-3861-4759-875f-9ae14c167b0a", "run_id": "74aec44e-ec21-4c9f-a3e2-b2ab2b81b4db", "feedback_rating_info": {}, "parent_id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "is_complete": true}]}
         "422":
           application/json: {}
   query_partial_sessions_projects__project_id__sessions_partial_search_post:
@@ -10222,7 +10242,7 @@ examples:
         application/json: {"starting_token": 0, "limit": 100, "log_stream_id": "00000000-0000-0000-0000-000000000000", "filters": [{"column_id": "<id>", "operator": "eq", "value": "example input", "case_sensitive": true, "type": "text"}], "sort": {"column_id": "<id>", "ascending": false, "sort_type": "column"}, "truncate_fields": false, "include_counts": false, "select_columns": {"column_ids": ["id", "metrics/agentic_session_success", "metrics/completeness_gpt"], "include_all_metrics": false, "include_all_feedback": false}}
       responses:
         "200":
-          application/json: {"starting_token": 0, "limit": 100, "paginated": true, "next_starting_token": 2, "records": [{"type": "trace", "input": "Who is a smart LLM?", "name": "", "created_at": "2026-01-30T02:28:27.158110Z", "user_metadata": {}, "tags": [], "metrics": {}, "dataset_metadata": {}, "id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "feedback_rating_info": {}, "is_complete": true}, {"type": "llm", "input": [{"content": "Who is a smart LLM?", "role": "user"}], "output": {"content": "", "role": "assistant"}, "name": "", "created_at": "2026-01-30T02:28:27.158288Z", "user_metadata": {}, "tags": [], "metrics": {}, "dataset_metadata": {}, "id": "1edc2401-24b4-448c-a392-b36932293061", "feedback_rating_info": {}, "is_complete": true}]}
+          application/json: {"starting_token": 0, "limit": 100, "paginated": true, "next_starting_token": 2, "records": [{"type": "trace", "input": "Who is a smart LLM?", "name": "", "created_at": "2026-02-09T22:24:09.347206Z", "user_metadata": {}, "tags": [], "metrics": {}, "dataset_metadata": {}, "id": "1a0939d1-8b43-4fe3-a91c-196e2d9847e3", "feedback_rating_info": {}, "is_complete": true}, {"type": "llm", "input": [{"content": "Who is a smart LLM?", "role": "user"}], "output": {"content": "", "role": "assistant"}, "name": "", "created_at": "2026-02-09T22:24:09.347380Z", "user_metadata": {}, "tags": [], "metrics": {}, "dataset_metadata": {}, "id": "1edc2401-24b4-448c-a392-b36932293061", "feedback_rating_info": {}, "is_complete": true}]}
         "422":
           application/json: {}
   count_sessions_projects__project_id__sessions_count_post:
@@ -10257,7 +10277,7 @@ examples:
         application/json: {"log_stream_id": "00000000-0000-0000-0000-000000000000"}
       responses:
         "200":
-          application/json: {"columns": [{"id": "input", "label": "Input", "category": "standard", "description": "Input to the trace or span.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "session", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "output", "label": "Output", "category": "standard", "description": "Output of the trace or span.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "session", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "name", "label": "Name", "category": "standard", "description": "Name of the trace, span or session.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "session", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "created_at", "label": "Created", "category": "standard", "description": "Timestamp of the trace or span's creation.", "group_label": "Standard", "data_type": "timestamp", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "session", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "date"}, {"id": "tags", "label": "Tags", "category": "standard", "description": "Tags associated with this trace or span.", "group_label": "Standard", "data_type": "string_list", "multi_valued": true, "sortable": false, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "collection"}, {"id": "status_code", "label": "Status Code", "category": "standard", "description": "Status code of the trace or span. Used for logging failure or error states.", "group_label": "Standard", "data_type": "integer", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": true, "filter_type": "number"}, {"id": "external_id", "label": "External Id", "category": "standard", "description": "A user-provided session, trace or span ID.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "session", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": true, "filter_type": "text"}, {"id": "dataset_input", "label": "Dataset Input", "category": "standard", "description": "Input to the dataset associated with this trace", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "dataset_output", "label": "Dataset Output", "category": "standard", "description": "Output from the dataset associated with this trace", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "id", "label": "ID", "category": "standard", "description": "Galileo ID of the session, trace or span", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "session", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "session_id", "label": "Session ID", "category": "standard", "description": "Galileo ID of the session containing the trace (or the same value as id for a trace)", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "project_id", "label": "Project ID", "category": "standard", "description": "Galileo ID of the project associated with this trace or span", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "run_id", "label": "Run ID", "category": "standard", "description": "Galileo ID of the run (log stream or experiment) associated with this trace or span", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "updated_at", "label": "Last Updated", "category": "standard", "description": "Timestamp of the session or trace or span's last update", "group_label": "Standard", "data_type": "timestamp", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": true, "filter_type": "date"}, {"id": "has_children", "label": "Has Children", "category": "standard", "description": "Whether or not this trace or span has child spans", "group_label": "Standard", "data_type": "boolean", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": true, "filter_type": "boolean"}, {"id": "is_complete", "label": "Is Complete", "category": "standard", "description": "Whether the parent trace is complete or not", "group_label": "Standard", "data_type": "boolean", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "trace", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "boolean"}, {"id": "type", "label": "Type", "category": "standard", "description": "Type of the trace, span or session.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "allowed_values": ["retriever", "trace", "session", "agent", "llm", "tool", "workflow"], "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "trace_id", "label": "Trace ID", "category": "standard", "description": "Galileo ID of the trace containing the span (or the same value as id for a trace)", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "parent_id", "label": "Parent ID", "category": "standard", "description": "Galileo ID of the parent of this span", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "step_number", "label": "Step Number", "category": "standard", "description": "Topological step number of the span.", "group_label": "Standard", "data_type": "integer", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["retriever", "agent", "llm", "tool", "workflow"], "complex": false, "is_optional": true, "filter_type": "number"}, {"id": "agent_type", "label": "Agent Type", "category": "standard", "description": "Agent type.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "allowed_values": ["judge", "supervisor", "react", "reflection", "router", "default", "classifier", "planner"], "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "tools", "label": "Tools", "category": "standard", "description": "List of available tools passed to the LLM on invocation.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["llm"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "model", "label": "Model", "category": "standard", "description": "Model used for this span.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["llm"], "complex": false, "is_optional": true, "filter_type": "text"}, {"id": "temperature", "label": "Temperature", "category": "standard", "description": "Temperature used for generation.", "group_label": "Standard", "data_type": "floating_point", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["llm"], "complex": false, "is_optional": true, "filter_type": "number"}, {"id": "finish_reason", "label": "Finish Reason", "category": "standard", "description": "Reason for finishing.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["llm"], "complex": false, "is_optional": true, "filter_type": "text"}, {"id": "tool_call_id", "label": "Tool Call Id", "category": "standard", "description": "ID of the tool call.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["tool"], "complex": false, "is_optional": true, "filter_type": "text"}, {"id": "metrics/toxicity", "label": "Output Toxicity (SLM)", "category": "metric", "description": "Measures the presence and severity of harmful, offensive, or abusive language in the model's response", "group_label": "Safety Metrics", "data_type": "floating_point", "data_unit": "percentage", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": [], "complex": false, "is_optional": false, "filter_type": "number", "threshold": {"inverted": true, "buckets": [0.5, 0.8], "display_value_levels": ["Low", "Medium", "High"]}}, {"id": "metrics/bleu", "label": "BLEU - DEPRECATED", "category": "metric", "description": "BLEU is a case-sensitive measurement of the difference between an model generation and target generation at the sentence-level.", "group_label": "Output Quality", "data_type": "floating_point", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": [], "complex": false, "is_optional": false, "filter_type": "number"}]}
+          application/json: {"columns": [{"id": "input", "label": "Input", "category": "standard", "description": "Input to the trace or span.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "session", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "output", "label": "Output", "category": "standard", "description": "Output of the trace or span.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "session", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "name", "label": "Name", "category": "standard", "description": "Name of the trace, span or session.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "session", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "created_at", "label": "Created", "category": "standard", "description": "Timestamp of the trace or span's creation.", "group_label": "Standard", "data_type": "timestamp", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "session", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "date"}, {"id": "tags", "label": "Tags", "category": "standard", "description": "Tags associated with this trace or span.", "group_label": "Standard", "data_type": "string_list", "multi_valued": true, "sortable": false, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "collection"}, {"id": "status_code", "label": "Status Code", "category": "standard", "description": "Status code of the trace or span. Used for logging failure or error states.", "group_label": "Standard", "data_type": "integer", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": true, "filter_type": "number"}, {"id": "external_id", "label": "External Id", "category": "standard", "description": "A user-provided session, trace or span ID.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "session", "workflow", "trace"], "complex": false, "is_optional": true, "filter_type": "text"}, {"id": "dataset_input", "label": "Dataset Input", "category": "standard", "description": "Input to the dataset associated with this trace", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "dataset_output", "label": "Dataset Output", "category": "standard", "description": "Output from the dataset associated with this trace", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "id", "label": "ID", "category": "standard", "description": "Galileo ID of the session, trace or span", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "session", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "session_id", "label": "Session ID", "category": "standard", "description": "Galileo ID of the session containing the trace (or the same value as id for a trace)", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "project_id", "label": "Project ID", "category": "standard", "description": "Galileo ID of the project associated with this trace or span", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "run_id", "label": "Run ID", "category": "standard", "description": "Galileo ID of the run (log stream or experiment) associated with this trace or span", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "updated_at", "label": "Last Updated", "category": "standard", "description": "Timestamp of the session or trace or span's last update", "group_label": "Standard", "data_type": "timestamp", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": true, "filter_type": "date"}, {"id": "has_children", "label": "Has Children", "category": "standard", "description": "Whether or not this trace or span has child spans", "group_label": "Standard", "data_type": "boolean", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": true, "filter_type": "boolean"}, {"id": "is_complete", "label": "Is Complete", "category": "standard", "description": "Whether the parent trace is complete or not", "group_label": "Standard", "data_type": "boolean", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow", "trace"], "complex": false, "is_optional": false, "filter_type": "boolean"}, {"id": "type", "label": "Type", "category": "standard", "description": "Type of the trace, span or session.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "allowed_values": ["agent", "tool", "retriever", "llm", "session", "workflow", "trace"], "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "trace_id", "label": "Trace ID", "category": "standard", "description": "Galileo ID of the trace containing the span (or the same value as id for a trace)", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "parent_id", "label": "Parent ID", "category": "standard", "description": "Galileo ID of the parent of this span", "group_label": "Standard", "data_type": "uuid", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow"], "complex": false, "is_optional": false, "filter_type": "id"}, {"id": "step_number", "label": "Step Number", "category": "standard", "description": "Topological step number of the span.", "group_label": "Standard", "data_type": "integer", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent", "tool", "retriever", "llm", "workflow"], "complex": false, "is_optional": true, "filter_type": "number"}, {"id": "agent_type", "label": "Agent Type", "category": "standard", "description": "Agent type.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "allowed_values": ["supervisor", "judge", "classifier", "router", "reflection", "react", "default", "planner"], "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["agent"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "tools", "label": "Tools", "category": "standard", "description": "List of available tools passed to the LLM on invocation.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["llm"], "complex": false, "is_optional": false, "filter_type": "text"}, {"id": "model", "label": "Model", "category": "standard", "description": "Model used for this span.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["llm"], "complex": false, "is_optional": true, "filter_type": "text"}, {"id": "temperature", "label": "Temperature", "category": "standard", "description": "Temperature used for generation.", "group_label": "Standard", "data_type": "floating_point", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["llm"], "complex": false, "is_optional": true, "filter_type": "number"}, {"id": "finish_reason", "label": "Finish Reason", "category": "standard", "description": "Reason for finishing.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["llm"], "complex": false, "is_optional": true, "filter_type": "text"}, {"id": "tool_call_id", "label": "Tool Call Id", "category": "standard", "description": "ID of the tool call.", "group_label": "Standard", "data_type": "text", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": ["tool"], "complex": false, "is_optional": true, "filter_type": "text"}, {"id": "metrics/toxicity", "label": "Output Toxicity (SLM)", "category": "metric", "description": "Measures the presence and severity of harmful, offensive, or abusive language in the model's response", "group_label": "Safety Metrics", "data_type": "floating_point", "data_unit": "percentage", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": [], "complex": false, "is_optional": false, "filter_type": "number", "threshold": {"inverted": true, "buckets": [0.5, 0.8], "display_value_levels": ["Low", "Medium", "High"]}}, {"id": "metrics/bleu", "label": "BLEU - DEPRECATED", "category": "metric", "description": "BLEU is a case-sensitive measurement of the difference between an model generation and target generation at the sentence-level.", "group_label": "Output Quality", "data_type": "floating_point", "multi_valued": false, "sortable": true, "filterable": true, "is_empty": false, "applicable_types": [], "complex": false, "is_optional": false, "filter_type": "number"}]}
         "422":
           application/json: {}
   get_aggregated_trace_view_projects__project_id__traces_aggregated_post:

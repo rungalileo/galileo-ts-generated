@@ -10,6 +10,7 @@ export const ColumnCategory = {
   Standard: "standard",
   Metric: "metric",
   UserMetadata: "user_metadata",
+  MetricStatus: "metric_status",
   DatasetMetadata: "dataset_metadata",
   Dataset: "dataset",
   Feedback: "feedback",

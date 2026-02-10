@@ -6,7 +6,7 @@
 import { Permission } from "galileo-generated/models";
 
 let value: Permission = {
-  action: "share",
+  action: "record_annotation",
   allowed: false,
 };
 ```

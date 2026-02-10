@@ -6,10 +6,31 @@ import * as z from "zod/v4-mini";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
+/**
+ * Authentication types for custom integrations.
+ *
+ * @remarks
+ *
+ * Values:
+ * - none: No authentication required
+ * - oauth2: OAuth2 token-based authentication
+ * - api_key: API key header-based authentication
+ */
 export const CustomAuthenticationType = {
-  Oauth2: "oauth2",
+  ApiKey: "api_key",
   None: "none",
+  Oauth2: "oauth2",
 } as const;
+/**
+ * Authentication types for custom integrations.
+ *
+ * @remarks
+ *
+ * Values:
+ * - none: No authentication required
+ * - oauth2: OAuth2 token-based authentication
+ * - api_key: API key header-based authentication
+ */
 export type CustomAuthenticationType = OpenEnum<
   typeof CustomAuthenticationType
 >;

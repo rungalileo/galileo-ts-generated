@@ -196,7 +196,7 @@ run();
 
 ### Response
 
-**Promise\<[number](../../models/.md)\>**
+**Promise\<[number](../../models/responsegetprojectscountprojectscountpost.md)\>**
 
 ### Errors
 
