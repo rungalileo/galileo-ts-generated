@@ -25,6 +25,7 @@ import { SDKValidationError } from "../models/errors/sdkvalidationerror.js";
 import * as operations from "../models/operations/index.js";
 import { APICall, APIPromise } from "../types/async.js";
 import { Result } from "../types/fp.js";
+import * as types$ from "../types/primitives.js";
 
 /**
  * Update Dataset Content
@@ -50,7 +51,8 @@ export function datasetsUpdateDatasetContentDatasetsDatasetIdContentPatch(
   options?: RequestOptions,
 ): APIPromise<
   Result<
-    any,
+    | operations.UpdateDatasetContentDatasetsDatasetIdContentPatchResponse
+    | undefined,
     | errors.HTTPValidationError
     | GalileoGeneratedError
     | ResponseValidationError
@@ -79,7 +81,8 @@ async function $do(
 ): Promise<
   [
     Result<
-      any,
+      | operations.UpdateDatasetContentDatasetsDatasetIdContentPatchResponse
+      | undefined,
       | errors.HTTPValidationError
       | GalileoGeneratedError
       | ResponseValidationError
@@ -187,7 +190,7 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["422", "4XX", "5XX"],
+    errorCodes: ["404", "412", "422", "423", "4XX", "5XX"],
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });
@@ -201,7 +204,8 @@ async function $do(
   };
 
   const [result] = await M.match<
-    any,
+    | operations.UpdateDatasetContentDatasetsDatasetIdContentPatchResponse
+    | undefined,
     | errors.HTTPValidationError
     | GalileoGeneratedError
     | ResponseValidationError
@@ -212,9 +216,16 @@ async function $do(
     | UnexpectedClientError
     | SDKValidationError
   >(
-    M.json(200, z.any()),
+    M.nil(
+      204,
+      types$.optional(
+        operations
+          .UpdateDatasetContentDatasetsDatasetIdContentPatchResponse$inboundSchema,
+      ),
+      { hdrs: true },
+    ),
     M.jsonErr(422, errors.HTTPValidationError$inboundSchema),
-    M.fail("4XX"),
+    M.fail([404, 412, 423, "4XX"]),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });
   if (!result.ok) {

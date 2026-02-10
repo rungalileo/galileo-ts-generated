@@ -26,15 +26,15 @@ generation:
   schemas:
     allOfMergeStrategy: shallowMerge
   requestBodyFieldName: body
+  versioningStrategy: manual
   persistentEdits:
     enabled: "false"
   tests:
     generateTests: false
     generateNewTests: true
     skipResponseBodyAssertions: false
-  versioningStrategy: manual
 typescript:
-  version: 0.2.1
+  version: 0.2.5
   acceptHeaderEnum: false
   additionalDependencies:
     dependencies: {}
@@ -48,9 +48,9 @@ typescript:
       type: git
       url: git+https://github.com/rungalileo/galileo-ts-generated.git
   additionalScripts:
+    code-generation: speakeasy run
     test: vitest run
     test:watch: vitest
-    code-generation: speakeasy run
   alwaysIncludeInboundAndOutbound: false
   author: Galileo/Speakeasy
   baseErrorName: GalileoGeneratedError

@@ -12,8 +12,16 @@ import {
   AnthropicAuthenticationType$inboundSchema,
 } from "./anthropicauthenticationtype.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
+import {
+  MultiModalModelIntegrationConfig,
+  MultiModalModelIntegrationConfig$inboundSchema,
+} from "./multimodalmodelintegrationconfig.js";
 
 export type AnthropicIntegration = {
+  /**
+   * Configuration for multi-modal (file upload) capabilities.
+   */
+  multiModalConfig?: MultiModalModelIntegrationConfig | null | undefined;
   authenticationType?: AnthropicAuthenticationType | undefined;
   /**
    * Custom base URL for the Anthropic API. Required if `proxy` is True.
@@ -39,6 +47,9 @@ export const AnthropicIntegration$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
+    multi_modal_config: z.optional(
+      z.nullable(MultiModalModelIntegrationConfig$inboundSchema),
+    ),
     authentication_type: types.optional(
       AnthropicAuthenticationType$inboundSchema,
     ),
@@ -54,6 +65,7 @@ export const AnthropicIntegration$inboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return remap$(v, {
+      "multi_modal_config": "multiModalConfig",
       "authentication_type": "authenticationType",
       "authentication_scope": "authenticationScope",
       "oauth2_token_url": "oauth2TokenUrl",

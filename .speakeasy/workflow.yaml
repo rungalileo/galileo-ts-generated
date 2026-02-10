@@ -4,6 +4,8 @@ sources:
     FastAPI:
         inputs:
             - location: https://api.galileo.ai/client/openapi.json
+        overlays:
+            - location: .speakeasy/overlays/document-schema.yaml
         output: .speakeasy/out.openapi.yaml
         registry:
             location: registry.speakeasyapi.dev/galileo-ai/ts-sdk/fast-api

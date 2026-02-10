@@ -8,8 +8,17 @@ import {
   AwsCredentialType,
   AwsCredentialType$outboundSchema,
 } from "./awscredentialtype.js";
+import {
+  MultiModalModelIntegrationConfig,
+  MultiModalModelIntegrationConfig$Outbound,
+  MultiModalModelIntegrationConfig$outboundSchema,
+} from "./multimodalmodelintegrationconfig.js";
 
 export type BaseAwsIntegrationCreate = {
+  /**
+   * Configuration for multi-modal (file upload) capabilities.
+   */
+  multiModalConfig?: MultiModalModelIntegrationConfig | null | undefined;
   credentialType?: AwsCredentialType | undefined;
   region?: string | undefined;
   /**
@@ -21,6 +30,10 @@ export type BaseAwsIntegrationCreate = {
 
 /** @internal */
 export type BaseAwsIntegrationCreate$Outbound = {
+  multi_modal_config?:
+    | MultiModalModelIntegrationConfig$Outbound
+    | null
+    | undefined;
   credential_type?: string | undefined;
   region: string;
   inference_profiles?: { [k: string]: string } | undefined;
@@ -33,6 +46,9 @@ export const BaseAwsIntegrationCreate$outboundSchema: z.ZodMiniType<
   BaseAwsIntegrationCreate
 > = z.pipe(
   z.object({
+    multiModalConfig: z.optional(
+      z.nullable(MultiModalModelIntegrationConfig$outboundSchema),
+    ),
     credentialType: z.optional(AwsCredentialType$outboundSchema),
     region: z._default(z.string(), "us-west-2"),
     inferenceProfiles: z.optional(z.record(z.string(), z.string())),
@@ -40,6 +56,7 @@ export const BaseAwsIntegrationCreate$outboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return remap$(v, {
+      multiModalConfig: "multi_modal_config",
       credentialType: "credential_type",
       inferenceProfiles: "inference_profiles",
     });

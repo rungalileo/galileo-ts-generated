@@ -10,6 +10,7 @@ export const AnnotationQueueAction = {
   Update: "update",
   Delete: "delete",
   Share: "share",
+  RecordAnnotation: "record_annotation",
 } as const;
 export type AnnotationQueueAction = OpenEnum<typeof AnnotationQueueAction>;
 

@@ -12,8 +12,16 @@ import {
   AwsCredentialType$inboundSchema,
 } from "./awscredentialtype.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
+import {
+  MultiModalModelIntegrationConfig,
+  MultiModalModelIntegrationConfig$inboundSchema,
+} from "./multimodalmodelintegrationconfig.js";
 
 export type AwsBedrockIntegration = {
+  /**
+   * Configuration for multi-modal (file upload) capabilities.
+   */
+  multiModalConfig?: MultiModalModelIntegrationConfig | null | undefined;
   credentialType?: AwsCredentialType | undefined;
   region: string;
   /**
@@ -31,6 +39,9 @@ export const AwsBedrockIntegration$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
+    multi_modal_config: z.optional(
+      z.nullable(MultiModalModelIntegrationConfig$inboundSchema),
+    ),
     credential_type: types.optional(AwsCredentialType$inboundSchema),
     region: z._default(types.string(), "us-west-2"),
     inference_profiles: types.optional(z.record(z.string(), types.string())),
@@ -40,6 +51,7 @@ export const AwsBedrockIntegration$inboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return remap$(v, {
+      "multi_modal_config": "multiModalConfig",
       "credential_type": "credentialType",
       "inference_profiles": "inferenceProfiles",
     });

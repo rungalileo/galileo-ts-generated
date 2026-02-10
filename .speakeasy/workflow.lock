@@ -1,9 +1,9 @@
-speakeasyVersion: 1.701.1
+speakeasyVersion: 1.705.0
 sources:
     FastAPI:
         sourceNamespace: fast-api
-        sourceRevisionDigest: sha256:be144906703dffd8a17cb3b3ea5067825f0589c513a92aaf78f36c77113e74a9
-        sourceBlobDigest: sha256:a4999deac151a74cc68b7398cbe18898b8bf5e38ae54445497e5186125a0084c
+        sourceRevisionDigest: sha256:da1a3b2064979bd60b2641944249be40ab1a4bbd7044317719dc44ec9143c0e5
+        sourceBlobDigest: sha256:f07e578088b63c55cc90bdc0b7c49c582ab68397a0cf483d202cbd9e1cce29c7
         tags:
             - latest
             - 0.1.0
@@ -11,10 +11,10 @@ targets:
     galileo-generated:
         source: FastAPI
         sourceNamespace: fast-api
-        sourceRevisionDigest: sha256:be144906703dffd8a17cb3b3ea5067825f0589c513a92aaf78f36c77113e74a9
-        sourceBlobDigest: sha256:a4999deac151a74cc68b7398cbe18898b8bf5e38ae54445497e5186125a0084c
+        sourceRevisionDigest: sha256:da1a3b2064979bd60b2641944249be40ab1a4bbd7044317719dc44ec9143c0e5
+        sourceBlobDigest: sha256:f07e578088b63c55cc90bdc0b7c49c582ab68397a0cf483d202cbd9e1cce29c7
         codeSamplesNamespace: fast-api-typescript-code-samples
-        codeSamplesRevisionDigest: sha256:c5c05235786eb8e0268ec4c0ea5395b9c462627b0f019bf02612ee799eba2215
+        codeSamplesRevisionDigest: sha256:c1e6654da86cc1fda354d3873274c5554f4d922f57a1da32b19e866016b9b093
 workflow:
     workflowVersion: 1.0.0
     speakeasyVersion: latest
@@ -22,6 +22,8 @@ workflow:
         FastAPI:
             inputs:
                 - location: https://api.galileo.ai/client/openapi.json
+            overlays:
+                - location: .speakeasy/overlays/document-schema.yaml
             output: .speakeasy/out.openapi.yaml
             registry:
                 location: registry.speakeasyapi.dev/galileo-ai/ts-sdk/fast-api

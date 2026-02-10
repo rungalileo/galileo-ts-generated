@@ -9,8 +9,17 @@ import {
   AwsCredentialType$outboundSchema,
 } from "./awscredentialtype.js";
 import { Model, Model$Outbound, Model$outboundSchema } from "./model.js";
+import {
+  MultiModalModelIntegrationConfig,
+  MultiModalModelIntegrationConfig$Outbound,
+  MultiModalModelIntegrationConfig$outboundSchema,
+} from "./multimodalmodelintegrationconfig.js";
 
 export type AwsSageMakerIntegrationCreate = {
+  /**
+   * Configuration for multi-modal (file upload) capabilities.
+   */
+  multiModalConfig?: MultiModalModelIntegrationConfig | null | undefined;
   models?: Array<Model> | undefined;
   credentialType?: AwsCredentialType | undefined;
   region?: string | undefined;
@@ -23,6 +32,10 @@ export type AwsSageMakerIntegrationCreate = {
 
 /** @internal */
 export type AwsSageMakerIntegrationCreate$Outbound = {
+  multi_modal_config?:
+    | MultiModalModelIntegrationConfig$Outbound
+    | null
+    | undefined;
   models?: Array<Model$Outbound> | undefined;
   credential_type?: string | undefined;
   region: string;
@@ -36,6 +49,9 @@ export const AwsSageMakerIntegrationCreate$outboundSchema: z.ZodMiniType<
   AwsSageMakerIntegrationCreate
 > = z.pipe(
   z.object({
+    multiModalConfig: z.optional(
+      z.nullable(MultiModalModelIntegrationConfig$outboundSchema),
+    ),
     models: z.optional(z.array(Model$outboundSchema)),
     credentialType: z.optional(AwsCredentialType$outboundSchema),
     region: z._default(z.string(), "us-west-2"),
@@ -44,6 +60,7 @@ export const AwsSageMakerIntegrationCreate$outboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return remap$(v, {
+      multiModalConfig: "multi_modal_config",
       credentialType: "credential_type",
       inferenceProfiles: "inference_profiles",
     });

@@ -1,0 +1,16 @@
+overlay: "1.0.0"
+info:
+  title: Document schema - content instead of page_content to support UI
+  version: "1.0.0"
+actions:
+ - target: $.components.schemas.Document.properties
+   update:
+    content:
+      type: string
+      title: Content
+      description: Content of the document.
+ - target: $.components.schemas.Document
+   update:
+    required: ["content"]
+ - target: $.components.schemas.Document.properties.page_content
+   remove: true
