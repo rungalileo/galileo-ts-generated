@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.6](https://github.com/rungalileo/galileo-ts-generated/compare/galileo-generated-v0.2.5...galileo-generated-v0.2.6) (2026-02-10)
+
+
+### Bug Fixes
+
+* **overlay:** Added overlay to update property on Document schema, added script to run codegen, ran codegen. ([#39](https://github.com/rungalileo/galileo-ts-generated/issues/39)) ([75eca37](https://github.com/rungalileo/galileo-ts-generated/commit/75eca370e0c42d990f77ca8b5d4345b7d6c4a30d))
+
+
+### Miscellaneous
+
+* **setup:** Updated documentation, readded code generation script. ([#36](https://github.com/rungalileo/galileo-ts-generated/issues/36)) ([6de0268](https://github.com/rungalileo/galileo-ts-generated/commit/6de02688afbfd8edadf0293d90387c2c65c3180a))
+
 ## [0.2.5](https://github.com/rungalileo/galileo-ts-generated/compare/galileo-generated-v0.2.4...galileo-generated-v0.2.5) (2026-02-05)
 
 
