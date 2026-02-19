@@ -4,6 +4,7 @@
 
 export * from "./lib/config.js";
 export * from "./lib/galileo-config.js";
+export * from "./lib/sdk-logger.js";
 export * as files from "./lib/files.js";
 export { HTTPClient } from "./lib/http.js";
 export type { Fetcher, HTTPClientOptions } from "./lib/http.js";
