@@ -45,25 +45,21 @@ class SdkLogger {
 
   debug(message: string, ...args: unknown[]): void {
     if (!this.shouldLog("debug")) return;
-    // eslint-disable-next-line no-console
     (this.customLogger?.debug ?? console.debug)(message, ...args);
   }
 
   info(message: string, ...args: unknown[]): void {
     if (!this.shouldLog("info")) return;
-    // eslint-disable-next-line no-console
     (this.customLogger?.info ?? console.info)(message, ...args);
   }
 
   warn(message: string, ...args: unknown[]): void {
     if (!this.shouldLog("warn")) return;
-    // eslint-disable-next-line no-console
     (this.customLogger?.warn ?? console.warn)(message, ...args);
   }
 
   error(message: string, ...args: unknown[]): void {
     if (!this.shouldLog("error")) return;
-    // eslint-disable-next-line no-console
     (this.customLogger?.error ?? console.error)(message, ...args);
   }
 }
