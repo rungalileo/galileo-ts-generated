@@ -1,9 +1,10 @@
-import { describe, test, expect, beforeEach, afterEach, vi } from "vitest";
+import { describe, test, expect, beforeEach, vi } from "vitest";
 import {
   getSdkLogger,
   enableLogging,
   disableLogging,
-  setLogger,
+  setCustomLogger,
+  resetSdkLogger,
   type GalileoSdkLogger,
 } from "../../lib/sdk-logger.js";
 import { GalileoConfig } from "../../lib/galileo-config.js";
@@ -16,17 +17,11 @@ function clearGalileoEnv(): void {
 
 describe("SdkLogger", () => {
   beforeEach(() => {
-    // Reset the config before each test
+    // Reset all singletons and environment to ensure clean test state
     GalileoConfig.reset();
     clearGalileoEnv();
-    // Clear any custom logger
-    setLogger(undefined);
-  });
-
-  afterEach(() => {
-    clearGalileoEnv();
-    GalileoConfig.reset();
-    setLogger(undefined);
+    setCustomLogger(undefined);
+    resetSdkLogger();
   });
 
   describe("initialization", () => {
@@ -41,9 +36,11 @@ describe("SdkLogger", () => {
 
     test("respects GALILEO_LOG_LEVEL environment variable", () => {
       process.env[GALILEO_LOG_LEVEL] = "debug";
+      // GalileoConfig requires at least one auth credential to process the config
+      process.env["GALILEO_API_KEY"] = "test-key";
       GalileoConfig.reset();
+      resetSdkLogger();
       const logger = getSdkLogger();
-      enableLogging("debug");
 
       const debugSpy = vi.spyOn(console, "debug").mockImplementation(() => {});
       logger.debug("test message");
@@ -53,9 +50,11 @@ describe("SdkLogger", () => {
 
     test("normalizes log level to lowercase", () => {
       process.env[GALILEO_LOG_LEVEL] = "DEBUG";
+      // GalileoConfig requires at least one auth credential to process the config
+      process.env["GALILEO_API_KEY"] = "test-key";
       GalileoConfig.reset();
+      resetSdkLogger();
       const logger = getSdkLogger();
-      enableLogging("debug");
 
       const debugSpy = vi.spyOn(console, "debug").mockImplementation(() => {});
       logger.debug("test message");
@@ -66,8 +65,8 @@ describe("SdkLogger", () => {
     test("ignores invalid log levels", () => {
       process.env[GALILEO_LOG_LEVEL] = "invalid";
       GalileoConfig.reset();
+      resetSdkLogger();
       const logger = getSdkLogger();
-      disableLogging();
 
       const debugSpy = vi.spyOn(console, "debug").mockImplementation(() => {});
       logger.debug("test message");
@@ -262,7 +261,7 @@ describe("SdkLogger", () => {
         error: vi.fn(),
       };
 
-      setLogger(customLogger);
+      setCustomLogger(customLogger);
       logger.info("test message");
 
       expect(customLogger.info).toHaveBeenCalledWith("test message");
@@ -279,7 +278,7 @@ describe("SdkLogger", () => {
         error: vi.fn(),
       };
 
-      setLogger(customLogger);
+      setCustomLogger(customLogger);
 
       logger.debug("debug");
       logger.info("info");
@@ -303,7 +302,7 @@ describe("SdkLogger", () => {
         error: vi.fn(),
       };
 
-      setLogger(customLogger);
+      setCustomLogger(customLogger);
 
       logger.debug("debug");
       logger.info("info");
@@ -327,11 +326,11 @@ describe("SdkLogger", () => {
         error: vi.fn(),
       };
 
-      setLogger(customLogger);
+      setCustomLogger(customLogger);
       logger.info("first");
       expect(customLogger.info).toHaveBeenCalledWith("first");
 
-      setLogger(undefined);
+      setCustomLogger(undefined);
 
       const infoSpy = vi.spyOn(console, "info").mockImplementation(() => {});
       logger.info("second");
@@ -377,7 +376,7 @@ describe("SdkLogger", () => {
         error: vi.fn(),
       };
 
-      setLogger(customLogger);
+      setCustomLogger(customLogger);
       logger.info("message", { key: "value" }, 123);
 
       expect(customLogger.info).toHaveBeenCalledWith(
@@ -391,9 +390,11 @@ describe("SdkLogger", () => {
   describe("environment variable integration", () => {
     test("reads log level from GALILEO_LOG_LEVEL env var on startup", () => {
       process.env[GALILEO_LOG_LEVEL] = "info";
+      // GalileoConfig requires at least one auth credential to process the config
+      process.env["GALILEO_API_KEY"] = "test-key";
       GalileoConfig.reset();
+      resetSdkLogger();
       const logger = getSdkLogger();
-      enableLogging("info");
 
       const infoSpy = vi.spyOn(console, "info").mockImplementation(() => {});
       const debugSpy = vi.spyOn(console, "debug").mockImplementation(() => {});
@@ -410,9 +411,11 @@ describe("SdkLogger", () => {
 
     test("handles mixed case env var value", () => {
       process.env[GALILEO_LOG_LEVEL] = "DeBuG";
+      // GalileoConfig requires at least one auth credential to process the config
+      process.env["GALILEO_API_KEY"] = "test-key";
       GalileoConfig.reset();
+      resetSdkLogger();
       const logger = getSdkLogger();
-      enableLogging("debug");
 
       const debugSpy = vi.spyOn(console, "debug").mockImplementation(() => {});
       logger.debug("test");
@@ -424,8 +427,8 @@ describe("SdkLogger", () => {
     test("ignores invalid env var and defaults to silent", () => {
       process.env[GALILEO_LOG_LEVEL] = "notarealevel";
       GalileoConfig.reset();
+      resetSdkLogger();
       const logger = getSdkLogger();
-      disableLogging();
 
       const debugSpy = vi.spyOn(console, "debug").mockImplementation(() => {});
       logger.debug("test");
@@ -437,8 +440,8 @@ describe("SdkLogger", () => {
     test("respects GalileoConfig override", () => {
       GalileoConfig.reset();
       GalileoConfig.get({ logLevel: "debug" });
+      resetSdkLogger();
       const logger = getSdkLogger();
-      enableLogging("debug");
 
       const debugSpy = vi.spyOn(console, "debug").mockImplementation(() => {});
       logger.debug("test");

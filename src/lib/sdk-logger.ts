@@ -1,7 +1,27 @@
 import { GalileoConfig } from "./galileo-config.js";
 
+/**
+ * Log level for SDK logging output.
+ *
+ * - `silent`: Disables all logging
+ * - `error`: Only error messages
+ * - `warn`: Warnings and errors
+ * - `info`: Info, warnings, and errors (default when logging is enabled)
+ * - `debug`: All messages including debug information
+ */
 export type LogLevel = "silent" | "error" | "warn" | "info" | "debug";
 
+/**
+ * Logger interface for SDK logging output.
+ *
+ * Used as:
+ * - The public contract for getSdkLogger() (what callers use for logging)
+ * - The interface that custom loggers must implement for setCustomLogger()
+ *
+ * Implement this interface to integrate SDK logging with custom loggers
+ * (e.g., Winston, Pino, or other structured logging libraries).
+ * Pass an implementation to setCustomLogger() to use it instead of console.
+ */
 export interface GalileoSdkLogger {
   debug: (message: string, ...args: unknown[]) => void;
   info: (message: string, ...args: unknown[]) => void;
@@ -9,7 +29,13 @@ export interface GalileoSdkLogger {
   error: (message: string, ...args: unknown[]) => void;
 }
 
-const LOG_LEVEL_PRIORITY: Record<LogLevel, number> = {
+/**
+ * Log level priority mapping for filtering log output.
+ *
+ * Higher numbers indicate more verbose output. Used internally
+ * to determine which messages should be logged based on the current level.
+ */
+export const LOG_LEVEL_PRIORITY: Record<LogLevel, number> = {
   silent: -1,
   error: 0,
   warn: 1,
@@ -35,7 +61,7 @@ class SdkLogger {
     this.level = level;
   }
 
-  setLogger(logger: GalileoSdkLogger | undefined): void {
+  setCustomLogger(logger: GalileoSdkLogger | undefined): void {
     this.customLogger = logger;
   }
 
@@ -64,33 +90,47 @@ class SdkLogger {
   }
 }
 
-const sdkLogger = new SdkLogger();
+let sdkLogger: SdkLogger | undefined;
 
-// Internal — used by all SDK modules
-export function getSdkLogger(): SdkLogger {
+/**
+ * Get the singleton SdkLogger instance, creating it if necessary.
+ * @returns The singleton SdkLogger instance.
+ */
+export function getSdkLogger(): GalileoSdkLogger {
+  if (!sdkLogger) {
+    sdkLogger = new SdkLogger();
+  }
   return sdkLogger;
 }
 
 /**
- * Enable SDK logging at the specified level (default: 'info').
- * Pass 'debug' to see all retry, task-handler, and span conversion messages.
+ * Enable SDK logging at the specified level.
+ * @param level - (Optional) The desired log level. Defaults to 'info'. Pass 'debug' to see detailed messages including retry attempts, task-handler operations, and span conversion information.
  */
 export function enableLogging(level: LogLevel = "info"): void {
-  sdkLogger.setLevel(level);
+  (getSdkLogger() as SdkLogger).setLevel(level);
 }
 
 /**
- * Disable all SDK logging (equivalent to GALILEO_LOG_LEVEL=silent).
+ * Disable all SDK logging.
  */
 export function disableLogging(): void {
-  sdkLogger.setLevel("silent");
+  sdkLogger?.setLevel("silent");
 }
 
 /**
- * Route all SDK log output through a custom logger (e.g., Winston or Pino).
- * Call enableLogging() as well to activate output at the desired level.
- * Pass undefined to clear a previously set custom logger and revert to console output.
+ * Route all SDK log output through a custom logger.
+ * @param logger - (Optional) Custom logger implementing GalileoSdkLogger, or undefined to revert to console output.
  */
-export function setLogger(logger: GalileoSdkLogger | undefined): void {
-  sdkLogger.setLogger(logger);
+export function setCustomLogger(logger: GalileoSdkLogger | undefined): void {
+  sdkLogger?.setCustomLogger(logger);
+}
+
+/**
+ * Reset the SdkLogger singleton and create a fresh instance that reads the current GalileoConfig state.
+ * @returns The newly created SdkLogger instance.
+ */
+export function resetSdkLogger(): GalileoSdkLogger {
+  sdkLogger = new SdkLogger();
+  return sdkLogger;
 }

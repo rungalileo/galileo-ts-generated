@@ -3,6 +3,8 @@
  */
 
 import { isBrowserLike, isDeno, isNodeLike } from "./runtime.js";
+import { LOG_LEVEL_PRIORITY } from "./sdk-logger.js";
+import type { LogLevel } from "./sdk-logger.js";
 
 /**
  * Configuration input for the Galileo SDK (URLs, auth, project, and log stream).
@@ -17,7 +19,7 @@ export type GalileoConfigInput = {
   ssoProvider?: string;
   jwtToken?: string;
   refreshToken?: string;
-  logLevel?: string;
+  logLevel?: LogLevel | undefined;
   projectName?: string;
   logStreamName?: string;
 };
@@ -73,6 +75,10 @@ const ENV_GALILEO_LOG_STREAM = "GALILEO_LOG_STREAM";
 const ENV_GALILEO_LOG_STREAM_NAME = "GALILEO_LOG_STREAM_NAME";
 /** Log level for SDK logging (DEBUG, INFO, WARN, ERROR, etc.). */
 const ENV_GALILEO_LOG_LEVEL = "GALILEO_LOG_LEVEL";
+
+function isValidLogLevel(value: unknown): value is LogLevel {
+  return typeof value === "string" && value in LOG_LEVEL_PRIORITY;
+}
 
 function readEnvObject(): Record<string, string | undefined> | null {
   if (isDeno()) {
@@ -162,8 +168,8 @@ function normalizeInput(value: unknown): GalileoConfigInput | null {
     typeof obj["projectName"] === "string" ? obj["projectName"] : undefined;
   const logStreamName =
     typeof obj["logStreamName"] === "string" ? obj["logStreamName"] : undefined;
-  const logLevel =
-    typeof obj["logLevel"] === "string" ? obj["logLevel"] : undefined;
+  const rawLogLevel = typeof obj["logLevel"] === "string" ? obj["logLevel"].toLowerCase() : undefined;
+  const logLevel = isValidLogLevel(rawLogLevel) ? rawLogLevel : undefined;
   if (!apiKey && !u && !p && !ssoIdToken && !ssoProvider) return null;
   return {
     ...(apiKey ? { apiKey } : {}),
@@ -175,7 +181,7 @@ function normalizeInput(value: unknown): GalileoConfigInput | null {
     ...(apiUrl ? { apiUrl } : {}),
     ...(projectName ? { projectName } : {}),
     ...(logStreamName ? { logStreamName } : {}),
-    ...(logLevel !== undefined ? { logLevel } : {}),
+    ...(logLevel !== undefined && logLevel.length > 0 ? { logLevel } : {}),
   };
 }
 
@@ -198,7 +204,10 @@ function resolveFromEnvironment(): GalileoConfigInput | null {
     const ssoProvider = env[ENV_SSO_PROVIDER];
     const projectName = env[ENV_GALILEO_PROJECT] ?? env[ENV_GALILEO_PROJECT_NAME];
     const logStreamName = env[ENV_GALILEO_LOG_STREAM] ?? env[ENV_GALILEO_LOG_STREAM_NAME];
-    const logLevel = env[ENV_GALILEO_LOG_LEVEL];
+    const rawLogLevel = env[ENV_GALILEO_LOG_LEVEL]?.toLowerCase();
+    const logLevel = isValidLogLevel(rawLogLevel)
+      ? rawLogLevel
+      : undefined;
 
     if (!apiKey && !username && !password && !ssoIdToken && !ssoProvider)
       return null;
@@ -212,7 +221,7 @@ function resolveFromEnvironment(): GalileoConfigInput | null {
       ...(consoleUrl ? { consoleUrl } : {}),
       ...(projectName ? { projectName } : {}),
       ...(logStreamName ? { logStreamName } : {}),
-      ...(logLevel ? { logLevel } : {}),
+      ...(logLevel !== undefined && logLevel.length > 0 ? { logLevel } : {}),
     };
   }
   return null;
@@ -290,7 +299,7 @@ export class GalileoConfig {
   public readonly ssoProvider: string | undefined;
   public readonly jwtToken: string | undefined;
   public readonly refreshToken: string | undefined;
-  public readonly logLevel: string | undefined;
+  public readonly logLevel: LogLevel | undefined;
   public readonly projectName: string | undefined;
   public readonly logStreamName: string | undefined;
 
@@ -304,7 +313,7 @@ export class GalileoConfig {
     this.ssoProvider = input.ssoProvider;
     this.jwtToken = input.jwtToken;
     this.refreshToken = input.refreshToken;
-    this.logLevel = input.logLevel?.toLowerCase();
+    this.logLevel = input.logLevel;
     this.projectName = input.projectName;
     this.logStreamName = input.logStreamName;
   }

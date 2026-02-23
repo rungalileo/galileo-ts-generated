@@ -18,13 +18,6 @@ export class ErrorCleanerHook implements AfterErrorHook {
 	): Promise<{ response: Response | null; error: unknown }> {
 		void hookCtx;
 
-
-    console.log("#####################################################");
-    console.log("eRROR CLEANER HOOK - ERROR:", error);
-    console.log("eRROR CLEANER HOOK - RESPONSE:", response);
-    console.log("eRROR CLEANER HOOK - HOOK CTX:", hookCtx);
-
-
 		try{
 			if (!response) return { response, error };
 
