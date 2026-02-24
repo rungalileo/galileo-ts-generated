@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.7](https://github.com/rungalileo/galileo-ts-generated/compare/galileo-generated-v0.2.6...galileo-generated-v0.2.7) (2026-02-24)
+
+
+### Features
+
+* **logging:** Added logger manager, added env var to galileo-config to properly manage ingestion of logging level setup. ([#42](https://github.com/rungalileo/galileo-ts-generated/issues/42)) ([06b46f6](https://github.com/rungalileo/galileo-ts-generated/commit/06b46f6e2201dee0183853e7d1d20f44a9f57325))
+
 ## [0.2.6](https://github.com/rungalileo/galileo-ts-generated/compare/galileo-generated-v0.2.5...galileo-generated-v0.2.6) (2026-02-10)
 
 
