@@ -1,15 +1,31 @@
 /*
  * Certificate management hook: configures TLS using undici Agent with custom CA certificates.
  * Reads configuration from GalileoConfig singleton.
+ * 
+ * ⚠️  REQUIRES Node.js >= 20.18.1 due to undici's dispatcher support in fetch API.
+ * This feature will gracefully skip on Node 18/early Node 20, falling back to global TLS settings.
  */
 
 import { readFileSync, existsSync } from 'fs';
-import { Agent } from 'undici';
 import { HTTPClient } from '../lib/http.js';
 import { GalileoConfig } from '../lib/galileo-config.js';
 import { isNodeLike } from '../lib/runtime.js';
 import type { SDKInitHook } from './types.js';
 import type { SDKOptions } from '../lib/config.js';
+import type { Agent } from 'undici';
+
+let CertAgent: typeof Agent | undefined;
+
+try {
+  // Using synchronous require to support both ESM and CommonJS contexts
+  CertAgent = require('undici').Agent;
+} catch (error) {
+  // console.warn until unified logger is implemented
+  console.warn(`[TLS] Failed to import undici: ${error}`);
+}
+
+
+
 
 /**
  * Hook that configures TLS/SSL certificates from GalileoConfig.
@@ -28,13 +44,13 @@ import type { SDKOptions } from '../lib/config.js';
  */
 export class CertManagementHook implements SDKInitHook {
   sdkInit(opts: SDKOptions): SDKOptions {
-    if (!isNodeLike()) {
+    if (!isNodeLike() || !CertAgent) {
       return opts;
     }
 
     // Get certificate configuration from GalileoConfig singleton
     const cert = GalileoConfig.get().getCertConfig();
-    if (!cert) {
+    if (!cert || cert.rejectUnauthorized === true) {
       return opts;
     }
 
@@ -66,6 +82,12 @@ export class CertManagementHook implements SDKInitHook {
         connectOptions.ca = ca;
       }
 
+      // Validate mTLS: both cert and key must be configured together
+      if ((cert.clientCertPath || cert.clientKeyPath) && !(cert.clientCertPath && cert.clientKeyPath)) {
+        console.error('[TLS] Mutual TLS requires both GALILEO_CLIENT_CERT_PATH and GALILEO_CLIENT_KEY_PATH to be set');
+        return opts;
+      }
+
       // Add client certificate if provided (mutual TLS)
       if (cert.clientCertPath) {
         if (!existsSync(cert.clientCertPath)) {
@@ -83,11 +105,17 @@ export class CertManagementHook implements SDKInitHook {
         connectOptions.key = readFileSync(cert.clientKeyPath, 'utf-8');
       }
 
-      // Set rejectUnauthorized (defaults to true)
-      connectOptions.rejectUnauthorized = cert.rejectUnauthorized ?? true;
+      if(cert.rejectUnauthorized !== undefined) 
+        connectOptions.rejectUnauthorized = cert.rejectUnauthorized;
+
+      // Guard: Only create Agent if connectOptions has meaningful TLS customization
+      const hasCertCustomization = Boolean(connectOptions.ca || connectOptions.cert || connectOptions.key || connectOptions.rejectUnauthorized === false);
+      if (!hasCertCustomization) {
+        return opts;
+      }
 
       // Create undici Agent with TLS configuration
-      const agent = new Agent({
+      const agent = new CertAgent({
         connect: connectOptions
       });
 
@@ -95,7 +123,7 @@ export class CertManagementHook implements SDKInitHook {
       const customFetcher = (input: RequestInfo | URL, init?: RequestInit) => {
         return fetch(input, {
           ...init,
-          // @ts-ignore - dispatcher is Node.js-specific, not in standard fetch spec
+          // @ts-expect-error - dispatcher is Node.js-specific, not in standard fetch spec
           dispatcher: agent
         });
       };

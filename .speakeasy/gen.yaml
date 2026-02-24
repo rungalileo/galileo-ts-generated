@@ -37,7 +37,7 @@ typescript:
   version: 0.2.5
   acceptHeaderEnum: false
   additionalDependencies:
-    dependencies: 
+    optionalDependencies: 
       undici: ^7.22.0
     devDependencies:
       '@types/node': ^22.10.0

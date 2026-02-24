@@ -189,6 +189,7 @@ describe('CertManagementHook', () => {
         apiKey: 'test-key',
         apiUrl: 'https://api.example.com',
         caCertPath,
+        clientCertPath,
         clientKeyPath: '/nonexistent/key.pem',
       });
 
@@ -203,6 +204,54 @@ describe('CertManagementHook', () => {
       );
 
       consoleWarnSpy.mockRestore();
+    });
+
+    test('test sdkInit returns original opts when only client cert configured', () => {
+      const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+      GalileoConfig.reset();
+      GalileoConfig.get({
+        apiKey: 'test-key',
+        apiUrl: 'https://api.example.com',
+        caCertPath,
+        clientCertPath,
+      });
+
+      const hook = new CertManagementHook();
+      const opts: SDKOptions = { serverURL: 'https://api.example.com' };
+      const result = hook.sdkInit(opts);
+
+      expect(result).toBe(opts);
+      expect(result.httpClient).toBeUndefined();
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        expect.stringContaining('Mutual TLS requires both')
+      );
+
+      consoleErrorSpy.mockRestore();
+    });
+
+    test('test sdkInit returns original opts when only client key configured', () => {
+      const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+      GalileoConfig.reset();
+      GalileoConfig.get({
+        apiKey: 'test-key',
+        apiUrl: 'https://api.example.com',
+        caCertPath,
+        clientKeyPath,
+      });
+
+      const hook = new CertManagementHook();
+      const opts: SDKOptions = { serverURL: 'https://api.example.com' };
+      const result = hook.sdkInit(opts);
+
+      expect(result).toBe(opts);
+      expect(result.httpClient).toBeUndefined();
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        expect.stringContaining('Mutual TLS requires both')
+      );
+
+      consoleErrorSpy.mockRestore();
     });
   });
 

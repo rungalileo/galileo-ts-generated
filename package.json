@@ -43,7 +43,6 @@
     "vitest": "^2.1.0"
   },
   "dependencies": {
-    "undici": "^7.22.0",
     "zod": "^3.25.65 || ^4.0.0"
   },
   "exports": {
@@ -128,5 +127,8 @@
   },
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "module": "./dist/esm/index.js"
+  "module": "./dist/esm/index.js",
+  "optionalDependencies": {
+    "undici": "^7.22.0"
+  }
 }

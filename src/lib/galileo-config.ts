@@ -32,8 +32,6 @@ export type GalileoConfigInput = {
   clientKeyPath?: string;
   /** Whether to reject unauthorized (e.g. self-signed) certificates. */
   rejectUnauthorized?: boolean;
-  /** Custom header name for CA cert content (default: X-Galileo-CA-Cert). */
-  caCertHeader?: string;
 };
 
 /**
@@ -56,7 +54,6 @@ export type CertConfig = {
   clientCertPath?: string;
   clientKeyPath?: string;
   rejectUnauthorized?: boolean;
-  caCertHeader?: string;
 };
 
 /**
@@ -281,7 +278,6 @@ function resolveFromEnvironment(): GalileoConfigInput | null {
     const caCertContent = env[ENV_GALILEO_CA_CERT_CONTENT];
     const clientCertPath = env[ENV_GALILEO_CLIENT_CERT_PATH];
     const clientKeyPath = env[ENV_GALILEO_CLIENT_KEY_PATH];
-    const caCertHeader = env[ENV_GALILEO_CA_CERT_HEADER];
 
     // Reject unauthorized: GALILEO_REJECT_UNAUTHORIZED > NODE_TLS_REJECT_UNAUTHORIZED
     const rejectUnauthorizedRaw =
@@ -347,7 +343,6 @@ function merge(
     "clientCertPath",
     "clientKeyPath",
     "rejectUnauthorized",
-    "caCertHeader",
   ];
   for (const k of keys) {
     const ov = o[k];
@@ -408,7 +403,6 @@ export class GalileoConfig {
   public readonly clientCertPath: string | undefined;
   public readonly clientKeyPath: string | undefined;
   public readonly rejectUnauthorized: boolean | undefined;
-  public readonly caCertHeader: string | undefined;
 
   private constructor(input: GalileoConfigInput) {
     this.apiUrl = input.apiUrl ?? resolveApiUrl(input.consoleUrl, undefined, "gen_ai");
@@ -428,7 +422,6 @@ export class GalileoConfig {
     this.clientCertPath = input.clientCertPath;
     this.clientKeyPath = input.clientKeyPath;
     this.rejectUnauthorized = input.rejectUnauthorized;
-    this.caCertHeader = input.caCertHeader;
   }
 
   /**
@@ -533,9 +526,6 @@ export class GalileoConfig {
         : {}),
       ...(this.rejectUnauthorized !== undefined
         ? { rejectUnauthorized: this.rejectUnauthorized }
-        : {}),
-      ...(this.caCertHeader !== undefined
-        ? { caCertHeader: this.caCertHeader }
         : {}),
     };
     return Object.keys(result).length > 0 ? result : null;
