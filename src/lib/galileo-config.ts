@@ -76,7 +76,7 @@ const ENV_GALILEO_LOG_STREAM_NAME = "GALILEO_LOG_STREAM_NAME";
 /** Log level for SDK logging (DEBUG, INFO, WARN, ERROR, etc.). */
 const ENV_GALILEO_LOG_LEVEL = "GALILEO_LOG_LEVEL";
 
-function isValidLogLevel(value: unknown): value is LogLevel {
+export function isValidLogLevel(value: unknown): value is LogLevel {
   return typeof value === "string" && value in LOG_LEVEL_PRIORITY;
 }
 

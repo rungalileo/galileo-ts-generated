@@ -1,10 +1,6 @@
-import { GalileoConfig } from "./galileo-config.js";
+import { GalileoConfig, isValidLogLevel } from "./galileo-config.js";
 import type { LogLevel, GalileoSdkLogger } from "../types/sdk-logger.types.js";
 import { LOG_LEVEL_PRIORITY } from "../types/sdk-logger.types.js";
-
-function isValidLogLevel(value: string): value is LogLevel {
-  return value in LOG_LEVEL_PRIORITY;
-}
 
 class SdkLogger {
   private level: LogLevel;
