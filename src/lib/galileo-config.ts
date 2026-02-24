@@ -3,8 +3,8 @@
  */
 
 import { isBrowserLike, isDeno, isNodeLike } from "./runtime.js";
-import { LOG_LEVEL_PRIORITY } from "./sdk-logger.js";
-import type { LogLevel } from "./sdk-logger.js";
+import { LOG_LEVEL_PRIORITY } from "../types/sdk-logger.types.js";
+import type { LogLevel } from "../types/sdk-logger.types.js";
 
 /**
  * Configuration input for the Galileo SDK (URLs, auth, project, and log stream).
