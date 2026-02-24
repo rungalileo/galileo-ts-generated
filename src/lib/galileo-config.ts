@@ -209,7 +209,7 @@ function resolveFromEnvironment(): GalileoConfigInput | null {
       ? rawLogLevel
       : undefined;
 
-    if (!apiKey && !username && !password && !ssoIdToken && !ssoProvider)
+    if (!apiKey && !username && !password && !ssoIdToken && !ssoProvider && !apiUrl && !consoleUrl && !projectName && !logStreamName && !logLevel)
       return null;
     return {
       ...(apiKey ? { apiKey } : {}),
