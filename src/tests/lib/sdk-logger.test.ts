@@ -5,9 +5,9 @@ import {
   disableLogging,
   setCustomLogger,
   resetSdkLogger,
-  type GalileoSdkLogger,
 } from "../../lib/sdk-logger.js";
 import { GalileoConfig } from "../../lib/galileo-config.js";
+import type { GalileoSdkLogger } from "../../types/sdk-logger.types.js";
 
 const GALILEO_LOG_LEVEL = "GALILEO_LOG_LEVEL";
 
