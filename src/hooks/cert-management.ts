@@ -12,9 +12,17 @@ import { GalileoConfig } from '../lib/galileo-config.js';
 import { isNodeLike } from '../lib/runtime.js';
 import type { SDKInitHook } from './types.js';
 import type { SDKOptions } from '../lib/config.js';
-import type { Agent } from 'undici';
 
-let CertAgent: typeof Agent | undefined;
+type AgentConstructor = new (options: {
+  connect: {
+    ca?: string;
+    cert?: string;
+    key?: string;
+    rejectUnauthorized?: boolean;
+  };
+}) => object;
+
+let CertAgent: AgentConstructor | undefined;
 
 try {
   // Using synchronous require to support both ESM and CommonJS contexts
@@ -23,8 +31,6 @@ try {
   // console.warn until unified logger is implemented
   console.warn(`[TLS] Failed to import undici: ${error}`);
 }
-
-
 
 
 /**
