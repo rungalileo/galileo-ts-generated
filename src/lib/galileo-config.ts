@@ -280,17 +280,16 @@ function resolveFromEnvironment(): GalileoConfigInput | null {
     const clientKeyPath = env[ENV_GALILEO_CLIENT_KEY_PATH];
 
     // Reject unauthorized: GALILEO_REJECT_UNAUTHORIZED > NODE_TLS_REJECT_UNAUTHORIZED
+    // Empty strings are treated as undefined (not set) to avoid inadvertently disabling TLS.
     const rejectUnauthorizedRaw =
       env[ENV_GALILEO_REJECT_UNAUTHORIZED] ??
       env[ENV_NODE_TLS_REJECT_UNAUTHORIZED];
     const rejectUnauthorized =
-      rejectUnauthorizedRaw === undefined
+      rejectUnauthorizedRaw === undefined || rejectUnauthorizedRaw === ""
         ? undefined
         : rejectUnauthorizedRaw === "true" || rejectUnauthorizedRaw === "1"
           ? true
-          : rejectUnauthorizedRaw === "false" ||
-              rejectUnauthorizedRaw === "0" ||
-              rejectUnauthorizedRaw === ""
+          : rejectUnauthorizedRaw === "false" || rejectUnauthorizedRaw === "0"
             ? false
             : undefined;
 
