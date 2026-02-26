@@ -19,6 +19,23 @@ vi.mock('../../lib/runtime.js', () => ({
   isDeno: vi.fn(() => false),
 }));
 
+const ENV_KEYS = [
+  'GALILEO_API_KEY',
+  'GALILEO_CA_CERT_PATH',
+  'SSL_CERT_FILE',
+  'NODE_EXTRA_CA_CERTS',
+  'GALILEO_CLIENT_CERT_PATH',
+  'GALILEO_CLIENT_KEY_PATH',
+  'GALILEO_REJECT_UNAUTHORIZED',
+  'NODE_TLS_REJECT_UNAUTHORIZED',
+] as const;
+
+function clearEnv(): void {
+  for (const key of ENV_KEYS) {
+    delete process.env[key];
+  }
+}
+
 describe('CertManagementHook', () => {
   let tmpDir: string;
   let caCertPath: string;
@@ -45,6 +62,7 @@ describe('CertManagementHook', () => {
 
   afterEach(() => {
     vi.clearAllMocks();
+    clearEnv();
     GalileoConfig.reset();
 
     // Clean up temporary directory
@@ -175,7 +193,7 @@ describe('CertManagementHook', () => {
       expect(result).toBe(opts);
       expect(result.httpClient).toBeUndefined();
       expect(consoleWarnSpy).toHaveBeenCalledWith(
-        expect.stringContaining('[TLS] Certificate file not found')
+        expect.stringContaining('[TLS] CA certificate file not found')
       );
 
       consoleWarnSpy.mockRestore();
@@ -281,14 +299,10 @@ describe('CertManagementHook', () => {
   });
 
   describe('environment variable priority', () => {
-    test('test GALILEO_CA_CERT_PATH takes priority over SSL_CERT_FILE', () => {
-      const altCertPath = join(tmpDir, 'alt-ca.pem');
-      writeFileSync(altCertPath, '-----BEGIN CERTIFICATE-----\nALT_CA\n-----END CERTIFICATE-----');
-
+    test('test GALILEO_CA_CERT_PATH from env is used', () => {
       GalileoConfig.reset();
       process.env['GALILEO_API_KEY'] = 'env-key';
       process.env['GALILEO_CA_CERT_PATH'] = caCertPath;
-      process.env['SSL_CERT_FILE'] = altCertPath;
 
       const config = GalileoConfig.get({});
       const cert = config.getCertConfig();
@@ -296,34 +310,20 @@ describe('CertManagementHook', () => {
       expect(cert).not.toBeNull();
       if (!cert) throw new Error("unreachable");
       expect(cert.caCertPath).toBe(caCertPath);
-
-      delete process.env['GALILEO_API_KEY'];
-      delete process.env['GALILEO_CA_CERT_PATH'];
-      delete process.env['SSL_CERT_FILE'];
     });
 
-    test('test SSL_CERT_FILE takes priority over NODE_EXTRA_CA_CERTS', () => {
-      const altCertPath = join(tmpDir, 'alt-ca.pem');
-      writeFileSync(altCertPath, '-----BEGIN CERTIFICATE-----\nALT_CA\n-----END CERTIFICATE-----');
-
+    test('test only GALILEO_CA_CERT_PATH is supported for CA cert from env', () => {
       GalileoConfig.reset();
       process.env['GALILEO_API_KEY'] = 'env-key';
       process.env['SSL_CERT_FILE'] = caCertPath;
-      process.env['NODE_EXTRA_CA_CERTS'] = altCertPath;
 
       const config = GalileoConfig.get({});
       const cert = config.getCertConfig();
 
-      expect(cert).not.toBeNull();
-      if (!cert) throw new Error("unreachable");
-      expect(cert.caCertPath).toBe(caCertPath);
-
-      delete process.env['GALILEO_API_KEY'];
-      delete process.env['SSL_CERT_FILE'];
-      delete process.env['NODE_EXTRA_CA_CERTS'];
+      expect(cert).toBeNull();
     });
 
-    test('test NODE_EXTRA_CA_CERTS used when higher priority vars absent', () => {
+    test('test only GALILEO_CA_CERT_PATH is supported not NODE_EXTRA_CA_CERTS', () => {
       GalileoConfig.reset();
       process.env['GALILEO_API_KEY'] = 'env-key';
       process.env['NODE_EXTRA_CA_CERTS'] = caCertPath;
@@ -331,12 +331,7 @@ describe('CertManagementHook', () => {
       const config = GalileoConfig.get({});
       const cert = config.getCertConfig();
 
-      expect(cert).not.toBeNull();
-      if (!cert) throw new Error("unreachable");
-      expect(cert.caCertPath).toBe(caCertPath);
-
-      delete process.env['GALILEO_API_KEY'];
-      delete process.env['NODE_EXTRA_CA_CERTS'];
+      expect(cert).toBeNull();
     });
   });
 
@@ -355,11 +350,6 @@ describe('CertManagementHook', () => {
       if (!cert) throw new Error("unreachable");
       expect(cert.clientCertPath).toBe(clientCertPath);
       expect(cert.clientKeyPath).toBe(clientKeyPath);
-
-      delete process.env['GALILEO_API_KEY'];
-      delete process.env['GALILEO_CA_CERT_PATH'];
-      delete process.env['GALILEO_CLIENT_CERT_PATH'];
-      delete process.env['GALILEO_CLIENT_KEY_PATH'];
     });
   });
 
@@ -377,11 +367,6 @@ describe('CertManagementHook', () => {
       expect(cert).not.toBeNull();
       if (!cert) throw new Error("unreachable");
       expect(cert.rejectUnauthorized).toBe(false);
-
-      delete process.env['GALILEO_API_KEY'];
-      delete process.env['GALILEO_CA_CERT_PATH'];
-      delete process.env['GALILEO_REJECT_UNAUTHORIZED'];
-      delete process.env['NODE_TLS_REJECT_UNAUTHORIZED'];
     });
 
     test('test NODE_TLS_REJECT_UNAUTHORIZED used when GALILEO_REJECT_UNAUTHORIZED absent', () => {
@@ -396,10 +381,6 @@ describe('CertManagementHook', () => {
       expect(cert).not.toBeNull();
       if (!cert) throw new Error("unreachable");
       expect(cert.rejectUnauthorized).toBe(false);
-
-      delete process.env['GALILEO_API_KEY'];
-      delete process.env['GALILEO_CA_CERT_PATH'];
-      delete process.env['NODE_TLS_REJECT_UNAUTHORIZED'];
     });
 
     test('test rejectUnauthorized defaults to true when no env vars set', () => {

@@ -62,18 +62,15 @@ export class CertManagementHook implements SDKInitHook {
 
     try {
       // Determine CA certificate source
-      let ca: string | undefined;
+      let ca: string | undefined | null;
 
       if (cert.caCertContent) {
         // CA provided directly (programmatic configuration)
         ca = cert.caCertContent;
       } else if (cert.caCertPath) {
         // CA path provided (from env vars or programmatic)
-        if (!existsSync(cert.caCertPath)) {
-          console.warn(`[TLS] Certificate file not found: ${cert.caCertPath}`);
-          return opts;
-        }
-        ca = readFileSync(cert.caCertPath, 'utf-8');
+        ca = this.readFileWarning(cert.caCertPath, 'CA certificate');
+        if (!ca) return opts;
       }
 
       // Build undici Agent connect options (TLS options passed to undici's connector)
@@ -95,21 +92,13 @@ export class CertManagementHook implements SDKInitHook {
       }
 
       // Add client certificate if provided (mutual TLS)
-      if (cert.clientCertPath) {
-        if (!existsSync(cert.clientCertPath)) {
-          console.warn(`[TLS] Client cert file not found: ${cert.clientCertPath}`);
-          return opts;
-        }
-        connectOptions.cert = readFileSync(cert.clientCertPath, 'utf-8');
-      }
+      const clientCert = cert.clientCertPath ? this.readFileWarning(cert.clientCertPath, 'Client cert') : null;
+      if (cert.clientCertPath && !clientCert) return opts;
+      if (clientCert) connectOptions.cert = clientCert;
 
-      if (cert.clientKeyPath) {
-        if (!existsSync(cert.clientKeyPath)) {
-          console.warn(`[TLS] Client key file not found: ${cert.clientKeyPath}`);
-          return opts;
-        }
-        connectOptions.key = readFileSync(cert.clientKeyPath, 'utf-8');
-      }
+      const clientKey = cert.clientKeyPath ? this.readFileWarning(cert.clientKeyPath, 'Client key') : null;
+      if (cert.clientKeyPath && !clientKey) return opts;
+      if (clientKey) connectOptions.key = clientKey;
 
       if(cert.rejectUnauthorized !== undefined) 
         connectOptions.rejectUnauthorized = cert.rejectUnauthorized;
@@ -144,5 +133,19 @@ export class CertManagementHook implements SDKInitHook {
       console.error(`[TLS] Failed to configure custom certificates: ${error}`);
       return opts;
     }
+  }
+
+  /**
+   * Safely reads a certificate/key file from disk.
+   * @param filePath - Path to the file
+   * @param fileType - Description for error messages (e.g., "CA certificate", "Client cert", "Client key")
+   * @returns File content as string, or null if file doesn't exist or read fails
+   */
+  private readFileWarning(filePath: string, fileType: string): string | null {
+    if (!existsSync(filePath)) {
+      console.warn(`[TLS] ${fileType} file not found: ${filePath}`);
+      return null;
+    }
+    return readFileSync(filePath, 'utf-8');
   }
 }
