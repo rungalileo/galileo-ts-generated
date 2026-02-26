@@ -1,5 +1,24 @@
 /*
- * Galileo config singleton: env-aware (Node, Deno, browser)
+ * Galileo config singleton: environment-aware across Node.js, Deno, and browser runtimes.
+ * 
+ * Configuration resolution order (highest to lowest priority):
+ * 1. Explicit constructor overrides (via get() method)
+ * 2. Environment variables (GALILEO_* or NODE_TLS_* for Node/Deno)
+ * 3. Browser global (__GALILEO_AUTH__) or localStorage (galileo_auth_config)
+ * 4. Defaults (consoleUrl: "https://console.galileo.ai", apiUrl derived from consoleUrl)
+ * 
+ * Supports multiple authentication methods:
+ * - API key: GALILEO_API_KEY
+ * - Username/password: GALILEO_USERNAME + GALILEO_PASSWORD
+ * - SSO: GALILEO_SSO_ID_TOKEN + GALILEO_SSO_PROVIDER
+ * 
+ * TLS/Certificate configuration:
+ * - CA certificates: GALILEO_CA_CERT_PATH or GALILEO_CA_CERT_CONTENT
+ * - Client certificates (mTLS): GALILEO_CLIENT_CERT_PATH + GALILEO_CLIENT_KEY_PATH
+ * - Certificate validation: GALILEO_REJECT_UNAUTHORIZED or NODE_TLS_REJECT_UNAUTHORIZED
+ * 
+ * For certificate paths in Node.js, use GALILEO_CA_CERT_PATH (replaces default CA list).
+ * To append CA certs to the default list, use NODE_EXTRA_CA_CERTS instead.
  */
 
 import { isBrowserLike, isDeno, isNodeLike } from "./runtime.js";
@@ -7,7 +26,12 @@ import { LOG_LEVEL_PRIORITY } from "../types/sdk-logger.types.js";
 import type { LogLevel } from "../types/sdk-logger.types.js";
 
 /**
- * Configuration input for the Galileo SDK (URLs, auth, project, log stream, and TLS).
+ * Configuration input for the Galileo SDK.
+ * 
+ * Includes URLs (console, API), authentication credentials (API key, username/password, SSO tokens),
+ * project/log stream identifiers, logging configuration, and TLS/certificate settings.
+ * 
+ * All properties are optional; values resolve from environment variables or browser storage by default.
  */
 export type GalileoConfigInput = {
   consoleUrl?: string;
@@ -35,7 +59,10 @@ export type GalileoConfigInput = {
 };
 
 /**
- * Authentication credentials (API key, username/password, or SSO).
+ * Resolved authentication credentials extracted from config.
+ * 
+ * Contains one or more of: API key, username/password pair, or SSO credentials.
+ * Returned by getAuthCredentials() method.
  */
 export type AuthCredentials = {
   apiKey?: string;
@@ -46,7 +73,13 @@ export type AuthCredentials = {
 };
 
 /**
- * TLS/certificate configuration for API requests (e.g. custom CA, client certs).
+ * TLS/certificate configuration for API requests.
+ * 
+ * Supports custom CA certificates (via file path or direct content) and mutual TLS (mTLS)
+ * with client certificates and keys. Controls whether unauthorized (self-signed) certificates
+ * are accepted via rejectUnauthorized flag.
+ * 
+ * Returned by getCertConfig() method or included in config snapshot.
  */
 export type CertConfig = {
   caCertPath?: string;
@@ -57,7 +90,12 @@ export type CertConfig = {
 };
 
 /**
- * Snapshot shape for base-entity compatibility: apiUrl, apiKey, login, sso, and cert.
+ * Config snapshot for BaseEntity compatibility.
+ * 
+ * Flattened representation of resolved configuration including API URL, API key, login credentials
+ * (username/password), SSO information (idToken/provider), and TLS certificate configuration.
+ * 
+ * Used for entity authentication and API interactions.
  */
 export type GalileoConfigSnapshot = {
   apiUrl?: string;
@@ -416,8 +454,14 @@ export class GalileoConfig {
   }
 
   /**
-   * Returns a snapshot compatible with BaseEntity: apiUrl (resolved), apiKey, login, and sso.
-   * @returns The config snapshot for entity authentication and API URL.
+   * Returns a snapshot compatible with BaseEntity, including resolved apiUrl, apiKey, login, sso, and cert.
+   * 
+   * - apiUrl is resolved from consoleUrl if not explicitly set
+   * - login contains username and/or password if present
+   * - sso contains idToken and/or provider if present
+   * - cert contains all configured TLS/certificate settings if any are present
+   * 
+   * @returns The config snapshot for entity authentication and API configuration.
    */
   get snapshot(): GalileoConfigSnapshot {
     const apiUrl = this.apiUrl ?? this.getApiUrl();
@@ -450,9 +494,17 @@ export class GalileoConfig {
   }
 
   /**
-   * Returns the singleton config instance, merging environment and optional overrides.
+   * Returns the singleton config instance, resolving from environment and optional overrides.
+   * 
+   * On first call (or when overrides are provided), resolves configuration from:
+   * 1. Environment variables or browser storage (via resolveFromEnvironment)
+   * 2. Constructor overrides (via merge)
+   * 
+   * The instance is cached and reused on subsequent calls unless overrides are provided.
+   * To reset the singleton, call reset().
+   * 
    * @param overrides - (Optional) Config values to merge over environment and defaults.
-   * @returns The GalileoConfig instance.
+   * @returns The GalileoConfig singleton instance.
    */
   public static get(overrides: GalileoConfigInput = {}): GalileoConfig {
     const hasOverrides = Object.keys(overrides).length > 0;
@@ -466,7 +518,10 @@ export class GalileoConfig {
   }
 
   /**
-   * Clears the singleton instance. Next get() will rebuild from environment and overrides.
+   * Clears the singleton instance.
+   * 
+   * Next call to get() will rebuild the instance from environment variables or browser storage.
+   * Useful for testing or when configuration has changed and needs to be reloaded.
    */
   public static reset(): void {
     GalileoConfig.instance = null;
@@ -474,16 +529,29 @@ export class GalileoConfig {
 
   /**
    * Returns the API base URL, resolved from consoleUrl or explicit apiUrl.
-   * @param projectType - (Optional) Project type used when neither apiUrl nor consoleUrl is set (e.g. "gen_ai").
+   * 
+   * Resolution logic:
+   * 1. If apiUrl is set, return it as-is
+   * 2. If consoleUrl is set, derive apiUrl by replacing "app.galileo.ai" or "console" with "api"
+   * 3. For localhost consoleUrl, return "http://localhost:8088"
+   * 4. If neither consoleUrl nor apiUrl is set, use projectType default (e.g., "gen_ai" → "https://api.galileo.ai")
+   * 5. If no projectType and neither URL is set, throw an error
+   * 
+   * @param projectType - (Optional) Default project type for API URL when neither apiUrl nor consoleUrl is set.
    * @returns The resolved API URL.
+   * @throws Error if apiUrl, consoleUrl, and projectType are all unset.
    */
   public getApiUrl(projectType?: string): string {
     return resolveApiUrl(this.consoleUrl, this.apiUrl, projectType);
   }
 
   /**
-   * Returns the current auth credentials (API key, username/password, or SSO).
-   * @returns The AuthCredentials object with present values.
+   * Returns the current authentication credentials.
+   * 
+   * Extracts and returns all present credentials: API key, username/password pair, and/or SSO tokens.
+   * Only populated fields are included in the returned object.
+   * 
+   * @returns The AuthCredentials object with present credential values.
    */
   public getAuthCredentials(): AuthCredentials {
     return {
@@ -500,7 +568,12 @@ export class GalileoConfig {
   }
 
   /**
-   * Returns TLS/certificate configuration for API requests (CA, client certs, rejectUnauthorized).
+   * Returns TLS/certificate configuration for API requests.
+   * 
+   * Extracts and returns all present certificate settings: CA certificate (path or content),
+   * client certificate and key (for mTLS), and rejectUnauthorized flag.
+   * Only populated fields are included in the returned object.
+   * 
    * @returns The CertConfig object with present values, or null if no certificate configuration is set.
    */
   public getCertConfig(): CertConfig | null {
@@ -523,7 +596,11 @@ export class GalileoConfig {
   }
 
   /**
-   * Logs a safe summary of the config to the console (passwords and tokens omitted).
+   * Logs a safe summary of the current configuration to the console.
+   * 
+   * Omits sensitive values (passwords, API keys, SSO tokens) and instead logs boolean flags
+   * (hasApiKey, hasPassword, hasSsoIdToken) to indicate their presence without revealing content.
+   * Useful for debugging configuration issues in production environments.
    */
   public logConfig(): void {
     const safe = {
