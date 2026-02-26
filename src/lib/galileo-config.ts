@@ -107,8 +107,6 @@ const ENV_GALILEO_CLIENT_KEY_PATH = "GALILEO_CLIENT_KEY_PATH";
 const ENV_GALILEO_REJECT_UNAUTHORIZED = "GALILEO_REJECT_UNAUTHORIZED";
 /** Boolean to allow/reject self-signed certs (Node.js standard). */
 const ENV_NODE_TLS_REJECT_UNAUTHORIZED = "NODE_TLS_REJECT_UNAUTHORIZED";
-/** Custom header name for CA cert content. */
-const ENV_GALILEO_CA_CERT_HEADER = "GALILEO_CA_CERT_HEADER";
 /** Log level for SDK logging (DEBUG, INFO, WARN, ERROR, etc.). */
 const ENV_GALILEO_LOG_LEVEL = "GALILEO_LOG_LEVEL";
 
@@ -305,7 +303,6 @@ function resolveFromEnvironment(): GalileoConfigInput | null {
       ...(clientCertPath ? { clientCertPath } : {}),
       ...(clientKeyPath ? { clientKeyPath } : {}),
       ...(rejectUnauthorized !== undefined ? { rejectUnauthorized } : {}),
-      ...(caCertHeader ? { caCertHeader } : {}),
       ...(logLevel !== undefined && logLevel.length > 0 ? { logLevel } : {}),
     };
   }

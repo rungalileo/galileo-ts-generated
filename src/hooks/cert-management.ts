@@ -12,6 +12,8 @@ import { GalileoConfig } from '../lib/galileo-config.js';
 import { isNodeLike } from '../lib/runtime.js';
 import type { SDKInitHook } from './types.js';
 import type { SDKOptions } from '../lib/config.js';
+import { getSdkLogger } from '../lib/sdk-logger.js';
+const sdkLogger = getSdkLogger();
 
 type AgentConstructor = new (options: {
   connect: {
@@ -28,8 +30,7 @@ try {
   // Using synchronous require to support both ESM and CommonJS contexts
   CertAgent = require('undici').Agent;
 } catch (error) {
-  // console.warn until unified logger is implemented
-  console.warn(`[TLS] Failed to import undici: ${error}`);
+  sdkLogger.warn(`[TLS] Failed to import undici: ${error}`);
 }
 
 
@@ -87,7 +88,7 @@ export class CertManagementHook implements SDKInitHook {
 
       // Validate mTLS: both cert and key must be configured together
       if ((cert.clientCertPath || cert.clientKeyPath) && !(cert.clientCertPath && cert.clientKeyPath)) {
-        console.error('[TLS] Mutual TLS requires both GALILEO_CLIENT_CERT_PATH and GALILEO_CLIENT_KEY_PATH to be set');
+        sdkLogger.error('[TLS] Mutual TLS requires both GALILEO_CLIENT_CERT_PATH and GALILEO_CLIENT_KEY_PATH to be set');
         return opts;
       }
 
@@ -130,7 +131,7 @@ export class CertManagementHook implements SDKInitHook {
       };
 
     } catch (error) {
-      console.error(`[TLS] Failed to configure custom certificates: ${error}`);
+      sdkLogger.error(`[TLS] Failed to configure custom certificates: ${error}`);
       return opts;
     }
   }
@@ -143,7 +144,7 @@ export class CertManagementHook implements SDKInitHook {
    */
   private readFileWarning(filePath: string, fileType: string): string | null {
     if (!existsSync(filePath)) {
-      console.warn(`[TLS] ${fileType} file not found: ${filePath}`);
+      sdkLogger.warn(`[TLS] ${fileType} file not found: ${filePath}`);
       return null;
     }
     return readFileSync(filePath, 'utf-8');
