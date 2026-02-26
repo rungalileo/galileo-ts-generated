@@ -417,7 +417,7 @@ describe('CertManagementHook', () => {
       expect(cert.rejectUnauthorized).toBeUndefined();
     });
 
-    test('test sdkInit skips when rejectUnauthorized is true', () => {
+    test('test sdkInit configures agent with custom CA cert even when rejectUnauthorized is true', () => {
       GalileoConfig.reset();
       GalileoConfig.get({
         apiKey: 'test-key',
@@ -430,8 +430,10 @@ describe('CertManagementHook', () => {
       const opts: SDKOptions = { serverURL: 'https://api.example.com' };
       const result = hook.sdkInit(opts);
 
-      expect(result).toBe(opts);
-      expect(result.httpClient).toBeUndefined();
+      // Custom CA cert should be configured regardless of rejectUnauthorized value
+      // rejectUnauthorized=true means strict validation with custom CA; this is a valid configuration
+      expect(result.httpClient).toBeDefined();
+      expect(result.httpClient).not.toBe(opts.httpClient);
     });
 
     test('test rejectUnauthorized false is passed to connectOptions', () => {
@@ -612,11 +614,30 @@ describe('CertManagementHook', () => {
       const opts: SDKOptions = { serverURL: 'https://api.example.com' };
       const result = hook.sdkInit(opts);
 
-      // When rejectUnauthorized is true, hook returns early (line 59-61)
-      // When only rejectUnauthorized=true is set, hasCertCustomization is false
-      // because rejectUnauthorized must be === false to count as customization (line 118)
+      // When only rejectUnauthorized=true is set (no CA/client certs), hasCertCustomization is false
+      // because hasCertCustomization requires CA, cert, key, or rejectUnauthorized === false (line 118)
       expect(result).toBe(opts);
       expect(result.httpClient).toBeUndefined();
+    });
+
+    test('test sdkInit configures mTLS with client certs even when rejectUnauthorized is true', () => {
+      GalileoConfig.reset();
+      GalileoConfig.get({
+        apiKey: 'test-key',
+        apiUrl: 'https://api.example.com',
+        clientCertPath,
+        clientKeyPath,
+        rejectUnauthorized: true,
+      });
+
+      const hook = new CertManagementHook();
+      const opts: SDKOptions = { serverURL: 'https://api.example.com' };
+      const result = hook.sdkInit(opts);
+
+      // mTLS client certs should be configured regardless of rejectUnauthorized value
+      // rejectUnauthorized and custom certs are orthogonal concerns
+      expect(result.httpClient).toBeDefined();
+      expect(result.httpClient).not.toBe(opts.httpClient);
     });
   });
 });

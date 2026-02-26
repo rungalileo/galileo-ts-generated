@@ -97,10 +97,6 @@ const ENV_GALILEO_LOG_STREAM = "GALILEO_LOG_STREAM";
 const ENV_GALILEO_LOG_STREAM_NAME = "GALILEO_LOG_STREAM_NAME";
 /** Path to CA certificate file (Galileo-specific). */
 const ENV_GALILEO_CA_CERT_PATH = "GALILEO_CA_CERT_PATH";
-/** Path to CA certificate file (Node.js standard). */
-const ENV_NODE_EXTRA_CA_CERTS = "NODE_EXTRA_CA_CERTS";
-/** Path to CA certificate file (cross-platform standard). */
-const ENV_SSL_CERT_FILE = "SSL_CERT_FILE";
 /** Direct certificate content. */
 const ENV_GALILEO_CA_CERT_CONTENT = "GALILEO_CA_CERT_CONTENT";
 /** Client certificate path. */
@@ -269,11 +265,10 @@ function resolveFromEnvironment(): GalileoConfigInput | null {
       ? rawLogLevel
       : undefined;
 
-    // CA cert path: GALILEO_CA_CERT_PATH > SSL_CERT_FILE > NODE_EXTRA_CA_CERTS
+    // GALILEO_CA_CERT_PATH is used to clean existing CA certs list and use this instead.
+    // Use NODE_EXTRA_CA_CERTS if you want to append CA certs to existing (default) list instead.
     const caCertPath =
-      env[ENV_GALILEO_CA_CERT_PATH] ??
-      env[ENV_SSL_CERT_FILE] ??
-      env[ENV_NODE_EXTRA_CA_CERTS];
+      env[ENV_GALILEO_CA_CERT_PATH];
 
     const caCertContent = env[ENV_GALILEO_CA_CERT_CONTENT];
     const clientCertPath = env[ENV_GALILEO_CLIENT_CERT_PATH];

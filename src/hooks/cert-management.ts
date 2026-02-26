@@ -56,7 +56,7 @@ export class CertManagementHook implements SDKInitHook {
 
     // Get certificate configuration from GalileoConfig singleton
     const cert = GalileoConfig.get().getCertConfig();
-    if (!cert || cert.rejectUnauthorized === true) {
+    if (!cert) {
       return opts;
     }
 
