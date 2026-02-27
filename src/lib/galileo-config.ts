@@ -252,8 +252,6 @@ function normalizeInput(value: unknown): GalileoConfigInput | null {
     typeof obj["rejectUnauthorized"] === "boolean"
       ? obj["rejectUnauthorized"]
       : undefined;
-  const caCertHeader =
-    typeof obj["caCertHeader"] === "string" ? obj["caCertHeader"] : undefined;
   const rawLogLevel = typeof obj["logLevel"] === "string" ? obj["logLevel"].toLowerCase() : undefined;
   const logLevel = isValidLogLevel(rawLogLevel) ? rawLogLevel : undefined;
   if (!apiKey && !u && !p && !ssoIdToken && !ssoProvider) return null;
@@ -272,7 +270,6 @@ function normalizeInput(value: unknown): GalileoConfigInput | null {
     ...(clientCertPath ? { clientCertPath } : {}),
     ...(clientKeyPath ? { clientKeyPath } : {}),
     ...(rejectUnauthorized !== undefined ? { rejectUnauthorized } : {}),
-    ...(caCertHeader ? { caCertHeader } : {}),
     ...(logLevel !== undefined && logLevel.length > 0 ? { logLevel } : {}),
   };
 }
