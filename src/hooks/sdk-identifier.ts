@@ -2,17 +2,19 @@ import type { BeforeRequestContext, BeforeRequestHook } from "./types.js";
 
 let cachedVersion: string | null = null;
 
-async function loadVersion(): Promise<string> {
+function loadVersion(): string {
   if (cachedVersion) {
     return cachedVersion;
   }
 
   try {
-    const packageModule = await import("../../package.json", {
-      with: { type: "json" },
-    });
-    cachedVersion = packageModule.default.version;
-    return cachedVersion;
+    // NOTES: require is being used for now, using import demands appropriate
+    // compiler configuration, which won't be enabled yet due to Speakeasy's
+    // particular way of enabling persistent edits conflicting with workflow.
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const packageJson = require("../../package.json");
+    cachedVersion = packageJson.version;
+    return cachedVersion ?? "unknown";
   } catch {
     return "unknown";
   }
@@ -27,7 +29,7 @@ export class SDKIdentifierHook implements BeforeRequestHook {
     _hookCtx: BeforeRequestContext,
     request: Request,
   ): Promise<Request> {
-    const version = await loadVersion();
+    const version = loadVersion();
     const sdkIdentifier = getSdkIdentifier(version);
     request.headers.set("X-Galileo-SDK", sdkIdentifier);
     return request;
