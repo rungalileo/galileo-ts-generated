@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.8](https://github.com/rungalileo/galileo-ts-generated/compare/galileo-generated-v0.2.7...galileo-generated-v0.2.8) (2026-02-27)
+
+
+### Features
+
+* **certificate:** Support for certificate env vars, hook to add support for certificates if vars configured. ([#41](https://github.com/rungalileo/galileo-ts-generated/issues/41)) ([793a503](https://github.com/rungalileo/galileo-ts-generated/commit/793a503fe9e6fc9a5ebde122237832144e0a974e))
+
 ## [0.2.7](https://github.com/rungalileo/galileo-ts-generated/compare/galileo-generated-v0.2.6...galileo-generated-v0.2.7) (2026-02-24)
 
 
