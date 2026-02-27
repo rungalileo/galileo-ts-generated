@@ -13,7 +13,9 @@ function loadVersion(): string {
     // particular way of enabling persistent edits conflicting with workflow.
     // Ticket sc-56960 created for this investigation.
     // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const packageJson = require("../../package.json");
+    const packageJsonPath = require.resolve("galileo-generated/package.json");
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const packageJson = require(packageJsonPath);
     cachedVersion = packageJson.version;
     return cachedVersion ?? "unknown";
   } catch {
