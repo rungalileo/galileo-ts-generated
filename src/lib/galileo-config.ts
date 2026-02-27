@@ -254,7 +254,7 @@ function normalizeInput(value: unknown): GalileoConfigInput | null {
       : undefined;
   const rawLogLevel = typeof obj["logLevel"] === "string" ? obj["logLevel"].toLowerCase() : undefined;
   const logLevel = isValidLogLevel(rawLogLevel) ? rawLogLevel : undefined;
-  if (!apiKey && !u && !p && !ssoIdToken && !ssoProvider) return null;
+  if (!apiKey && !u && !p && !ssoIdToken && !ssoProvider && !caCertPath && !caCertContent && !clientCertPath && !clientKeyPath && rejectUnauthorized === undefined) return null;
   return {
     ...(apiKey ? { apiKey } : {}),
     ...(u ? { username: String(u) } : {}),
@@ -321,7 +321,7 @@ function resolveFromEnvironment(): GalileoConfigInput | null {
             ? false
             : undefined;
 
-    if (!apiKey && !username && !password && !ssoIdToken && !ssoProvider && !apiUrl && !consoleUrl && !projectName && !logStreamName && !logLevel)
+    if (!apiKey && !username && !password && !ssoIdToken && !ssoProvider && !apiUrl && !consoleUrl && !projectName && !logStreamName && !logLevel && !caCertPath && !caCertContent && !clientCertPath && !clientKeyPath && rejectUnauthorized === undefined)
       return null;
     return {
       ...(apiKey ? { apiKey } : {}),
