@@ -29,6 +29,9 @@ export type MetricRollUp = {
   cost?: number | null | undefined;
   modelAlias?: string | null | undefined;
   numJudges?: number | null | undefined;
+  inputTokens?: number | null | undefined;
+  outputTokens?: number | null | undefined;
+  totalTokens?: number | null | undefined;
   critique?: MetricCritiqueColumnar | null | undefined;
   /**
    * Roll up metrics e.g. sum, average, min, max for numeric, and category_count for categorical metrics.
@@ -67,6 +70,9 @@ export const MetricRollUp$inboundSchema: z.ZodMiniType<MetricRollUp, unknown> =
       cost: z.optional(z.nullable(types.number())),
       model_alias: z.optional(z.nullable(types.string())),
       num_judges: z.optional(z.nullable(types.number())),
+      input_tokens: z.optional(z.nullable(types.number())),
+      output_tokens: z.optional(z.nullable(types.number())),
+      total_tokens: z.optional(z.nullable(types.number())),
       critique: z.optional(z.nullable(MetricCritiqueColumnar$inboundSchema)),
       roll_up_metrics: types.optional(
         smartUnion([
@@ -81,6 +87,9 @@ export const MetricRollUp$inboundSchema: z.ZodMiniType<MetricRollUp, unknown> =
         "scorer_type": "scorerType",
         "model_alias": "modelAlias",
         "num_judges": "numJudges",
+        "input_tokens": "inputTokens",
+        "output_tokens": "outputTokens",
+        "total_tokens": "totalTokens",
         "roll_up_metrics": "rollUpMetrics",
       });
     }),

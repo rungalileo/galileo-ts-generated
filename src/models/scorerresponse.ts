@@ -19,6 +19,10 @@ import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import { InputTypeEnum, InputTypeEnum$inboundSchema } from "./inputtypeenum.js";
 import { ModelType, ModelType$inboundSchema } from "./modeltype.js";
 import {
+  MultimodalCapability,
+  MultimodalCapability$inboundSchema,
+} from "./multimodalcapability.js";
+import {
   NumericRollUpMethod,
   NumericRollUpMethod$inboundSchema,
 } from "./numericrollupmethod.js";
@@ -46,6 +50,7 @@ export type ScorerResponse = {
   scoreableNodeTypes?: Array<string> | null | undefined;
   outputType?: OutputTypeEnum | null | undefined;
   inputType?: InputTypeEnum | null | undefined;
+  multimodalCapabilities?: Array<MultimodalCapability> | null | undefined;
   requiredScorers?: Array<string> | null | undefined;
   deprecated?: boolean | null | undefined;
   rollUpConfig?: BaseMetricRollUpConfigDB | null | undefined;
@@ -81,6 +86,9 @@ export const ScorerResponse$inboundSchema: z.ZodMiniType<
     scoreable_node_types: z.optional(z.nullable(z.array(types.string()))),
     output_type: z.optional(z.nullable(OutputTypeEnum$inboundSchema)),
     input_type: z.optional(z.nullable(InputTypeEnum$inboundSchema)),
+    multimodal_capabilities: z.optional(
+      z.nullable(z.array(MultimodalCapability$inboundSchema)),
+    ),
     required_scorers: z.optional(z.nullable(z.array(types.string()))),
     deprecated: z.optional(z.nullable(types.boolean())),
     roll_up_config: z.optional(
@@ -107,6 +115,7 @@ export const ScorerResponse$inboundSchema: z.ZodMiniType<
       "scoreable_node_types": "scoreableNodeTypes",
       "output_type": "outputType",
       "input_type": "inputType",
+      "multimodal_capabilities": "multimodalCapabilities",
       "required_scorers": "requiredScorers",
       "roll_up_config": "rollUpConfig",
       "included_fields": "includedFields",

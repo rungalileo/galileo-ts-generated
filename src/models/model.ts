@@ -7,6 +7,11 @@ import { remap as remap$ } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
+import {
+  ContentModality,
+  ContentModality$inboundSchema,
+  ContentModality$outboundSchema,
+} from "./contentmodality.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
   InputMap,
@@ -14,11 +19,6 @@ import {
   InputMap$Outbound,
   InputMap$outboundSchema,
 } from "./inputmap.js";
-import {
-  InputModality,
-  InputModality$inboundSchema,
-  InputModality$outboundSchema,
-} from "./inputmodality.js";
 import {
   LLMIntegration,
   LLMIntegration$inboundSchema,
@@ -52,7 +52,7 @@ export type Model = {
   /**
    * Input modalities that the model can accept.
    */
-  inputModalities?: Array<InputModality> | undefined;
+  inputModalities?: Array<ContentModality> | undefined;
   /**
    * Alternative names for the model, used for matching with various current, versioned or legacy names.
    */
@@ -90,7 +90,7 @@ export const Model$inboundSchema: z.ZodMiniType<Model, unknown> = z.pipe(
     user_role: z.optional(z.nullable(types.string())),
     assistant_role: z.optional(z.nullable(types.string())),
     system_supported: z._default(types.boolean(), false),
-    input_modalities: types.optional(z.array(InputModality$inboundSchema)),
+    input_modalities: types.optional(z.array(ContentModality$inboundSchema)),
     alternative_names: types.optional(z.array(types.string())),
     input_token_limit: z.optional(z.nullable(types.number())),
     output_token_limit: z.optional(z.nullable(types.number())),
@@ -173,7 +173,7 @@ export const Model$outboundSchema: z.ZodMiniType<Model$Outbound, Model> = z
       userRole: z.optional(z.nullable(z.string())),
       assistantRole: z.optional(z.nullable(z.string())),
       systemSupported: z._default(z.boolean(), false),
-      inputModalities: z.optional(z.array(InputModality$outboundSchema)),
+      inputModalities: z.optional(z.array(ContentModality$outboundSchema)),
       alternativeNames: z.optional(z.array(z.string())),
       inputTokenLimit: z.optional(z.nullable(z.int())),
       outputTokenLimit: z.optional(z.nullable(z.int())),

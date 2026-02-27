@@ -44,6 +44,11 @@ import {
   MetadataFilter$outboundSchema,
 } from "./metadatafilter.js";
 import {
+  MultimodalCapability,
+  MultimodalCapability$inboundSchema,
+  MultimodalCapability$outboundSchema,
+} from "./multimodalcapability.js";
+import {
   NodeNameFilter,
   NodeNameFilter$inboundSchema,
   NodeNameFilter$Outbound,
@@ -120,6 +125,7 @@ export type BaseScorer = {
   cotEnabled?: boolean | null | undefined;
   outputType?: OutputTypeEnum | null | undefined;
   inputType?: InputTypeEnum | null | undefined;
+  multimodalCapabilities?: Array<MultimodalCapability> | null | undefined;
   requiredScorers?: Array<string> | null | undefined;
   rollUpStrategy?: RollUpStrategy | null | undefined;
   rollUpMethods?:
@@ -298,6 +304,9 @@ export const BaseScorer$inboundSchema: z.ZodMiniType<BaseScorer, unknown> = z
       cot_enabled: z.optional(z.nullable(types.boolean())),
       output_type: z.optional(z.nullable(OutputTypeEnum$inboundSchema)),
       input_type: z.optional(z.nullable(InputTypeEnum$inboundSchema)),
+      multimodal_capabilities: z.optional(
+        z.nullable(z.array(MultimodalCapability$inboundSchema)),
+      ),
       required_scorers: z.optional(z.nullable(z.array(types.string()))),
       roll_up_strategy: z.optional(z.nullable(RollUpStrategy$inboundSchema)),
       roll_up_methods: z.optional(
@@ -345,6 +354,7 @@ export const BaseScorer$inboundSchema: z.ZodMiniType<BaseScorer, unknown> = z
         "cot_enabled": "cotEnabled",
         "output_type": "outputType",
         "input_type": "inputType",
+        "multimodal_capabilities": "multimodalCapabilities",
         "required_scorers": "requiredScorers",
         "roll_up_strategy": "rollUpStrategy",
         "roll_up_methods": "rollUpMethods",
@@ -387,6 +397,7 @@ export type BaseScorer$Outbound = {
   cot_enabled?: boolean | null | undefined;
   output_type?: string | null | undefined;
   input_type?: string | null | undefined;
+  multimodal_capabilities?: Array<string> | null | undefined;
   required_scorers?: Array<string> | null | undefined;
   roll_up_strategy?: string | null | undefined;
   roll_up_methods?: Array<string> | Array<string> | null | undefined;
@@ -447,6 +458,9 @@ export const BaseScorer$outboundSchema: z.ZodMiniType<
     cotEnabled: z.optional(z.nullable(z.boolean())),
     outputType: z.optional(z.nullable(OutputTypeEnum$outboundSchema)),
     inputType: z.optional(z.nullable(InputTypeEnum$outboundSchema)),
+    multimodalCapabilities: z.optional(
+      z.nullable(z.array(MultimodalCapability$outboundSchema)),
+    ),
     requiredScorers: z.optional(z.nullable(z.array(z.string()))),
     rollUpStrategy: z.optional(z.nullable(RollUpStrategy$outboundSchema)),
     rollUpMethods: z.optional(
@@ -492,6 +506,7 @@ export const BaseScorer$outboundSchema: z.ZodMiniType<
       cotEnabled: "cot_enabled",
       outputType: "output_type",
       inputType: "input_type",
+      multimodalCapabilities: "multimodal_capabilities",
       requiredScorers: "required_scorers",
       rollUpStrategy: "roll_up_strategy",
       rollUpMethods: "roll_up_methods",

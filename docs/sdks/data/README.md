@@ -8,9 +8,7 @@
 * [updateScorersScorerIdPatch](#updatescorersscoreridpatch) - Update
 * [deleteScorerScorersScorerIdDelete](#deletescorerscorersscoreriddelete) - Delete Scorer
 * [getScorerScorersScorerIdGet](#getscorerscorersscoreridget) - Get Scorer
-* [createLlmScorerVersionScorersScorerIdVersionLlmPost](#createllmscorerversionscorersscoreridversionllmpost) - Create Llm Scorer Version
 * [validateCodeScorerScorersCodeValidatePost](#validatecodescorerscorerscodevalidatepost) - Validate Code Scorer
-* [validateCodeScorerLogRecordScorersCodeValidateLogRecordPost](#validatecodescorerlogrecordscorerscodevalidatelogrecordpost) - Validate Code Scorer Log Record
 * [getValidateCodeScorerTaskResultScorersCodeValidateTaskIdGet](#getvalidatecodescorertaskresultscorerscodevalidatetaskidget) - Get Validate Code Scorer Task Result
 * [createCodeScorerVersionScorersScorerIdVersionCodePost](#createcodescorerversionscorersscoreridversioncodepost) - Create Code Scorer Version
 * [getScorerVersionCodeScorersScorerIdVersionCodeGet](#getscorerversioncodescorersscoreridversioncodeget) - Get Scorer Version Code
@@ -25,7 +23,6 @@
 * [restoreScorerVersionScorersScorerIdVersionsVersionNumberRestorePost](#restorescorerversionscorersscoreridversionsversionnumberrestorepost) - Restore Scorer Version
 * [autogenLlmScorerScorersLlmAutogenPost](#autogenllmscorerscorersllmautogenpost) - Autogen Llm Scorer
 * [manualLlmValidateScorersLlmValidatePost](#manualllmvalidatescorersllmvalidatepost) - Manual Llm Validate
-* [validateLlmScorerLogRecordScorersLlmValidateLogRecordPost](#validatellmscorerlogrecordscorersllmvalidatelogrecordpost) - Validate Llm Scorer Log Record
 
 ## createScorersPost
 
@@ -331,83 +328,6 @@ run();
 | errors.HTTPValidationError          | 422                                 | application/json                    |
 | errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
 
-## createLlmScorerVersionScorersScorerIdVersionLlmPost
-
-Create Llm Scorer Version
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="create_llm_scorer_version_scorers__scorer_id__version_llm_post" method="post" path="/scorers/{scorer_id}/version/llm" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.data.createLlmScorerVersionScorersScorerIdVersionLlmPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    scorerId: "<value>",
-    body: {},
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { promptsCreateLlmScorerVersionScorersScorerIdVersionLlmPost } from "galileo-generated/funcs/promptsCreateLlmScorerVersionScorersScorerIdVersionLlmPost.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await promptsCreateLlmScorerVersionScorersScorerIdVersionLlmPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    scorerId: "<value>",
-    body: {},
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("promptsCreateLlmScorerVersionScorersScorerIdVersionLlmPost failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.CreateLlmScorerVersionScorersScorerIdVersionLlmPostRequest](../../models/operations/createllmscorerversionscorersscoreridversionllmpostrequest.md)                 | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `security`                                                                                                                                                                     | [operations.CreateLlmScorerVersionScorersScorerIdVersionLlmPostSecurity](../../models/operations/createllmscorerversionscorersscoreridversionllmpostsecurity.md)               | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[models.BaseScorerVersionResponse](../../models/basescorerversionresponse.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
 ## validateCodeScorerScorersCodeValidatePost
 
 Validate a code scorer with optional simple input/output test.
@@ -477,83 +397,6 @@ run();
 ### Response
 
 **Promise\<[models.ValidateCodeScorerResponse](../../models/validatecodescorerresponse.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
-## validateCodeScorerLogRecordScorersCodeValidateLogRecordPost
-
-Validate a code scorer using actual log records.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="validate_code_scorer_log_record_scorers_code_validate_log_record_post" method="post" path="/scorers/code/validate/log_record" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-import { openAsBlob } from "node:fs";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.data.validateCodeScorerLogRecordScorersCodeValidateLogRecordPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    file: await openAsBlob("example.file"),
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { promptsValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost } from "galileo-generated/funcs/promptsValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost.js";
-import { openAsBlob } from "node:fs";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await promptsValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    file: await openAsBlob("example.file"),
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("promptsValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                        | Type                                                                                                                                                                             | Required                                                                                                                                                                         | Description                                                                                                                                                                      |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `request`                                                                                                                                                                        | [models.BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost](../../models/bodyvalidatecodescorerlogrecordscorerscodevalidatelogrecordpost.md)                        | :heavy_check_mark:                                                                                                                                                               | The request object to use for the request.                                                                                                                                       |
-| `security`                                                                                                                                                                       | [operations.ValidateCodeScorerLogRecordScorersCodeValidateLogRecordPostSecurity](../../models/operations/validatecodescorerlogrecordscorerscodevalidatelogrecordpostsecurity.md) | :heavy_check_mark:                                                                                                                                                               | The security requirements to use for the request.                                                                                                                                |
-| `options`                                                                                                                                                                        | RequestOptions                                                                                                                                                                   | :heavy_minus_sign:                                                                                                                                                               | Used to set various options for making HTTP requests.                                                                                                                            |
-| `options.fetchOptions`                                                                                                                                                           | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                          | :heavy_minus_sign:                                                                                                                                                               | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.   |
-| `options.retries`                                                                                                                                                                | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                               | Enables retrying HTTP requests under certain failure conditions.                                                                                                                 |
-
-### Response
-
-**Promise\<[models.ValidateScorerLogRecordResponse](../../models/validatescorerlogrecordresponse.md)\>**
 
 ### Errors
 
@@ -1666,121 +1509,6 @@ run();
 ### Response
 
 **Promise\<[models.GeneratedScorerValidationResponse](../../models/generatedscorervalidationresponse.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
-## validateLlmScorerLogRecordScorersLlmValidateLogRecordPost
-
-Validate Llm Scorer Log Record
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="validate_llm_scorer_log_record_scorers_llm_validate_log_record_post" method="post" path="/scorers/llm/validate/log_record" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.data.validateLlmScorerLogRecordScorersLlmValidateLogRecordPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    logStreamId: "00000000-0000-0000-0000-000000000000",
-    filters: [
-      {
-        columnId: "<id>",
-        operator: "eq",
-        value: "example input",
-        caseSensitive: true,
-        type: "text",
-      },
-    ],
-    sort: {
-      columnId: "<id>",
-      ascending: false,
-    },
-    query: "<value>",
-    response: "<value>",
-    chainPollTemplate: {
-      template: "<value>",
-    },
-    scorerConfiguration: {},
-    userPrompt: "<value>",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { promptsValidateLlmScorerLogRecordScorersLlmValidateLogRecordPost } from "galileo-generated/funcs/promptsValidateLlmScorerLogRecordScorersLlmValidateLogRecordPost.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await promptsValidateLlmScorerLogRecordScorersLlmValidateLogRecordPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    logStreamId: "00000000-0000-0000-0000-000000000000",
-    filters: [
-      {
-        columnId: "<id>",
-        operator: "eq",
-        value: "example input",
-        caseSensitive: true,
-        type: "text",
-      },
-    ],
-    sort: {
-      columnId: "<id>",
-      ascending: false,
-    },
-    query: "<value>",
-    response: "<value>",
-    chainPollTemplate: {
-      template: "<value>",
-    },
-    scorerConfiguration: {},
-    userPrompt: "<value>",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("promptsValidateLlmScorerLogRecordScorersLlmValidateLogRecordPost failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [models.ValidateLLMScorerLogRecordRequest](../../models/validatellmscorerlogrecordrequest.md)                                                                                  | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `security`                                                                                                                                                                     | [operations.ValidateLlmScorerLogRecordScorersLlmValidateLogRecordPostSecurity](../../models/operations/validatellmscorerlogrecordscorersllmvalidatelogrecordpostsecurity.md)   | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[models.ValidateLLMScorerLogRecordResponse](../../models/validatellmscorerlogrecordresponse.md)\>**
 
 ### Errors
 

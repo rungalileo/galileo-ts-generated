@@ -10,7 +10,6 @@ export * from "./countspansprojectsprojectidspanscountpost.js";
 export * from "./counttracesprojectsprojectidtracescountpost.js";
 export * from "./createcodescorerversionscorersscoreridversioncodepost.js";
 export * from "./createdatasetdatasetspost.js";
-export * from "./createexperimentprojectsprojectidexperimentspost.js";
 export * from "./createglobalprompttemplatetemplatespost.js";
 export * from "./createglobalprompttemplateversiontemplatestemplateidversionspost.js";
 export * from "./creategroupdatasetcollaboratorsdatasetsdatasetidgroupspost.js";
@@ -18,7 +17,6 @@ export * from "./creategroupintegrationcollaboratorsintegrationsintegrationidgro
 export * from "./creategroupprojectcollaboratorsprojectsprojectidgroupspost.js";
 export * from "./creategroupprompttemplatecollaboratorstemplatestemplateidgroupspost.js";
 export * from "./createjobjobspost.js";
-export * from "./createllmscorerversionscorersscoreridversionllmpost.js";
 export * from "./createlogstreamprojectsprojectidlogstreamspost.js";
 export * from "./createlunascorerversionscorersscoreridversionlunapost.js";
 export * from "./createorupdateintegrationintegrationsanthropicput.js";
@@ -205,6 +203,4 @@ export * from "./uploadpromptevaluationdatasetprojectsprojectidpromptdatasetspos
 export * from "./upsertdatasetcontentdatasetsdatasetidcontentput.js";
 export * from "./upsertscorersconfigprojectsprojectidrunsrunidscorersettingspatch.js";
 export * from "./upsertscorersconfigprojectsprojectidrunsrunidscorersettingspost.js";
-export * from "./validatecodescorerlogrecordscorerscodevalidatelogrecordpost.js";
 export * from "./validatecodescorerscorerscodevalidatepost.js";
-export * from "./validatellmscorerlogrecordscorersllmvalidatelogrecordpost.js";

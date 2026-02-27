@@ -10,6 +10,10 @@ import {
 } from "./inputtypeenum.js";
 import { ModelType, ModelType$outboundSchema } from "./modeltype.js";
 import {
+  MultimodalCapability,
+  MultimodalCapability$outboundSchema,
+} from "./multimodalcapability.js";
+import {
   NumericRollUpMethod,
   NumericRollUpMethod$outboundSchema,
 } from "./numericrollupmethod.js";
@@ -35,6 +39,7 @@ export type UpdateScorerRequest = {
   scoreableNodeTypes?: Array<string> | null | undefined;
   outputType?: OutputTypeEnum | null | undefined;
   inputType?: InputTypeEnum | null | undefined;
+  multimodalCapabilities?: Array<MultimodalCapability> | null | undefined;
   requiredScorers?: Array<string> | null | undefined;
   rollUpMethod?: NumericRollUpMethod | null | undefined;
 };
@@ -52,6 +57,7 @@ export type UpdateScorerRequest$Outbound = {
   scoreable_node_types?: Array<string> | null | undefined;
   output_type?: string | null | undefined;
   input_type?: string | null | undefined;
+  multimodal_capabilities?: Array<string> | null | undefined;
   required_scorers?: Array<string> | null | undefined;
   roll_up_method?: string | null | undefined;
 };
@@ -73,6 +79,9 @@ export const UpdateScorerRequest$outboundSchema: z.ZodMiniType<
     scoreableNodeTypes: z.optional(z.nullable(z.array(z.string()))),
     outputType: z.optional(z.nullable(OutputTypeEnum$outboundSchema)),
     inputType: z.optional(z.nullable(InputTypeEnum$outboundSchema)),
+    multimodalCapabilities: z.optional(
+      z.nullable(z.array(MultimodalCapability$outboundSchema)),
+    ),
     requiredScorers: z.optional(z.nullable(z.array(z.string()))),
     rollUpMethod: z.optional(z.nullable(NumericRollUpMethod$outboundSchema)),
   }),
@@ -85,6 +94,7 @@ export const UpdateScorerRequest$outboundSchema: z.ZodMiniType<
       scoreableNodeTypes: "scoreable_node_types",
       outputType: "output_type",
       inputType: "input_type",
+      multimodalCapabilities: "multimodal_capabilities",
       requiredScorers: "required_scorers",
       rollUpMethod: "roll_up_method",
     });

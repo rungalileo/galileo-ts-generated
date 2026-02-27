@@ -33,6 +33,11 @@ import {
   ModelType$outboundSchema,
 } from "./modeltype.js";
 import {
+  MultimodalCapability,
+  MultimodalCapability$inboundSchema,
+  MultimodalCapability$outboundSchema,
+} from "./multimodalcapability.js";
+import {
   NodeNameFilter,
   NodeNameFilter$inboundSchema,
   NodeNameFilter$Outbound,
@@ -96,6 +101,10 @@ export type ScorerConfig = {
    * ScorerVersion to use for this scorer. If not provided, the latest version will be used.
    */
   scorerVersion?: BaseScorerVersionDB | null | undefined;
+  /**
+   * Multimodal capabilities which this scorer can utilize in its evaluation.
+   */
+  multimodalCapabilities?: Array<MultimodalCapability> | null | undefined;
   rollUpMethod?: string | null | undefined;
 };
 
@@ -160,6 +169,9 @@ export const ScorerConfig$inboundSchema: z.ZodMiniType<ScorerConfig, unknown> =
       scorer_type: ScorerTypes$inboundSchema,
       model_type: z.optional(z.nullable(ModelType$inboundSchema)),
       scorer_version: z.optional(z.nullable(BaseScorerVersionDB$inboundSchema)),
+      multimodal_capabilities: z.optional(
+        z.nullable(z.array(MultimodalCapability$inboundSchema)),
+      ),
       roll_up_method: z.optional(z.nullable(types.string())),
     }),
     z.transform((v) => {
@@ -173,6 +185,7 @@ export const ScorerConfig$inboundSchema: z.ZodMiniType<ScorerConfig, unknown> =
         "scorer_type": "scorerType",
         "model_type": "modelType",
         "scorer_version": "scorerVersion",
+        "multimodal_capabilities": "multimodalCapabilities",
         "roll_up_method": "rollUpMethod",
       });
     }),
@@ -194,6 +207,7 @@ export type ScorerConfig$Outbound = {
   scorer_type: string;
   model_type?: string | null | undefined;
   scorer_version?: BaseScorerVersionDB$Outbound | null | undefined;
+  multimodal_capabilities?: Array<string> | null | undefined;
   roll_up_method?: string | null | undefined;
 };
 
@@ -224,6 +238,9 @@ export const ScorerConfig$outboundSchema: z.ZodMiniType<
     scorerType: ScorerTypes$outboundSchema,
     modelType: z.optional(z.nullable(ModelType$outboundSchema)),
     scorerVersion: z.optional(z.nullable(BaseScorerVersionDB$outboundSchema)),
+    multimodalCapabilities: z.optional(
+      z.nullable(z.array(MultimodalCapability$outboundSchema)),
+    ),
     rollUpMethod: z.optional(z.nullable(z.string())),
   }),
   z.transform((v) => {
@@ -237,6 +254,7 @@ export const ScorerConfig$outboundSchema: z.ZodMiniType<
       scorerType: "scorer_type",
       modelType: "model_type",
       scorerVersion: "scorer_version",
+      multimodalCapabilities: "multimodal_capabilities",
       rollUpMethod: "roll_up_method",
     });
   }),

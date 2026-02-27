@@ -9,11 +9,24 @@ import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
 import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
+import {
+  AnnotationAggregate,
+  AnnotationAggregate$inboundSchema,
+} from "./annotationaggregate.js";
+import {
+  AnnotationRatingInfo,
+  AnnotationRatingInfo$inboundSchema,
+} from "./annotationratinginfo.js";
+import {
+  ContentModality,
+  ContentModality$inboundSchema,
+} from "./contentmodality.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
   FeedbackRatingInfo,
   FeedbackRatingInfo$inboundSchema,
 } from "./feedbackratinginfo.js";
+import { FileMetadata, FileMetadata$inboundSchema } from "./filemetadata.js";
 import {
   GalileoCoreSchemasLoggingLlmMessage,
   GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
@@ -181,6 +194,24 @@ export type PartialExtendedLlmSpanRecord = {
    */
   feedbackRatingInfo?: { [k: string]: FeedbackRatingInfo } | undefined;
   /**
+   * Annotations keyed by template ID and annotator ID
+   */
+  annotations?:
+    | { [k: string]: { [k: string]: AnnotationRatingInfo } }
+    | undefined;
+  /**
+   * IDs of files associated with this record
+   */
+  fileIds?: Array<string> | undefined;
+  /**
+   * Modalities of files associated with this record
+   */
+  fileModalities?: Array<ContentModality> | undefined;
+  /**
+   * Annotation aggregate information keyed by template ID
+   */
+  annotationAggregates?: { [k: string]: AnnotationAggregate } | undefined;
+  /**
    * Detailed information about the metrics associated with this trace or span
    */
   metricInfo?:
@@ -198,6 +229,10 @@ export type PartialExtendedLlmSpanRecord = {
     }
     | null
     | undefined;
+  /**
+   * File metadata keyed by file ID for files associated with this record
+   */
+  files?: { [k: string]: FileMetadata } | null | undefined;
   /**
    * Galileo ID of the parent of this span
    */
@@ -334,6 +369,17 @@ export const PartialExtendedLlmSpanRecord$inboundSchema: z.ZodMiniType<
     feedback_rating_info: types.optional(
       z.record(z.string(), FeedbackRatingInfo$inboundSchema),
     ),
+    annotations: types.optional(
+      z.record(
+        z.string(),
+        z.record(z.string(), AnnotationRatingInfo$inboundSchema),
+      ),
+    ),
+    file_ids: types.optional(z.array(types.string())),
+    file_modalities: types.optional(z.array(ContentModality$inboundSchema)),
+    annotation_aggregates: types.optional(
+      z.record(z.string(), AnnotationAggregate$inboundSchema),
+    ),
     metric_info: z.optional(
       z.nullable(z.record(
         z.string(),
@@ -348,6 +394,9 @@ export const PartialExtendedLlmSpanRecord$inboundSchema: z.ZodMiniType<
           success: MetricSuccess$inboundSchema,
         }, { outputPropertyName: "statusType" }),
       )),
+    ),
+    files: z.optional(
+      z.nullable(z.record(z.string(), FileMetadata$inboundSchema)),
     ),
     parent_id: z.optional(z.nullable(types.string())),
     is_complete: z._default(types.boolean(), true),
@@ -387,6 +436,9 @@ export const PartialExtendedLlmSpanRecord$inboundSchema: z.ZodMiniType<
       "metrics_batch_id": "metricsBatchId",
       "session_batch_id": "sessionBatchId",
       "feedback_rating_info": "feedbackRatingInfo",
+      "file_ids": "fileIds",
+      "file_modalities": "fileModalities",
+      "annotation_aggregates": "annotationAggregates",
       "metric_info": "metricInfo",
       "parent_id": "parentId",
       "is_complete": "isComplete",

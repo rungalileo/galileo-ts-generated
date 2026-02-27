@@ -9,11 +9,20 @@ import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import { ScorerType, ScorerType$inboundSchema } from "./scorertype.js";
+import { StandardError, StandardError$inboundSchema } from "./standarderror.js";
 
 export type MetricError = {
   statusType: "error";
   scorerType?: ScorerType | null | undefined;
   message?: string | null | undefined;
+  /**
+   * EMS error code from errors.yaml catalog for this metric error
+   */
+  emsErrorCode?: number | null | undefined;
+  /**
+   * Structured EMS error resolved on-the-fly from errors.yaml catalog
+   */
+  standardError?: StandardError | null | undefined;
 };
 
 /** @internal */
@@ -23,11 +32,15 @@ export const MetricError$inboundSchema: z.ZodMiniType<MetricError, unknown> = z
       status_type: types.literal("error"),
       scorer_type: z.optional(z.nullable(ScorerType$inboundSchema)),
       message: z.optional(z.nullable(types.string())),
+      ems_error_code: z.optional(z.nullable(types.number())),
+      standard_error: z.optional(z.nullable(StandardError$inboundSchema)),
     }),
     z.transform((v) => {
       return remap$(v, {
         "status_type": "statusType",
         "scorer_type": "scorerType",
+        "ems_error_code": "emsErrorCode",
+        "standard_error": "standardError",
       });
     }),
   );

@@ -13,6 +13,7 @@ export const AuthMethod = {
   Okta: "okta",
   AzureAd: "azure-ad",
   Custom: "custom",
+  Saml: "saml",
 } as const;
 export type AuthMethod = OpenEnum<typeof AuthMethod>;
 

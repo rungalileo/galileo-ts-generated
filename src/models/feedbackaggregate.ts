@@ -20,7 +20,7 @@ import { StarAggregate, StarAggregate$inboundSchema } from "./staraggregate.js";
 import { TagsAggregate, TagsAggregate$inboundSchema } from "./tagsaggregate.js";
 import { TextAggregate, TextAggregate$inboundSchema } from "./textaggregate.js";
 
-export type Aggregate =
+export type FeedbackAggregateAggregate =
   | LikeDislikeAggregate
   | ScoreAggregate
   | StarAggregate
@@ -39,22 +39,24 @@ export type FeedbackAggregate = {
 };
 
 /** @internal */
-export const Aggregate$inboundSchema: z.ZodMiniType<Aggregate, unknown> =
-  discriminatedUnion("feedback_type", {
-    like_dislike: LikeDislikeAggregate$inboundSchema,
-    score: ScoreAggregate$inboundSchema,
-    star: StarAggregate$inboundSchema,
-    tags: TagsAggregate$inboundSchema,
-    text: TextAggregate$inboundSchema,
-  }, { outputPropertyName: "feedbackType" });
+export const FeedbackAggregateAggregate$inboundSchema: z.ZodMiniType<
+  FeedbackAggregateAggregate,
+  unknown
+> = discriminatedUnion("feedback_type", {
+  like_dislike: LikeDislikeAggregate$inboundSchema,
+  score: ScoreAggregate$inboundSchema,
+  star: StarAggregate$inboundSchema,
+  tags: TagsAggregate$inboundSchema,
+  text: TextAggregate$inboundSchema,
+}, { outputPropertyName: "feedbackType" });
 
-export function aggregateFromJSON(
+export function feedbackAggregateAggregateFromJSON(
   jsonString: string,
-): SafeParseResult<Aggregate, SDKValidationError> {
+): SafeParseResult<FeedbackAggregateAggregate, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => Aggregate$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'Aggregate' from JSON`,
+    (x) => FeedbackAggregateAggregate$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'FeedbackAggregateAggregate' from JSON`,
   );
 }
 

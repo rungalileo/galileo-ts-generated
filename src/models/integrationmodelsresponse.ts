@@ -8,12 +8,17 @@ import { safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
+import {
+  ModelProperties,
+  ModelProperties$inboundSchema,
+} from "./modelproperties.js";
 
 export type IntegrationModelsResponse = {
   integrationName: string;
   models: Array<string>;
   scorerModels: Array<string>;
   supportsNumJudges: boolean;
+  modelProperties?: Array<ModelProperties> | undefined;
 };
 
 /** @internal */
@@ -26,12 +31,14 @@ export const IntegrationModelsResponse$inboundSchema: z.ZodMiniType<
     models: z.array(types.string()),
     scorer_models: z.array(types.string()),
     supports_num_judges: z._default(types.boolean(), true),
+    model_properties: types.optional(z.array(ModelProperties$inboundSchema)),
   }),
   z.transform((v) => {
     return remap$(v, {
       "integration_name": "integrationName",
       "scorer_models": "scorerModels",
       "supports_num_judges": "supportsNumJudges",
+      "model_properties": "modelProperties",
     });
   }),
 );

@@ -40,6 +40,10 @@ export type SessionCreateRequest = {
    * External id of the session.
    */
   externalId?: string | null | undefined;
+  /**
+   * User metadata for the session.
+   */
+  userMetadata?: { [k: string]: string } | null | undefined;
 };
 
 /** @internal */
@@ -53,6 +57,7 @@ export type SessionCreateRequest$Outbound = {
   name?: string | null | undefined;
   previous_session_id?: string | null | undefined;
   external_id?: string | null | undefined;
+  user_metadata?: { [k: string]: string } | null | undefined;
 };
 
 /** @internal */
@@ -70,6 +75,7 @@ export const SessionCreateRequest$outboundSchema: z.ZodMiniType<
     name: z.optional(z.nullable(z.string())),
     previousSessionId: z.optional(z.nullable(z.string())),
     externalId: z.optional(z.nullable(z.string())),
+    userMetadata: z.optional(z.nullable(z.record(z.string(), z.string()))),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -80,6 +86,7 @@ export const SessionCreateRequest$outboundSchema: z.ZodMiniType<
       clientVersion: "client_version",
       previousSessionId: "previous_session_id",
       externalId: "external_id",
+      userMetadata: "user_metadata",
     });
   }),
 );

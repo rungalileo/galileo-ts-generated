@@ -11,12 +11,11 @@ import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
   OutputTypeEnum,
   OutputTypeEnum$inboundSchema,
-  OutputTypeEnum$outboundSchema,
 } from "./outputtypeenum.js";
 
 export type GeneratedScorerConfiguration = {
-  modelAlias?: string | undefined;
-  numJudges?: number | undefined;
+  modelAlias: string;
+  numJudges: number;
   /**
    * Enumeration of output types.
    */
@@ -28,11 +27,11 @@ export type GeneratedScorerConfiguration = {
   /**
    * Whether chain of thought is enabled for this scorer.
    */
-  cotEnabled?: boolean | undefined;
+  cotEnabled: boolean;
   /**
    * Whether ground truth is enabled for this scorer.
    */
-  groundTruth?: boolean | undefined;
+  groundTruth: boolean;
 };
 
 /** @internal */
@@ -59,50 +58,7 @@ export const GeneratedScorerConfiguration$inboundSchema: z.ZodMiniType<
     });
   }),
 );
-/** @internal */
-export type GeneratedScorerConfiguration$Outbound = {
-  model_alias: string;
-  num_judges: number;
-  output_type?: string | undefined;
-  scoreable_node_types?: Array<string> | undefined;
-  cot_enabled: boolean;
-  ground_truth: boolean;
-};
 
-/** @internal */
-export const GeneratedScorerConfiguration$outboundSchema: z.ZodMiniType<
-  GeneratedScorerConfiguration$Outbound,
-  GeneratedScorerConfiguration
-> = z.pipe(
-  z.object({
-    modelAlias: z._default(z.string(), "gpt-4.1-mini"),
-    numJudges: z._default(z.int(), 3),
-    outputType: z.optional(OutputTypeEnum$outboundSchema),
-    scoreableNodeTypes: z.optional(z.array(z.string())),
-    cotEnabled: z._default(z.boolean(), false),
-    groundTruth: z._default(z.boolean(), false),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      modelAlias: "model_alias",
-      numJudges: "num_judges",
-      outputType: "output_type",
-      scoreableNodeTypes: "scoreable_node_types",
-      cotEnabled: "cot_enabled",
-      groundTruth: "ground_truth",
-    });
-  }),
-);
-
-export function generatedScorerConfigurationToJSON(
-  generatedScorerConfiguration: GeneratedScorerConfiguration,
-): string {
-  return JSON.stringify(
-    GeneratedScorerConfiguration$outboundSchema.parse(
-      generatedScorerConfiguration,
-    ),
-  );
-}
 export function generatedScorerConfigurationFromJSON(
   jsonString: string,
 ): SafeParseResult<GeneratedScorerConfiguration, SDKValidationError> {

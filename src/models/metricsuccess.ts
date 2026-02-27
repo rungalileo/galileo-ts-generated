@@ -21,6 +21,9 @@ export type MetricSuccess = {
   cost?: number | null | undefined;
   modelAlias?: string | null | undefined;
   numJudges?: number | null | undefined;
+  inputTokens?: number | null | undefined;
+  outputTokens?: number | null | undefined;
+  totalTokens?: number | null | undefined;
   critique?: MetricCritiqueColumnar | null | undefined;
   value: any | null;
   displayValue?: string | null | undefined;
@@ -39,6 +42,9 @@ export const MetricSuccess$inboundSchema: z.ZodMiniType<
     cost: z.optional(z.nullable(types.number())),
     model_alias: z.optional(z.nullable(types.string())),
     num_judges: z.optional(z.nullable(types.number())),
+    input_tokens: z.optional(z.nullable(types.number())),
+    output_tokens: z.optional(z.nullable(types.number())),
+    total_tokens: z.optional(z.nullable(types.number())),
     critique: z.optional(z.nullable(MetricCritiqueColumnar$inboundSchema)),
     value: types.nullable(z.any()),
     display_value: z.optional(z.nullable(types.string())),
@@ -50,6 +56,9 @@ export const MetricSuccess$inboundSchema: z.ZodMiniType<
       "scorer_type": "scorerType",
       "model_alias": "modelAlias",
       "num_judges": "numJudges",
+      "input_tokens": "inputTokens",
+      "output_tokens": "outputTokens",
+      "total_tokens": "totalTokens",
       "display_value": "displayValue",
     });
   }),

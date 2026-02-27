@@ -12,13 +12,9 @@ export type BodyValidateCodeScorerScorersCodeValidatePostFile = {
   content: ReadableStream<Uint8Array> | Blob | ArrayBuffer | Uint8Array;
 };
 
-export type BodyValidateCodeScorerScorersCodeValidatePostRequiredScorers =
-  | string
-  | Array<string>;
+export type RequiredScorers = string | Array<string>;
 
-export type BodyValidateCodeScorerScorersCodeValidatePostScoreableNodeTypes =
-  | string
-  | Array<string>;
+export type ScoreableNodeTypes = string | Array<string>;
 
 export type BodyValidateCodeScorerScorersCodeValidatePost = {
   file: BodyValidateCodeScorerScorersCodeValidatePostFile | Blob;
@@ -61,46 +57,34 @@ export function bodyValidateCodeScorerScorersCodeValidatePostFileToJSON(
 }
 
 /** @internal */
-export type BodyValidateCodeScorerScorersCodeValidatePostRequiredScorers$Outbound =
-  | string
-  | Array<string>;
+export type RequiredScorers$Outbound = string | Array<string>;
 
 /** @internal */
-export const BodyValidateCodeScorerScorersCodeValidatePostRequiredScorers$outboundSchema:
-  z.ZodMiniType<
-    BodyValidateCodeScorerScorersCodeValidatePostRequiredScorers$Outbound,
-    BodyValidateCodeScorerScorersCodeValidatePostRequiredScorers
-  > = smartUnion([z.string(), z.array(z.string())]);
+export const RequiredScorers$outboundSchema: z.ZodMiniType<
+  RequiredScorers$Outbound,
+  RequiredScorers
+> = smartUnion([z.string(), z.array(z.string())]);
 
-export function bodyValidateCodeScorerScorersCodeValidatePostRequiredScorersToJSON(
-  bodyValidateCodeScorerScorersCodeValidatePostRequiredScorers:
-    BodyValidateCodeScorerScorersCodeValidatePostRequiredScorers,
+export function requiredScorersToJSON(
+  requiredScorers: RequiredScorers,
 ): string {
-  return JSON.stringify(
-    BodyValidateCodeScorerScorersCodeValidatePostRequiredScorers$outboundSchema
-      .parse(bodyValidateCodeScorerScorersCodeValidatePostRequiredScorers),
-  );
+  return JSON.stringify(RequiredScorers$outboundSchema.parse(requiredScorers));
 }
 
 /** @internal */
-export type BodyValidateCodeScorerScorersCodeValidatePostScoreableNodeTypes$Outbound =
-  | string
-  | Array<string>;
+export type ScoreableNodeTypes$Outbound = string | Array<string>;
 
 /** @internal */
-export const BodyValidateCodeScorerScorersCodeValidatePostScoreableNodeTypes$outboundSchema:
-  z.ZodMiniType<
-    BodyValidateCodeScorerScorersCodeValidatePostScoreableNodeTypes$Outbound,
-    BodyValidateCodeScorerScorersCodeValidatePostScoreableNodeTypes
-  > = smartUnion([z.string(), z.array(z.string())]);
+export const ScoreableNodeTypes$outboundSchema: z.ZodMiniType<
+  ScoreableNodeTypes$Outbound,
+  ScoreableNodeTypes
+> = smartUnion([z.string(), z.array(z.string())]);
 
-export function bodyValidateCodeScorerScorersCodeValidatePostScoreableNodeTypesToJSON(
-  bodyValidateCodeScorerScorersCodeValidatePostScoreableNodeTypes:
-    BodyValidateCodeScorerScorersCodeValidatePostScoreableNodeTypes,
+export function scoreableNodeTypesToJSON(
+  scoreableNodeTypes: ScoreableNodeTypes,
 ): string {
   return JSON.stringify(
-    BodyValidateCodeScorerScorersCodeValidatePostScoreableNodeTypes$outboundSchema
-      .parse(bodyValidateCodeScorerScorersCodeValidatePostScoreableNodeTypes),
+    ScoreableNodeTypes$outboundSchema.parse(scoreableNodeTypes),
   );
 }
 

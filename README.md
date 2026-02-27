@@ -205,9 +205,7 @@ run();
 * [updateScorersScorerIdPatch](docs/sdks/data/README.md#updatescorersscoreridpatch) - Update
 * [deleteScorerScorersScorerIdDelete](docs/sdks/data/README.md#deletescorerscorersscoreriddelete) - Delete Scorer
 * [getScorerScorersScorerIdGet](docs/sdks/data/README.md#getscorerscorersscoreridget) - Get Scorer
-* [createLlmScorerVersionScorersScorerIdVersionLlmPost](docs/sdks/data/README.md#createllmscorerversionscorersscoreridversionllmpost) - Create Llm Scorer Version
 * [validateCodeScorerScorersCodeValidatePost](docs/sdks/data/README.md#validatecodescorerscorerscodevalidatepost) - Validate Code Scorer
-* [validateCodeScorerLogRecordScorersCodeValidateLogRecordPost](docs/sdks/data/README.md#validatecodescorerlogrecordscorerscodevalidatelogrecordpost) - Validate Code Scorer Log Record
 * [getValidateCodeScorerTaskResultScorersCodeValidateTaskIdGet](docs/sdks/data/README.md#getvalidatecodescorertaskresultscorerscodevalidatetaskidget) - Get Validate Code Scorer Task Result
 * [createCodeScorerVersionScorersScorerIdVersionCodePost](docs/sdks/data/README.md#createcodescorerversionscorersscoreridversioncodepost) - Create Code Scorer Version
 * [getScorerVersionCodeScorersScorerIdVersionCodeGet](docs/sdks/data/README.md#getscorerversioncodescorersscoreridversioncodeget) - Get Scorer Version Code
@@ -222,7 +220,6 @@ run();
 * [restoreScorerVersionScorersScorerIdVersionsVersionNumberRestorePost](docs/sdks/data/README.md#restorescorerversionscorersscoreridversionsversionnumberrestorepost) - Restore Scorer Version
 * [autogenLlmScorerScorersLlmAutogenPost](docs/sdks/data/README.md#autogenllmscorerscorersllmautogenpost) - Autogen Llm Scorer
 * [manualLlmValidateScorersLlmValidatePost](docs/sdks/data/README.md#manualllmvalidatescorersllmvalidatepost) - Manual Llm Validate
-* [validateLlmScorerLogRecordScorersLlmValidateLogRecordPost](docs/sdks/data/README.md#validatellmscorerlogrecordscorersllmvalidatelogrecordpost) - Validate Llm Scorer Log Record
 
 ### [Datasets](docs/sdks/datasets/README.md)
 
@@ -266,7 +263,6 @@ run();
 
 ### [Experiment](docs/sdks/experiment/README.md)
 
-* [createExperimentProjectsProjectIdExperimentsPost](docs/sdks/experiment/README.md#createexperimentprojectsprojectidexperimentspost) - Create Experiment
 * [~~listExperimentsProjectsProjectIdExperimentsGet~~](docs/sdks/experiment/README.md#listexperimentsprojectsprojectidexperimentsget) - List Experiments :warning: **Deprecated**
 * [listExperimentsPaginatedProjectsProjectIdExperimentsPaginatedGet](docs/sdks/experiment/README.md#listexperimentspaginatedprojectsprojectidexperimentspaginatedget) - List Experiments Paginated
 * [searchExperimentsProjectsProjectIdExperimentsSearchPost](docs/sdks/experiment/README.md#searchexperimentsprojectsprojectidexperimentssearchpost) - Search Experiments
@@ -411,9 +407,7 @@ run();
 * [updateScorersScorerIdPatch](docs/sdks/prompts/README.md#updatescorersscoreridpatch) - Update
 * [deleteScorerScorersScorerIdDelete](docs/sdks/prompts/README.md#deletescorerscorersscoreriddelete) - Delete Scorer
 * [getScorerScorersScorerIdGet](docs/sdks/prompts/README.md#getscorerscorersscoreridget) - Get Scorer
-* [createLlmScorerVersionScorersScorerIdVersionLlmPost](docs/sdks/prompts/README.md#createllmscorerversionscorersscoreridversionllmpost) - Create Llm Scorer Version
 * [validateCodeScorerScorersCodeValidatePost](docs/sdks/prompts/README.md#validatecodescorerscorerscodevalidatepost) - Validate Code Scorer
-* [validateCodeScorerLogRecordScorersCodeValidateLogRecordPost](docs/sdks/prompts/README.md#validatecodescorerlogrecordscorerscodevalidatelogrecordpost) - Validate Code Scorer Log Record
 * [getValidateCodeScorerTaskResultScorersCodeValidateTaskIdGet](docs/sdks/prompts/README.md#getvalidatecodescorertaskresultscorerscodevalidatetaskidget) - Get Validate Code Scorer Task Result
 * [createCodeScorerVersionScorersScorerIdVersionCodePost](docs/sdks/prompts/README.md#createcodescorerversionscorersscoreridversioncodepost) - Create Code Scorer Version
 * [getScorerVersionCodeScorersScorerIdVersionCodeGet](docs/sdks/prompts/README.md#getscorerversioncodescorersscoreridversioncodeget) - Get Scorer Version Code
@@ -428,7 +422,6 @@ run();
 * [restoreScorerVersionScorersScorerIdVersionsVersionNumberRestorePost](docs/sdks/prompts/README.md#restorescorerversionscorersscoreridversionsversionnumberrestorepost) - Restore Scorer Version
 * [autogenLlmScorerScorersLlmAutogenPost](docs/sdks/prompts/README.md#autogenllmscorerscorersllmautogenpost) - Autogen Llm Scorer
 * [manualLlmValidateScorersLlmValidatePost](docs/sdks/prompts/README.md#manualllmvalidatescorersllmvalidatepost) - Manual Llm Validate
-* [validateLlmScorerLogRecordScorersLlmValidateLogRecordPost](docs/sdks/prompts/README.md#validatellmscorerlogrecordscorersllmvalidatelogrecordpost) - Validate Llm Scorer Log Record
 
 ### [Protect](docs/sdks/protect/README.md)
 
@@ -444,9 +437,7 @@ run();
 * [updateScorersScorerIdPatch](docs/sdks/rows/README.md#updatescorersscoreridpatch) - Update
 * [deleteScorerScorersScorerIdDelete](docs/sdks/rows/README.md#deletescorerscorersscoreriddelete) - Delete Scorer
 * [getScorerScorersScorerIdGet](docs/sdks/rows/README.md#getscorerscorersscoreridget) - Get Scorer
-* [createLlmScorerVersionScorersScorerIdVersionLlmPost](docs/sdks/rows/README.md#createllmscorerversionscorersscoreridversionllmpost) - Create Llm Scorer Version
 * [validateCodeScorerScorersCodeValidatePost](docs/sdks/rows/README.md#validatecodescorerscorerscodevalidatepost) - Validate Code Scorer
-* [validateCodeScorerLogRecordScorersCodeValidateLogRecordPost](docs/sdks/rows/README.md#validatecodescorerlogrecordscorerscodevalidatelogrecordpost) - Validate Code Scorer Log Record
 * [getValidateCodeScorerTaskResultScorersCodeValidateTaskIdGet](docs/sdks/rows/README.md#getvalidatecodescorertaskresultscorerscodevalidatetaskidget) - Get Validate Code Scorer Task Result
 * [createCodeScorerVersionScorersScorerIdVersionCodePost](docs/sdks/rows/README.md#createcodescorerversionscorersscoreridversioncodepost) - Create Code Scorer Version
 * [getScorerVersionCodeScorersScorerIdVersionCodeGet](docs/sdks/rows/README.md#getscorerversioncodescorersscoreridversioncodeget) - Get Scorer Version Code
@@ -461,7 +452,6 @@ run();
 * [restoreScorerVersionScorersScorerIdVersionsVersionNumberRestorePost](docs/sdks/rows/README.md#restorescorerversionscorersscoreridversionsversionnumberrestorepost) - Restore Scorer Version
 * [autogenLlmScorerScorersLlmAutogenPost](docs/sdks/rows/README.md#autogenllmscorerscorersllmautogenpost) - Autogen Llm Scorer
 * [manualLlmValidateScorersLlmValidatePost](docs/sdks/rows/README.md#manualllmvalidatescorersllmvalidatepost) - Manual Llm Validate
-* [validateLlmScorerLogRecordScorersLlmValidateLogRecordPost](docs/sdks/rows/README.md#validatellmscorerlogrecordscorersllmvalidatelogrecordpost) - Validate Llm Scorer Log Record
 
 ### [RunScorerSettings](docs/sdks/runscorersettings/README.md)
 
@@ -554,7 +544,6 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`datasetsUpdateGroupDatasetCollaboratorDatasetsDatasetIdGroupsGroupIdPatch`](docs/sdks/datasets/README.md#updategroupdatasetcollaboratordatasetsdatasetidgroupsgroupidpatch) - Update Group Dataset Collaborator
 - [`datasetsUpdateUserDatasetCollaboratorDatasetsDatasetIdUsersUserIdPatch`](docs/sdks/datasets/README.md#updateuserdatasetcollaboratordatasetsdatasetidusersuseridpatch) - Update User Dataset Collaborator
 - [`datasetsUpsertDatasetContentDatasetsDatasetIdContentPut`](docs/sdks/datasets/README.md#upsertdatasetcontentdatasetsdatasetidcontentput) - Upsert Dataset Content
-- [`experimentCreateExperimentProjectsProjectIdExperimentsPost`](docs/sdks/experiment/README.md#createexperimentprojectsprojectidexperimentspost) - Create Experiment
 - [`experimentDeleteExperimentProjectsProjectIdExperimentsExperimentIdDelete`](docs/sdks/experiment/README.md#deleteexperimentprojectsprojectidexperimentsexperimentiddelete) - Delete Experiment
 - [`experimentExperimentsAvailableColumnsProjectsProjectIdExperimentsAvailableColumnsPost`](docs/sdks/experiment/README.md#experimentsavailablecolumnsprojectsprojectidexperimentsavailablecolumnspost) - Experiments Available Columns
 - [`experimentGetExperimentMetricsProjectsProjectIdExperimentsExperimentIdMetricsPost`](docs/sdks/experiment/README.md#getexperimentmetricsprojectsprojectidexperimentsexperimentidmetricspost) - Get Experiment Metrics
@@ -650,9 +639,6 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`promptsCreateGlobalPromptTemplateTemplatesPost`](docs/sdks/prompts/README.md#createglobalprompttemplatetemplatespost) - Create Global Prompt Template
 - [`promptsCreateGlobalPromptTemplateVersionTemplatesTemplateIdVersionsPost`](docs/sdks/prompts/README.md#createglobalprompttemplateversiontemplatestemplateidversionspost) - Create Global Prompt Template Version
 - [`promptsCreateGroupPromptTemplateCollaboratorsTemplatesTemplateIdGroupsPost`](docs/sdks/prompts/README.md#creategroupprompttemplatecollaboratorstemplatestemplateidgroupspost) - Create Group Prompt Template Collaborators
-- [`promptsCreateLlmScorerVersionScorersScorerIdVersionLlmPost`](docs/sdks/data/README.md#createllmscorerversionscorersscoreridversionllmpost) - Create Llm Scorer Version
-- [`promptsCreateLlmScorerVersionScorersScorerIdVersionLlmPost`](docs/sdks/prompts/README.md#createllmscorerversionscorersscoreridversionllmpost) - Create Llm Scorer Version
-- [`promptsCreateLlmScorerVersionScorersScorerIdVersionLlmPost`](docs/sdks/rows/README.md#createllmscorerversionscorersscoreridversionllmpost) - Create Llm Scorer Version
 - [`promptsCreateLunaScorerVersionScorersScorerIdVersionLunaPost`](docs/sdks/data/README.md#createlunascorerversionscorersscoreridversionlunapost) - Create Luna Scorer Version
 - [`promptsCreateLunaScorerVersionScorersScorerIdVersionLunaPost`](docs/sdks/prompts/README.md#createlunascorerversionscorersscoreridversionlunapost) - Create Luna Scorer Version
 - [`promptsCreateLunaScorerVersionScorersScorerIdVersionLunaPost`](docs/sdks/rows/README.md#createlunascorerversionscorersscoreridversionlunapost) - Create Luna Scorer Version
@@ -720,15 +706,9 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`promptsUpdateScorersScorerIdPatch`](docs/sdks/prompts/README.md#updatescorersscoreridpatch) - Update
 - [`promptsUpdateScorersScorerIdPatch`](docs/sdks/rows/README.md#updatescorersscoreridpatch) - Update
 - [`promptsUpdateUserPromptTemplateCollaboratorTemplatesTemplateIdUsersUserIdPatch`](docs/sdks/prompts/README.md#updateuserprompttemplatecollaboratortemplatestemplateidusersuseridpatch) - Update User Prompt Template Collaborator
-- [`promptsValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost`](docs/sdks/data/README.md#validatecodescorerlogrecordscorerscodevalidatelogrecordpost) - Validate Code Scorer Log Record
-- [`promptsValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost`](docs/sdks/prompts/README.md#validatecodescorerlogrecordscorerscodevalidatelogrecordpost) - Validate Code Scorer Log Record
-- [`promptsValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost`](docs/sdks/rows/README.md#validatecodescorerlogrecordscorerscodevalidatelogrecordpost) - Validate Code Scorer Log Record
 - [`promptsValidateCodeScorerScorersCodeValidatePost`](docs/sdks/data/README.md#validatecodescorerscorerscodevalidatepost) - Validate Code Scorer
 - [`promptsValidateCodeScorerScorersCodeValidatePost`](docs/sdks/prompts/README.md#validatecodescorerscorerscodevalidatepost) - Validate Code Scorer
 - [`promptsValidateCodeScorerScorersCodeValidatePost`](docs/sdks/rows/README.md#validatecodescorerscorerscodevalidatepost) - Validate Code Scorer
-- [`promptsValidateLlmScorerLogRecordScorersLlmValidateLogRecordPost`](docs/sdks/data/README.md#validatellmscorerlogrecordscorersllmvalidatelogrecordpost) - Validate Llm Scorer Log Record
-- [`promptsValidateLlmScorerLogRecordScorersLlmValidateLogRecordPost`](docs/sdks/prompts/README.md#validatellmscorerlogrecordscorersllmvalidatelogrecordpost) - Validate Llm Scorer Log Record
-- [`promptsValidateLlmScorerLogRecordScorersLlmValidateLogRecordPost`](docs/sdks/rows/README.md#validatellmscorerlogrecordscorersllmvalidatelogrecordpost) - Validate Llm Scorer Log Record
 - [`protectCreateStageProjectsProjectIdStagesPost`](docs/sdks/protect/README.md#createstageprojectsprojectidstagespost) - Create Stage
 - [`protectCreateStageProjectsProjectIdStagesPost`](docs/sdks/stage/README.md#createstageprojectsprojectidstagespost) - Create Stage
 - [`protectGetStageProjectsProjectIdStagesGet`](docs/sdks/protect/README.md#getstageprojectsprojectidstagesget) - Get Stage
@@ -951,7 +931,7 @@ run();
 
 
 **Inherit from [`GalileoGeneratedError`](./src/models/errors/galileogeneratederror.ts)**:
-* [`HTTPValidationError`](./src/models/errors/httpvalidationerror.ts): Status code `422`. Applicable to 201 of 259 methods.*
+* [`HTTPValidationError`](./src/models/errors/httpvalidationerror.ts): Status code `422`. Applicable to 197 of 249 methods.*
 * [`ResponseValidationError`](./src/models/errors/responsevalidationerror.ts): Type mismatch between the data returned from the server and the structure expected by the SDK. See `error.rawValue` for the raw value and `error.pretty()` for a nicely formatted multi-line string.
 
 </details>
@@ -997,19 +977,23 @@ The `HTTPClient` constructor takes an optional `fetcher` argument that can be
 used to integrate a third-party HTTP client or when writing tests to mock out
 the HTTP client and feed in fixtures.
 
-The following example shows how to use the `"beforeRequest"` hook to to add a
-custom header and a timeout to requests and how to use the `"requestError"` hook
-to log errors:
+The following example shows how to:
+- route requests through a proxy server using [undici](https://www.npmjs.com/package/undici)'s ProxyAgent
+- use the `"beforeRequest"` hook to add a custom header and a timeout to requests
+- use the `"requestError"` hook to log errors
 
 ```typescript
 import { GalileoGenerated } from "galileo-generated";
+import { ProxyAgent } from "undici";
 import { HTTPClient } from "galileo-generated/lib/http";
 
+const dispatcher = new ProxyAgent("http://proxy.example.com:8080");
+
 const httpClient = new HTTPClient({
-  // fetcher takes a function that has the same signature as native `fetch`.
-  fetcher: (request) => {
-    return fetch(request);
-  }
+  // 'fetcher' takes a function that has the same signature as native 'fetch'.
+  fetcher: (input, init) =>
+    // 'dispatcher' is specific to undici and not part of the standard Fetch API.
+    fetch(input, { ...init, dispatcher } as RequestInit),
 });
 
 httpClient.addHook("beforeRequest", (request) => {

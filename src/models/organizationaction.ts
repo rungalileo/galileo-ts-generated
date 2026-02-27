@@ -9,6 +9,9 @@ import { OpenEnum } from "../types/enums.js";
 export const OrganizationAction = {
   Rename: "rename",
   Delete: "delete",
+  DeleteLogData: "delete_log_data",
+  ReadSettings: "read_settings",
+  UpdateSettings: "update_settings",
 } as const;
 export type OrganizationAction = OpenEnum<typeof OrganizationAction>;
 

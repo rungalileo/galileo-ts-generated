@@ -13,6 +13,7 @@ import {
   BucketedMetrics$inboundSchema,
 } from "./bucketedmetrics.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
+import { StandardError, StandardError$inboundSchema } from "./standarderror.js";
 
 export type AggregateMetrics = number | number;
 
@@ -20,6 +21,14 @@ export type LogRecordsMetricsResponse = {
   groupByColumns: Array<string>;
   aggregateMetrics: { [k: string]: number | number };
   bucketedMetrics: { [k: string]: Array<BucketedMetrics> };
+  /**
+   * Whether any EMS error codes were encountered in the queried metrics
+   */
+  emsCapturedError: boolean;
+  /**
+   * Structured EMS errors for each error code encountered, keyed by code
+   */
+  standardErrors?: { [k: string]: StandardError } | null | undefined;
 };
 
 /** @internal */
@@ -53,12 +62,18 @@ export const LogRecordsMetricsResponse$inboundSchema: z.ZodMiniType<
       z.string(),
       z.array(BucketedMetrics$inboundSchema),
     ),
+    ems_captured_error: z._default(types.boolean(), false),
+    standard_errors: z.optional(
+      z.nullable(z.record(z.string(), StandardError$inboundSchema)),
+    ),
   }),
   z.transform((v) => {
     return remap$(v, {
       "group_by_columns": "groupByColumns",
       "aggregate_metrics": "aggregateMetrics",
       "bucketed_metrics": "bucketedMetrics",
+      "ems_captured_error": "emsCapturedError",
+      "standard_errors": "standardErrors",
     });
   }),
 );
