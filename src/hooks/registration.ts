@@ -1,3 +1,4 @@
+import { CertManagementHook } from "./cert-management.js";
 import { ErrorCleanerHook } from "./error-cleaner.js";
 import { TokenManagementHook } from "./token-management.js";
 import type { Hooks } from "./types.js";
@@ -9,6 +10,10 @@ import type { Hooks } from "./types.js";
  */
 
 export function initHooks(hooks: Hooks) {
+	// Register cert management (TLS with undici Agent)
+	const certHook = new CertManagementHook();
+	hooks.registerSDKInitHook(certHook);
+
 	// Register token management hooks
 	const tokenHook = new TokenManagementHook();
 	hooks.registerBeforeRequestHook(tokenHook);

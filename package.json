@@ -31,7 +31,6 @@
     "test:watch": "vitest",
     "code-generation": "speakeasy run"
   },
-  "peerDependencies": {},
   "devDependencies": {
     "@eslint/js": "^9.26.0",
     "@types/node": "^22.10.0",
@@ -128,5 +127,8 @@
   },
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "module": "./dist/esm/index.js"
+  "module": "./dist/esm/index.js",
+  "optionalDependencies": {
+    "undici": "^7.22.0"
+  }
 }

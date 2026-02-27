@@ -1,5 +1,24 @@
 /*
- * Galileo config singleton: env-aware (Node, Deno, browser)
+ * Galileo config singleton: environment-aware across Node.js, Deno, and browser runtimes.
+ * 
+ * Configuration resolution order (highest to lowest priority):
+ * 1. Explicit constructor overrides (via get() method)
+ * 2. Environment variables (GALILEO_* or NODE_TLS_* for Node/Deno)
+ * 3. Browser global (__GALILEO_AUTH__) or localStorage (galileo_auth_config)
+ * 4. Defaults (consoleUrl: "https://console.galileo.ai", apiUrl derived from consoleUrl)
+ * 
+ * Supports multiple authentication methods:
+ * - API key: GALILEO_API_KEY
+ * - Username/password: GALILEO_USERNAME + GALILEO_PASSWORD
+ * - SSO: GALILEO_SSO_ID_TOKEN + GALILEO_SSO_PROVIDER
+ * 
+ * TLS/Certificate configuration:
+ * - CA certificates: GALILEO_CA_CERT_PATH or GALILEO_CA_CERT_CONTENT
+ * - Client certificates (mTLS): GALILEO_CLIENT_CERT_PATH + GALILEO_CLIENT_KEY_PATH
+ * - Certificate validation: GALILEO_REJECT_UNAUTHORIZED or NODE_TLS_REJECT_UNAUTHORIZED
+ * 
+ * For certificate paths in Node.js, use GALILEO_CA_CERT_PATH (replaces default CA list).
+ * To append CA certs to the default list, use NODE_EXTRA_CA_CERTS instead.
  */
 
 import { isBrowserLike, isDeno, isNodeLike } from "./runtime.js";
@@ -7,7 +26,12 @@ import { LOG_LEVEL_PRIORITY } from "../types/sdk-logger.types.js";
 import type { LogLevel } from "../types/sdk-logger.types.js";
 
 /**
- * Configuration input for the Galileo SDK (URLs, auth, project, and log stream).
+ * Configuration input for the Galileo SDK.
+ * 
+ * Includes URLs (console, API), authentication credentials (API key, username/password, SSO tokens),
+ * project/log stream identifiers, logging configuration, and TLS/certificate settings.
+ * 
+ * All properties are optional; values resolve from environment variables or browser storage by default.
  */
 export type GalileoConfigInput = {
   consoleUrl?: string;
@@ -22,10 +46,23 @@ export type GalileoConfigInput = {
   logLevel?: LogLevel | undefined;
   projectName?: string;
   logStreamName?: string;
+  /** Path to CA certificate file. */
+  caCertPath?: string;
+  /** Direct CA certificate content. */
+  caCertContent?: string;
+  /** Client certificate path. */
+  clientCertPath?: string;
+  /** Client key path. */
+  clientKeyPath?: string;
+  /** Whether to reject unauthorized (e.g. self-signed) certificates. */
+  rejectUnauthorized?: boolean;
 };
 
 /**
- * Authentication credentials (API key, username/password, or SSO).
+ * Resolved authentication credentials extracted from config.
+ * 
+ * Contains one or more of: API key, username/password pair, or SSO credentials.
+ * Returned by getAuthCredentials() method.
  */
 export type AuthCredentials = {
   apiKey?: string;
@@ -36,13 +73,36 @@ export type AuthCredentials = {
 };
 
 /**
- * Snapshot shape for base-entity compatibility: apiUrl, apiKey, login, and sso.
+ * TLS/certificate configuration for API requests.
+ * 
+ * Supports custom CA certificates (via file path or direct content) and mutual TLS (mTLS)
+ * with client certificates and keys. Controls whether unauthorized (self-signed) certificates
+ * are accepted via rejectUnauthorized flag.
+ * 
+ * Returned by getCertConfig() method or included in config snapshot.
+ */
+export type CertConfig = {
+  caCertPath?: string;
+  caCertContent?: string;
+  clientCertPath?: string;
+  clientKeyPath?: string;
+  rejectUnauthorized?: boolean;
+};
+
+/**
+ * Config snapshot for BaseEntity compatibility.
+ * 
+ * Flattened representation of resolved configuration including API URL, API key, login credentials
+ * (username/password), SSO information (idToken/provider), and TLS certificate configuration.
+ * 
+ * Used for entity authentication and API interactions.
  */
 export type GalileoConfigSnapshot = {
   apiUrl?: string;
   apiKey?: string;
   login?: { username?: string; password?: string };
   sso?: { idToken?: string; provider?: string };
+  cert?: CertConfig;
 };
 
 /** Browser global key for auth config (e.g. window.__GALILEO_AUTH__). */
@@ -73,6 +133,18 @@ const ENV_GALILEO_PROJECT_NAME = "GALILEO_PROJECT_NAME";
 const ENV_GALILEO_LOG_STREAM = "GALILEO_LOG_STREAM";
 /** Log stream identifier; same meaning as GALILEO_LOG_STREAM (fallback if GALILEO_LOG_STREAM is unset). */
 const ENV_GALILEO_LOG_STREAM_NAME = "GALILEO_LOG_STREAM_NAME";
+/** Path to CA certificate file (Galileo-specific). */
+const ENV_GALILEO_CA_CERT_PATH = "GALILEO_CA_CERT_PATH";
+/** Direct certificate content. */
+const ENV_GALILEO_CA_CERT_CONTENT = "GALILEO_CA_CERT_CONTENT";
+/** Client certificate path. */
+const ENV_GALILEO_CLIENT_CERT_PATH = "GALILEO_CLIENT_CERT_PATH";
+/** Client key path. */
+const ENV_GALILEO_CLIENT_KEY_PATH = "GALILEO_CLIENT_KEY_PATH";
+/** Boolean to allow/reject self-signed certs (Galileo-specific). */
+const ENV_GALILEO_REJECT_UNAUTHORIZED = "GALILEO_REJECT_UNAUTHORIZED";
+/** Boolean to allow/reject self-signed certs (Node.js standard). */
+const ENV_NODE_TLS_REJECT_UNAUTHORIZED = "NODE_TLS_REJECT_UNAUTHORIZED";
 /** Log level for SDK logging (DEBUG, INFO, WARN, ERROR, etc.). */
 const ENV_GALILEO_LOG_LEVEL = "GALILEO_LOG_LEVEL";
 
@@ -168,9 +240,21 @@ function normalizeInput(value: unknown): GalileoConfigInput | null {
     typeof obj["projectName"] === "string" ? obj["projectName"] : undefined;
   const logStreamName =
     typeof obj["logStreamName"] === "string" ? obj["logStreamName"] : undefined;
+  const caCertPath =
+    typeof obj["caCertPath"] === "string" ? obj["caCertPath"] : undefined;
+  const caCertContent =
+    typeof obj["caCertContent"] === "string" ? obj["caCertContent"] : undefined;
+  const clientCertPath =
+    typeof obj["clientCertPath"] === "string" ? obj["clientCertPath"] : undefined;
+  const clientKeyPath =
+    typeof obj["clientKeyPath"] === "string" ? obj["clientKeyPath"] : undefined;
+  const rejectUnauthorized =
+    typeof obj["rejectUnauthorized"] === "boolean"
+      ? obj["rejectUnauthorized"]
+      : undefined;
   const rawLogLevel = typeof obj["logLevel"] === "string" ? obj["logLevel"].toLowerCase() : undefined;
   const logLevel = isValidLogLevel(rawLogLevel) ? rawLogLevel : undefined;
-  if (!apiKey && !u && !p && !ssoIdToken && !ssoProvider) return null;
+  if (!apiKey && !u && !p && !ssoIdToken && !ssoProvider && !caCertPath && !caCertContent && !clientCertPath && !clientKeyPath && rejectUnauthorized === undefined) return null;
   return {
     ...(apiKey ? { apiKey } : {}),
     ...(u ? { username: String(u) } : {}),
@@ -181,6 +265,11 @@ function normalizeInput(value: unknown): GalileoConfigInput | null {
     ...(apiUrl ? { apiUrl } : {}),
     ...(projectName ? { projectName } : {}),
     ...(logStreamName ? { logStreamName } : {}),
+    ...(caCertPath ? { caCertPath } : {}),
+    ...(caCertContent ? { caCertContent } : {}),
+    ...(clientCertPath ? { clientCertPath } : {}),
+    ...(clientKeyPath ? { clientKeyPath } : {}),
+    ...(rejectUnauthorized !== undefined ? { rejectUnauthorized } : {}),
     ...(logLevel !== undefined && logLevel.length > 0 ? { logLevel } : {}),
   };
 }
@@ -209,7 +298,30 @@ function resolveFromEnvironment(): GalileoConfigInput | null {
       ? rawLogLevel
       : undefined;
 
-    if (!apiKey && !username && !password && !ssoIdToken && !ssoProvider && !apiUrl && !consoleUrl && !projectName && !logStreamName && !logLevel)
+    // GALILEO_CA_CERT_PATH is used to clean existing CA certs list and use this instead.
+    // Use NODE_EXTRA_CA_CERTS if you want to append CA certs to existing (default) list instead.
+    const caCertPath =
+      env[ENV_GALILEO_CA_CERT_PATH];
+
+    const caCertContent = env[ENV_GALILEO_CA_CERT_CONTENT];
+    const clientCertPath = env[ENV_GALILEO_CLIENT_CERT_PATH];
+    const clientKeyPath = env[ENV_GALILEO_CLIENT_KEY_PATH];
+
+    // Reject unauthorized: GALILEO_REJECT_UNAUTHORIZED > NODE_TLS_REJECT_UNAUTHORIZED
+    // Empty strings are treated as undefined (not set) to avoid inadvertently disabling TLS.
+    const rejectUnauthorizedRaw =
+      env[ENV_GALILEO_REJECT_UNAUTHORIZED] ??
+      env[ENV_NODE_TLS_REJECT_UNAUTHORIZED];
+    const rejectUnauthorized =
+      rejectUnauthorizedRaw === undefined || rejectUnauthorizedRaw === ""
+        ? undefined
+        : rejectUnauthorizedRaw === "true" || rejectUnauthorizedRaw === "1"
+          ? true
+          : rejectUnauthorizedRaw === "false" || rejectUnauthorizedRaw === "0"
+            ? false
+            : undefined;
+
+    if (!apiKey && !username && !password && !ssoIdToken && !ssoProvider && !apiUrl && !consoleUrl && !projectName && !logStreamName && !logLevel && !caCertPath && !caCertContent && !clientCertPath && !clientKeyPath && rejectUnauthorized === undefined)
       return null;
     return {
       ...(apiKey ? { apiKey } : {}),
@@ -221,6 +333,11 @@ function resolveFromEnvironment(): GalileoConfigInput | null {
       ...(consoleUrl ? { consoleUrl } : {}),
       ...(projectName ? { projectName } : {}),
       ...(logStreamName ? { logStreamName } : {}),
+      ...(caCertPath ? { caCertPath } : {}),
+      ...(caCertContent ? { caCertContent } : {}),
+      ...(clientCertPath ? { clientCertPath } : {}),
+      ...(clientKeyPath ? { clientKeyPath } : {}),
+      ...(rejectUnauthorized !== undefined ? { rejectUnauthorized } : {}),
       ...(logLevel !== undefined && logLevel.length > 0 ? { logLevel } : {}),
     };
   }
@@ -247,6 +364,11 @@ function merge(
     "logLevel",
     "projectName",
     "logStreamName",
+    "caCertPath",
+    "caCertContent",
+    "clientCertPath",
+    "clientKeyPath",
+    "rejectUnauthorized",
   ];
   for (const k of keys) {
     const ov = o[k];
@@ -302,6 +424,11 @@ export class GalileoConfig {
   public readonly logLevel: LogLevel | undefined;
   public readonly projectName: string | undefined;
   public readonly logStreamName: string | undefined;
+  public readonly caCertPath: string | undefined;
+  public readonly caCertContent: string | undefined;
+  public readonly clientCertPath: string | undefined;
+  public readonly clientKeyPath: string | undefined;
+  public readonly rejectUnauthorized: boolean | undefined;
 
   private constructor(input: GalileoConfigInput) {
     this.apiUrl = input.apiUrl ?? resolveApiUrl(input.consoleUrl, undefined, "gen_ai");
@@ -316,11 +443,22 @@ export class GalileoConfig {
     this.logLevel = input.logLevel;
     this.projectName = input.projectName;
     this.logStreamName = input.logStreamName;
+    this.caCertPath = input.caCertPath;
+    this.caCertContent = input.caCertContent;
+    this.clientCertPath = input.clientCertPath;
+    this.clientKeyPath = input.clientKeyPath;
+    this.rejectUnauthorized = input.rejectUnauthorized;
   }
 
   /**
-   * Returns a snapshot compatible with BaseEntity: apiUrl (resolved), apiKey, login, and sso.
-   * @returns The config snapshot for entity authentication and API URL.
+   * Returns a snapshot compatible with BaseEntity, including resolved apiUrl, apiKey, login, sso, and cert.
+   * 
+   * - apiUrl is resolved from consoleUrl if not explicitly set
+   * - login contains username and/or password if present
+   * - sso contains idToken and/or provider if present
+   * - cert contains all configured TLS/certificate settings if any are present
+   * 
+   * @returns The config snapshot for entity authentication and API configuration.
    */
   get snapshot(): GalileoConfigSnapshot {
     const apiUrl = this.apiUrl ?? this.getApiUrl();
@@ -342,18 +480,28 @@ export class GalileoConfig {
               : {}),
           }
         : undefined;
+    const cert = this.getCertConfig();
     return {
       apiUrl,
       ...(this.apiKey !== undefined ? { apiKey: this.apiKey } : {}),
       ...(login ? { login } : {}),
       ...(sso ? { sso } : {}),
+      ...(cert !== null ? { cert } : {}),
     };
   }
 
   /**
-   * Returns the singleton config instance, merging environment and optional overrides.
+   * Returns the singleton config instance, resolving from environment and optional overrides.
+   * 
+   * On first call (or when overrides are provided), resolves configuration from:
+   * 1. Environment variables or browser storage (via resolveFromEnvironment)
+   * 2. Constructor overrides (via merge)
+   * 
+   * The instance is cached and reused on subsequent calls unless overrides are provided.
+   * To reset the singleton, call reset().
+   * 
    * @param overrides - (Optional) Config values to merge over environment and defaults.
-   * @returns The GalileoConfig instance.
+   * @returns The GalileoConfig singleton instance.
    */
   public static get(overrides: GalileoConfigInput = {}): GalileoConfig {
     const hasOverrides = Object.keys(overrides).length > 0;
@@ -367,7 +515,10 @@ export class GalileoConfig {
   }
 
   /**
-   * Clears the singleton instance. Next get() will rebuild from environment and overrides.
+   * Clears the singleton instance.
+   * 
+   * Next call to get() will rebuild the instance from environment variables or browser storage.
+   * Useful for testing or when configuration has changed and needs to be reloaded.
    */
   public static reset(): void {
     GalileoConfig.instance = null;
@@ -375,16 +526,29 @@ export class GalileoConfig {
 
   /**
    * Returns the API base URL, resolved from consoleUrl or explicit apiUrl.
-   * @param projectType - (Optional) Project type used when neither apiUrl nor consoleUrl is set (e.g. "gen_ai").
+   * 
+   * Resolution logic:
+   * 1. If apiUrl is set, return it as-is
+   * 2. If consoleUrl is set, derive apiUrl by replacing "app.galileo.ai" or "console" with "api"
+   * 3. For localhost consoleUrl, return "http://localhost:8088"
+   * 4. If neither consoleUrl nor apiUrl is set, use projectType default (e.g., "gen_ai" → "https://api.galileo.ai")
+   * 5. If no projectType and neither URL is set, throw an error
+   * 
+   * @param projectType - (Optional) Default project type for API URL when neither apiUrl nor consoleUrl is set.
    * @returns The resolved API URL.
+   * @throws Error if apiUrl, consoleUrl, and projectType are all unset.
    */
   public getApiUrl(projectType?: string): string {
     return resolveApiUrl(this.consoleUrl, this.apiUrl, projectType);
   }
 
   /**
-   * Returns the current auth credentials (API key, username/password, or SSO).
-   * @returns The AuthCredentials object with present values.
+   * Returns the current authentication credentials.
+   * 
+   * Extracts and returns all present credentials: API key, username/password pair, and/or SSO tokens.
+   * Only populated fields are included in the returned object.
+   * 
+   * @returns The AuthCredentials object with present credential values.
    */
   public getAuthCredentials(): AuthCredentials {
     return {
@@ -401,7 +565,39 @@ export class GalileoConfig {
   }
 
   /**
-   * Logs a safe summary of the config to the console (passwords and tokens omitted).
+   * Returns TLS/certificate configuration for API requests.
+   * 
+   * Extracts and returns all present certificate settings: CA certificate (path or content),
+   * client certificate and key (for mTLS), and rejectUnauthorized flag.
+   * Only populated fields are included in the returned object.
+   * 
+   * @returns The CertConfig object with present values, or null if no certificate configuration is set.
+   */
+  public getCertConfig(): CertConfig | null {
+    const result: CertConfig = {
+      ...(this.caCertPath !== undefined ? { caCertPath: this.caCertPath } : {}),
+      ...(this.caCertContent !== undefined
+        ? { caCertContent: this.caCertContent }
+        : {}),
+      ...(this.clientCertPath !== undefined
+        ? { clientCertPath: this.clientCertPath }
+        : {}),
+      ...(this.clientKeyPath !== undefined
+        ? { clientKeyPath: this.clientKeyPath }
+        : {}),
+      ...(this.rejectUnauthorized !== undefined
+        ? { rejectUnauthorized: this.rejectUnauthorized }
+        : {}),
+    };
+    return Object.keys(result).length > 0 ? result : null;
+  }
+
+  /**
+   * Logs a safe summary of the current configuration to the console.
+   * 
+   * Omits sensitive values (passwords, API keys, SSO tokens) and instead logs boolean flags
+   * (hasApiKey, hasPassword, hasSsoIdToken) to indicate their presence without revealing content.
+   * Useful for debugging configuration issues in production environments.
    */
   public logConfig(): void {
     const safe = {
@@ -415,6 +611,9 @@ export class GalileoConfig {
       hasSsoIdToken: Boolean(this.ssoIdToken),
       projectName: this.projectName,
       logStreamName: this.logStreamName,
+      hasCaCert: Boolean(this.caCertPath || this.caCertContent),
+      hasClientCert: Boolean(this.clientCertPath && this.clientKeyPath),
+      rejectUnauthorized: this.rejectUnauthorized,
     };
     console.info("[GalileoConfig]", safe);
   }

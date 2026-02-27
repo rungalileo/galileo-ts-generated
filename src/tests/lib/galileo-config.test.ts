@@ -13,6 +13,11 @@ const ENV_KEYS = [
   'GALILEO_PROJECT_NAME',
   'GALILEO_LOG_STREAM',
   'GALILEO_LOG_STREAM_NAME',
+  'GALILEO_CA_CERT_PATH',
+  'GALILEO_CA_CERT_CONTENT',
+  'GALILEO_CLIENT_CERT_PATH',
+  'GALILEO_CLIENT_KEY_PATH',
+  'GALILEO_REJECT_UNAUTHORIZED',
 ] as const;
 
 function clearGalileoEnv(): void {
@@ -232,5 +237,110 @@ describe('GalileoConfig', () => {
     const spy = vi.spyOn(console, 'info').mockImplementation(() => {});
     expect(() => config.logConfig()).not.toThrow();
     spy.mockRestore();
+  });
+
+  test('test getCertConfig returns cert fields from overrides', () => {
+    GalileoConfig.reset();
+    const config = GalileoConfig.get({
+      apiKey: 'key',
+      apiUrl: 'https://api.example.com',
+      caCertPath: '/path/to/ca.pem',
+      caCertContent: '-----BEGIN CERTIFICATE-----',
+      clientCertPath: '/path/to/client.pem',
+      clientKeyPath: '/path/to/key.pem',
+      rejectUnauthorized: false,
+    });
+    const cert = config.getCertConfig();
+    expect(cert).not.toBeNull();
+    if (!cert) throw new Error("unreachable");
+    expect(cert.caCertPath).toBe('/path/to/ca.pem');
+    expect(cert.caCertContent).toBe('-----BEGIN CERTIFICATE-----');
+    expect(cert.clientCertPath).toBe('/path/to/client.pem');
+    expect(cert.clientKeyPath).toBe('/path/to/key.pem');
+    expect(cert.rejectUnauthorized).toBe(false);
+  });
+
+  test('test getCertConfig empty when no cert set', () => {
+    GalileoConfig.reset();
+    const config = GalileoConfig.get({
+      apiKey: 'key',
+      apiUrl: 'https://api.example.com',
+    });
+    const cert = config.getCertConfig();
+    expect(cert).toBeNull();
+  });
+
+  test('test snapshot includes cert when set', () => {
+    GalileoConfig.reset();
+    const config = GalileoConfig.get({
+      apiKey: 'key',
+      apiUrl: 'https://api.example.com',
+      caCertPath: '/ca.pem',
+      rejectUnauthorized: true,
+    });
+    expect(config.snapshot.cert).toEqual({
+      caCertPath: '/ca.pem',
+      rejectUnauthorized: true,
+    });
+  });
+
+  test('test cert from env', () => {
+    GalileoConfig.reset();
+    process.env['GALILEO_API_KEY'] = 'env-key';
+    process.env['GALILEO_CA_CERT_PATH'] = '/env/ca.pem';
+    process.env['GALILEO_REJECT_UNAUTHORIZED'] = 'false';
+    const config = GalileoConfig.get({});
+    const cert = config.getCertConfig();
+    expect(cert).not.toBeNull();
+    if (!cert) throw new Error("unreachable");
+    expect(cert.caCertPath).toBe('/env/ca.pem');
+    expect(cert.rejectUnauthorized).toBe(false);
+  });
+
+  test('test empty GALILEO_REJECT_UNAUTHORIZED treated as undefined', () => {
+    GalileoConfig.reset();
+    process.env['GALILEO_API_KEY'] = 'env-key';
+    process.env['GALILEO_REJECT_UNAUTHORIZED'] = '';
+    const config = GalileoConfig.get({});
+    const cert = config.getCertConfig();
+    expect(cert).toBeNull();
+  });
+
+  test('test empty NODE_TLS_REJECT_UNAUTHORIZED treated as undefined', () => {
+    GalileoConfig.reset();
+    process.env['GALILEO_API_KEY'] = 'env-key';
+    process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '';
+    const config = GalileoConfig.get({});
+    const cert = config.getCertConfig();
+    expect(cert).toBeNull();
+  });
+
+  test('test explicit rejectUnauthorized values', () => {
+    GalileoConfig.reset();
+    process.env['GALILEO_API_KEY'] = 'env-key';
+    
+    // Test "true" string
+    process.env['GALILEO_REJECT_UNAUTHORIZED'] = 'true';
+    let config = GalileoConfig.get({});
+    let cert = config.getCertConfig();
+    expect(cert?.rejectUnauthorized).toBe(true);
+    
+    GalileoConfig.reset();
+    process.env['GALILEO_REJECT_UNAUTHORIZED'] = '1';
+    config = GalileoConfig.get({});
+    cert = config.getCertConfig();
+    expect(cert?.rejectUnauthorized).toBe(true);
+    
+    GalileoConfig.reset();
+    process.env['GALILEO_REJECT_UNAUTHORIZED'] = 'false';
+    config = GalileoConfig.get({});
+    cert = config.getCertConfig();
+    expect(cert?.rejectUnauthorized).toBe(false);
+    
+    GalileoConfig.reset();
+    process.env['GALILEO_REJECT_UNAUTHORIZED'] = '0';
+    config = GalileoConfig.get({});
+    cert = config.getCertConfig();
+    expect(cert?.rejectUnauthorized).toBe(false);
   });
 });
