@@ -71,10 +71,12 @@ export class CertManagementHook implements SDKInitHook {
    * Initializes SDK options with TLS certificate configuration.
    * 
    * Reads certificate config from GalileoConfig, creates an undici Agent if needed,
-   * and returns SDKOptions with a custom HTTPClient using the configured agent.
+   * and augments the HTTPClient (if present) with a beforeRequest hook that injects
+   * the TLS dispatcher. This approach preserves any custom HTTPClient and its hooks
+   * while layering TLS configuration on top.
    * 
    * @param opts - The original SDK options
-   * @returns Enhanced SDKOptions with custom HTTPClient if TLS config is present, or original opts otherwise
+   * @returns Enhanced SDKOptions with TLS configuration applied, or original opts otherwise
    */
   sdkInit(opts: SDKOptions): SDKOptions {
     if (!isNodeLike() || !CertAgent) {
@@ -139,30 +141,130 @@ export class CertManagementHook implements SDKInitHook {
         return opts;
       }
 
-      // Create undici Agent with the configured TLS settings
+      // Create undici Agent with the configured TLS settings (singleton, reused for all requests)
       const agent = new CertAgent({
         connect: connectOptions
       });
 
-      // Create custom fetcher that injects the undici agent as the dispatcher
-      // This applies TLS configuration to all fetch requests made through the SDK
-      const customFetcher = (input: RequestInfo | URL, init?: RequestInit) => {
-        return fetch(input, {
-          ...init,
+      // Get or create HTTPClient to augment
+      const httpClient = opts.httpClient || new HTTPClient();
+
+      // Warn if this runtime may not support Request.dispatcher (Node.js < 20.18.1)
+      this.warnIfDispatcherUnsupported();
+
+      // Add a beforeRequest hook that injects the TLS dispatcher into requests.
+      // This hook attaches the pre-created agent to the request, applying TLS configuration
+      // while preserving any user-registered hooks (which execute before this one).
+      // 
+      // The dispatcher option is a Node.js-specific extension for undici integration.
+      // Supported on Node.js >= 20.18.1 with undici available.
+      // On older runtimes or non-Node.js environments, the dispatcher will be silently ignored
+      // (Request constructor doesn't throw on unknown properties, just ignores them).
+      // See: https://nodejs.org/docs/latest/api/fetch.html#fetchinit-options
+      httpClient.addHook('beforeRequest', (req: Request): Request => {
+        // Create a new Request with the TLS dispatcher injected.
+        // The hook receives a cloned request, so the body is readable and safe to transfer.
+        return new Request(req.url, {
+          method: req.method,
+          headers: req.headers,
+          body: req.body,
           // @ts-expect-error - dispatcher is Node.js-specific undici extension, not in standard fetch spec
           dispatcher: agent
         });
-      };
+      });
 
-      // Return enhanced SDK options with custom HTTPClient using the TLS-configured fetcher
       return {
         ...opts,
-        httpClient: new HTTPClient({ fetcher: customFetcher })
+        httpClient: httpClient
       };
 
     } catch (error) {
       sdkLogger.error(`[TLS] Failed to configure custom certificates: ${error}`);
       return opts;
+    }
+  }
+
+  /**
+   * Warns if the current Node.js version may not support Request.dispatcher.
+   * 
+   * Request.dispatcher is a Node.js-specific extension for undici integration.
+   * It's supported on Node.js >= 20.18.1. On older versions, the dispatcher
+   * property will be silently ignored, and TLS certificates may not be applied.
+   * 
+   * See: https://nodejs.org/docs/latest/api/fetch.html#fetchinit-options
+   */
+  private warnIfDispatcherUnsupported(): void {
+    // Only check on Node.js-like environments; skip on browser/Deno
+    if (!isNodeLike()) {
+      return; // Non-Node.js runtimes don't support dispatcher anyway (expected)
+    }
+
+    try {
+      const nodeVersion = this.getNodeVersion();
+      if (nodeVersion && !this.isNodeVersionSupported(nodeVersion)) {
+        sdkLogger.warn(
+          `[TLS] Node.js ${nodeVersion} detected. Request.dispatcher (required for TLS support) ` +
+          `is available from Node.js 20.18.1+. Upgrade Node.js to ensure certificates are applied. ` +
+          `See: https://nodejs.org/docs/latest/api/fetch.html#fetchinit-options`
+        );
+      }
+    } catch (error) {
+      // If version detection fails, silently skip the warning
+      // (version detection is best-effort for user convenience)
+    }
+  }
+
+  /**
+   * Extracts the Node.js version from process.versions.
+   * 
+   * @returns Version string (e.g., "20.10.0") or null if not detectable
+   */
+  private getNodeVersion(): string | null {
+    try {
+      const proc = (globalThis as unknown as {
+        process?: { versions?: { node?: string } };
+      }).process;
+      
+      if (proc?.versions?.node) {
+        return proc.versions.node;
+      }
+    } catch {
+      // Ignore errors; version detection is non-critical
+    }
+    return null;
+  }
+
+  /**
+   * Checks if a Node.js version is >= 20.18.1 (minimum for Request.dispatcher support).
+   * 
+   * @param versionStr - Version string (e.g., "20.10.0", "21.0.0")
+   * @returns true if version >= 20.18.1, false otherwise
+   */
+  private isNodeVersionSupported(versionStr: string): boolean {
+    try {
+      // Handle empty or obviously invalid strings early
+      if (!versionStr || typeof versionStr !== 'string') {
+        return true; // Can't parse, assume supported (optimistic)
+      }
+
+      const parts = versionStr.split('.').map(v => parseInt(v, 10));
+      const major = parts[0];
+      const minor = parts[1] ?? 0;
+      const patch = parts[2] ?? 0;
+
+      // If major version couldn't be parsed (NaN or undefined), assume supported
+      if (major === undefined || Number.isNaN(major)) return true;
+
+      // Need: major > 20 OR (major === 20 AND minor > 18) OR (major === 20 AND minor === 18 AND patch >= 1)
+      if (major > 20) return true;
+      if (major === 20) {
+        if (minor > 18) return true;
+        if (minor === 18 && patch >= 1) return true;
+      }
+      return false;
+    } catch {
+      // If any parsing error occurs, assume version is supported (optimistic)
+      return true;
     }
   }
 
