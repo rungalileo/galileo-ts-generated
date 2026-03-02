@@ -31,9 +31,11 @@ export class SDKIdentifierHook implements BeforeRequestHook {
     _hookCtx: BeforeRequestContext,
     request: Request,
   ): Promise<Request> {
+    const newRequest = request.clone();
+
     const version = loadVersion();
     const sdkIdentifier = getSdkIdentifier(version);
-    request.headers.set("X-Galileo-SDK", sdkIdentifier);
-    return request;
+    newRequest.headers.set("X-Galileo-SDK", sdkIdentifier);
+    return newRequest;
   }
 }
