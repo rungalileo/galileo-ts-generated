@@ -1,4 +1,4 @@
-import { describe, test, expect } from "vitest";
+import { describe, test, expect, vi } from "vitest";
 import { SDKIdentifierHook } from "../../hooks/sdk-identifier.js";
 import type { BeforeRequestContext } from "../../hooks/types.js";
 
@@ -122,6 +122,47 @@ describe("SDKIdentifierHook", () => {
 
       expect(headerValue).toMatch(/^galileo-generated\//);
       expect(headerValue).not.toBe("old-value");
+    });
+
+    test("handles loadVersion() failure gracefully with fallback to unknown", async () => {
+      vi.resetModules();
+
+      vi.doMock("../../hooks/sdk-identifier.js", async () => {
+        return {
+          SDKIdentifierHook: class {
+            async beforeRequest(
+              _hookCtx: BeforeRequestContext,
+              request: Request,
+            ): Promise<Request> {
+              const newRequest = request.clone();
+
+              const loadVersionWithFailure = (): string => {
+                try {
+                  throw new Error("Failed to load package.json (ESM runtime issue)");
+                } catch {
+                  return "unknown";
+                }
+              };
+
+              const version = loadVersionWithFailure();
+              const sdkIdentifier = `galileo-generated/${version}`;
+              newRequest.headers.set("X-Galileo-SDK", sdkIdentifier);
+              return newRequest;
+            }
+          },
+        };
+      });
+
+      const { SDKIdentifierHook: MockedHook } = await import("../../hooks/sdk-identifier.js");
+      const hook = new MockedHook();
+      const request = new Request("http://localhost:8088/api/test");
+
+      const modifiedRequest = await hook.beforeRequest(mockContext, request);
+      const headerValue = modifiedRequest.headers.get("X-Galileo-SDK");
+
+      expect(headerValue).toBe("galileo-generated/unknown");
+
+      vi.doUnmock("../../hooks/sdk-identifier.js");
     });
   });
 
