@@ -1,6 +1,7 @@
 import { CertManagementHook } from "./cert-management.js";
 import { ErrorCleanerHook } from "./error-cleaner.js";
 import { TokenManagementHook } from "./token-management.js";
+import { SDKIdentifierHook } from "./sdk-identifier.js";
 import type { Hooks } from "./types.js";
 
 /*
@@ -22,4 +23,8 @@ export function initHooks(hooks: Hooks) {
 	// Register error cleaning hook
 	const errorCleanerHook = new ErrorCleanerHook();
 	hooks.registerAfterErrorHook(errorCleanerHook);
+
+	// Register SDK identifier hook
+	const sdkIdentifierHook = new SDKIdentifierHook();
+	hooks.registerBeforeRequestHook(sdkIdentifierHook);
 }
