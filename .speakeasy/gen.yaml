@@ -28,16 +28,16 @@ generation:
   requestBodyFieldName: body
   versioningStrategy: manual
   persistentEdits:
-    enabled: "false"
+    enabled: 'false'
   tests:
     generateTests: false
     generateNewTests: true
     skipResponseBodyAssertions: false
 typescript:
-  version: 0.2.5
+  version: 0.2.9
   acceptHeaderEnum: false
   additionalDependencies:
-    optionalDependencies: 
+    optionalDependencies:
       undici: ^7.22.0
     devDependencies:
       '@types/node': ^22.10.0
