@@ -1,6 +1,6 @@
 {
   "name": "galileo-generated",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "author": "Galileo/Speakeasy",
   "repository": {
     "type": "git",
@@ -27,9 +27,9 @@
     "lint": "eslint --cache --max-warnings=0 src",
     "build": "tshy",
     "prepublishOnly": "npm run build",
+    "code-generation": "speakeasy run",
     "test": "vitest run",
-    "test:watch": "vitest",
-    "code-generation": "speakeasy run"
+    "test:watch": "vitest"
   },
   "peerDependencies": {},
   "devDependencies": {

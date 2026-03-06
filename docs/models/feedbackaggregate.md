@@ -17,6 +17,6 @@ let value: FeedbackAggregate = {
 
 ## Fields
 
-| Field              | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `aggregate`        | *models.Aggregate* | :heavy_check_mark: | N/A                |
+| Field                               | Type                                | Required                            | Description                         |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| `aggregate`                         | *models.FeedbackAggregateAggregate* | :heavy_check_mark:                  | N/A                                 |

@@ -66,7 +66,7 @@ const value: models.IntegrationAction = "delete";
 ### `models.OrganizationAction`
 
 ```typescript
-const value: models.OrganizationAction = "rename";
+const value: models.OrganizationAction = "delete_log_data";
 ```
 
 ### `models.AnnotationQueueAction`

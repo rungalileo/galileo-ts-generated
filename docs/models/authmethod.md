@@ -5,7 +5,7 @@
 ```typescript
 import { AuthMethod } from "galileo-generated/models";
 
-let value: AuthMethod = "okta";
+let value: AuthMethod = "azure-ad";
 ```
 
 ## Values
@@ -13,5 +13,5 @@ let value: AuthMethod = "okta";
 This is an open enum. Unrecognized values will be captured as the `Unrecognized<string>` branded type.
 
 ```typescript
-"email" | "google" | "github" | "okta" | "azure-ad" | "custom" | Unrecognized<string>
+"email" | "google" | "github" | "okta" | "azure-ad" | "custom" | "saml" | Unrecognized<string>
 ```
