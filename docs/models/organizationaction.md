@@ -5,13 +5,13 @@
 ```typescript
 import { OrganizationAction } from "galileo-generated/models";
 
-let value: OrganizationAction = "delete";
+let value: OrganizationAction = "read_settings";
+
+// Open enum: unrecognized values are captured as Unrecognized<string>
 ```
 
 ## Values
 
-This is an open enum. Unrecognized values will be captured as the `Unrecognized<string>` branded type.
-
 ```typescript
-"rename" | "delete" | Unrecognized<string>
+"rename" | "delete" | "delete_log_data" | "read_settings" | "update_settings" | Unrecognized<string>
 ```

@@ -8,8 +8,8 @@ OAuth2 Resource Owner Password Flow credentials
 import { OAuth2PasswordBearerCredentials } from "galileo-generated/models";
 
 let value: OAuth2PasswordBearerCredentials = {
-  username: "Garry_Sanford31",
-  password: "agiLMMV9COtzwVr",
+  username: "Rosendo.Boyer88",
+  password: "puYN4zMswa2ONkb",
 };
 ```
 

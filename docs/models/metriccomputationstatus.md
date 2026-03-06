@@ -6,11 +6,11 @@
 import { MetricComputationStatus } from "galileo-generated/models";
 
 let value: MetricComputationStatus = "error";
+
+// Open enum: unrecognized values are captured as Unrecognized<string>
 ```
 
 ## Values
-
-This is an open enum. Unrecognized values will be captured as the `Unrecognized<string>` branded type.
 
 ```typescript
 "success" | "timeout" | "failed" | "error" | Unrecognized<string>

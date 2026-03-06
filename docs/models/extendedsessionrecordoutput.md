@@ -15,8 +15,8 @@ const value: string = "<value>";
 
 ```typescript
 const value: models.GalileoCoreSchemasLoggingLlmMessage = {
-  content: "<value>",
-  role: "function",
+  content: [],
+  role: "system",
 };
 ```
 

@@ -13,11 +13,11 @@ Values:
 import { CustomAuthenticationType } from "galileo-generated/models";
 
 let value: CustomAuthenticationType = "api_key";
+
+// Open enum: unrecognized values are captured as Unrecognized<string>
 ```
 
 ## Values
-
-This is an open enum. Unrecognized values will be captured as the `Unrecognized<string>` branded type.
 
 ```typescript
 "api_key" | "none" | "oauth2" | Unrecognized<string>
