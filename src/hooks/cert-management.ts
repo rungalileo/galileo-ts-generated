@@ -38,6 +38,7 @@ let CertAgent: AgentConstructor | undefined;
 
 try {
   // Using synchronous require to support both ESM and CommonJS contexts
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   CertAgent = require('undici').Agent;
 } catch (error) {
   sdkLogger.warn(`[TLS] Failed to import undici: ${error}`);

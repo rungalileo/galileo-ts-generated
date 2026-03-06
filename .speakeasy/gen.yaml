@@ -28,7 +28,7 @@ generation:
   requestBodyFieldName: body
   versioningStrategy: manual
   persistentEdits:
-    enabled: 'false'
+    enabled: "true"
   tests:
     generateTests: false
     generateNewTests: true
@@ -37,12 +37,12 @@ typescript:
   version: 0.2.9
   acceptHeaderEnum: false
   additionalDependencies:
-    optionalDependencies:
-      undici: ^7.22.0
     devDependencies:
       '@types/node': ^22.10.0
       msw: ^2.7.0
       vitest: ^2.1.0
+    optionalDependencies:
+      undici: ^7.22.0
     peerDependencies: {}
   additionalPackageJSON:
     repository:
