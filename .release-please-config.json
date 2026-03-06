@@ -10,14 +10,14 @@
           {"type": "perf", "section": "Performance"},
           {"type": "docs", "section": "Documentation"},
           {"type": "chore", "section": "Miscellaneous"}
+        ],
+        "extra-files": [
+          {
+            "type": "yaml",
+            "path": ".speakeasy/gen.yaml",
+            "jsonpath": "$.typescript.version"
+          }
         ]
-      },
-      "extra-files": [
-        {
-          "type": "yaml",
-          "path": ".speakeasy/gen.yaml",
-          "jsonpath": "$.typescript.version"
-        }
-      ]
+      }
     }
   }
