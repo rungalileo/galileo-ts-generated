@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.9](https://github.com/rungalileo/galileo-ts-generated/compare/galileo-generated-v0.2.8...galileo-generated-v0.2.9) (2026-03-06)
+
+
+### Features
+
+* **posthog:** Added SDK data to header in requests, for Posthog filtering ([#44](https://github.com/rungalileo/galileo-ts-generated/issues/44)) ([6211709](https://github.com/rungalileo/galileo-ts-generated/commit/62117090630c8745749b56b2af68536b518b061f))
+* **version:** Added extra-files config to support bumping Speakeasy … ([#49](https://github.com/rungalileo/galileo-ts-generated/issues/49)) ([bfff599](https://github.com/rungalileo/galileo-ts-generated/commit/bfff5997ef1fc16b5d9d685dc5ee5a35ce3c5c12))
+
 ## [0.2.8](https://github.com/rungalileo/galileo-ts-generated/compare/galileo-generated-v0.2.7...galileo-generated-v0.2.8) (2026-02-27)
 
 
