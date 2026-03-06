@@ -14,7 +14,7 @@ let value: LogRecordsQueryResponse = {
       input: "Who is a smart LLM?",
       output: "I am",
       name: "",
-      createdAt: new Date("2026-03-06T13:51:33.146968Z"),
+      createdAt: new Date("2026-03-06T13:42:26.197674Z"),
       userMetadata: {},
       tags: [],
       metrics: {
@@ -46,7 +46,7 @@ let value: LogRecordsQueryResponse = {
         role: "user",
       },
       name: "",
-      createdAt: new Date("2026-03-06T13:51:33.147158Z"),
+      createdAt: new Date("2026-03-06T13:42:26.197868Z"),
       userMetadata: {},
       tags: [],
       metrics: {
