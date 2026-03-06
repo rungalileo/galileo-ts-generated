@@ -19,7 +19,6 @@
 * [querySpansProjectsProjectIdSpansSearchPost](#queryspansprojectsprojectidspanssearchpost) - Query Spans
 * [queryPartialSpansProjectsProjectIdSpansPartialSearchPost](#querypartialspansprojectsprojectidspanspartialsearchpost) - Query Partial Spans
 * [countSpansProjectsProjectIdSpansCountPost](#countspansprojectsprojectidspanscountpost) - Count Spans
-* [queryMetricsProjectsProjectIdMetricsSearchPost](#querymetricsprojectsprojectidmetricssearchpost) - Query Metrics
 * [createSessionProjectsProjectIdSessionsPost](#createsessionprojectsprojectidsessionspost) - Create Session
 * [querySessionsProjectsProjectIdSessionsSearchPost](#querysessionsprojectsprojectidsessionssearchpost) - Query Sessions
 * [queryPartialSessionsProjectsProjectIdSessionsPartialSearchPost](#querypartialsessionsprojectsprojectidsessionspartialsearchpost) - Query Partial Sessions
@@ -57,7 +56,7 @@ async function run() {
         {
           input: "who is a smart LLM?",
           output: "I am!",
-          createdAt: new Date("2026-02-09T22:24:09.288054Z"),
+          createdAt: new Date("2026-03-06T13:30:13.432315Z"),
           userMetadata: {
 
           },
@@ -80,7 +79,7 @@ async function run() {
                 role: "user",
               },
               name: "",
-              createdAt: new Date("2026-02-09T22:24:09.288011Z"),
+              createdAt: new Date("2026-03-06T13:30:13.432273Z"),
               userMetadata: {
 
               },
@@ -126,7 +125,7 @@ async function run() {
         {
           input: "who is a smart LLM?",
           output: "I am!",
-          createdAt: new Date("2026-02-09T22:24:09.288054Z"),
+          createdAt: new Date("2026-03-06T13:30:13.432315Z"),
           userMetadata: {
   
           },
@@ -149,7 +148,7 @@ async function run() {
                 role: "user",
               },
               name: "",
-              createdAt: new Date("2026-02-09T22:24:09.288011Z"),
+              createdAt: new Date("2026-03-06T13:30:13.432273Z"),
               userMetadata: {
   
               },
@@ -1113,7 +1112,7 @@ async function run() {
           input: "who is a smart LLM?",
           output: "I am!",
           name: "",
-          createdAt: new Date("2026-02-09T22:24:09.312097Z"),
+          createdAt: new Date("2026-03-06T13:30:13.453327Z"),
           userMetadata: {
 
           },
@@ -1136,7 +1135,7 @@ async function run() {
                 role: "user",
               },
               name: "",
-              createdAt: new Date("2026-02-09T22:24:09.295292Z"),
+              createdAt: new Date("2026-03-06T13:30:13.438758Z"),
               userMetadata: {
 
               },
@@ -1186,7 +1185,7 @@ async function run() {
           input: "who is a smart LLM?",
           output: "I am!",
           name: "",
-          createdAt: new Date("2026-02-09T22:24:09.312097Z"),
+          createdAt: new Date("2026-03-06T13:30:13.453327Z"),
           userMetadata: {
   
           },
@@ -1209,7 +1208,7 @@ async function run() {
                 role: "user",
               },
               name: "",
-              createdAt: new Date("2026-02-09T22:24:09.295292Z"),
+              createdAt: new Date("2026-03-06T13:30:13.438758Z"),
               userMetadata: {
   
               },
@@ -1578,111 +1577,6 @@ run();
 ### Response
 
 **Promise\<[models.LogRecordsQueryCountResponse](../../models/logrecordsquerycountresponse.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
-## queryMetricsProjectsProjectIdMetricsSearchPost
-
-Query Metrics
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="query_metrics_projects__project_id__metrics_search_post" method="post" path="/projects/{project_id}/metrics/search" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.trace.queryMetricsProjectsProjectIdMetricsSearchPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    projectId: "<value>",
-    body: {
-      logStreamId: "00000000-0000-0000-0000-000000000000",
-      filters: [
-        {
-          columnId: "<id>",
-          operator: "eq",
-          value: "example input",
-          caseSensitive: true,
-          type: "text",
-        },
-      ],
-      startTime: new Date("2023-10-01T00:00:00Z"),
-      endTime: new Date("2023-10-01T01:00:00Z"),
-      groupBy: "model",
-    },
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { traceQueryMetricsProjectsProjectIdMetricsSearchPost } from "galileo-generated/funcs/traceQueryMetricsProjectsProjectIdMetricsSearchPost.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await traceQueryMetricsProjectsProjectIdMetricsSearchPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    projectId: "<value>",
-    body: {
-      logStreamId: "00000000-0000-0000-0000-000000000000",
-      filters: [
-        {
-          columnId: "<id>",
-          operator: "eq",
-          value: "example input",
-          caseSensitive: true,
-          type: "text",
-        },
-      ],
-      startTime: new Date("2023-10-01T00:00:00Z"),
-      endTime: new Date("2023-10-01T01:00:00Z"),
-      groupBy: "model",
-    },
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("traceQueryMetricsProjectsProjectIdMetricsSearchPost failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.QueryMetricsProjectsProjectIdMetricsSearchPostRequest](../../models/operations/querymetricsprojectsprojectidmetricssearchpostrequest.md)                           | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `security`                                                                                                                                                                     | [operations.QueryMetricsProjectsProjectIdMetricsSearchPostSecurity](../../models/operations/querymetricsprojectsprojectidmetricssearchpostsecurity.md)                         | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[models.LogRecordsMetricsResponse](../../models/logrecordsmetricsresponse.md)\>**
 
 ### Errors
 

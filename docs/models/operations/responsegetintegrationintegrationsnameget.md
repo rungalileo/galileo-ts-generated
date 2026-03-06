@@ -58,16 +58,6 @@ const value: models.DatabricksIntegration = {
 };
 ```
 
-### `models.LabelStudioIntegration`
-
-```typescript
-const value: models.LabelStudioIntegration = {
-  name: "labelstudio",
-  url: "https://gifted-colon.biz",
-  isEnterprise: true,
-};
-```
-
 ### `models.MistralIntegration`
 
 ```typescript

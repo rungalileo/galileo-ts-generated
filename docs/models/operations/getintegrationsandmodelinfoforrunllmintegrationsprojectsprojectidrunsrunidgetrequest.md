@@ -17,7 +17,8 @@ let value:
 
 ## Fields
 
-| Field              | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `projectId`        | *string*           | :heavy_check_mark: | N/A                |
-| `runId`            | *string*           | :heavy_check_mark: | N/A                |
+| Field                                                                 | Type                                                                  | Required                                                              | Description                                                           |
+| --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `projectId`                                                           | *string*                                                              | :heavy_check_mark:                                                    | N/A                                                                   |
+| `runId`                                                               | *string*                                                              | :heavy_check_mark:                                                    | N/A                                                                   |
+| `multimodalCapabilities`                                              | [models.MultimodalCapability](../../models/multimodalcapability.md)[] | :heavy_minus_sign:                                                    | N/A                                                                   |
