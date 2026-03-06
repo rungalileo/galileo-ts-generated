@@ -1,0 +1,33 @@
+# ScorerConfig
+
+Used for configuring a scorer for a scorer job.
+
+## Example Usage
+
+```typescript
+import { ScorerConfig } from "galileo-generated/models";
+
+let value: ScorerConfig = {
+  id: "<value>",
+  scorerType: "luna",
+};
+```
+
+## Fields
+
+| Field                                                                                          | Type                                                                                           | Required                                                                                       | Description                                                                                    |
+| ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `modelName`                                                                                    | *string*                                                                                       | :heavy_minus_sign:                                                                             | N/A                                                                                            |
+| `numJudges`                                                                                    | *number*                                                                                       | :heavy_minus_sign:                                                                             | N/A                                                                                            |
+| `filters`                                                                                      | *models.ScorerConfigFilter*[]                                                                  | :heavy_minus_sign:                                                                             | List of filters to apply to the scorer.                                                        |
+| `scoreableNodeTypes`                                                                           | *string*[]                                                                                     | :heavy_minus_sign:                                                                             | List of node types that can be scored by this scorer. Defaults to llm/chat.                    |
+| `cotEnabled`                                                                                   | *boolean*                                                                                      | :heavy_minus_sign:                                                                             | Whether to enable chain of thought for this scorer. Defaults to False for llm scorers.         |
+| `outputType`                                                                                   | [models.OutputTypeEnum](../models/outputtypeenum.md)                                           | :heavy_minus_sign:                                                                             | What type of output to use for model-based scorers (boolean, categorical, etc.).               |
+| `inputType`                                                                                    | [models.InputTypeEnum](../models/inputtypeenum.md)                                             | :heavy_minus_sign:                                                                             | What type of input to use for model-based scorers (sessions_normalized, trace_io_only, etc..). |
+| `id`                                                                                           | *string*                                                                                       | :heavy_check_mark:                                                                             | N/A                                                                                            |
+| `name`                                                                                         | *string*                                                                                       | :heavy_minus_sign:                                                                             | N/A                                                                                            |
+| `scorerType`                                                                                   | [models.ScorerTypes](../models/scorertypes.md)                                                 | :heavy_check_mark:                                                                             | N/A                                                                                            |
+| `modelType`                                                                                    | [models.ModelType](../models/modeltype.md)                                                     | :heavy_minus_sign:                                                                             | Type of model to use for this scorer. slm maps to luna, and llm maps to plus                   |
+| `scorerVersion`                                                                                | [models.BaseScorerVersionDB](../models/basescorerversiondb.md)                                 | :heavy_minus_sign:                                                                             | ScorerVersion to use for this scorer. If not provided, the latest version will be used.        |
+| `multimodalCapabilities`                                                                       | [models.MultimodalCapability](../models/multimodalcapability.md)[]                             | :heavy_minus_sign:                                                                             | Multimodal capabilities which this scorer can utilize in its evaluation.                       |
+| `rollUpMethod`                                                                                 | *string*                                                                                       | :heavy_minus_sign:                                                                             | N/A                                                                                            |

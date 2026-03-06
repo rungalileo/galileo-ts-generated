@@ -1,0 +1,35 @@
+# MetricSuccess
+
+## Example Usage
+
+```typescript
+import { MetricSuccess } from "galileo-generated/models";
+
+let value: MetricSuccess = {
+  statusType: "success",
+  value: {
+    hallucinationSeverity: 0,
+    start: 829158,
+    end: 490363,
+    hallucination: 9786.5,
+  },
+};
+```
+
+## Fields
+
+| Field                                                                | Type                                                                 | Required                                                             | Description                                                          |
+| -------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| `statusType`                                                         | *"success"*                                                          | :heavy_check_mark:                                                   | N/A                                                                  |
+| `scorerType`                                                         | [models.ScorerType](../models/scorertype.md)                         | :heavy_minus_sign:                                                   | N/A                                                                  |
+| `explanation`                                                        | *string*                                                             | :heavy_minus_sign:                                                   | N/A                                                                  |
+| `cost`                                                               | *number*                                                             | :heavy_minus_sign:                                                   | N/A                                                                  |
+| `modelAlias`                                                         | *string*                                                             | :heavy_minus_sign:                                                   | N/A                                                                  |
+| `numJudges`                                                          | *number*                                                             | :heavy_minus_sign:                                                   | N/A                                                                  |
+| `inputTokens`                                                        | *number*                                                             | :heavy_minus_sign:                                                   | N/A                                                                  |
+| `outputTokens`                                                       | *number*                                                             | :heavy_minus_sign:                                                   | N/A                                                                  |
+| `totalTokens`                                                        | *number*                                                             | :heavy_minus_sign:                                                   | N/A                                                                  |
+| `critique`                                                           | [models.MetricCritiqueColumnar](../models/metriccritiquecolumnar.md) | :heavy_minus_sign:                                                   | N/A                                                                  |
+| `value`                                                              | *any*                                                                | :heavy_check_mark:                                                   | N/A                                                                  |
+| `displayValue`                                                       | *string*                                                             | :heavy_minus_sign:                                                   | N/A                                                                  |
+| `rationale`                                                          | *string*                                                             | :heavy_minus_sign:                                                   | N/A                                                                  |
