@@ -11,6 +11,13 @@
           {"type": "docs", "section": "Documentation"},
           {"type": "chore", "section": "Miscellaneous"}
         ]
-      }
+      },
+      "extra-files": [
+        {
+          "type": "yaml",
+          "path": ".speakeasy/gen.yaml",
+          "jsonpath": "$.typescript.version"
+        }
+      ]
     }
   }
