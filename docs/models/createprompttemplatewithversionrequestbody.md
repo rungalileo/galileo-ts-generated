@@ -12,8 +12,13 @@ import { CreatePromptTemplateWithVersionRequestBody } from "galileo-generated/mo
 let value: CreatePromptTemplateWithVersionRequestBody = {
   template: [
     {
-      content: "<value>",
-      role: "tool",
+      content: [
+        {
+          type: "text",
+          text: "<value>",
+        },
+      ],
+      role: "function",
     },
   ],
   name: {

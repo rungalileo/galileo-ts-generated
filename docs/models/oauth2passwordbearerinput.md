@@ -9,8 +9,8 @@ OAuth2 Resource Owner Password Flow
 
 ```typescript
 const value: models.OAuth2PasswordBearerCredentials = {
-  username: "Garry_Sanford31",
-  password: "agiLMMV9COtzwVr",
+  username: "Rosendo.Boyer88",
+  password: "puYN4zMswa2ONkb",
 };
 ```
 

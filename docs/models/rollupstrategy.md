@@ -8,11 +8,11 @@ Strategies for rolling metrics up the Session/Trace/Span hierarchy.
 import { RollUpStrategy } from "galileo-generated/models";
 
 let value: RollUpStrategy = "avg";
+
+// Open enum: unrecognized values are captured as Unrecognized<string>
 ```
 
 ## Values
-
-This is an open enum. Unrecognized values will be captured as the `Unrecognized<string>` branded type.
 
 ```typescript
 "avg" | "sum" | "first" | "last" | "none" | Unrecognized<string>

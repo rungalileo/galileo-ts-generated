@@ -6,11 +6,11 @@
 import { LabelColor } from "galileo-generated/models";
 
 let value: LabelColor = "positive";
+
+// Open enum: unrecognized values are captured as Unrecognized<string>
 ```
 
 ## Values
-
-This is an open enum. Unrecognized values will be captured as the `Unrecognized<string>` branded type.
 
 ```typescript
 "positive" | "negative" | Unrecognized<string>
