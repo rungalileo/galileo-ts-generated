@@ -8,11 +8,11 @@ Common status values for events.
 import { EventStatus } from "galileo-generated/models";
 
 let value: EventStatus = "cancelled";
+
+// Open enum: unrecognized values are captured as Unrecognized<string>
 ```
 
 ## Values
-
-This is an open enum. Unrecognized values will be captured as the `Unrecognized<string>` branded type.
 
 ```typescript
 "in_progress" | "completed" | "failed" | "cancelled" | "incomplete" | Unrecognized<string>
