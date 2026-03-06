@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.10](https://github.com/rungalileo/galileo-ts-generated/compare/galileo-generated-v0.2.9...galileo-generated-v0.2.10) (2026-03-06)
+
+
+### Features
+
+* **codegen:** Typescript SDK Changes ([d418cbe](https://github.com/rungalileo/galileo-ts-generated/commit/d418cbeec659fb066dffab125f0e9486ee4b96c1))
+* **persistent:** Enabled persistent edits, updated missing comment to fix build ([#50](https://github.com/rungalileo/galileo-ts-generated/issues/50)) ([218b147](https://github.com/rungalileo/galileo-ts-generated/commit/218b1471e2e515d8b2af4c438231d54089c722fc))
+
 ## [0.2.9](https://github.com/rungalileo/galileo-ts-generated/compare/galileo-generated-v0.2.8...galileo-generated-v0.2.9) (2026-03-06)
 
 
