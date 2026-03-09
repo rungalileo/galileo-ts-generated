@@ -9,9 +9,9 @@ function loadVersion(): string {
 
   try {
     // NOTES: require is being used for now, using import demands appropriate
-    // compiler configuration, which won't be enabled yet due to Speakeasy's
-    // particular way of enabling persistent edits conflicting with workflow.
-    // Ticket sc-56960 created for this investigation.
+    // compiler configuration, which is not possible now due to galileo-js 
+    // being CommonJS only. This point should be revisited when/if galileo-js 
+    // is migrated to ESM.
     const packageJsonPath = require.resolve("galileo-generated/package.json");
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     const packageJson = require(packageJsonPath);
