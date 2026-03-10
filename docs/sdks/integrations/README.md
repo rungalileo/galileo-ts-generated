@@ -1442,10 +1442,6 @@ async function run() {
   const result = await galileoGenerated.integrations.createOrUpdateIntegrationIntegrationsCustomPut({
     apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
   }, {
-    models: [
-      "<value 1>",
-      "<value 2>",
-    ],
     endpoint: "<value>",
   });
 
@@ -1471,10 +1467,6 @@ async function run() {
   const res = await integrationsCreateOrUpdateIntegrationIntegrationsCustomPut(galileoGenerated, {
     apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
   }, {
-    models: [
-      "<value 1>",
-      "<value 2>",
-    ],
     endpoint: "<value>",
   });
   if (res.ok) {

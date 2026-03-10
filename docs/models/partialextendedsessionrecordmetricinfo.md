@@ -56,6 +56,7 @@ const value: models.MetricPending = {
 ```typescript
 const value: models.MetricRollUp = {
   statusType: "roll_up",
+  value: "f9abc59e-90e4-4b33-97d1-b7b7b1252e46",
 };
 ```
 
