@@ -3,10 +3,11 @@
  * @generated-id: 320761608fb3
  */
 
+import { Params, pathToFunc } from "./url.js";
 import { HTTPClient } from "./http.js";
 import { Logger } from "./logger.js";
 import { RetryConfig } from "./retries.js";
-import { Params, pathToFunc } from "./url.js";
+import { GalileoConfig } from "./galileo-config.js";
 
 /**
  * Contains the list of servers available to the SDK
@@ -43,7 +44,8 @@ export type SDKOptions = {
 };
 
 export function serverURLFromOptions(options: SDKOptions): URL | null {
-  let serverURL = options.serverURL;
+  const config = GalileoConfig.get();
+  let serverURL = options.serverURL ?? config.apiUrl;
 
   const params: Params = {};
 
