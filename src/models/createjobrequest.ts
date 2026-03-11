@@ -441,6 +441,7 @@ export type CreateJobRequest = {
   uploadDataInSeparateTask?: boolean | undefined;
   logMetricComputingRecords?: boolean | undefined;
   streamMetrics?: boolean | undefined;
+  multijudgeAverageBooleanMetrics?: boolean | undefined;
 };
 
 /** @internal */
@@ -761,6 +762,7 @@ export type CreateJobRequest$Outbound = {
   upload_data_in_separate_task: boolean;
   log_metric_computing_records: boolean;
   stream_metrics: boolean;
+  multijudge_average_boolean_metrics: boolean;
 };
 
 /** @internal */
@@ -883,8 +885,9 @@ export const CreateJobRequest$outboundSchema: z.ZodMiniType<
     ),
     isSession: z.optional(z.nullable(z.boolean())),
     uploadDataInSeparateTask: z._default(z.boolean(), true),
-    logMetricComputingRecords: z._default(z.boolean(), false),
+    logMetricComputingRecords: z._default(z.boolean(), true),
     streamMetrics: z._default(z.boolean(), false),
+    multijudgeAverageBooleanMetrics: z._default(z.boolean(), false),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -929,6 +932,7 @@ export const CreateJobRequest$outboundSchema: z.ZodMiniType<
       uploadDataInSeparateTask: "upload_data_in_separate_task",
       logMetricComputingRecords: "log_metric_computing_records",
       streamMetrics: "stream_metrics",
+      multijudgeAverageBooleanMetrics: "multijudge_average_boolean_metrics",
     });
   }),
 );
