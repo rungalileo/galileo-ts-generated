@@ -9869,6 +9869,24 @@ components:
       required:
         - "file"
       title: "Body_validate_code_scorer_scorers_code_validate_post"
+    BooleanColorConstraint:
+      properties:
+        color:
+          $ref: "#/components/schemas/MetricColor"
+        operator:
+          type: "string"
+          const: "eq"
+          title: "Operator"
+        value:
+          type: "boolean"
+          title: "Value"
+      type: "object"
+      required:
+        - "color"
+        - "operator"
+        - "value"
+      title: "BooleanColorConstraint"
+      description: "A color constraint for boolean metric values.\n\nAssigns a color when a boolean score equals the given value.\n\nOnly the 'eq' operator is supported.\n\nExample:\n    {\"color\": \"green\", \"operator\": \"eq\", \"value\": true}\n    {\"color\": \"red\", \"operator\": \"eq\", \"value\": false}"
     BucketedMetric:
       properties:
         name:
@@ -9957,6 +9975,30 @@ components:
         - "message"
       title: "BulkDeletePromptTemplatesResponse"
       description: "Response from bulk deletion operation."
+    CategoricalColorConstraint:
+      properties:
+        color:
+          $ref: "#/components/schemas/MetricColor"
+        operator:
+          type: "string"
+          enum:
+            - "eq"
+            - "one_of"
+          title: "Operator"
+        value:
+          anyOf:
+            - type: "string"
+            - items:
+                type: "string"
+              type: "array"
+          title: "Value"
+      type: "object"
+      required:
+        - "color"
+        - "operator"
+        - "value"
+      title: "CategoricalColorConstraint"
+      description: "A color constraint for categorical or multi-label metric values.\n\nAssigns a color when a categorical score matches the given operator and value.\n\nOperators and expected value shapes:\n  - eq: value must be a single string.\n  - one_of: value must be a list of strings.\n\nExample:\n    {\"color\": \"green\", \"operator\": \"eq\", \"value\": \"pass\"}\n    {\"color\": \"red\", \"operator\": \"one_of\", \"value\": [\"fail\", \"error\"]}"
     CategoricalRollUpMethod:
       type: "string"
       enum:
@@ -10227,6 +10269,12 @@ components:
           title: "Is Optional"
           description: "Whether the column is optional."
           default: false
+        roll_up_method:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Roll Up Method"
+          description: "Default roll-up aggregation method for this metric (e.g., 'sum', 'average')."
       type: "object"
       required:
         - "id"
@@ -10837,10 +10885,14 @@ components:
         log_metric_computing_records:
           type: "boolean"
           title: "Log Metric Computing Records"
-          default: false
+          default: true
         stream_metrics:
           type: "boolean"
           title: "Stream Metrics"
+          default: false
+        multijudge_average_boolean_metrics:
+          type: "boolean"
+          title: "Multijudge Average Boolean Metrics"
           default: false
       type: "object"
       required:
@@ -11155,10 +11207,14 @@ components:
         log_metric_computing_records:
           type: "boolean"
           title: "Log Metric Computing Records"
-          default: false
+          default: true
         stream_metrics:
           type: "boolean"
           title: "Stream Metrics"
+          default: false
+        multijudge_average_boolean_metrics:
+          type: "boolean"
+          title: "Multijudge Average Boolean Metrics"
           default: false
         message:
           type: "string"
@@ -11340,18 +11396,32 @@ components:
           $ref: "#/components/schemas/CustomAuthenticationType"
           default: "oauth2"
         models:
-          items:
-            type: "string"
-          type: "array"
-          minItems: 1
+          anyOf:
+            - items:
+                type: "string"
+              type: "array"
+            - type: "null"
           title: "Models"
-          description: "List of model names for the custom integration"
+          description: "List of model names for the custom integration. Deprecated: use model_properties instead."
+        model_properties:
+          anyOf:
+            - items:
+                $ref: "#/components/schemas/promptgalileo__schemas__config__custom__ModelProperties"
+              type: "array"
+            - type: "null"
+          title: "Model Properties"
+          description: "List of model properties with name and alias for the custom integration."
+        is_legacy_format:
+          type: "boolean"
+          title: "Is Legacy Format"
+          description: "Internal: whether this config was created from the legacy 'models' field."
+          default: false
         default_model:
           anyOf:
             - type: "string"
             - type: "null"
           title: "Default Model"
-          description: "Default model to use. If not provided, defaults to the first model in the models list."
+          description: "Default model to use. If not provided, defaults to the first model."
         endpoint:
           type: "string"
           title: "Endpoint"
@@ -11404,7 +11474,6 @@ components:
           title: "Extra"
       type: "object"
       required:
-        - "models"
         - "endpoint"
       title: "CustomIntegration"
       description: "Read model for custom integrations.\n\napi_key_value is not stored in extra (it's encrypted in the token column),\nso we override the parent validator to skip requiring it on read."
@@ -11419,18 +11488,32 @@ components:
           $ref: "#/components/schemas/CustomAuthenticationType"
           default: "oauth2"
         models:
-          items:
-            type: "string"
-          type: "array"
-          minItems: 1
+          anyOf:
+            - items:
+                type: "string"
+              type: "array"
+            - type: "null"
           title: "Models"
-          description: "List of model names for the custom integration"
+          description: "List of model names for the custom integration. Deprecated: use model_properties instead."
+        model_properties:
+          anyOf:
+            - items:
+                $ref: "#/components/schemas/promptgalileo__schemas__config__custom__ModelProperties"
+              type: "array"
+            - type: "null"
+          title: "Model Properties"
+          description: "List of model properties with name and alias for the custom integration."
+        is_legacy_format:
+          type: "boolean"
+          title: "Is Legacy Format"
+          description: "Internal: whether this config was created from the legacy 'models' field."
+          default: false
         default_model:
           anyOf:
             - type: "string"
             - type: "null"
           title: "Default Model"
-          description: "Default model to use. If not provided, defaults to the first model in the models list."
+          description: "Default model to use. If not provided, defaults to the first model."
         endpoint:
           type: "string"
           title: "Endpoint"
@@ -11471,7 +11554,6 @@ components:
           title: "Token"
       type: "object"
       required:
-        - "models"
         - "endpoint"
       title: "CustomIntegrationCreate"
       description: "Schema for creating custom integrations.\n\nInherits api_key field validation from CustomConfig:\n- api_key_header and api_key_value are required when authentication_type is api_key\n\nToken field is only used for oauth2 authentication (contains OAuth2 client credentials).\nFor api_key auth, the api_key_value field is used instead."
@@ -16641,6 +16723,13 @@ components:
           type: "object"
           title: "Annotation Aggregates"
           description: "Annotation aggregate information keyed by template ID"
+        annotation_queue_ids:
+          items:
+            type: "string"
+            format: "uuid4"
+          type: "array"
+          title: "Annotation Queue Ids"
+          description: "IDs of annotation queues this record is in"
         metric_info:
           anyOf:
             - additionalProperties:
@@ -16918,6 +17007,13 @@ components:
           type: "object"
           title: "Annotation Aggregates"
           description: "Annotation aggregate information keyed by template ID"
+        annotation_queue_ids:
+          items:
+            type: "string"
+            format: "uuid4"
+          type: "array"
+          title: "Annotation Queue Ids"
+          description: "IDs of annotation queues this record is in"
         metric_info:
           anyOf:
             - additionalProperties:
@@ -17161,6 +17257,13 @@ components:
           type: "object"
           title: "Annotation Aggregates"
           description: "Annotation aggregate information keyed by template ID"
+        annotation_queue_ids:
+          items:
+            type: "string"
+            format: "uuid4"
+          type: "array"
+          title: "Annotation Queue Ids"
+          description: "IDs of annotation queues this record is in"
         metric_info:
           anyOf:
             - additionalProperties:
@@ -17457,6 +17560,13 @@ components:
           type: "object"
           title: "Annotation Aggregates"
           description: "Annotation aggregate information keyed by template ID"
+        annotation_queue_ids:
+          items:
+            type: "string"
+            format: "uuid4"
+          type: "array"
+          title: "Annotation Queue Ids"
+          description: "IDs of annotation queues this record is in"
         metric_info:
           anyOf:
             - additionalProperties:
@@ -17717,6 +17827,13 @@ components:
           type: "object"
           title: "Annotation Aggregates"
           description: "Annotation aggregate information keyed by template ID"
+        annotation_queue_ids:
+          items:
+            type: "string"
+            format: "uuid4"
+          type: "array"
+          title: "Annotation Queue Ids"
+          description: "IDs of annotation queues this record is in"
         metric_info:
           anyOf:
             - additionalProperties:
@@ -17973,6 +18090,13 @@ components:
           type: "object"
           title: "Annotation Aggregates"
           description: "Annotation aggregate information keyed by template ID"
+        annotation_queue_ids:
+          items:
+            type: "string"
+            format: "uuid4"
+          type: "array"
+          title: "Annotation Queue Ids"
+          description: "IDs of annotation queues this record is in"
         metric_info:
           anyOf:
             - additionalProperties:
@@ -18227,6 +18351,13 @@ components:
           type: "object"
           title: "Annotation Aggregates"
           description: "Annotation aggregate information keyed by template ID"
+        annotation_queue_ids:
+          items:
+            type: "string"
+            format: "uuid4"
+          type: "array"
+          title: "Annotation Queue Ids"
+          description: "IDs of annotation queues this record is in"
         metric_info:
           anyOf:
             - additionalProperties:
@@ -18460,6 +18591,13 @@ components:
           type: "object"
           title: "Annotation Aggregates"
           description: "Annotation aggregate information keyed by template ID"
+        annotation_queue_ids:
+          items:
+            type: "string"
+            format: "uuid4"
+          type: "array"
+          title: "Annotation Queue Ids"
+          description: "IDs of annotation queues this record is in"
         metric_info:
           anyOf:
             - additionalProperties:
@@ -18724,6 +18862,13 @@ components:
           type: "object"
           title: "Annotation Aggregates"
           description: "Annotation aggregate information keyed by template ID"
+        annotation_queue_ids:
+          items:
+            type: "string"
+            format: "uuid4"
+          type: "array"
+          title: "Annotation Queue Ids"
+          description: "IDs of annotation queues this record is in"
         metric_info:
           anyOf:
             - additionalProperties:
@@ -18968,6 +19113,13 @@ components:
           type: "object"
           title: "Annotation Aggregates"
           description: "Annotation aggregate information keyed by template ID"
+        annotation_queue_ids:
+          items:
+            type: "string"
+            format: "uuid4"
+          type: "array"
+          title: "Annotation Queue Ids"
+          description: "IDs of annotation queues this record is in"
         metric_info:
           anyOf:
             - additionalProperties:
@@ -19218,6 +19370,13 @@ components:
           type: "object"
           title: "Annotation Aggregates"
           description: "Annotation aggregate information keyed by template ID"
+        annotation_queue_ids:
+          items:
+            type: "string"
+            format: "uuid4"
+          type: "array"
+          title: "Annotation Queue Ids"
+          description: "IDs of annotation queues this record is in"
         metric_info:
           anyOf:
             - additionalProperties:
@@ -19467,6 +19626,13 @@ components:
           type: "object"
           title: "Annotation Aggregates"
           description: "Annotation aggregate information keyed by template ID"
+        annotation_queue_ids:
+          items:
+            type: "string"
+            format: "uuid4"
+          type: "array"
+          title: "Annotation Queue Ids"
+          description: "IDs of annotation queues this record is in"
         metric_info:
           anyOf:
             - additionalProperties:
@@ -19740,6 +19906,13 @@ components:
           type: "object"
           title: "Annotation Aggregates"
           description: "Annotation aggregate information keyed by template ID"
+        annotation_queue_ids:
+          items:
+            type: "string"
+            format: "uuid4"
+          type: "array"
+          title: "Annotation Queue Ids"
+          description: "IDs of annotation queues this record is in"
         metric_info:
           anyOf:
             - additionalProperties:
@@ -21080,9 +21253,13 @@ components:
           type: "boolean"
           title: "Supports Num Judges"
           default: true
+        supports_file_uploads:
+          type: "boolean"
+          title: "Supports File Uploads"
+          default: false
         model_properties:
           items:
-            $ref: "#/components/schemas/ModelProperties"
+            $ref: "#/components/schemas/api__schemas__integration__llm_integration__ModelProperties"
           type: "array"
           title: "Model Properties"
       type: "object"
@@ -22144,13 +22321,13 @@ components:
       examples:
         - columns:
             - applicable_types:
-                - "workflow"
-                - "agent"
-                - "retriever"
-                - "trace"
-                - "tool"
                 - "llm"
                 - "session"
+                - "workflow"
+                - "trace"
+                - "tool"
+                - "agent"
+                - "retriever"
               category: "standard"
               complex: false
               data_type: "text"
@@ -22165,13 +22342,13 @@ components:
               multi_valued: false
               sortable: true
             - applicable_types:
-                - "workflow"
-                - "agent"
-                - "retriever"
-                - "trace"
-                - "tool"
                 - "llm"
                 - "session"
+                - "workflow"
+                - "trace"
+                - "tool"
+                - "agent"
+                - "retriever"
               category: "standard"
               complex: false
               data_type: "text"
@@ -22186,13 +22363,13 @@ components:
               multi_valued: false
               sortable: true
             - applicable_types:
-                - "workflow"
-                - "agent"
-                - "retriever"
-                - "trace"
-                - "tool"
                 - "llm"
                 - "session"
+                - "workflow"
+                - "trace"
+                - "tool"
+                - "agent"
+                - "retriever"
               category: "standard"
               complex: false
               data_type: "text"
@@ -22207,13 +22384,13 @@ components:
               multi_valued: false
               sortable: true
             - applicable_types:
-                - "workflow"
-                - "agent"
-                - "retriever"
-                - "trace"
-                - "tool"
                 - "llm"
                 - "session"
+                - "workflow"
+                - "trace"
+                - "tool"
+                - "agent"
+                - "retriever"
               category: "standard"
               complex: false
               data_type: "timestamp"
@@ -22228,12 +22405,12 @@ components:
               multi_valued: false
               sortable: true
             - applicable_types:
+                - "llm"
                 - "workflow"
-                - "agent"
-                - "retriever"
                 - "trace"
                 - "tool"
-                - "llm"
+                - "agent"
+                - "retriever"
               category: "standard"
               complex: false
               data_type: "string_list"
@@ -22248,12 +22425,12 @@ components:
               multi_valued: true
               sortable: false
             - applicable_types:
+                - "llm"
                 - "workflow"
-                - "agent"
-                - "retriever"
                 - "trace"
                 - "tool"
-                - "llm"
+                - "agent"
+                - "retriever"
               category: "standard"
               complex: false
               data_type: "integer"
@@ -22268,13 +22445,13 @@ components:
               multi_valued: false
               sortable: true
             - applicable_types:
-                - "workflow"
-                - "agent"
-                - "retriever"
-                - "trace"
-                - "tool"
                 - "llm"
                 - "session"
+                - "workflow"
+                - "trace"
+                - "tool"
+                - "agent"
+                - "retriever"
               category: "standard"
               complex: false
               data_type: "text"
@@ -22289,12 +22466,12 @@ components:
               multi_valued: false
               sortable: true
             - applicable_types:
+                - "llm"
                 - "workflow"
-                - "agent"
-                - "retriever"
                 - "trace"
                 - "tool"
-                - "llm"
+                - "agent"
+                - "retriever"
               category: "standard"
               complex: false
               data_type: "text"
@@ -22309,12 +22486,12 @@ components:
               multi_valued: false
               sortable: true
             - applicable_types:
+                - "llm"
                 - "workflow"
-                - "agent"
-                - "retriever"
                 - "trace"
                 - "tool"
-                - "llm"
+                - "agent"
+                - "retriever"
               category: "standard"
               complex: false
               data_type: "text"
@@ -22329,13 +22506,13 @@ components:
               multi_valued: false
               sortable: true
             - applicable_types:
-                - "workflow"
-                - "agent"
-                - "retriever"
-                - "trace"
-                - "tool"
                 - "llm"
                 - "session"
+                - "workflow"
+                - "trace"
+                - "tool"
+                - "agent"
+                - "retriever"
               category: "standard"
               complex: false
               data_type: "uuid"
@@ -22350,12 +22527,12 @@ components:
               multi_valued: false
               sortable: true
             - applicable_types:
+                - "llm"
                 - "workflow"
-                - "agent"
-                - "retriever"
                 - "trace"
                 - "tool"
-                - "llm"
+                - "agent"
+                - "retriever"
               category: "standard"
               complex: false
               data_type: "uuid"
@@ -22370,12 +22547,12 @@ components:
               multi_valued: false
               sortable: true
             - applicable_types:
+                - "llm"
                 - "workflow"
-                - "agent"
-                - "retriever"
                 - "trace"
                 - "tool"
-                - "llm"
+                - "agent"
+                - "retriever"
               category: "standard"
               complex: false
               data_type: "uuid"
@@ -22390,12 +22567,12 @@ components:
               multi_valued: false
               sortable: true
             - applicable_types:
+                - "llm"
                 - "workflow"
-                - "agent"
-                - "retriever"
                 - "trace"
                 - "tool"
-                - "llm"
+                - "agent"
+                - "retriever"
               category: "standard"
               complex: false
               data_type: "uuid"
@@ -22410,12 +22587,12 @@ components:
               multi_valued: false
               sortable: true
             - applicable_types:
+                - "llm"
                 - "workflow"
-                - "agent"
-                - "retriever"
                 - "trace"
                 - "tool"
-                - "llm"
+                - "agent"
+                - "retriever"
               category: "standard"
               complex: false
               data_type: "timestamp"
@@ -22430,12 +22607,12 @@ components:
               multi_valued: false
               sortable: true
             - applicable_types:
+                - "llm"
                 - "workflow"
-                - "agent"
-                - "retriever"
                 - "trace"
                 - "tool"
-                - "llm"
+                - "agent"
+                - "retriever"
               category: "standard"
               complex: false
               data_type: "boolean"
@@ -22450,12 +22627,12 @@ components:
               multi_valued: false
               sortable: true
             - applicable_types:
+                - "llm"
                 - "workflow"
-                - "agent"
-                - "retriever"
                 - "trace"
                 - "tool"
-                - "llm"
+                - "agent"
+                - "retriever"
               category: "standard"
               complex: false
               data_type: "boolean"
@@ -22470,19 +22647,19 @@ components:
               multi_valued: false
               sortable: true
             - allowed_values:
-                - "workflow"
-                - "agent"
-                - "retriever"
-                - "trace"
-                - "tool"
                 - "llm"
                 - "session"
-              applicable_types:
                 - "workflow"
+                - "trace"
+                - "tool"
                 - "agent"
                 - "retriever"
-                - "tool"
+              applicable_types:
                 - "llm"
+                - "workflow"
+                - "tool"
+                - "agent"
+                - "retriever"
               category: "standard"
               complex: false
               data_type: "text"
@@ -22497,11 +22674,11 @@ components:
               multi_valued: false
               sortable: true
             - applicable_types:
+                - "llm"
                 - "workflow"
+                - "tool"
                 - "agent"
                 - "retriever"
-                - "tool"
-                - "llm"
               category: "standard"
               complex: false
               data_type: "uuid"
@@ -22516,11 +22693,11 @@ components:
               multi_valued: false
               sortable: true
             - applicable_types:
+                - "llm"
                 - "workflow"
+                - "tool"
                 - "agent"
                 - "retriever"
-                - "tool"
-                - "llm"
               category: "standard"
               complex: false
               data_type: "uuid"
@@ -22535,11 +22712,11 @@ components:
               multi_valued: false
               sortable: true
             - applicable_types:
+                - "llm"
                 - "workflow"
+                - "tool"
                 - "agent"
                 - "retriever"
-                - "tool"
-                - "llm"
               category: "standard"
               complex: false
               data_type: "integer"
@@ -22554,14 +22731,14 @@ components:
               multi_valued: false
               sortable: true
             - allowed_values:
-                - "judge"
                 - "supervisor"
-                - "classifier"
-                - "default"
-                - "reflection"
-                - "router"
                 - "react"
+                - "reflection"
+                - "default"
                 - "planner"
+                - "router"
+                - "judge"
+                - "classifier"
               applicable_types:
                 - "agent"
               category: "standard"
@@ -22727,6 +22904,7 @@ components:
           enum:
             - "eq"
             - "contains"
+            - "one_of"
             - "not_in"
           title: "Operator"
         value:
@@ -22831,6 +23009,12 @@ components:
           title: "Is Optional"
           description: "Whether the column is optional."
           default: false
+        roll_up_method:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Roll Up Method"
+          description: "Default roll-up aggregation method for this metric (e.g., 'sum', 'average')."
         scorer_config:
           anyOf:
             - $ref: "#/components/schemas/ScorerConfig"
@@ -23352,8 +23536,9 @@ components:
           paginated: true
           records:
             - annotation_aggregates: {}
+              annotation_queue_ids: []
               annotations: {}
-              created_at: "2026-03-06T13:30:13.488967Z"
+              created_at: "2026-03-10T13:29:28.458532Z"
               dataset_metadata: {}
               feedback_rating_info: {}
               file_ids: []
@@ -23367,8 +23552,9 @@ components:
               type: "trace"
               user_metadata: {}
             - annotation_aggregates: {}
+              annotation_queue_ids: []
               annotations: {}
-              created_at: "2026-03-06T13:30:13.489101Z"
+              created_at: "2026-03-10T13:29:28.458713Z"
               dataset_metadata: {}
               feedback_rating_info: {}
               file_ids: []
@@ -23627,8 +23813,9 @@ components:
           paginated: true
           records:
             - annotation_aggregates: {}
+              annotation_queue_ids: []
               annotations: {}
-              created_at: "2026-03-06T13:30:13.484608Z"
+              created_at: "2026-03-10T13:29:28.453932Z"
               dataset_metadata: {}
               feedback_rating_info: {}
               file_ids: []
@@ -23648,8 +23835,9 @@ components:
               type: "trace"
               user_metadata: {}
             - annotation_aggregates: {}
+              annotation_queue_ids: []
               annotations: {}
-              created_at: "2026-03-06T13:30:13.484790Z"
+              created_at: "2026-03-10T13:29:28.454131Z"
               dataset_metadata: {}
               feedback_rating_info: {}
               file_ids: []
@@ -23949,14 +24137,14 @@ components:
         - log_stream_id: "00000000-0000-0000-0000-000000000000"
           parent_id: "11000011-0000-0000-0000-110000110000"
           spans:
-            - created_at: "2026-03-06T13:30:13.453327Z"
+            - created_at: "2026-03-10T13:29:28.426711Z"
               dataset_metadata: {}
               input: "who is a smart LLM?"
               metrics: {}
               name: ""
               output: "I am!"
               spans:
-                - created_at: "2026-03-06T13:30:13.438758Z"
+                - created_at: "2026-03-10T13:29:28.412574Z"
                   dataset_metadata: {}
                   id: "22222222-2222-4222-a222-222222222222"
                   input:
@@ -24579,14 +24767,14 @@ components:
         - log_stream_id: "00000000-0000-0000-0000-000000000000"
           session_id: "00000000-0000-0000-0000-000000000000"
           traces:
-            - created_at: "2026-03-06T13:30:13.432315Z"
+            - created_at: "2026-03-10T13:29:28.406198Z"
               dataset_metadata: {}
               input: "who is a smart LLM?"
               metrics: {}
               name: ""
               output: "I am!"
               spans:
-                - created_at: "2026-03-06T13:30:13.432273Z"
+                - created_at: "2026-03-10T13:29:28.406155Z"
                   dataset_metadata: {}
                   input:
                     - content: "Question: who is a smart LLM?"
@@ -24604,14 +24792,14 @@ components:
               user_metadata: {}
         - experiment_id: "00000000-0000-0000-0000-000000000000"
           traces:
-            - created_at: "2026-03-06T13:30:13.432833Z"
+            - created_at: "2026-03-10T13:29:28.406689Z"
               dataset_metadata: {}
               input: "who is a smart LLM?"
               metrics: {}
               name: ""
               output: "I am!"
               spans:
-                - created_at: "2026-03-06T13:30:13.432795Z"
+                - created_at: "2026-03-10T13:29:28.406642Z"
                   dataset_metadata: {}
                   id: "11111111-1111-4111-a111-111111111111"
                   input:
@@ -24941,11 +25129,6 @@ components:
           const: "metadata"
           title: "Name"
           default: "metadata"
-        filter_type:
-          type: "string"
-          const: "map"
-          title: "Filter Type"
-          default: "map"
         operator:
           type: "string"
           enum:
@@ -24971,6 +25154,86 @@ components:
         - "value"
       title: "MetadataFilter"
       description: "Filters on metadata key-value pairs in scorer jobs."
+    MetricColor:
+      type: "string"
+      enum:
+        - "red"
+        - "yellow"
+        - "green"
+      title: "MetricColor"
+      description: "Allowed colors for metric threshold visualization in the UI."
+    MetricColorPickerBoolean:
+      properties:
+        type:
+          type: "string"
+          const: "boolean"
+          title: "Type"
+          default: "boolean"
+        constraints:
+          items:
+            $ref: "#/components/schemas/BooleanColorConstraint"
+          type: "array"
+          minItems: 1
+          title: "Constraints"
+      type: "object"
+      required:
+        - "constraints"
+      title: "MetricColorPickerBoolean"
+      description: "Color picker configuration for boolean metrics.\n\nEach constraint maps a boolean value to a color.\n\nExample:\n    {\n        \"type\": \"boolean\",\n        \"constraints\": [\n            {\"color\": \"green\", \"operator\": \"eq\", \"value\": true},\n            {\"color\": \"red\", \"operator\": \"eq\", \"value\": false}\n        ]\n    }"
+    MetricColorPickerCategorical:
+      properties:
+        type:
+          type: "string"
+          const: "categorical"
+          title: "Type"
+          default: "categorical"
+        constraints:
+          items:
+            $ref: "#/components/schemas/CategoricalColorConstraint"
+          type: "array"
+          minItems: 1
+          title: "Constraints"
+      type: "object"
+      required:
+        - "constraints"
+      title: "MetricColorPickerCategorical"
+      description: "Color picker configuration for categorical metrics.\n\nEach constraint maps one or more category values to a color. A category\nvalue must not appear in more than one constraint.\n\nExample:\n    {\n        \"type\": \"categorical\",\n        \"constraints\": [\n            {\"color\": \"green\", \"operator\": \"eq\", \"value\": \"pass\"},\n            {\"color\": \"red\", \"operator\": \"one_of\", \"value\": [\"fail\", \"error\"]}\n        ]\n    }"
+    MetricColorPickerMultiLabel:
+      properties:
+        type:
+          type: "string"
+          const: "multi_label"
+          title: "Type"
+          default: "multi_label"
+        constraints:
+          items:
+            $ref: "#/components/schemas/CategoricalColorConstraint"
+          type: "array"
+          minItems: 1
+          title: "Constraints"
+      type: "object"
+      required:
+        - "constraints"
+      title: "MetricColorPickerMultiLabel"
+      description: "Color picker configuration for multi-label metrics.\n\nBehaves the same as categorical but intended for metrics that produce\nmultiple labels. A category value must not appear in more than one constraint.\n\nExample:\n    {\n        \"type\": \"multi_label\",\n        \"constraints\": [\n            {\"color\": \"green\", \"operator\": \"eq\", \"value\": \"relevant\"},\n            {\"color\": \"yellow\", \"operator\": \"one_of\", \"value\": [\"partial\", \"related\"]}\n        ]\n    }"
+    MetricColorPickerNumeric:
+      properties:
+        type:
+          type: "string"
+          const: "numeric"
+          title: "Type"
+          default: "numeric"
+        constraints:
+          items:
+            $ref: "#/components/schemas/NumericColorConstraint"
+          type: "array"
+          minItems: 1
+          title: "Constraints"
+      type: "object"
+      required:
+        - "constraints"
+      title: "MetricColorPickerNumeric"
+      description: "Color picker configuration for numeric metrics.\n\nEach constraint maps a numeric condition to a color. The UI uses these\nconstraints to color-code metric values (e.g. green for high scores,\nred for low scores).\n\nExample:\n    {\n        \"type\": \"numeric\",\n        \"constraints\": [\n            {\"color\": \"green\", \"operator\": \"gte\", \"value\": 0.8},\n            {\"color\": \"yellow\", \"operator\": \"between\", \"value\": [0.3, 0.8]},\n            {\"color\": \"red\", \"operator\": \"lt\", \"value\": 0.3}\n        ]\n    }"
     MetricComputation:
       properties:
         value:
@@ -25199,6 +25462,17 @@ components:
           type: "string"
           title: "Message"
           default: "Metric not applicable."
+        ems_error_code:
+          anyOf:
+            - type: "integer"
+            - type: "null"
+          title: "Ems Error Code"
+          description: "EMS error code from errors.yaml catalog for this not-applicable reason"
+        standard_error:
+          anyOf:
+            - $ref: "#/components/schemas/StandardError"
+            - type: "null"
+          description: "Structured EMS error resolved on-the-fly from errors.yaml catalog"
       type: "object"
       title: "MetricNotApplicable"
     MetricNotComputed:
@@ -25241,148 +25515,6 @@ components:
         scorer_type:
           anyOf:
             - $ref: "#/components/schemas/ScorerType"
-            - type: "null"
-        explanation:
-          anyOf:
-            - type: "string"
-            - type: "null"
-          title: "Explanation"
-        cost:
-          anyOf:
-            - type: "number"
-            - type: "null"
-          title: "Cost"
-        model_alias:
-          anyOf:
-            - type: "string"
-            - type: "null"
-          title: "Model Alias"
-        num_judges:
-          anyOf:
-            - type: "integer"
-            - type: "null"
-          title: "Num Judges"
-        input_tokens:
-          anyOf:
-            - type: "integer"
-            - type: "null"
-          title: "Input Tokens"
-        output_tokens:
-          anyOf:
-            - type: "integer"
-            - type: "null"
-          title: "Output Tokens"
-        total_tokens:
-          anyOf:
-            - type: "integer"
-            - type: "null"
-          title: "Total Tokens"
-        critique:
-          anyOf:
-            - $ref: "#/components/schemas/MetricCritiqueColumnar"
-            - type: "null"
-        roll_up_metrics:
-          anyOf:
-            - additionalProperties:
-                type: "number"
-              type: "object"
-            - additionalProperties:
-                additionalProperties:
-                  type: "integer"
-                type: "object"
-              type: "object"
-          title: "Roll Up Metrics"
-          description: "Roll up metrics e.g. sum, average, min, max for numeric, and category_count for categorical metrics."
-      type: "object"
-      title: "MetricRollUp"
-    MetricSettingsRequest:
-      properties:
-        scorers:
-          anyOf:
-            - items:
-                $ref: "#/components/schemas/ScorerConfig"
-              type: "array"
-            - type: "null"
-          title: "Scorers"
-          description: "List of Galileo scorers to enable."
-        segment_filters:
-          anyOf:
-            - items:
-                $ref: "#/components/schemas/SegmentFilter"
-              type: "array"
-            - type: "null"
-          title: "Segment Filters"
-          description: "List of segment filters to apply to the run."
-      type: "object"
-      title: "MetricSettingsRequest"
-    MetricSettingsResponse:
-      properties:
-        scorers:
-          items:
-            $ref: "#/components/schemas/ScorerConfig"
-          type: "array"
-          title: "Scorers"
-        segment_filters:
-          anyOf:
-            - items:
-                $ref: "#/components/schemas/SegmentFilter"
-              type: "array"
-            - type: "null"
-          title: "Segment Filters"
-          description: "List of segment filters to apply to the run."
-      type: "object"
-      required:
-        - "scorers"
-      title: "MetricSettingsResponse"
-    MetricSuccess:
-      properties:
-        status_type:
-          type: "string"
-          const: "success"
-          title: "Status Type"
-          default: "success"
-        scorer_type:
-          anyOf:
-            - $ref: "#/components/schemas/ScorerType"
-            - type: "null"
-        explanation:
-          anyOf:
-            - type: "string"
-            - type: "null"
-          title: "Explanation"
-        cost:
-          anyOf:
-            - type: "number"
-            - type: "null"
-          title: "Cost"
-        model_alias:
-          anyOf:
-            - type: "string"
-            - type: "null"
-          title: "Model Alias"
-        num_judges:
-          anyOf:
-            - type: "integer"
-            - type: "null"
-          title: "Num Judges"
-        input_tokens:
-          anyOf:
-            - type: "integer"
-            - type: "null"
-          title: "Input Tokens"
-        output_tokens:
-          anyOf:
-            - type: "integer"
-            - type: "null"
-          title: "Output Tokens"
-        total_tokens:
-          anyOf:
-            - type: "integer"
-            - type: "null"
-          title: "Total Tokens"
-        critique:
-          anyOf:
-            - $ref: "#/components/schemas/MetricCritiqueColumnar"
             - type: "null"
         value:
           anyOf:
@@ -25458,6 +25590,224 @@ components:
               type: "array"
             - type: "null"
           title: "Value"
+        explanation:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Explanation"
+        cost:
+          anyOf:
+            - type: "number"
+            - type: "null"
+          title: "Cost"
+        model_alias:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Model Alias"
+        num_judges:
+          anyOf:
+            - type: "integer"
+            - type: "null"
+          title: "Num Judges"
+        input_tokens:
+          anyOf:
+            - type: "integer"
+            - type: "null"
+          title: "Input Tokens"
+        output_tokens:
+          anyOf:
+            - type: "integer"
+            - type: "null"
+          title: "Output Tokens"
+        total_tokens:
+          anyOf:
+            - type: "integer"
+            - type: "null"
+          title: "Total Tokens"
+        critique:
+          anyOf:
+            - $ref: "#/components/schemas/MetricCritiqueColumnar"
+            - type: "null"
+        roll_up_metrics:
+          anyOf:
+            - additionalProperties:
+                type: "number"
+              type: "object"
+            - additionalProperties:
+                additionalProperties:
+                  type: "integer"
+                type: "object"
+              type: "object"
+          title: "Roll Up Metrics"
+          description: "Roll up metrics e.g. sum, average, min, max for numeric, and category_count for categorical metrics."
+      type: "object"
+      required:
+        - "value"
+      title: "MetricRollUp"
+    MetricSettingsRequest:
+      properties:
+        scorers:
+          anyOf:
+            - items:
+                $ref: "#/components/schemas/ScorerConfig"
+              type: "array"
+            - type: "null"
+          title: "Scorers"
+          description: "List of Galileo scorers to enable."
+        segment_filters:
+          anyOf:
+            - items:
+                $ref: "#/components/schemas/SegmentFilter"
+              type: "array"
+            - type: "null"
+          title: "Segment Filters"
+          description: "List of segment filters to apply to the run."
+      type: "object"
+      title: "MetricSettingsRequest"
+    MetricSettingsResponse:
+      properties:
+        scorers:
+          items:
+            $ref: "#/components/schemas/ScorerConfig"
+          type: "array"
+          title: "Scorers"
+        segment_filters:
+          anyOf:
+            - items:
+                $ref: "#/components/schemas/SegmentFilter"
+              type: "array"
+            - type: "null"
+          title: "Segment Filters"
+          description: "List of segment filters to apply to the run."
+      type: "object"
+      required:
+        - "scorers"
+      title: "MetricSettingsResponse"
+    MetricSuccess:
+      properties:
+        status_type:
+          type: "string"
+          const: "success"
+          title: "Status Type"
+          default: "success"
+        scorer_type:
+          anyOf:
+            - $ref: "#/components/schemas/ScorerType"
+            - type: "null"
+        value:
+          anyOf:
+            - type: "string"
+            - type: "integer"
+            - type: "number"
+            - type: "boolean"
+            - type: "string"
+              format: "uuid"
+            - type: "string"
+              format: "date-time"
+            - $ref: "#/components/schemas/Segment"
+            - $ref: "#/components/schemas/HallucinationSegment"
+            - $ref: "#/components/schemas/Document"
+            - $ref: "#/components/schemas/FeedbackRatingDB"
+            - $ref: "#/components/schemas/FeedbackAggregate"
+            - items:
+                anyOf:
+                  - type: "string"
+                  - type: "integer"
+                  - type: "number"
+                  - type: "boolean"
+                  - type: "string"
+                    format: "uuid"
+                  - type: "string"
+                    format: "date-time"
+                  - $ref: "#/components/schemas/Segment"
+                  - $ref: "#/components/schemas/HallucinationSegment"
+                  - $ref: "#/components/schemas/Document"
+                  - $ref: "#/components/schemas/FeedbackRatingDB"
+                  - $ref: "#/components/schemas/FeedbackAggregate"
+                  - type: "null"
+              type: "array"
+            - items:
+                items:
+                  anyOf:
+                    - type: "string"
+                    - type: "integer"
+                    - type: "number"
+                    - type: "boolean"
+                    - type: "string"
+                      format: "uuid"
+                    - type: "string"
+                      format: "date-time"
+                    - $ref: "#/components/schemas/Segment"
+                    - $ref: "#/components/schemas/HallucinationSegment"
+                    - $ref: "#/components/schemas/Document"
+                    - $ref: "#/components/schemas/FeedbackRatingDB"
+                    - $ref: "#/components/schemas/FeedbackAggregate"
+                    - type: "null"
+                type: "array"
+              type: "array"
+            - items:
+                items:
+                  items:
+                    anyOf:
+                      - type: "string"
+                      - type: "integer"
+                      - type: "number"
+                      - type: "boolean"
+                      - type: "string"
+                        format: "uuid"
+                      - type: "string"
+                        format: "date-time"
+                      - $ref: "#/components/schemas/Segment"
+                      - $ref: "#/components/schemas/HallucinationSegment"
+                      - $ref: "#/components/schemas/Document"
+                      - $ref: "#/components/schemas/FeedbackRatingDB"
+                      - $ref: "#/components/schemas/FeedbackAggregate"
+                      - type: "null"
+                  type: "array"
+                type: "array"
+              type: "array"
+            - type: "null"
+          title: "Value"
+        explanation:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Explanation"
+        cost:
+          anyOf:
+            - type: "number"
+            - type: "null"
+          title: "Cost"
+        model_alias:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Model Alias"
+        num_judges:
+          anyOf:
+            - type: "integer"
+            - type: "null"
+          title: "Num Judges"
+        input_tokens:
+          anyOf:
+            - type: "integer"
+            - type: "null"
+          title: "Input Tokens"
+        output_tokens:
+          anyOf:
+            - type: "integer"
+            - type: "null"
+          title: "Output Tokens"
+        total_tokens:
+          anyOf:
+            - type: "integer"
+            - type: "null"
+          title: "Total Tokens"
+        critique:
+          anyOf:
+            - $ref: "#/components/schemas/MetricCritiqueColumnar"
+            - type: "null"
         display_value:
           anyOf:
             - type: "string"
@@ -25711,30 +26061,6 @@ components:
         - "tokens"
         - "characters"
       title: "ModelCostBy"
-    ModelProperties:
-      properties:
-        alias:
-          type: "string"
-          title: "Alias"
-        name:
-          type: "string"
-          title: "Name"
-        input_modalities:
-          items:
-            $ref: "#/components/schemas/ContentModality"
-          type: "array"
-          title: "Input Modalities"
-        multimodal_capabilities:
-          items:
-            $ref: "#/components/schemas/MultimodalCapability"
-          type: "array"
-          title: "Multimodal Capabilities"
-      type: "object"
-      required:
-        - "alias"
-        - "name"
-        - "input_modalities"
-      title: "ModelProperties"
     ModelType:
       type: "string"
       enum:
@@ -25790,29 +26116,30 @@ components:
           const: "node_name"
           title: "Name"
           default: "node_name"
-        filter_type:
-          type: "string"
-          const: "string"
-          title: "Filter Type"
-          default: "string"
-        value:
-          type: "string"
-          title: "Value"
         operator:
           type: "string"
           enum:
             - "eq"
             - "ne"
             - "contains"
+            - "one_of"
+            - "not_in"
           title: "Operator"
+        value:
+          anyOf:
+            - type: "string"
+            - items:
+                type: "string"
+              type: "array"
+          title: "Value"
         case_sensitive:
           type: "boolean"
           title: "Case Sensitive"
           default: true
       type: "object"
       required:
-        - "value"
         - "operator"
+        - "value"
       title: "NodeNameFilter"
       description: "Filters on node names in scorer jobs."
     NodeType:
@@ -25841,6 +26168,34 @@ components:
       required:
         - "not"
       title: "NotNode[Annotated[Union[LogRecordsIDFilter, LogRecordsDateFilter, LogRecordsNumberFilter, LogRecordsBooleanFilter, LogRecordsCollectionFilter, LogRecordsTextFilter], FieldInfo(annotation=NoneType, required=True, discriminator='type')]]"
+    NumericColorConstraint:
+      properties:
+        color:
+          $ref: "#/components/schemas/MetricColor"
+        operator:
+          type: "string"
+          enum:
+            - "eq"
+            - "gt"
+            - "gte"
+            - "lt"
+            - "lte"
+            - "between"
+          title: "Operator"
+        value:
+          anyOf:
+            - type: "number"
+            - items:
+                type: "number"
+              type: "array"
+          title: "Value"
+      type: "object"
+      required:
+        - "color"
+        - "operator"
+        - "value"
+      title: "NumericColorConstraint"
+      description: "A color constraint for numeric metric values.\n\nAssigns a color when a numeric score matches the given operator and value.\n\nOperators and expected value shapes:\n  - eq, gt, gte, lt, lte: value must be a single float.\n  - between: value must be a list of exactly 2 floats [low, high] where low < high.\n    The range is inclusive on both ends.\n\nExample:\n    {\"color\": \"green\", \"operator\": \"gte\", \"value\": 0.8}\n    {\"color\": \"yellow\", \"operator\": \"between\", \"value\": [0.3, 0.7]}"
     NumericRollUpMethod:
       type: "string"
       enum:
@@ -26379,6 +26734,13 @@ components:
           type: "object"
           title: "Annotation Aggregates"
           description: "Annotation aggregate information keyed by template ID"
+        annotation_queue_ids:
+          items:
+            type: "string"
+            format: "uuid4"
+          type: "array"
+          title: "Annotation Queue Ids"
+          description: "IDs of annotation queues this record is in"
         metric_info:
           anyOf:
             - additionalProperties:
@@ -26626,6 +26988,13 @@ components:
           type: "object"
           title: "Annotation Aggregates"
           description: "Annotation aggregate information keyed by template ID"
+        annotation_queue_ids:
+          items:
+            type: "string"
+            format: "uuid4"
+          type: "array"
+          title: "Annotation Queue Ids"
+          description: "IDs of annotation queues this record is in"
         metric_info:
           anyOf:
             - additionalProperties:
@@ -26926,6 +27295,13 @@ components:
           type: "object"
           title: "Annotation Aggregates"
           description: "Annotation aggregate information keyed by template ID"
+        annotation_queue_ids:
+          items:
+            type: "string"
+            format: "uuid4"
+          type: "array"
+          title: "Annotation Queue Ids"
+          description: "IDs of annotation queues this record is in"
         metric_info:
           anyOf:
             - additionalProperties:
@@ -27184,6 +27560,13 @@ components:
           type: "object"
           title: "Annotation Aggregates"
           description: "Annotation aggregate information keyed by template ID"
+        annotation_queue_ids:
+          items:
+            type: "string"
+            format: "uuid4"
+          type: "array"
+          title: "Annotation Queue Ids"
+          description: "IDs of annotation queues this record is in"
         metric_info:
           anyOf:
             - additionalProperties:
@@ -27416,6 +27799,13 @@ components:
           type: "object"
           title: "Annotation Aggregates"
           description: "Annotation aggregate information keyed by template ID"
+        annotation_queue_ids:
+          items:
+            type: "string"
+            format: "uuid4"
+          type: "array"
+          title: "Annotation Queue Ids"
+          description: "IDs of annotation queues this record is in"
         metric_info:
           anyOf:
             - additionalProperties:
@@ -27666,6 +28056,13 @@ components:
           type: "object"
           title: "Annotation Aggregates"
           description: "Annotation aggregate information keyed by template ID"
+        annotation_queue_ids:
+          items:
+            type: "string"
+            format: "uuid4"
+          type: "array"
+          title: "Annotation Queue Ids"
+          description: "IDs of annotation queues this record is in"
         metric_info:
           anyOf:
             - additionalProperties:
@@ -27912,6 +28309,13 @@ components:
           type: "object"
           title: "Annotation Aggregates"
           description: "Annotation aggregate information keyed by template ID"
+        annotation_queue_ids:
+          items:
+            type: "string"
+            format: "uuid4"
+          type: "array"
+          title: "Annotation Queue Ids"
+          description: "IDs of annotation queues this record is in"
         metric_info:
           anyOf:
             - additionalProperties:
@@ -30617,6 +31021,12 @@ components:
             - type: "string"
             - type: "null"
           title: "Roll Up Method"
+        score_type:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Score Type"
+          description: "Return type of code scorers (e.g., 'bool', 'int', 'float', 'str')."
       type: "object"
       required:
         - "id"
@@ -30975,6 +31385,22 @@ components:
           anyOf:
             - $ref: "#/components/schemas/NumericRollUpMethod"
             - type: "null"
+        metric_color_picker_config:
+          anyOf:
+            - oneOf:
+                - $ref: "#/components/schemas/MetricColorPickerNumeric"
+                - $ref: "#/components/schemas/MetricColorPickerBoolean"
+                - $ref: "#/components/schemas/MetricColorPickerCategorical"
+                - $ref: "#/components/schemas/MetricColorPickerMultiLabel"
+              discriminator:
+                propertyName: "type"
+                mapping:
+                  boolean: "#/components/schemas/MetricColorPickerBoolean"
+                  categorical: "#/components/schemas/MetricColorPickerCategorical"
+                  multi_label: "#/components/schemas/MetricColorPickerMultiLabel"
+                  numeric: "#/components/schemas/MetricColorPickerNumeric"
+            - type: "null"
+          title: "Metric Color Picker Config"
       type: "object"
       required:
         - "id"
@@ -30994,6 +31420,7 @@ components:
           enum:
             - "eq"
             - "contains"
+            - "one_of"
             - "not_in"
           title: "Operator"
         value:
@@ -33381,6 +33808,30 @@ components:
         - "reason"
       title: "BulkDeleteFailure"
       description: "Details about a failed deletion."
+    api__schemas__integration__llm_integration__ModelProperties:
+      properties:
+        alias:
+          type: "string"
+          title: "Alias"
+        name:
+          type: "string"
+          title: "Name"
+        input_modalities:
+          items:
+            $ref: "#/components/schemas/ContentModality"
+          type: "array"
+          title: "Input Modalities"
+        multimodal_capabilities:
+          items:
+            $ref: "#/components/schemas/MultimodalCapability"
+          type: "array"
+          title: "Multimodal Capabilities"
+      type: "object"
+      required:
+        - "alias"
+        - "name"
+        - "input_modalities"
+      title: "ModelProperties"
     api__schemas__project__GetProjectsPaginatedResponse:
       properties:
         starting_token:
@@ -33589,6 +34040,23 @@ components:
         - "uncertainty"
         - "user_intent_change"
       title: "ScorerName"
+    promptgalileo__schemas__config__custom__ModelProperties:
+      properties:
+        name:
+          type: "string"
+          title: "Name"
+          description: "The model name used when calling the API."
+        alias:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Alias"
+          description: "The display name/alias for the model. Defaults to name."
+      type: "object"
+      required:
+        - "name"
+      title: "ModelProperties"
+      description: "Properties for a model in a custom integration.\n\nAttributes:\n    name: The model name used when calling the API.\n    alias: The display name/alias for the model in the UI.\n          Defaults to ``name`` when not provided."
     promptgalileo__schemas__scorer_name__ScorerName:
       type: "string"
       enum:

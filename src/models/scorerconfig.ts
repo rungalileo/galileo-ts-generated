@@ -107,6 +107,10 @@ export type ScorerConfig = {
    */
   multimodalCapabilities?: Array<MultimodalCapability> | null | undefined;
   rollUpMethod?: string | null | undefined;
+  /**
+   * Return type of code scorers (e.g., 'bool', 'int', 'float', 'str').
+   */
+  scoreType?: string | null | undefined;
 };
 
 /** @internal */
@@ -174,6 +178,7 @@ export const ScorerConfig$inboundSchema: z.ZodMiniType<ScorerConfig, unknown> =
         z.nullable(z.array(MultimodalCapability$inboundSchema)),
       ),
       roll_up_method: z.optional(z.nullable(types.string())),
+      score_type: z.optional(z.nullable(types.string())),
     }),
     z.transform((v) => {
       return remap$(v, {
@@ -188,6 +193,7 @@ export const ScorerConfig$inboundSchema: z.ZodMiniType<ScorerConfig, unknown> =
         "scorer_version": "scorerVersion",
         "multimodal_capabilities": "multimodalCapabilities",
         "roll_up_method": "rollUpMethod",
+        "score_type": "scoreType",
       });
     }),
   );
@@ -210,6 +216,7 @@ export type ScorerConfig$Outbound = {
   scorer_version?: BaseScorerVersionDB$Outbound | null | undefined;
   multimodal_capabilities?: Array<string> | null | undefined;
   roll_up_method?: string | null | undefined;
+  score_type?: string | null | undefined;
 };
 
 /** @internal */
@@ -243,6 +250,7 @@ export const ScorerConfig$outboundSchema: z.ZodMiniType<
       z.nullable(z.array(MultimodalCapability$outboundSchema)),
     ),
     rollUpMethod: z.optional(z.nullable(z.string())),
+    scoreType: z.optional(z.nullable(z.string())),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -257,6 +265,7 @@ export const ScorerConfig$outboundSchema: z.ZodMiniType<
       scorerVersion: "scorer_version",
       multimodalCapabilities: "multimodal_capabilities",
       rollUpMethod: "roll_up_method",
+      scoreType: "score_type",
     });
   }),
 );

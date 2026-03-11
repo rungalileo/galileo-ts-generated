@@ -29,7 +29,7 @@ generation:
   requestBodyFieldName: body
   versioningStrategy: manual
   persistentEdits:
-    enabled: 'true'
+    enabled: "true"
   tests:
     generateTests: false
     generateNewTests: true
