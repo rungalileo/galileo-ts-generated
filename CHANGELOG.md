@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.11](https://github.com/rungalileo/galileo-ts-generated/compare/galileo-generated-v0.2.10...galileo-generated-v0.2.11) (2026-03-12)
+
+
+### Features
+
+* **require:** Updated existing comment to reflect current state of project regarding continuous support of CommonJS. ([#55](https://github.com/rungalileo/galileo-ts-generated/issues/55)) ([26b5937](https://github.com/rungalileo/galileo-ts-generated/commit/26b5937a9c4612cc6acd99e76e4454ddd8ea249b))
+
+
+### Bug Fixes
+
+* **url:** Base URL recovered from env var is automatically integrated into SDK initialization, instead of relying on being passed during requests. ([#57](https://github.com/rungalileo/galileo-ts-generated/issues/57)) ([f703fd6](https://github.com/rungalileo/galileo-ts-generated/commit/f703fd6559a977bb425ef5d17a0f010a60beb868))
+
 ## [0.2.10](https://github.com/rungalileo/galileo-ts-generated/compare/galileo-generated-v0.2.9...galileo-generated-v0.2.10) (2026-03-06)
 
 
