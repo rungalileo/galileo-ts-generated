@@ -21,6 +21,10 @@ import {
   MultiModalModelIntegrationConfig,
   MultiModalModelIntegrationConfig$inboundSchema,
 } from "./multimodalmodelintegrationconfig.js";
+import {
+  PromptgalileoSchemasConfigCustomModelProperties,
+  PromptgalileoSchemasConfigCustomModelProperties$inboundSchema,
+} from "./promptgalileoschemasconfigcustommodelproperties.js";
 
 /**
  * Read model for custom integrations.
@@ -47,11 +51,22 @@ export type CustomIntegration = {
    */
   authenticationType?: CustomAuthenticationType | undefined;
   /**
-   * List of model names for the custom integration
+   * List of model names for the custom integration. Deprecated: use model_properties instead.
    */
-  models: Array<string>;
+  models?: Array<string> | null | undefined;
   /**
-   * Default model to use. If not provided, defaults to the first model in the models list.
+   * List of model properties with name and alias for the custom integration.
+   */
+  modelProperties?:
+    | Array<PromptgalileoSchemasConfigCustomModelProperties>
+    | null
+    | undefined;
+  /**
+   * Internal: whether this config was created from the legacy 'models' field.
+   */
+  isLegacyFormat: boolean;
+  /**
+   * Default model to use. If not provided, defaults to the first model.
    */
   defaultModel?: string | null | undefined;
   /**
@@ -93,7 +108,13 @@ export const CustomIntegration$inboundSchema: z.ZodMiniType<
       z.nullable(MultiModalModelIntegrationConfig$inboundSchema),
     ),
     authentication_type: types.optional(CustomAuthenticationType$inboundSchema),
-    models: z.array(types.string()),
+    models: z.optional(z.nullable(z.array(types.string()))),
+    model_properties: z.optional(
+      z.nullable(
+        z.array(PromptgalileoSchemasConfigCustomModelProperties$inboundSchema),
+      ),
+    ),
+    is_legacy_format: z._default(types.boolean(), false),
     default_model: z.optional(z.nullable(types.string())),
     endpoint: types.string(),
     authentication_scope: z.optional(z.nullable(types.string())),
@@ -109,6 +130,8 @@ export const CustomIntegration$inboundSchema: z.ZodMiniType<
     return remap$(v, {
       "multi_modal_config": "multiModalConfig",
       "authentication_type": "authenticationType",
+      "model_properties": "modelProperties",
+      "is_legacy_format": "isLegacyFormat",
       "default_model": "defaultModel",
       "authentication_scope": "authenticationScope",
       "oauth2_token_url": "oauth2TokenUrl",

@@ -22,8 +22,10 @@ const value: models.MetadataFilter = {
 ```typescript
 const value: models.NodeNameFilter = {
   name: "node_name",
-  value: "<value>",
-  operator: "ne",
+  operator: "contains",
+  value: [
+    "<value 1>",
+  ],
 };
 ```
 
