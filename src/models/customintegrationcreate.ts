@@ -19,6 +19,11 @@ import {
   MultiModalModelIntegrationConfig$Outbound,
   MultiModalModelIntegrationConfig$outboundSchema,
 } from "./multimodalmodelintegrationconfig.js";
+import {
+  PromptgalileoSchemasConfigCustomModelProperties,
+  PromptgalileoSchemasConfigCustomModelProperties$Outbound,
+  PromptgalileoSchemasConfigCustomModelProperties$outboundSchema,
+} from "./promptgalileoschemasconfigcustommodelproperties.js";
 
 /**
  * Schema for creating custom integrations.
@@ -48,11 +53,22 @@ export type CustomIntegrationCreate = {
    */
   authenticationType?: CustomAuthenticationType | undefined;
   /**
-   * List of model names for the custom integration
+   * List of model names for the custom integration. Deprecated: use model_properties instead.
    */
-  models: Array<string>;
+  models?: Array<string> | null | undefined;
   /**
-   * Default model to use. If not provided, defaults to the first model in the models list.
+   * List of model properties with name and alias for the custom integration.
+   */
+  modelProperties?:
+    | Array<PromptgalileoSchemasConfigCustomModelProperties>
+    | null
+    | undefined;
+  /**
+   * Internal: whether this config was created from the legacy 'models' field.
+   */
+  isLegacyFormat?: boolean | undefined;
+  /**
+   * Default model to use. If not provided, defaults to the first model.
    */
   defaultModel?: string | null | undefined;
   /**
@@ -89,7 +105,12 @@ export type CustomIntegrationCreate$Outbound = {
     | null
     | undefined;
   authentication_type?: string | undefined;
-  models: Array<string>;
+  models?: Array<string> | null | undefined;
+  model_properties?:
+    | Array<PromptgalileoSchemasConfigCustomModelProperties$Outbound>
+    | null
+    | undefined;
+  is_legacy_format: boolean;
   default_model?: string | null | undefined;
   endpoint: string;
   authentication_scope?: string | null | undefined;
@@ -110,7 +131,13 @@ export const CustomIntegrationCreate$outboundSchema: z.ZodMiniType<
       z.nullable(MultiModalModelIntegrationConfig$outboundSchema),
     ),
     authenticationType: z.optional(CustomAuthenticationType$outboundSchema),
-    models: z.array(z.string()),
+    models: z.optional(z.nullable(z.array(z.string()))),
+    modelProperties: z.optional(
+      z.nullable(
+        z.array(PromptgalileoSchemasConfigCustomModelProperties$outboundSchema),
+      ),
+    ),
+    isLegacyFormat: z._default(z.boolean(), false),
     defaultModel: z.optional(z.nullable(z.string())),
     endpoint: z.string(),
     authenticationScope: z.optional(z.nullable(z.string())),
@@ -124,6 +151,8 @@ export const CustomIntegrationCreate$outboundSchema: z.ZodMiniType<
     return remap$(v, {
       multiModalConfig: "multi_modal_config",
       authenticationType: "authentication_type",
+      modelProperties: "model_properties",
+      isLegacyFormat: "is_legacy_format",
       defaultModel: "default_model",
       authenticationScope: "authentication_scope",
       oauth2TokenUrl: "oauth2_token_url",
