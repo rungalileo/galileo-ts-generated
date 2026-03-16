@@ -29,6 +29,12 @@ import {
   MetadataFilter$outboundSchema,
 } from "./metadatafilter.js";
 import {
+  ModalityFilter,
+  ModalityFilter$inboundSchema,
+  ModalityFilter$Outbound,
+  ModalityFilter$outboundSchema,
+} from "./modalityfilter.js";
+import {
   ModelType,
   ModelType$inboundSchema,
   ModelType$outboundSchema,
@@ -57,6 +63,7 @@ import {
 
 export type ScorerConfigFilter =
   | MetadataFilter
+  | ModalityFilter
   | NodeNameFilter
   | discriminatedUnionTypes.Unknown<"name">;
 
@@ -71,7 +78,10 @@ export type ScorerConfig = {
    */
   filters?:
     | Array<
-      MetadataFilter | NodeNameFilter | discriminatedUnionTypes.Unknown<"name">
+      | MetadataFilter
+      | ModalityFilter
+      | NodeNameFilter
+      | discriminatedUnionTypes.Unknown<"name">
     >
     | null
     | undefined;
@@ -107,6 +117,10 @@ export type ScorerConfig = {
    */
   multimodalCapabilities?: Array<MultimodalCapability> | null | undefined;
   rollUpMethod?: string | null | undefined;
+  /**
+   * Return type of code scorers (e.g., 'bool', 'int', 'float', 'str').
+   */
+  scoreType?: string | null | undefined;
 };
 
 /** @internal */
@@ -115,18 +129,24 @@ export const ScorerConfigFilter$inboundSchema: z.ZodMiniType<
   unknown
 > = discriminatedUnion("name", {
   metadata: MetadataFilter$inboundSchema,
+  modality: ModalityFilter$inboundSchema,
   node_name: NodeNameFilter$inboundSchema,
 });
 /** @internal */
 export type ScorerConfigFilter$Outbound =
   | MetadataFilter$Outbound
+  | ModalityFilter$Outbound
   | NodeNameFilter$Outbound;
 
 /** @internal */
 export const ScorerConfigFilter$outboundSchema: z.ZodMiniType<
   ScorerConfigFilter$Outbound,
   ScorerConfigFilter
-> = z.union([MetadataFilter$outboundSchema, NodeNameFilter$outboundSchema]);
+> = z.union([
+  MetadataFilter$outboundSchema,
+  ModalityFilter$outboundSchema,
+  NodeNameFilter$outboundSchema,
+]);
 
 export function scorerConfigFilterToJSON(
   scorerConfigFilter: ScorerConfigFilter,
@@ -156,6 +176,7 @@ export const ScorerConfig$inboundSchema: z.ZodMiniType<ScorerConfig, unknown> =
           z.array(
             discriminatedUnion("name", {
               metadata: MetadataFilter$inboundSchema,
+              modality: ModalityFilter$inboundSchema,
               node_name: NodeNameFilter$inboundSchema,
             }),
           ),
@@ -174,6 +195,7 @@ export const ScorerConfig$inboundSchema: z.ZodMiniType<ScorerConfig, unknown> =
         z.nullable(z.array(MultimodalCapability$inboundSchema)),
       ),
       roll_up_method: z.optional(z.nullable(types.string())),
+      score_type: z.optional(z.nullable(types.string())),
     }),
     z.transform((v) => {
       return remap$(v, {
@@ -188,6 +210,7 @@ export const ScorerConfig$inboundSchema: z.ZodMiniType<ScorerConfig, unknown> =
         "scorer_version": "scorerVersion",
         "multimodal_capabilities": "multimodalCapabilities",
         "roll_up_method": "rollUpMethod",
+        "score_type": "scoreType",
       });
     }),
   );
@@ -196,7 +219,11 @@ export type ScorerConfig$Outbound = {
   model_name?: string | null | undefined;
   num_judges?: number | null | undefined;
   filters?:
-    | Array<MetadataFilter$Outbound | NodeNameFilter$Outbound>
+    | Array<
+      | MetadataFilter$Outbound
+      | ModalityFilter$Outbound
+      | NodeNameFilter$Outbound
+    >
     | null
     | undefined;
   scoreable_node_types?: Array<string> | null | undefined;
@@ -210,6 +237,7 @@ export type ScorerConfig$Outbound = {
   scorer_version?: BaseScorerVersionDB$Outbound | null | undefined;
   multimodal_capabilities?: Array<string> | null | undefined;
   roll_up_method?: string | null | undefined;
+  score_type?: string | null | undefined;
 };
 
 /** @internal */
@@ -225,6 +253,7 @@ export const ScorerConfig$outboundSchema: z.ZodMiniType<
         z.array(
           z.union([
             MetadataFilter$outboundSchema,
+            ModalityFilter$outboundSchema,
             NodeNameFilter$outboundSchema,
           ]),
         ),
@@ -243,6 +272,7 @@ export const ScorerConfig$outboundSchema: z.ZodMiniType<
       z.nullable(z.array(MultimodalCapability$outboundSchema)),
     ),
     rollUpMethod: z.optional(z.nullable(z.string())),
+    scoreType: z.optional(z.nullable(z.string())),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -257,6 +287,7 @@ export const ScorerConfig$outboundSchema: z.ZodMiniType<
       scorerVersion: "scorer_version",
       multimodalCapabilities: "multimodal_capabilities",
       rollUpMethod: "roll_up_method",
+      scoreType: "score_type",
     });
   }),
 );

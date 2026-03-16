@@ -10,6 +10,7 @@ import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
 import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
+import { smartUnion } from "../types/smartUnion.js";
 import {
   AnnotationAggregate,
   AnnotationAggregate$inboundSchema,
@@ -22,12 +23,17 @@ import {
   ContentModality,
   ContentModality$inboundSchema,
 } from "./contentmodality.js";
+import { Document, Document$inboundSchema } from "./document.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
   FeedbackRatingInfo,
   FeedbackRatingInfo$inboundSchema,
 } from "./feedbackratinginfo.js";
 import { FileMetadata, FileMetadata$inboundSchema } from "./filemetadata.js";
+import {
+  GalileoCoreSchemasLoggingLlmMessage,
+  GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
+} from "./galileocoreschemasloggingllmmessage.js";
 import {
   MetricComputing,
   MetricComputing$inboundSchema,
@@ -46,6 +52,36 @@ import { MetricPending, MetricPending$inboundSchema } from "./metricpending.js";
 import { MetricRollUp, MetricRollUp$inboundSchema } from "./metricrollup.js";
 import { Metrics, Metrics$inboundSchema } from "./metrics.js";
 import { MetricSuccess, MetricSuccess$inboundSchema } from "./metricsuccess.js";
+
+/**
+ * Input to the trace or span.
+ */
+export type PartialExtendedTraceRecordInput =
+  | string
+  | Array<GalileoCoreSchemasLoggingLlmMessage>;
+
+/**
+ * Redacted input of the trace or span.
+ */
+export type PartialExtendedTraceRecordRedactedInput =
+  | string
+  | Array<GalileoCoreSchemasLoggingLlmMessage>;
+
+/**
+ * Output of the trace or span.
+ */
+export type PartialExtendedTraceRecordOutput =
+  | GalileoCoreSchemasLoggingLlmMessage
+  | string
+  | Array<Document>;
+
+/**
+ * Redacted output of the trace or span.
+ */
+export type PartialExtendedTraceRecordRedactedOutput =
+  | GalileoCoreSchemasLoggingLlmMessage
+  | string
+  | Array<Document>;
 
 export type PartialExtendedTraceRecordMetricInfo =
   | MetricComputing
@@ -66,19 +102,33 @@ export type PartialExtendedTraceRecord = {
   /**
    * Input to the trace or span.
    */
-  input: string;
+  input?: string | Array<GalileoCoreSchemasLoggingLlmMessage> | undefined;
   /**
    * Redacted input of the trace or span.
    */
-  redactedInput?: string | null | undefined;
+  redactedInput?:
+    | string
+    | Array<GalileoCoreSchemasLoggingLlmMessage>
+    | null
+    | undefined;
   /**
    * Output of the trace or span.
    */
-  output?: string | null | undefined;
+  output?:
+    | GalileoCoreSchemasLoggingLlmMessage
+    | string
+    | Array<Document>
+    | null
+    | undefined;
   /**
    * Redacted output of the trace or span.
    */
-  redactedOutput?: string | null | undefined;
+  redactedOutput?:
+    | GalileoCoreSchemasLoggingLlmMessage
+    | string
+    | Array<Document>
+    | null
+    | undefined;
   /**
    * Name of the trace, span or session.
    */
@@ -175,6 +225,10 @@ export type PartialExtendedTraceRecord = {
    */
   annotationAggregates?: { [k: string]: AnnotationAggregate } | undefined;
   /**
+   * IDs of annotation queues this record is in
+   */
+  annotationQueueIds?: Array<string> | undefined;
+  /**
    * Detailed information about the metrics associated with this trace or span
    */
   metricInfo?:
@@ -201,6 +255,94 @@ export type PartialExtendedTraceRecord = {
    */
   isComplete: boolean;
 };
+
+/** @internal */
+export const PartialExtendedTraceRecordInput$inboundSchema: z.ZodMiniType<
+  PartialExtendedTraceRecordInput,
+  unknown
+> = smartUnion([
+  types.string(),
+  z.array(GalileoCoreSchemasLoggingLlmMessage$inboundSchema),
+]);
+
+export function partialExtendedTraceRecordInputFromJSON(
+  jsonString: string,
+): SafeParseResult<PartialExtendedTraceRecordInput, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => PartialExtendedTraceRecordInput$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'PartialExtendedTraceRecordInput' from JSON`,
+  );
+}
+
+/** @internal */
+export const PartialExtendedTraceRecordRedactedInput$inboundSchema:
+  z.ZodMiniType<PartialExtendedTraceRecordRedactedInput, unknown> = smartUnion([
+    types.string(),
+    z.array(GalileoCoreSchemasLoggingLlmMessage$inboundSchema),
+  ]);
+
+export function partialExtendedTraceRecordRedactedInputFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  PartialExtendedTraceRecordRedactedInput,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      PartialExtendedTraceRecordRedactedInput$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'PartialExtendedTraceRecordRedactedInput' from JSON`,
+  );
+}
+
+/** @internal */
+export const PartialExtendedTraceRecordOutput$inboundSchema: z.ZodMiniType<
+  PartialExtendedTraceRecordOutput,
+  unknown
+> = smartUnion([
+  GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
+  types.string(),
+  z.array(Document$inboundSchema),
+]);
+
+export function partialExtendedTraceRecordOutputFromJSON(
+  jsonString: string,
+): SafeParseResult<PartialExtendedTraceRecordOutput, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => PartialExtendedTraceRecordOutput$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'PartialExtendedTraceRecordOutput' from JSON`,
+  );
+}
+
+/** @internal */
+export const PartialExtendedTraceRecordRedactedOutput$inboundSchema:
+  z.ZodMiniType<PartialExtendedTraceRecordRedactedOutput, unknown> = smartUnion(
+    [
+      GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
+      types.string(),
+      z.array(Document$inboundSchema),
+    ],
+  );
+
+export function partialExtendedTraceRecordRedactedOutputFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  PartialExtendedTraceRecordRedactedOutput,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      PartialExtendedTraceRecordRedactedOutput$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'PartialExtendedTraceRecordRedactedOutput' from JSON`,
+  );
+}
 
 /** @internal */
 export const PartialExtendedTraceRecordMetricInfo$inboundSchema: z.ZodMiniType<
@@ -235,10 +377,38 @@ export const PartialExtendedTraceRecord$inboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     type: types.literal("trace"),
-    input: z._default(types.string(), ""),
-    redacted_input: z.optional(z.nullable(types.string())),
-    output: z.optional(z.nullable(types.string())),
-    redacted_output: z.optional(z.nullable(types.string())),
+    input: types.optional(
+      smartUnion([
+        types.string(),
+        z.array(GalileoCoreSchemasLoggingLlmMessage$inboundSchema),
+      ]),
+    ),
+    redacted_input: z.optional(
+      z.nullable(
+        smartUnion([
+          types.string(),
+          z.array(GalileoCoreSchemasLoggingLlmMessage$inboundSchema),
+        ]),
+      ),
+    ),
+    output: z.optional(
+      z.nullable(
+        smartUnion([
+          GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
+          types.string(),
+          z.array(Document$inboundSchema),
+        ]),
+      ),
+    ),
+    redacted_output: z.optional(
+      z.nullable(
+        smartUnion([
+          GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
+          types.string(),
+          z.array(Document$inboundSchema),
+        ]),
+      ),
+    ),
     name: z._default(types.string(), ""),
     created_at: types.optional(types.date()),
     user_metadata: types.optional(z.record(z.string(), types.string())),
@@ -272,6 +442,7 @@ export const PartialExtendedTraceRecord$inboundSchema: z.ZodMiniType<
     annotation_aggregates: types.optional(
       z.record(z.string(), AnnotationAggregate$inboundSchema),
     ),
+    annotation_queue_ids: types.optional(z.array(types.string())),
     metric_info: z.optional(
       z.nullable(z.record(
         z.string(),
@@ -315,6 +486,7 @@ export const PartialExtendedTraceRecord$inboundSchema: z.ZodMiniType<
       "file_ids": "fileIds",
       "file_modalities": "fileModalities",
       "annotation_aggregates": "annotationAggregates",
+      "annotation_queue_ids": "annotationQueueIds",
       "metric_info": "metricInfo",
       "is_complete": "isComplete",
     });
