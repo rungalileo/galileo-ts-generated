@@ -26,6 +26,7 @@ export type RollUpMetrics = { [k: string]: number } | {
 export type MetricRollUp = {
   statusType: "roll_up";
   scorerType?: ScorerType | null | undefined;
+  value: any | null;
   explanation?: string | null | undefined;
   cost?: number | null | undefined;
   modelAlias?: string | null | undefined;
@@ -67,6 +68,7 @@ export const MetricRollUp$inboundSchema: z.ZodMiniType<MetricRollUp, unknown> =
     z.object({
       status_type: types.literal("roll_up"),
       scorer_type: z.optional(z.nullable(ScorerType$inboundSchema)),
+      value: types.nullable(z.any()),
       explanation: z.optional(z.nullable(types.string())),
       cost: z.optional(z.nullable(types.number())),
       model_alias: z.optional(z.nullable(types.string())),
