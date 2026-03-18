@@ -9,6 +9,18 @@ let value: LogRecordsColumnInfo = {
   id: "<id>",
   category: "feedback",
   dataType: "string_list",
+  scorerConfig: {
+    filters: [
+      {
+        name: "node_name",
+        operator: "one_of",
+        value: "<value>",
+        caseSensitive: true,
+      },
+    ],
+    id: "<value>",
+    scorerType: "llm",
+  },
 };
 ```
 
@@ -31,6 +43,7 @@ let value: LogRecordsColumnInfo = {
 | `applicableTypes`                                                                                                                             | [models.StepType](../models/steptype.md)[]                                                                                                    | :heavy_minus_sign:                                                                                                                            | List of types applicable for this column.                                                                                                     |
 | `complex`                                                                                                                                     | *boolean*                                                                                                                                     | :heavy_minus_sign:                                                                                                                            | Whether the column requires special handling in the UI. Setting this to True will hide the column in the UI until the UI adds support for it. |
 | `isOptional`                                                                                                                                  | *boolean*                                                                                                                                     | :heavy_minus_sign:                                                                                                                            | Whether the column is optional.                                                                                                               |
+| `rollUpMethod`                                                                                                                                | *string*                                                                                                                                      | :heavy_minus_sign:                                                                                                                            | Default roll-up aggregation method for this metric (e.g., 'sum', 'average').                                                                  |
 | `scorerConfig`                                                                                                                                | [models.ScorerConfig](../models/scorerconfig.md)                                                                                              | :heavy_minus_sign:                                                                                                                            | For metric columns only: Scorer config that produced the metric.                                                                              |
 | `scorerId`                                                                                                                                    | *string*                                                                                                                                      | :heavy_minus_sign:                                                                                                                            | For metric columns only: Scorer id that produced the metric. This is deprecated and will be removed in future versions.                       |
 | `insightType`                                                                                                                                 | [models.InsightType](../models/insighttype.md)                                                                                                | :heavy_minus_sign:                                                                                                                            | Insight type.                                                                                                                                 |

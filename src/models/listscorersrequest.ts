@@ -15,6 +15,11 @@ import {
   ScorerCreatorFilter$outboundSchema,
 } from "./scorercreatorfilter.js";
 import {
+  ScorerEnabledInPlaygroundSort,
+  ScorerEnabledInPlaygroundSort$Outbound,
+  ScorerEnabledInPlaygroundSort$outboundSchema,
+} from "./scorerenabledinplaygroundsort.js";
+import {
   ScorerEnabledInRunSort,
   ScorerEnabledInRunSort$Outbound,
   ScorerEnabledInRunSort$outboundSchema,
@@ -65,7 +70,10 @@ export type ListScorersRequestFilter =
   | ScorerTagsFilter
   | ScorerUpdatedAtFilter;
 
-export type ListScorersRequestSort = ScorerEnabledInRunSort | ScorerNameSort;
+export type ListScorersRequestSort =
+  | ScorerEnabledInPlaygroundSort
+  | ScorerEnabledInRunSort
+  | ScorerNameSort;
 
 export type ListScorersRequest = {
   filters?:
@@ -80,7 +88,12 @@ export type ListScorersRequest = {
       | ScorerUpdatedAtFilter
     >
     | undefined;
-  sort?: ScorerEnabledInRunSort | ScorerNameSort | null | undefined;
+  sort?:
+    | ScorerEnabledInPlaygroundSort
+    | ScorerEnabledInRunSort
+    | ScorerNameSort
+    | null
+    | undefined;
 };
 
 /** @internal */
@@ -119,6 +132,7 @@ export function listScorersRequestFilterToJSON(
 
 /** @internal */
 export type ListScorersRequestSort$Outbound =
+  | ScorerEnabledInPlaygroundSort$Outbound
   | ScorerEnabledInRunSort$Outbound
   | ScorerNameSort$Outbound;
 
@@ -127,6 +141,7 @@ export const ListScorersRequestSort$outboundSchema: z.ZodMiniType<
   ListScorersRequestSort$Outbound,
   ListScorersRequestSort
 > = z.union([
+  ScorerEnabledInPlaygroundSort$outboundSchema,
   ScorerEnabledInRunSort$outboundSchema,
   ScorerNameSort$outboundSchema,
 ]);
@@ -154,6 +169,7 @@ export type ListScorersRequest$Outbound = {
     >
     | undefined;
   sort?:
+    | ScorerEnabledInPlaygroundSort$Outbound
     | ScorerEnabledInRunSort$Outbound
     | ScorerNameSort$Outbound
     | null
@@ -182,6 +198,7 @@ export const ListScorersRequest$outboundSchema: z.ZodMiniType<
   sort: z.optional(
     z.nullable(
       z.union([
+        ScorerEnabledInPlaygroundSort$outboundSchema,
         ScorerEnabledInRunSort$outboundSchema,
         ScorerNameSort$outboundSchema,
       ]),
