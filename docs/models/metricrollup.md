@@ -7,6 +7,7 @@ import { MetricRollUp } from "galileo-generated/models";
 
 let value: MetricRollUp = {
   statusType: "roll_up",
+  value: "f9abc59e-90e4-4b33-97d1-b7b7b1252e46",
 };
 ```
 
@@ -16,6 +17,7 @@ let value: MetricRollUp = {
 | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
 | `statusType`                                                                                         | *"roll_up"*                                                                                          | :heavy_check_mark:                                                                                   | N/A                                                                                                  |
 | `scorerType`                                                                                         | [models.ScorerType](../models/scorertype.md)                                                         | :heavy_minus_sign:                                                                                   | N/A                                                                                                  |
+| `value`                                                                                              | *any*                                                                                                | :heavy_check_mark:                                                                                   | N/A                                                                                                  |
 | `explanation`                                                                                        | *string*                                                                                             | :heavy_minus_sign:                                                                                   | N/A                                                                                                  |
 | `cost`                                                                                               | *number*                                                                                             | :heavy_minus_sign:                                                                                   | N/A                                                                                                  |
 | `modelAlias`                                                                                         | *string*                                                                                             | :heavy_minus_sign:                                                                                   | N/A                                                                                                  |

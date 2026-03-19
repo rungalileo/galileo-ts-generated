@@ -7,6 +7,13 @@ import { CustomizedInputToxicityGPTScorer } from "galileo-generated/models";
 
 let value: CustomizedInputToxicityGPTScorer = {
   scorerName: "_customized_input_toxicity_gpt",
+  filters: [
+    {
+      name: "modality",
+      operator: "eq",
+      value: "ENUM_VALUE",
+    },
+  ],
 };
 ```
 
