@@ -9,9 +9,7 @@
 * [getTraceProjectsProjectIdTracesTraceIdGet](#gettraceprojectsprojectidtracestraceidget) - Get Trace
 * [updateSpanProjectsProjectIdSpansSpanIdPatch](#updatespanprojectsprojectidspansspanidpatch) - Update Span
 * [getSpanProjectsProjectIdSpansSpanIdGet](#getspanprojectsprojectidspansspanidget) - Get Span
-* [tracesAvailableColumnsProjectsProjectIdTracesAvailableColumnsPost](#tracesavailablecolumnsprojectsprojectidtracesavailablecolumnspost) - Traces Available Columns
 * [metricsTestingAvailableColumnsProjectsProjectIdMetricsTestingAvailableColumnsPost](#metricstestingavailablecolumnsprojectsprojectidmetricstestingavailablecolumnspost) - Metrics Testing Available Columns
-* [spansAvailableColumnsProjectsProjectIdSpansAvailableColumnsPost](#spansavailablecolumnsprojectsprojectidspansavailablecolumnspost) - Spans Available Columns
 * [queryTracesProjectsProjectIdTracesSearchPost](#querytracesprojectsprojectidtracessearchpost) - Query Traces
 * [queryPartialTracesProjectsProjectIdTracesPartialSearchPost](#querypartialtracesprojectsprojectidtracespartialsearchpost) - Query Partial Traces
 * [countTracesProjectsProjectIdTracesCountPost](#counttracesprojectsprojectidtracescountpost) - Count Traces
@@ -24,7 +22,6 @@
 * [queryPartialSessionsProjectsProjectIdSessionsPartialSearchPost](#querypartialsessionsprojectsprojectidsessionspartialsearchpost) - Query Partial Sessions
 * [countSessionsProjectsProjectIdSessionsCountPost](#countsessionsprojectsprojectidsessionscountpost) - Count Sessions
 * [getSessionProjectsProjectIdSessionsSessionIdGet](#getsessionprojectsprojectidsessionssessionidget) - Get Session
-* [sessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPost](#sessionsavailablecolumnsprojectsprojectidsessionsavailablecolumnspost) - Sessions Available Columns
 * [getAggregatedTraceViewProjectsProjectIdTracesAggregatedPost](#getaggregatedtraceviewprojectsprojectidtracesaggregatedpost) - Get Aggregated Trace View
 * [exportRecordsProjectsProjectIdExportRecordsPost](#exportrecordsprojectsprojectidexportrecordspost) - Export Records
 * [recomputeMetricsProjectsProjectIdRecomputeMetricsPost](#recomputemetricsprojectsprojectidrecomputemetricspost) - Recompute Metrics
@@ -56,7 +53,7 @@ async function run() {
         {
           input: "who is a smart LLM?",
           output: "I am!",
-          createdAt: new Date("2026-03-06T13:30:13.432315Z"),
+          createdAt: new Date("2026-03-18T18:38:12.565143Z"),
           userMetadata: {
 
           },
@@ -79,7 +76,7 @@ async function run() {
                 role: "user",
               },
               name: "",
-              createdAt: new Date("2026-03-06T13:30:13.432273Z"),
+              createdAt: new Date("2026-03-18T18:38:12.565104Z"),
               userMetadata: {
 
               },
@@ -125,7 +122,7 @@ async function run() {
         {
           input: "who is a smart LLM?",
           output: "I am!",
-          createdAt: new Date("2026-03-06T13:30:13.432315Z"),
+          createdAt: new Date("2026-03-18T18:38:12.565143Z"),
           userMetadata: {
   
           },
@@ -148,7 +145,7 @@ async function run() {
                 role: "user",
               },
               name: "",
-              createdAt: new Date("2026-03-06T13:30:13.432273Z"),
+              createdAt: new Date("2026-03-18T18:38:12.565104Z"),
               userMetadata: {
   
               },
@@ -515,87 +512,6 @@ run();
 | errors.HTTPValidationError          | 422                                 | application/json                    |
 | errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
 
-## tracesAvailableColumnsProjectsProjectIdTracesAvailableColumnsPost
-
-Traces Available Columns
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="traces_available_columns_projects__project_id__traces_available_columns_post" method="post" path="/projects/{project_id}/traces/available_columns" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.trace.tracesAvailableColumnsProjectsProjectIdTracesAvailableColumnsPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    projectId: "<value>",
-    body: {
-      logStreamId: "00000000-0000-0000-0000-000000000000",
-    },
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { traceTracesAvailableColumnsProjectsProjectIdTracesAvailableColumnsPost } from "galileo-generated/funcs/traceTracesAvailableColumnsProjectsProjectIdTracesAvailableColumnsPost.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await traceTracesAvailableColumnsProjectsProjectIdTracesAvailableColumnsPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    projectId: "<value>",
-    body: {
-      logStreamId: "00000000-0000-0000-0000-000000000000",
-    },
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("traceTracesAvailableColumnsProjectsProjectIdTracesAvailableColumnsPost failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                                    | Type                                                                                                                                                                                         | Required                                                                                                                                                                                     | Description                                                                                                                                                                                  |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `request`                                                                                                                                                                                    | [operations.TracesAvailableColumnsProjectsProjectIdTracesAvailableColumnsPostRequest](../../models/operations/tracesavailablecolumnsprojectsprojectidtracesavailablecolumnspostrequest.md)   | :heavy_check_mark:                                                                                                                                                                           | The request object to use for the request.                                                                                                                                                   |
-| `security`                                                                                                                                                                                   | [operations.TracesAvailableColumnsProjectsProjectIdTracesAvailableColumnsPostSecurity](../../models/operations/tracesavailablecolumnsprojectsprojectidtracesavailablecolumnspostsecurity.md) | :heavy_check_mark:                                                                                                                                                                           | The security requirements to use for the request.                                                                                                                                            |
-| `options`                                                                                                                                                                                    | RequestOptions                                                                                                                                                                               | :heavy_minus_sign:                                                                                                                                                                           | Used to set various options for making HTTP requests.                                                                                                                                        |
-| `options.fetchOptions`                                                                                                                                                                       | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                                      | :heavy_minus_sign:                                                                                                                                                                           | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.               |
-| `options.retries`                                                                                                                                                                            | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                                | :heavy_minus_sign:                                                                                                                                                                           | Enables retrying HTTP requests under certain failure conditions.                                                                                                                             |
-
-### Response
-
-**Promise\<[models.LogRecordsAvailableColumnsResponse](../../models/logrecordsavailablecolumnsresponse.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
 ## metricsTestingAvailableColumnsProjectsProjectIdMetricsTestingAvailableColumnsPost
 
 Metrics Testing Available Columns
@@ -667,87 +583,6 @@ run();
 | `options`                                                                                                                                                                                                                    | RequestOptions                                                                                                                                                                                                               | :heavy_minus_sign:                                                                                                                                                                                                           | Used to set various options for making HTTP requests.                                                                                                                                                                        |
 | `options.fetchOptions`                                                                                                                                                                                                       | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                                                                      | :heavy_minus_sign:                                                                                                                                                                                                           | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.                                               |
 | `options.retries`                                                                                                                                                                                                            | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                                                                | :heavy_minus_sign:                                                                                                                                                                                                           | Enables retrying HTTP requests under certain failure conditions.                                                                                                                                                             |
-
-### Response
-
-**Promise\<[models.LogRecordsAvailableColumnsResponse](../../models/logrecordsavailablecolumnsresponse.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
-## spansAvailableColumnsProjectsProjectIdSpansAvailableColumnsPost
-
-Spans Available Columns
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="spans_available_columns_projects__project_id__spans_available_columns_post" method="post" path="/projects/{project_id}/spans/available_columns" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.trace.spansAvailableColumnsProjectsProjectIdSpansAvailableColumnsPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    projectId: "<value>",
-    body: {
-      logStreamId: "00000000-0000-0000-0000-000000000000",
-    },
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { traceSpansAvailableColumnsProjectsProjectIdSpansAvailableColumnsPost } from "galileo-generated/funcs/traceSpansAvailableColumnsProjectsProjectIdSpansAvailableColumnsPost.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await traceSpansAvailableColumnsProjectsProjectIdSpansAvailableColumnsPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    projectId: "<value>",
-    body: {
-      logStreamId: "00000000-0000-0000-0000-000000000000",
-    },
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("traceSpansAvailableColumnsProjectsProjectIdSpansAvailableColumnsPost failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                                | Type                                                                                                                                                                                     | Required                                                                                                                                                                                 | Description                                                                                                                                                                              |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `request`                                                                                                                                                                                | [operations.SpansAvailableColumnsProjectsProjectIdSpansAvailableColumnsPostRequest](../../models/operations/spansavailablecolumnsprojectsprojectidspansavailablecolumnspostrequest.md)   | :heavy_check_mark:                                                                                                                                                                       | The request object to use for the request.                                                                                                                                               |
-| `security`                                                                                                                                                                               | [operations.SpansAvailableColumnsProjectsProjectIdSpansAvailableColumnsPostSecurity](../../models/operations/spansavailablecolumnsprojectsprojectidspansavailablecolumnspostsecurity.md) | :heavy_check_mark:                                                                                                                                                                       | The security requirements to use for the request.                                                                                                                                        |
-| `options`                                                                                                                                                                                | RequestOptions                                                                                                                                                                           | :heavy_minus_sign:                                                                                                                                                                       | Used to set various options for making HTTP requests.                                                                                                                                    |
-| `options.fetchOptions`                                                                                                                                                                   | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                                  | :heavy_minus_sign:                                                                                                                                                                       | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.           |
-| `options.retries`                                                                                                                                                                        | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                            | :heavy_minus_sign:                                                                                                                                                                       | Enables retrying HTTP requests under certain failure conditions.                                                                                                                         |
 
 ### Response
 
@@ -1112,7 +947,7 @@ async function run() {
           input: "who is a smart LLM?",
           output: "I am!",
           name: "",
-          createdAt: new Date("2026-03-06T13:30:13.453327Z"),
+          createdAt: new Date("2026-03-18T18:38:12.587110Z"),
           userMetadata: {
 
           },
@@ -1135,7 +970,7 @@ async function run() {
                 role: "user",
               },
               name: "",
-              createdAt: new Date("2026-03-06T13:30:13.438758Z"),
+              createdAt: new Date("2026-03-18T18:38:12.571507Z"),
               userMetadata: {
 
               },
@@ -1185,7 +1020,7 @@ async function run() {
           input: "who is a smart LLM?",
           output: "I am!",
           name: "",
-          createdAt: new Date("2026-03-06T13:30:13.453327Z"),
+          createdAt: new Date("2026-03-18T18:38:12.587110Z"),
           userMetadata: {
   
           },
@@ -1208,7 +1043,7 @@ async function run() {
                 role: "user",
               },
               name: "",
-              createdAt: new Date("2026-03-06T13:30:13.438758Z"),
+              createdAt: new Date("2026-03-18T18:38:12.571507Z"),
               userMetadata: {
   
               },
@@ -2058,87 +1893,6 @@ run();
 ### Response
 
 **Promise\<[models.ExtendedSessionRecordWithChildren](../../models/extendedsessionrecordwithchildren.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
-## sessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPost
-
-Sessions Available Columns
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="sessions_available_columns_projects__project_id__sessions_available_columns_post" method="post" path="/projects/{project_id}/sessions/available_columns" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.trace.sessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    projectId: "<value>",
-    body: {
-      logStreamId: "00000000-0000-0000-0000-000000000000",
-    },
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { traceSessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPost } from "galileo-generated/funcs/traceSessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPost.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await traceSessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    projectId: "<value>",
-    body: {
-      logStreamId: "00000000-0000-0000-0000-000000000000",
-    },
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("traceSessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPost failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                                            | Type                                                                                                                                                                                                 | Required                                                                                                                                                                                             | Description                                                                                                                                                                                          |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `request`                                                                                                                                                                                            | [operations.SessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPostRequest](../../models/operations/sessionsavailablecolumnsprojectsprojectidsessionsavailablecolumnspostrequest.md)   | :heavy_check_mark:                                                                                                                                                                                   | The request object to use for the request.                                                                                                                                                           |
-| `security`                                                                                                                                                                                           | [operations.SessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPostSecurity](../../models/operations/sessionsavailablecolumnsprojectsprojectidsessionsavailablecolumnspostsecurity.md) | :heavy_check_mark:                                                                                                                                                                                   | The security requirements to use for the request.                                                                                                                                                    |
-| `options`                                                                                                                                                                                            | RequestOptions                                                                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                   | Used to set various options for making HTTP requests.                                                                                                                                                |
-| `options.fetchOptions`                                                                                                                                                                               | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                                              | :heavy_minus_sign:                                                                                                                                                                                   | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.                       |
-| `options.retries`                                                                                                                                                                                    | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                                        | :heavy_minus_sign:                                                                                                                                                                                   | Enables retrying HTTP requests under certain failure conditions.                                                                                                                                     |
-
-### Response
-
-**Promise\<[models.LogRecordsAvailableColumnsResponse](../../models/logrecordsavailablecolumnsresponse.md)\>**
 
 ### Errors
 
