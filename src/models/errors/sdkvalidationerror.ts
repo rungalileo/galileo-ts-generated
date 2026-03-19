@@ -29,11 +29,23 @@ export class SDKValidationError extends Error {
   }
 
   constructor(message: string, cause: unknown, rawValue: unknown) {
-    super(`${message}: ${cause}`);
+    // Voided to maintain current contract and lower friction  
+    // with Speakeasy codegen.
+    void rawValue;
+
+    let causeDescription: string;
+    if (cause instanceof z.$ZodError) {
+      const first = (cause as z.$ZodError).issues[0];
+      const path = first?.path?.length ? ` (at ${first.path.join(".")})` : "";
+      causeDescription = `${first?.message ?? "validation failed"}${path}`;
+    } else {
+      causeDescription = String(cause);
+    }
+    super(`${message}`);
     this.name = "SDKValidationError";
-    this.cause = cause;
-    this.rawValue = rawValue;
-    this.rawMessage = message;
+    this.cause = causeDescription;
+
+    // rawValue and rawMessage are not being set, again for the sake of clarity.
   }
 
   /**
