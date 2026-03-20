@@ -32,9 +32,10 @@ export class SDKValidationError extends Error {
     
     let causeDescription: string;
     if (cause instanceof z.$ZodError) {
-      const first = (cause as z.$ZodError).issues[0];
-      const path = first?.path?.length ? ` (at ${first.path.join(".")})` : "";
-      causeDescription = `${first?.message ?? "validation failed"}${path}`;
+      const issuesList = (cause as z.$ZodError).issues;
+      const pathArray = issuesList.map((issue: z.$ZodIssue) => issue?.path?.length ? issue.path.join(".") : "").filter((path: string) => path !== "");
+      const paths = pathArray?.length ? ` (at ${pathArray.join(", ")})` : "";
+      causeDescription = `${issuesList[0]?.message ?? "validation failed"}${paths}`;
     } else {
       causeDescription = String(cause);
     }
