@@ -17,6 +17,12 @@ import {
   MetadataFilter$outboundSchema,
 } from "./metadatafilter.js";
 import {
+  ModalityFilter,
+  ModalityFilter$inboundSchema,
+  ModalityFilter$Outbound,
+  ModalityFilter$outboundSchema,
+} from "./modalityfilter.js";
+import {
   NodeNameFilter,
   NodeNameFilter$inboundSchema,
   NodeNameFilter$Outbound,
@@ -25,6 +31,7 @@ import {
 
 export type OutputPIIScorerFilter =
   | MetadataFilter
+  | ModalityFilter
   | NodeNameFilter
   | discriminatedUnionTypes.Unknown<"name">;
 
@@ -35,7 +42,10 @@ export type OutputPIIScorer = {
    */
   filters?:
     | Array<
-      MetadataFilter | NodeNameFilter | discriminatedUnionTypes.Unknown<"name">
+      | MetadataFilter
+      | ModalityFilter
+      | NodeNameFilter
+      | discriminatedUnionTypes.Unknown<"name">
     >
     | null
     | undefined;
@@ -47,18 +57,24 @@ export const OutputPIIScorerFilter$inboundSchema: z.ZodMiniType<
   unknown
 > = discriminatedUnion("name", {
   metadata: MetadataFilter$inboundSchema,
+  modality: ModalityFilter$inboundSchema,
   node_name: NodeNameFilter$inboundSchema,
 });
 /** @internal */
 export type OutputPIIScorerFilter$Outbound =
   | MetadataFilter$Outbound
+  | ModalityFilter$Outbound
   | NodeNameFilter$Outbound;
 
 /** @internal */
 export const OutputPIIScorerFilter$outboundSchema: z.ZodMiniType<
   OutputPIIScorerFilter$Outbound,
   OutputPIIScorerFilter
-> = z.union([MetadataFilter$outboundSchema, NodeNameFilter$outboundSchema]);
+> = z.union([
+  MetadataFilter$outboundSchema,
+  ModalityFilter$outboundSchema,
+  NodeNameFilter$outboundSchema,
+]);
 
 export function outputPIIScorerFilterToJSON(
   outputPIIScorerFilter: OutputPIIScorerFilter,
@@ -88,6 +104,7 @@ export const OutputPIIScorer$inboundSchema: z.ZodMiniType<
       z.array(
         discriminatedUnion("name", {
           metadata: MetadataFilter$inboundSchema,
+          modality: ModalityFilter$inboundSchema,
           node_name: NodeNameFilter$inboundSchema,
         }),
       ),
@@ -98,7 +115,11 @@ export const OutputPIIScorer$inboundSchema: z.ZodMiniType<
 export type OutputPIIScorer$Outbound = {
   name: "output_pii";
   filters?:
-    | Array<MetadataFilter$Outbound | NodeNameFilter$Outbound>
+    | Array<
+      | MetadataFilter$Outbound
+      | ModalityFilter$Outbound
+      | NodeNameFilter$Outbound
+    >
     | null
     | undefined;
 };
@@ -112,7 +133,11 @@ export const OutputPIIScorer$outboundSchema: z.ZodMiniType<
   filters: z.optional(
     z.nullable(
       z.array(
-        z.union([MetadataFilter$outboundSchema, NodeNameFilter$outboundSchema]),
+        z.union([
+          MetadataFilter$outboundSchema,
+          ModalityFilter$outboundSchema,
+          NodeNameFilter$outboundSchema,
+        ]),
       ),
     ),
   ),

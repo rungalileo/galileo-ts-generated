@@ -20,6 +20,12 @@ import {
   MetadataFilter$outboundSchema,
 } from "./metadatafilter.js";
 import {
+  ModalityFilter,
+  ModalityFilter$inboundSchema,
+  ModalityFilter$Outbound,
+  ModalityFilter$outboundSchema,
+} from "./modalityfilter.js";
+import {
   NodeNameFilter,
   NodeNameFilter$inboundSchema,
   NodeNameFilter$Outbound,
@@ -28,6 +34,7 @@ import {
 
 export type AgenticSessionSuccessScorerFilter =
   | MetadataFilter
+  | ModalityFilter
   | NodeNameFilter
   | discriminatedUnionTypes.Unknown<"name">;
 
@@ -46,7 +53,10 @@ export type AgenticSessionSuccessScorer = {
    */
   filters?:
     | Array<
-      MetadataFilter | NodeNameFilter | discriminatedUnionTypes.Unknown<"name">
+      | MetadataFilter
+      | ModalityFilter
+      | NodeNameFilter
+      | discriminatedUnionTypes.Unknown<"name">
     >
     | null
     | undefined;
@@ -67,18 +77,24 @@ export const AgenticSessionSuccessScorerFilter$inboundSchema: z.ZodMiniType<
   unknown
 > = discriminatedUnion("name", {
   metadata: MetadataFilter$inboundSchema,
+  modality: ModalityFilter$inboundSchema,
   node_name: NodeNameFilter$inboundSchema,
 });
 /** @internal */
 export type AgenticSessionSuccessScorerFilter$Outbound =
   | MetadataFilter$Outbound
+  | ModalityFilter$Outbound
   | NodeNameFilter$Outbound;
 
 /** @internal */
 export const AgenticSessionSuccessScorerFilter$outboundSchema: z.ZodMiniType<
   AgenticSessionSuccessScorerFilter$Outbound,
   AgenticSessionSuccessScorerFilter
-> = z.union([MetadataFilter$outboundSchema, NodeNameFilter$outboundSchema]);
+> = z.union([
+  MetadataFilter$outboundSchema,
+  ModalityFilter$outboundSchema,
+  NodeNameFilter$outboundSchema,
+]);
 
 export function agenticSessionSuccessScorerFilterToJSON(
   agenticSessionSuccessScorerFilter: AgenticSessionSuccessScorerFilter,
@@ -122,6 +138,7 @@ export const AgenticSessionSuccessScorer$inboundSchema: z.ZodMiniType<
         z.array(
           discriminatedUnion("name", {
             metadata: MetadataFilter$inboundSchema,
+            modality: ModalityFilter$inboundSchema,
             node_name: NodeNameFilter$inboundSchema,
           }),
         ),
@@ -142,7 +159,11 @@ export const AgenticSessionSuccessScorer$inboundSchema: z.ZodMiniType<
 export type AgenticSessionSuccessScorer$Outbound = {
   name: "agentic_session_success";
   filters?:
-    | Array<MetadataFilter$Outbound | NodeNameFilter$Outbound>
+    | Array<
+      | MetadataFilter$Outbound
+      | ModalityFilter$Outbound
+      | NodeNameFilter$Outbound
+    >
     | null
     | undefined;
   type: string;
@@ -162,6 +183,7 @@ export const AgenticSessionSuccessScorer$outboundSchema: z.ZodMiniType<
         z.array(
           z.union([
             MetadataFilter$outboundSchema,
+            ModalityFilter$outboundSchema,
             NodeNameFilter$outboundSchema,
           ]),
         ),

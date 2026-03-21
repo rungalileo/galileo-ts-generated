@@ -1,16 +1,14 @@
-# ModelProperties
+# ApiSchemasIntegrationLlmIntegrationModelProperties
 
 ## Example Usage
 
 ```typescript
-import { ModelProperties } from "galileo-generated/models";
+import { ApiSchemasIntegrationLlmIntegrationModelProperties } from "galileo-generated/models";
 
-let value: ModelProperties = {
+let value: ApiSchemasIntegrationLlmIntegrationModelProperties = {
   alias: "<value>",
   name: "<value>",
-  inputModalities: [
-    "text",
-  ],
+  inputModalities: [],
 };
 ```
 

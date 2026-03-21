@@ -7,6 +7,13 @@ import { AgenticWorkflowSuccessScorer } from "galileo-generated/models";
 
 let value: AgenticWorkflowSuccessScorer = {
   name: "agentic_workflow_success",
+  filters: [
+    {
+      name: "modality",
+      operator: "eq",
+      value: "ENUM_VALUE",
+    },
+  ],
 };
 ```
 
