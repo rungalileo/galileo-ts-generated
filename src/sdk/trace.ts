@@ -27,9 +27,6 @@ import { traceQuerySessionsProjectsProjectIdSessionsSearchPost } from "../funcs/
 import { traceQuerySpansProjectsProjectIdSpansSearchPost } from "../funcs/traceQuerySpansProjectsProjectIdSpansSearchPost.js";
 import { traceQueryTracesProjectsProjectIdTracesSearchPost } from "../funcs/traceQueryTracesProjectsProjectIdTracesSearchPost.js";
 import { traceRecomputeMetricsProjectsProjectIdRecomputeMetricsPost } from "../funcs/traceRecomputeMetricsProjectsProjectIdRecomputeMetricsPost.js";
-import { traceSessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPost } from "../funcs/traceSessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPost.js";
-import { traceSpansAvailableColumnsProjectsProjectIdSpansAvailableColumnsPost } from "../funcs/traceSpansAvailableColumnsProjectsProjectIdSpansAvailableColumnsPost.js";
-import { traceTracesAvailableColumnsProjectsProjectIdTracesAvailableColumnsPost } from "../funcs/traceTracesAvailableColumnsProjectsProjectIdTracesAvailableColumnsPost.js";
 import { traceUpdateSpanProjectsProjectIdSpansSpanIdPatch } from "../funcs/traceUpdateSpanProjectsProjectIdSpansSpanIdPatch.js";
 import { traceUpdateTraceProjectsProjectIdTracesTraceIdPatch } from "../funcs/traceUpdateTraceProjectsProjectIdTracesTraceIdPatch.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
@@ -125,26 +122,6 @@ export class Trace extends ClientSDK {
   }
 
   /**
-   * Traces Available Columns
-   */
-  async tracesAvailableColumnsProjectsProjectIdTracesAvailableColumnsPost(
-    security:
-      operations.TracesAvailableColumnsProjectsProjectIdTracesAvailableColumnsPostSecurity,
-    request:
-      operations.TracesAvailableColumnsProjectsProjectIdTracesAvailableColumnsPostRequest,
-    options?: RequestOptions,
-  ): Promise<models.LogRecordsAvailableColumnsResponse> {
-    return unwrapAsync(
-      traceTracesAvailableColumnsProjectsProjectIdTracesAvailableColumnsPost(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
    * Metrics Testing Available Columns
    */
   async metricsTestingAvailableColumnsProjectsProjectIdMetricsTestingAvailableColumnsPost(
@@ -156,26 +133,6 @@ export class Trace extends ClientSDK {
   ): Promise<models.LogRecordsAvailableColumnsResponse> {
     return unwrapAsync(
       traceMetricsTestingAvailableColumnsProjectsProjectIdMetricsTestingAvailableColumnsPost(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
-   * Spans Available Columns
-   */
-  async spansAvailableColumnsProjectsProjectIdSpansAvailableColumnsPost(
-    security:
-      operations.SpansAvailableColumnsProjectsProjectIdSpansAvailableColumnsPostSecurity,
-    request:
-      operations.SpansAvailableColumnsProjectsProjectIdSpansAvailableColumnsPostRequest,
-    options?: RequestOptions,
-  ): Promise<models.LogRecordsAvailableColumnsResponse> {
-    return unwrapAsync(
-      traceSpansAvailableColumnsProjectsProjectIdSpansAvailableColumnsPost(
         this,
         security,
         request,
@@ -392,26 +349,6 @@ export class Trace extends ClientSDK {
       request,
       options,
     ));
-  }
-
-  /**
-   * Sessions Available Columns
-   */
-  async sessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPost(
-    security:
-      operations.SessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPostSecurity,
-    request:
-      operations.SessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPostRequest,
-    options?: RequestOptions,
-  ): Promise<models.LogRecordsAvailableColumnsResponse> {
-    return unwrapAsync(
-      traceSessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPost(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
   }
 
   /**

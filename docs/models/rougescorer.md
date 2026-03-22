@@ -7,6 +7,14 @@ import { RougeScorer } from "galileo-generated/models";
 
 let value: RougeScorer = {
   name: "rouge",
+  filters: [
+    {
+      name: "metadata",
+      operator: "one_of",
+      key: "<key>",
+      value: [],
+    },
+  ],
 };
 ```
 

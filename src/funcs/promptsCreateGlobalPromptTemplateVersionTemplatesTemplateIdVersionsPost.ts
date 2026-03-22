@@ -123,7 +123,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/templates/{template_id}/versions")(pathParams);
 
   const headers = new Headers(compactMap({

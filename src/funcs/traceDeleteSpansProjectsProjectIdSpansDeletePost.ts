@@ -105,7 +105,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/projects/{project_id}/spans/delete")(pathParams);
 
   const headers = new Headers(compactMap({
