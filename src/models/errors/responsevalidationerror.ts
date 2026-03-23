@@ -29,9 +29,14 @@ export class ResponseValidationError extends GalileoGeneratedError {
       rawMessage: unknown;
     },
   ) {
+    const causeString =
+    extra.cause instanceof z.$ZodError
+      ? formatZodError(extra.cause)
+      : String(extra.cause);
+
     super(message, extra);
     this.name = "ResponseValidationError";
-    this.cause = extra.cause;
+    this.cause = causeString;
     this.rawValue = extra.rawValue;
     this.rawMessage = extra.rawMessage;
 
@@ -45,10 +50,6 @@ export class ResponseValidationError extends GalileoGeneratedError {
    * default error message.
    */
   public pretty(): string {
-    if (this.cause instanceof z.$ZodError) {
-      return `${this.rawMessage}\n${formatZodError(this.cause)}`;
-    } else {
-      return this.toString();
-    }
+    return `${this.rawMessage}\n${this.cause}`;
   }
 }

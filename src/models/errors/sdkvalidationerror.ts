@@ -29,12 +29,12 @@ export class SDKValidationError extends Error {
   }
 
   constructor(message: string, cause: unknown, rawValue: unknown) {
-    
     let causeDescription: string;
     if (cause instanceof z.$ZodError) {
-      const issuesList = (cause as z.$ZodError).issues;
+      const issuesList = cause.issues;
       const pathArray = issuesList.map((issue: z.$ZodIssue) => issue?.path?.length ? issue.path.join(".") : "").filter((path: string) => path !== "");
-      const paths = pathArray?.length ? ` (at ${pathArray.join(", ")})` : "";
+      const uniquePaths = [...new Set(pathArray)];
+      const paths = uniquePaths?.length ? ` (at ${uniquePaths.join(", ")})` : "";
       causeDescription = `${issuesList[0]?.message ?? "validation failed"}${paths}`;
     } else {
       causeDescription = String(cause);
@@ -55,11 +55,7 @@ export class SDKValidationError extends Error {
    * default error message.
    */
   public pretty(): string {
-    if (this.cause instanceof z.$ZodError) {
-      return `${this.rawMessage}\n${formatZodError(this.cause)}`;
-    } else {
-      return this.toString();
-    }
+    return `${this.message}: ${this.cause}`;
   }
 }
 
