@@ -7,6 +7,7 @@ import * as z from "zod/v4-mini";
 import { GalileoGeneratedCore } from "../core.js";
 import { appendForm, encodeFormQuery, encodeSimple } from "../lib/encodings.js";
 import {
+  bytesToBlob,
   getContentTypeFromFileName,
   readableStreamToArrayBuffer,
 } from "../lib/files.js";
@@ -114,17 +115,10 @@ async function $do(
     const buffer = await readableStreamToArrayBuffer(payload.body.file.content);
     const contentType = getContentTypeFromFileName(payload.body.file.fileName)
       || "application/octet-stream";
-    const blob = new Blob([buffer], { type: contentType });
-    appendForm(body, "file", blob, payload.body.file.fileName);
-  } else if (payload.body.file.content instanceof Uint8Array) {
-    const contentType = getContentTypeFromFileName(payload.body.file.fileName)
-      || "application/octet-stream";
     appendForm(
       body,
       "file",
-      new Blob([new Uint8Array(payload.body.file.content).buffer], {
-        type: contentType,
-      }),
+      bytesToBlob(buffer, contentType),
       payload.body.file.fileName,
     );
   } else {
@@ -133,7 +127,7 @@ async function $do(
     appendForm(
       body,
       "file",
-      new Blob([payload.body.file.content], { type: contentType }),
+      bytesToBlob(payload.body.file.content, contentType),
       payload.body.file.fileName,
     );
   }
@@ -144,7 +138,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/projects/{project_id}/prompt_datasets")(pathParams);
 
   const query = encodeFormQuery({

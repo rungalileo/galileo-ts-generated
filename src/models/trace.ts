@@ -5,11 +5,22 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { smartUnion } from "../types/smartUnion.js";
 import {
   AgentSpan,
   AgentSpan$Outbound,
   AgentSpan$outboundSchema,
 } from "./agentspan.js";
+import {
+  Document,
+  Document$Outbound,
+  Document$outboundSchema,
+} from "./document.js";
+import {
+  GalileoCoreSchemasLoggingLlmMessage,
+  GalileoCoreSchemasLoggingLlmMessage$Outbound,
+  GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
+} from "./galileocoreschemasloggingllmmessage.js";
 import {
   LlmSpan,
   LlmSpan$Outbound,
@@ -36,6 +47,34 @@ import {
   WorkflowSpan$outboundSchema,
 } from "./workflowspan.js";
 
+/**
+ * Input to the trace or span.
+ */
+export type TraceInput = string | Array<GalileoCoreSchemasLoggingLlmMessage>;
+
+/**
+ * Redacted input of the trace or span.
+ */
+export type TraceRedactedInput =
+  | string
+  | Array<GalileoCoreSchemasLoggingLlmMessage>;
+
+/**
+ * Output of the trace or span.
+ */
+export type TraceOutput =
+  | GalileoCoreSchemasLoggingLlmMessage
+  | string
+  | Array<Document>;
+
+/**
+ * Redacted output of the trace or span.
+ */
+export type TraceRedactedOutput =
+  | GalileoCoreSchemasLoggingLlmMessage
+  | string
+  | Array<Document>;
+
 export type TraceSpan =
   | AgentSpan
   | LlmSpan
@@ -51,19 +90,33 @@ export type Trace = {
   /**
    * Input to the trace or span.
    */
-  input?: string | undefined;
+  input?: string | Array<GalileoCoreSchemasLoggingLlmMessage> | undefined;
   /**
    * Redacted input of the trace or span.
    */
-  redactedInput?: string | null | undefined;
+  redactedInput?:
+    | string
+    | Array<GalileoCoreSchemasLoggingLlmMessage>
+    | null
+    | undefined;
   /**
    * Output of the trace or span.
    */
-  output?: string | null | undefined;
+  output?:
+    | GalileoCoreSchemasLoggingLlmMessage
+    | string
+    | Array<Document>
+    | null
+    | undefined;
   /**
    * Redacted output of the trace or span.
    */
-  redactedOutput?: string | null | undefined;
+  redactedOutput?:
+    | GalileoCoreSchemasLoggingLlmMessage
+    | string
+    | Array<Document>
+    | null
+    | undefined;
   /**
    * Name of the trace, span or session.
    */
@@ -130,6 +183,90 @@ export type Trace = {
 };
 
 /** @internal */
+export type TraceInput$Outbound =
+  | string
+  | Array<GalileoCoreSchemasLoggingLlmMessage$Outbound>;
+
+/** @internal */
+export const TraceInput$outboundSchema: z.ZodMiniType<
+  TraceInput$Outbound,
+  TraceInput
+> = smartUnion([
+  z.string(),
+  z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
+]);
+
+export function traceInputToJSON(traceInput: TraceInput): string {
+  return JSON.stringify(TraceInput$outboundSchema.parse(traceInput));
+}
+
+/** @internal */
+export type TraceRedactedInput$Outbound =
+  | string
+  | Array<GalileoCoreSchemasLoggingLlmMessage$Outbound>;
+
+/** @internal */
+export const TraceRedactedInput$outboundSchema: z.ZodMiniType<
+  TraceRedactedInput$Outbound,
+  TraceRedactedInput
+> = smartUnion([
+  z.string(),
+  z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
+]);
+
+export function traceRedactedInputToJSON(
+  traceRedactedInput: TraceRedactedInput,
+): string {
+  return JSON.stringify(
+    TraceRedactedInput$outboundSchema.parse(traceRedactedInput),
+  );
+}
+
+/** @internal */
+export type TraceOutput$Outbound =
+  | GalileoCoreSchemasLoggingLlmMessage$Outbound
+  | string
+  | Array<Document$Outbound>;
+
+/** @internal */
+export const TraceOutput$outboundSchema: z.ZodMiniType<
+  TraceOutput$Outbound,
+  TraceOutput
+> = smartUnion([
+  GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
+  z.string(),
+  z.array(Document$outboundSchema),
+]);
+
+export function traceOutputToJSON(traceOutput: TraceOutput): string {
+  return JSON.stringify(TraceOutput$outboundSchema.parse(traceOutput));
+}
+
+/** @internal */
+export type TraceRedactedOutput$Outbound =
+  | GalileoCoreSchemasLoggingLlmMessage$Outbound
+  | string
+  | Array<Document$Outbound>;
+
+/** @internal */
+export const TraceRedactedOutput$outboundSchema: z.ZodMiniType<
+  TraceRedactedOutput$Outbound,
+  TraceRedactedOutput
+> = smartUnion([
+  GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
+  z.string(),
+  z.array(Document$outboundSchema),
+]);
+
+export function traceRedactedOutputToJSON(
+  traceRedactedOutput: TraceRedactedOutput,
+): string {
+  return JSON.stringify(
+    TraceRedactedOutput$outboundSchema.parse(traceRedactedOutput),
+  );
+}
+
+/** @internal */
 export type TraceSpan$Outbound =
   | AgentSpan$Outbound
   | LlmSpan$Outbound
@@ -156,10 +293,27 @@ export function traceSpanToJSON(traceSpan: TraceSpan): string {
 /** @internal */
 export type Trace$Outbound = {
   type: "trace";
-  input: string;
-  redacted_input?: string | null | undefined;
-  output?: string | null | undefined;
-  redacted_output?: string | null | undefined;
+  input?:
+    | string
+    | Array<GalileoCoreSchemasLoggingLlmMessage$Outbound>
+    | undefined;
+  redacted_input?:
+    | string
+    | Array<GalileoCoreSchemasLoggingLlmMessage$Outbound>
+    | null
+    | undefined;
+  output?:
+    | GalileoCoreSchemasLoggingLlmMessage$Outbound
+    | string
+    | Array<Document$Outbound>
+    | null
+    | undefined;
+  redacted_output?:
+    | GalileoCoreSchemasLoggingLlmMessage$Outbound
+    | string
+    | Array<Document$Outbound>
+    | null
+    | undefined;
   name: string;
   created_at?: string | undefined;
   user_metadata?: { [k: string]: string } | undefined;
@@ -191,10 +345,38 @@ export const Trace$outboundSchema: z.ZodMiniType<Trace$Outbound, Trace> = z
   .pipe(
     z.object({
       type: z._default(z.literal("trace"), "trace" as const),
-      input: z._default(z.string(), ""),
-      redactedInput: z.optional(z.nullable(z.string())),
-      output: z.optional(z.nullable(z.string())),
-      redactedOutput: z.optional(z.nullable(z.string())),
+      input: z.optional(
+        smartUnion([
+          z.string(),
+          z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
+        ]),
+      ),
+      redactedInput: z.optional(
+        z.nullable(
+          smartUnion([
+            z.string(),
+            z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
+          ]),
+        ),
+      ),
+      output: z.optional(
+        z.nullable(
+          smartUnion([
+            GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
+            z.string(),
+            z.array(Document$outboundSchema),
+          ]),
+        ),
+      ),
+      redactedOutput: z.optional(
+        z.nullable(
+          smartUnion([
+            GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
+            z.string(),
+            z.array(Document$outboundSchema),
+          ]),
+        ),
+      ),
       name: z._default(z.string(), ""),
       createdAt: z.optional(
         z.pipe(z.date(), z.transform(v => v.toISOString())),

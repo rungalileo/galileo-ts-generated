@@ -581,7 +581,31 @@ async function run() {
   }, {
     projectId: "<value>",
     logStreamId: "<value>",
-    body: {},
+    body: {
+      scorers: [
+        {
+          filters: [
+            {
+              name: "modality",
+              operator: "one_of",
+              value: "ENUM_VALUE",
+            },
+          ],
+          id: "<value>",
+          scorerType: "llm",
+        },
+      ],
+      segmentFilters: [
+        {
+          filter: {
+            name: "modality",
+            operator: "ne",
+            value: "ENUM_VALUE",
+          },
+          sampleRate: 4082.68,
+        },
+      ],
+    },
   });
 
   console.log(result);
@@ -610,7 +634,31 @@ async function run() {
   }, {
     projectId: "<value>",
     logStreamId: "<value>",
-    body: {},
+    body: {
+      scorers: [
+        {
+          filters: [
+            {
+              name: "modality",
+              operator: "one_of",
+              value: "ENUM_VALUE",
+            },
+          ],
+          id: "<value>",
+          scorerType: "llm",
+        },
+      ],
+      segmentFilters: [
+        {
+          filter: {
+            name: "modality",
+            operator: "ne",
+            value: "ENUM_VALUE",
+          },
+          sampleRate: 4082.68,
+        },
+      ],
+    },
   });
   if (res.ok) {
     const { value: result } = res;

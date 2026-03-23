@@ -8,6 +8,78 @@ import { CreateJobRequest } from "galileo-generated/models";
 let value: CreateJobRequest = {
   projectId: "<value>",
   runId: "<value>",
+  scorers: [],
+  promptRegisteredScorersConfiguration: [
+    {
+      filters: [
+        {
+          name: "node_name",
+          operator: "contains",
+          value: [
+            "<value 1>",
+            "<value 2>",
+            "<value 3>",
+          ],
+          caseSensitive: true,
+        },
+      ],
+    },
+  ],
+  promptFinetunedScorersConfiguration: [
+    {
+      filters: [
+        {
+          name: "modality",
+          operator: "one_of",
+          value: "ENUM_VALUE",
+        },
+      ],
+    },
+  ],
+  promptCustomizedScorersConfiguration: [
+    {
+      scorerName: "_customized_input_sexist_gpt",
+      modelAlias: "gpt-4.1-mini",
+      numJudges: 3,
+      regexField: "",
+    },
+  ],
+  promptScorerSettings: {
+    filters: [
+      {
+        name: "modality",
+        operator: "ne",
+        value: "ENUM_VALUE",
+      },
+    ],
+  },
+  scorerConfig: {
+    filters: [
+      {
+        name: "node_name",
+        operator: "one_of",
+        value: "<value>",
+        caseSensitive: true,
+      },
+    ],
+    id: "<value>",
+    scorerType: "llm",
+  },
+  segmentFilters: [
+    {
+      filter: {
+        name: "node_name",
+        operator: "ne",
+        value: [
+          "<value 1>",
+          "<value 2>",
+          "<value 3>",
+        ],
+        caseSensitive: true,
+      },
+      sampleRate: 7113.42,
+    },
+  ],
 };
 ```
 
@@ -57,3 +129,4 @@ let value: CreateJobRequest = {
 | `uploadDataInSeparateTask`                                                                                 | *boolean*                                                                                                  | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `logMetricComputingRecords`                                                                                | *boolean*                                                                                                  | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `streamMetrics`                                                                                            | *boolean*                                                                                                  | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
+| `multijudgeAverageBooleanMetrics`                                                                          | *boolean*                                                                                                  | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |

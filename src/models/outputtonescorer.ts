@@ -17,6 +17,12 @@ import {
   MetadataFilter$outboundSchema,
 } from "./metadatafilter.js";
 import {
+  ModalityFilter,
+  ModalityFilter$inboundSchema,
+  ModalityFilter$Outbound,
+  ModalityFilter$outboundSchema,
+} from "./modalityfilter.js";
+import {
   NodeNameFilter,
   NodeNameFilter$inboundSchema,
   NodeNameFilter$Outbound,
@@ -25,6 +31,7 @@ import {
 
 export type OutputToneScorerFilter =
   | MetadataFilter
+  | ModalityFilter
   | NodeNameFilter
   | discriminatedUnionTypes.Unknown<"name">;
 
@@ -35,7 +42,10 @@ export type OutputToneScorer = {
    */
   filters?:
     | Array<
-      MetadataFilter | NodeNameFilter | discriminatedUnionTypes.Unknown<"name">
+      | MetadataFilter
+      | ModalityFilter
+      | NodeNameFilter
+      | discriminatedUnionTypes.Unknown<"name">
     >
     | null
     | undefined;
@@ -47,18 +57,24 @@ export const OutputToneScorerFilter$inboundSchema: z.ZodMiniType<
   unknown
 > = discriminatedUnion("name", {
   metadata: MetadataFilter$inboundSchema,
+  modality: ModalityFilter$inboundSchema,
   node_name: NodeNameFilter$inboundSchema,
 });
 /** @internal */
 export type OutputToneScorerFilter$Outbound =
   | MetadataFilter$Outbound
+  | ModalityFilter$Outbound
   | NodeNameFilter$Outbound;
 
 /** @internal */
 export const OutputToneScorerFilter$outboundSchema: z.ZodMiniType<
   OutputToneScorerFilter$Outbound,
   OutputToneScorerFilter
-> = z.union([MetadataFilter$outboundSchema, NodeNameFilter$outboundSchema]);
+> = z.union([
+  MetadataFilter$outboundSchema,
+  ModalityFilter$outboundSchema,
+  NodeNameFilter$outboundSchema,
+]);
 
 export function outputToneScorerFilterToJSON(
   outputToneScorerFilter: OutputToneScorerFilter,
@@ -88,6 +104,7 @@ export const OutputToneScorer$inboundSchema: z.ZodMiniType<
       z.array(
         discriminatedUnion("name", {
           metadata: MetadataFilter$inboundSchema,
+          modality: ModalityFilter$inboundSchema,
           node_name: NodeNameFilter$inboundSchema,
         }),
       ),
@@ -98,7 +115,11 @@ export const OutputToneScorer$inboundSchema: z.ZodMiniType<
 export type OutputToneScorer$Outbound = {
   name: "output_tone";
   filters?:
-    | Array<MetadataFilter$Outbound | NodeNameFilter$Outbound>
+    | Array<
+      | MetadataFilter$Outbound
+      | ModalityFilter$Outbound
+      | NodeNameFilter$Outbound
+    >
     | null
     | undefined;
 };
@@ -112,7 +133,11 @@ export const OutputToneScorer$outboundSchema: z.ZodMiniType<
   filters: z.optional(
     z.nullable(
       z.array(
-        z.union([MetadataFilter$outboundSchema, NodeNameFilter$outboundSchema]),
+        z.union([
+          MetadataFilter$outboundSchema,
+          ModalityFilter$outboundSchema,
+          NodeNameFilter$outboundSchema,
+        ]),
       ),
     ),
   ),

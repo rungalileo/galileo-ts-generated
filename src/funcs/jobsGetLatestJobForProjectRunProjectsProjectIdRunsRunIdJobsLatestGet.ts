@@ -113,7 +113,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/projects/{project_id}/runs/{run_id}/jobs/latest")(
     pathParams,
   );
