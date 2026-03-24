@@ -8,11 +8,11 @@ import { remap as remap$ } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
-import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
-  ModelProperties,
-  ModelProperties$inboundSchema,
-} from "./modelproperties.js";
+  ApiSchemasIntegrationLlmIntegrationModelProperties,
+  ApiSchemasIntegrationLlmIntegrationModelProperties$inboundSchema,
+} from "./apischemasintegrationllmintegrationmodelproperties.js";
+import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 
 export type IntegrationModelsResponse = {
   integrationName: string;
@@ -20,7 +20,10 @@ export type IntegrationModelsResponse = {
   scorerModels: Array<string>;
   recommendedModels?: { [k: string]: Array<string> } | undefined;
   supportsNumJudges: boolean;
-  modelProperties?: Array<ModelProperties> | undefined;
+  supportsFileUploads: boolean;
+  modelProperties?:
+    | Array<ApiSchemasIntegrationLlmIntegrationModelProperties>
+    | undefined;
 };
 
 /** @internal */
@@ -36,7 +39,10 @@ export const IntegrationModelsResponse$inboundSchema: z.ZodMiniType<
       z.record(z.string(), z.array(types.string())),
     ),
     supports_num_judges: z._default(types.boolean(), true),
-    model_properties: types.optional(z.array(ModelProperties$inboundSchema)),
+    supports_file_uploads: z._default(types.boolean(), false),
+    model_properties: types.optional(
+      z.array(ApiSchemasIntegrationLlmIntegrationModelProperties$inboundSchema),
+    ),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -44,6 +50,7 @@ export const IntegrationModelsResponse$inboundSchema: z.ZodMiniType<
       "scorer_models": "scorerModels",
       "recommended_models": "recommendedModels",
       "supports_num_judges": "supportsNumJudges",
+      "supports_file_uploads": "supportsFileUploads",
       "model_properties": "modelProperties",
     });
   }),

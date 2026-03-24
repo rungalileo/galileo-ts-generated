@@ -113,7 +113,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc(
     "/llm_integrations/projects/{project_id}/runs/{run_id}",
   )(pathParams);

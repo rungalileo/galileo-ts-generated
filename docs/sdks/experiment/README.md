@@ -775,7 +775,22 @@ async function run() {
   }, {
     projectId: "<value>",
     experimentId: "<value>",
-    body: {},
+    body: {
+      scorers: null,
+      segmentFilters: [
+        {
+          filter: {
+            name: "metadata",
+            operator: "eq",
+            key: "<key>",
+            value: [
+              "<value 1>",
+            ],
+          },
+          sampleRate: 6198.84,
+        },
+      ],
+    },
   });
 
   console.log(result);
@@ -804,7 +819,22 @@ async function run() {
   }, {
     projectId: "<value>",
     experimentId: "<value>",
-    body: {},
+    body: {
+      scorers: null,
+      segmentFilters: [
+        {
+          filter: {
+            name: "metadata",
+            operator: "eq",
+            key: "<key>",
+            value: [
+              "<value 1>",
+            ],
+          },
+          sampleRate: 6198.84,
+        },
+      ],
+    },
   });
   if (res.ok) {
     const { value: result } = res;
