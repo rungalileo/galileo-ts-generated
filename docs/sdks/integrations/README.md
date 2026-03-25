@@ -18,21 +18,21 @@
 * [updateGroupIntegrationCollaboratorIntegrationsIntegrationIdGroupsGroupIdPatch](#updategroupintegrationcollaboratorintegrationsintegrationidgroupsgroupidpatch) - Update Group Integration Collaborator
 * [deleteGroupIntegrationCollaboratorIntegrationsIntegrationIdGroupsGroupIdDelete](#deletegroupintegrationcollaboratorintegrationsintegrationidgroupsgroupiddelete) - Delete Group Integration Collaborator
 * [createOrUpdateIntegrationSelectionIntegrationsIntegrationIdSelectPut](#createorupdateintegrationselectionintegrationsintegrationidselectput) - Create Or Update Integration Selection
-* [createOrUpdateIntegrationIntegrationsAnthropicPut](#createorupdateintegrationintegrationsanthropicput) - Create Or Update Integration
-* [createOrUpdateIntegrationIntegrationsAwsBedrockPut](#createorupdateintegrationintegrationsawsbedrockput) - Create Or Update Integration
-* [createOrUpdateIntegrationIntegrationsAwsSagemakerPut](#createorupdateintegrationintegrationsawssagemakerput) - Create Or Update Integration
-* [createOrUpdateIntegrationIntegrationsAzurePut](#createorupdateintegrationintegrationsazureput) - Create Or Update Integration
-* [createOrUpdateIntegrationIntegrationsCustomPut](#createorupdateintegrationintegrationscustomput) - Create Or Update Integration
-* [~~createOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPut~~](#createorupdateunitycatalogintegrationintegrationsdatabricksunitycatalogsqlput) - Create Or Update Unity Catalog Integration :warning: **Deprecated**
-* [createOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPut](#createorupdateunitycatalogintegrationintegrationsdatabricksput) - Create Or Update Unity Catalog Integration
+* [createOrUpdateIntegrationIntegrationsAnthropicPut](#createorupdateintegrationintegrationsanthropicput) - Create or update Anthropic integration
+* [createOrUpdateIntegrationIntegrationsAwsBedrockPut](#createorupdateintegrationintegrationsawsbedrockput) - Create or update AWS Bedrock integration
+* [createOrUpdateIntegrationIntegrationsAwsSagemakerPut](#createorupdateintegrationintegrationsawssagemakerput) - Create or update AWS SageMaker integration
+* [createOrUpdateIntegrationIntegrationsAzurePut](#createorupdateintegrationintegrationsazureput) - Create or update Azure integration
+* [createOrUpdateIntegrationIntegrationsCustomPut](#createorupdateintegrationintegrationscustomput) - Create or update custom integration
+* [~~createOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPut~~](#createorupdateunitycatalogintegrationintegrationsdatabricksunitycatalogsqlput) - Create or update Databricks integration (legacy) :warning: **Deprecated**
+* [createOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPut](#createorupdateunitycatalogintegrationintegrationsdatabricksput) - Create or update Databricks integration
 * [getDatabricksCatalogsIntegrationsDatabricksCatalogsGet](#getdatabrickscatalogsintegrationsdatabrickscatalogsget) - Get Databricks Catalogs
 * [getDatabasesForClusterIntegrationsDatabricksDatabasesGet](#getdatabasesforclusterintegrationsdatabricksdatabasesget) - Get Databases For Cluster
-* [createOrUpdateIntegrationIntegrationsMistralPut](#createorupdateintegrationintegrationsmistralput) - Create Or Update Integration
-* [createOrUpdateIntegrationIntegrationsNvidiaPut](#createorupdateintegrationintegrationsnvidiaput) - Create Or Update Integration
-* [createOrUpdateIntegrationIntegrationsOpenaiPut](#createorupdateintegrationintegrationsopenaiput) - Create Or Update Integration
-* [createOrUpdateIntegrationIntegrationsVegasGatewayPut](#createorupdateintegrationintegrationsvegasgatewayput) - Create Or Update Integration
-* [createOrUpdateIntegrationIntegrationsVertexAiPut](#createorupdateintegrationintegrationsvertexaiput) - Create Or Update Integration
-* [createOrUpdateIntegrationIntegrationsWriterPut](#createorupdateintegrationintegrationswriterput) - Create Or Update Integration
+* [createOrUpdateIntegrationIntegrationsMistralPut](#createorupdateintegrationintegrationsmistralput) - Create or update Mistral integration
+* [createOrUpdateIntegrationIntegrationsNvidiaPut](#createorupdateintegrationintegrationsnvidiaput) - Create or update NVIDIA integration
+* [createOrUpdateIntegrationIntegrationsOpenaiPut](#createorupdateintegrationintegrationsopenaiput) - Create or update OpenAI integration
+* [createOrUpdateIntegrationIntegrationsVegasGatewayPut](#createorupdateintegrationintegrationsvegasgatewayput) - Create or update Vegas Gateway integration
+* [createOrUpdateIntegrationIntegrationsVertexAiPut](#createorupdateintegrationintegrationsvertexaiput) - Create or update Vertex AI integration
+* [createOrUpdateIntegrationIntegrationsWriterPut](#createorupdateintegrationintegrationswriterput) - Create or update Writer integration
 
 ## listIntegrationsIntegrationsGet
 
@@ -1428,7 +1428,7 @@ run();
 
 ## createOrUpdateIntegrationIntegrationsCustomPut
 
-Create Or Update Integration
+Create or update custom integration
 
 ### Example Usage
 
@@ -1442,10 +1442,6 @@ async function run() {
   const result = await galileoGenerated.integrations.createOrUpdateIntegrationIntegrationsCustomPut({
     apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
   }, {
-    models: [
-      "<value 1>",
-      "<value 2>",
-    ],
     endpoint: "<value>",
   });
 
@@ -1471,10 +1467,6 @@ async function run() {
   const res = await integrationsCreateOrUpdateIntegrationIntegrationsCustomPut(galileoGenerated, {
     apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
   }, {
-    models: [
-      "<value 1>",
-      "<value 2>",
-    ],
     endpoint: "<value>",
   });
   if (res.ok) {

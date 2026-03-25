@@ -351,7 +351,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update Anthropic integration
    *
    * @remarks
    * Create or update an Anthropic integration for this user from Galileo.
@@ -373,7 +373,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update AWS Bedrock integration
    *
    * @remarks
    * Create or update an AWS integration for this user from Galileo.
@@ -395,7 +395,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update AWS SageMaker integration
    *
    * @remarks
    * Create or update an AWS integration for this user from Galileo.
@@ -417,7 +417,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update Azure integration
    *
    * @remarks
    * Create or update an Azure integration for this user from Galileo.
@@ -438,7 +438,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update custom integration
    */
   async createOrUpdateIntegrationIntegrationsCustomPut(
     security: operations.CreateOrUpdateIntegrationIntegrationsCustomPutSecurity,
@@ -456,7 +456,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Unity Catalog Integration
+   * Create or update Databricks integration (legacy)
    *
    * @remarks
    * Create or update a databricks integration for this user from Galileo.
@@ -480,7 +480,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Unity Catalog Integration
+   * Create or update Databricks integration
    *
    * @remarks
    * Create or update a databricks integration for this user from Galileo.
@@ -540,7 +540,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update Mistral integration
    *
    * @remarks
    * Create or update an Mistral integration for this user from Galileo.
@@ -562,7 +562,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update NVIDIA integration
    *
    * @remarks
    * Create or update an NVIDIA integration for this user from Galileo.
@@ -583,7 +583,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update OpenAI integration
    *
    * @remarks
    * Create or update an OpenAI integration for this user from Galileo.
@@ -604,7 +604,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update Vegas Gateway integration
    *
    * @remarks
    * Create or update a Vegas Gateway integration for this user from Galileo.
@@ -626,7 +626,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update Vertex AI integration
    *
    * @remarks
    * Create or update a Google Vertex AI integration for a user.
@@ -648,7 +648,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update Writer integration
    *
    * @remarks
    * Create or update a Writer integration for a user.
