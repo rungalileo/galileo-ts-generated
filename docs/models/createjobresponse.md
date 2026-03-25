@@ -8,6 +8,65 @@ import { CreateJobResponse } from "galileo-generated/models";
 let value: CreateJobResponse = {
   projectId: "<value>",
   runId: "<value>",
+  scorers: [
+    {
+      name: "chunk_attribution_utilization",
+      type: "luna",
+    },
+  ],
+  promptRegisteredScorersConfiguration: [
+    {
+      filters: [
+        {
+          name: "node_name",
+          operator: "contains",
+          value: [
+            "<value 1>",
+            "<value 2>",
+            "<value 3>",
+          ],
+          caseSensitive: true,
+        },
+      ],
+    },
+  ],
+  promptFinetunedScorersConfiguration: [
+    {
+      filters: [
+        {
+          name: "modality",
+          operator: "one_of",
+          value: "ENUM_VALUE",
+        },
+      ],
+    },
+  ],
+  promptCustomizedScorersConfiguration: null,
+  promptScorerSettings: {
+    filters: [
+      {
+        name: "modality",
+        operator: "ne",
+        value: "ENUM_VALUE",
+      },
+    ],
+  },
+  scorerConfig: null,
+  segmentFilters: [
+    {
+      filter: {
+        name: "node_name",
+        operator: "ne",
+        value: [
+          "<value 1>",
+          "<value 2>",
+          "<value 3>",
+        ],
+        caseSensitive: true,
+      },
+      sampleRate: 7113.42,
+    },
+  ],
   message: "<value>",
   link: "<value>",
 };
@@ -59,5 +118,6 @@ let value: CreateJobResponse = {
 | `uploadDataInSeparateTask`                                                                                 | *boolean*                                                                                                  | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `logMetricComputingRecords`                                                                                | *boolean*                                                                                                  | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `streamMetrics`                                                                                            | *boolean*                                                                                                  | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
+| `multijudgeAverageBooleanMetrics`                                                                          | *boolean*                                                                                                  | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `message`                                                                                                  | *string*                                                                                                   | :heavy_check_mark:                                                                                         | N/A                                                                                                        |
 | `link`                                                                                                     | *string*                                                                                                   | :heavy_check_mark:                                                                                         | N/A                                                                                                        |

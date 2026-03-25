@@ -39,6 +39,12 @@ import {
   MetadataFilter$outboundSchema,
 } from "./metadatafilter.js";
 import {
+  ModalityFilter,
+  ModalityFilter$inboundSchema,
+  ModalityFilter$Outbound,
+  ModalityFilter$outboundSchema,
+} from "./modalityfilter.js";
+import {
   MultimodalCapability,
   MultimodalCapability$inboundSchema,
   MultimodalCapability$outboundSchema,
@@ -83,6 +89,7 @@ import {
 
 export type CustomizedPromptInjectionGPTScorerFilter =
   | MetadataFilter
+  | ModalityFilter
   | NodeNameFilter
   | discriminatedUnionTypes.Unknown<"name">;
 
@@ -107,7 +114,10 @@ export type CustomizedPromptInjectionGPTScorer = {
   subScorers?: Array<PromptgalileoSchemasScorerNameScorerName> | undefined;
   filters?:
     | Array<
-      MetadataFilter | NodeNameFilter | discriminatedUnionTypes.Unknown<"name">
+      | MetadataFilter
+      | ModalityFilter
+      | NodeNameFilter
+      | discriminatedUnionTypes.Unknown<"name">
     >
     | null
     | undefined;
@@ -157,11 +167,13 @@ export const CustomizedPromptInjectionGPTScorerFilter$inboundSchema:
   z.ZodMiniType<CustomizedPromptInjectionGPTScorerFilter, unknown> =
     discriminatedUnion("name", {
       metadata: MetadataFilter$inboundSchema,
+      modality: ModalityFilter$inboundSchema,
       node_name: NodeNameFilter$inboundSchema,
     });
 /** @internal */
 export type CustomizedPromptInjectionGPTScorerFilter$Outbound =
   | MetadataFilter$Outbound
+  | ModalityFilter$Outbound
   | NodeNameFilter$Outbound;
 
 /** @internal */
@@ -169,7 +181,11 @@ export const CustomizedPromptInjectionGPTScorerFilter$outboundSchema:
   z.ZodMiniType<
     CustomizedPromptInjectionGPTScorerFilter$Outbound,
     CustomizedPromptInjectionGPTScorerFilter
-  > = z.union([MetadataFilter$outboundSchema, NodeNameFilter$outboundSchema]);
+  > = z.union([
+    MetadataFilter$outboundSchema,
+    ModalityFilter$outboundSchema,
+    NodeNameFilter$outboundSchema,
+  ]);
 
 export function customizedPromptInjectionGPTScorerFilterToJSON(
   customizedPromptInjectionGPTScorerFilter:
@@ -316,6 +332,7 @@ export const CustomizedPromptInjectionGPTScorer$inboundSchema: z.ZodMiniType<
         z.array(
           discriminatedUnion("name", {
             metadata: MetadataFilter$inboundSchema,
+            modality: ModalityFilter$inboundSchema,
             node_name: NodeNameFilter$inboundSchema,
           }),
         ),
@@ -411,7 +428,11 @@ export type CustomizedPromptInjectionGPTScorer$Outbound = {
   extra?: { [k: string]: any } | null | undefined;
   sub_scorers?: Array<string> | undefined;
   filters?:
-    | Array<MetadataFilter$Outbound | NodeNameFilter$Outbound>
+    | Array<
+      | MetadataFilter$Outbound
+      | ModalityFilter$Outbound
+      | NodeNameFilter$Outbound
+    >
     | null
     | undefined;
   metric_name?: string | null | undefined;
@@ -471,6 +492,7 @@ export const CustomizedPromptInjectionGPTScorer$outboundSchema: z.ZodMiniType<
         z.array(
           z.union([
             MetadataFilter$outboundSchema,
+            ModalityFilter$outboundSchema,
             NodeNameFilter$outboundSchema,
           ]),
         ),

@@ -7,6 +7,14 @@ import { CompletenessScorer } from "galileo-generated/models";
 
 let value: CompletenessScorer = {
   name: "completeness",
+  filters: [
+    {
+      name: "metadata",
+      operator: "one_of",
+      key: "<key>",
+      value: "<value>",
+    },
+  ],
 };
 ```
 
