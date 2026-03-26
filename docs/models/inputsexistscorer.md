@@ -7,6 +7,7 @@ import { InputSexistScorer } from "galileo-generated/models";
 
 let value: InputSexistScorer = {
   name: "input_sexist",
+  filters: null,
 };
 ```
 

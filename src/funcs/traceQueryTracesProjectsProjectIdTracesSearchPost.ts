@@ -102,7 +102,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/projects/{project_id}/traces/search")(pathParams);
 
   const headers = new Headers(compactMap({
