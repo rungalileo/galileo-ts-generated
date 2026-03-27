@@ -7,6 +7,16 @@ import { OutputSexistScorer } from "galileo-generated/models";
 
 let value: OutputSexistScorer = {
   name: "output_sexist",
+  filters: [
+    {
+      name: "metadata",
+      operator: "eq",
+      key: "<key>",
+      value: [
+        "<value 1>",
+      ],
+    },
+  ],
 };
 ```
 

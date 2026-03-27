@@ -6,6 +6,8 @@
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
+import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
+import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import {
@@ -18,6 +20,22 @@ import {
 } from "./basescorerversiondb.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import { InputTypeEnum, InputTypeEnum$inboundSchema } from "./inputtypeenum.js";
+import {
+  MetricColorPickerBoolean,
+  MetricColorPickerBoolean$inboundSchema,
+} from "./metriccolorpickerboolean.js";
+import {
+  MetricColorPickerCategorical,
+  MetricColorPickerCategorical$inboundSchema,
+} from "./metriccolorpickercategorical.js";
+import {
+  MetricColorPickerMultiLabel,
+  MetricColorPickerMultiLabel$inboundSchema,
+} from "./metriccolorpickermultilabel.js";
+import {
+  MetricColorPickerNumeric,
+  MetricColorPickerNumeric$inboundSchema,
+} from "./metriccolorpickernumeric.js";
 import { ModelType, ModelType$inboundSchema } from "./modeltype.js";
 import {
   MultimodalCapability,
@@ -36,6 +54,13 @@ import {
   ScorerDefaults$inboundSchema,
 } from "./scorerdefaults.js";
 import { ScorerTypes, ScorerTypes$inboundSchema } from "./scorertypes.js";
+
+export type MetricColorPickerConfig =
+  | MetricColorPickerBoolean
+  | MetricColorPickerCategorical
+  | MetricColorPickerMultiLabel
+  | MetricColorPickerNumeric
+  | discriminatedUnionTypes.Unknown<"type">;
 
 export type ScorerResponse = {
   id: string;
@@ -66,7 +91,36 @@ export type ScorerResponse = {
   createdAt?: Date | null | undefined;
   updatedAt?: Date | null | undefined;
   rollUpMethod?: NumericRollUpMethod | null | undefined;
+  metricColorPickerConfig?:
+    | MetricColorPickerBoolean
+    | MetricColorPickerCategorical
+    | MetricColorPickerMultiLabel
+    | MetricColorPickerNumeric
+    | discriminatedUnionTypes.Unknown<"type">
+    | null
+    | undefined;
 };
+
+/** @internal */
+export const MetricColorPickerConfig$inboundSchema: z.ZodMiniType<
+  MetricColorPickerConfig,
+  unknown
+> = discriminatedUnion("type", {
+  boolean: MetricColorPickerBoolean$inboundSchema,
+  categorical: MetricColorPickerCategorical$inboundSchema,
+  multi_label: MetricColorPickerMultiLabel$inboundSchema,
+  numeric: MetricColorPickerNumeric$inboundSchema,
+});
+
+export function metricColorPickerConfigFromJSON(
+  jsonString: string,
+): SafeParseResult<MetricColorPickerConfig, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => MetricColorPickerConfig$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'MetricColorPickerConfig' from JSON`,
+  );
+}
 
 /** @internal */
 export const ScorerResponse$inboundSchema: z.ZodMiniType<
@@ -103,6 +157,14 @@ export const ScorerResponse$inboundSchema: z.ZodMiniType<
     created_at: z.optional(z.nullable(types.date())),
     updated_at: z.optional(z.nullable(types.date())),
     roll_up_method: z.optional(z.nullable(NumericRollUpMethod$inboundSchema)),
+    metric_color_picker_config: z.optional(
+      z.nullable(discriminatedUnion("type", {
+        boolean: MetricColorPickerBoolean$inboundSchema,
+        categorical: MetricColorPickerCategorical$inboundSchema,
+        multi_label: MetricColorPickerMultiLabel$inboundSchema,
+        numeric: MetricColorPickerNumeric$inboundSchema,
+      })),
+    ),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -124,6 +186,7 @@ export const ScorerResponse$inboundSchema: z.ZodMiniType<
       "created_at": "createdAt",
       "updated_at": "updatedAt",
       "roll_up_method": "rollUpMethod",
+      "metric_color_picker_config": "metricColorPickerConfig",
     });
   }),
 );
