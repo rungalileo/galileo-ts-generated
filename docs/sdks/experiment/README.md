@@ -5,6 +5,7 @@
 ### Available Operations
 
 * [~~listExperimentsProjectsProjectIdExperimentsGet~~](#listexperimentsprojectsprojectidexperimentsget) - List Experiments :warning: **Deprecated**
+* [createExperimentProjectsProjectIdExperimentsPost](#createexperimentprojectsprojectidexperimentspost) - Create Experiment
 * [listExperimentsPaginatedProjectsProjectIdExperimentsPaginatedGet](#listexperimentspaginatedprojectsprojectidexperimentspaginatedget) - List Experiments Paginated
 * [searchExperimentsProjectsProjectIdExperimentsSearchPost](#searchexperimentsprojectsprojectidexperimentssearchpost) - Search Experiments
 * [getExperimentProjectsProjectIdExperimentsExperimentIdGet](#getexperimentprojectsprojectidexperimentsexperimentidget) - Get Experiment
@@ -85,6 +86,113 @@ run();
 ### Response
 
 **Promise\<[models.ExperimentResponse[]](../../models/.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
+## createExperimentProjectsProjectIdExperimentsPost
+
+Create a new experiment for a project.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="create_experiment_projects__project_id__experiments_post" method="post" path="/projects/{project_id}/experiments" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.experiment.createExperimentProjectsProjectIdExperimentsPost({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    projectId: "<value>",
+    body: {
+      name: "<value>",
+      scorers: [
+        {
+          filters: [
+            {
+              name: "modality",
+              operator: "eq",
+              value: "ENUM_VALUE",
+            },
+          ],
+          id: "<value>",
+          scorerType: "code",
+        },
+      ],
+    },
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { experimentCreateExperimentProjectsProjectIdExperimentsPost } from "galileo-generated/funcs/experimentCreateExperimentProjectsProjectIdExperimentsPost.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await experimentCreateExperimentProjectsProjectIdExperimentsPost(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    projectId: "<value>",
+    body: {
+      name: "<value>",
+      scorers: [
+        {
+          filters: [
+            {
+              name: "modality",
+              operator: "eq",
+              value: "ENUM_VALUE",
+            },
+          ],
+          id: "<value>",
+          scorerType: "code",
+        },
+      ],
+    },
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("experimentCreateExperimentProjectsProjectIdExperimentsPost failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.CreateExperimentProjectsProjectIdExperimentsPostRequest](../../models/operations/createexperimentprojectsprojectidexperimentspostrequest.md)                       | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `security`                                                                                                                                                                     | [operations.CreateExperimentProjectsProjectIdExperimentsPostSecurity](../../models/operations/createexperimentprojectsprojectidexperimentspostsecurity.md)                     | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[models.ExperimentResponse](../../models/experimentresponse.md)\>**
 
 ### Errors
 
@@ -775,7 +883,22 @@ async function run() {
   }, {
     projectId: "<value>",
     experimentId: "<value>",
-    body: {},
+    body: {
+      scorers: null,
+      segmentFilters: [
+        {
+          filter: {
+            name: "metadata",
+            operator: "eq",
+            key: "<key>",
+            value: [
+              "<value 1>",
+            ],
+          },
+          sampleRate: 6198.84,
+        },
+      ],
+    },
   });
 
   console.log(result);
@@ -804,7 +927,22 @@ async function run() {
   }, {
     projectId: "<value>",
     experimentId: "<value>",
-    body: {},
+    body: {
+      scorers: null,
+      segmentFilters: [
+        {
+          filter: {
+            name: "metadata",
+            operator: "eq",
+            key: "<key>",
+            value: [
+              "<value 1>",
+            ],
+          },
+          sampleRate: 6198.84,
+        },
+      ],
+    },
   });
   if (res.ok) {
     const { value: result } = res;

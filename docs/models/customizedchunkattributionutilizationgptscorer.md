@@ -7,6 +7,14 @@ import { CustomizedChunkAttributionUtilizationGPTScorer } from "galileo-generate
 
 let value: CustomizedChunkAttributionUtilizationGPTScorer = {
   scorerName: "_customized_chunk_attribution_utilization_gpt",
+  filters: [
+    {
+      name: "node_name",
+      operator: "ne",
+      value: "<value>",
+      caseSensitive: true,
+    },
+  ],
 };
 ```
 

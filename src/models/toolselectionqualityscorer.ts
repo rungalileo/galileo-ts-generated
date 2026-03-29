@@ -20,6 +20,12 @@ import {
   MetadataFilter$outboundSchema,
 } from "./metadatafilter.js";
 import {
+  ModalityFilter,
+  ModalityFilter$inboundSchema,
+  ModalityFilter$Outbound,
+  ModalityFilter$outboundSchema,
+} from "./modalityfilter.js";
+import {
   NodeNameFilter,
   NodeNameFilter$inboundSchema,
   NodeNameFilter$Outbound,
@@ -28,6 +34,7 @@ import {
 
 export type ToolSelectionQualityScorerFilter =
   | MetadataFilter
+  | ModalityFilter
   | NodeNameFilter
   | discriminatedUnionTypes.Unknown<"name">;
 
@@ -46,7 +53,10 @@ export type ToolSelectionQualityScorer = {
    */
   filters?:
     | Array<
-      MetadataFilter | NodeNameFilter | discriminatedUnionTypes.Unknown<"name">
+      | MetadataFilter
+      | ModalityFilter
+      | NodeNameFilter
+      | discriminatedUnionTypes.Unknown<"name">
     >
     | null
     | undefined;
@@ -67,18 +77,24 @@ export const ToolSelectionQualityScorerFilter$inboundSchema: z.ZodMiniType<
   unknown
 > = discriminatedUnion("name", {
   metadata: MetadataFilter$inboundSchema,
+  modality: ModalityFilter$inboundSchema,
   node_name: NodeNameFilter$inboundSchema,
 });
 /** @internal */
 export type ToolSelectionQualityScorerFilter$Outbound =
   | MetadataFilter$Outbound
+  | ModalityFilter$Outbound
   | NodeNameFilter$Outbound;
 
 /** @internal */
 export const ToolSelectionQualityScorerFilter$outboundSchema: z.ZodMiniType<
   ToolSelectionQualityScorerFilter$Outbound,
   ToolSelectionQualityScorerFilter
-> = z.union([MetadataFilter$outboundSchema, NodeNameFilter$outboundSchema]);
+> = z.union([
+  MetadataFilter$outboundSchema,
+  ModalityFilter$outboundSchema,
+  NodeNameFilter$outboundSchema,
+]);
 
 export function toolSelectionQualityScorerFilterToJSON(
   toolSelectionQualityScorerFilter: ToolSelectionQualityScorerFilter,
@@ -122,6 +138,7 @@ export const ToolSelectionQualityScorer$inboundSchema: z.ZodMiniType<
         z.array(
           discriminatedUnion("name", {
             metadata: MetadataFilter$inboundSchema,
+            modality: ModalityFilter$inboundSchema,
             node_name: NodeNameFilter$inboundSchema,
           }),
         ),
@@ -142,7 +159,11 @@ export const ToolSelectionQualityScorer$inboundSchema: z.ZodMiniType<
 export type ToolSelectionQualityScorer$Outbound = {
   name: "tool_selection_quality";
   filters?:
-    | Array<MetadataFilter$Outbound | NodeNameFilter$Outbound>
+    | Array<
+      | MetadataFilter$Outbound
+      | ModalityFilter$Outbound
+      | NodeNameFilter$Outbound
+    >
     | null
     | undefined;
   type: string;
@@ -162,6 +183,7 @@ export const ToolSelectionQualityScorer$outboundSchema: z.ZodMiniType<
         z.array(
           z.union([
             MetadataFilter$outboundSchema,
+            ModalityFilter$outboundSchema,
             NodeNameFilter$outboundSchema,
           ]),
         ),

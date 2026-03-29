@@ -5,11 +5,17 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { smartUnion } from "../types/smartUnion.js";
 import {
   AgentSpan,
   AgentSpan$Outbound,
   AgentSpan$outboundSchema,
 } from "./agentspan.js";
+import {
+  FileContentPart,
+  FileContentPart$Outbound,
+  FileContentPart$outboundSchema,
+} from "./filecontentpart.js";
 import {
   LlmSpan,
   LlmSpan$Outbound,
@@ -26,6 +32,11 @@ import {
   RetrieverSpan$outboundSchema,
 } from "./retrieverspan.js";
 import {
+  TextContentPart,
+  TextContentPart$Outbound,
+  TextContentPart$outboundSchema,
+} from "./textcontentpart.js";
+import {
   ToolSpan,
   ToolSpan$Outbound,
   ToolSpan$outboundSchema,
@@ -35,6 +46,38 @@ import {
   WorkflowSpan$Outbound,
   WorkflowSpan$outboundSchema,
 } from "./workflowspan.js";
+
+export type TraceInput1 = FileContentPart | TextContentPart;
+
+/**
+ * Input to the trace or span.
+ */
+export type TraceInput2 = string | Array<FileContentPart | TextContentPart>;
+
+export type TraceRedactedInput1 = FileContentPart | TextContentPart;
+
+/**
+ * Redacted input of the trace or span.
+ */
+export type TraceRedactedInput2 =
+  | string
+  | Array<FileContentPart | TextContentPart>;
+
+export type TraceOutput1 = FileContentPart | TextContentPart;
+
+/**
+ * Output of the trace or span.
+ */
+export type TraceOutput2 = string | Array<FileContentPart | TextContentPart>;
+
+export type TraceRedactedOutput1 = FileContentPart | TextContentPart;
+
+/**
+ * Redacted output of the trace or span.
+ */
+export type TraceRedactedOutput2 =
+  | string
+  | Array<FileContentPart | TextContentPart>;
 
 export type TraceSpan =
   | AgentSpan
@@ -51,19 +94,27 @@ export type Trace = {
   /**
    * Input to the trace or span.
    */
-  input?: string | undefined;
+  input?: string | Array<FileContentPart | TextContentPart> | undefined;
   /**
    * Redacted input of the trace or span.
    */
-  redactedInput?: string | null | undefined;
+  redactedInput?:
+    | string
+    | Array<FileContentPart | TextContentPart>
+    | null
+    | undefined;
   /**
    * Output of the trace or span.
    */
-  output?: string | null | undefined;
+  output?: string | Array<FileContentPart | TextContentPart> | null | undefined;
   /**
    * Redacted output of the trace or span.
    */
-  redactedOutput?: string | null | undefined;
+  redactedOutput?:
+    | string
+    | Array<FileContentPart | TextContentPart>
+    | null
+    | undefined;
   /**
    * Name of the trace, span or session.
    */
@@ -130,6 +181,162 @@ export type Trace = {
 };
 
 /** @internal */
+export type TraceInput1$Outbound =
+  | FileContentPart$Outbound
+  | TextContentPart$Outbound;
+
+/** @internal */
+export const TraceInput1$outboundSchema: z.ZodMiniType<
+  TraceInput1$Outbound,
+  TraceInput1
+> = z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]);
+
+export function traceInput1ToJSON(traceInput1: TraceInput1): string {
+  return JSON.stringify(TraceInput1$outboundSchema.parse(traceInput1));
+}
+
+/** @internal */
+export type TraceInput2$Outbound =
+  | string
+  | Array<FileContentPart$Outbound | TextContentPart$Outbound>;
+
+/** @internal */
+export const TraceInput2$outboundSchema: z.ZodMiniType<
+  TraceInput2$Outbound,
+  TraceInput2
+> = smartUnion([
+  z.string(),
+  z.array(
+    z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
+  ),
+]);
+
+export function traceInput2ToJSON(traceInput2: TraceInput2): string {
+  return JSON.stringify(TraceInput2$outboundSchema.parse(traceInput2));
+}
+
+/** @internal */
+export type TraceRedactedInput1$Outbound =
+  | FileContentPart$Outbound
+  | TextContentPart$Outbound;
+
+/** @internal */
+export const TraceRedactedInput1$outboundSchema: z.ZodMiniType<
+  TraceRedactedInput1$Outbound,
+  TraceRedactedInput1
+> = z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]);
+
+export function traceRedactedInput1ToJSON(
+  traceRedactedInput1: TraceRedactedInput1,
+): string {
+  return JSON.stringify(
+    TraceRedactedInput1$outboundSchema.parse(traceRedactedInput1),
+  );
+}
+
+/** @internal */
+export type TraceRedactedInput2$Outbound =
+  | string
+  | Array<FileContentPart$Outbound | TextContentPart$Outbound>;
+
+/** @internal */
+export const TraceRedactedInput2$outboundSchema: z.ZodMiniType<
+  TraceRedactedInput2$Outbound,
+  TraceRedactedInput2
+> = smartUnion([
+  z.string(),
+  z.array(
+    z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
+  ),
+]);
+
+export function traceRedactedInput2ToJSON(
+  traceRedactedInput2: TraceRedactedInput2,
+): string {
+  return JSON.stringify(
+    TraceRedactedInput2$outboundSchema.parse(traceRedactedInput2),
+  );
+}
+
+/** @internal */
+export type TraceOutput1$Outbound =
+  | FileContentPart$Outbound
+  | TextContentPart$Outbound;
+
+/** @internal */
+export const TraceOutput1$outboundSchema: z.ZodMiniType<
+  TraceOutput1$Outbound,
+  TraceOutput1
+> = z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]);
+
+export function traceOutput1ToJSON(traceOutput1: TraceOutput1): string {
+  return JSON.stringify(TraceOutput1$outboundSchema.parse(traceOutput1));
+}
+
+/** @internal */
+export type TraceOutput2$Outbound =
+  | string
+  | Array<FileContentPart$Outbound | TextContentPart$Outbound>;
+
+/** @internal */
+export const TraceOutput2$outboundSchema: z.ZodMiniType<
+  TraceOutput2$Outbound,
+  TraceOutput2
+> = smartUnion([
+  z.string(),
+  z.array(
+    z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
+  ),
+]);
+
+export function traceOutput2ToJSON(traceOutput2: TraceOutput2): string {
+  return JSON.stringify(TraceOutput2$outboundSchema.parse(traceOutput2));
+}
+
+/** @internal */
+export type TraceRedactedOutput1$Outbound =
+  | FileContentPart$Outbound
+  | TextContentPart$Outbound;
+
+/** @internal */
+export const TraceRedactedOutput1$outboundSchema: z.ZodMiniType<
+  TraceRedactedOutput1$Outbound,
+  TraceRedactedOutput1
+> = z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]);
+
+export function traceRedactedOutput1ToJSON(
+  traceRedactedOutput1: TraceRedactedOutput1,
+): string {
+  return JSON.stringify(
+    TraceRedactedOutput1$outboundSchema.parse(traceRedactedOutput1),
+  );
+}
+
+/** @internal */
+export type TraceRedactedOutput2$Outbound =
+  | string
+  | Array<FileContentPart$Outbound | TextContentPart$Outbound>;
+
+/** @internal */
+export const TraceRedactedOutput2$outboundSchema: z.ZodMiniType<
+  TraceRedactedOutput2$Outbound,
+  TraceRedactedOutput2
+> = smartUnion([
+  z.string(),
+  z.array(
+    z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
+  ),
+]);
+
+export function traceRedactedOutput2ToJSON(
+  traceRedactedOutput2: TraceRedactedOutput2,
+): string {
+  return JSON.stringify(
+    TraceRedactedOutput2$outboundSchema.parse(traceRedactedOutput2),
+  );
+}
+
+/** @internal */
 export type TraceSpan$Outbound =
   | AgentSpan$Outbound
   | LlmSpan$Outbound
@@ -156,10 +363,25 @@ export function traceSpanToJSON(traceSpan: TraceSpan): string {
 /** @internal */
 export type Trace$Outbound = {
   type: "trace";
-  input: string;
-  redacted_input?: string | null | undefined;
-  output?: string | null | undefined;
-  redacted_output?: string | null | undefined;
+  input?:
+    | string
+    | Array<FileContentPart$Outbound | TextContentPart$Outbound>
+    | undefined;
+  redacted_input?:
+    | string
+    | Array<FileContentPart$Outbound | TextContentPart$Outbound>
+    | null
+    | undefined;
+  output?:
+    | string
+    | Array<FileContentPart$Outbound | TextContentPart$Outbound>
+    | null
+    | undefined;
+  redacted_output?:
+    | string
+    | Array<FileContentPart$Outbound | TextContentPart$Outbound>
+    | null
+    | undefined;
   name: string;
   created_at?: string | undefined;
   user_metadata?: { [k: string]: string } | undefined;
@@ -191,10 +413,56 @@ export const Trace$outboundSchema: z.ZodMiniType<Trace$Outbound, Trace> = z
   .pipe(
     z.object({
       type: z._default(z.literal("trace"), "trace" as const),
-      input: z._default(z.string(), ""),
-      redactedInput: z.optional(z.nullable(z.string())),
-      output: z.optional(z.nullable(z.string())),
-      redactedOutput: z.optional(z.nullable(z.string())),
+      input: z.optional(
+        smartUnion([
+          z.string(),
+          z.array(
+            z.union([
+              FileContentPart$outboundSchema,
+              TextContentPart$outboundSchema,
+            ]),
+          ),
+        ]),
+      ),
+      redactedInput: z.optional(
+        z.nullable(
+          smartUnion([
+            z.string(),
+            z.array(
+              z.union([
+                FileContentPart$outboundSchema,
+                TextContentPart$outboundSchema,
+              ]),
+            ),
+          ]),
+        ),
+      ),
+      output: z.optional(
+        z.nullable(
+          smartUnion([
+            z.string(),
+            z.array(
+              z.union([
+                FileContentPart$outboundSchema,
+                TextContentPart$outboundSchema,
+              ]),
+            ),
+          ]),
+        ),
+      ),
+      redactedOutput: z.optional(
+        z.nullable(
+          smartUnion([
+            z.string(),
+            z.array(
+              z.union([
+                FileContentPart$outboundSchema,
+                TextContentPart$outboundSchema,
+              ]),
+            ),
+          ]),
+        ),
+      ),
       name: z._default(z.string(), ""),
       createdAt: z.optional(
         z.pipe(z.date(), z.transform(v => v.toISOString())),
