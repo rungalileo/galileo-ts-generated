@@ -5,7 +5,30 @@
 ```typescript
 import { ListScorersResponse } from "galileo-generated/models";
 
-let value: ListScorersResponse = {};
+let value: ListScorersResponse = {
+  scorers: [
+    {
+      id: "<value>",
+      name: "<value>",
+      scorerType: "luna",
+      defaults: {
+        filters: [
+          {
+            name: "metadata",
+            operator: "ne",
+            key: "<key>",
+            value: "<value>",
+          },
+        ],
+      },
+      tags: [
+        "<value 1>",
+        "<value 2>",
+        "<value 3>",
+      ],
+    },
+  ],
+};
 ```
 
 ## Fields

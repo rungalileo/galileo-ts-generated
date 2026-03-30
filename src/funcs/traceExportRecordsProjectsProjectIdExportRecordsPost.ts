@@ -101,7 +101,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/projects/{project_id}/export_records")(pathParams);
 
   const headers = new Headers(compactMap({

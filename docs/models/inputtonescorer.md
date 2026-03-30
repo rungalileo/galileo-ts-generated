@@ -7,6 +7,14 @@ import { InputToneScorer } from "galileo-generated/models";
 
 let value: InputToneScorer = {
   name: "input_tone",
+  filters: [
+    {
+      name: "node_name",
+      operator: "ne",
+      value: "<value>",
+      caseSensitive: true,
+    },
+  ],
 };
 ```
 

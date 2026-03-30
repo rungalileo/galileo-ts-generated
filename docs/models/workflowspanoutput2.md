@@ -1,0 +1,34 @@
+# WorkflowSpanOutput2
+
+Output of the trace or span.
+
+
+## Supported Types
+
+### `string`
+
+```typescript
+const value: string = "<value>";
+```
+
+### `models.GalileoCoreSchemasLoggingLlmMessage`
+
+```typescript
+const value: models.GalileoCoreSchemasLoggingLlmMessage = {
+  content: [],
+  role: "system",
+};
+```
+
+### `models.Document[]`
+
+```typescript
+const value: models.Document[] = [];
+```
+
+### `models.WorkflowSpanOutput1[]`
+
+```typescript
+const value: models.WorkflowSpanOutput1[] = [];
+```
+

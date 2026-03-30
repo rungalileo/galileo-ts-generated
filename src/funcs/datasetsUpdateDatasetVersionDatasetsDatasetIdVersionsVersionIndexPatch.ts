@@ -110,7 +110,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/datasets/{dataset_id}/versions/{version_index}")(
     pathParams,
   );

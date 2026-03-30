@@ -113,7 +113,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/scorers/code/validate/{task_id}")(pathParams);
 
   const headers = new Headers(compactMap({

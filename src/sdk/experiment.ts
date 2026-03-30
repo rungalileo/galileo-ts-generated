@@ -3,6 +3,7 @@
  * @generated-id: c57c4261091b
  */
 
+import { experimentCreateExperimentProjectsProjectIdExperimentsPost } from "../funcs/experimentCreateExperimentProjectsProjectIdExperimentsPost.js";
 import { experimentDeleteExperimentProjectsProjectIdExperimentsExperimentIdDelete } from "../funcs/experimentDeleteExperimentProjectsProjectIdExperimentsExperimentIdDelete.js";
 import {
   experimentExperimentsAvailableColumnsProjectsProjectIdExperimentsAvailableColumnsPost,
@@ -47,6 +48,28 @@ export class Experiment extends ClientSDK {
       request,
       options,
     ));
+  }
+
+  /**
+   * Create Experiment
+   *
+   * @remarks
+   * Create a new experiment for a project.
+   */
+  async createExperimentProjectsProjectIdExperimentsPost(
+    security:
+      operations.CreateExperimentProjectsProjectIdExperimentsPostSecurity,
+    request: operations.CreateExperimentProjectsProjectIdExperimentsPostRequest,
+    options?: RequestOptions,
+  ): Promise<models.ExperimentResponse> {
+    return unwrapAsync(
+      experimentCreateExperimentProjectsProjectIdExperimentsPost(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
   }
 
   /**
