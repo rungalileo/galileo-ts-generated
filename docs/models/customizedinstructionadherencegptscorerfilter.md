@@ -17,13 +17,25 @@ const value: models.MetadataFilter = {
 };
 ```
 
+### `models.ModalityFilter`
+
+```typescript
+const value: models.ModalityFilter = {
+  name: "modality",
+  operator: "not_in",
+  value: "ENUM_VALUE",
+};
+```
+
 ### `models.NodeNameFilter`
 
 ```typescript
 const value: models.NodeNameFilter = {
   name: "node_name",
-  value: "<value>",
-  operator: "ne",
+  operator: "contains",
+  value: [
+    "<value 1>",
+  ],
 };
 ```
 

@@ -20,6 +20,9 @@ import { traceLogTracesProjectsProjectIdTracesPost } from "../funcs/traceLogTrac
 import {
   traceMetricsTestingAvailableColumnsProjectsProjectIdMetricsTestingAvailableColumnsPost,
 } from "../funcs/traceMetricsTestingAvailableColumnsProjectsProjectIdMetricsTestingAvailableColumnsPost.js";
+import { traceQueryCustomMetricsProjectsProjectIdMetricsCustomSearchPost } from "../funcs/traceQueryCustomMetricsProjectsProjectIdMetricsCustomSearchPost.js";
+import { traceQueryMetricsProjectsProjectIdMetricsSearchPost } from "../funcs/traceQueryMetricsProjectsProjectIdMetricsSearchPost.js";
+import { traceQueryMetricsV2ProjectsProjectIdMetricsSearchV2Post } from "../funcs/traceQueryMetricsV2ProjectsProjectIdMetricsSearchV2Post.js";
 import { traceQueryPartialSessionsProjectsProjectIdSessionsPartialSearchPost } from "../funcs/traceQueryPartialSessionsProjectsProjectIdSessionsPartialSearchPost.js";
 import { traceQueryPartialSpansProjectsProjectIdSpansPartialSearchPost } from "../funcs/traceQueryPartialSpansProjectsProjectIdSpansPartialSearchPost.js";
 import { traceQueryPartialTracesProjectsProjectIdTracesPartialSearchPost } from "../funcs/traceQueryPartialTracesProjectsProjectIdTracesPartialSearchPost.js";
@@ -125,26 +128,6 @@ export class Trace extends ClientSDK {
   }
 
   /**
-   * Traces Available Columns
-   */
-  async tracesAvailableColumnsProjectsProjectIdTracesAvailableColumnsPost(
-    security:
-      operations.TracesAvailableColumnsProjectsProjectIdTracesAvailableColumnsPostSecurity,
-    request:
-      operations.TracesAvailableColumnsProjectsProjectIdTracesAvailableColumnsPostRequest,
-    options?: RequestOptions,
-  ): Promise<models.LogRecordsAvailableColumnsResponse> {
-    return unwrapAsync(
-      traceTracesAvailableColumnsProjectsProjectIdTracesAvailableColumnsPost(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
    * Metrics Testing Available Columns
    */
   async metricsTestingAvailableColumnsProjectsProjectIdMetricsTestingAvailableColumnsPost(
@@ -156,26 +139,6 @@ export class Trace extends ClientSDK {
   ): Promise<models.LogRecordsAvailableColumnsResponse> {
     return unwrapAsync(
       traceMetricsTestingAvailableColumnsProjectsProjectIdMetricsTestingAvailableColumnsPost(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
-   * Spans Available Columns
-   */
-  async spansAvailableColumnsProjectsProjectIdSpansAvailableColumnsPost(
-    security:
-      operations.SpansAvailableColumnsProjectsProjectIdSpansAvailableColumnsPostSecurity,
-    request:
-      operations.SpansAvailableColumnsProjectsProjectIdSpansAvailableColumnsPostRequest,
-    options?: RequestOptions,
-  ): Promise<models.LogRecordsAvailableColumnsResponse> {
-    return unwrapAsync(
-      traceSpansAvailableColumnsProjectsProjectIdSpansAvailableColumnsPost(
         this,
         security,
         request,
@@ -395,26 +358,6 @@ export class Trace extends ClientSDK {
   }
 
   /**
-   * Sessions Available Columns
-   */
-  async sessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPost(
-    security:
-      operations.SessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPostSecurity,
-    request:
-      operations.SessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPostRequest,
-    options?: RequestOptions,
-  ): Promise<models.LogRecordsAvailableColumnsResponse> {
-    return unwrapAsync(
-      traceSessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPost(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
    * Get Aggregated Trace View
    */
   async getAggregatedTraceViewProjectsProjectIdTracesAggregatedPost(
@@ -528,5 +471,123 @@ export class Trace extends ClientSDK {
       request,
       options,
     ));
+  }
+
+  /**
+   * Traces Available Columns
+   */
+  async tracesAvailableColumnsProjectsProjectIdTracesAvailableColumnsPost(
+    security:
+      operations.TracesAvailableColumnsProjectsProjectIdTracesAvailableColumnsPostSecurity,
+    request:
+      operations.TracesAvailableColumnsProjectsProjectIdTracesAvailableColumnsPostRequest,
+    options?: RequestOptions,
+  ): Promise<models.LogRecordsAvailableColumnsResponse> {
+    return unwrapAsync(
+      traceTracesAvailableColumnsProjectsProjectIdTracesAvailableColumnsPost(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Spans Available Columns
+   */
+  async spansAvailableColumnsProjectsProjectIdSpansAvailableColumnsPost(
+    security:
+      operations.SpansAvailableColumnsProjectsProjectIdSpansAvailableColumnsPostSecurity,
+    request:
+      operations.SpansAvailableColumnsProjectsProjectIdSpansAvailableColumnsPostRequest,
+    options?: RequestOptions,
+  ): Promise<models.LogRecordsAvailableColumnsResponse> {
+    return unwrapAsync(
+      traceSpansAvailableColumnsProjectsProjectIdSpansAvailableColumnsPost(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Sessions Available Columns
+   */
+  async sessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPost(
+    security:
+      operations.SessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPostSecurity,
+    request:
+      operations.SessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPostRequest,
+    options?: RequestOptions,
+  ): Promise<models.LogRecordsAvailableColumnsResponse> {
+    return unwrapAsync(
+      traceSessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPost(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Query Metrics
+   */
+  async queryMetricsProjectsProjectIdMetricsSearchPost(
+    security: operations.QueryMetricsProjectsProjectIdMetricsSearchPostSecurity,
+    request: operations.QueryMetricsProjectsProjectIdMetricsSearchPostRequest,
+    options?: RequestOptions,
+  ): Promise<models.LogRecordsMetricsResponse> {
+    return unwrapAsync(traceQueryMetricsProjectsProjectIdMetricsSearchPost(
+      this,
+      security,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Query Metrics V2
+   *
+   * @remarks
+   * Same as /metrics/search but returns metrics with node-type counts: trace (requests_count),
+   * session_count, and span_count in aggregate_metrics and in each bucket, similar to /metrics/custom_search.
+   */
+  async queryMetricsV2ProjectsProjectIdMetricsSearchV2Post(
+    security:
+      operations.QueryMetricsV2ProjectsProjectIdMetricsSearchV2PostSecurity,
+    request:
+      operations.QueryMetricsV2ProjectsProjectIdMetricsSearchV2PostRequest,
+    options?: RequestOptions,
+  ): Promise<models.LogRecordsMetricsResponse> {
+    return unwrapAsync(traceQueryMetricsV2ProjectsProjectIdMetricsSearchV2Post(
+      this,
+      security,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Query Custom Metrics
+   */
+  async queryCustomMetricsProjectsProjectIdMetricsCustomSearchPost(
+    security:
+      operations.QueryCustomMetricsProjectsProjectIdMetricsCustomSearchPostSecurity,
+    request:
+      operations.QueryCustomMetricsProjectsProjectIdMetricsCustomSearchPostRequest,
+    options?: RequestOptions,
+  ): Promise<models.LogRecordsMetricsResponse> {
+    return unwrapAsync(
+      traceQueryCustomMetricsProjectsProjectIdMetricsCustomSearchPost(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
   }
 }

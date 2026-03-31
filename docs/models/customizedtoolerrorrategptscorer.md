@@ -7,6 +7,14 @@ import { CustomizedToolErrorRateGPTScorer } from "galileo-generated/models";
 
 let value: CustomizedToolErrorRateGPTScorer = {
   scorerName: "_customized_tool_error_rate",
+  filters: [
+    {
+      name: "node_name",
+      operator: "ne",
+      value: [],
+      caseSensitive: true,
+    },
+  ],
 };
 ```
 
