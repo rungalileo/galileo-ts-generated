@@ -7,6 +7,14 @@ import { OutputToxicityScorer } from "galileo-generated/models";
 
 let value: OutputToxicityScorer = {
   name: "output_toxicity",
+  filters: [
+    {
+      name: "metadata",
+      operator: "eq",
+      key: "<key>",
+      value: [],
+    },
+  ],
 };
 ```
 

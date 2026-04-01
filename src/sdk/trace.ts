@@ -20,6 +20,9 @@ import { traceLogTracesProjectsProjectIdTracesPost } from "../funcs/traceLogTrac
 import {
   traceMetricsTestingAvailableColumnsProjectsProjectIdMetricsTestingAvailableColumnsPost,
 } from "../funcs/traceMetricsTestingAvailableColumnsProjectsProjectIdMetricsTestingAvailableColumnsPost.js";
+import { traceQueryCustomMetricsProjectsProjectIdMetricsCustomSearchPost } from "../funcs/traceQueryCustomMetricsProjectsProjectIdMetricsCustomSearchPost.js";
+import { traceQueryMetricsProjectsProjectIdMetricsSearchPost } from "../funcs/traceQueryMetricsProjectsProjectIdMetricsSearchPost.js";
+import { traceQueryMetricsV2ProjectsProjectIdMetricsSearchV2Post } from "../funcs/traceQueryMetricsV2ProjectsProjectIdMetricsSearchV2Post.js";
 import { traceQueryPartialSessionsProjectsProjectIdSessionsPartialSearchPost } from "../funcs/traceQueryPartialSessionsProjectsProjectIdSessionsPartialSearchPost.js";
 import { traceQueryPartialSpansProjectsProjectIdSpansPartialSearchPost } from "../funcs/traceQueryPartialSpansProjectsProjectIdSpansPartialSearchPost.js";
 import { traceQueryPartialTracesProjectsProjectIdTracesPartialSearchPost } from "../funcs/traceQueryPartialTracesProjectsProjectIdTracesPartialSearchPost.js";
@@ -38,6 +41,46 @@ import * as operations from "../models/operations/index.js";
 import { unwrapAsync } from "../types/fp.js";
 
 export class Trace extends ClientSDK {
+  /**
+   * Get Aggregated Trace View
+   */
+  async getAggregatedTraceViewProjectsProjectIdTracesAggregatedPost(
+    security:
+      operations.GetAggregatedTraceViewProjectsProjectIdTracesAggregatedPostSecurity,
+    request:
+      operations.GetAggregatedTraceViewProjectsProjectIdTracesAggregatedPostRequest,
+    options?: RequestOptions,
+  ): Promise<models.AggregatedTraceViewResponse> {
+    return unwrapAsync(
+      traceGetAggregatedTraceViewProjectsProjectIdTracesAggregatedPost(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Recompute Metrics
+   */
+  async recomputeMetricsProjectsProjectIdRecomputeMetricsPost(
+    security:
+      operations.RecomputeMetricsProjectsProjectIdRecomputeMetricsPostSecurity,
+    request:
+      operations.RecomputeMetricsProjectsProjectIdRecomputeMetricsPostRequest,
+    options?: RequestOptions,
+  ): Promise<any> {
+    return unwrapAsync(
+      traceRecomputeMetricsProjectsProjectIdRecomputeMetricsPost(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
   /**
    * Log Traces
    */
@@ -185,6 +228,26 @@ export class Trace extends ClientSDK {
   }
 
   /**
+   * Sessions Available Columns
+   */
+  async sessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPost(
+    security:
+      operations.SessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPostSecurity,
+    request:
+      operations.SessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPostRequest,
+    options?: RequestOptions,
+  ): Promise<models.LogRecordsAvailableColumnsResponse> {
+    return unwrapAsync(
+      traceSessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPost(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
    * Query Traces
    */
   async queryTracesProjectsProjectIdTracesSearchPost(
@@ -308,6 +371,64 @@ export class Trace extends ClientSDK {
   }
 
   /**
+   * Query Metrics
+   */
+  async queryMetricsProjectsProjectIdMetricsSearchPost(
+    security: operations.QueryMetricsProjectsProjectIdMetricsSearchPostSecurity,
+    request: operations.QueryMetricsProjectsProjectIdMetricsSearchPostRequest,
+    options?: RequestOptions,
+  ): Promise<models.LogRecordsMetricsResponse> {
+    return unwrapAsync(traceQueryMetricsProjectsProjectIdMetricsSearchPost(
+      this,
+      security,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Query Metrics V2
+   *
+   * @remarks
+   * Same as /metrics/search but returns metrics with node-type counts: trace (requests_count),
+   * session_count, and span_count in aggregate_metrics and in each bucket, similar to /metrics/custom_search.
+   */
+  async queryMetricsV2ProjectsProjectIdMetricsSearchV2Post(
+    security:
+      operations.QueryMetricsV2ProjectsProjectIdMetricsSearchV2PostSecurity,
+    request:
+      operations.QueryMetricsV2ProjectsProjectIdMetricsSearchV2PostRequest,
+    options?: RequestOptions,
+  ): Promise<models.LogRecordsMetricsResponse> {
+    return unwrapAsync(traceQueryMetricsV2ProjectsProjectIdMetricsSearchV2Post(
+      this,
+      security,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Query Custom Metrics
+   */
+  async queryCustomMetricsProjectsProjectIdMetricsCustomSearchPost(
+    security:
+      operations.QueryCustomMetricsProjectsProjectIdMetricsCustomSearchPostSecurity,
+    request:
+      operations.QueryCustomMetricsProjectsProjectIdMetricsCustomSearchPostRequest,
+    options?: RequestOptions,
+  ): Promise<models.LogRecordsMetricsResponse> {
+    return unwrapAsync(
+      traceQueryCustomMetricsProjectsProjectIdMetricsCustomSearchPost(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
    * Create Session
    */
   async createSessionProjectsProjectIdSessionsPost(
@@ -395,46 +516,6 @@ export class Trace extends ClientSDK {
   }
 
   /**
-   * Sessions Available Columns
-   */
-  async sessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPost(
-    security:
-      operations.SessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPostSecurity,
-    request:
-      operations.SessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPostRequest,
-    options?: RequestOptions,
-  ): Promise<models.LogRecordsAvailableColumnsResponse> {
-    return unwrapAsync(
-      traceSessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPost(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
-   * Get Aggregated Trace View
-   */
-  async getAggregatedTraceViewProjectsProjectIdTracesAggregatedPost(
-    security:
-      operations.GetAggregatedTraceViewProjectsProjectIdTracesAggregatedPostSecurity,
-    request:
-      operations.GetAggregatedTraceViewProjectsProjectIdTracesAggregatedPostRequest,
-    options?: RequestOptions,
-  ): Promise<models.AggregatedTraceViewResponse> {
-    return unwrapAsync(
-      traceGetAggregatedTraceViewProjectsProjectIdTracesAggregatedPost(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
    * Export Records
    */
   async exportRecordsProjectsProjectIdExportRecordsPost(
@@ -449,26 +530,6 @@ export class Trace extends ClientSDK {
       request,
       options,
     ));
-  }
-
-  /**
-   * Recompute Metrics
-   */
-  async recomputeMetricsProjectsProjectIdRecomputeMetricsPost(
-    security:
-      operations.RecomputeMetricsProjectsProjectIdRecomputeMetricsPostSecurity,
-    request:
-      operations.RecomputeMetricsProjectsProjectIdRecomputeMetricsPostRequest,
-    options?: RequestOptions,
-  ): Promise<any> {
-    return unwrapAsync(
-      traceRecomputeMetricsProjectsProjectIdRecomputeMetricsPost(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
   }
 
   /**
