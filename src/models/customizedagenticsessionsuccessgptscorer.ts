@@ -45,6 +45,12 @@ import {
   MetadataFilter$outboundSchema,
 } from "./metadatafilter.js";
 import {
+  ModalityFilter,
+  ModalityFilter$inboundSchema,
+  ModalityFilter$Outbound,
+  ModalityFilter$outboundSchema,
+} from "./modalityfilter.js";
+import {
   MultimodalCapability,
   MultimodalCapability$inboundSchema,
   MultimodalCapability$outboundSchema,
@@ -83,6 +89,7 @@ import {
 
 export type CustomizedAgenticSessionSuccessGPTScorerFilter =
   | MetadataFilter
+  | ModalityFilter
   | NodeNameFilter
   | discriminatedUnionTypes.Unknown<"name">;
 
@@ -107,7 +114,10 @@ export type CustomizedAgenticSessionSuccessGPTScorer = {
   subScorers?: Array<PromptgalileoSchemasScorerNameScorerName> | undefined;
   filters?:
     | Array<
-      MetadataFilter | NodeNameFilter | discriminatedUnionTypes.Unknown<"name">
+      | MetadataFilter
+      | ModalityFilter
+      | NodeNameFilter
+      | discriminatedUnionTypes.Unknown<"name">
     >
     | null
     | undefined;
@@ -157,11 +167,13 @@ export const CustomizedAgenticSessionSuccessGPTScorerFilter$inboundSchema:
   z.ZodMiniType<CustomizedAgenticSessionSuccessGPTScorerFilter, unknown> =
     discriminatedUnion("name", {
       metadata: MetadataFilter$inboundSchema,
+      modality: ModalityFilter$inboundSchema,
       node_name: NodeNameFilter$inboundSchema,
     });
 /** @internal */
 export type CustomizedAgenticSessionSuccessGPTScorerFilter$Outbound =
   | MetadataFilter$Outbound
+  | ModalityFilter$Outbound
   | NodeNameFilter$Outbound;
 
 /** @internal */
@@ -169,7 +181,11 @@ export const CustomizedAgenticSessionSuccessGPTScorerFilter$outboundSchema:
   z.ZodMiniType<
     CustomizedAgenticSessionSuccessGPTScorerFilter$Outbound,
     CustomizedAgenticSessionSuccessGPTScorerFilter
-  > = z.union([MetadataFilter$outboundSchema, NodeNameFilter$outboundSchema]);
+  > = z.union([
+    MetadataFilter$outboundSchema,
+    ModalityFilter$outboundSchema,
+    NodeNameFilter$outboundSchema,
+  ]);
 
 export function customizedAgenticSessionSuccessGPTScorerFilterToJSON(
   customizedAgenticSessionSuccessGPTScorerFilter:
@@ -319,6 +335,7 @@ export const CustomizedAgenticSessionSuccessGPTScorer$inboundSchema:
           z.array(
             discriminatedUnion("name", {
               metadata: MetadataFilter$inboundSchema,
+              modality: ModalityFilter$inboundSchema,
               node_name: NodeNameFilter$inboundSchema,
             }),
           ),
@@ -418,7 +435,11 @@ export type CustomizedAgenticSessionSuccessGPTScorer$Outbound = {
   extra?: { [k: string]: any } | null | undefined;
   sub_scorers?: Array<string> | undefined;
   filters?:
-    | Array<MetadataFilter$Outbound | NodeNameFilter$Outbound>
+    | Array<
+      | MetadataFilter$Outbound
+      | ModalityFilter$Outbound
+      | NodeNameFilter$Outbound
+    >
     | null
     | undefined;
   metric_name?: string | null | undefined;
@@ -479,6 +500,7 @@ export const CustomizedAgenticSessionSuccessGPTScorer$outboundSchema:
           z.array(
             z.union([
               MetadataFilter$outboundSchema,
+              ModalityFilter$outboundSchema,
               NodeNameFilter$outboundSchema,
             ]),
           ),

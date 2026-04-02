@@ -7,6 +7,16 @@ import { CustomizedAgenticWorkflowSuccessGPTScorer } from "galileo-generated/mod
 
 let value: CustomizedAgenticWorkflowSuccessGPTScorer = {
   scorerName: "_customized_agentic_workflow_success",
+  filters: [
+    {
+      name: "metadata",
+      operator: "eq",
+      key: "<key>",
+      value: [
+        "<value 1>",
+      ],
+    },
+  ],
 };
 ```
 

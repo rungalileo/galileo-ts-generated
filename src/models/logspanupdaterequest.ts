@@ -12,6 +12,11 @@ import {
   Document$outboundSchema,
 } from "./document.js";
 import {
+  FileContentPart,
+  FileContentPart$Outbound,
+  FileContentPart$outboundSchema,
+} from "./filecontentpart.js";
+import {
   GalileoCoreSchemasLoggingLlmMessage,
   GalileoCoreSchemasLoggingLlmMessage$Outbound,
   GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
@@ -20,21 +25,32 @@ import {
   LoggingMethod,
   LoggingMethod$outboundSchema,
 } from "./loggingmethod.js";
+import {
+  TextContentPart,
+  TextContentPart$Outbound,
+  TextContentPart$outboundSchema,
+} from "./textcontentpart.js";
+
+export type LogSpanUpdateRequestInput1 = FileContentPart | TextContentPart;
 
 /**
  * Input of the span. Overwrites previous value if present.
  */
-export type LogSpanUpdateRequestInput =
+export type LogSpanUpdateRequestInput2 =
   | string
-  | Array<GalileoCoreSchemasLoggingLlmMessage>;
+  | Array<GalileoCoreSchemasLoggingLlmMessage>
+  | Array<FileContentPart | TextContentPart>;
+
+export type LogSpanUpdateRequestOutput1 = FileContentPart | TextContentPart;
 
 /**
  * Output of the span. Overwrites previous value if present.
  */
-export type LogSpanUpdateRequestOutput =
+export type LogSpanUpdateRequestOutput2 =
   | GalileoCoreSchemasLoggingLlmMessage
   | string
-  | Array<Document>;
+  | Array<Document>
+  | Array<FileContentPart | TextContentPart>;
 
 /**
  * Request model for updating a span.
@@ -68,6 +84,7 @@ export type LogSpanUpdateRequest = {
   input?:
     | string
     | Array<GalileoCoreSchemasLoggingLlmMessage>
+    | Array<FileContentPart | TextContentPart>
     | null
     | undefined;
   /**
@@ -77,6 +94,7 @@ export type LogSpanUpdateRequest = {
     | GalileoCoreSchemasLoggingLlmMessage
     | string
     | Array<Document>
+    | Array<FileContentPart | TextContentPart>
     | null
     | undefined;
   /**
@@ -94,48 +112,98 @@ export type LogSpanUpdateRequest = {
 };
 
 /** @internal */
-export type LogSpanUpdateRequestInput$Outbound =
-  | string
-  | Array<GalileoCoreSchemasLoggingLlmMessage$Outbound>;
+export type LogSpanUpdateRequestInput1$Outbound =
+  | FileContentPart$Outbound
+  | TextContentPart$Outbound;
 
 /** @internal */
-export const LogSpanUpdateRequestInput$outboundSchema: z.ZodMiniType<
-  LogSpanUpdateRequestInput$Outbound,
-  LogSpanUpdateRequestInput
-> = smartUnion([
-  z.string(),
-  z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
-]);
+export const LogSpanUpdateRequestInput1$outboundSchema: z.ZodMiniType<
+  LogSpanUpdateRequestInput1$Outbound,
+  LogSpanUpdateRequestInput1
+> = z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]);
 
-export function logSpanUpdateRequestInputToJSON(
-  logSpanUpdateRequestInput: LogSpanUpdateRequestInput,
+export function logSpanUpdateRequestInput1ToJSON(
+  logSpanUpdateRequestInput1: LogSpanUpdateRequestInput1,
 ): string {
   return JSON.stringify(
-    LogSpanUpdateRequestInput$outboundSchema.parse(logSpanUpdateRequestInput),
+    LogSpanUpdateRequestInput1$outboundSchema.parse(logSpanUpdateRequestInput1),
   );
 }
 
 /** @internal */
-export type LogSpanUpdateRequestOutput$Outbound =
-  | GalileoCoreSchemasLoggingLlmMessage$Outbound
+export type LogSpanUpdateRequestInput2$Outbound =
   | string
-  | Array<Document$Outbound>;
+  | Array<GalileoCoreSchemasLoggingLlmMessage$Outbound>
+  | Array<FileContentPart$Outbound | TextContentPart$Outbound>;
 
 /** @internal */
-export const LogSpanUpdateRequestOutput$outboundSchema: z.ZodMiniType<
-  LogSpanUpdateRequestOutput$Outbound,
-  LogSpanUpdateRequestOutput
+export const LogSpanUpdateRequestInput2$outboundSchema: z.ZodMiniType<
+  LogSpanUpdateRequestInput2$Outbound,
+  LogSpanUpdateRequestInput2
+> = smartUnion([
+  z.string(),
+  z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
+  z.array(
+    z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
+  ),
+]);
+
+export function logSpanUpdateRequestInput2ToJSON(
+  logSpanUpdateRequestInput2: LogSpanUpdateRequestInput2,
+): string {
+  return JSON.stringify(
+    LogSpanUpdateRequestInput2$outboundSchema.parse(logSpanUpdateRequestInput2),
+  );
+}
+
+/** @internal */
+export type LogSpanUpdateRequestOutput1$Outbound =
+  | FileContentPart$Outbound
+  | TextContentPart$Outbound;
+
+/** @internal */
+export const LogSpanUpdateRequestOutput1$outboundSchema: z.ZodMiniType<
+  LogSpanUpdateRequestOutput1$Outbound,
+  LogSpanUpdateRequestOutput1
+> = z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]);
+
+export function logSpanUpdateRequestOutput1ToJSON(
+  logSpanUpdateRequestOutput1: LogSpanUpdateRequestOutput1,
+): string {
+  return JSON.stringify(
+    LogSpanUpdateRequestOutput1$outboundSchema.parse(
+      logSpanUpdateRequestOutput1,
+    ),
+  );
+}
+
+/** @internal */
+export type LogSpanUpdateRequestOutput2$Outbound =
+  | GalileoCoreSchemasLoggingLlmMessage$Outbound
+  | string
+  | Array<Document$Outbound>
+  | Array<FileContentPart$Outbound | TextContentPart$Outbound>;
+
+/** @internal */
+export const LogSpanUpdateRequestOutput2$outboundSchema: z.ZodMiniType<
+  LogSpanUpdateRequestOutput2$Outbound,
+  LogSpanUpdateRequestOutput2
 > = smartUnion([
   GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
   z.string(),
   z.array(Document$outboundSchema),
+  z.array(
+    z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
+  ),
 ]);
 
-export function logSpanUpdateRequestOutputToJSON(
-  logSpanUpdateRequestOutput: LogSpanUpdateRequestOutput,
+export function logSpanUpdateRequestOutput2ToJSON(
+  logSpanUpdateRequestOutput2: LogSpanUpdateRequestOutput2,
 ): string {
   return JSON.stringify(
-    LogSpanUpdateRequestOutput$outboundSchema.parse(logSpanUpdateRequestOutput),
+    LogSpanUpdateRequestOutput2$outboundSchema.parse(
+      logSpanUpdateRequestOutput2,
+    ),
   );
 }
 
@@ -151,12 +219,14 @@ export type LogSpanUpdateRequest$Outbound = {
   input?:
     | string
     | Array<GalileoCoreSchemasLoggingLlmMessage$Outbound>
+    | Array<FileContentPart$Outbound | TextContentPart$Outbound>
     | null
     | undefined;
   output?:
     | GalileoCoreSchemasLoggingLlmMessage$Outbound
     | string
     | Array<Document$Outbound>
+    | Array<FileContentPart$Outbound | TextContentPart$Outbound>
     | null
     | undefined;
   tags?: Array<string> | null | undefined;
@@ -182,6 +252,12 @@ export const LogSpanUpdateRequest$outboundSchema: z.ZodMiniType<
         smartUnion([
           z.string(),
           z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
+          z.array(
+            z.union([
+              FileContentPart$outboundSchema,
+              TextContentPart$outboundSchema,
+            ]),
+          ),
         ]),
       ),
     ),
@@ -191,6 +267,12 @@ export const LogSpanUpdateRequest$outboundSchema: z.ZodMiniType<
           GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
           z.string(),
           z.array(Document$outboundSchema),
+          z.array(
+            z.union([
+              FileContentPart$outboundSchema,
+              TextContentPart$outboundSchema,
+            ]),
+          ),
         ]),
       ),
     ),

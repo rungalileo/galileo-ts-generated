@@ -110,7 +110,6 @@ async function $do(
       { explode: false, charEncoding: "percent" },
     ),
   };
-
   const path = pathToFunc("/scorers/versions/{scorer_version_id}/projects")(
     pathParams,
   );
