@@ -113,7 +113,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc(
     "/scorers/{scorer_id}/versions/{version_number}/restore",
   )(pathParams);
