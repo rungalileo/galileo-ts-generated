@@ -7,6 +7,13 @@ import { InputPIIScorer } from "galileo-generated/models";
 
 let value: InputPIIScorer = {
   name: "input_pii",
+  filters: [
+    {
+      name: "modality",
+      operator: "eq",
+      value: "ENUM_VALUE",
+    },
+  ],
 };
 ```
 

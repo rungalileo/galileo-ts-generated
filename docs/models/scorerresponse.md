@@ -9,8 +9,19 @@ let value: ScorerResponse = {
   id: "<value>",
   name: "<value>",
   scorerType: "llm",
+  defaults: {
+    filters: [
+      {
+        name: "metadata",
+        operator: "ne",
+        key: "<key>",
+        value: "<value>",
+      },
+    ],
+  },
   tags: [
     "<value 1>",
+    "<value 2>",
   ],
 };
 ```
@@ -44,3 +55,4 @@ let value: ScorerResponse = {
 | `createdAt`                                                                                                                                                                     | [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)                                                                                   | :heavy_minus_sign:                                                                                                                                                              | N/A                                                                                                                                                                             |
 | `updatedAt`                                                                                                                                                                     | [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)                                                                                   | :heavy_minus_sign:                                                                                                                                                              | N/A                                                                                                                                                                             |
 | `rollUpMethod`                                                                                                                                                                  | [models.NumericRollUpMethod](../models/numericrollupmethod.md)                                                                                                                  | :heavy_minus_sign:                                                                                                                                                              | N/A                                                                                                                                                                             |
+| `metricColorPickerConfig`                                                                                                                                                       | *models.ScorerResponseMetricColorPickerConfig*                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                              | N/A                                                                                                                                                                             |
