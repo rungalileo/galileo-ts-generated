@@ -22,6 +22,15 @@ const value: models.ScorerCreatorFilter = {
 };
 ```
 
+### `models.ScorerIDFilter`
+
+```typescript
+const value: models.ScorerIDFilter = {
+  name: "id",
+  value: [],
+};
+```
+
 ### `models.ScorerLabelFilter`
 
 ```typescript
@@ -46,6 +55,16 @@ const value: models.ScorerModelTypeFilter = {
 const value: models.ScorerNameFilter = {
   name: "name",
   operator: "contains",
+  value: "<value>",
+};
+```
+
+### `models.ScorerScoreableNodeTypesFilter`
+
+```typescript
+const value: models.ScorerScoreableNodeTypesFilter = {
+  name: "scoreable_node_types",
+  operator: "eq",
   value: "<value>",
 };
 ```

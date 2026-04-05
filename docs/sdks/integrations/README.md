@@ -6,7 +6,6 @@
 
 * [listIntegrationsIntegrationsGet](#listintegrationsintegrationsget) - List Integrations
 * [listAvailableIntegrationsIntegrationsAvailableGet](#listavailableintegrationsintegrationsavailableget) - List Available Integrations
-* [deleteIntegrationIntegrationsNameDelete](#deleteintegrationintegrationsnamedelete) - Delete Integration
 * [getIntegrationIntegrationsNameGet](#getintegrationintegrationsnameget) - Get Integration
 * [getIntegrationStatusIntegrationsNameStatusGet](#getintegrationstatusintegrationsnamestatusget) - Get Integration Status
 * [listUserIntegrationCollaboratorsIntegrationsIntegrationIdUsersGet](#listuserintegrationcollaboratorsintegrationsintegrationidusersget) - List User Integration Collaborators
@@ -18,21 +17,21 @@
 * [updateGroupIntegrationCollaboratorIntegrationsIntegrationIdGroupsGroupIdPatch](#updategroupintegrationcollaboratorintegrationsintegrationidgroupsgroupidpatch) - Update Group Integration Collaborator
 * [deleteGroupIntegrationCollaboratorIntegrationsIntegrationIdGroupsGroupIdDelete](#deletegroupintegrationcollaboratorintegrationsintegrationidgroupsgroupiddelete) - Delete Group Integration Collaborator
 * [createOrUpdateIntegrationSelectionIntegrationsIntegrationIdSelectPut](#createorupdateintegrationselectionintegrationsintegrationidselectput) - Create Or Update Integration Selection
-* [createOrUpdateIntegrationIntegrationsAnthropicPut](#createorupdateintegrationintegrationsanthropicput) - Create Or Update Integration
-* [createOrUpdateIntegrationIntegrationsAwsBedrockPut](#createorupdateintegrationintegrationsawsbedrockput) - Create Or Update Integration
-* [createOrUpdateIntegrationIntegrationsAwsSagemakerPut](#createorupdateintegrationintegrationsawssagemakerput) - Create Or Update Integration
-* [createOrUpdateIntegrationIntegrationsAzurePut](#createorupdateintegrationintegrationsazureput) - Create Or Update Integration
-* [createOrUpdateIntegrationIntegrationsCustomPut](#createorupdateintegrationintegrationscustomput) - Create Or Update Integration
-* [~~createOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPut~~](#createorupdateunitycatalogintegrationintegrationsdatabricksunitycatalogsqlput) - Create Or Update Unity Catalog Integration :warning: **Deprecated**
-* [createOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPut](#createorupdateunitycatalogintegrationintegrationsdatabricksput) - Create Or Update Unity Catalog Integration
+* [createOrUpdateIntegrationIntegrationsAnthropicPut](#createorupdateintegrationintegrationsanthropicput) - Create or update Anthropic integration
+* [createOrUpdateIntegrationIntegrationsAwsBedrockPut](#createorupdateintegrationintegrationsawsbedrockput) - Create or update AWS Bedrock integration
+* [createOrUpdateIntegrationIntegrationsAwsSagemakerPut](#createorupdateintegrationintegrationsawssagemakerput) - Create or update AWS SageMaker integration
+* [createOrUpdateIntegrationIntegrationsAzurePut](#createorupdateintegrationintegrationsazureput) - Create or update Azure integration
+* [createOrUpdateIntegrationIntegrationsCustomPut](#createorupdateintegrationintegrationscustomput) - Create or update custom integration
+* [~~createOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPut~~](#createorupdateunitycatalogintegrationintegrationsdatabricksunitycatalogsqlput) - Create or update Databricks integration (legacy) :warning: **Deprecated**
+* [createOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPut](#createorupdateunitycatalogintegrationintegrationsdatabricksput) - Create or update Databricks integration
 * [getDatabricksCatalogsIntegrationsDatabricksCatalogsGet](#getdatabrickscatalogsintegrationsdatabrickscatalogsget) - Get Databricks Catalogs
 * [getDatabasesForClusterIntegrationsDatabricksDatabasesGet](#getdatabasesforclusterintegrationsdatabricksdatabasesget) - Get Databases For Cluster
-* [createOrUpdateIntegrationIntegrationsMistralPut](#createorupdateintegrationintegrationsmistralput) - Create Or Update Integration
-* [createOrUpdateIntegrationIntegrationsNvidiaPut](#createorupdateintegrationintegrationsnvidiaput) - Create Or Update Integration
-* [createOrUpdateIntegrationIntegrationsOpenaiPut](#createorupdateintegrationintegrationsopenaiput) - Create Or Update Integration
-* [createOrUpdateIntegrationIntegrationsVegasGatewayPut](#createorupdateintegrationintegrationsvegasgatewayput) - Create Or Update Integration
-* [createOrUpdateIntegrationIntegrationsVertexAiPut](#createorupdateintegrationintegrationsvertexaiput) - Create Or Update Integration
-* [createOrUpdateIntegrationIntegrationsWriterPut](#createorupdateintegrationintegrationswriterput) - Create Or Update Integration
+* [createOrUpdateIntegrationIntegrationsMistralPut](#createorupdateintegrationintegrationsmistralput) - Create or update Mistral integration
+* [createOrUpdateIntegrationIntegrationsNvidiaPut](#createorupdateintegrationintegrationsnvidiaput) - Create or update NVIDIA integration
+* [createOrUpdateIntegrationIntegrationsOpenaiPut](#createorupdateintegrationintegrationsopenaiput) - Create or update OpenAI integration
+* [createOrUpdateIntegrationIntegrationsVegasGatewayPut](#createorupdateintegrationintegrationsvegasgatewayput) - Create or update Vegas Gateway integration
+* [createOrUpdateIntegrationIntegrationsVertexAiPut](#createorupdateintegrationintegrationsvertexaiput) - Create or update Vertex AI integration
+* [createOrUpdateIntegrationIntegrationsWriterPut](#createorupdateintegrationintegrationswriterput) - Create or update Writer integration
 
 ## listIntegrationsIntegrationsGet
 
@@ -170,81 +169,6 @@ run();
 
 | Error Type                          | Status Code                         | Content Type                        |
 | ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
-## deleteIntegrationIntegrationsNameDelete
-
-Delete the integration created by this user.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="delete_integration_integrations__name__delete" method="delete" path="/integrations/{name}" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.integrations.deleteIntegrationIntegrationsNameDelete({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    name: "aws_bedrock",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { integrationsDeleteIntegrationIntegrationsNameDelete } from "galileo-generated/funcs/integrationsDeleteIntegrationIntegrationsNameDelete.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await integrationsDeleteIntegrationIntegrationsNameDelete(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    name: "aws_bedrock",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("integrationsDeleteIntegrationIntegrationsNameDelete failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.DeleteIntegrationIntegrationsNameDeleteRequest](../../models/operations/deleteintegrationintegrationsnamedeleterequest.md)                                         | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `security`                                                                                                                                                                     | [operations.DeleteIntegrationIntegrationsNameDeleteSecurity](../../models/operations/deleteintegrationintegrationsnamedeletesecurity.md)                                       | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[any](../../models/.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
 | errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
 
 ## getIntegrationIntegrationsNameGet
@@ -1428,7 +1352,7 @@ run();
 
 ## createOrUpdateIntegrationIntegrationsCustomPut
 
-Create Or Update Integration
+Create or update custom integration
 
 ### Example Usage
 
@@ -1442,10 +1366,6 @@ async function run() {
   const result = await galileoGenerated.integrations.createOrUpdateIntegrationIntegrationsCustomPut({
     apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
   }, {
-    models: [
-      "<value 1>",
-      "<value 2>",
-    ],
     endpoint: "<value>",
   });
 
@@ -1471,10 +1391,6 @@ async function run() {
   const res = await integrationsCreateOrUpdateIntegrationIntegrationsCustomPut(galileoGenerated, {
     apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
   }, {
-    models: [
-      "<value 1>",
-      "<value 2>",
-    ],
     endpoint: "<value>",
   });
   if (res.ok) {

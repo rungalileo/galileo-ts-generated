@@ -16,16 +16,12 @@ import {
 } from "./metriccritiquecolumnar.js";
 import { ScorerType, ScorerType$inboundSchema } from "./scorertype.js";
 
-/**
- * Roll up metrics e.g. sum, average, min, max for numeric, and category_count for categorical metrics.
- */
-export type RollUpMetrics = { [k: string]: number } | {
-  [k: string]: { [k: string]: number };
-};
+export type RollUpMetrics = number | { [k: string]: number };
 
 export type MetricRollUp = {
   statusType: "roll_up";
   scorerType?: ScorerType | null | undefined;
+  value: any | null;
   explanation?: string | null | undefined;
   cost?: number | null | undefined;
   modelAlias?: string | null | undefined;
@@ -37,19 +33,14 @@ export type MetricRollUp = {
   /**
    * Roll up metrics e.g. sum, average, min, max for numeric, and category_count for categorical metrics.
    */
-  rollUpMetrics?: { [k: string]: number } | {
-    [k: string]: { [k: string]: number };
-  } | undefined;
+  rollUpMetrics?: { [k: string]: number | { [k: string]: number } } | undefined;
 };
 
 /** @internal */
 export const RollUpMetrics$inboundSchema: z.ZodMiniType<
   RollUpMetrics,
   unknown
-> = smartUnion([
-  z.record(z.string(), types.number()),
-  z.record(z.string(), z.record(z.string(), types.number())),
-]);
+> = smartUnion([types.number(), z.record(z.string(), types.number())]);
 
 export function rollUpMetricsFromJSON(
   jsonString: string,
@@ -67,6 +58,7 @@ export const MetricRollUp$inboundSchema: z.ZodMiniType<MetricRollUp, unknown> =
     z.object({
       status_type: types.literal("roll_up"),
       scorer_type: z.optional(z.nullable(ScorerType$inboundSchema)),
+      value: types.nullable(z.any()),
       explanation: z.optional(z.nullable(types.string())),
       cost: z.optional(z.nullable(types.number())),
       model_alias: z.optional(z.nullable(types.string())),
@@ -76,10 +68,10 @@ export const MetricRollUp$inboundSchema: z.ZodMiniType<MetricRollUp, unknown> =
       total_tokens: z.optional(z.nullable(types.number())),
       critique: z.optional(z.nullable(MetricCritiqueColumnar$inboundSchema)),
       roll_up_metrics: types.optional(
-        smartUnion([
-          z.record(z.string(), types.number()),
-          z.record(z.string(), z.record(z.string(), types.number())),
-        ]),
+        z.record(
+          z.string(),
+          smartUnion([types.number(), z.record(z.string(), types.number())]),
+        ),
       ),
     }),
     z.transform((v) => {
