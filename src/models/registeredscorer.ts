@@ -17,6 +17,12 @@ import {
   MetadataFilter$outboundSchema,
 } from "./metadatafilter.js";
 import {
+  ModalityFilter,
+  ModalityFilter$inboundSchema,
+  ModalityFilter$Outbound,
+  ModalityFilter$outboundSchema,
+} from "./modalityfilter.js";
+import {
   NodeNameFilter,
   NodeNameFilter$inboundSchema,
   NodeNameFilter$Outbound,
@@ -25,6 +31,7 @@ import {
 
 export type RegisteredScorerFilter =
   | MetadataFilter
+  | ModalityFilter
   | NodeNameFilter
   | discriminatedUnionTypes.Unknown<"name">;
 
@@ -33,7 +40,10 @@ export type RegisteredScorer = {
   name?: string | null | undefined;
   filters?:
     | Array<
-      MetadataFilter | NodeNameFilter | discriminatedUnionTypes.Unknown<"name">
+      | MetadataFilter
+      | ModalityFilter
+      | NodeNameFilter
+      | discriminatedUnionTypes.Unknown<"name">
     >
     | null
     | undefined;
@@ -45,18 +55,24 @@ export const RegisteredScorerFilter$inboundSchema: z.ZodMiniType<
   unknown
 > = discriminatedUnion("name", {
   metadata: MetadataFilter$inboundSchema,
+  modality: ModalityFilter$inboundSchema,
   node_name: NodeNameFilter$inboundSchema,
 });
 /** @internal */
 export type RegisteredScorerFilter$Outbound =
   | MetadataFilter$Outbound
+  | ModalityFilter$Outbound
   | NodeNameFilter$Outbound;
 
 /** @internal */
 export const RegisteredScorerFilter$outboundSchema: z.ZodMiniType<
   RegisteredScorerFilter$Outbound,
   RegisteredScorerFilter
-> = z.union([MetadataFilter$outboundSchema, NodeNameFilter$outboundSchema]);
+> = z.union([
+  MetadataFilter$outboundSchema,
+  ModalityFilter$outboundSchema,
+  NodeNameFilter$outboundSchema,
+]);
 
 export function registeredScorerFilterToJSON(
   registeredScorerFilter: RegisteredScorerFilter,
@@ -87,6 +103,7 @@ export const RegisteredScorer$inboundSchema: z.ZodMiniType<
       z.array(
         discriminatedUnion("name", {
           metadata: MetadataFilter$inboundSchema,
+          modality: ModalityFilter$inboundSchema,
           node_name: NodeNameFilter$inboundSchema,
         }),
       ),
@@ -98,7 +115,11 @@ export type RegisteredScorer$Outbound = {
   id?: string | null | undefined;
   name?: string | null | undefined;
   filters?:
-    | Array<MetadataFilter$Outbound | NodeNameFilter$Outbound>
+    | Array<
+      | MetadataFilter$Outbound
+      | ModalityFilter$Outbound
+      | NodeNameFilter$Outbound
+    >
     | null
     | undefined;
 };
@@ -113,7 +134,11 @@ export const RegisteredScorer$outboundSchema: z.ZodMiniType<
   filters: z.optional(
     z.nullable(
       z.array(
-        z.union([MetadataFilter$outboundSchema, NodeNameFilter$outboundSchema]),
+        z.union([
+          MetadataFilter$outboundSchema,
+          ModalityFilter$outboundSchema,
+          NodeNameFilter$outboundSchema,
+        ]),
       ),
     ),
   ),
