@@ -105,6 +105,9 @@ export type GalileoConfigSnapshot = {
   cert?: CertConfig;
 };
 
+const DEFAULT_CONSOLE_URL = "https://console.galileo.ai";
+const DEFAULT_API_URL = "https://api.galileo.ai";
+
 /** Browser global key for auth config (e.g. window.__GALILEO_AUTH__). */
 const DEFAULT_BROWSER_GLOBAL = "__GALILEO_AUTH__";
 /** localStorage key for persisted auth config. */
@@ -390,7 +393,7 @@ function resolveApiUrl(
 ): string {
   if (apiUrl) return apiUrl;
   if (!consoleUrl) {
-    if (projectType === "gen_ai") return "https://api.galileo.ai";
+    if (projectType === "gen_ai") return DEFAULT_API_URL;
     throw new Error("GALILEO_CONSOLE_URL must be set");
   }
   if (
@@ -432,7 +435,7 @@ export class GalileoConfig {
 
   private constructor(input: GalileoConfigInput) {
     this.apiUrl = input.apiUrl ?? resolveApiUrl(input.consoleUrl, undefined, "gen_ai");
-    this.consoleUrl = input.consoleUrl || "https://console.galileo.ai";
+    this.consoleUrl = input.consoleUrl || DEFAULT_CONSOLE_URL;
     this.apiKey = input.apiKey;
     this.username = input.username;
     this.password = input.password;
@@ -448,6 +451,22 @@ export class GalileoConfig {
     this.clientCertPath = input.clientCertPath;
     this.clientKeyPath = input.clientKeyPath;
     this.rejectUnauthorized = input.rejectUnauthorized;
+  }
+
+  private static readonly URL_KEYS: ReadonlySet<string> = new Set(["consoleUrl", "apiUrl"]);
+
+  /**
+   * Returns true if only consoleUrl and/or apiUrl are configured, with no other
+   * meaningful configuration present. Used to detect instances created before
+   * environment variables were fully loaded (e.g. late dotenv initialization).
+   */
+  private isMissingExternalConfig(): boolean {
+    const self = this as unknown as Record<string, unknown>;
+    for (const key of Object.keys(self)) {
+      if (GalileoConfig.URL_KEYS.has(key) || self[key] == null) continue;
+      return false;
+    }
+    return true;
   }
 
   /**
@@ -497,7 +516,9 @@ export class GalileoConfig {
    * 1. Environment variables or browser storage (via resolveFromEnvironment)
    * 2. Constructor overrides (via merge)
    * 
-   * The instance is cached and reused on subsequent calls unless overrides are provided.
+   * The instance is cached and reused on subsequent calls unless overrides are provided
+   * or the cached instance has only URL defaults (no auth, certs, project, etc.),
+   * which indicates environment variables may not have been loaded yet (e.g. late dotenv init).
    * To reset the singleton, call reset().
    * 
    * @param overrides - (Optional) Config values to merge over environment and defaults.
@@ -505,7 +526,7 @@ export class GalileoConfig {
    */
   public static get(overrides: GalileoConfigInput = {}): GalileoConfig {
     const hasOverrides = Object.keys(overrides).length > 0;
-    if (!GalileoConfig.instance || hasOverrides) {
+    if (!GalileoConfig.instance || hasOverrides || GalileoConfig.instance.isMissingExternalConfig()) {
       const fromEnv = resolveFromEnvironment();
       const merged = merge(fromEnv, overrides);
       GalileoConfig.instance = new GalileoConfig(merged);
@@ -531,7 +552,7 @@ export class GalileoConfig {
    * 1. If apiUrl is set, return it as-is
    * 2. If consoleUrl is set, derive apiUrl by replacing "app.galileo.ai" or "console" with "api"
    * 3. For localhost consoleUrl, return "http://localhost:8088"
-   * 4. If neither consoleUrl nor apiUrl is set, use projectType default (e.g., "gen_ai" → "https://api.galileo.ai")
+   * 4. If neither consoleUrl nor apiUrl is set, use projectType default (e.g., "gen_ai" → DEFAULT_API_URL)
    * 5. If no projectType and neither URL is set, throw an error
    * 
    * @param projectType - (Optional) Default project type for API URL when neither apiUrl nor consoleUrl is set.
