@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.12](https://github.com/rungalileo/galileo-ts-generated/compare/galileo-generated-v0.2.11...galileo-generated-v0.2.12) (2026-04-07)
+
+
+### Features
+
+* **zod:** Cleaned up validation error returned by Zod. ([#61](https://github.com/rungalileo/galileo-ts-generated/issues/61)) ([553d938](https://github.com/rungalileo/galileo-ts-generated/commit/553d938dd06bc8a7028c0eb04def776c74b65c7c))
+
+
+### Bug Fixes
+
+* **config:** Added extra check to attempt env vars read again; added integration tests for env var and auth workflows ([#64](https://github.com/rungalileo/galileo-ts-generated/issues/64)) ([089e174](https://github.com/rungalileo/galileo-ts-generated/commit/089e174fa85d6e1c921a266e89e53c4f3638da8d))
+
 ## [0.2.11](https://github.com/rungalileo/galileo-ts-generated/compare/galileo-generated-v0.2.10...galileo-generated-v0.2.11) (2026-03-12)
 
 
