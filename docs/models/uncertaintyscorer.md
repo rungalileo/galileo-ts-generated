@@ -7,6 +7,13 @@ import { UncertaintyScorer } from "galileo-generated/models";
 
 let value: UncertaintyScorer = {
   name: "uncertainty",
+  filters: [
+    {
+      name: "modality",
+      operator: "ne",
+      value: "ENUM_VALUE",
+    },
+  ],
 };
 ```
 

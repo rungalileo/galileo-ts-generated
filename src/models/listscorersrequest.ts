@@ -15,10 +15,25 @@ import {
   ScorerCreatorFilter$outboundSchema,
 } from "./scorercreatorfilter.js";
 import {
+  ScorerEnabledInPlaygroundSort,
+  ScorerEnabledInPlaygroundSort$Outbound,
+  ScorerEnabledInPlaygroundSort$outboundSchema,
+} from "./scorerenabledinplaygroundsort.js";
+import {
   ScorerEnabledInRunSort,
   ScorerEnabledInRunSort$Outbound,
   ScorerEnabledInRunSort$outboundSchema,
 } from "./scorerenabledinrunsort.js";
+import {
+  ScorerExcludeSlmScorersFilter,
+  ScorerExcludeSlmScorersFilter$Outbound,
+  ScorerExcludeSlmScorersFilter$outboundSchema,
+} from "./scorerexcludeslmscorersfilter.js";
+import {
+  ScorerIDFilter,
+  ScorerIDFilter$Outbound,
+  ScorerIDFilter$outboundSchema,
+} from "./scoreridfilter.js";
 import {
   ScorerLabelFilter,
   ScorerLabelFilter$Outbound,
@@ -40,6 +55,11 @@ import {
   ScorerNameSort$outboundSchema,
 } from "./scorernamesort.js";
 import {
+  ScorerScoreableNodeTypesFilter,
+  ScorerScoreableNodeTypesFilter$Outbound,
+  ScorerScoreableNodeTypesFilter$outboundSchema,
+} from "./scorerscoreablenodetypesfilter.js";
+import {
   ScorerTagsFilter,
   ScorerTagsFilter$Outbound,
   ScorerTagsFilter$outboundSchema,
@@ -58,38 +78,55 @@ import {
 export type ListScorersRequestFilter =
   | ScorerCreatedAtFilter
   | ScorerCreatorFilter
+  | ScorerExcludeSlmScorersFilter
+  | ScorerIDFilter
   | ScorerLabelFilter
   | ScorerModelTypeFilter
   | ScorerNameFilter
+  | ScorerScoreableNodeTypesFilter
   | ScorerTypeFilter
   | ScorerTagsFilter
   | ScorerUpdatedAtFilter;
 
-export type ListScorersRequestSort = ScorerEnabledInRunSort | ScorerNameSort;
+export type ListScorersRequestSort =
+  | ScorerEnabledInPlaygroundSort
+  | ScorerEnabledInRunSort
+  | ScorerNameSort;
 
 export type ListScorersRequest = {
   filters?:
     | Array<
       | ScorerCreatedAtFilter
       | ScorerCreatorFilter
+      | ScorerExcludeSlmScorersFilter
+      | ScorerIDFilter
       | ScorerLabelFilter
       | ScorerModelTypeFilter
       | ScorerNameFilter
+      | ScorerScoreableNodeTypesFilter
       | ScorerTypeFilter
       | ScorerTagsFilter
       | ScorerUpdatedAtFilter
     >
     | undefined;
-  sort?: ScorerEnabledInRunSort | ScorerNameSort | null | undefined;
+  sort?:
+    | ScorerEnabledInPlaygroundSort
+    | ScorerEnabledInRunSort
+    | ScorerNameSort
+    | null
+    | undefined;
 };
 
 /** @internal */
 export type ListScorersRequestFilter$Outbound =
   | ScorerCreatedAtFilter$Outbound
   | ScorerCreatorFilter$Outbound
+  | ScorerExcludeSlmScorersFilter$Outbound
+  | ScorerIDFilter$Outbound
   | ScorerLabelFilter$Outbound
   | ScorerModelTypeFilter$Outbound
   | ScorerNameFilter$Outbound
+  | ScorerScoreableNodeTypesFilter$Outbound
   | ScorerTypeFilter$Outbound
   | ScorerTagsFilter$Outbound
   | ScorerUpdatedAtFilter$Outbound;
@@ -101,9 +138,12 @@ export const ListScorersRequestFilter$outboundSchema: z.ZodMiniType<
 > = z.union([
   ScorerCreatedAtFilter$outboundSchema,
   ScorerCreatorFilter$outboundSchema,
+  ScorerExcludeSlmScorersFilter$outboundSchema,
+  ScorerIDFilter$outboundSchema,
   ScorerLabelFilter$outboundSchema,
   ScorerModelTypeFilter$outboundSchema,
   ScorerNameFilter$outboundSchema,
+  ScorerScoreableNodeTypesFilter$outboundSchema,
   ScorerTypeFilter$outboundSchema,
   ScorerTagsFilter$outboundSchema,
   ScorerUpdatedAtFilter$outboundSchema,
@@ -119,6 +159,7 @@ export function listScorersRequestFilterToJSON(
 
 /** @internal */
 export type ListScorersRequestSort$Outbound =
+  | ScorerEnabledInPlaygroundSort$Outbound
   | ScorerEnabledInRunSort$Outbound
   | ScorerNameSort$Outbound;
 
@@ -127,6 +168,7 @@ export const ListScorersRequestSort$outboundSchema: z.ZodMiniType<
   ListScorersRequestSort$Outbound,
   ListScorersRequestSort
 > = z.union([
+  ScorerEnabledInPlaygroundSort$outboundSchema,
   ScorerEnabledInRunSort$outboundSchema,
   ScorerNameSort$outboundSchema,
 ]);
@@ -145,15 +187,19 @@ export type ListScorersRequest$Outbound = {
     | Array<
       | ScorerCreatedAtFilter$Outbound
       | ScorerCreatorFilter$Outbound
+      | ScorerExcludeSlmScorersFilter$Outbound
+      | ScorerIDFilter$Outbound
       | ScorerLabelFilter$Outbound
       | ScorerModelTypeFilter$Outbound
       | ScorerNameFilter$Outbound
+      | ScorerScoreableNodeTypesFilter$Outbound
       | ScorerTypeFilter$Outbound
       | ScorerTagsFilter$Outbound
       | ScorerUpdatedAtFilter$Outbound
     >
     | undefined;
   sort?:
+    | ScorerEnabledInPlaygroundSort$Outbound
     | ScorerEnabledInRunSort$Outbound
     | ScorerNameSort$Outbound
     | null
@@ -170,9 +216,12 @@ export const ListScorersRequest$outboundSchema: z.ZodMiniType<
       z.union([
         ScorerCreatedAtFilter$outboundSchema,
         ScorerCreatorFilter$outboundSchema,
+        ScorerExcludeSlmScorersFilter$outboundSchema,
+        ScorerIDFilter$outboundSchema,
         ScorerLabelFilter$outboundSchema,
         ScorerModelTypeFilter$outboundSchema,
         ScorerNameFilter$outboundSchema,
+        ScorerScoreableNodeTypesFilter$outboundSchema,
         ScorerTypeFilter$outboundSchema,
         ScorerTagsFilter$outboundSchema,
         ScorerUpdatedAtFilter$outboundSchema,
@@ -182,6 +231,7 @@ export const ListScorersRequest$outboundSchema: z.ZodMiniType<
   sort: z.optional(
     z.nullable(
       z.union([
+        ScorerEnabledInPlaygroundSort$outboundSchema,
         ScorerEnabledInRunSort$outboundSchema,
         ScorerNameSort$outboundSchema,
       ]),
