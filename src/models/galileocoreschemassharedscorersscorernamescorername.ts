@@ -18,6 +18,7 @@ export const GalileoCoreSchemasSharedScorersScorerNameScorerName = {
   ChunkAttributionUtilizationLuna: "chunk_attribution_utilization_luna",
   ChunkAttributionUtilization: "chunk_attribution_utilization",
   ChunkRelevance: "chunk_relevance",
+  ChunkRelevanceLuna: "chunk_relevance_luna",
   ContextPrecision: "context_precision",
   PrecisionAtK: "precision_at_k",
   CompletenessLuna: "completeness_luna",

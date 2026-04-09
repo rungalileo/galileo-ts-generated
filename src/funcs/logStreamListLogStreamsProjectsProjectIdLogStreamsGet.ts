@@ -109,7 +109,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/projects/{project_id}/log_streams")(pathParams);
 
   const query = encodeFormQuery({
