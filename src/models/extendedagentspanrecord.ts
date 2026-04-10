@@ -24,12 +24,17 @@ import {
   ContentModality,
   ContentModality$inboundSchema,
 } from "./contentmodality.js";
+import { ControlResult, ControlResult$inboundSchema } from "./controlresult.js";
 import { Document, Document$inboundSchema } from "./document.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
   FeedbackRatingInfo,
   FeedbackRatingInfo$inboundSchema,
 } from "./feedbackratinginfo.js";
+import {
+  FileContentPart,
+  FileContentPart$inboundSchema,
+} from "./filecontentpart.js";
 import { FileMetadata, FileMetadata$inboundSchema } from "./filemetadata.js";
 import {
   GalileoCoreSchemasLoggingLlmMessage,
@@ -53,36 +58,74 @@ import { MetricPending, MetricPending$inboundSchema } from "./metricpending.js";
 import { MetricRollUp, MetricRollUp$inboundSchema } from "./metricrollup.js";
 import { Metrics, Metrics$inboundSchema } from "./metrics.js";
 import { MetricSuccess, MetricSuccess$inboundSchema } from "./metricsuccess.js";
+import {
+  TextContentPart,
+  TextContentPart$inboundSchema,
+} from "./textcontentpart.js";
+
+export type ExtendedAgentSpanRecordInput1 =
+  | FileContentPart
+  | TextContentPart
+  | discriminatedUnionTypes.Unknown<"type">;
 
 /**
  * Input to the trace or span.
  */
-export type ExtendedAgentSpanRecordInput =
+export type ExtendedAgentSpanRecordInput2 =
   | string
-  | Array<GalileoCoreSchemasLoggingLlmMessage>;
+  | Array<GalileoCoreSchemasLoggingLlmMessage>
+  | Array<
+    FileContentPart | TextContentPart | discriminatedUnionTypes.Unknown<"type">
+  >;
+
+export type ExtendedAgentSpanRecordRedactedInput1 =
+  | FileContentPart
+  | TextContentPart
+  | discriminatedUnionTypes.Unknown<"type">;
 
 /**
  * Redacted input of the trace or span.
  */
-export type ExtendedAgentSpanRecordRedactedInput =
+export type ExtendedAgentSpanRecordRedactedInput2 =
   | string
-  | Array<GalileoCoreSchemasLoggingLlmMessage>;
+  | Array<GalileoCoreSchemasLoggingLlmMessage>
+  | Array<
+    FileContentPart | TextContentPart | discriminatedUnionTypes.Unknown<"type">
+  >;
+
+export type ExtendedAgentSpanRecordOutput1 =
+  | FileContentPart
+  | TextContentPart
+  | discriminatedUnionTypes.Unknown<"type">;
 
 /**
  * Output of the trace or span.
  */
-export type ExtendedAgentSpanRecordOutput =
+export type ExtendedAgentSpanRecordOutput2 =
   | GalileoCoreSchemasLoggingLlmMessage
+  | ControlResult
   | string
-  | Array<Document>;
+  | Array<Document>
+  | Array<
+    FileContentPart | TextContentPart | discriminatedUnionTypes.Unknown<"type">
+  >;
+
+export type ExtendedAgentSpanRecordRedactedOutput1 =
+  | FileContentPart
+  | TextContentPart
+  | discriminatedUnionTypes.Unknown<"type">;
 
 /**
  * Redacted output of the trace or span.
  */
-export type ExtendedAgentSpanRecordRedactedOutput =
+export type ExtendedAgentSpanRecordRedactedOutput2 =
   | GalileoCoreSchemasLoggingLlmMessage
+  | ControlResult
   | string
-  | Array<Document>;
+  | Array<Document>
+  | Array<
+    FileContentPart | TextContentPart | discriminatedUnionTypes.Unknown<"type">
+  >;
 
 export type ExtendedAgentSpanRecordMetricInfo =
   | MetricComputing
@@ -103,13 +146,26 @@ export type ExtendedAgentSpanRecord = {
   /**
    * Input to the trace or span.
    */
-  input?: string | Array<GalileoCoreSchemasLoggingLlmMessage> | undefined;
+  input?:
+    | string
+    | Array<GalileoCoreSchemasLoggingLlmMessage>
+    | Array<
+      | FileContentPart
+      | TextContentPart
+      | discriminatedUnionTypes.Unknown<"type">
+    >
+    | undefined;
   /**
    * Redacted input of the trace or span.
    */
   redactedInput?:
     | string
     | Array<GalileoCoreSchemasLoggingLlmMessage>
+    | Array<
+      | FileContentPart
+      | TextContentPart
+      | discriminatedUnionTypes.Unknown<"type">
+    >
     | null
     | undefined;
   /**
@@ -117,8 +173,14 @@ export type ExtendedAgentSpanRecord = {
    */
   output?:
     | GalileoCoreSchemasLoggingLlmMessage
+    | ControlResult
     | string
     | Array<Document>
+    | Array<
+      | FileContentPart
+      | TextContentPart
+      | discriminatedUnionTypes.Unknown<"type">
+    >
     | null
     | undefined;
   /**
@@ -126,8 +188,14 @@ export type ExtendedAgentSpanRecord = {
    */
   redactedOutput?:
     | GalileoCoreSchemasLoggingLlmMessage
+    | ControlResult
     | string
     | Array<Document>
+    | Array<
+      | FileContentPart
+      | TextContentPart
+      | discriminatedUnionTypes.Unknown<"type">
+    >
     | null
     | undefined;
   /**
@@ -226,6 +294,10 @@ export type ExtendedAgentSpanRecord = {
    */
   annotationAggregates?: { [k: string]: AnnotationAggregate } | undefined;
   /**
+   * IDs of annotation queues this record is in
+   */
+  annotationQueueIds?: Array<string> | undefined;
+  /**
    * Detailed information about the metrics associated with this trace or span
    */
   metricInfo?:
@@ -263,82 +335,183 @@ export type ExtendedAgentSpanRecord = {
 };
 
 /** @internal */
-export const ExtendedAgentSpanRecordInput$inboundSchema: z.ZodMiniType<
-  ExtendedAgentSpanRecordInput,
+export const ExtendedAgentSpanRecordInput1$inboundSchema: z.ZodMiniType<
+  ExtendedAgentSpanRecordInput1,
+  unknown
+> = discriminatedUnion("type", {
+  file: FileContentPart$inboundSchema,
+  text: TextContentPart$inboundSchema,
+});
+
+export function extendedAgentSpanRecordInput1FromJSON(
+  jsonString: string,
+): SafeParseResult<ExtendedAgentSpanRecordInput1, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ExtendedAgentSpanRecordInput1$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ExtendedAgentSpanRecordInput1' from JSON`,
+  );
+}
+
+/** @internal */
+export const ExtendedAgentSpanRecordInput2$inboundSchema: z.ZodMiniType<
+  ExtendedAgentSpanRecordInput2,
   unknown
 > = smartUnion([
   types.string(),
   z.array(GalileoCoreSchemasLoggingLlmMessage$inboundSchema),
+  z.array(
+    discriminatedUnion("type", {
+      file: FileContentPart$inboundSchema,
+      text: TextContentPart$inboundSchema,
+    }),
+  ),
 ]);
 
-export function extendedAgentSpanRecordInputFromJSON(
+export function extendedAgentSpanRecordInput2FromJSON(
   jsonString: string,
-): SafeParseResult<ExtendedAgentSpanRecordInput, SDKValidationError> {
+): SafeParseResult<ExtendedAgentSpanRecordInput2, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => ExtendedAgentSpanRecordInput$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ExtendedAgentSpanRecordInput' from JSON`,
+    (x) => ExtendedAgentSpanRecordInput2$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ExtendedAgentSpanRecordInput2' from JSON`,
   );
 }
 
 /** @internal */
-export const ExtendedAgentSpanRecordRedactedInput$inboundSchema: z.ZodMiniType<
-  ExtendedAgentSpanRecordRedactedInput,
+export const ExtendedAgentSpanRecordRedactedInput1$inboundSchema: z.ZodMiniType<
+  ExtendedAgentSpanRecordRedactedInput1,
+  unknown
+> = discriminatedUnion("type", {
+  file: FileContentPart$inboundSchema,
+  text: TextContentPart$inboundSchema,
+});
+
+export function extendedAgentSpanRecordRedactedInput1FromJSON(
+  jsonString: string,
+): SafeParseResult<ExtendedAgentSpanRecordRedactedInput1, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      ExtendedAgentSpanRecordRedactedInput1$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ExtendedAgentSpanRecordRedactedInput1' from JSON`,
+  );
+}
+
+/** @internal */
+export const ExtendedAgentSpanRecordRedactedInput2$inboundSchema: z.ZodMiniType<
+  ExtendedAgentSpanRecordRedactedInput2,
   unknown
 > = smartUnion([
   types.string(),
   z.array(GalileoCoreSchemasLoggingLlmMessage$inboundSchema),
+  z.array(
+    discriminatedUnion("type", {
+      file: FileContentPart$inboundSchema,
+      text: TextContentPart$inboundSchema,
+    }),
+  ),
 ]);
 
-export function extendedAgentSpanRecordRedactedInputFromJSON(
+export function extendedAgentSpanRecordRedactedInput2FromJSON(
   jsonString: string,
-): SafeParseResult<ExtendedAgentSpanRecordRedactedInput, SDKValidationError> {
+): SafeParseResult<ExtendedAgentSpanRecordRedactedInput2, SDKValidationError> {
   return safeParse(
     jsonString,
     (x) =>
-      ExtendedAgentSpanRecordRedactedInput$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ExtendedAgentSpanRecordRedactedInput' from JSON`,
+      ExtendedAgentSpanRecordRedactedInput2$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ExtendedAgentSpanRecordRedactedInput2' from JSON`,
   );
 }
 
 /** @internal */
-export const ExtendedAgentSpanRecordOutput$inboundSchema: z.ZodMiniType<
-  ExtendedAgentSpanRecordOutput,
+export const ExtendedAgentSpanRecordOutput1$inboundSchema: z.ZodMiniType<
+  ExtendedAgentSpanRecordOutput1,
   unknown
-> = smartUnion([
-  GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
-  types.string(),
-  z.array(Document$inboundSchema),
-]);
+> = discriminatedUnion("type", {
+  file: FileContentPart$inboundSchema,
+  text: TextContentPart$inboundSchema,
+});
 
-export function extendedAgentSpanRecordOutputFromJSON(
+export function extendedAgentSpanRecordOutput1FromJSON(
   jsonString: string,
-): SafeParseResult<ExtendedAgentSpanRecordOutput, SDKValidationError> {
+): SafeParseResult<ExtendedAgentSpanRecordOutput1, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => ExtendedAgentSpanRecordOutput$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ExtendedAgentSpanRecordOutput' from JSON`,
+    (x) => ExtendedAgentSpanRecordOutput1$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ExtendedAgentSpanRecordOutput1' from JSON`,
   );
 }
 
 /** @internal */
-export const ExtendedAgentSpanRecordRedactedOutput$inboundSchema: z.ZodMiniType<
-  ExtendedAgentSpanRecordRedactedOutput,
+export const ExtendedAgentSpanRecordOutput2$inboundSchema: z.ZodMiniType<
+  ExtendedAgentSpanRecordOutput2,
   unknown
 > = smartUnion([
   GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
+  ControlResult$inboundSchema,
   types.string(),
   z.array(Document$inboundSchema),
+  z.array(
+    discriminatedUnion("type", {
+      file: FileContentPart$inboundSchema,
+      text: TextContentPart$inboundSchema,
+    }),
+  ),
 ]);
 
-export function extendedAgentSpanRecordRedactedOutputFromJSON(
+export function extendedAgentSpanRecordOutput2FromJSON(
   jsonString: string,
-): SafeParseResult<ExtendedAgentSpanRecordRedactedOutput, SDKValidationError> {
+): SafeParseResult<ExtendedAgentSpanRecordOutput2, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ExtendedAgentSpanRecordOutput2$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ExtendedAgentSpanRecordOutput2' from JSON`,
+  );
+}
+
+/** @internal */
+export const ExtendedAgentSpanRecordRedactedOutput1$inboundSchema:
+  z.ZodMiniType<ExtendedAgentSpanRecordRedactedOutput1, unknown> =
+    discriminatedUnion("type", {
+      file: FileContentPart$inboundSchema,
+      text: TextContentPart$inboundSchema,
+    });
+
+export function extendedAgentSpanRecordRedactedOutput1FromJSON(
+  jsonString: string,
+): SafeParseResult<ExtendedAgentSpanRecordRedactedOutput1, SDKValidationError> {
   return safeParse(
     jsonString,
     (x) =>
-      ExtendedAgentSpanRecordRedactedOutput$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ExtendedAgentSpanRecordRedactedOutput' from JSON`,
+      ExtendedAgentSpanRecordRedactedOutput1$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ExtendedAgentSpanRecordRedactedOutput1' from JSON`,
+  );
+}
+
+/** @internal */
+export const ExtendedAgentSpanRecordRedactedOutput2$inboundSchema:
+  z.ZodMiniType<ExtendedAgentSpanRecordRedactedOutput2, unknown> = smartUnion([
+    GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
+    ControlResult$inboundSchema,
+    types.string(),
+    z.array(Document$inboundSchema),
+    z.array(
+      discriminatedUnion("type", {
+        file: FileContentPart$inboundSchema,
+        text: TextContentPart$inboundSchema,
+      }),
+    ),
+  ]);
+
+export function extendedAgentSpanRecordRedactedOutput2FromJSON(
+  jsonString: string,
+): SafeParseResult<ExtendedAgentSpanRecordRedactedOutput2, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      ExtendedAgentSpanRecordRedactedOutput2$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ExtendedAgentSpanRecordRedactedOutput2' from JSON`,
   );
 }
 
@@ -378,6 +551,12 @@ export const ExtendedAgentSpanRecord$inboundSchema: z.ZodMiniType<
       smartUnion([
         types.string(),
         z.array(GalileoCoreSchemasLoggingLlmMessage$inboundSchema),
+        z.array(
+          discriminatedUnion("type", {
+            file: FileContentPart$inboundSchema,
+            text: TextContentPart$inboundSchema,
+          }),
+        ),
       ]),
     ),
     redacted_input: z.optional(
@@ -385,6 +564,12 @@ export const ExtendedAgentSpanRecord$inboundSchema: z.ZodMiniType<
         smartUnion([
           types.string(),
           z.array(GalileoCoreSchemasLoggingLlmMessage$inboundSchema),
+          z.array(
+            discriminatedUnion("type", {
+              file: FileContentPart$inboundSchema,
+              text: TextContentPart$inboundSchema,
+            }),
+          ),
         ]),
       ),
     ),
@@ -392,8 +577,15 @@ export const ExtendedAgentSpanRecord$inboundSchema: z.ZodMiniType<
       z.nullable(
         smartUnion([
           GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
+          ControlResult$inboundSchema,
           types.string(),
           z.array(Document$inboundSchema),
+          z.array(
+            discriminatedUnion("type", {
+              file: FileContentPart$inboundSchema,
+              text: TextContentPart$inboundSchema,
+            }),
+          ),
         ]),
       ),
     ),
@@ -401,8 +593,15 @@ export const ExtendedAgentSpanRecord$inboundSchema: z.ZodMiniType<
       z.nullable(
         smartUnion([
           GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
+          ControlResult$inboundSchema,
           types.string(),
           z.array(Document$inboundSchema),
+          z.array(
+            discriminatedUnion("type", {
+              file: FileContentPart$inboundSchema,
+              text: TextContentPart$inboundSchema,
+            }),
+          ),
         ]),
       ),
     ),
@@ -439,6 +638,7 @@ export const ExtendedAgentSpanRecord$inboundSchema: z.ZodMiniType<
     annotation_aggregates: types.optional(
       z.record(z.string(), AnnotationAggregate$inboundSchema),
     ),
+    annotation_queue_ids: types.optional(z.array(types.string())),
     metric_info: z.optional(
       z.nullable(z.record(
         z.string(),
@@ -485,6 +685,7 @@ export const ExtendedAgentSpanRecord$inboundSchema: z.ZodMiniType<
       "file_ids": "fileIds",
       "file_modalities": "fileModalities",
       "annotation_aggregates": "annotationAggregates",
+      "annotation_queue_ids": "annotationQueueIds",
       "metric_info": "metricInfo",
       "parent_id": "parentId",
       "is_complete": "isComplete",
