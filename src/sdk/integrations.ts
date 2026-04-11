@@ -26,7 +26,6 @@ import { integrationsCreateUserIntegrationCollaboratorsIntegrationsIntegrationId
 import {
   integrationsDeleteGroupIntegrationCollaboratorIntegrationsIntegrationIdGroupsGroupIdDelete,
 } from "../funcs/integrationsDeleteGroupIntegrationCollaboratorIntegrationsIntegrationIdGroupsGroupIdDelete.js";
-import { integrationsDeleteIntegrationIntegrationsNameDelete } from "../funcs/integrationsDeleteIntegrationIntegrationsNameDelete.js";
 import {
   integrationsDeleteUserIntegrationCollaboratorIntegrationsIntegrationIdUsersUserIdDelete,
 } from "../funcs/integrationsDeleteUserIntegrationCollaboratorIntegrationsIntegrationIdUsersUserIdDelete.js";
@@ -36,7 +35,6 @@ import { integrationsGetIntegrationIntegrationsNameGet } from "../funcs/integrat
 import { integrationsGetIntegrationStatusIntegrationsNameStatusGet } from "../funcs/integrationsGetIntegrationStatusIntegrationsNameStatusGet.js";
 import { integrationsListAvailableIntegrationsIntegrationsAvailableGet } from "../funcs/integrationsListAvailableIntegrationsIntegrationsAvailableGet.js";
 import { integrationsListGroupIntegrationCollaboratorsIntegrationsIntegrationIdGroupsGet } from "../funcs/integrationsListGroupIntegrationCollaboratorsIntegrationsIntegrationIdGroupsGet.js";
-import { integrationsListIntegrationsIntegrationsGet } from "../funcs/integrationsListIntegrationsIntegrationsGet.js";
 import { integrationsListUserIntegrationCollaboratorsIntegrationsIntegrationIdUsersGet } from "../funcs/integrationsListUserIntegrationCollaboratorsIntegrationsIntegrationIdUsersGet.js";
 import {
   integrationsUpdateGroupIntegrationCollaboratorIntegrationsIntegrationIdGroupsGroupIdPatch,
@@ -50,23 +48,6 @@ import * as operations from "../models/operations/index.js";
 import { unwrapAsync } from "../types/fp.js";
 
 export class Integrations extends ClientSDK {
-  /**
-   * List Integrations
-   *
-   * @remarks
-   * List the created integrations for the requesting user.
-   */
-  async listIntegrationsIntegrationsGet(
-    security: operations.ListIntegrationsIntegrationsGetSecurity,
-    options?: RequestOptions,
-  ): Promise<Array<models.IntegrationDB>> {
-    return unwrapAsync(integrationsListIntegrationsIntegrationsGet(
-      this,
-      security,
-      options,
-    ));
-  }
-
   /**
    * List Available Integrations
    *
@@ -85,25 +66,6 @@ export class Integrations extends ClientSDK {
         options,
       ),
     );
-  }
-
-  /**
-   * Delete Integration
-   *
-   * @remarks
-   * Delete the integration created by this user.
-   */
-  async deleteIntegrationIntegrationsNameDelete(
-    security: operations.DeleteIntegrationIntegrationsNameDeleteSecurity,
-    request: operations.DeleteIntegrationIntegrationsNameDeleteRequest,
-    options?: RequestOptions,
-  ): Promise<any> {
-    return unwrapAsync(integrationsDeleteIntegrationIntegrationsNameDelete(
-      this,
-      security,
-      request,
-      options,
-    ));
   }
 
   /**
@@ -351,7 +313,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update Anthropic integration
    *
    * @remarks
    * Create or update an Anthropic integration for this user from Galileo.
@@ -373,7 +335,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update AWS Bedrock integration
    *
    * @remarks
    * Create or update an AWS integration for this user from Galileo.
@@ -395,7 +357,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update AWS SageMaker integration
    *
    * @remarks
    * Create or update an AWS integration for this user from Galileo.
@@ -417,7 +379,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update Azure integration
    *
    * @remarks
    * Create or update an Azure integration for this user from Galileo.
@@ -438,7 +400,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update custom integration
    */
   async createOrUpdateIntegrationIntegrationsCustomPut(
     security: operations.CreateOrUpdateIntegrationIntegrationsCustomPutSecurity,
@@ -456,7 +418,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Unity Catalog Integration
+   * Create or update Databricks integration (legacy)
    *
    * @remarks
    * Create or update a databricks integration for this user from Galileo.
@@ -480,7 +442,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Unity Catalog Integration
+   * Create or update Databricks integration
    *
    * @remarks
    * Create or update a databricks integration for this user from Galileo.
@@ -540,7 +502,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update Mistral integration
    *
    * @remarks
    * Create or update an Mistral integration for this user from Galileo.
@@ -562,7 +524,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update NVIDIA integration
    *
    * @remarks
    * Create or update an NVIDIA integration for this user from Galileo.
@@ -583,7 +545,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update OpenAI integration
    *
    * @remarks
    * Create or update an OpenAI integration for this user from Galileo.
@@ -604,7 +566,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update Vegas Gateway integration
    *
    * @remarks
    * Create or update a Vegas Gateway integration for this user from Galileo.
@@ -626,7 +588,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update Vertex AI integration
    *
    * @remarks
    * Create or update a Google Vertex AI integration for a user.
@@ -648,7 +610,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update Writer integration
    *
    * @remarks
    * Create or update a Writer integration for a user.

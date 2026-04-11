@@ -7,6 +7,17 @@ import { CustomizedGroundTruthAdherenceGPTScorer } from "galileo-generated/model
 
 let value: CustomizedGroundTruthAdherenceGPTScorer = {
   scorerName: "_customized_ground_truth_adherence",
+  filters: [
+    {
+      name: "node_name",
+      operator: "ne",
+      value: [
+        "<value 1>",
+        "<value 2>",
+      ],
+      caseSensitive: true,
+    },
+  ],
 };
 ```
 

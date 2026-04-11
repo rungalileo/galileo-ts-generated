@@ -11,6 +11,7 @@ import { smartUnion } from "../types/smartUnion.js";
 export const ScorerTagsFilterOperator = {
   Eq: "eq",
   Contains: "contains",
+  OneOf: "one_of",
   NotIn: "not_in",
 } as const;
 export type ScorerTagsFilterOperator = ClosedEnum<
