@@ -11,5 +11,5 @@ let value: LogRecordsCollectionFilterOperator = "not_in";
 ## Values
 
 ```typescript
-"eq" | "contains" | "not_in"
+"eq" | "contains" | "one_of" | "not_in"
 ```

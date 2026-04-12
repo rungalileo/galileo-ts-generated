@@ -7,6 +7,14 @@ import { PromptInjectionScorer } from "galileo-generated/models";
 
 let value: PromptInjectionScorer = {
   name: "prompt_injection",
+  filters: [
+    {
+      name: "node_name",
+      operator: "eq",
+      value: "<value>",
+      caseSensitive: true,
+    },
+  ],
 };
 ```
 

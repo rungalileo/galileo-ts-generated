@@ -5,8 +5,13 @@
 
 import * as z from "zod/v4-mini";
 import { GalileoGeneratedCore } from "../core.js";
-import { appendForm, encodeFormQuery } from "../lib/encodings.js";
 import {
+  appendForm,
+  encodeFormQuery,
+  normalizeBlob,
+} from "../lib/encodings.js";
+import {
+  bytesToBlob,
   getContentTypeFromFileName,
   readableStreamToArrayBuffer,
 } from "../lib/files.js";
@@ -130,7 +135,10 @@ async function $do(
     }
     if (payload?.body.file !== undefined) {
       if (isBlobLike(payload?.body.file)) {
-        appendForm(body, "file", payload?.body.file);
+        const file = payload?.body.file;
+        const blob = await normalizeBlob(file);
+        const name = "name" in file ? (file.name as string) : undefined;
+        appendForm(body, "file", blob, name);
       } else if (isReadableStream(payload?.body.file.content)) {
         const buffer = await readableStreamToArrayBuffer(
           payload?.body.file.content,
@@ -138,18 +146,10 @@ async function $do(
         const contentType =
           getContentTypeFromFileName(payload?.body.file.fileName)
           || "application/octet-stream";
-        const blob = new Blob([buffer], { type: contentType });
-        appendForm(body, "file", blob, payload?.body.file.fileName);
-      } else if (payload?.body.file.content instanceof Uint8Array) {
-        const contentType =
-          getContentTypeFromFileName(payload?.body.file.fileName)
-          || "application/octet-stream";
         appendForm(
           body,
           "file",
-          new Blob([new Uint8Array(payload?.body.file.content).buffer], {
-            type: contentType,
-          }),
+          bytesToBlob(buffer, contentType),
           payload?.body.file.fileName,
         );
       } else {
@@ -159,7 +159,7 @@ async function $do(
         appendForm(
           body,
           "file",
-          new Blob([payload?.body.file.content], { type: contentType }),
+          bytesToBlob(payload?.body.file.content, contentType),
           payload?.body.file.fileName,
         );
       }

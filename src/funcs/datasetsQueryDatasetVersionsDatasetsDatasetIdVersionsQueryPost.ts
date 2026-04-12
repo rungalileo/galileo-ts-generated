@@ -106,7 +106,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/datasets/{dataset_id}/versions/query")(pathParams);
 
   const query = encodeFormQuery({
