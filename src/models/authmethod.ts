@@ -15,6 +15,7 @@ export const AuthMethod = {
   AzureAd: "azure-ad",
   Custom: "custom",
   Saml: "saml",
+  Invite: "invite",
 } as const;
 export type AuthMethod = OpenEnum<typeof AuthMethod>;
 

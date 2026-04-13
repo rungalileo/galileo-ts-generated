@@ -7,12 +7,7 @@ import { llmIntegrationsGetAvailableModelsLlmIntegrationsLlmIntegrationModelsGet
 import {
   llmIntegrationsGetAvailableScorerModelsLlmIntegrationsLlmIntegrationScorerModelsGet,
 } from "../funcs/llmIntegrationsGetAvailableScorerModelsLlmIntegrationsLlmIntegrationScorerModelsGet.js";
-import {
-  llmIntegrationsGetIntegrationsAndModelInfoForRunLlmIntegrationsProjectsProjectIdRunsRunIdGet,
-} from "../funcs/llmIntegrationsGetIntegrationsAndModelInfoForRunLlmIntegrationsProjectsProjectIdRunsRunIdGet.js";
-import { llmIntegrationsGetIntegrationsAndModelInfoLlmIntegrationsGet } from "../funcs/llmIntegrationsGetIntegrationsAndModelInfoLlmIntegrationsGet.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
-import * as models from "../models/index.js";
 import * as operations from "../models/operations/index.js";
 import { unwrapAsync } from "../types/fp.js";
 
@@ -55,52 +50,6 @@ export class LlmIntegrations extends ClientSDK {
   ): Promise<Array<string>> {
     return unwrapAsync(
       llmIntegrationsGetAvailableScorerModelsLlmIntegrationsLlmIntegrationScorerModelsGet(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
-   * Get Integrations And Model Info
-   *
-   * @remarks
-   * Get the list of supported scorer models for the user's llm integrations.
-   */
-  async getIntegrationsAndModelInfoLlmIntegrationsGet(
-    security: operations.GetIntegrationsAndModelInfoLlmIntegrationsGetSecurity,
-    request?:
-      | operations.GetIntegrationsAndModelInfoLlmIntegrationsGetRequest
-      | undefined,
-    options?: RequestOptions,
-  ): Promise<{ [k: string]: models.IntegrationModelsResponse }> {
-    return unwrapAsync(
-      llmIntegrationsGetIntegrationsAndModelInfoLlmIntegrationsGet(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
-   * Get Integrations And Model Info For Run
-   *
-   * @remarks
-   * Get the list of supported scorer models for the run owner's llm integrations.
-   */
-  async getIntegrationsAndModelInfoForRunLlmIntegrationsProjectsProjectIdRunsRunIdGet(
-    security:
-      operations.GetIntegrationsAndModelInfoForRunLlmIntegrationsProjectsProjectIdRunsRunIdGetSecurity,
-    request:
-      operations.GetIntegrationsAndModelInfoForRunLlmIntegrationsProjectsProjectIdRunsRunIdGetRequest,
-    options?: RequestOptions,
-  ): Promise<{ [k: string]: models.IntegrationModelsResponse }> {
-    return unwrapAsync(
-      llmIntegrationsGetIntegrationsAndModelInfoForRunLlmIntegrationsProjectsProjectIdRunsRunIdGet(
         this,
         security,
         request,

@@ -22,6 +22,31 @@ const value: models.ScorerCreatorFilter = {
 };
 ```
 
+### `models.ScorerExcludeMultimodalScorersFilter`
+
+```typescript
+const value: models.ScorerExcludeMultimodalScorersFilter = {
+  name: "exclude_multimodal_scorers",
+};
+```
+
+### `models.ScorerExcludeSlmScorersFilter`
+
+```typescript
+const value: models.ScorerExcludeSlmScorersFilter = {
+  name: "exclude_slm_scorers",
+};
+```
+
+### `models.ScorerIDFilter`
+
+```typescript
+const value: models.ScorerIDFilter = {
+  name: "id",
+  value: [],
+};
+```
+
 ### `models.ScorerLabelFilter`
 
 ```typescript
@@ -37,6 +62,8 @@ const value: models.ScorerLabelFilter = {
 ```typescript
 const value: models.ScorerModelTypeFilter = {
   name: "model_type",
+  operator: "not_in",
+  value: "ENUM_VALUE",
 };
 ```
 
@@ -46,6 +73,16 @@ const value: models.ScorerModelTypeFilter = {
 const value: models.ScorerNameFilter = {
   name: "name",
   operator: "contains",
+  value: "<value>",
+};
+```
+
+### `models.ScorerScoreableNodeTypesFilter`
+
+```typescript
+const value: models.ScorerScoreableNodeTypesFilter = {
+  name: "scoreable_node_types",
+  operator: "eq",
   value: "<value>",
 };
 ```

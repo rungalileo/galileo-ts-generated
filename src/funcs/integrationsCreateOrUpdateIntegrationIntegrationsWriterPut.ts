@@ -29,7 +29,7 @@ import { APICall, APIPromise } from "../types/async.js";
 import { Result } from "../types/fp.js";
 
 /**
- * Create Or Update Integration
+ * Create or update Writer integration
  *
  * @remarks
  * Create or update a Writer integration for a user.
