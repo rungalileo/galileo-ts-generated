@@ -7,6 +7,16 @@ import { CustomizedInstructionAdherenceGPTScorer } from "galileo-generated/model
 
 let value: CustomizedInstructionAdherenceGPTScorer = {
   scorerName: "_customized_instruction_adherence",
+  filters: [
+    {
+      name: "metadata",
+      operator: "eq",
+      key: "<key>",
+      value: [
+        "<value 1>",
+      ],
+    },
+  ],
 };
 ```
 

@@ -109,7 +109,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/llm_integrations/{llm_integration}/scorer_models")(
     pathParams,
   );

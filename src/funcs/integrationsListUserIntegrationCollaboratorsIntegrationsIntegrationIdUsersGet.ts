@@ -109,7 +109,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/integrations/{integration_id}/users")(pathParams);
 
   const query = encodeFormQuery({

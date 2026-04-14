@@ -14,6 +14,7 @@ export const LogRecordsFilterType = {
   Boolean: "boolean",
   Text: "text",
   Collection: "collection",
+  FullyAnnotated: "fully_annotated",
 } as const;
 export type LogRecordsFilterType = OpenEnum<typeof LogRecordsFilterType>;
 

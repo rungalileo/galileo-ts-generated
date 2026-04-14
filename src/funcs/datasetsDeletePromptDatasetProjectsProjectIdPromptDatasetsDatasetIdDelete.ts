@@ -111,7 +111,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc(
     "/projects/{project_id}/prompt_datasets/{dataset_id}",
   )(pathParams);
