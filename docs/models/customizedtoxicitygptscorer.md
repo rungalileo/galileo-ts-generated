@@ -7,6 +7,16 @@ import { CustomizedToxicityGPTScorer } from "galileo-generated/models";
 
 let value: CustomizedToxicityGPTScorer = {
   scorerName: "_customized_toxicity_gpt",
+  filters: [
+    {
+      name: "metadata",
+      operator: "eq",
+      key: "<key>",
+      value: [
+        "<value 1>",
+      ],
+    },
+  ],
 };
 ```
 

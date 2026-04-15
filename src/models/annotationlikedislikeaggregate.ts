@@ -15,6 +15,7 @@ export type AnnotationLikeDislikeAggregate = {
   likeCount: number;
   dislikeCount: number;
   unratedCount: number;
+  tieCount?: number | null | undefined;
 };
 
 /** @internal */
@@ -27,6 +28,7 @@ export const AnnotationLikeDislikeAggregate$inboundSchema: z.ZodMiniType<
     like_count: types.number(),
     dislike_count: types.number(),
     unrated_count: types.number(),
+    tie_count: z.optional(z.nullable(types.number())),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -34,6 +36,7 @@ export const AnnotationLikeDislikeAggregate$inboundSchema: z.ZodMiniType<
       "like_count": "likeCount",
       "dislike_count": "dislikeCount",
       "unrated_count": "unratedCount",
+      "tie_count": "tieCount",
     });
   }),
 );

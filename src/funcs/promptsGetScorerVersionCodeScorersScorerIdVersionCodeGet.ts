@@ -103,7 +103,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/scorers/{scorer_id}/version/code")(pathParams);
 
   const query = encodeFormQuery({
