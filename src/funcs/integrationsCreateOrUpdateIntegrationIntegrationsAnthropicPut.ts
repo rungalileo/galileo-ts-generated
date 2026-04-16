@@ -29,7 +29,7 @@ import { APICall, APIPromise } from "../types/async.js";
 import { Result } from "../types/fp.js";
 
 /**
- * Create Or Update Integration
+ * Create or update Anthropic integration
  *
  * @remarks
  * Create or update an Anthropic integration for this user from Galileo.

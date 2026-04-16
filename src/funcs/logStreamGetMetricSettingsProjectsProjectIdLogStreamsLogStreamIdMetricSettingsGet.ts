@@ -110,7 +110,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc(
     "/projects/{project_id}/log_streams/{log_stream_id}/metric_settings",
   )(pathParams);

@@ -5,8 +5,10 @@
 
 import { promptsAutogenLlmScorerScorersLlmAutogenPost } from "../funcs/promptsAutogenLlmScorerScorersLlmAutogenPost.js";
 import { promptsCreateCodeScorerVersionScorersScorerIdVersionCodePost } from "../funcs/promptsCreateCodeScorerVersionScorersScorerIdVersionCodePost.js";
+import { promptsCreateLlmScorerVersionScorersScorerIdVersionLlmPost } from "../funcs/promptsCreateLlmScorerVersionScorersScorerIdVersionLlmPost.js";
 import { promptsCreateLunaScorerVersionScorersScorerIdVersionLunaPost } from "../funcs/promptsCreateLunaScorerVersionScorersScorerIdVersionLunaPost.js";
 import { promptsCreatePresetScorerVersionScorersScorerIdVersionPresetPost } from "../funcs/promptsCreatePresetScorerVersionScorersScorerIdVersionPresetPost.js";
+import { promptsCreateScorersPost } from "../funcs/promptsCreateScorersPost.js";
 import { promptsDeleteScorerScorersScorerIdDelete } from "../funcs/promptsDeleteScorerScorersScorerIdDelete.js";
 import { promptsGetScorerScorersScorerIdGet } from "../funcs/promptsGetScorerScorersScorerIdGet.js";
 import { promptsGetScorerVersionCodeScorersScorerIdVersionCodeGet } from "../funcs/promptsGetScorerVersionCodeScorersScorerIdVersionCodeGet.js";
@@ -21,7 +23,10 @@ import { promptsListScorersWithFiltersScorersListPost } from "../funcs/promptsLi
 import { promptsListTagsScorersTagsGet } from "../funcs/promptsListTagsScorersTagsGet.js";
 import { promptsManualLlmValidateScorersLlmValidatePost } from "../funcs/promptsManualLlmValidateScorersLlmValidatePost.js";
 import { promptsRestoreScorerVersionScorersScorerIdVersionsVersionNumberRestorePost } from "../funcs/promptsRestoreScorerVersionScorersScorerIdVersionsVersionNumberRestorePost.js";
+import { promptsUpdateScorersScorerIdPatch } from "../funcs/promptsUpdateScorersScorerIdPatch.js";
+import { promptsValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost } from "../funcs/promptsValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost.js";
 import { promptsValidateCodeScorerScorersCodeValidatePost } from "../funcs/promptsValidateCodeScorerScorersCodeValidatePost.js";
+import { promptsValidateLlmScorerLogRecordScorersLlmValidateLogRecordPost } from "../funcs/promptsValidateLlmScorerLogRecordScorersLlmValidateLogRecordPost.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
 import * as models from "../models/index.js";
 import * as operations from "../models/operations/index.js";
@@ -53,6 +58,22 @@ export class Data extends ClientSDK {
     options?: RequestOptions,
   ): Promise<models.ScorerResponse> {
     return unwrapAsync(promptsGetScorerScorersScorerIdGet(
+      this,
+      security,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Update
+   */
+  async updateScorersScorerIdPatch(
+    security: operations.UpdateScorersScorerIdPatchSecurity,
+    request: operations.UpdateScorersScorerIdPatchRequest,
+    options?: RequestOptions,
+  ): Promise<models.ScorerResponse> {
+    return unwrapAsync(promptsUpdateScorersScorerIdPatch(
       this,
       security,
       request,
@@ -359,5 +380,83 @@ export class Data extends ClientSDK {
       request,
       options,
     ));
+  }
+
+  /**
+   * Create
+   */
+  async createScorersPost(
+    security: operations.CreateScorersPostSecurity,
+    request: models.CreateScorerRequest,
+    options?: RequestOptions,
+  ): Promise<models.ScorerResponse> {
+    return unwrapAsync(promptsCreateScorersPost(
+      this,
+      security,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Create Llm Scorer Version
+   */
+  async createLlmScorerVersionScorersScorerIdVersionLlmPost(
+    security:
+      operations.CreateLlmScorerVersionScorersScorerIdVersionLlmPostSecurity,
+    request:
+      operations.CreateLlmScorerVersionScorersScorerIdVersionLlmPostRequest,
+    options?: RequestOptions,
+  ): Promise<models.BaseScorerVersionResponse> {
+    return unwrapAsync(
+      promptsCreateLlmScorerVersionScorersScorerIdVersionLlmPost(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Validate Code Scorer Log Record
+   *
+   * @remarks
+   * Validate a code scorer using actual log records.
+   */
+  async validateCodeScorerLogRecordScorersCodeValidateLogRecordPost(
+    security:
+      operations.ValidateCodeScorerLogRecordScorersCodeValidateLogRecordPostSecurity,
+    request:
+      models.BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost,
+    options?: RequestOptions,
+  ): Promise<models.ValidateScorerLogRecordResponse> {
+    return unwrapAsync(
+      promptsValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Validate Llm Scorer Log Record
+   */
+  async validateLlmScorerLogRecordScorersLlmValidateLogRecordPost(
+    security:
+      operations.ValidateLlmScorerLogRecordScorersLlmValidateLogRecordPostSecurity,
+    request: models.ValidateLLMScorerLogRecordRequest,
+    options?: RequestOptions,
+  ): Promise<models.ValidateLLMScorerLogRecordResponse> {
+    return unwrapAsync(
+      promptsValidateLlmScorerLogRecordScorersLlmValidateLogRecordPost(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
   }
 }

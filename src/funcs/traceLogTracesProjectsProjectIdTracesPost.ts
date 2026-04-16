@@ -101,7 +101,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/projects/{project_id}/traces")(pathParams);
 
   const headers = new Headers(compactMap({
@@ -124,15 +123,6 @@ async function $do(
         value: resolveOAuth2Password(security?.oAuth2PasswordBearer, {
           defaults: { tokenURL: "https://api.galileo.ai/login" },
         }),
-      },
-    ],
-    [
-      {
-        type: "http:basic",
-        value: {
-          username: security?.httpBasic?.username,
-          password: security?.httpBasic?.password,
-        },
       },
     ],
   );

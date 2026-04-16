@@ -11,7 +11,8 @@ import { remap as remap$ } from "../lib/primitives.js";
  */
 export type DatasetCopyRecordData = {
   editType: "copy_record_data";
-  projectId: string;
+  projectId?: string | null | undefined;
+  queueId?: string | null | undefined;
   /**
    * List of trace or span IDs to copy data from
    */
@@ -29,7 +30,8 @@ export type DatasetCopyRecordData = {
 /** @internal */
 export type DatasetCopyRecordData$Outbound = {
   edit_type: "copy_record_data";
-  project_id: string;
+  project_id?: string | null | undefined;
+  queue_id?: string | null | undefined;
   ids: Array<string>;
   prepend: boolean;
   use_generated_output_column: boolean;
@@ -42,7 +44,8 @@ export const DatasetCopyRecordData$outboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     editType: z.literal("copy_record_data"),
-    projectId: z.string(),
+    projectId: z.optional(z.nullable(z.string())),
+    queueId: z.optional(z.nullable(z.string())),
     ids: z.array(z.string()),
     prepend: z._default(z.boolean(), true),
     useGeneratedOutputColumn: z._default(z.boolean(), false),
@@ -51,6 +54,7 @@ export const DatasetCopyRecordData$outboundSchema: z.ZodMiniType<
     return remap$(v, {
       editType: "edit_type",
       projectId: "project_id",
+      queueId: "queue_id",
       useGeneratedOutputColumn: "use_generated_output_column",
     });
   }),
