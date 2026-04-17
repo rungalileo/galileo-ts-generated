@@ -37,7 +37,7 @@ export type PromptRunSettings = {
   verbosity?: string | undefined;
   deploymentName?: string | null | undefined;
   modelAlias?: string | undefined;
-  temperature?: number | undefined;
+  temperature?: number | null | undefined;
   maxTokens?: number | undefined;
   stopSequences?: Array<string> | null | undefined;
   topP?: number | undefined;
@@ -89,7 +89,7 @@ export const PromptRunSettings$inboundSchema: z.ZodMiniType<
     verbosity: z._default(types.string(), "medium"),
     deployment_name: z.optional(z.nullable(types.string())),
     model_alias: z._default(types.string(), "gpt-5.1"),
-    temperature: z._default(types.number(), 1),
+    temperature: z.optional(z.nullable(types.number())),
     max_tokens: z._default(types.number(), 4096),
     stop_sequences: z.optional(z.nullable(z.array(types.string()))),
     top_p: z._default(types.number(), 1),
@@ -133,7 +133,7 @@ export type PromptRunSettings$Outbound = {
   verbosity: string;
   deployment_name?: string | null | undefined;
   model_alias: string;
-  temperature: number;
+  temperature?: number | null | undefined;
   max_tokens: number;
   stop_sequences?: Array<string> | null | undefined;
   top_p: number;
@@ -160,7 +160,7 @@ export const PromptRunSettings$outboundSchema: z.ZodMiniType<
     verbosity: z._default(z.string(), "medium"),
     deploymentName: z.optional(z.nullable(z.string())),
     modelAlias: z._default(z.string(), "gpt-5.1"),
-    temperature: z._default(z.number(), 1),
+    temperature: z.optional(z.nullable(z.number())),
     maxTokens: z._default(z.int(), 4096),
     stopSequences: z.optional(z.nullable(z.array(z.string()))),
     topP: z._default(z.number(), 1),

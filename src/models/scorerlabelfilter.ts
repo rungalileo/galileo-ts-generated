@@ -26,6 +26,7 @@ export type ScorerLabelFilter = {
   operator: ScorerLabelFilterOperator;
   value: string | Array<string>;
   caseSensitive?: boolean | undefined;
+  strict?: boolean | undefined;
 };
 
 /** @internal */
@@ -56,6 +57,7 @@ export type ScorerLabelFilter$Outbound = {
   operator: string;
   value: string | Array<string>;
   case_sensitive: boolean;
+  strict: boolean;
 };
 
 /** @internal */
@@ -68,6 +70,7 @@ export const ScorerLabelFilter$outboundSchema: z.ZodMiniType<
     operator: ScorerLabelFilterOperator$outboundSchema,
     value: smartUnion([z.string(), z.array(z.string())]),
     caseSensitive: z._default(z.boolean(), true),
+    strict: z._default(z.boolean(), true),
   }),
   z.transform((v) => {
     return remap$(v, {

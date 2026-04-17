@@ -244,8 +244,9 @@ function applyBearer(
 
 export function resolveGlobalSecurity(
   security: Partial<models.Security> | null | undefined,
+  allowedFields?: number[],
 ): SecurityState | null {
-  return resolveSecurity(
+  let inputs: SecurityInput[][] = [
     [
       {
         fieldName: "Galileo-API-Key",
@@ -253,7 +254,18 @@ export function resolveGlobalSecurity(
         value: security?.apiKeyHeader ?? env().GALILEOGENERATED_API_KEY_HEADER,
       },
     ],
-  );
+  ];
+
+  if (allowedFields) {
+    inputs = allowedFields.map((i) => {
+      if (i < 0 || i >= inputs.length) {
+        throw new RangeError(`invalid allowedFields index ${i}`);
+      }
+      return inputs[i]!;
+    });
+  }
+
+  return resolveSecurity(...inputs);
 }
 
 export async function extractSecurity<

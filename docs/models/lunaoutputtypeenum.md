@@ -13,5 +13,5 @@ let value: LunaOutputTypeEnum = "string";
 ## Values
 
 ```typescript
-"float" | "string" | "string_list" | Unrecognized<string>
+"float" | "string" | "string_list" | "bool_list" | Unrecognized<string>
 ```

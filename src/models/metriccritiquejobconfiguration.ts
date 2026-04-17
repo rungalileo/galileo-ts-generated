@@ -8,6 +8,8 @@ import { remap as remap$ } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
 import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
 import { discriminatedUnion } from "../types/discriminatedUnion.js";
+import * as openEnums from "../types/enums.js";
+import { OpenEnum } from "../types/enums.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -36,6 +38,15 @@ import {
   RecomputeSettingsRuns$outboundSchema,
 } from "./recomputesettingsruns.js";
 
+export const MetricCritiqueJobConfigurationProjectType = {
+  PromptEvaluation: "prompt_evaluation",
+  LlmMonitor: "llm_monitor",
+  GenAi: "gen_ai",
+} as const;
+export type MetricCritiqueJobConfigurationProjectType = OpenEnum<
+  typeof MetricCritiqueJobConfigurationProjectType
+>;
+
 export type RecomputeSettings =
   | RecomputeSettingsLogStream
   | RecomputeSettingsObserve
@@ -47,7 +58,7 @@ export type RecomputeSettings =
  * Info necessary to execute a metric critique job.
  */
 export type MetricCritiqueJobConfiguration = {
-  projectType: "prompt_evaluation";
+  projectType: MetricCritiqueJobConfigurationProjectType;
   metricName: string;
   scorerId?: string | null | undefined;
   critiqueIds: Array<string>;
@@ -60,6 +71,15 @@ export type MetricCritiqueJobConfiguration = {
     | null
     | undefined;
 };
+
+/** @internal */
+export const MetricCritiqueJobConfigurationProjectType$inboundSchema:
+  z.ZodMiniType<MetricCritiqueJobConfigurationProjectType, unknown> = openEnums
+    .inboundSchema(MetricCritiqueJobConfigurationProjectType);
+/** @internal */
+export const MetricCritiqueJobConfigurationProjectType$outboundSchema:
+  z.ZodMiniType<string, MetricCritiqueJobConfigurationProjectType> = openEnums
+    .outboundSchema(MetricCritiqueJobConfigurationProjectType);
 
 /** @internal */
 export const RecomputeSettings$inboundSchema: z.ZodMiniType<
@@ -112,7 +132,7 @@ export const MetricCritiqueJobConfiguration$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    project_type: types.literal("prompt_evaluation"),
+    project_type: MetricCritiqueJobConfigurationProjectType$inboundSchema,
     metric_name: types.string(),
     scorer_id: z.optional(z.nullable(types.string())),
     critique_ids: z.array(types.string()),
@@ -135,7 +155,7 @@ export const MetricCritiqueJobConfiguration$inboundSchema: z.ZodMiniType<
 );
 /** @internal */
 export type MetricCritiqueJobConfiguration$Outbound = {
-  project_type: "prompt_evaluation";
+  project_type: string;
   metric_name: string;
   scorer_id?: string | null | undefined;
   critique_ids: Array<string>;
@@ -154,7 +174,7 @@ export const MetricCritiqueJobConfiguration$outboundSchema: z.ZodMiniType<
   MetricCritiqueJobConfiguration
 > = z.pipe(
   z.object({
-    projectType: z.literal("prompt_evaluation"),
+    projectType: MetricCritiqueJobConfigurationProjectType$outboundSchema,
     metricName: z.string(),
     scorerId: z.optional(z.nullable(z.string())),
     critiqueIds: z.array(z.string()),

@@ -25,6 +25,11 @@ import {
   LogRecordsDateFilter$outboundSchema,
 } from "./logrecordsdatefilter.js";
 import {
+  LogRecordsFullyAnnotatedFilter,
+  LogRecordsFullyAnnotatedFilter$Outbound,
+  LogRecordsFullyAnnotatedFilter$outboundSchema,
+} from "./logrecordsfullyannotatedfilter.js";
+import {
   LogRecordsIDFilter,
   LogRecordsIDFilter$Outbound,
   LogRecordsIDFilter$outboundSchema,
@@ -50,6 +55,7 @@ export type LogRecordsExportRequestFilter =
   | LogRecordsBooleanFilter
   | LogRecordsCollectionFilter
   | LogRecordsDateFilter
+  | LogRecordsFullyAnnotatedFilter
   | LogRecordsIDFilter
   | LogRecordsNumberFilter
   | LogRecordsTextFilter;
@@ -78,6 +84,7 @@ export type LogRecordsExportRequest = {
       | LogRecordsBooleanFilter
       | LogRecordsCollectionFilter
       | LogRecordsDateFilter
+      | LogRecordsFullyAnnotatedFilter
       | LogRecordsIDFilter
       | LogRecordsNumberFilter
       | LogRecordsTextFilter
@@ -116,6 +123,7 @@ export type LogRecordsExportRequestFilter$Outbound =
   | LogRecordsBooleanFilter$Outbound
   | LogRecordsCollectionFilter$Outbound
   | LogRecordsDateFilter$Outbound
+  | LogRecordsFullyAnnotatedFilter$Outbound
   | LogRecordsIDFilter$Outbound
   | LogRecordsNumberFilter$Outbound
   | LogRecordsTextFilter$Outbound;
@@ -128,6 +136,7 @@ export const LogRecordsExportRequestFilter$outboundSchema: z.ZodMiniType<
   LogRecordsBooleanFilter$outboundSchema,
   LogRecordsCollectionFilter$outboundSchema,
   LogRecordsDateFilter$outboundSchema,
+  LogRecordsFullyAnnotatedFilter$outboundSchema,
   LogRecordsIDFilter$outboundSchema,
   LogRecordsNumberFilter$outboundSchema,
   LogRecordsTextFilter$outboundSchema,
@@ -153,6 +162,7 @@ export type LogRecordsExportRequest$Outbound = {
       | LogRecordsBooleanFilter$Outbound
       | LogRecordsCollectionFilter$Outbound
       | LogRecordsDateFilter$Outbound
+      | LogRecordsFullyAnnotatedFilter$Outbound
       | LogRecordsIDFilter$Outbound
       | LogRecordsNumberFilter$Outbound
       | LogRecordsTextFilter$Outbound
@@ -181,6 +191,7 @@ export const LogRecordsExportRequest$outboundSchema: z.ZodMiniType<
           LogRecordsBooleanFilter$outboundSchema,
           LogRecordsCollectionFilter$outboundSchema,
           LogRecordsDateFilter$outboundSchema,
+          LogRecordsFullyAnnotatedFilter$outboundSchema,
           LogRecordsIDFilter$outboundSchema,
           LogRecordsNumberFilter$outboundSchema,
           LogRecordsTextFilter$outboundSchema,
