@@ -203,6 +203,7 @@ run();
 
 * [deleteScorerScorersScorerIdDelete](docs/sdks/data/README.md#deletescorerscorersscoreriddelete) - Delete Scorer
 * [getScorerScorersScorerIdGet](docs/sdks/data/README.md#getscorerscorersscoreridget) - Get Scorer
+* [updateScorersScorerIdPatch](docs/sdks/data/README.md#updatescorersscoreridpatch) - Update
 * [validateCodeScorerScorersCodeValidatePost](docs/sdks/data/README.md#validatecodescorerscorerscodevalidatepost) - Validate Code Scorer
 * [getValidateCodeScorerTaskResultScorersCodeValidateTaskIdGet](docs/sdks/data/README.md#getvalidatecodescorertaskresultscorerscodevalidatetaskidget) - Get Validate Code Scorer Task Result
 * [createCodeScorerVersionScorersScorerIdVersionCodePost](docs/sdks/data/README.md#createcodescorerversionscorersscoreridversioncodepost) - Create Code Scorer Version
@@ -218,6 +219,10 @@ run();
 * [restoreScorerVersionScorersScorerIdVersionsVersionNumberRestorePost](docs/sdks/data/README.md#restorescorerversionscorersscoreridversionsversionnumberrestorepost) - Restore Scorer Version
 * [autogenLlmScorerScorersLlmAutogenPost](docs/sdks/data/README.md#autogenllmscorerscorersllmautogenpost) - Autogen Llm Scorer
 * [manualLlmValidateScorersLlmValidatePost](docs/sdks/data/README.md#manualllmvalidatescorersllmvalidatepost) - Manual Llm Validate
+* [createScorersPost](docs/sdks/data/README.md#createscorerspost) - Create
+* [createLlmScorerVersionScorersScorerIdVersionLlmPost](docs/sdks/data/README.md#createllmscorerversionscorersscoreridversionllmpost) - Create Llm Scorer Version
+* [validateCodeScorerLogRecordScorersCodeValidateLogRecordPost](docs/sdks/data/README.md#validatecodescorerlogrecordscorerscodevalidatelogrecordpost) - Validate Code Scorer Log Record
+* [validateLlmScorerLogRecordScorersLlmValidateLogRecordPost](docs/sdks/data/README.md#validatellmscorerlogrecordscorersllmvalidatelogrecordpost) - Validate Llm Scorer Log Record
 
 ### [Datasets](docs/sdks/datasets/README.md)
 
@@ -253,20 +258,22 @@ run();
 * [listDatasetProjectsDatasetsDatasetIdProjectsGet](docs/sdks/datasets/README.md#listdatasetprojectsdatasetsdatasetidprojectsget) - List Dataset Projects
 * [extendDatasetContentDatasetsExtendPost](docs/sdks/datasets/README.md#extenddatasetcontentdatasetsextendpost) - Extend Dataset Content
 * [getDatasetSyntheticExtendStatusDatasetsExtendDatasetIdGet](docs/sdks/datasets/README.md#getdatasetsyntheticextendstatusdatasetsextenddatasetidget) - Get Dataset Synthetic Extend Status
+* [getDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet](docs/sdks/datasets/README.md#getdatasetvariablepreviewdatasetsdatasetidvariablepreviewget) - Get Dataset Variable Preview
 
 ### [Experiment](docs/sdks/experiment/README.md)
 
 * [~~listExperimentsProjectsProjectIdExperimentsGet~~](docs/sdks/experiment/README.md#listexperimentsprojectsprojectidexperimentsget) - List Experiments :warning: **Deprecated**
+* [createExperimentProjectsProjectIdExperimentsPost](docs/sdks/experiment/README.md#createexperimentprojectsprojectidexperimentspost) - Create Experiment
 * [listExperimentsPaginatedProjectsProjectIdExperimentsPaginatedGet](docs/sdks/experiment/README.md#listexperimentspaginatedprojectsprojectidexperimentspaginatedget) - List Experiments Paginated
 * [searchExperimentsProjectsProjectIdExperimentsSearchPost](docs/sdks/experiment/README.md#searchexperimentsprojectsprojectidexperimentssearchpost) - Search Experiments
 * [getExperimentProjectsProjectIdExperimentsExperimentIdGet](docs/sdks/experiment/README.md#getexperimentprojectsprojectidexperimentsexperimentidget) - Get Experiment
 * [updateExperimentProjectsProjectIdExperimentsExperimentIdPut](docs/sdks/experiment/README.md#updateexperimentprojectsprojectidexperimentsexperimentidput) - Update Experiment
 * [deleteExperimentProjectsProjectIdExperimentsExperimentIdDelete](docs/sdks/experiment/README.md#deleteexperimentprojectsprojectidexperimentsexperimentiddelete) - Delete Experiment
 * [experimentsAvailableColumnsProjectsProjectIdExperimentsAvailableColumnsPost](docs/sdks/experiment/README.md#experimentsavailablecolumnsprojectsprojectidexperimentsavailablecolumnspost) - Experiments Available Columns
-* [getExperimentMetricsProjectsProjectIdExperimentsExperimentIdMetricsPost](docs/sdks/experiment/README.md#getexperimentmetricsprojectsprojectidexperimentsexperimentidmetricspost) - Get Experiment Metrics
-* [getExperimentsMetricsProjectsProjectIdExperimentsMetricsPost](docs/sdks/experiment/README.md#getexperimentsmetricsprojectsprojectidexperimentsmetricspost) - Get Experiments Metrics
 * [updateMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsPatch](docs/sdks/experiment/README.md#updatemetricsettingsprojectsprojectidexperimentsexperimentidmetricsettingspatch) - Update Metric Settings
 * [getMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsGet](docs/sdks/experiment/README.md#getmetricsettingsprojectsprojectidexperimentsexperimentidmetricsettingsget) - Get Metric Settings
+* [getExperimentMetricsProjectsProjectIdExperimentsExperimentIdMetricsPost](docs/sdks/experiment/README.md#getexperimentmetricsprojectsprojectidexperimentsexperimentidmetricspost) - Get Experiment Metrics
+* [getExperimentsMetricsProjectsProjectIdExperimentsMetricsPost](docs/sdks/experiment/README.md#getexperimentsmetricsprojectsprojectidexperimentsmetricspost) - Get Experiments Metrics
 
 ### [ExperimentTags](docs/sdks/experimenttags/README.md)
 
@@ -282,9 +289,7 @@ run();
 
 ### [Integrations](docs/sdks/integrations/README.md)
 
-* [listIntegrationsIntegrationsGet](docs/sdks/integrations/README.md#listintegrationsintegrationsget) - List Integrations
 * [listAvailableIntegrationsIntegrationsAvailableGet](docs/sdks/integrations/README.md#listavailableintegrationsintegrationsavailableget) - List Available Integrations
-* [deleteIntegrationIntegrationsNameDelete](docs/sdks/integrations/README.md#deleteintegrationintegrationsnamedelete) - Delete Integration
 * [getIntegrationIntegrationsNameGet](docs/sdks/integrations/README.md#getintegrationintegrationsnameget) - Get Integration
 * [getIntegrationStatusIntegrationsNameStatusGet](docs/sdks/integrations/README.md#getintegrationstatusintegrationsnamestatusget) - Get Integration Status
 * [listUserIntegrationCollaboratorsIntegrationsIntegrationIdUsersGet](docs/sdks/integrations/README.md#listuserintegrationcollaboratorsintegrationsintegrationidusersget) - List User Integration Collaborators
@@ -296,21 +301,21 @@ run();
 * [updateGroupIntegrationCollaboratorIntegrationsIntegrationIdGroupsGroupIdPatch](docs/sdks/integrations/README.md#updategroupintegrationcollaboratorintegrationsintegrationidgroupsgroupidpatch) - Update Group Integration Collaborator
 * [deleteGroupIntegrationCollaboratorIntegrationsIntegrationIdGroupsGroupIdDelete](docs/sdks/integrations/README.md#deletegroupintegrationcollaboratorintegrationsintegrationidgroupsgroupiddelete) - Delete Group Integration Collaborator
 * [createOrUpdateIntegrationSelectionIntegrationsIntegrationIdSelectPut](docs/sdks/integrations/README.md#createorupdateintegrationselectionintegrationsintegrationidselectput) - Create Or Update Integration Selection
-* [createOrUpdateIntegrationIntegrationsAnthropicPut](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsanthropicput) - Create Or Update Integration
-* [createOrUpdateIntegrationIntegrationsAwsBedrockPut](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsawsbedrockput) - Create Or Update Integration
-* [createOrUpdateIntegrationIntegrationsAwsSagemakerPut](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsawssagemakerput) - Create Or Update Integration
-* [createOrUpdateIntegrationIntegrationsAzurePut](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsazureput) - Create Or Update Integration
-* [createOrUpdateIntegrationIntegrationsCustomPut](docs/sdks/integrations/README.md#createorupdateintegrationintegrationscustomput) - Create Or Update Integration
-* [~~createOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPut~~](docs/sdks/integrations/README.md#createorupdateunitycatalogintegrationintegrationsdatabricksunitycatalogsqlput) - Create Or Update Unity Catalog Integration :warning: **Deprecated**
-* [createOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPut](docs/sdks/integrations/README.md#createorupdateunitycatalogintegrationintegrationsdatabricksput) - Create Or Update Unity Catalog Integration
+* [createOrUpdateIntegrationIntegrationsAnthropicPut](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsanthropicput) - Create or update Anthropic integration
+* [createOrUpdateIntegrationIntegrationsAwsBedrockPut](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsawsbedrockput) - Create or update AWS Bedrock integration
+* [createOrUpdateIntegrationIntegrationsAwsSagemakerPut](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsawssagemakerput) - Create or update AWS SageMaker integration
+* [createOrUpdateIntegrationIntegrationsAzurePut](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsazureput) - Create or update Azure integration
+* [createOrUpdateIntegrationIntegrationsCustomPut](docs/sdks/integrations/README.md#createorupdateintegrationintegrationscustomput) - Create or update custom integration
+* [~~createOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPut~~](docs/sdks/integrations/README.md#createorupdateunitycatalogintegrationintegrationsdatabricksunitycatalogsqlput) - Create or update Databricks integration (legacy) :warning: **Deprecated**
+* [createOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPut](docs/sdks/integrations/README.md#createorupdateunitycatalogintegrationintegrationsdatabricksput) - Create or update Databricks integration
 * [getDatabricksCatalogsIntegrationsDatabricksCatalogsGet](docs/sdks/integrations/README.md#getdatabrickscatalogsintegrationsdatabrickscatalogsget) - Get Databricks Catalogs
 * [getDatabasesForClusterIntegrationsDatabricksDatabasesGet](docs/sdks/integrations/README.md#getdatabasesforclusterintegrationsdatabricksdatabasesget) - Get Databases For Cluster
-* [createOrUpdateIntegrationIntegrationsMistralPut](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsmistralput) - Create Or Update Integration
-* [createOrUpdateIntegrationIntegrationsNvidiaPut](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsnvidiaput) - Create Or Update Integration
-* [createOrUpdateIntegrationIntegrationsOpenaiPut](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsopenaiput) - Create Or Update Integration
-* [createOrUpdateIntegrationIntegrationsVegasGatewayPut](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsvegasgatewayput) - Create Or Update Integration
-* [createOrUpdateIntegrationIntegrationsVertexAiPut](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsvertexaiput) - Create Or Update Integration
-* [createOrUpdateIntegrationIntegrationsWriterPut](docs/sdks/integrations/README.md#createorupdateintegrationintegrationswriterput) - Create Or Update Integration
+* [createOrUpdateIntegrationIntegrationsMistralPut](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsmistralput) - Create or update Mistral integration
+* [createOrUpdateIntegrationIntegrationsNvidiaPut](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsnvidiaput) - Create or update NVIDIA integration
+* [createOrUpdateIntegrationIntegrationsOpenaiPut](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsopenaiput) - Create or update OpenAI integration
+* [createOrUpdateIntegrationIntegrationsVegasGatewayPut](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsvegasgatewayput) - Create or update Vegas Gateway integration
+* [createOrUpdateIntegrationIntegrationsVertexAiPut](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsvertexaiput) - Create or update Vertex AI integration
+* [createOrUpdateIntegrationIntegrationsWriterPut](docs/sdks/integrations/README.md#createorupdateintegrationintegrationswriterput) - Create or update Writer integration
 
 ### [Jobs](docs/sdks/jobs/README.md)
 
@@ -323,8 +328,6 @@ run();
 
 * [getAvailableModelsLlmIntegrationsLlmIntegrationModelsGet](docs/sdks/llmintegrations/README.md#getavailablemodelsllmintegrationsllmintegrationmodelsget) - Get Available Models
 * [getAvailableScorerModelsLlmIntegrationsLlmIntegrationScorerModelsGet](docs/sdks/llmintegrations/README.md#getavailablescorermodelsllmintegrationsllmintegrationscorermodelsget) - Get Available Scorer Models
-* [getIntegrationsAndModelInfoLlmIntegrationsGet](docs/sdks/llmintegrations/README.md#getintegrationsandmodelinfollmintegrationsget) - Get Integrations And Model Info
-* [getIntegrationsAndModelInfoForRunLlmIntegrationsProjectsProjectIdRunsRunIdGet](docs/sdks/llmintegrations/README.md#getintegrationsandmodelinfoforrunllmintegrationsprojectsprojectidrunsrunidget) - Get Integrations And Model Info For Run
 
 ### [LogStream](docs/sdks/logstream/README.md)
 
@@ -391,6 +394,7 @@ run();
 * [deleteGroupPromptTemplateCollaboratorTemplatesTemplateIdGroupsGroupIdDelete](docs/sdks/prompts/README.md#deletegroupprompttemplatecollaboratortemplatestemplateidgroupsgroupiddelete) - Delete Group Prompt Template Collaborator
 * [deleteScorerScorersScorerIdDelete](docs/sdks/prompts/README.md#deletescorerscorersscoreriddelete) - Delete Scorer
 * [getScorerScorersScorerIdGet](docs/sdks/prompts/README.md#getscorerscorersscoreridget) - Get Scorer
+* [updateScorersScorerIdPatch](docs/sdks/prompts/README.md#updatescorersscoreridpatch) - Update
 * [validateCodeScorerScorersCodeValidatePost](docs/sdks/prompts/README.md#validatecodescorerscorerscodevalidatepost) - Validate Code Scorer
 * [getValidateCodeScorerTaskResultScorersCodeValidateTaskIdGet](docs/sdks/prompts/README.md#getvalidatecodescorertaskresultscorerscodevalidatetaskidget) - Get Validate Code Scorer Task Result
 * [createCodeScorerVersionScorersScorerIdVersionCodePost](docs/sdks/prompts/README.md#createcodescorerversionscorersscoreridversioncodepost) - Create Code Scorer Version
@@ -406,6 +410,10 @@ run();
 * [restoreScorerVersionScorersScorerIdVersionsVersionNumberRestorePost](docs/sdks/prompts/README.md#restorescorerversionscorersscoreridversionsversionnumberrestorepost) - Restore Scorer Version
 * [autogenLlmScorerScorersLlmAutogenPost](docs/sdks/prompts/README.md#autogenllmscorerscorersllmautogenpost) - Autogen Llm Scorer
 * [manualLlmValidateScorersLlmValidatePost](docs/sdks/prompts/README.md#manualllmvalidatescorersllmvalidatepost) - Manual Llm Validate
+* [createScorersPost](docs/sdks/prompts/README.md#createscorerspost) - Create
+* [createLlmScorerVersionScorersScorerIdVersionLlmPost](docs/sdks/prompts/README.md#createllmscorerversionscorersscoreridversionllmpost) - Create Llm Scorer Version
+* [validateCodeScorerLogRecordScorersCodeValidateLogRecordPost](docs/sdks/prompts/README.md#validatecodescorerlogrecordscorerscodevalidatelogrecordpost) - Validate Code Scorer Log Record
+* [validateLlmScorerLogRecordScorersLlmValidateLogRecordPost](docs/sdks/prompts/README.md#validatellmscorerlogrecordscorersllmvalidatelogrecordpost) - Validate Llm Scorer Log Record
 
 ### [Protect](docs/sdks/protect/README.md)
 
@@ -419,6 +427,7 @@ run();
 
 * [deleteScorerScorersScorerIdDelete](docs/sdks/rows/README.md#deletescorerscorersscoreriddelete) - Delete Scorer
 * [getScorerScorersScorerIdGet](docs/sdks/rows/README.md#getscorerscorersscoreridget) - Get Scorer
+* [updateScorersScorerIdPatch](docs/sdks/rows/README.md#updatescorersscoreridpatch) - Update
 * [validateCodeScorerScorersCodeValidatePost](docs/sdks/rows/README.md#validatecodescorerscorerscodevalidatepost) - Validate Code Scorer
 * [getValidateCodeScorerTaskResultScorersCodeValidateTaskIdGet](docs/sdks/rows/README.md#getvalidatecodescorertaskresultscorerscodevalidatetaskidget) - Get Validate Code Scorer Task Result
 * [createCodeScorerVersionScorersScorerIdVersionCodePost](docs/sdks/rows/README.md#createcodescorerversionscorersscoreridversioncodepost) - Create Code Scorer Version
@@ -434,6 +443,10 @@ run();
 * [restoreScorerVersionScorersScorerIdVersionsVersionNumberRestorePost](docs/sdks/rows/README.md#restorescorerversionscorersscoreridversionsversionnumberrestorepost) - Restore Scorer Version
 * [autogenLlmScorerScorersLlmAutogenPost](docs/sdks/rows/README.md#autogenllmscorerscorersllmautogenpost) - Autogen Llm Scorer
 * [manualLlmValidateScorersLlmValidatePost](docs/sdks/rows/README.md#manualllmvalidatescorersllmvalidatepost) - Manual Llm Validate
+* [createScorersPost](docs/sdks/rows/README.md#createscorerspost) - Create
+* [createLlmScorerVersionScorersScorerIdVersionLlmPost](docs/sdks/rows/README.md#createllmscorerversionscorersscoreridversionllmpost) - Create Llm Scorer Version
+* [validateCodeScorerLogRecordScorersCodeValidateLogRecordPost](docs/sdks/rows/README.md#validatecodescorerlogrecordscorerscodevalidatelogrecordpost) - Validate Code Scorer Log Record
+* [validateLlmScorerLogRecordScorersLlmValidateLogRecordPost](docs/sdks/rows/README.md#validatellmscorerlogrecordscorersllmvalidatelogrecordpost) - Validate Llm Scorer Log Record
 
 ### [RunScorerSettings](docs/sdks/runscorersettings/README.md)
 
@@ -450,6 +463,8 @@ run();
 
 ### [Trace](docs/sdks/trace/README.md)
 
+* [getAggregatedTraceViewProjectsProjectIdTracesAggregatedPost](docs/sdks/trace/README.md#getaggregatedtraceviewprojectsprojectidtracesaggregatedpost) - Get Aggregated Trace View
+* [recomputeMetricsProjectsProjectIdRecomputeMetricsPost](docs/sdks/trace/README.md#recomputemetricsprojectsprojectidrecomputemetricspost) - Recompute Metrics
 * [logTracesProjectsProjectIdTracesPost](docs/sdks/trace/README.md#logtracesprojectsprojectidtracespost) - Log Traces
 * [updateTraceProjectsProjectIdTracesTraceIdPatch](docs/sdks/trace/README.md#updatetraceprojectsprojectidtracestraceidpatch) - Update Trace
 * [getTraceProjectsProjectIdTracesTraceIdGet](docs/sdks/trace/README.md#gettraceprojectsprojectidtracestraceidget) - Get Trace
@@ -458,6 +473,7 @@ run();
 * [tracesAvailableColumnsProjectsProjectIdTracesAvailableColumnsPost](docs/sdks/trace/README.md#tracesavailablecolumnsprojectsprojectidtracesavailablecolumnspost) - Traces Available Columns
 * [metricsTestingAvailableColumnsProjectsProjectIdMetricsTestingAvailableColumnsPost](docs/sdks/trace/README.md#metricstestingavailablecolumnsprojectsprojectidmetricstestingavailablecolumnspost) - Metrics Testing Available Columns
 * [spansAvailableColumnsProjectsProjectIdSpansAvailableColumnsPost](docs/sdks/trace/README.md#spansavailablecolumnsprojectsprojectidspansavailablecolumnspost) - Spans Available Columns
+* [sessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPost](docs/sdks/trace/README.md#sessionsavailablecolumnsprojectsprojectidsessionsavailablecolumnspost) - Sessions Available Columns
 * [queryTracesProjectsProjectIdTracesSearchPost](docs/sdks/trace/README.md#querytracesprojectsprojectidtracessearchpost) - Query Traces
 * [queryPartialTracesProjectsProjectIdTracesPartialSearchPost](docs/sdks/trace/README.md#querypartialtracesprojectsprojectidtracespartialsearchpost) - Query Partial Traces
 * [countTracesProjectsProjectIdTracesCountPost](docs/sdks/trace/README.md#counttracesprojectsprojectidtracescountpost) - Count Traces
@@ -465,15 +481,15 @@ run();
 * [querySpansProjectsProjectIdSpansSearchPost](docs/sdks/trace/README.md#queryspansprojectsprojectidspanssearchpost) - Query Spans
 * [queryPartialSpansProjectsProjectIdSpansPartialSearchPost](docs/sdks/trace/README.md#querypartialspansprojectsprojectidspanspartialsearchpost) - Query Partial Spans
 * [countSpansProjectsProjectIdSpansCountPost](docs/sdks/trace/README.md#countspansprojectsprojectidspanscountpost) - Count Spans
+* [queryMetricsProjectsProjectIdMetricsSearchPost](docs/sdks/trace/README.md#querymetricsprojectsprojectidmetricssearchpost) - Query Metrics
+* [queryMetricsV2ProjectsProjectIdMetricsSearchV2Post](docs/sdks/trace/README.md#querymetricsv2projectsprojectidmetricssearchv2post) - Query Metrics V2
+* [queryCustomMetricsProjectsProjectIdMetricsCustomSearchPost](docs/sdks/trace/README.md#querycustommetricsprojectsprojectidmetricscustomsearchpost) - Query Custom Metrics
 * [createSessionProjectsProjectIdSessionsPost](docs/sdks/trace/README.md#createsessionprojectsprojectidsessionspost) - Create Session
 * [querySessionsProjectsProjectIdSessionsSearchPost](docs/sdks/trace/README.md#querysessionsprojectsprojectidsessionssearchpost) - Query Sessions
 * [queryPartialSessionsProjectsProjectIdSessionsPartialSearchPost](docs/sdks/trace/README.md#querypartialsessionsprojectsprojectidsessionspartialsearchpost) - Query Partial Sessions
 * [countSessionsProjectsProjectIdSessionsCountPost](docs/sdks/trace/README.md#countsessionsprojectsprojectidsessionscountpost) - Count Sessions
 * [getSessionProjectsProjectIdSessionsSessionIdGet](docs/sdks/trace/README.md#getsessionprojectsprojectidsessionssessionidget) - Get Session
-* [sessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPost](docs/sdks/trace/README.md#sessionsavailablecolumnsprojectsprojectidsessionsavailablecolumnspost) - Sessions Available Columns
-* [getAggregatedTraceViewProjectsProjectIdTracesAggregatedPost](docs/sdks/trace/README.md#getaggregatedtraceviewprojectsprojectidtracesaggregatedpost) - Get Aggregated Trace View
 * [exportRecordsProjectsProjectIdExportRecordsPost](docs/sdks/trace/README.md#exportrecordsprojectsprojectidexportrecordspost) - Export Records
-* [recomputeMetricsProjectsProjectIdRecomputeMetricsPost](docs/sdks/trace/README.md#recomputemetricsprojectsprojectidrecomputemetricspost) - Recompute Metrics
 * [deleteTracesProjectsProjectIdTracesDeletePost](docs/sdks/trace/README.md#deletetracesprojectsprojectidtracesdeletepost) - Delete Traces
 * [deleteSpansProjectsProjectIdSpansDeletePost](docs/sdks/trace/README.md#deletespansprojectsprojectidspansdeletepost) - Delete Spans
 * [deleteSessionsProjectsProjectIdSessionsDeletePost](docs/sdks/trace/README.md#deletesessionsprojectsprojectidsessionsdeletepost) - Delete Sessions
@@ -510,6 +526,7 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`datasetsGetDatasetContentDatasetsDatasetIdContentGet`](docs/sdks/datasets/README.md#getdatasetcontentdatasetsdatasetidcontentget) - Get Dataset Content
 - [`datasetsGetDatasetDatasetsDatasetIdGet`](docs/sdks/datasets/README.md#getdatasetdatasetsdatasetidget) - Get Dataset
 - [`datasetsGetDatasetSyntheticExtendStatusDatasetsExtendDatasetIdGet`](docs/sdks/datasets/README.md#getdatasetsyntheticextendstatusdatasetsextenddatasetidget) - Get Dataset Synthetic Extend Status
+- [`datasetsGetDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet`](docs/sdks/datasets/README.md#getdatasetvariablepreviewdatasetsdatasetidvariablepreviewget) - Get Dataset Variable Preview
 - [`datasetsGetDatasetVersionContentDatasetsDatasetIdVersionsVersionIndexContentGet`](docs/sdks/datasets/README.md#getdatasetversioncontentdatasetsdatasetidversionsversionindexcontentget) - Get Dataset Version Content
 - [`datasetsListDatasetProjectsDatasetsDatasetIdProjectsGet`](docs/sdks/datasets/README.md#listdatasetprojectsdatasetsdatasetidprojectsget) - List Dataset Projects
 - [`datasetsListDatasetsDatasetsGet`](docs/sdks/datasets/README.md#listdatasetsdatasetsget) - List Datasets
@@ -525,6 +542,7 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`datasetsUpdateGroupDatasetCollaboratorDatasetsDatasetIdGroupsGroupIdPatch`](docs/sdks/datasets/README.md#updategroupdatasetcollaboratordatasetsdatasetidgroupsgroupidpatch) - Update Group Dataset Collaborator
 - [`datasetsUpdateUserDatasetCollaboratorDatasetsDatasetIdUsersUserIdPatch`](docs/sdks/datasets/README.md#updateuserdatasetcollaboratordatasetsdatasetidusersuseridpatch) - Update User Dataset Collaborator
 - [`datasetsUpsertDatasetContentDatasetsDatasetIdContentPut`](docs/sdks/datasets/README.md#upsertdatasetcontentdatasetsdatasetidcontentput) - Upsert Dataset Content
+- [`experimentCreateExperimentProjectsProjectIdExperimentsPost`](docs/sdks/experiment/README.md#createexperimentprojectsprojectidexperimentspost) - Create Experiment
 - [`experimentDeleteExperimentProjectsProjectIdExperimentsExperimentIdDelete`](docs/sdks/experiment/README.md#deleteexperimentprojectsprojectidexperimentsexperimentiddelete) - Delete Experiment
 - [`experimentExperimentsAvailableColumnsProjectsProjectIdExperimentsAvailableColumnsPost`](docs/sdks/experiment/README.md#experimentsavailablecolumnsprojectsprojectidexperimentsavailablecolumnspost) - Experiments Available Columns
 - [`experimentGetExperimentMetricsProjectsProjectIdExperimentsExperimentIdMetricsPost`](docs/sdks/experiment/README.md#getexperimentmetricsprojectsprojectidexperimentsexperimentidmetricspost) - Get Experiment Metrics
@@ -542,22 +560,21 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`experimentUpdateMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsPatch`](docs/sdks/experiment/README.md#updatemetricsettingsprojectsprojectidexperimentsexperimentidmetricsettingspatch) - Update Metric Settings
 - [`healthHealthcheckHealthcheckGet`](docs/sdks/health/README.md#healthcheckhealthcheckget) - Healthcheck
 - [`integrationsCreateGroupIntegrationCollaboratorsIntegrationsIntegrationIdGroupsPost`](docs/sdks/integrations/README.md#creategroupintegrationcollaboratorsintegrationsintegrationidgroupspost) - Create Group Integration Collaborators
-- [`integrationsCreateOrUpdateIntegrationIntegrationsAnthropicPut`](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsanthropicput) - Create Or Update Integration
-- [`integrationsCreateOrUpdateIntegrationIntegrationsAwsBedrockPut`](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsawsbedrockput) - Create Or Update Integration
-- [`integrationsCreateOrUpdateIntegrationIntegrationsAwsSagemakerPut`](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsawssagemakerput) - Create Or Update Integration
-- [`integrationsCreateOrUpdateIntegrationIntegrationsAzurePut`](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsazureput) - Create Or Update Integration
-- [`integrationsCreateOrUpdateIntegrationIntegrationsCustomPut`](docs/sdks/integrations/README.md#createorupdateintegrationintegrationscustomput) - Create Or Update Integration
-- [`integrationsCreateOrUpdateIntegrationIntegrationsMistralPut`](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsmistralput) - Create Or Update Integration
-- [`integrationsCreateOrUpdateIntegrationIntegrationsNvidiaPut`](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsnvidiaput) - Create Or Update Integration
-- [`integrationsCreateOrUpdateIntegrationIntegrationsOpenaiPut`](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsopenaiput) - Create Or Update Integration
-- [`integrationsCreateOrUpdateIntegrationIntegrationsVegasGatewayPut`](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsvegasgatewayput) - Create Or Update Integration
-- [`integrationsCreateOrUpdateIntegrationIntegrationsVertexAiPut`](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsvertexaiput) - Create Or Update Integration
-- [`integrationsCreateOrUpdateIntegrationIntegrationsWriterPut`](docs/sdks/integrations/README.md#createorupdateintegrationintegrationswriterput) - Create Or Update Integration
+- [`integrationsCreateOrUpdateIntegrationIntegrationsAnthropicPut`](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsanthropicput) - Create or update Anthropic integration
+- [`integrationsCreateOrUpdateIntegrationIntegrationsAwsBedrockPut`](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsawsbedrockput) - Create or update AWS Bedrock integration
+- [`integrationsCreateOrUpdateIntegrationIntegrationsAwsSagemakerPut`](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsawssagemakerput) - Create or update AWS SageMaker integration
+- [`integrationsCreateOrUpdateIntegrationIntegrationsAzurePut`](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsazureput) - Create or update Azure integration
+- [`integrationsCreateOrUpdateIntegrationIntegrationsCustomPut`](docs/sdks/integrations/README.md#createorupdateintegrationintegrationscustomput) - Create or update custom integration
+- [`integrationsCreateOrUpdateIntegrationIntegrationsMistralPut`](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsmistralput) - Create or update Mistral integration
+- [`integrationsCreateOrUpdateIntegrationIntegrationsNvidiaPut`](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsnvidiaput) - Create or update NVIDIA integration
+- [`integrationsCreateOrUpdateIntegrationIntegrationsOpenaiPut`](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsopenaiput) - Create or update OpenAI integration
+- [`integrationsCreateOrUpdateIntegrationIntegrationsVegasGatewayPut`](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsvegasgatewayput) - Create or update Vegas Gateway integration
+- [`integrationsCreateOrUpdateIntegrationIntegrationsVertexAiPut`](docs/sdks/integrations/README.md#createorupdateintegrationintegrationsvertexaiput) - Create or update Vertex AI integration
+- [`integrationsCreateOrUpdateIntegrationIntegrationsWriterPut`](docs/sdks/integrations/README.md#createorupdateintegrationintegrationswriterput) - Create or update Writer integration
 - [`integrationsCreateOrUpdateIntegrationSelectionIntegrationsIntegrationIdSelectPut`](docs/sdks/integrations/README.md#createorupdateintegrationselectionintegrationsintegrationidselectput) - Create Or Update Integration Selection
-- [`integrationsCreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPut`](docs/sdks/integrations/README.md#createorupdateunitycatalogintegrationintegrationsdatabricksput) - Create Or Update Unity Catalog Integration
+- [`integrationsCreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPut`](docs/sdks/integrations/README.md#createorupdateunitycatalogintegrationintegrationsdatabricksput) - Create or update Databricks integration
 - [`integrationsCreateUserIntegrationCollaboratorsIntegrationsIntegrationIdUsersPost`](docs/sdks/integrations/README.md#createuserintegrationcollaboratorsintegrationsintegrationiduserspost) - Create User Integration Collaborators
 - [`integrationsDeleteGroupIntegrationCollaboratorIntegrationsIntegrationIdGroupsGroupIdDelete`](docs/sdks/integrations/README.md#deletegroupintegrationcollaboratorintegrationsintegrationidgroupsgroupiddelete) - Delete Group Integration Collaborator
-- [`integrationsDeleteIntegrationIntegrationsNameDelete`](docs/sdks/integrations/README.md#deleteintegrationintegrationsnamedelete) - Delete Integration
 - [`integrationsDeleteUserIntegrationCollaboratorIntegrationsIntegrationIdUsersUserIdDelete`](docs/sdks/integrations/README.md#deleteuserintegrationcollaboratorintegrationsintegrationidusersuseriddelete) - Delete User Integration Collaborator
 - [`integrationsGetDatabasesForClusterIntegrationsDatabricksDatabasesGet`](docs/sdks/integrations/README.md#getdatabasesforclusterintegrationsdatabricksdatabasesget) - Get Databases For Cluster
 - [`integrationsGetDatabricksCatalogsIntegrationsDatabricksCatalogsGet`](docs/sdks/integrations/README.md#getdatabrickscatalogsintegrationsdatabrickscatalogsget) - Get Databricks Catalogs
@@ -565,7 +582,6 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`integrationsGetIntegrationStatusIntegrationsNameStatusGet`](docs/sdks/integrations/README.md#getintegrationstatusintegrationsnamestatusget) - Get Integration Status
 - [`integrationsListAvailableIntegrationsIntegrationsAvailableGet`](docs/sdks/integrations/README.md#listavailableintegrationsintegrationsavailableget) - List Available Integrations
 - [`integrationsListGroupIntegrationCollaboratorsIntegrationsIntegrationIdGroupsGet`](docs/sdks/integrations/README.md#listgroupintegrationcollaboratorsintegrationsintegrationidgroupsget) - List Group Integration Collaborators
-- [`integrationsListIntegrationsIntegrationsGet`](docs/sdks/integrations/README.md#listintegrationsintegrationsget) - List Integrations
 - [`integrationsListUserIntegrationCollaboratorsIntegrationsIntegrationIdUsersGet`](docs/sdks/integrations/README.md#listuserintegrationcollaboratorsintegrationsintegrationidusersget) - List User Integration Collaborators
 - [`integrationsUpdateGroupIntegrationCollaboratorIntegrationsIntegrationIdGroupsGroupIdPatch`](docs/sdks/integrations/README.md#updategroupintegrationcollaboratorintegrationsintegrationidgroupsgroupidpatch) - Update Group Integration Collaborator
 - [`integrationsUpdateUserIntegrationCollaboratorIntegrationsIntegrationIdUsersUserIdPatch`](docs/sdks/integrations/README.md#updateuserintegrationcollaboratorintegrationsintegrationidusersuseridpatch) - Update User Integration Collaborator
@@ -575,8 +591,6 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`jobsGetLatestJobForProjectRunProjectsProjectIdRunsRunIdJobsLatestGet`](docs/sdks/jobs/README.md#getlatestjobforprojectrunprojectsprojectidrunsrunidjobslatestget) - Get Latest Job For Project Run
 - [`llmIntegrationsGetAvailableModelsLlmIntegrationsLlmIntegrationModelsGet`](docs/sdks/llmintegrations/README.md#getavailablemodelsllmintegrationsllmintegrationmodelsget) - Get Available Models
 - [`llmIntegrationsGetAvailableScorerModelsLlmIntegrationsLlmIntegrationScorerModelsGet`](docs/sdks/llmintegrations/README.md#getavailablescorermodelsllmintegrationsllmintegrationscorermodelsget) - Get Available Scorer Models
-- [`llmIntegrationsGetIntegrationsAndModelInfoForRunLlmIntegrationsProjectsProjectIdRunsRunIdGet`](docs/sdks/llmintegrations/README.md#getintegrationsandmodelinfoforrunllmintegrationsprojectsprojectidrunsrunidget) - Get Integrations And Model Info For Run
-- [`llmIntegrationsGetIntegrationsAndModelInfoLlmIntegrationsGet`](docs/sdks/llmintegrations/README.md#getintegrationsandmodelinfollmintegrationsget) - Get Integrations And Model Info
 - [`logStreamCreateLogStreamProjectsProjectIdLogStreamsPost`](docs/sdks/logstream/README.md#createlogstreamprojectsprojectidlogstreamspost) - Create Log Stream
 - [`logStreamDeleteLogStreamProjectsProjectIdLogStreamsLogStreamIdDelete`](docs/sdks/logstream/README.md#deletelogstreamprojectsprojectidlogstreamslogstreamiddelete) - Delete Log Stream
 - [`logStreamGetLogStreamProjectsProjectIdLogStreamsLogStreamIdGet`](docs/sdks/logstream/README.md#getlogstreamprojectsprojectidlogstreamslogstreamidget) - Get Log Stream
@@ -611,6 +625,9 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`promptsCreateGlobalPromptTemplateTemplatesPost`](docs/sdks/prompts/README.md#createglobalprompttemplatetemplatespost) - Create Global Prompt Template
 - [`promptsCreateGlobalPromptTemplateVersionTemplatesTemplateIdVersionsPost`](docs/sdks/prompts/README.md#createglobalprompttemplateversiontemplatestemplateidversionspost) - Create Global Prompt Template Version
 - [`promptsCreateGroupPromptTemplateCollaboratorsTemplatesTemplateIdGroupsPost`](docs/sdks/prompts/README.md#creategroupprompttemplatecollaboratorstemplatestemplateidgroupspost) - Create Group Prompt Template Collaborators
+- [`promptsCreateLlmScorerVersionScorersScorerIdVersionLlmPost`](docs/sdks/data/README.md#createllmscorerversionscorersscoreridversionllmpost) - Create Llm Scorer Version
+- [`promptsCreateLlmScorerVersionScorersScorerIdVersionLlmPost`](docs/sdks/prompts/README.md#createllmscorerversionscorersscoreridversionllmpost) - Create Llm Scorer Version
+- [`promptsCreateLlmScorerVersionScorersScorerIdVersionLlmPost`](docs/sdks/rows/README.md#createllmscorerversionscorersscoreridversionllmpost) - Create Llm Scorer Version
 - [`promptsCreateLunaScorerVersionScorersScorerIdVersionLunaPost`](docs/sdks/data/README.md#createlunascorerversionscorersscoreridversionlunapost) - Create Luna Scorer Version
 - [`promptsCreateLunaScorerVersionScorersScorerIdVersionLunaPost`](docs/sdks/prompts/README.md#createlunascorerversionscorersscoreridversionlunapost) - Create Luna Scorer Version
 - [`promptsCreateLunaScorerVersionScorersScorerIdVersionLunaPost`](docs/sdks/rows/README.md#createlunascorerversionscorersscoreridversionlunapost) - Create Luna Scorer Version
@@ -618,6 +635,9 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`promptsCreatePresetScorerVersionScorersScorerIdVersionPresetPost`](docs/sdks/prompts/README.md#createpresetscorerversionscorersscoreridversionpresetpost) - Create Preset Scorer Version
 - [`promptsCreatePresetScorerVersionScorersScorerIdVersionPresetPost`](docs/sdks/rows/README.md#createpresetscorerversionscorersscoreridversionpresetpost) - Create Preset Scorer Version
 - [`promptsCreatePromptTemplateWithVersionProjectsProjectIdTemplatesPost`](docs/sdks/prompts/README.md#createprompttemplatewithversionprojectsprojectidtemplatespost) - Create Prompt Template With Version
+- [`promptsCreateScorersPost`](docs/sdks/data/README.md#createscorerspost) - Create
+- [`promptsCreateScorersPost`](docs/sdks/prompts/README.md#createscorerspost) - Create
+- [`promptsCreateScorersPost`](docs/sdks/rows/README.md#createscorerspost) - Create
 - [`promptsCreateUserPromptTemplateCollaboratorsTemplatesTemplateIdUsersPost`](docs/sdks/prompts/README.md#createuserprompttemplatecollaboratorstemplatestemplateiduserspost) - Create User Prompt Template Collaborators
 - [`promptsDeleteGlobalTemplateTemplatesTemplateIdDelete`](docs/sdks/prompts/README.md#deleteglobaltemplatetemplatestemplateiddelete) - Delete Global Template
 - [`promptsDeleteGroupPromptTemplateCollaboratorTemplatesTemplateIdGroupsGroupIdDelete`](docs/sdks/prompts/README.md#deletegroupprompttemplatecollaboratortemplatestemplateidgroupsgroupiddelete) - Delete Group Prompt Template Collaborator
@@ -671,10 +691,19 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`promptsSetSelectedGlobalTemplateVersionTemplatesTemplateIdVersionsVersionPut`](docs/sdks/prompts/README.md#setselectedglobaltemplateversiontemplatestemplateidversionsversionput) - Set Selected Global Template Version
 - [`promptsUpdateGlobalTemplateTemplatesTemplateIdPatch`](docs/sdks/prompts/README.md#updateglobaltemplatetemplatestemplateidpatch) - Update Global Template
 - [`promptsUpdateGroupPromptTemplateCollaboratorTemplatesTemplateIdGroupsGroupIdPatch`](docs/sdks/prompts/README.md#updategroupprompttemplatecollaboratortemplatestemplateidgroupsgroupidpatch) - Update Group Prompt Template Collaborator
+- [`promptsUpdateScorersScorerIdPatch`](docs/sdks/data/README.md#updatescorersscoreridpatch) - Update
+- [`promptsUpdateScorersScorerIdPatch`](docs/sdks/prompts/README.md#updatescorersscoreridpatch) - Update
+- [`promptsUpdateScorersScorerIdPatch`](docs/sdks/rows/README.md#updatescorersscoreridpatch) - Update
 - [`promptsUpdateUserPromptTemplateCollaboratorTemplatesTemplateIdUsersUserIdPatch`](docs/sdks/prompts/README.md#updateuserprompttemplatecollaboratortemplatestemplateidusersuseridpatch) - Update User Prompt Template Collaborator
+- [`promptsValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost`](docs/sdks/data/README.md#validatecodescorerlogrecordscorerscodevalidatelogrecordpost) - Validate Code Scorer Log Record
+- [`promptsValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost`](docs/sdks/prompts/README.md#validatecodescorerlogrecordscorerscodevalidatelogrecordpost) - Validate Code Scorer Log Record
+- [`promptsValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost`](docs/sdks/rows/README.md#validatecodescorerlogrecordscorerscodevalidatelogrecordpost) - Validate Code Scorer Log Record
 - [`promptsValidateCodeScorerScorersCodeValidatePost`](docs/sdks/data/README.md#validatecodescorerscorerscodevalidatepost) - Validate Code Scorer
 - [`promptsValidateCodeScorerScorersCodeValidatePost`](docs/sdks/prompts/README.md#validatecodescorerscorerscodevalidatepost) - Validate Code Scorer
 - [`promptsValidateCodeScorerScorersCodeValidatePost`](docs/sdks/rows/README.md#validatecodescorerscorerscodevalidatepost) - Validate Code Scorer
+- [`promptsValidateLlmScorerLogRecordScorersLlmValidateLogRecordPost`](docs/sdks/data/README.md#validatellmscorerlogrecordscorersllmvalidatelogrecordpost) - Validate Llm Scorer Log Record
+- [`promptsValidateLlmScorerLogRecordScorersLlmValidateLogRecordPost`](docs/sdks/prompts/README.md#validatellmscorerlogrecordscorersllmvalidatelogrecordpost) - Validate Llm Scorer Log Record
+- [`promptsValidateLlmScorerLogRecordScorersLlmValidateLogRecordPost`](docs/sdks/rows/README.md#validatellmscorerlogrecordscorersllmvalidatelogrecordpost) - Validate Llm Scorer Log Record
 - [`protectCreateStageProjectsProjectIdStagesPost`](docs/sdks/protect/README.md#createstageprojectsprojectidstagespost) - Create Stage
 - [`protectCreateStageProjectsProjectIdStagesPost`](docs/sdks/stage/README.md#createstageprojectsprojectidstagespost) - Create Stage
 - [`protectGetStageProjectsProjectIdStagesGet`](docs/sdks/protect/README.md#getstageprojectsprojectidstagesget) - Get Stage
@@ -702,6 +731,9 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`traceLogSpansProjectsProjectIdSpansPost`](docs/sdks/trace/README.md#logspansprojectsprojectidspanspost) - Log Spans
 - [`traceLogTracesProjectsProjectIdTracesPost`](docs/sdks/trace/README.md#logtracesprojectsprojectidtracespost) - Log Traces
 - [`traceMetricsTestingAvailableColumnsProjectsProjectIdMetricsTestingAvailableColumnsPost`](docs/sdks/trace/README.md#metricstestingavailablecolumnsprojectsprojectidmetricstestingavailablecolumnspost) - Metrics Testing Available Columns
+- [`traceQueryCustomMetricsProjectsProjectIdMetricsCustomSearchPost`](docs/sdks/trace/README.md#querycustommetricsprojectsprojectidmetricscustomsearchpost) - Query Custom Metrics
+- [`traceQueryMetricsProjectsProjectIdMetricsSearchPost`](docs/sdks/trace/README.md#querymetricsprojectsprojectidmetricssearchpost) - Query Metrics
+- [`traceQueryMetricsV2ProjectsProjectIdMetricsSearchV2Post`](docs/sdks/trace/README.md#querymetricsv2projectsprojectidmetricssearchv2post) - Query Metrics V2
 - [`traceQueryPartialSessionsProjectsProjectIdSessionsPartialSearchPost`](docs/sdks/trace/README.md#querypartialsessionsprojectsprojectidsessionspartialsearchpost) - Query Partial Sessions
 - [`traceQueryPartialSpansProjectsProjectIdSpansPartialSearchPost`](docs/sdks/trace/README.md#querypartialspansprojectsprojectidspanspartialsearchpost) - Query Partial Spans
 - [`traceQueryPartialTracesProjectsProjectIdTracesPartialSearchPost`](docs/sdks/trace/README.md#querypartialtracesprojectsprojectidtracespartialsearchpost) - Query Partial Traces
@@ -720,7 +752,7 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - ~~[`datasetsUpdatePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdPut`](docs/sdks/datasets/README.md#updatepromptdatasetprojectsprojectidpromptdatasetsdatasetidput)~~ - Update Prompt Dataset :warning: **Deprecated**
 - ~~[`datasetsUploadPromptEvaluationDatasetProjectsProjectIdPromptDatasetsPost`](docs/sdks/datasets/README.md#uploadpromptevaluationdatasetprojectsprojectidpromptdatasetspost)~~ - Upload Prompt Evaluation Dataset :warning: **Deprecated**
 - ~~[`experimentListExperimentsProjectsProjectIdExperimentsGet`](docs/sdks/experiment/README.md#listexperimentsprojectsprojectidexperimentsget)~~ - List Experiments :warning: **Deprecated**
-- ~~[`integrationsCreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPut`](docs/sdks/integrations/README.md#createorupdateunitycatalogintegrationintegrationsdatabricksunitycatalogsqlput)~~ - Create Or Update Unity Catalog Integration :warning: **Deprecated**
+- ~~[`integrationsCreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPut`](docs/sdks/integrations/README.md#createorupdateunitycatalogintegrationintegrationsdatabricksunitycatalogsqlput)~~ - Create or update Databricks integration (legacy) :warning: **Deprecated**
 - ~~[`logStreamListLogStreamsProjectsProjectIdLogStreamsGet`](docs/sdks/logstream/README.md#listlogstreamsprojectsprojectidlogstreamsget)~~ - List Log Streams :warning: **Deprecated**
 - ~~[`projectsGetAllProjectsProjectsAllGet`](docs/sdks/projects/README.md#getallprojectsprojectsallget)~~ - Get All Projects :warning: **Deprecated**
 - ~~[`projectsGetProjectsProjectsGet`](docs/sdks/projects/README.md#getprojectsprojectsget)~~ - Get Projects :warning: **Deprecated**
@@ -880,11 +912,10 @@ run();
 ```
 
 ### Error Classes
-**Primary errors:**
+**Primary error:**
 * [`GalileoGeneratedError`](./src/models/errors/galileogeneratederror.ts): The base class for HTTP error responses.
-  * [`HTTPValidationError`](./src/models/errors/httpvalidationerror.ts): Status code `422`. *
 
-<details><summary>Less common errors (6)</summary>
+<details><summary>Less common errors (7)</summary>
 
 <br />
 
@@ -897,7 +928,8 @@ run();
 
 
 **Inherit from [`GalileoGeneratedError`](./src/models/errors/galileogeneratederror.ts)**:
-* [`ResponseValidationError`](./src/models/errors/responsevalidationerror.ts): Type mismatch between the data returned from the server and the structure expected by the SDK. See `error.pretty()` for a nicely formatted string.
+* [`HTTPValidationError`](./src/models/errors/httpvalidationerror.ts): Status code `422`. Applicable to 196 of 249 methods.*
+* [`ResponseValidationError`](./src/models/errors/responsevalidationerror.ts): Type mismatch between the data returned from the server and the structure expected by the SDK. See `error.rawValue` for the raw value and `error.pretty()` for a nicely formatted multi-line string.
 
 </details>
 
