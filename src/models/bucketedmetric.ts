@@ -4,26 +4,49 @@
  */
 
 import * as z from "zod/v4-mini";
+import { remap as remap$ } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
+import {
+  OutputTypeEnum,
+  OutputTypeEnum$inboundSchema,
+} from "./outputtypeenum.js";
+import {
+  RollUpMethodDisplayOptions,
+  RollUpMethodDisplayOptions$inboundSchema,
+} from "./rollupmethoddisplayoptions.js";
 
 export type BucketedMetric = {
   name: string;
   buckets: { [k: string]: number };
   average?: number | null | undefined;
+  rollUpMethod?: RollUpMethodDisplayOptions | null | undefined;
+  dataType?: OutputTypeEnum | null | undefined;
 };
 
 /** @internal */
 export const BucketedMetric$inboundSchema: z.ZodMiniType<
   BucketedMetric,
   unknown
-> = z.object({
-  name: types.string(),
-  buckets: z.record(z.string(), types.number()),
-  average: z.optional(z.nullable(types.number())),
-});
+> = z.pipe(
+  z.object({
+    name: types.string(),
+    buckets: z.record(z.string(), types.number()),
+    average: z.optional(z.nullable(types.number())),
+    roll_up_method: z.optional(
+      z.nullable(RollUpMethodDisplayOptions$inboundSchema),
+    ),
+    data_type: z.optional(z.nullable(OutputTypeEnum$inboundSchema)),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "roll_up_method": "rollUpMethod",
+      "data_type": "dataType",
+    });
+  }),
+);
 
 export function bucketedMetricFromJSON(
   jsonString: string,

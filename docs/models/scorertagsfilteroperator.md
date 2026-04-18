@@ -5,11 +5,11 @@
 ```typescript
 import { ScorerTagsFilterOperator } from "galileo-generated/models";
 
-let value: ScorerTagsFilterOperator = "contains";
+let value: ScorerTagsFilterOperator = "one_of";
 ```
 
 ## Values
 
 ```typescript
-"eq" | "contains" | "not_in"
+"eq" | "contains" | "one_of" | "not_in"
 ```

@@ -5,7 +5,15 @@
 ```typescript
 import { FineTunedScorer } from "galileo-generated/models";
 
-let value: FineTunedScorer = {};
+let value: FineTunedScorer = {
+  filters: [
+    {
+      name: "modality",
+      operator: "not_in",
+      value: "ENUM_VALUE",
+    },
+  ],
+};
 ```
 
 ## Fields

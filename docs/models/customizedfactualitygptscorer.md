@@ -7,6 +7,14 @@ import { CustomizedFactualityGPTScorer } from "galileo-generated/models";
 
 let value: CustomizedFactualityGPTScorer = {
   scorerName: "_customized_factuality",
+  filters: [
+    {
+      name: "node_name",
+      operator: "ne",
+      value: "<value>",
+      caseSensitive: true,
+    },
+  ],
 };
 ```
 

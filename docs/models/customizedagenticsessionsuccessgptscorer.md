@@ -7,6 +7,14 @@ import { CustomizedAgenticSessionSuccessGPTScorer } from "galileo-generated/mode
 
 let value: CustomizedAgenticSessionSuccessGPTScorer = {
   scorerName: "_customized_agentic_session_success",
+  filters: [
+    {
+      name: "metadata",
+      operator: "one_of",
+      key: "<key>",
+      value: "<value>",
+    },
+  ],
 };
 ```
 

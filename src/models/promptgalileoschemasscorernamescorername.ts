@@ -12,6 +12,7 @@ export const PromptgalileoSchemasScorerNameScorerName = {
   ContextAdherenceLuna: "_context_adherence_luna",
   ContextRelevance: "_context_relevance",
   ContextRelevanceLuna: "_context_relevance_luna",
+  ChunkRelevanceLuna: "_chunk_relevance_luna",
   ChunkAttributionUtilizationGpt: "_chunk_attribution_utilization_gpt",
   Factuality: "_factuality",
   Groundedness: "_groundedness",
