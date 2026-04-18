@@ -13,5 +13,5 @@ let value: AuthMethod = "azure-ad";
 ## Values
 
 ```typescript
-"email" | "google" | "github" | "okta" | "azure-ad" | "custom" | "saml" | Unrecognized<string>
+"email" | "google" | "github" | "okta" | "azure-ad" | "custom" | "saml" | "invite" | Unrecognized<string>
 ```

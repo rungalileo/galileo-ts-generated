@@ -11,6 +11,14 @@ const value: models.PartialExtendedAgentSpanRecord = {
 };
 ```
 
+### `models.PartialExtendedControlSpanRecord`
+
+```typescript
+const value: models.PartialExtendedControlSpanRecord = {
+  type: "control",
+};
+```
+
 ### `models.PartialExtendedLlmSpanRecord`
 
 ```typescript

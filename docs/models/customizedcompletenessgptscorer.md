@@ -7,6 +7,13 @@ import { CustomizedCompletenessGPTScorer } from "galileo-generated/models";
 
 let value: CustomizedCompletenessGPTScorer = {
   scorerName: "_customized_completeness_gpt",
+  filters: [
+    {
+      name: "modality",
+      operator: "ne",
+      value: "ENUM_VALUE",
+    },
+  ],
 };
 ```
 
