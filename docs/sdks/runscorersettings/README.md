@@ -27,6 +27,24 @@ async function run() {
     projectId: "<value>",
     runId: "<value>",
     body: {
+      scorers: [
+        {
+          filters: null,
+          id: "<value>",
+          scorerType: "preset",
+        },
+      ],
+      segmentFilters: [
+        {
+          filter: {
+            name: "metadata",
+            operator: "eq",
+            key: "<key>",
+            value: "<value>",
+          },
+          sampleRate: 9527.61,
+        },
+      ],
       runId: "<value>",
     },
   });
@@ -58,6 +76,24 @@ async function run() {
     projectId: "<value>",
     runId: "<value>",
     body: {
+      scorers: [
+        {
+          filters: null,
+          id: "<value>",
+          scorerType: "preset",
+        },
+      ],
+      segmentFilters: [
+        {
+          filter: {
+            name: "metadata",
+            operator: "eq",
+            key: "<key>",
+            value: "<value>",
+          },
+          sampleRate: 9527.61,
+        },
+      ],
       runId: "<value>",
     },
   });
@@ -112,6 +148,29 @@ async function run() {
     projectId: "<value>",
     runId: "<value>",
     body: {
+      scorers: [
+        {
+          filters: [
+            {
+              name: "modality",
+              operator: "eq",
+              value: "ENUM_VALUE",
+            },
+          ],
+          id: "<value>",
+          scorerType: "preset",
+        },
+      ],
+      segmentFilters: [
+        {
+          filter: {
+            name: "modality",
+            operator: "ne",
+            value: "ENUM_VALUE",
+          },
+          sampleRate: 3983.6,
+        },
+      ],
       runId: "<value>",
     },
   });
@@ -141,6 +200,29 @@ async function run() {
     projectId: "<value>",
     runId: "<value>",
     body: {
+      scorers: [
+        {
+          filters: [
+            {
+              name: "modality",
+              operator: "eq",
+              value: "ENUM_VALUE",
+            },
+          ],
+          id: "<value>",
+          scorerType: "preset",
+        },
+      ],
+      segmentFilters: [
+        {
+          filter: {
+            name: "modality",
+            operator: "ne",
+            value: "ENUM_VALUE",
+          },
+          sampleRate: 3983.6,
+        },
+      ],
       runId: "<value>",
     },
   });

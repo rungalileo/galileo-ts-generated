@@ -27,6 +27,60 @@ async function run() {
   }, {
     projectId: "<value>",
     runId: "<value>",
+    scorers: [],
+    promptRegisteredScorersConfiguration: null,
+    promptFinetunedScorersConfiguration: [
+      {
+        filters: [
+          {
+            name: "modality",
+            operator: "not_in",
+            value: "ENUM_VALUE",
+          },
+        ],
+      },
+    ],
+    promptCustomizedScorersConfiguration: [
+      {
+        scorerName: "_customized_groundedness",
+        modelAlias: "gpt-4.1-mini",
+        numJudges: 3,
+        name: "context_adherence",
+        regexField: "",
+      },
+    ],
+    promptScorerSettings: {
+      filters: [
+        {
+          name: "node_name",
+          operator: "contains",
+          value: [],
+          caseSensitive: true,
+        },
+      ],
+    },
+    scorerConfig: {
+      filters: [
+        {
+          name: "metadata",
+          operator: "eq",
+          key: "<key>",
+          value: "<value>",
+        },
+      ],
+      id: "<value>",
+      scorerType: "llm",
+    },
+    segmentFilters: [
+      {
+        filter: {
+          name: "modality",
+          operator: "not_in",
+          value: "ENUM_VALUE",
+        },
+        sampleRate: 7227.56,
+      },
+    ],
   });
 
   console.log(result);
@@ -53,6 +107,60 @@ async function run() {
   }, {
     projectId: "<value>",
     runId: "<value>",
+    scorers: [],
+    promptRegisteredScorersConfiguration: null,
+    promptFinetunedScorersConfiguration: [
+      {
+        filters: [
+          {
+            name: "modality",
+            operator: "not_in",
+            value: "ENUM_VALUE",
+          },
+        ],
+      },
+    ],
+    promptCustomizedScorersConfiguration: [
+      {
+        scorerName: "_customized_groundedness",
+        modelAlias: "gpt-4.1-mini",
+        numJudges: 3,
+        name: "context_adherence",
+        regexField: "",
+      },
+    ],
+    promptScorerSettings: {
+      filters: [
+        {
+          name: "node_name",
+          operator: "contains",
+          value: [],
+          caseSensitive: true,
+        },
+      ],
+    },
+    scorerConfig: {
+      filters: [
+        {
+          name: "metadata",
+          operator: "eq",
+          key: "<key>",
+          value: "<value>",
+        },
+      ],
+      id: "<value>",
+      scorerType: "llm",
+    },
+    segmentFilters: [
+      {
+        filter: {
+          name: "modality",
+          operator: "not_in",
+          value: "ENUM_VALUE",
+        },
+        sampleRate: 7227.56,
+      },
+    ],
   });
   if (res.ok) {
     const { value: result } = res;
