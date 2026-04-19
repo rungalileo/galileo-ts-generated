@@ -7,6 +7,13 @@ import { CustomizedToolSelectionQualityGPTScorer } from "galileo-generated/model
 
 let value: CustomizedToolSelectionQualityGPTScorer = {
   scorerName: "_customized_tool_selection_quality",
+  filters: [
+    {
+      name: "modality",
+      operator: "ne",
+      value: "ENUM_VALUE",
+    },
+  ],
 };
 ```
 

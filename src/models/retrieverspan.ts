@@ -11,6 +11,11 @@ import {
   AgentSpan$outboundSchema,
 } from "./agentspan.js";
 import {
+  ControlSpan,
+  ControlSpan$Outbound,
+  ControlSpan$outboundSchema,
+} from "./controlspan.js";
+import {
   Document,
   Document$Outbound,
   Document$outboundSchema,
@@ -118,12 +123,20 @@ export type RetrieverSpan = {
    * Child spans.
    */
   spans?:
-    | Array<AgentSpan | LlmSpan | RetrieverSpan | ToolSpan | WorkflowSpan>
+    | Array<
+      | AgentSpan
+      | ControlSpan
+      | LlmSpan
+      | RetrieverSpan
+      | ToolSpan
+      | WorkflowSpan
+    >
     | undefined;
 };
 
 export type RetrieverSpanSpan =
   | AgentSpan
+  | ControlSpan
   | LlmSpan
   | RetrieverSpan
   | ToolSpan
@@ -154,6 +167,7 @@ export type RetrieverSpan$Outbound = {
   spans?:
     | Array<
       | AgentSpan$Outbound
+      | ControlSpan$Outbound
       | LlmSpan$Outbound
       | RetrieverSpan$Outbound
       | ToolSpan$Outbound
@@ -190,12 +204,13 @@ export const RetrieverSpan$outboundSchema: z.ZodMiniType<
     parentId: z.optional(z.nullable(z.string())),
     spans: z.optional(z.array(z.union([
       z.lazy(() => AgentSpan$outboundSchema),
+      ControlSpan$outboundSchema,
       LlmSpan$outboundSchema,
       z.lazy(() => RetrieverSpan$outboundSchema),
+      z.lazy(() => ToolSpan$outboundSchema),
       z.lazy(() =>
-        ToolSpan$outboundSchema
+        WorkflowSpan$outboundSchema
       ),
-      z.lazy(() => WorkflowSpan$outboundSchema),
     ]))),
   }),
   z.transform((v) => {
@@ -224,6 +239,7 @@ export function retrieverSpanToJSON(retrieverSpan: RetrieverSpan): string {
 /** @internal */
 export type RetrieverSpanSpan$Outbound =
   | AgentSpan$Outbound
+  | ControlSpan$Outbound
   | LlmSpan$Outbound
   | RetrieverSpan$Outbound
   | ToolSpan$Outbound
@@ -235,6 +251,7 @@ export const RetrieverSpanSpan$outboundSchema: z.ZodMiniType<
   RetrieverSpanSpan
 > = z.union([
   z.lazy(() => AgentSpan$outboundSchema),
+  ControlSpan$outboundSchema,
   LlmSpan$outboundSchema,
   z.lazy(() => RetrieverSpan$outboundSchema),
   z.lazy(() => ToolSpan$outboundSchema),

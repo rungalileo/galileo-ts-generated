@@ -5,7 +5,18 @@
 ```typescript
 import { BaseScorer } from "galileo-generated/models";
 
-let value: BaseScorer = {};
+let value: BaseScorer = {
+  filters: [
+    {
+      name: "node_name",
+      operator: "not_in",
+      value: [
+        "<value 1>",
+      ],
+      caseSensitive: true,
+    },
+  ],
+};
 ```
 
 ## Fields
