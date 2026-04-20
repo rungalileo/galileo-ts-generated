@@ -7,6 +7,18 @@ import { ContextRelevanceScorer } from "galileo-generated/models";
 
 let value: ContextRelevanceScorer = {
   name: "context_relevance",
+  filters: [
+    {
+      name: "node_name",
+      operator: "one_of",
+      value: [
+        "<value 1>",
+        "<value 2>",
+        "<value 3>",
+      ],
+      caseSensitive: true,
+    },
+  ],
 };
 ```
 

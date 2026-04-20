@@ -5,7 +5,15 @@
 ```typescript
 import { RegisteredScorer } from "galileo-generated/models";
 
-let value: RegisteredScorer = {};
+let value: RegisteredScorer = {
+  filters: [
+    {
+      name: "modality",
+      operator: "not_in",
+      value: "ENUM_VALUE",
+    },
+  ],
+};
 ```
 
 ## Fields

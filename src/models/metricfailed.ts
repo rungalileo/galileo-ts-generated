@@ -15,6 +15,7 @@ import { StandardError, StandardError$inboundSchema } from "./standarderror.js";
 export type MetricFailed = {
   statusType: "failed";
   scorerType?: ScorerType | null | undefined;
+  metricKeyAlias?: string | null | undefined;
   message?: string | null | undefined;
   /**
    * EMS error code from errors.yaml catalog for this metric failure
@@ -32,6 +33,7 @@ export const MetricFailed$inboundSchema: z.ZodMiniType<MetricFailed, unknown> =
     z.object({
       status_type: types.literal("failed"),
       scorer_type: z.optional(z.nullable(ScorerType$inboundSchema)),
+      metric_key_alias: z.optional(z.nullable(types.string())),
       message: z.optional(z.nullable(types.string())),
       ems_error_code: z.optional(z.nullable(types.number())),
       standard_error: z.optional(z.nullable(StandardError$inboundSchema)),
@@ -40,6 +42,7 @@ export const MetricFailed$inboundSchema: z.ZodMiniType<MetricFailed, unknown> =
       return remap$(v, {
         "status_type": "statusType",
         "scorer_type": "scorerType",
+        "metric_key_alias": "metricKeyAlias",
         "ems_error_code": "emsErrorCode",
         "standard_error": "standardError",
       });

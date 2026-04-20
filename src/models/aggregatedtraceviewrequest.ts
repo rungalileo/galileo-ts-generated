@@ -21,6 +21,11 @@ import {
   LogRecordsDateFilter$outboundSchema,
 } from "./logrecordsdatefilter.js";
 import {
+  LogRecordsFullyAnnotatedFilter,
+  LogRecordsFullyAnnotatedFilter$Outbound,
+  LogRecordsFullyAnnotatedFilter$outboundSchema,
+} from "./logrecordsfullyannotatedfilter.js";
+import {
   LogRecordsIDFilter,
   LogRecordsIDFilter$Outbound,
   LogRecordsIDFilter$outboundSchema,
@@ -40,6 +45,7 @@ export type AggregatedTraceViewRequestFilter =
   | LogRecordsBooleanFilter
   | LogRecordsCollectionFilter
   | LogRecordsDateFilter
+  | LogRecordsFullyAnnotatedFilter
   | LogRecordsIDFilter
   | LogRecordsNumberFilter
   | LogRecordsTextFilter;
@@ -57,6 +63,7 @@ export type AggregatedTraceViewRequest = {
       | LogRecordsBooleanFilter
       | LogRecordsCollectionFilter
       | LogRecordsDateFilter
+      | LogRecordsFullyAnnotatedFilter
       | LogRecordsIDFilter
       | LogRecordsNumberFilter
       | LogRecordsTextFilter
@@ -69,6 +76,7 @@ export type AggregatedTraceViewRequestFilter$Outbound =
   | LogRecordsBooleanFilter$Outbound
   | LogRecordsCollectionFilter$Outbound
   | LogRecordsDateFilter$Outbound
+  | LogRecordsFullyAnnotatedFilter$Outbound
   | LogRecordsIDFilter$Outbound
   | LogRecordsNumberFilter$Outbound
   | LogRecordsTextFilter$Outbound;
@@ -81,6 +89,7 @@ export const AggregatedTraceViewRequestFilter$outboundSchema: z.ZodMiniType<
   LogRecordsBooleanFilter$outboundSchema,
   LogRecordsCollectionFilter$outboundSchema,
   LogRecordsDateFilter$outboundSchema,
+  LogRecordsFullyAnnotatedFilter$outboundSchema,
   LogRecordsIDFilter$outboundSchema,
   LogRecordsNumberFilter$outboundSchema,
   LogRecordsTextFilter$outboundSchema,
@@ -104,6 +113,7 @@ export type AggregatedTraceViewRequest$Outbound = {
       | LogRecordsBooleanFilter$Outbound
       | LogRecordsCollectionFilter$Outbound
       | LogRecordsDateFilter$Outbound
+      | LogRecordsFullyAnnotatedFilter$Outbound
       | LogRecordsIDFilter$Outbound
       | LogRecordsNumberFilter$Outbound
       | LogRecordsTextFilter$Outbound
@@ -124,6 +134,7 @@ export const AggregatedTraceViewRequest$outboundSchema: z.ZodMiniType<
           LogRecordsBooleanFilter$outboundSchema,
           LogRecordsCollectionFilter$outboundSchema,
           LogRecordsDateFilter$outboundSchema,
+          LogRecordsFullyAnnotatedFilter$outboundSchema,
           LogRecordsIDFilter$outboundSchema,
           LogRecordsNumberFilter$outboundSchema,
           LogRecordsTextFilter$outboundSchema,
