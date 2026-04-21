@@ -10,16 +10,20 @@ import { MetricCritiqueJobConfiguration } from "galileo-generated/models";
 let value: MetricCritiqueJobConfiguration = {
   projectType: "prompt_evaluation",
   metricName: "<value>",
-  critiqueIds: [],
+  critiqueIds: [
+    "<value 1>",
+    "<value 2>",
+    "<value 3>",
+  ],
 };
 ```
 
 ## Fields
 
-| Field                      | Type                       | Required                   | Description                |
-| -------------------------- | -------------------------- | -------------------------- | -------------------------- |
-| `projectType`              | *"prompt_evaluation"*      | :heavy_check_mark:         | N/A                        |
-| `metricName`               | *string*                   | :heavy_check_mark:         | N/A                        |
-| `scorerId`                 | *string*                   | :heavy_minus_sign:         | N/A                        |
-| `critiqueIds`              | *string*[]                 | :heavy_check_mark:         | N/A                        |
-| `recomputeSettings`        | *models.RecomputeSettings* | :heavy_minus_sign:         | N/A                        |
+| Field                                                                                                      | Type                                                                                                       | Required                                                                                                   | Description                                                                                                |
+| ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `projectType`                                                                                              | [models.MetricCritiqueJobConfigurationProjectType](../models/metriccritiquejobconfigurationprojecttype.md) | :heavy_check_mark:                                                                                         | N/A                                                                                                        |
+| `metricName`                                                                                               | *string*                                                                                                   | :heavy_check_mark:                                                                                         | N/A                                                                                                        |
+| `scorerId`                                                                                                 | *string*                                                                                                   | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
+| `critiqueIds`                                                                                              | *string*[]                                                                                                 | :heavy_check_mark:                                                                                         | N/A                                                                                                        |
+| `recomputeSettings`                                                                                        | *models.RecomputeSettings*                                                                                 | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |

@@ -6,6 +6,8 @@
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
+import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
+import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import {
@@ -18,24 +20,47 @@ import {
 } from "./basescorerversiondb.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import { InputTypeEnum, InputTypeEnum$inboundSchema } from "./inputtypeenum.js";
+import {
+  MetricColorPickerBoolean,
+  MetricColorPickerBoolean$inboundSchema,
+} from "./metriccolorpickerboolean.js";
+import {
+  MetricColorPickerCategorical,
+  MetricColorPickerCategorical$inboundSchema,
+} from "./metriccolorpickercategorical.js";
+import {
+  MetricColorPickerMultiLabel,
+  MetricColorPickerMultiLabel$inboundSchema,
+} from "./metriccolorpickermultilabel.js";
+import {
+  MetricColorPickerNumeric,
+  MetricColorPickerNumeric$inboundSchema,
+} from "./metriccolorpickernumeric.js";
 import { ModelType, ModelType$inboundSchema } from "./modeltype.js";
 import {
   MultimodalCapability,
   MultimodalCapability$inboundSchema,
 } from "./multimodalcapability.js";
 import {
-  NumericRollUpMethod,
-  NumericRollUpMethod$inboundSchema,
-} from "./numericrollupmethod.js";
-import {
   OutputTypeEnum,
   OutputTypeEnum$inboundSchema,
 } from "./outputtypeenum.js";
+import {
+  RollUpMethodDisplayOptions,
+  RollUpMethodDisplayOptions$inboundSchema,
+} from "./rollupmethoddisplayoptions.js";
 import {
   ScorerDefaults,
   ScorerDefaults$inboundSchema,
 } from "./scorerdefaults.js";
 import { ScorerTypes, ScorerTypes$inboundSchema } from "./scorertypes.js";
+
+export type ScorerResponseMetricColorPickerConfig =
+  | MetricColorPickerBoolean
+  | MetricColorPickerCategorical
+  | MetricColorPickerMultiLabel
+  | MetricColorPickerNumeric
+  | discriminatedUnionTypes.Unknown<"type">;
 
 export type ScorerResponse = {
   id: string;
@@ -65,8 +90,39 @@ export type ScorerResponse = {
   createdBy?: string | null | undefined;
   createdAt?: Date | null | undefined;
   updatedAt?: Date | null | undefined;
-  rollUpMethod?: NumericRollUpMethod | null | undefined;
+  rollUpMethod?: RollUpMethodDisplayOptions | null | undefined;
+  metricColorPickerConfig?:
+    | MetricColorPickerBoolean
+    | MetricColorPickerCategorical
+    | MetricColorPickerMultiLabel
+    | MetricColorPickerNumeric
+    | discriminatedUnionTypes.Unknown<"type">
+    | null
+    | undefined;
+  metricName?: string | null | undefined;
 };
+
+/** @internal */
+export const ScorerResponseMetricColorPickerConfig$inboundSchema: z.ZodMiniType<
+  ScorerResponseMetricColorPickerConfig,
+  unknown
+> = discriminatedUnion("type", {
+  boolean: MetricColorPickerBoolean$inboundSchema,
+  categorical: MetricColorPickerCategorical$inboundSchema,
+  multi_label: MetricColorPickerMultiLabel$inboundSchema,
+  numeric: MetricColorPickerNumeric$inboundSchema,
+});
+
+export function scorerResponseMetricColorPickerConfigFromJSON(
+  jsonString: string,
+): SafeParseResult<ScorerResponseMetricColorPickerConfig, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      ScorerResponseMetricColorPickerConfig$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ScorerResponseMetricColorPickerConfig' from JSON`,
+  );
+}
 
 /** @internal */
 export const ScorerResponse$inboundSchema: z.ZodMiniType<
@@ -102,7 +158,18 @@ export const ScorerResponse$inboundSchema: z.ZodMiniType<
     created_by: z.optional(z.nullable(types.string())),
     created_at: z.optional(z.nullable(types.date())),
     updated_at: z.optional(z.nullable(types.date())),
-    roll_up_method: z.optional(z.nullable(NumericRollUpMethod$inboundSchema)),
+    roll_up_method: z.optional(
+      z.nullable(RollUpMethodDisplayOptions$inboundSchema),
+    ),
+    metric_color_picker_config: z.optional(
+      z.nullable(discriminatedUnion("type", {
+        boolean: MetricColorPickerBoolean$inboundSchema,
+        categorical: MetricColorPickerCategorical$inboundSchema,
+        multi_label: MetricColorPickerMultiLabel$inboundSchema,
+        numeric: MetricColorPickerNumeric$inboundSchema,
+      })),
+    ),
+    metric_name: z.optional(z.nullable(types.string())),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -124,6 +191,8 @@ export const ScorerResponse$inboundSchema: z.ZodMiniType<
       "created_at": "createdAt",
       "updated_at": "updatedAt",
       "roll_up_method": "rollUpMethod",
+      "metric_color_picker_config": "metricColorPickerConfig",
+      "metric_name": "metricName",
     });
   }),
 );

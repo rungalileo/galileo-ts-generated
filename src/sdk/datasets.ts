@@ -17,6 +17,7 @@ import { datasetsExtendDatasetContentDatasetsExtendPost } from "../funcs/dataset
 import { datasetsGetDatasetContentDatasetsDatasetIdContentGet } from "../funcs/datasetsGetDatasetContentDatasetsDatasetIdContentGet.js";
 import { datasetsGetDatasetDatasetsDatasetIdGet } from "../funcs/datasetsGetDatasetDatasetsDatasetIdGet.js";
 import { datasetsGetDatasetSyntheticExtendStatusDatasetsExtendDatasetIdGet } from "../funcs/datasetsGetDatasetSyntheticExtendStatusDatasetsExtendDatasetIdGet.js";
+import { datasetsGetDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet } from "../funcs/datasetsGetDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet.js";
 import { datasetsGetDatasetVersionContentDatasetsDatasetIdVersionsVersionIndexContentGet } from "../funcs/datasetsGetDatasetVersionContentDatasetsDatasetIdVersionsVersionIndexContentGet.js";
 import { datasetsListDatasetProjectsDatasetsDatasetIdProjectsGet } from "../funcs/datasetsListDatasetProjectsDatasetsDatasetIdProjectsGet.js";
 import { datasetsListDatasetsDatasetsGet } from "../funcs/datasetsListDatasetsDatasetsGet.js";
@@ -701,6 +702,29 @@ export class Datasets extends ClientSDK {
   ): Promise<models.JobProgress> {
     return unwrapAsync(
       datasetsGetDatasetSyntheticExtendStatusDatasetsExtendDatasetIdGet(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Get Dataset Variable Preview
+   *
+   * @remarks
+   * Return a variable preview derived from the sampled dataset input rows.
+   */
+  async getDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet(
+    security:
+      operations.GetDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGetSecurity,
+    request:
+      operations.GetDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGetRequest,
+    options?: RequestOptions,
+  ): Promise<Array<models.DatasetInputJsonField>> {
+    return unwrapAsync(
+      datasetsGetDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet(
         this,
         security,
         request,

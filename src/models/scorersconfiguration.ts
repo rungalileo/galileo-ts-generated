@@ -38,6 +38,7 @@ export type ScorersConfiguration = {
   chunkAttributionUtilizationNli?: boolean | undefined;
   contextAdherenceLuna?: boolean | undefined;
   contextRelevanceLuna?: boolean | undefined;
+  chunkRelevanceLuna?: boolean | undefined;
   completenessNli?: boolean | undefined;
   toolErrorRateLuna?: boolean | undefined;
   toolSelectionQualityLuna?: boolean | undefined;
@@ -87,6 +88,7 @@ export const ScorersConfiguration$inboundSchema: z.ZodMiniType<
     chunk_attribution_utilization_nli: z._default(types.boolean(), false),
     context_adherence_luna: z._default(types.boolean(), false),
     context_relevance_luna: z._default(types.boolean(), false),
+    chunk_relevance_luna: z._default(types.boolean(), false),
     completeness_nli: z._default(types.boolean(), false),
     tool_error_rate_luna: z._default(types.boolean(), false),
     tool_selection_quality_luna: z._default(types.boolean(), false),
@@ -123,6 +125,7 @@ export const ScorersConfiguration$inboundSchema: z.ZodMiniType<
       "chunk_attribution_utilization_nli": "chunkAttributionUtilizationNli",
       "context_adherence_luna": "contextAdherenceLuna",
       "context_relevance_luna": "contextRelevanceLuna",
+      "chunk_relevance_luna": "chunkRelevanceLuna",
       "completeness_nli": "completenessNli",
       "tool_error_rate_luna": "toolErrorRateLuna",
       "tool_selection_quality_luna": "toolSelectionQualityLuna",
@@ -166,6 +169,7 @@ export type ScorersConfiguration$Outbound = {
   chunk_attribution_utilization_nli: boolean;
   context_adherence_luna: boolean;
   context_relevance_luna: boolean;
+  chunk_relevance_luna: boolean;
   completeness_nli: boolean;
   tool_error_rate_luna: boolean;
   tool_selection_quality_luna: boolean;
@@ -215,6 +219,7 @@ export const ScorersConfiguration$outboundSchema: z.ZodMiniType<
     chunkAttributionUtilizationNli: z._default(z.boolean(), false),
     contextAdherenceLuna: z._default(z.boolean(), false),
     contextRelevanceLuna: z._default(z.boolean(), false),
+    chunkRelevanceLuna: z._default(z.boolean(), false),
     completenessNli: z._default(z.boolean(), false),
     toolErrorRateLuna: z._default(z.boolean(), false),
     toolSelectionQualityLuna: z._default(z.boolean(), false),
@@ -251,6 +256,7 @@ export const ScorersConfiguration$outboundSchema: z.ZodMiniType<
       chunkAttributionUtilizationNli: "chunk_attribution_utilization_nli",
       contextAdherenceLuna: "context_adherence_luna",
       contextRelevanceLuna: "context_relevance_luna",
+      chunkRelevanceLuna: "chunk_relevance_luna",
       completenessNli: "completeness_nli",
       toolErrorRateLuna: "tool_error_rate_luna",
       toolSelectionQualityLuna: "tool_selection_quality_luna",

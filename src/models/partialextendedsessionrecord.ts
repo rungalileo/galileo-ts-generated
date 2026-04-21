@@ -23,12 +23,17 @@ import {
   ContentModality,
   ContentModality$inboundSchema,
 } from "./contentmodality.js";
+import { ControlResult, ControlResult$inboundSchema } from "./controlresult.js";
 import { Document, Document$inboundSchema } from "./document.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
   FeedbackRatingInfo,
   FeedbackRatingInfo$inboundSchema,
 } from "./feedbackratinginfo.js";
+import {
+  FileContentPart,
+  FileContentPart$inboundSchema,
+} from "./filecontentpart.js";
 import { FileMetadata, FileMetadata$inboundSchema } from "./filemetadata.js";
 import {
   GalileoCoreSchemasLoggingLlmMessage,
@@ -52,33 +57,71 @@ import { MetricPending, MetricPending$inboundSchema } from "./metricpending.js";
 import { MetricRollUp, MetricRollUp$inboundSchema } from "./metricrollup.js";
 import { Metrics, Metrics$inboundSchema } from "./metrics.js";
 import { MetricSuccess, MetricSuccess$inboundSchema } from "./metricsuccess.js";
+import {
+  TextContentPart,
+  TextContentPart$inboundSchema,
+} from "./textcontentpart.js";
 
-export type PartialExtendedSessionRecordInput =
+export type PartialExtendedSessionRecordInput1 =
+  | FileContentPart
+  | TextContentPart
+  | discriminatedUnionTypes.Unknown<"type">;
+
+export type PartialExtendedSessionRecordInput2 =
   | string
-  | Array<GalileoCoreSchemasLoggingLlmMessage>;
+  | Array<GalileoCoreSchemasLoggingLlmMessage>
+  | Array<
+    FileContentPart | TextContentPart | discriminatedUnionTypes.Unknown<"type">
+  >;
+
+export type PartialExtendedSessionRecordRedactedInput1 =
+  | FileContentPart
+  | TextContentPart
+  | discriminatedUnionTypes.Unknown<"type">;
 
 /**
  * Redacted input of the trace or span.
  */
-export type PartialExtendedSessionRecordRedactedInput =
+export type PartialExtendedSessionRecordRedactedInput2 =
   | string
-  | Array<GalileoCoreSchemasLoggingLlmMessage>;
+  | Array<GalileoCoreSchemasLoggingLlmMessage>
+  | Array<
+    FileContentPart | TextContentPart | discriminatedUnionTypes.Unknown<"type">
+  >;
+
+export type PartialExtendedSessionRecordOutput1 =
+  | FileContentPart
+  | TextContentPart
+  | discriminatedUnionTypes.Unknown<"type">;
 
 /**
  * Output of the trace or span.
  */
-export type PartialExtendedSessionRecordOutput =
+export type PartialExtendedSessionRecordOutput2 =
   | GalileoCoreSchemasLoggingLlmMessage
+  | ControlResult
   | string
-  | Array<Document>;
+  | Array<Document>
+  | Array<
+    FileContentPart | TextContentPart | discriminatedUnionTypes.Unknown<"type">
+  >;
+
+export type PartialExtendedSessionRecordRedactedOutput1 =
+  | FileContentPart
+  | TextContentPart
+  | discriminatedUnionTypes.Unknown<"type">;
 
 /**
  * Redacted output of the trace or span.
  */
-export type PartialExtendedSessionRecordRedactedOutput =
+export type PartialExtendedSessionRecordRedactedOutput2 =
   | GalileoCoreSchemasLoggingLlmMessage
+  | ControlResult
   | string
-  | Array<Document>;
+  | Array<Document>
+  | Array<
+    FileContentPart | TextContentPart | discriminatedUnionTypes.Unknown<"type">
+  >;
 
 export type PartialExtendedSessionRecordMetricInfo =
   | MetricComputing
@@ -96,13 +139,26 @@ export type PartialExtendedSessionRecord = {
    * Type of the trace, span or session.
    */
   type: "session";
-  input?: string | Array<GalileoCoreSchemasLoggingLlmMessage> | undefined;
+  input?:
+    | string
+    | Array<GalileoCoreSchemasLoggingLlmMessage>
+    | Array<
+      | FileContentPart
+      | TextContentPart
+      | discriminatedUnionTypes.Unknown<"type">
+    >
+    | undefined;
   /**
    * Redacted input of the trace or span.
    */
   redactedInput?:
     | string
     | Array<GalileoCoreSchemasLoggingLlmMessage>
+    | Array<
+      | FileContentPart
+      | TextContentPart
+      | discriminatedUnionTypes.Unknown<"type">
+    >
     | null
     | undefined;
   /**
@@ -110,8 +166,14 @@ export type PartialExtendedSessionRecord = {
    */
   output?:
     | GalileoCoreSchemasLoggingLlmMessage
+    | ControlResult
     | string
     | Array<Document>
+    | Array<
+      | FileContentPart
+      | TextContentPart
+      | discriminatedUnionTypes.Unknown<"type">
+    >
     | null
     | undefined;
   /**
@@ -119,8 +181,14 @@ export type PartialExtendedSessionRecord = {
    */
   redactedOutput?:
     | GalileoCoreSchemasLoggingLlmMessage
+    | ControlResult
     | string
     | Array<Document>
+    | Array<
+      | FileContentPart
+      | TextContentPart
+      | discriminatedUnionTypes.Unknown<"type">
+    >
     | null
     | undefined;
   /**
@@ -219,6 +287,10 @@ export type PartialExtendedSessionRecord = {
    */
   annotationAggregates?: { [k: string]: AnnotationAggregate } | undefined;
   /**
+   * IDs of annotation queues this record is in
+   */
+  annotationQueueIds?: Array<string> | undefined;
+  /**
    * Detailed information about the metrics associated with this trace or span
    */
   metricInfo?:
@@ -244,91 +316,206 @@ export type PartialExtendedSessionRecord = {
 };
 
 /** @internal */
-export const PartialExtendedSessionRecordInput$inboundSchema: z.ZodMiniType<
-  PartialExtendedSessionRecordInput,
+export const PartialExtendedSessionRecordInput1$inboundSchema: z.ZodMiniType<
+  PartialExtendedSessionRecordInput1,
+  unknown
+> = discriminatedUnion("type", {
+  file: FileContentPart$inboundSchema,
+  text: TextContentPart$inboundSchema,
+});
+
+export function partialExtendedSessionRecordInput1FromJSON(
+  jsonString: string,
+): SafeParseResult<PartialExtendedSessionRecordInput1, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      PartialExtendedSessionRecordInput1$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'PartialExtendedSessionRecordInput1' from JSON`,
+  );
+}
+
+/** @internal */
+export const PartialExtendedSessionRecordInput2$inboundSchema: z.ZodMiniType<
+  PartialExtendedSessionRecordInput2,
   unknown
 > = smartUnion([
   types.string(),
   z.array(GalileoCoreSchemasLoggingLlmMessage$inboundSchema),
+  z.array(
+    discriminatedUnion("type", {
+      file: FileContentPart$inboundSchema,
+      text: TextContentPart$inboundSchema,
+    }),
+  ),
 ]);
 
-export function partialExtendedSessionRecordInputFromJSON(
+export function partialExtendedSessionRecordInput2FromJSON(
   jsonString: string,
-): SafeParseResult<PartialExtendedSessionRecordInput, SDKValidationError> {
+): SafeParseResult<PartialExtendedSessionRecordInput2, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => PartialExtendedSessionRecordInput$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'PartialExtendedSessionRecordInput' from JSON`,
+    (x) =>
+      PartialExtendedSessionRecordInput2$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'PartialExtendedSessionRecordInput2' from JSON`,
   );
 }
 
 /** @internal */
-export const PartialExtendedSessionRecordRedactedInput$inboundSchema:
-  z.ZodMiniType<PartialExtendedSessionRecordRedactedInput, unknown> =
+export const PartialExtendedSessionRecordRedactedInput1$inboundSchema:
+  z.ZodMiniType<PartialExtendedSessionRecordRedactedInput1, unknown> =
+    discriminatedUnion("type", {
+      file: FileContentPart$inboundSchema,
+      text: TextContentPart$inboundSchema,
+    });
+
+export function partialExtendedSessionRecordRedactedInput1FromJSON(
+  jsonString: string,
+): SafeParseResult<
+  PartialExtendedSessionRecordRedactedInput1,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      PartialExtendedSessionRecordRedactedInput1$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'PartialExtendedSessionRecordRedactedInput1' from JSON`,
+  );
+}
+
+/** @internal */
+export const PartialExtendedSessionRecordRedactedInput2$inboundSchema:
+  z.ZodMiniType<PartialExtendedSessionRecordRedactedInput2, unknown> =
     smartUnion([
       types.string(),
       z.array(GalileoCoreSchemasLoggingLlmMessage$inboundSchema),
+      z.array(
+        discriminatedUnion("type", {
+          file: FileContentPart$inboundSchema,
+          text: TextContentPart$inboundSchema,
+        }),
+      ),
     ]);
 
-export function partialExtendedSessionRecordRedactedInputFromJSON(
+export function partialExtendedSessionRecordRedactedInput2FromJSON(
   jsonString: string,
 ): SafeParseResult<
-  PartialExtendedSessionRecordRedactedInput,
+  PartialExtendedSessionRecordRedactedInput2,
   SDKValidationError
 > {
   return safeParse(
     jsonString,
     (x) =>
-      PartialExtendedSessionRecordRedactedInput$inboundSchema.parse(
+      PartialExtendedSessionRecordRedactedInput2$inboundSchema.parse(
         JSON.parse(x),
       ),
-    `Failed to parse 'PartialExtendedSessionRecordRedactedInput' from JSON`,
+    `Failed to parse 'PartialExtendedSessionRecordRedactedInput2' from JSON`,
   );
 }
 
 /** @internal */
-export const PartialExtendedSessionRecordOutput$inboundSchema: z.ZodMiniType<
-  PartialExtendedSessionRecordOutput,
+export const PartialExtendedSessionRecordOutput1$inboundSchema: z.ZodMiniType<
+  PartialExtendedSessionRecordOutput1,
+  unknown
+> = discriminatedUnion("type", {
+  file: FileContentPart$inboundSchema,
+  text: TextContentPart$inboundSchema,
+});
+
+export function partialExtendedSessionRecordOutput1FromJSON(
+  jsonString: string,
+): SafeParseResult<PartialExtendedSessionRecordOutput1, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      PartialExtendedSessionRecordOutput1$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'PartialExtendedSessionRecordOutput1' from JSON`,
+  );
+}
+
+/** @internal */
+export const PartialExtendedSessionRecordOutput2$inboundSchema: z.ZodMiniType<
+  PartialExtendedSessionRecordOutput2,
   unknown
 > = smartUnion([
   GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
+  ControlResult$inboundSchema,
   types.string(),
   z.array(Document$inboundSchema),
+  z.array(
+    discriminatedUnion("type", {
+      file: FileContentPart$inboundSchema,
+      text: TextContentPart$inboundSchema,
+    }),
+  ),
 ]);
 
-export function partialExtendedSessionRecordOutputFromJSON(
+export function partialExtendedSessionRecordOutput2FromJSON(
   jsonString: string,
-): SafeParseResult<PartialExtendedSessionRecordOutput, SDKValidationError> {
+): SafeParseResult<PartialExtendedSessionRecordOutput2, SDKValidationError> {
   return safeParse(
     jsonString,
     (x) =>
-      PartialExtendedSessionRecordOutput$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'PartialExtendedSessionRecordOutput' from JSON`,
+      PartialExtendedSessionRecordOutput2$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'PartialExtendedSessionRecordOutput2' from JSON`,
   );
 }
 
 /** @internal */
-export const PartialExtendedSessionRecordRedactedOutput$inboundSchema:
-  z.ZodMiniType<PartialExtendedSessionRecordRedactedOutput, unknown> =
-    smartUnion([
-      GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
-      types.string(),
-      z.array(Document$inboundSchema),
-    ]);
+export const PartialExtendedSessionRecordRedactedOutput1$inboundSchema:
+  z.ZodMiniType<PartialExtendedSessionRecordRedactedOutput1, unknown> =
+    discriminatedUnion("type", {
+      file: FileContentPart$inboundSchema,
+      text: TextContentPart$inboundSchema,
+    });
 
-export function partialExtendedSessionRecordRedactedOutputFromJSON(
+export function partialExtendedSessionRecordRedactedOutput1FromJSON(
   jsonString: string,
 ): SafeParseResult<
-  PartialExtendedSessionRecordRedactedOutput,
+  PartialExtendedSessionRecordRedactedOutput1,
   SDKValidationError
 > {
   return safeParse(
     jsonString,
     (x) =>
-      PartialExtendedSessionRecordRedactedOutput$inboundSchema.parse(
+      PartialExtendedSessionRecordRedactedOutput1$inboundSchema.parse(
         JSON.parse(x),
       ),
-    `Failed to parse 'PartialExtendedSessionRecordRedactedOutput' from JSON`,
+    `Failed to parse 'PartialExtendedSessionRecordRedactedOutput1' from JSON`,
+  );
+}
+
+/** @internal */
+export const PartialExtendedSessionRecordRedactedOutput2$inboundSchema:
+  z.ZodMiniType<PartialExtendedSessionRecordRedactedOutput2, unknown> =
+    smartUnion([
+      GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
+      ControlResult$inboundSchema,
+      types.string(),
+      z.array(Document$inboundSchema),
+      z.array(
+        discriminatedUnion("type", {
+          file: FileContentPart$inboundSchema,
+          text: TextContentPart$inboundSchema,
+        }),
+      ),
+    ]);
+
+export function partialExtendedSessionRecordRedactedOutput2FromJSON(
+  jsonString: string,
+): SafeParseResult<
+  PartialExtendedSessionRecordRedactedOutput2,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      PartialExtendedSessionRecordRedactedOutput2$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'PartialExtendedSessionRecordRedactedOutput2' from JSON`,
   );
 }
 
@@ -368,6 +555,12 @@ export const PartialExtendedSessionRecord$inboundSchema: z.ZodMiniType<
       smartUnion([
         types.string(),
         z.array(GalileoCoreSchemasLoggingLlmMessage$inboundSchema),
+        z.array(
+          discriminatedUnion("type", {
+            file: FileContentPart$inboundSchema,
+            text: TextContentPart$inboundSchema,
+          }),
+        ),
       ]),
     ),
     redacted_input: z.optional(
@@ -375,6 +568,12 @@ export const PartialExtendedSessionRecord$inboundSchema: z.ZodMiniType<
         smartUnion([
           types.string(),
           z.array(GalileoCoreSchemasLoggingLlmMessage$inboundSchema),
+          z.array(
+            discriminatedUnion("type", {
+              file: FileContentPart$inboundSchema,
+              text: TextContentPart$inboundSchema,
+            }),
+          ),
         ]),
       ),
     ),
@@ -382,8 +581,15 @@ export const PartialExtendedSessionRecord$inboundSchema: z.ZodMiniType<
       z.nullable(
         smartUnion([
           GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
+          ControlResult$inboundSchema,
           types.string(),
           z.array(Document$inboundSchema),
+          z.array(
+            discriminatedUnion("type", {
+              file: FileContentPart$inboundSchema,
+              text: TextContentPart$inboundSchema,
+            }),
+          ),
         ]),
       ),
     ),
@@ -391,8 +597,15 @@ export const PartialExtendedSessionRecord$inboundSchema: z.ZodMiniType<
       z.nullable(
         smartUnion([
           GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
+          ControlResult$inboundSchema,
           types.string(),
           z.array(Document$inboundSchema),
+          z.array(
+            discriminatedUnion("type", {
+              file: FileContentPart$inboundSchema,
+              text: TextContentPart$inboundSchema,
+            }),
+          ),
         ]),
       ),
     ),
@@ -429,6 +642,7 @@ export const PartialExtendedSessionRecord$inboundSchema: z.ZodMiniType<
     annotation_aggregates: types.optional(
       z.record(z.string(), AnnotationAggregate$inboundSchema),
     ),
+    annotation_queue_ids: types.optional(z.array(types.string())),
     metric_info: z.optional(
       z.nullable(z.record(
         z.string(),
@@ -472,6 +686,7 @@ export const PartialExtendedSessionRecord$inboundSchema: z.ZodMiniType<
       "file_ids": "fileIds",
       "file_modalities": "fileModalities",
       "annotation_aggregates": "annotationAggregates",
+      "annotation_queue_ids": "annotationQueueIds",
       "metric_info": "metricInfo",
       "previous_session_id": "previousSessionId",
     });
