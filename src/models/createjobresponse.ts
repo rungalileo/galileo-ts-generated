@@ -388,6 +388,7 @@ export type CreateJobResponse = {
   uploadDataInSeparateTask: boolean;
   logMetricComputingRecords: boolean;
   streamMetrics: boolean;
+  multijudgeAverageBooleanMetrics: boolean;
   message: string;
   link: string;
 };
@@ -669,8 +670,9 @@ export const CreateJobResponse$inboundSchema: z.ZodMiniType<
     ),
     is_session: z.optional(z.nullable(types.boolean())),
     upload_data_in_separate_task: z._default(types.boolean(), true),
-    log_metric_computing_records: z._default(types.boolean(), false),
+    log_metric_computing_records: z._default(types.boolean(), true),
     stream_metrics: z._default(types.boolean(), false),
+    multijudge_average_boolean_metrics: z._default(types.boolean(), false),
     message: types.string(),
     link: types.string(),
   }),
@@ -717,6 +719,7 @@ export const CreateJobResponse$inboundSchema: z.ZodMiniType<
       "upload_data_in_separate_task": "uploadDataInSeparateTask",
       "log_metric_computing_records": "logMetricComputingRecords",
       "stream_metrics": "streamMetrics",
+      "multijudge_average_boolean_metrics": "multijudgeAverageBooleanMetrics",
     });
   }),
 );
