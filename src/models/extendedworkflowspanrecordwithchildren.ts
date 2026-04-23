@@ -23,12 +23,17 @@ import {
   ContentModality,
   ContentModality$inboundSchema,
 } from "./contentmodality.js";
+import { ControlResult, ControlResult$inboundSchema } from "./controlresult.js";
 import { Document, Document$inboundSchema } from "./document.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
   ExtendedAgentSpanRecordWithChildren,
   ExtendedAgentSpanRecordWithChildren$inboundSchema,
 } from "./extendedagentspanrecordwithchildren.js";
+import {
+  ExtendedControlSpanRecord,
+  ExtendedControlSpanRecord$inboundSchema,
+} from "./extendedcontrolspanrecord.js";
 import {
   ExtendedLlmSpanRecord,
   ExtendedLlmSpanRecord$inboundSchema,
@@ -45,6 +50,10 @@ import {
   FeedbackRatingInfo,
   FeedbackRatingInfo$inboundSchema,
 } from "./feedbackratinginfo.js";
+import {
+  FileContentPart,
+  FileContentPart$inboundSchema,
+} from "./filecontentpart.js";
 import { FileMetadata, FileMetadata$inboundSchema } from "./filemetadata.js";
 import {
   GalileoCoreSchemasLoggingLlmMessage,
@@ -68,36 +77,74 @@ import { MetricPending, MetricPending$inboundSchema } from "./metricpending.js";
 import { MetricRollUp, MetricRollUp$inboundSchema } from "./metricrollup.js";
 import { Metrics, Metrics$inboundSchema } from "./metrics.js";
 import { MetricSuccess, MetricSuccess$inboundSchema } from "./metricsuccess.js";
+import {
+  TextContentPart,
+  TextContentPart$inboundSchema,
+} from "./textcontentpart.js";
+
+export type ExtendedWorkflowSpanRecordWithChildrenInput1 =
+  | FileContentPart
+  | TextContentPart
+  | discriminatedUnionTypes.Unknown<"type">;
 
 /**
  * Input to the trace or span.
  */
-export type ExtendedWorkflowSpanRecordWithChildrenInput =
+export type ExtendedWorkflowSpanRecordWithChildrenInput2 =
   | string
-  | Array<GalileoCoreSchemasLoggingLlmMessage>;
+  | Array<GalileoCoreSchemasLoggingLlmMessage>
+  | Array<
+    FileContentPart | TextContentPart | discriminatedUnionTypes.Unknown<"type">
+  >;
+
+export type ExtendedWorkflowSpanRecordWithChildrenRedactedInput1 =
+  | FileContentPart
+  | TextContentPart
+  | discriminatedUnionTypes.Unknown<"type">;
 
 /**
  * Redacted input of the trace or span.
  */
-export type ExtendedWorkflowSpanRecordWithChildrenRedactedInput =
+export type ExtendedWorkflowSpanRecordWithChildrenRedactedInput2 =
   | string
-  | Array<GalileoCoreSchemasLoggingLlmMessage>;
+  | Array<GalileoCoreSchemasLoggingLlmMessage>
+  | Array<
+    FileContentPart | TextContentPart | discriminatedUnionTypes.Unknown<"type">
+  >;
+
+export type ExtendedWorkflowSpanRecordWithChildrenOutput1 =
+  | FileContentPart
+  | TextContentPart
+  | discriminatedUnionTypes.Unknown<"type">;
 
 /**
  * Output of the trace or span.
  */
-export type ExtendedWorkflowSpanRecordWithChildrenOutput =
+export type ExtendedWorkflowSpanRecordWithChildrenOutput2 =
   | GalileoCoreSchemasLoggingLlmMessage
+  | ControlResult
   | string
-  | Array<Document>;
+  | Array<Document>
+  | Array<
+    FileContentPart | TextContentPart | discriminatedUnionTypes.Unknown<"type">
+  >;
+
+export type ExtendedWorkflowSpanRecordWithChildrenRedactedOutput1 =
+  | FileContentPart
+  | TextContentPart
+  | discriminatedUnionTypes.Unknown<"type">;
 
 /**
  * Redacted output of the trace or span.
  */
-export type ExtendedWorkflowSpanRecordWithChildrenRedactedOutput =
+export type ExtendedWorkflowSpanRecordWithChildrenRedactedOutput2 =
   | GalileoCoreSchemasLoggingLlmMessage
+  | ControlResult
   | string
-  | Array<Document>;
+  | Array<Document>
+  | Array<
+    FileContentPart | TextContentPart | discriminatedUnionTypes.Unknown<"type">
+  >;
 
 export type ExtendedWorkflowSpanRecordWithChildrenMetricInfo =
   | MetricComputing
@@ -114,6 +161,7 @@ export type ExtendedWorkflowSpanRecordWithChildren = {
   spans?:
     | Array<
       | ExtendedAgentSpanRecordWithChildren
+      | ExtendedControlSpanRecord
       | ExtendedLlmSpanRecord
       | ExtendedRetrieverSpanRecordWithChildren
       | ExtendedToolSpanRecordWithChildren
@@ -128,13 +176,26 @@ export type ExtendedWorkflowSpanRecordWithChildren = {
   /**
    * Input to the trace or span.
    */
-  input?: string | Array<GalileoCoreSchemasLoggingLlmMessage> | undefined;
+  input?:
+    | string
+    | Array<GalileoCoreSchemasLoggingLlmMessage>
+    | Array<
+      | FileContentPart
+      | TextContentPart
+      | discriminatedUnionTypes.Unknown<"type">
+    >
+    | undefined;
   /**
    * Redacted input of the trace or span.
    */
   redactedInput?:
     | string
     | Array<GalileoCoreSchemasLoggingLlmMessage>
+    | Array<
+      | FileContentPart
+      | TextContentPart
+      | discriminatedUnionTypes.Unknown<"type">
+    >
     | null
     | undefined;
   /**
@@ -142,8 +203,14 @@ export type ExtendedWorkflowSpanRecordWithChildren = {
    */
   output?:
     | GalileoCoreSchemasLoggingLlmMessage
+    | ControlResult
     | string
     | Array<Document>
+    | Array<
+      | FileContentPart
+      | TextContentPart
+      | discriminatedUnionTypes.Unknown<"type">
+    >
     | null
     | undefined;
   /**
@@ -151,8 +218,14 @@ export type ExtendedWorkflowSpanRecordWithChildren = {
    */
   redactedOutput?:
     | GalileoCoreSchemasLoggingLlmMessage
+    | ControlResult
     | string
     | Array<Document>
+    | Array<
+      | FileContentPart
+      | TextContentPart
+      | discriminatedUnionTypes.Unknown<"type">
+    >
     | null
     | undefined;
   /**
@@ -251,6 +324,10 @@ export type ExtendedWorkflowSpanRecordWithChildren = {
    */
   annotationAggregates?: { [k: string]: AnnotationAggregate } | undefined;
   /**
+   * IDs of annotation queues this record is in
+   */
+  annotationQueueIds?: Array<string> | undefined;
+  /**
    * Detailed information about the metrics associated with this trace or span
    */
   metricInfo?:
@@ -288,6 +365,7 @@ export type ExtendedWorkflowSpanRecordWithChildren = {
 
 export type ExtendedWorkflowSpanRecordWithChildrenSpan =
   | ExtendedAgentSpanRecordWithChildren
+  | ExtendedControlSpanRecord
   | ExtendedLlmSpanRecord
   | ExtendedRetrieverSpanRecordWithChildren
   | ExtendedToolSpanRecordWithChildren
@@ -295,100 +373,226 @@ export type ExtendedWorkflowSpanRecordWithChildrenSpan =
   | discriminatedUnionTypes.Unknown<"type">;
 
 /** @internal */
-export const ExtendedWorkflowSpanRecordWithChildrenInput$inboundSchema:
-  z.ZodMiniType<ExtendedWorkflowSpanRecordWithChildrenInput, unknown> =
+export const ExtendedWorkflowSpanRecordWithChildrenInput1$inboundSchema:
+  z.ZodMiniType<ExtendedWorkflowSpanRecordWithChildrenInput1, unknown> =
+    discriminatedUnion("type", {
+      file: FileContentPart$inboundSchema,
+      text: TextContentPart$inboundSchema,
+    });
+
+export function extendedWorkflowSpanRecordWithChildrenInput1FromJSON(
+  jsonString: string,
+): SafeParseResult<
+  ExtendedWorkflowSpanRecordWithChildrenInput1,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      ExtendedWorkflowSpanRecordWithChildrenInput1$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'ExtendedWorkflowSpanRecordWithChildrenInput1' from JSON`,
+  );
+}
+
+/** @internal */
+export const ExtendedWorkflowSpanRecordWithChildrenInput2$inboundSchema:
+  z.ZodMiniType<ExtendedWorkflowSpanRecordWithChildrenInput2, unknown> =
     smartUnion([
       types.string(),
       z.array(GalileoCoreSchemasLoggingLlmMessage$inboundSchema),
+      z.array(
+        discriminatedUnion("type", {
+          file: FileContentPart$inboundSchema,
+          text: TextContentPart$inboundSchema,
+        }),
+      ),
     ]);
 
-export function extendedWorkflowSpanRecordWithChildrenInputFromJSON(
+export function extendedWorkflowSpanRecordWithChildrenInput2FromJSON(
   jsonString: string,
 ): SafeParseResult<
-  ExtendedWorkflowSpanRecordWithChildrenInput,
+  ExtendedWorkflowSpanRecordWithChildrenInput2,
   SDKValidationError
 > {
   return safeParse(
     jsonString,
     (x) =>
-      ExtendedWorkflowSpanRecordWithChildrenInput$inboundSchema.parse(
+      ExtendedWorkflowSpanRecordWithChildrenInput2$inboundSchema.parse(
         JSON.parse(x),
       ),
-    `Failed to parse 'ExtendedWorkflowSpanRecordWithChildrenInput' from JSON`,
+    `Failed to parse 'ExtendedWorkflowSpanRecordWithChildrenInput2' from JSON`,
   );
 }
 
 /** @internal */
-export const ExtendedWorkflowSpanRecordWithChildrenRedactedInput$inboundSchema:
-  z.ZodMiniType<ExtendedWorkflowSpanRecordWithChildrenRedactedInput, unknown> =
+export const ExtendedWorkflowSpanRecordWithChildrenRedactedInput1$inboundSchema:
+  z.ZodMiniType<ExtendedWorkflowSpanRecordWithChildrenRedactedInput1, unknown> =
+    discriminatedUnion("type", {
+      file: FileContentPart$inboundSchema,
+      text: TextContentPart$inboundSchema,
+    });
+
+export function extendedWorkflowSpanRecordWithChildrenRedactedInput1FromJSON(
+  jsonString: string,
+): SafeParseResult<
+  ExtendedWorkflowSpanRecordWithChildrenRedactedInput1,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      ExtendedWorkflowSpanRecordWithChildrenRedactedInput1$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'ExtendedWorkflowSpanRecordWithChildrenRedactedInput1' from JSON`,
+  );
+}
+
+/** @internal */
+export const ExtendedWorkflowSpanRecordWithChildrenRedactedInput2$inboundSchema:
+  z.ZodMiniType<ExtendedWorkflowSpanRecordWithChildrenRedactedInput2, unknown> =
     smartUnion([
       types.string(),
       z.array(GalileoCoreSchemasLoggingLlmMessage$inboundSchema),
+      z.array(
+        discriminatedUnion("type", {
+          file: FileContentPart$inboundSchema,
+          text: TextContentPart$inboundSchema,
+        }),
+      ),
     ]);
 
-export function extendedWorkflowSpanRecordWithChildrenRedactedInputFromJSON(
+export function extendedWorkflowSpanRecordWithChildrenRedactedInput2FromJSON(
   jsonString: string,
 ): SafeParseResult<
-  ExtendedWorkflowSpanRecordWithChildrenRedactedInput,
+  ExtendedWorkflowSpanRecordWithChildrenRedactedInput2,
   SDKValidationError
 > {
   return safeParse(
     jsonString,
     (x) =>
-      ExtendedWorkflowSpanRecordWithChildrenRedactedInput$inboundSchema.parse(
+      ExtendedWorkflowSpanRecordWithChildrenRedactedInput2$inboundSchema.parse(
         JSON.parse(x),
       ),
-    `Failed to parse 'ExtendedWorkflowSpanRecordWithChildrenRedactedInput' from JSON`,
+    `Failed to parse 'ExtendedWorkflowSpanRecordWithChildrenRedactedInput2' from JSON`,
   );
 }
 
 /** @internal */
-export const ExtendedWorkflowSpanRecordWithChildrenOutput$inboundSchema:
-  z.ZodMiniType<ExtendedWorkflowSpanRecordWithChildrenOutput, unknown> =
-    smartUnion([
-      GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
-      types.string(),
-      z.array(Document$inboundSchema),
-    ]);
+export const ExtendedWorkflowSpanRecordWithChildrenOutput1$inboundSchema:
+  z.ZodMiniType<ExtendedWorkflowSpanRecordWithChildrenOutput1, unknown> =
+    discriminatedUnion("type", {
+      file: FileContentPart$inboundSchema,
+      text: TextContentPart$inboundSchema,
+    });
 
-export function extendedWorkflowSpanRecordWithChildrenOutputFromJSON(
+export function extendedWorkflowSpanRecordWithChildrenOutput1FromJSON(
   jsonString: string,
 ): SafeParseResult<
-  ExtendedWorkflowSpanRecordWithChildrenOutput,
+  ExtendedWorkflowSpanRecordWithChildrenOutput1,
   SDKValidationError
 > {
   return safeParse(
     jsonString,
     (x) =>
-      ExtendedWorkflowSpanRecordWithChildrenOutput$inboundSchema.parse(
+      ExtendedWorkflowSpanRecordWithChildrenOutput1$inboundSchema.parse(
         JSON.parse(x),
       ),
-    `Failed to parse 'ExtendedWorkflowSpanRecordWithChildrenOutput' from JSON`,
+    `Failed to parse 'ExtendedWorkflowSpanRecordWithChildrenOutput1' from JSON`,
   );
 }
 
 /** @internal */
-export const ExtendedWorkflowSpanRecordWithChildrenRedactedOutput$inboundSchema:
-  z.ZodMiniType<ExtendedWorkflowSpanRecordWithChildrenRedactedOutput, unknown> =
+export const ExtendedWorkflowSpanRecordWithChildrenOutput2$inboundSchema:
+  z.ZodMiniType<ExtendedWorkflowSpanRecordWithChildrenOutput2, unknown> =
     smartUnion([
       GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
+      ControlResult$inboundSchema,
       types.string(),
       z.array(Document$inboundSchema),
+      z.array(
+        discriminatedUnion("type", {
+          file: FileContentPart$inboundSchema,
+          text: TextContentPart$inboundSchema,
+        }),
+      ),
     ]);
 
-export function extendedWorkflowSpanRecordWithChildrenRedactedOutputFromJSON(
+export function extendedWorkflowSpanRecordWithChildrenOutput2FromJSON(
   jsonString: string,
 ): SafeParseResult<
-  ExtendedWorkflowSpanRecordWithChildrenRedactedOutput,
+  ExtendedWorkflowSpanRecordWithChildrenOutput2,
   SDKValidationError
 > {
   return safeParse(
     jsonString,
     (x) =>
-      ExtendedWorkflowSpanRecordWithChildrenRedactedOutput$inboundSchema.parse(
+      ExtendedWorkflowSpanRecordWithChildrenOutput2$inboundSchema.parse(
         JSON.parse(x),
       ),
-    `Failed to parse 'ExtendedWorkflowSpanRecordWithChildrenRedactedOutput' from JSON`,
+    `Failed to parse 'ExtendedWorkflowSpanRecordWithChildrenOutput2' from JSON`,
+  );
+}
+
+/** @internal */
+export const ExtendedWorkflowSpanRecordWithChildrenRedactedOutput1$inboundSchema:
+  z.ZodMiniType<
+    ExtendedWorkflowSpanRecordWithChildrenRedactedOutput1,
+    unknown
+  > = discriminatedUnion("type", {
+    file: FileContentPart$inboundSchema,
+    text: TextContentPart$inboundSchema,
+  });
+
+export function extendedWorkflowSpanRecordWithChildrenRedactedOutput1FromJSON(
+  jsonString: string,
+): SafeParseResult<
+  ExtendedWorkflowSpanRecordWithChildrenRedactedOutput1,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      ExtendedWorkflowSpanRecordWithChildrenRedactedOutput1$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'ExtendedWorkflowSpanRecordWithChildrenRedactedOutput1' from JSON`,
+  );
+}
+
+/** @internal */
+export const ExtendedWorkflowSpanRecordWithChildrenRedactedOutput2$inboundSchema:
+  z.ZodMiniType<
+    ExtendedWorkflowSpanRecordWithChildrenRedactedOutput2,
+    unknown
+  > = smartUnion([
+    GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
+    ControlResult$inboundSchema,
+    types.string(),
+    z.array(Document$inboundSchema),
+    z.array(
+      discriminatedUnion("type", {
+        file: FileContentPart$inboundSchema,
+        text: TextContentPart$inboundSchema,
+      }),
+    ),
+  ]);
+
+export function extendedWorkflowSpanRecordWithChildrenRedactedOutput2FromJSON(
+  jsonString: string,
+): SafeParseResult<
+  ExtendedWorkflowSpanRecordWithChildrenRedactedOutput2,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      ExtendedWorkflowSpanRecordWithChildrenRedactedOutput2$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'ExtendedWorkflowSpanRecordWithChildrenRedactedOutput2' from JSON`,
   );
 }
 
@@ -428,6 +632,7 @@ export const ExtendedWorkflowSpanRecordWithChildren$inboundSchema:
     z.object({
       spans: types.optional(z.array(discriminatedUnion("type", {
         agent: z.lazy(() => ExtendedAgentSpanRecordWithChildren$inboundSchema),
+        control: ExtendedControlSpanRecord$inboundSchema,
         llm: ExtendedLlmSpanRecord$inboundSchema,
         retriever: z.lazy(() =>
           ExtendedRetrieverSpanRecordWithChildren$inboundSchema
@@ -442,6 +647,12 @@ export const ExtendedWorkflowSpanRecordWithChildren$inboundSchema:
         smartUnion([
           types.string(),
           z.array(GalileoCoreSchemasLoggingLlmMessage$inboundSchema),
+          z.array(
+            discriminatedUnion("type", {
+              file: FileContentPart$inboundSchema,
+              text: TextContentPart$inboundSchema,
+            }),
+          ),
         ]),
       ),
       redacted_input: z.optional(
@@ -449,6 +660,12 @@ export const ExtendedWorkflowSpanRecordWithChildren$inboundSchema:
           smartUnion([
             types.string(),
             z.array(GalileoCoreSchemasLoggingLlmMessage$inboundSchema),
+            z.array(
+              discriminatedUnion("type", {
+                file: FileContentPart$inboundSchema,
+                text: TextContentPart$inboundSchema,
+              }),
+            ),
           ]),
         ),
       ),
@@ -456,8 +673,15 @@ export const ExtendedWorkflowSpanRecordWithChildren$inboundSchema:
         z.nullable(
           smartUnion([
             GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
+            ControlResult$inboundSchema,
             types.string(),
             z.array(Document$inboundSchema),
+            z.array(
+              discriminatedUnion("type", {
+                file: FileContentPart$inboundSchema,
+                text: TextContentPart$inboundSchema,
+              }),
+            ),
           ]),
         ),
       ),
@@ -465,8 +689,15 @@ export const ExtendedWorkflowSpanRecordWithChildren$inboundSchema:
         z.nullable(
           smartUnion([
             GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
+            ControlResult$inboundSchema,
             types.string(),
             z.array(Document$inboundSchema),
+            z.array(
+              discriminatedUnion("type", {
+                file: FileContentPart$inboundSchema,
+                text: TextContentPart$inboundSchema,
+              }),
+            ),
           ]),
         ),
       ),
@@ -503,6 +734,7 @@ export const ExtendedWorkflowSpanRecordWithChildren$inboundSchema:
       annotation_aggregates: types.optional(
         z.record(z.string(), AnnotationAggregate$inboundSchema),
       ),
+      annotation_queue_ids: types.optional(z.array(types.string())),
       metric_info: z.optional(
         z.nullable(z.record(
           z.string(),
@@ -548,6 +780,7 @@ export const ExtendedWorkflowSpanRecordWithChildren$inboundSchema:
         "file_ids": "fileIds",
         "file_modalities": "fileModalities",
         "annotation_aggregates": "annotationAggregates",
+        "annotation_queue_ids": "annotationQueueIds",
         "metric_info": "metricInfo",
         "parent_id": "parentId",
         "is_complete": "isComplete",
@@ -572,6 +805,7 @@ export const ExtendedWorkflowSpanRecordWithChildrenSpan$inboundSchema:
   z.ZodMiniType<ExtendedWorkflowSpanRecordWithChildrenSpan, unknown> =
     discriminatedUnion("type", {
       agent: z.lazy(() => ExtendedAgentSpanRecordWithChildren$inboundSchema),
+      control: ExtendedControlSpanRecord$inboundSchema,
       llm: ExtendedLlmSpanRecord$inboundSchema,
       retriever: z.lazy(() =>
         ExtendedRetrieverSpanRecordWithChildren$inboundSchema

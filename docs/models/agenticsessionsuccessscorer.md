@@ -7,6 +7,13 @@ import { AgenticSessionSuccessScorer } from "galileo-generated/models";
 
 let value: AgenticSessionSuccessScorer = {
   name: "agentic_session_success",
+  filters: [
+    {
+      name: "modality",
+      operator: "ne",
+      value: "ENUM_VALUE",
+    },
+  ],
 };
 ```
 

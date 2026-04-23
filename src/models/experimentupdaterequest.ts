@@ -5,16 +5,30 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { ClosedEnum } from "../types/enums.js";
+
+export const ExperimentUpdateRequestTaskType = {
+  Sixteen: 16,
+  Seventeen: 17,
+} as const;
+export type ExperimentUpdateRequestTaskType = ClosedEnum<
+  typeof ExperimentUpdateRequestTaskType
+>;
 
 export type ExperimentUpdateRequest = {
   name: string;
-  taskType?: 16 | undefined;
+  taskType?: ExperimentUpdateRequestTaskType | undefined;
 };
+
+/** @internal */
+export const ExperimentUpdateRequestTaskType$outboundSchema: z.ZodMiniEnum<
+  typeof ExperimentUpdateRequestTaskType
+> = z.enum(ExperimentUpdateRequestTaskType);
 
 /** @internal */
 export type ExperimentUpdateRequest$Outbound = {
   name: string;
-  task_type?: 16 | undefined;
+  task_type?: number | undefined;
 };
 
 /** @internal */
@@ -24,7 +38,7 @@ export const ExperimentUpdateRequest$outboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     name: z.string(),
-    taskType: z.optional(z.literal(16)),
+    taskType: z.optional(ExperimentUpdateRequestTaskType$outboundSchema),
   }),
   z.transform((v) => {
     return remap$(v, {
