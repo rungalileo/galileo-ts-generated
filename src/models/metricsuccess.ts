@@ -18,6 +18,8 @@ import { ScorerType, ScorerType$inboundSchema } from "./scorertype.js";
 export type MetricSuccess = {
   statusType: "success";
   scorerType?: ScorerType | null | undefined;
+  metricKeyAlias?: string | null | undefined;
+  value: any | null;
   explanation?: string | null | undefined;
   cost?: number | null | undefined;
   modelAlias?: string | null | undefined;
@@ -26,7 +28,6 @@ export type MetricSuccess = {
   outputTokens?: number | null | undefined;
   totalTokens?: number | null | undefined;
   critique?: MetricCritiqueColumnar | null | undefined;
-  value: any | null;
   displayValue?: string | null | undefined;
   rationale?: string | null | undefined;
 };
@@ -39,6 +40,8 @@ export const MetricSuccess$inboundSchema: z.ZodMiniType<
   z.object({
     status_type: types.literal("success"),
     scorer_type: z.optional(z.nullable(ScorerType$inboundSchema)),
+    metric_key_alias: z.optional(z.nullable(types.string())),
+    value: types.nullable(z.any()),
     explanation: z.optional(z.nullable(types.string())),
     cost: z.optional(z.nullable(types.number())),
     model_alias: z.optional(z.nullable(types.string())),
@@ -47,7 +50,6 @@ export const MetricSuccess$inboundSchema: z.ZodMiniType<
     output_tokens: z.optional(z.nullable(types.number())),
     total_tokens: z.optional(z.nullable(types.number())),
     critique: z.optional(z.nullable(MetricCritiqueColumnar$inboundSchema)),
-    value: types.nullable(z.any()),
     display_value: z.optional(z.nullable(types.string())),
     rationale: z.optional(z.nullable(types.string())),
   }),
@@ -55,6 +57,7 @@ export const MetricSuccess$inboundSchema: z.ZodMiniType<
     return remap$(v, {
       "status_type": "statusType",
       "scorer_type": "scorerType",
+      "metric_key_alias": "metricKeyAlias",
       "model_alias": "modelAlias",
       "num_judges": "numJudges",
       "input_tokens": "inputTokens",

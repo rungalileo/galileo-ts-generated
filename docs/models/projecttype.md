@@ -5,7 +5,7 @@
 ```typescript
 import { ProjectType } from "galileo-generated/models";
 
-let value: ProjectType = "training_inference";
+let value: ProjectType = "prompt_evaluation";
 
 // Open enum: unrecognized values are captured as Unrecognized<string>
 ```
@@ -13,5 +13,5 @@ let value: ProjectType = "training_inference";
 ## Values
 
 ```typescript
-"training_inference" | "prompt_evaluation" | "llm_monitor" | "protect" | "gen_ai" | Unrecognized<string>
+"prompt_evaluation" | "llm_monitor" | "protect" | "gen_ai" | Unrecognized<string>
 ```

@@ -8,8 +8,19 @@ Used for configuring a scorer for a scorer job.
 import { ScorerConfig } from "galileo-generated/models";
 
 let value: ScorerConfig = {
+  filters: [
+    {
+      name: "node_name",
+      operator: "ne",
+      value: [
+        "<value 1>",
+        "<value 2>",
+      ],
+      caseSensitive: true,
+    },
+  ],
   id: "<value>",
-  scorerType: "luna",
+  scorerType: "code",
 };
 ```
 
@@ -30,4 +41,5 @@ let value: ScorerConfig = {
 | `modelType`                                                                                    | [models.ModelType](../models/modeltype.md)                                                     | :heavy_minus_sign:                                                                             | Type of model to use for this scorer. slm maps to luna, and llm maps to plus                   |
 | `scorerVersion`                                                                                | [models.BaseScorerVersionDB](../models/basescorerversiondb.md)                                 | :heavy_minus_sign:                                                                             | ScorerVersion to use for this scorer. If not provided, the latest version will be used.        |
 | `multimodalCapabilities`                                                                       | [models.MultimodalCapability](../models/multimodalcapability.md)[]                             | :heavy_minus_sign:                                                                             | Multimodal capabilities which this scorer can utilize in its evaluation.                       |
-| `rollUpMethod`                                                                                 | *string*                                                                                       | :heavy_minus_sign:                                                                             | N/A                                                                                            |
+| `rollUpMethod`                                                                                 | [models.RollUpMethodDisplayOptions](../models/rollupmethoddisplayoptions.md)                   | :heavy_minus_sign:                                                                             | N/A                                                                                            |
+| `scoreType`                                                                                    | *string*                                                                                       | :heavy_minus_sign:                                                                             | Return type of code scorers (e.g., 'bool', 'int', 'float', 'str').                             |
