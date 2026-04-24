@@ -42,9 +42,6 @@ const value: models.AnthropicIntegration = {
 
 ```typescript
 const value: models.CustomIntegration = {
-  models: [
-    "<value 1>",
-  ],
   endpoint: "<value>",
   name: "custom",
 };
