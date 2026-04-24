@@ -18,6 +18,10 @@ import {
 } from "./customllmconfig.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
+  ModelProperties,
+  ModelProperties$inboundSchema,
+} from "./modelproperties.js";
+import {
   MultiModalModelIntegrationConfig,
   MultiModalModelIntegrationConfig$inboundSchema,
 } from "./multimodalmodelintegrationconfig.js";
@@ -29,6 +33,7 @@ import {
  *
  * api_key_value is not stored in extra (it's encrypted in the token column),
  * so we override the parent validator to skip requiring it on read.
+ * Headers are not returned on read (they're encrypted and sensitive).
  */
 export type CustomIntegration = {
   /**
@@ -47,11 +52,19 @@ export type CustomIntegration = {
    */
   authenticationType?: CustomAuthenticationType | undefined;
   /**
-   * List of model names for the custom integration
+   * List of model names for the custom integration. Deprecated: use model_properties instead.
    */
-  models: Array<string>;
+  models?: Array<string> | null | undefined;
   /**
-   * Default model to use. If not provided, defaults to the first model in the models list.
+   * List of model properties with name and alias for the custom integration.
+   */
+  modelProperties?: Array<ModelProperties> | null | undefined;
+  /**
+   * Internal: whether this config was created from the legacy 'models' field.
+   */
+  isLegacyFormat: boolean;
+  /**
+   * Default model to use. If not provided, defaults to the first model.
    */
   defaultModel?: string | null | undefined;
   /**
@@ -78,6 +91,11 @@ export type CustomIntegration = {
    * Optional configuration for a custom LiteLLM handler class. When specified, the handler's acompletion() method is used instead of the default litellm.acompletion().
    */
   customLlmConfig?: CustomLLMConfig | null | undefined;
+  /**
+   * Custom header mapping from internal fields (job_id, user_id, project_id, run_id) to custom header names to be included in LLM requests.
+   */
+  customHeaderMapping?: { [k: string]: string } | null | undefined;
+  headers?: { [k: string]: string } | null | undefined;
   id?: string | null | undefined;
   name: "custom";
   extra?: { [k: string]: any } | null | undefined;
@@ -93,7 +111,11 @@ export const CustomIntegration$inboundSchema: z.ZodMiniType<
       z.nullable(MultiModalModelIntegrationConfig$inboundSchema),
     ),
     authentication_type: types.optional(CustomAuthenticationType$inboundSchema),
-    models: z.array(types.string()),
+    models: z.optional(z.nullable(z.array(types.string()))),
+    model_properties: z.optional(
+      z.nullable(z.array(ModelProperties$inboundSchema)),
+    ),
+    is_legacy_format: z._default(types.boolean(), false),
     default_model: z.optional(z.nullable(types.string())),
     endpoint: types.string(),
     authentication_scope: z.optional(z.nullable(types.string())),
@@ -101,6 +123,10 @@ export const CustomIntegration$inboundSchema: z.ZodMiniType<
     api_key_header: z.optional(z.nullable(types.string())),
     api_key_value: z.optional(z.nullable(types.string())),
     custom_llm_config: z.optional(z.nullable(CustomLLMConfig$inboundSchema)),
+    custom_header_mapping: z.optional(
+      z.nullable(z.record(z.string(), types.string())),
+    ),
+    headers: z.optional(z.nullable(z.record(z.string(), types.string()))),
     id: z.optional(z.nullable(types.string())),
     name: types.literal("custom"),
     extra: z.optional(z.nullable(z.record(z.string(), z.any()))),
@@ -109,12 +135,15 @@ export const CustomIntegration$inboundSchema: z.ZodMiniType<
     return remap$(v, {
       "multi_modal_config": "multiModalConfig",
       "authentication_type": "authenticationType",
+      "model_properties": "modelProperties",
+      "is_legacy_format": "isLegacyFormat",
       "default_model": "defaultModel",
       "authentication_scope": "authenticationScope",
       "oauth2_token_url": "oauth2TokenUrl",
       "api_key_header": "apiKeyHeader",
       "api_key_value": "apiKeyValue",
       "custom_llm_config": "customLlmConfig",
+      "custom_header_mapping": "customHeaderMapping",
     });
   }),
 );

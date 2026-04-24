@@ -7,6 +7,14 @@ import { PromptPerplexityScorer } from "galileo-generated/models";
 
 let value: PromptPerplexityScorer = {
   name: "prompt_perplexity",
+  filters: [
+    {
+      name: "metadata",
+      operator: "not_in",
+      key: "<key>",
+      value: "<value>",
+    },
+  ],
 };
 ```
 

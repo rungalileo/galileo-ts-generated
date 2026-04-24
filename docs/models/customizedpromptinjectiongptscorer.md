@@ -7,6 +7,17 @@ import { CustomizedPromptInjectionGPTScorer } from "galileo-generated/models";
 
 let value: CustomizedPromptInjectionGPTScorer = {
   scorerName: "_customized_prompt_injection_gpt",
+  filters: [
+    {
+      name: "node_name",
+      operator: "not_in",
+      value: [
+        "<value 1>",
+        "<value 2>",
+      ],
+      caseSensitive: true,
+    },
+  ],
 };
 ```
 
