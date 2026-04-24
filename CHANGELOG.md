@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.13](https://github.com/rungalileo/galileo-ts-generated/compare/galileo-generated-v0.2.12...galileo-generated-v0.2.13) (2026-04-24)
+
+
+### Miscellaneous
+
+* **lock:** Regenerated lock file. ([#68](https://github.com/rungalileo/galileo-ts-generated/issues/68)) ([2290a74](https://github.com/rungalileo/galileo-ts-generated/commit/2290a744fd5d2667d93a257edae62f4fb9144998))
+
 ## [0.2.12](https://github.com/rungalileo/galileo-ts-generated/compare/galileo-generated-v0.2.11...galileo-generated-v0.2.12) (2026-04-07)
 
 
