@@ -7,6 +7,21 @@ import { RunScorerSettingsResponse } from "galileo-generated/models";
 
 let value: RunScorerSettingsResponse = {
   scorers: [],
+  segmentFilters: [
+    {
+      filter: {
+        name: "node_name",
+        operator: "ne",
+        value: [
+          "<value 1>",
+          "<value 2>",
+          "<value 3>",
+        ],
+        caseSensitive: true,
+      },
+      sampleRate: 7113.42,
+    },
+  ],
   runId: "<value>",
 };
 ```

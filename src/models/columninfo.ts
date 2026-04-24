@@ -75,6 +75,10 @@ export type ColumnInfo = {
    * Whether the column is optional.
    */
   isOptional: boolean;
+  /**
+   * Default roll-up aggregation method for this metric (e.g., 'sum', 'average').
+   */
+  rollUpMethod?: string | null | undefined;
 };
 
 /** @internal */
@@ -96,6 +100,7 @@ export const ColumnInfo$inboundSchema: z.ZodMiniType<ColumnInfo, unknown> = z
       applicable_types: types.optional(z.array(StepType$inboundSchema)),
       complex: z._default(types.boolean(), false),
       is_optional: z._default(types.boolean(), false),
+      roll_up_method: z.optional(z.nullable(types.string())),
     }),
     z.transform((v) => {
       return remap$(v, {
@@ -107,6 +112,7 @@ export const ColumnInfo$inboundSchema: z.ZodMiniType<ColumnInfo, unknown> = z
         "is_empty": "isEmpty",
         "applicable_types": "applicableTypes",
         "is_optional": "isOptional",
+        "roll_up_method": "rollUpMethod",
       });
     }),
   );
