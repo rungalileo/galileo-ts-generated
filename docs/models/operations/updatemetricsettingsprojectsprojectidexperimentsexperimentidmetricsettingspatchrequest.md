@@ -12,7 +12,39 @@ let value:
     {
       projectId: "<value>",
       experimentId: "<value>",
-      body: {},
+      body: {
+        scorers: [
+          {
+            filters: [
+              {
+                name: "node_name",
+                operator: "one_of",
+                value: [
+                  "<value 1>",
+                ],
+                caseSensitive: true,
+              },
+            ],
+            id: "<value>",
+            scorerType: "llm",
+          },
+        ],
+        segmentFilters: [
+          {
+            filter: {
+              name: "node_name",
+              operator: "ne",
+              value: [
+                "<value 1>",
+                "<value 2>",
+                "<value 3>",
+              ],
+              caseSensitive: true,
+            },
+            sampleRate: 7113.42,
+          },
+        ],
+      },
     };
 ```
 

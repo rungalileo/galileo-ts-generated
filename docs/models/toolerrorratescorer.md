@@ -7,6 +7,14 @@ import { ToolErrorRateScorer } from "galileo-generated/models";
 
 let value: ToolErrorRateScorer = {
   name: "tool_error_rate",
+  filters: [
+    {
+      name: "node_name",
+      operator: "ne",
+      value: "<value>",
+      caseSensitive: true,
+    },
+  ],
 };
 ```
 

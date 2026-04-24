@@ -13,5 +13,5 @@ let value: NodeNameFilterOperator = "ne";
 ## Values
 
 ```typescript
-"eq" | "ne" | "contains" | Unrecognized<string>
+"eq" | "ne" | "contains" | "one_of" | "not_in" | Unrecognized<string>
 ```
