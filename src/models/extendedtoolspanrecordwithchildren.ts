@@ -28,6 +28,10 @@ import {
   ExtendedAgentSpanRecordWithChildren$inboundSchema,
 } from "./extendedagentspanrecordwithchildren.js";
 import {
+  ExtendedControlSpanRecord,
+  ExtendedControlSpanRecord$inboundSchema,
+} from "./extendedcontrolspanrecord.js";
+import {
   ExtendedLlmSpanRecord,
   ExtendedLlmSpanRecord$inboundSchema,
 } from "./extendedllmspanrecord.js";
@@ -78,6 +82,7 @@ export type ExtendedToolSpanRecordWithChildren = {
   spans?:
     | Array<
       | ExtendedAgentSpanRecordWithChildren
+      | ExtendedControlSpanRecord
       | ExtendedLlmSpanRecord
       | ExtendedRetrieverSpanRecordWithChildren
       | ExtendedToolSpanRecordWithChildren
@@ -201,6 +206,18 @@ export type ExtendedToolSpanRecordWithChildren = {
    */
   annotationAggregates?: { [k: string]: AnnotationAggregate } | undefined;
   /**
+   * Annotation agreement scores keyed by template ID
+   */
+  annotationAgreement?: { [k: string]: number } | undefined;
+  /**
+   * Average annotation agreement per queue (keyed by queue ID)
+   */
+  overallAnnotationAgreement?: { [k: string]: number } | undefined;
+  /**
+   * IDs of annotation queues this record is in
+   */
+  annotationQueueIds?: Array<string> | undefined;
+  /**
    * Detailed information about the metrics associated with this trace or span
    */
   metricInfo?:
@@ -242,6 +259,7 @@ export type ExtendedToolSpanRecordWithChildren = {
 
 export type ExtendedToolSpanRecordWithChildrenSpan =
   | ExtendedAgentSpanRecordWithChildren
+  | ExtendedControlSpanRecord
   | ExtendedLlmSpanRecord
   | ExtendedRetrieverSpanRecordWithChildren
   | ExtendedToolSpanRecordWithChildren
@@ -286,6 +304,7 @@ export const ExtendedToolSpanRecordWithChildren$inboundSchema: z.ZodMiniType<
   z.object({
     spans: types.optional(z.array(discriminatedUnion("type", {
       agent: z.lazy(() => ExtendedAgentSpanRecordWithChildren$inboundSchema),
+      control: ExtendedControlSpanRecord$inboundSchema,
       llm: ExtendedLlmSpanRecord$inboundSchema,
       retriever: z.lazy(() =>
         ExtendedRetrieverSpanRecordWithChildren$inboundSchema
@@ -333,6 +352,11 @@ export const ExtendedToolSpanRecordWithChildren$inboundSchema: z.ZodMiniType<
     annotation_aggregates: types.optional(
       z.record(z.string(), AnnotationAggregate$inboundSchema),
     ),
+    annotation_agreement: types.optional(z.record(z.string(), types.number())),
+    overall_annotation_agreement: types.optional(
+      z.record(z.string(), types.number()),
+    ),
+    annotation_queue_ids: types.optional(z.array(types.string())),
     metric_info: z.optional(
       z.nullable(z.record(
         z.string(),
@@ -379,6 +403,9 @@ export const ExtendedToolSpanRecordWithChildren$inboundSchema: z.ZodMiniType<
       "file_ids": "fileIds",
       "file_modalities": "fileModalities",
       "annotation_aggregates": "annotationAggregates",
+      "annotation_agreement": "annotationAgreement",
+      "overall_annotation_agreement": "overallAnnotationAgreement",
+      "annotation_queue_ids": "annotationQueueIds",
       "metric_info": "metricInfo",
       "parent_id": "parentId",
       "is_complete": "isComplete",
@@ -404,6 +431,7 @@ export const ExtendedToolSpanRecordWithChildrenSpan$inboundSchema:
   z.ZodMiniType<ExtendedToolSpanRecordWithChildrenSpan, unknown> =
     discriminatedUnion("type", {
       agent: z.lazy(() => ExtendedAgentSpanRecordWithChildren$inboundSchema),
+      control: ExtendedControlSpanRecord$inboundSchema,
       llm: ExtendedLlmSpanRecord$inboundSchema,
       retriever: z.lazy(() =>
         ExtendedRetrieverSpanRecordWithChildren$inboundSchema

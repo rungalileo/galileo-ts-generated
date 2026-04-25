@@ -7,6 +7,13 @@ import { GroundTruthAdherenceScorer } from "galileo-generated/models";
 
 let value: GroundTruthAdherenceScorer = {
   name: "ground_truth_adherence",
+  filters: [
+    {
+      name: "modality",
+      operator: "not_in",
+      value: "ENUM_VALUE",
+    },
+  ],
 };
 ```
 

@@ -36,6 +36,7 @@
 * [listDatasetProjectsDatasetsDatasetIdProjectsGet](#listdatasetprojectsdatasetsdatasetidprojectsget) - List Dataset Projects
 * [extendDatasetContentDatasetsExtendPost](#extenddatasetcontentdatasetsextendpost) - Extend Dataset Content
 * [getDatasetSyntheticExtendStatusDatasetsExtendDatasetIdGet](#getdatasetsyntheticextendstatusdatasetsextenddatasetidget) - Get Dataset Synthetic Extend Status
+* [getDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet](#getdatasetvariablepreviewdatasetsdatasetidvariablepreviewget) - Get Dataset Variable Preview
 
 ## ~~uploadPromptEvaluationDatasetProjectsProjectIdPromptDatasetsPost~~
 
@@ -2536,6 +2537,81 @@ run();
 ### Response
 
 **Promise\<[models.JobProgress](../../models/jobprogress.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
+## getDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet
+
+Return a variable preview derived from the sampled dataset input rows.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="get_dataset_variable_preview_datasets__dataset_id__variable_preview_get" method="get" path="/datasets/{dataset_id}/variable_preview" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.datasets.getDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    datasetId: "<value>",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { datasetsGetDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet } from "galileo-generated/funcs/datasetsGetDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await datasetsGetDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    datasetId: "<value>",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("datasetsGetDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                          | Type                                                                                                                                                                               | Required                                                                                                                                                                           | Description                                                                                                                                                                        |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `request`                                                                                                                                                                          | [operations.GetDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGetRequest](../../models/operations/getdatasetvariablepreviewdatasetsdatasetidvariablepreviewgetrequest.md)   | :heavy_check_mark:                                                                                                                                                                 | The request object to use for the request.                                                                                                                                         |
+| `security`                                                                                                                                                                         | [operations.GetDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGetSecurity](../../models/operations/getdatasetvariablepreviewdatasetsdatasetidvariablepreviewgetsecurity.md) | :heavy_check_mark:                                                                                                                                                                 | The security requirements to use for the request.                                                                                                                                  |
+| `options`                                                                                                                                                                          | RequestOptions                                                                                                                                                                     | :heavy_minus_sign:                                                                                                                                                                 | Used to set various options for making HTTP requests.                                                                                                                              |
+| `options.fetchOptions`                                                                                                                                                             | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                            | :heavy_minus_sign:                                                                                                                                                                 | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.     |
+| `options.retries`                                                                                                                                                                  | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                      | :heavy_minus_sign:                                                                                                                                                                 | Enables retrying HTTP requests under certain failure conditions.                                                                                                                   |
+
+### Response
+
+**Promise\<[models.DatasetInputJsonField[]](../../models/.md)\>**
 
 ### Errors
 
