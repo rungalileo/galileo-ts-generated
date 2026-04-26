@@ -4,14 +4,54 @@
  */
 
 import * as z from "zod/v4-mini";
+import { ClosedEnum } from "../types/enums.js";
+import { smartUnion } from "../types/smartUnion.js";
+
+export const ScorerModelTypeFilterOperator = {
+  Eq: "eq",
+  Ne: "ne",
+  OneOf: "one_of",
+  NotIn: "not_in",
+} as const;
+export type ScorerModelTypeFilterOperator = ClosedEnum<
+  typeof ScorerModelTypeFilterOperator
+>;
+
+export type ScorerModelTypeFilterValue = string | Array<string>;
 
 export type ScorerModelTypeFilter = {
   name: "model_type";
+  operator: ScorerModelTypeFilterOperator;
+  value: string | Array<string>;
 };
+
+/** @internal */
+export const ScorerModelTypeFilterOperator$outboundSchema: z.ZodMiniEnum<
+  typeof ScorerModelTypeFilterOperator
+> = z.enum(ScorerModelTypeFilterOperator);
+
+/** @internal */
+export type ScorerModelTypeFilterValue$Outbound = string | Array<string>;
+
+/** @internal */
+export const ScorerModelTypeFilterValue$outboundSchema: z.ZodMiniType<
+  ScorerModelTypeFilterValue$Outbound,
+  ScorerModelTypeFilterValue
+> = smartUnion([z.string(), z.array(z.string())]);
+
+export function scorerModelTypeFilterValueToJSON(
+  scorerModelTypeFilterValue: ScorerModelTypeFilterValue,
+): string {
+  return JSON.stringify(
+    ScorerModelTypeFilterValue$outboundSchema.parse(scorerModelTypeFilterValue),
+  );
+}
 
 /** @internal */
 export type ScorerModelTypeFilter$Outbound = {
   name: "model_type";
+  operator: string;
+  value: string | Array<string>;
 };
 
 /** @internal */
@@ -20,6 +60,8 @@ export const ScorerModelTypeFilter$outboundSchema: z.ZodMiniType<
   ScorerModelTypeFilter
 > = z.object({
   name: z.literal("model_type"),
+  operator: ScorerModelTypeFilterOperator$outboundSchema,
+  value: smartUnion([z.string(), z.array(z.string())]),
 });
 
 export function scorerModelTypeFilterToJSON(

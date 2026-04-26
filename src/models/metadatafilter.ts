@@ -4,7 +4,6 @@
  */
 
 import * as z from "zod/v4-mini";
-import { remap as remap$ } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
@@ -28,7 +27,6 @@ export type MetadataFilterValue = string | Array<string>;
  */
 export type MetadataFilter = {
   name: "metadata";
-  filterType?: "map" | undefined;
   operator: MetadataFilterOperator;
   key: string;
   value: string | Array<string>;
@@ -80,24 +78,15 @@ export function metadataFilterValueFromJSON(
 export const MetadataFilter$inboundSchema: z.ZodMiniType<
   MetadataFilter,
   unknown
-> = z.pipe(
-  z.object({
-    name: types.literal("metadata"),
-    filter_type: z._default(types.literal("map"), "map"),
-    operator: MetadataFilterOperator$inboundSchema,
-    key: types.string(),
-    value: smartUnion([types.string(), z.array(types.string())]),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "filter_type": "filterType",
-    });
-  }),
-);
+> = z.object({
+  name: types.literal("metadata"),
+  operator: MetadataFilterOperator$inboundSchema,
+  key: types.string(),
+  value: smartUnion([types.string(), z.array(types.string())]),
+});
 /** @internal */
 export type MetadataFilter$Outbound = {
   name: "metadata";
-  filter_type: "map";
   operator: string;
   key: string;
   value: string | Array<string>;
@@ -107,20 +96,12 @@ export type MetadataFilter$Outbound = {
 export const MetadataFilter$outboundSchema: z.ZodMiniType<
   MetadataFilter$Outbound,
   MetadataFilter
-> = z.pipe(
-  z.object({
-    name: z.literal("metadata"),
-    filterType: z._default(z.literal("map"), "map" as const),
-    operator: MetadataFilterOperator$outboundSchema,
-    key: z.string(),
-    value: smartUnion([z.string(), z.array(z.string())]),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      filterType: "filter_type",
-    });
-  }),
-);
+> = z.object({
+  name: z.literal("metadata"),
+  operator: MetadataFilterOperator$outboundSchema,
+  key: z.string(),
+  value: smartUnion([z.string(), z.array(z.string())]),
+});
 
 export function metadataFilterToJSON(metadataFilter: MetadataFilter): string {
   return JSON.stringify(MetadataFilter$outboundSchema.parse(metadataFilter));
