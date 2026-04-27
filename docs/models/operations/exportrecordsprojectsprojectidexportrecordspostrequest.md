@@ -8,6 +8,12 @@ import { ExportRecordsProjectsProjectIdExportRecordsPostRequest } from "galileo-
 let value: ExportRecordsProjectsProjectIdExportRecordsPostRequest = {
   projectId: "<value>",
   body: {
+    columnIds: [
+      "input",
+      "output",
+      "created_at",
+    ],
+    exportFormat: "jsonl",
     logStreamId: "00000000-0000-0000-0000-000000000000",
     filters: [
       {
@@ -22,12 +28,6 @@ let value: ExportRecordsProjectsProjectIdExportRecordsPostRequest = {
       columnId: "<id>",
       ascending: false,
     },
-    columnIds: [
-      "input",
-      "output",
-      "created_at",
-    ],
-    exportFormat: "jsonl",
     rootType: "trace",
   },
 };

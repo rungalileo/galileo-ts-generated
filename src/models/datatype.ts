@@ -26,6 +26,7 @@ export const DataType = {
   ThumbRatingAggregate: "thumb_rating_aggregate",
   TagsRatingAggregate: "tags_rating_aggregate",
   TextRatingAggregate: "text_rating_aggregate",
+  AnnotationAgreement: "annotation_agreement",
 } as const;
 export type DataType = OpenEnum<typeof DataType>;
 

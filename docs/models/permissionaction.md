@@ -6,7 +6,7 @@
 ### `models.UserAction`
 
 ```typescript
-const value: models.UserAction = "delete";
+const value: models.UserAction = "read_api_keys";
 ```
 
 ### `models.GroupAction`
