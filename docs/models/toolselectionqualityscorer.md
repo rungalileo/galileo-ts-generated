@@ -7,6 +7,7 @@ import { ToolSelectionQualityScorer } from "galileo-generated/models";
 
 let value: ToolSelectionQualityScorer = {
   name: "tool_selection_quality",
+  filters: null,
 };
 ```
 

@@ -7,6 +7,13 @@ import { CustomizedGroundednessGPTScorer } from "galileo-generated/models";
 
 let value: CustomizedGroundednessGPTScorer = {
   scorerName: "_customized_groundedness",
+  filters: [
+    {
+      name: "modality",
+      operator: "one_of",
+      value: "ENUM_VALUE",
+    },
+  ],
 };
 ```
 

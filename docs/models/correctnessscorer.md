@@ -7,6 +7,14 @@ import { CorrectnessScorer } from "galileo-generated/models";
 
 let value: CorrectnessScorer = {
   name: "correctness",
+  filters: [
+    {
+      name: "metadata",
+      operator: "ne",
+      key: "<key>",
+      value: "<value>",
+    },
+  ],
 };
 ```
 

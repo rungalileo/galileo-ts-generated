@@ -29,3 +29,13 @@ Based on:
 - [typescript v0.2.9] .
 ### Releases
 - [NPM v0.2.9] https://www.npmjs.com/package/galileo-generated/v/0.2.9 - .
+
+## 2026-04-27 15:22:59
+### Changes
+Based on:
+- OpenAPI Doc  
+- Speakeasy CLI 1.761.9 (2.881.4) https://github.com/speakeasy-api/speakeasy
+### Generated
+- [typescript v0.2.13] .
+### Releases
+- [NPM v0.2.13] https://www.npmjs.com/package/galileo-generated/v/0.2.13 - .

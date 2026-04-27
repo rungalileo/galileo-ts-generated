@@ -14,7 +14,7 @@ let value: LogRecordsQueryResponse = {
       input: "Who is a smart LLM?",
       output: "I am",
       name: "",
-      createdAt: new Date("2026-03-06T13:30:13.484608Z"),
+      createdAt: new Date("2026-04-24T07:03:02.892027Z"),
       userMetadata: {},
       tags: [],
       metrics: {
@@ -31,6 +31,9 @@ let value: LogRecordsQueryResponse = {
       fileIds: [],
       fileModalities: [],
       annotationAggregates: {},
+      annotationAgreement: {},
+      overallAnnotationAgreement: {},
+      annotationQueueIds: [],
       isComplete: true,
     },
     {
@@ -46,7 +49,7 @@ let value: LogRecordsQueryResponse = {
         role: "user",
       },
       name: "",
-      createdAt: new Date("2026-03-06T13:30:13.484790Z"),
+      createdAt: new Date("2026-04-24T07:03:02.892180Z"),
       userMetadata: {},
       tags: [],
       metrics: {
@@ -66,6 +69,9 @@ let value: LogRecordsQueryResponse = {
       fileIds: [],
       fileModalities: [],
       annotationAggregates: {},
+      annotationAgreement: {},
+      overallAnnotationAgreement: {},
+      annotationQueueIds: [],
       parentId: "1a0939d1-8b43-4fe3-a91c-196e2d9847e3",
       isComplete: true,
     },

@@ -27,9 +27,9 @@
     "lint": "eslint --cache --max-warnings=0 src",
     "build": "tshy",
     "prepublishOnly": "npm run build",
-    "test:watch": "vitest",
     "code-generation": "speakeasy run",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "devDependencies": {
     "@eslint/js": "^9.26.0",
