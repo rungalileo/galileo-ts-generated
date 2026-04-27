@@ -7,6 +7,14 @@ import { ChunkAttributionUtilizationScorer } from "galileo-generated/models";
 
 let value: ChunkAttributionUtilizationScorer = {
   name: "chunk_attribution_utilization",
+  filters: [
+    {
+      name: "metadata",
+      operator: "ne",
+      key: "<key>",
+      value: [],
+    },
+  ],
 };
 ```
 
