@@ -7,6 +7,13 @@ import { CustomizedSexistGPTScorer } from "galileo-generated/models";
 
 let value: CustomizedSexistGPTScorer = {
   scorerName: "_customized_sexist_gpt",
+  filters: [
+    {
+      name: "modality",
+      operator: "ne",
+      value: "ENUM_VALUE",
+    },
+  ],
 };
 ```
 

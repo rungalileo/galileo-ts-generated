@@ -7,6 +7,16 @@ import { CustomizedInputSexistGPTScorer } from "galileo-generated/models";
 
 let value: CustomizedInputSexistGPTScorer = {
   scorerName: "_customized_input_sexist_gpt",
+  filters: [
+    {
+      name: "node_name",
+      operator: "contains",
+      value: [
+        "<value 1>",
+      ],
+      caseSensitive: true,
+    },
+  ],
 };
 ```
 
