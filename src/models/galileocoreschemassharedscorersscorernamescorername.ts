@@ -18,6 +18,7 @@ export const GalileoCoreSchemasSharedScorersScorerNameScorerName = {
   ChunkAttributionUtilizationLuna: "chunk_attribution_utilization_luna",
   ChunkAttributionUtilization: "chunk_attribution_utilization",
   ChunkRelevance: "chunk_relevance",
+  ChunkRelevanceLuna: "chunk_relevance_luna",
   ContextPrecision: "context_precision",
   PrecisionAtK: "precision_at_k",
   CompletenessLuna: "completeness_luna",
@@ -29,6 +30,8 @@ export const GalileoCoreSchemasSharedScorersScorerNameScorerName = {
   ConversationQuality: "conversation_quality",
   Correctness: "correctness",
   GroundTruthAdherence: "ground_truth_adherence",
+  VisualFidelity: "visual_fidelity",
+  VisualQuality: "visual_quality",
   InputPii: "input_pii",
   InputPiiGpt: "input_pii_gpt",
   InputSexist: "input_sexist",
@@ -61,6 +64,7 @@ export const GalileoCoreSchemasSharedScorersScorerNameScorerName = {
   ToolSelectionQualityLuna: "tool_selection_quality_luna",
   Uncertainty: "uncertainty",
   UserIntentChange: "user_intent_change",
+  InterruptionDetection: "interruption_detection",
 } as const;
 export type GalileoCoreSchemasSharedScorersScorerNameScorerName = OpenEnum<
   typeof GalileoCoreSchemasSharedScorersScorerNameScorerName

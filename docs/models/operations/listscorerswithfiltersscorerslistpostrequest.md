@@ -9,9 +9,10 @@ let value: ListScorersWithFiltersScorersListPostRequest = {
   body: {
     filters: [
       {
-        name: "updated_at",
-        operator: "lt",
-        value: new Date("2024-12-13T15:03:41.085Z"),
+        name: "tags",
+        operator: "one_of",
+        value: "<value>",
+        caseSensitive: true,
       },
     ],
   },

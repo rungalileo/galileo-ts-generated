@@ -7,6 +7,13 @@ import { ContextAdherenceScorer } from "galileo-generated/models";
 
 let value: ContextAdherenceScorer = {
   name: "context_adherence",
+  filters: [
+    {
+      name: "modality",
+      operator: "not_in",
+      value: "ENUM_VALUE",
+    },
+  ],
 };
 ```
 

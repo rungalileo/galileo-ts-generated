@@ -5,6 +5,7 @@
 
 import { ClientSDK } from "../lib/sdks.js";
 import { Auth } from "./auth.js";
+import { CodeMetricGeneration } from "./codemetricgeneration.js";
 import { Data } from "./data.js";
 import { Datasets } from "./datasets.js";
 import { Experiment } from "./experiment.js";
@@ -106,5 +107,12 @@ export class GalileoGenerated extends ClientSDK {
   private _llmIntegrations?: LlmIntegrations;
   get llmIntegrations(): LlmIntegrations {
     return (this._llmIntegrations ??= new LlmIntegrations(this._options));
+  }
+
+  private _codeMetricGeneration?: CodeMetricGeneration;
+  get codeMetricGeneration(): CodeMetricGeneration {
+    return (this._codeMetricGeneration ??= new CodeMetricGeneration(
+      this._options,
+    ));
   }
 }
