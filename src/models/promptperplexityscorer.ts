@@ -17,6 +17,12 @@ import {
   MetadataFilter$outboundSchema,
 } from "./metadatafilter.js";
 import {
+  ModalityFilter,
+  ModalityFilter$inboundSchema,
+  ModalityFilter$Outbound,
+  ModalityFilter$outboundSchema,
+} from "./modalityfilter.js";
+import {
   NodeNameFilter,
   NodeNameFilter$inboundSchema,
   NodeNameFilter$Outbound,
@@ -25,6 +31,7 @@ import {
 
 export type PromptPerplexityScorerFilter =
   | MetadataFilter
+  | ModalityFilter
   | NodeNameFilter
   | discriminatedUnionTypes.Unknown<"name">;
 
@@ -35,7 +42,10 @@ export type PromptPerplexityScorer = {
    */
   filters?:
     | Array<
-      MetadataFilter | NodeNameFilter | discriminatedUnionTypes.Unknown<"name">
+      | MetadataFilter
+      | ModalityFilter
+      | NodeNameFilter
+      | discriminatedUnionTypes.Unknown<"name">
     >
     | null
     | undefined;
@@ -47,18 +57,24 @@ export const PromptPerplexityScorerFilter$inboundSchema: z.ZodMiniType<
   unknown
 > = discriminatedUnion("name", {
   metadata: MetadataFilter$inboundSchema,
+  modality: ModalityFilter$inboundSchema,
   node_name: NodeNameFilter$inboundSchema,
 });
 /** @internal */
 export type PromptPerplexityScorerFilter$Outbound =
   | MetadataFilter$Outbound
+  | ModalityFilter$Outbound
   | NodeNameFilter$Outbound;
 
 /** @internal */
 export const PromptPerplexityScorerFilter$outboundSchema: z.ZodMiniType<
   PromptPerplexityScorerFilter$Outbound,
   PromptPerplexityScorerFilter
-> = z.union([MetadataFilter$outboundSchema, NodeNameFilter$outboundSchema]);
+> = z.union([
+  MetadataFilter$outboundSchema,
+  ModalityFilter$outboundSchema,
+  NodeNameFilter$outboundSchema,
+]);
 
 export function promptPerplexityScorerFilterToJSON(
   promptPerplexityScorerFilter: PromptPerplexityScorerFilter,
@@ -90,6 +106,7 @@ export const PromptPerplexityScorer$inboundSchema: z.ZodMiniType<
       z.array(
         discriminatedUnion("name", {
           metadata: MetadataFilter$inboundSchema,
+          modality: ModalityFilter$inboundSchema,
           node_name: NodeNameFilter$inboundSchema,
         }),
       ),
@@ -100,7 +117,11 @@ export const PromptPerplexityScorer$inboundSchema: z.ZodMiniType<
 export type PromptPerplexityScorer$Outbound = {
   name: "prompt_perplexity";
   filters?:
-    | Array<MetadataFilter$Outbound | NodeNameFilter$Outbound>
+    | Array<
+      | MetadataFilter$Outbound
+      | ModalityFilter$Outbound
+      | NodeNameFilter$Outbound
+    >
     | null
     | undefined;
 };
@@ -114,7 +135,11 @@ export const PromptPerplexityScorer$outboundSchema: z.ZodMiniType<
   filters: z.optional(
     z.nullable(
       z.array(
-        z.union([MetadataFilter$outboundSchema, NodeNameFilter$outboundSchema]),
+        z.union([
+          MetadataFilter$outboundSchema,
+          ModalityFilter$outboundSchema,
+          NodeNameFilter$outboundSchema,
+        ]),
       ),
     ),
   ),

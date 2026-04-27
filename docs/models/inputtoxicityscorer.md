@@ -7,6 +7,14 @@ import { InputToxicityScorer } from "galileo-generated/models";
 
 let value: InputToxicityScorer = {
   name: "input_toxicity",
+  filters: [
+    {
+      name: "node_name",
+      operator: "one_of",
+      value: "<value>",
+      caseSensitive: true,
+    },
+  ],
 };
 ```
 
