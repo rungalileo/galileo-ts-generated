@@ -20,6 +20,12 @@ import {
   MetadataFilter$outboundSchema,
 } from "./metadatafilter.js";
 import {
+  ModalityFilter,
+  ModalityFilter$inboundSchema,
+  ModalityFilter$Outbound,
+  ModalityFilter$outboundSchema,
+} from "./modalityfilter.js";
+import {
   NodeNameFilter,
   NodeNameFilter$inboundSchema,
   NodeNameFilter$Outbound,
@@ -28,6 +34,7 @@ import {
 
 export type ChunkAttributionUtilizationScorerFilter =
   | MetadataFilter
+  | ModalityFilter
   | NodeNameFilter
   | discriminatedUnionTypes.Unknown<"name">;
 
@@ -46,7 +53,10 @@ export type ChunkAttributionUtilizationScorer = {
    */
   filters?:
     | Array<
-      MetadataFilter | NodeNameFilter | discriminatedUnionTypes.Unknown<"name">
+      | MetadataFilter
+      | ModalityFilter
+      | NodeNameFilter
+      | discriminatedUnionTypes.Unknown<"name">
     >
     | null
     | undefined;
@@ -62,11 +72,13 @@ export const ChunkAttributionUtilizationScorerFilter$inboundSchema:
   z.ZodMiniType<ChunkAttributionUtilizationScorerFilter, unknown> =
     discriminatedUnion("name", {
       metadata: MetadataFilter$inboundSchema,
+      modality: ModalityFilter$inboundSchema,
       node_name: NodeNameFilter$inboundSchema,
     });
 /** @internal */
 export type ChunkAttributionUtilizationScorerFilter$Outbound =
   | MetadataFilter$Outbound
+  | ModalityFilter$Outbound
   | NodeNameFilter$Outbound;
 
 /** @internal */
@@ -74,7 +86,11 @@ export const ChunkAttributionUtilizationScorerFilter$outboundSchema:
   z.ZodMiniType<
     ChunkAttributionUtilizationScorerFilter$Outbound,
     ChunkAttributionUtilizationScorerFilter
-  > = z.union([MetadataFilter$outboundSchema, NodeNameFilter$outboundSchema]);
+  > = z.union([
+    MetadataFilter$outboundSchema,
+    ModalityFilter$outboundSchema,
+    NodeNameFilter$outboundSchema,
+  ]);
 
 export function chunkAttributionUtilizationScorerFilterToJSON(
   chunkAttributionUtilizationScorerFilter:
@@ -124,6 +140,7 @@ export const ChunkAttributionUtilizationScorer$inboundSchema: z.ZodMiniType<
         z.array(
           discriminatedUnion("name", {
             metadata: MetadataFilter$inboundSchema,
+            modality: ModalityFilter$inboundSchema,
             node_name: NodeNameFilter$inboundSchema,
           }),
         ),
@@ -145,7 +162,11 @@ export const ChunkAttributionUtilizationScorer$inboundSchema: z.ZodMiniType<
 export type ChunkAttributionUtilizationScorer$Outbound = {
   name: "chunk_attribution_utilization";
   filters?:
-    | Array<MetadataFilter$Outbound | NodeNameFilter$Outbound>
+    | Array<
+      | MetadataFilter$Outbound
+      | ModalityFilter$Outbound
+      | NodeNameFilter$Outbound
+    >
     | null
     | undefined;
   type: string;
@@ -164,6 +185,7 @@ export const ChunkAttributionUtilizationScorer$outboundSchema: z.ZodMiniType<
         z.array(
           z.union([
             MetadataFilter$outboundSchema,
+            ModalityFilter$outboundSchema,
             NodeNameFilter$outboundSchema,
           ]),
         ),

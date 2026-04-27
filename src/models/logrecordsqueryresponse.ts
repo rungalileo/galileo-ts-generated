@@ -16,6 +16,10 @@ import {
   ExtendedAgentSpanRecord$inboundSchema,
 } from "./extendedagentspanrecord.js";
 import {
+  ExtendedControlSpanRecord,
+  ExtendedControlSpanRecord$inboundSchema,
+} from "./extendedcontrolspanrecord.js";
+import {
   ExtendedLlmSpanRecord,
   ExtendedLlmSpanRecord$inboundSchema,
 } from "./extendedllmspanrecord.js";
@@ -42,6 +46,7 @@ import {
 
 export type LogRecordsQueryResponseRecord =
   | ExtendedAgentSpanRecord
+  | ExtendedControlSpanRecord
   | ExtendedLlmSpanRecord
   | ExtendedRetrieverSpanRecord
   | ExtendedSessionRecord
@@ -62,6 +67,7 @@ export type LogRecordsQueryResponse = {
   records?:
     | Array<
       | ExtendedAgentSpanRecord
+      | ExtendedControlSpanRecord
       | ExtendedLlmSpanRecord
       | ExtendedRetrieverSpanRecord
       | ExtendedSessionRecord
@@ -79,6 +85,7 @@ export const LogRecordsQueryResponseRecord$inboundSchema: z.ZodMiniType<
   unknown
 > = discriminatedUnion("type", {
   agent: ExtendedAgentSpanRecord$inboundSchema,
+  control: ExtendedControlSpanRecord$inboundSchema,
   llm: ExtendedLlmSpanRecord$inboundSchema,
   retriever: ExtendedRetrieverSpanRecord$inboundSchema,
   session: ExtendedSessionRecord$inboundSchema,
@@ -110,6 +117,7 @@ export const LogRecordsQueryResponse$inboundSchema: z.ZodMiniType<
     last_row_id: z.optional(z.nullable(types.string())),
     records: types.optional(z.array(discriminatedUnion("type", {
       agent: ExtendedAgentSpanRecord$inboundSchema,
+      control: ExtendedControlSpanRecord$inboundSchema,
       llm: ExtendedLlmSpanRecord$inboundSchema,
       retriever: ExtendedRetrieverSpanRecord$inboundSchema,
       session: ExtendedSessionRecord$inboundSchema,

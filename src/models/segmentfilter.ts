@@ -18,6 +18,12 @@ import {
   MetadataFilter$outboundSchema,
 } from "./metadatafilter.js";
 import {
+  ModalityFilter,
+  ModalityFilter$inboundSchema,
+  ModalityFilter$Outbound,
+  ModalityFilter$outboundSchema,
+} from "./modalityfilter.js";
+import {
   NodeNameFilter,
   NodeNameFilter$inboundSchema,
   NodeNameFilter$Outbound,
@@ -26,6 +32,7 @@ import {
 
 export type SegmentFilterFilter =
   | MetadataFilter
+  | ModalityFilter
   | NodeNameFilter
   | discriminatedUnionTypes.Unknown<"name">;
 
@@ -35,6 +42,7 @@ export type SegmentFilter = {
    */
   filter?:
     | MetadataFilter
+    | ModalityFilter
     | NodeNameFilter
     | discriminatedUnionTypes.Unknown<"name">
     | null
@@ -55,18 +63,24 @@ export const SegmentFilterFilter$inboundSchema: z.ZodMiniType<
   unknown
 > = discriminatedUnion("name", {
   metadata: MetadataFilter$inboundSchema,
+  modality: ModalityFilter$inboundSchema,
   node_name: NodeNameFilter$inboundSchema,
 });
 /** @internal */
 export type SegmentFilterFilter$Outbound =
   | MetadataFilter$Outbound
+  | ModalityFilter$Outbound
   | NodeNameFilter$Outbound;
 
 /** @internal */
 export const SegmentFilterFilter$outboundSchema: z.ZodMiniType<
   SegmentFilterFilter$Outbound,
   SegmentFilterFilter
-> = z.union([MetadataFilter$outboundSchema, NodeNameFilter$outboundSchema]);
+> = z.union([
+  MetadataFilter$outboundSchema,
+  ModalityFilter$outboundSchema,
+  NodeNameFilter$outboundSchema,
+]);
 
 export function segmentFilterFilterToJSON(
   segmentFilterFilter: SegmentFilterFilter,
@@ -95,6 +109,7 @@ export const SegmentFilter$inboundSchema: z.ZodMiniType<
       z.nullable(
         discriminatedUnion("name", {
           metadata: MetadataFilter$inboundSchema,
+          modality: ModalityFilter$inboundSchema,
           node_name: NodeNameFilter$inboundSchema,
         }),
       ),
@@ -111,7 +126,12 @@ export const SegmentFilter$inboundSchema: z.ZodMiniType<
 );
 /** @internal */
 export type SegmentFilter$Outbound = {
-  filter?: MetadataFilter$Outbound | NodeNameFilter$Outbound | null | undefined;
+  filter?:
+    | MetadataFilter$Outbound
+    | ModalityFilter$Outbound
+    | NodeNameFilter$Outbound
+    | null
+    | undefined;
   sample_rate: number;
   llm_scorers: boolean;
 };
@@ -124,7 +144,11 @@ export const SegmentFilter$outboundSchema: z.ZodMiniType<
   z.object({
     filter: z.optional(
       z.nullable(
-        z.union([MetadataFilter$outboundSchema, NodeNameFilter$outboundSchema]),
+        z.union([
+          MetadataFilter$outboundSchema,
+          ModalityFilter$outboundSchema,
+          NodeNameFilter$outboundSchema,
+        ]),
       ),
     ),
     sampleRate: z.number(),

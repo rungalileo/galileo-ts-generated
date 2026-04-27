@@ -19,7 +19,6 @@ const value: models.DatasetAppendRow = {
 ```typescript
 const value: models.DatasetCopyRecordData = {
   editType: "copy_record_data",
-  projectId: "<value>",
   ids: [
     "<value 1>",
     "<value 2>",
