@@ -35,6 +35,14 @@ const value: models.LogRecordsDateFilter = {
 };
 ```
 
+### `models.LogRecordsFullyAnnotatedFilter`
+
+```typescript
+const value: models.LogRecordsFullyAnnotatedFilter = {
+  type: "fully_annotated",
+};
+```
+
 ### `models.LogRecordsIDFilter`
 
 ```typescript

@@ -17,6 +17,12 @@ import {
   MetadataFilter$outboundSchema,
 } from "./metadatafilter.js";
 import {
+  ModalityFilter,
+  ModalityFilter$inboundSchema,
+  ModalityFilter$Outbound,
+  ModalityFilter$outboundSchema,
+} from "./modalityfilter.js";
+import {
   NodeNameFilter,
   NodeNameFilter$inboundSchema,
   NodeNameFilter$Outbound,
@@ -25,6 +31,7 @@ import {
 
 export type RougeScorerFilter =
   | MetadataFilter
+  | ModalityFilter
   | NodeNameFilter
   | discriminatedUnionTypes.Unknown<"name">;
 
@@ -35,7 +42,10 @@ export type RougeScorer = {
    */
   filters?:
     | Array<
-      MetadataFilter | NodeNameFilter | discriminatedUnionTypes.Unknown<"name">
+      | MetadataFilter
+      | ModalityFilter
+      | NodeNameFilter
+      | discriminatedUnionTypes.Unknown<"name">
     >
     | null
     | undefined;
@@ -47,18 +57,24 @@ export const RougeScorerFilter$inboundSchema: z.ZodMiniType<
   unknown
 > = discriminatedUnion("name", {
   metadata: MetadataFilter$inboundSchema,
+  modality: ModalityFilter$inboundSchema,
   node_name: NodeNameFilter$inboundSchema,
 });
 /** @internal */
 export type RougeScorerFilter$Outbound =
   | MetadataFilter$Outbound
+  | ModalityFilter$Outbound
   | NodeNameFilter$Outbound;
 
 /** @internal */
 export const RougeScorerFilter$outboundSchema: z.ZodMiniType<
   RougeScorerFilter$Outbound,
   RougeScorerFilter
-> = z.union([MetadataFilter$outboundSchema, NodeNameFilter$outboundSchema]);
+> = z.union([
+  MetadataFilter$outboundSchema,
+  ModalityFilter$outboundSchema,
+  NodeNameFilter$outboundSchema,
+]);
 
 export function rougeScorerFilterToJSON(
   rougeScorerFilter: RougeScorerFilter,
@@ -86,6 +102,7 @@ export const RougeScorer$inboundSchema: z.ZodMiniType<RougeScorer, unknown> = z
         z.array(
           discriminatedUnion("name", {
             metadata: MetadataFilter$inboundSchema,
+            modality: ModalityFilter$inboundSchema,
             node_name: NodeNameFilter$inboundSchema,
           }),
         ),
@@ -96,7 +113,11 @@ export const RougeScorer$inboundSchema: z.ZodMiniType<RougeScorer, unknown> = z
 export type RougeScorer$Outbound = {
   name: "rouge";
   filters?:
-    | Array<MetadataFilter$Outbound | NodeNameFilter$Outbound>
+    | Array<
+      | MetadataFilter$Outbound
+      | ModalityFilter$Outbound
+      | NodeNameFilter$Outbound
+    >
     | null
     | undefined;
 };
@@ -110,7 +131,11 @@ export const RougeScorer$outboundSchema: z.ZodMiniType<
   filters: z.optional(
     z.nullable(
       z.array(
-        z.union([MetadataFilter$outboundSchema, NodeNameFilter$outboundSchema]),
+        z.union([
+          MetadataFilter$outboundSchema,
+          ModalityFilter$outboundSchema,
+          NodeNameFilter$outboundSchema,
+        ]),
       ),
     ),
   ),

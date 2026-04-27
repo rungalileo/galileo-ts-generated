@@ -12,7 +12,7 @@ let value: ExperimentUpdateRequest = {
 
 ## Fields
 
-| Field              | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `name`             | *string*           | :heavy_check_mark: | N/A                |
-| `taskType`         | *16*               | :heavy_minus_sign: | N/A                |
+| Field                                                                                  | Type                                                                                   | Required                                                                               | Description                                                                            |
+| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `name`                                                                                 | *string*                                                                               | :heavy_check_mark:                                                                     | N/A                                                                                    |
+| `taskType`                                                                             | [models.ExperimentUpdateRequestTaskType](../models/experimentupdaterequesttasktype.md) | :heavy_minus_sign:                                                                     | N/A                                                                                    |

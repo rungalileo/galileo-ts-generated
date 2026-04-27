@@ -7,6 +7,14 @@ import { OutputPIIScorer } from "galileo-generated/models";
 
 let value: OutputPIIScorer = {
   name: "output_pii",
+  filters: [
+    {
+      name: "node_name",
+      operator: "contains",
+      value: "<value>",
+      caseSensitive: true,
+    },
+  ],
 };
 ```
 

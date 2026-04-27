@@ -94,6 +94,10 @@ export type LogRecordsColumnInfo = {
    */
   isOptional: boolean;
   /**
+   * Default roll-up aggregation method for this metric (e.g., 'sum', 'average').
+   */
+  rollUpMethod?: string | null | undefined;
+  /**
    * For metric columns only: Scorer config that produced the metric.
    */
   scorerConfig?: ScorerConfig | null | undefined;
@@ -117,6 +121,10 @@ export type LogRecordsColumnInfo = {
    * Type of label color for the column, if this is a multilabel metric column.
    */
   labelColor?: LabelColor | null | undefined;
+  /**
+   * Alternate metric key for this column. When store_metric_ids is ON, this holds the legacy metric_name string. Used for dual-key ClickHouse queries.
+   */
+  metricKeyAlias?: string | null | undefined;
 };
 
 /** @internal */
@@ -144,12 +152,14 @@ export const LogRecordsColumnInfo$inboundSchema: z.ZodMiniType<
     applicable_types: types.optional(z.array(StepType$inboundSchema)),
     complex: z._default(types.boolean(), false),
     is_optional: z._default(types.boolean(), false),
+    roll_up_method: z.optional(z.nullable(types.string())),
     scorer_config: z.optional(z.nullable(ScorerConfig$inboundSchema)),
     scorer_id: z.optional(z.nullable(types.string())),
     insight_type: z.optional(z.nullable(InsightType$inboundSchema)),
     filter_type: z.optional(z.nullable(LogRecordsFilterType$inboundSchema)),
     threshold: z.optional(z.nullable(MetricThreshold$inboundSchema)),
     label_color: z.optional(z.nullable(LabelColor$inboundSchema)),
+    metric_key_alias: z.optional(z.nullable(types.string())),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -161,11 +171,13 @@ export const LogRecordsColumnInfo$inboundSchema: z.ZodMiniType<
       "is_empty": "isEmpty",
       "applicable_types": "applicableTypes",
       "is_optional": "isOptional",
+      "roll_up_method": "rollUpMethod",
       "scorer_config": "scorerConfig",
       "scorer_id": "scorerId",
       "insight_type": "insightType",
       "filter_type": "filterType",
       "label_color": "labelColor",
+      "metric_key_alias": "metricKeyAlias",
     });
   }),
 );
