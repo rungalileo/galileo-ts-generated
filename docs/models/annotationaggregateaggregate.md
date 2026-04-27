@@ -19,8 +19,9 @@ const value: models.AnnotationLikeDislikeAggregate = {
 ```typescript
 const value: models.AnnotationScoreAggregate = {
   annotationType: "score",
-  average: 4393.41,
-  unratedCount: 65704,
+  buckets: [],
+  average: 657.04,
+  unratedCount: 564555,
 };
 ```
 

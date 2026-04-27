@@ -11,6 +11,14 @@ const value: models.AgentSpan = {
 };
 ```
 
+### `models.ControlSpan`
+
+```typescript
+const value: models.ControlSpan = {
+  type: "control",
+};
+```
+
 ### `models.LlmSpan`
 
 ```typescript
