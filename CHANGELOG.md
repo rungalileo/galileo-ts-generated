@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.14](https://github.com/rungalileo/galileo-ts-generated/compare/galileo-generated-v0.2.13...galileo-generated-v0.2.14) (2026-04-27)
+
+
+### Miscellaneous
+
+* release 0.2.14 ([#76](https://github.com/rungalileo/galileo-ts-generated/issues/76)) ([22b0b09](https://github.com/rungalileo/galileo-ts-generated/commit/22b0b094809b4d4944eb84c5279db34d570628d2))
+
 ## [0.2.13](https://github.com/rungalileo/galileo-ts-generated/compare/galileo-generated-v0.2.12...galileo-generated-v0.2.13) (2026-04-24)
 
 
