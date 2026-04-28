@@ -6,10 +6,10 @@
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
 import {
-  FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType,
-  FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$Outbound,
-  FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$outboundSchema,
-} from "./filterexpressionannotatedunionlogrecordsidfilterlogrecordsdatefilterlogrecordsnumberfilterlogrecordsbooleanfilterlogrecordscollectionfilterlogrecordstextfilterfieldinfoannotationnonetyperequiredtruediscriminatortype.js";
+  FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType,
+  FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$Outbound,
+  FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$outboundSchema,
+} from "./filterexpressionannotatedunionlogrecordsidfilterlogrecordsdatefilterlogrecordsnumberfilterlogrecordsbooleanfilterlogrecordscollectionfilterlogrecordstextfilterlogrecordsfullyannotatedfilterfieldinfoannotationnonetyperequiredtruedis_38eba81e.js";
 import {
   LogRecordsBooleanFilter,
   LogRecordsBooleanFilter$Outbound,
@@ -25,6 +25,11 @@ import {
   LogRecordsDateFilter$Outbound,
   LogRecordsDateFilter$outboundSchema,
 } from "./logrecordsdatefilter.js";
+import {
+  LogRecordsFullyAnnotatedFilter,
+  LogRecordsFullyAnnotatedFilter$Outbound,
+  LogRecordsFullyAnnotatedFilter$outboundSchema,
+} from "./logrecordsfullyannotatedfilter.js";
 import {
   LogRecordsIDFilter,
   LogRecordsIDFilter$Outbound,
@@ -55,6 +60,7 @@ export type LogRecordsPartialQueryRequestFilter =
   | LogRecordsBooleanFilter
   | LogRecordsCollectionFilter
   | LogRecordsDateFilter
+  | LogRecordsFullyAnnotatedFilter
   | LogRecordsIDFilter
   | LogRecordsNumberFilter
   | LogRecordsTextFilter;
@@ -83,13 +89,14 @@ export type LogRecordsPartialQueryRequest = {
       | LogRecordsBooleanFilter
       | LogRecordsCollectionFilter
       | LogRecordsDateFilter
+      | LogRecordsFullyAnnotatedFilter
       | LogRecordsIDFilter
       | LogRecordsNumberFilter
       | LogRecordsTextFilter
     >
     | undefined;
   filterTree?:
-    | FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType
+    | FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType
     | null
     | undefined;
   /**
@@ -109,6 +116,7 @@ export type LogRecordsPartialQueryRequestFilter$Outbound =
   | LogRecordsBooleanFilter$Outbound
   | LogRecordsCollectionFilter$Outbound
   | LogRecordsDateFilter$Outbound
+  | LogRecordsFullyAnnotatedFilter$Outbound
   | LogRecordsIDFilter$Outbound
   | LogRecordsNumberFilter$Outbound
   | LogRecordsTextFilter$Outbound;
@@ -121,6 +129,7 @@ export const LogRecordsPartialQueryRequestFilter$outboundSchema: z.ZodMiniType<
   LogRecordsBooleanFilter$outboundSchema,
   LogRecordsCollectionFilter$outboundSchema,
   LogRecordsDateFilter$outboundSchema,
+  LogRecordsFullyAnnotatedFilter$outboundSchema,
   LogRecordsIDFilter$outboundSchema,
   LogRecordsNumberFilter$outboundSchema,
   LogRecordsTextFilter$outboundSchema,
@@ -149,13 +158,14 @@ export type LogRecordsPartialQueryRequest$Outbound = {
       | LogRecordsBooleanFilter$Outbound
       | LogRecordsCollectionFilter$Outbound
       | LogRecordsDateFilter$Outbound
+      | LogRecordsFullyAnnotatedFilter$Outbound
       | LogRecordsIDFilter$Outbound
       | LogRecordsNumberFilter$Outbound
       | LogRecordsTextFilter$Outbound
     >
     | undefined;
   filter_tree?:
-    | FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$Outbound
+    | FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$Outbound
     | null
     | undefined;
   sort?: LogRecordsSortClause$Outbound | null | undefined;
@@ -182,6 +192,7 @@ export const LogRecordsPartialQueryRequest$outboundSchema: z.ZodMiniType<
           LogRecordsBooleanFilter$outboundSchema,
           LogRecordsCollectionFilter$outboundSchema,
           LogRecordsDateFilter$outboundSchema,
+          LogRecordsFullyAnnotatedFilter$outboundSchema,
           LogRecordsIDFilter$outboundSchema,
           LogRecordsNumberFilter$outboundSchema,
           LogRecordsTextFilter$outboundSchema,
@@ -190,7 +201,7 @@ export const LogRecordsPartialQueryRequest$outboundSchema: z.ZodMiniType<
     ),
     filterTree: z.optional(
       z.nullable(
-        FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$outboundSchema,
+        FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$outboundSchema,
       ),
     ),
     sort: z.optional(z.nullable(LogRecordsSortClause$outboundSchema)),
