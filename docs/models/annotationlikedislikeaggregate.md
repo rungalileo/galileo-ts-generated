@@ -21,3 +21,4 @@ let value: AnnotationLikeDislikeAggregate = {
 | `likeCount`        | *number*           | :heavy_check_mark: | N/A                |
 | `dislikeCount`     | *number*           | :heavy_check_mark: | N/A                |
 | `unratedCount`     | *number*           | :heavy_check_mark: | N/A                |
+| `tieCount`         | *number*           | :heavy_minus_sign: | N/A                |

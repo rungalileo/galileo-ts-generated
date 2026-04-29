@@ -8,21 +8,39 @@ import { remap as remap$ } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
-import {
-  ContentModality,
-  ContentModality$inboundSchema,
-} from "./contentmodality.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
-import {
-  MultimodalCapability,
-  MultimodalCapability$inboundSchema,
-} from "./multimodalcapability.js";
 
+/**
+ * Properties for a model in a custom integration.
+ *
+ * @remarks
+ *
+ * Attributes:
+ *     name: The model name used when calling the API.
+ *     alias: The display name/alias for the model in the UI.
+ *           Defaults to ``name`` when not provided.
+ *     based_on: Alias of a built-in model whose parameter map should be used.
+ *               Mutually exclusive with ``supported_parameters``.
+ *     supported_parameters: Explicit list of parameter names this model supports.
+ *                           Mutually exclusive with ``based_on``.
+ */
 export type ModelProperties = {
-  alias: string;
+  /**
+   * The model name used when calling the API.
+   */
   name: string;
-  inputModalities: Array<ContentModality>;
-  multimodalCapabilities?: Array<MultimodalCapability> | undefined;
+  /**
+   * The display name/alias for the model. Defaults to name.
+   */
+  alias?: string | null | undefined;
+  /**
+   * Alias of a built-in model whose parameter map should be used. For example, 'gpt-5.4'. Mutually exclusive with supported_parameters.
+   */
+  basedOn?: string | null | undefined;
+  /**
+   * Explicit list of parameter names this model supports (e.g., ['max_tokens', 'temperature', 'verbosity']). Each name must be a valid RunParamsMap field. Mutually exclusive with based_on.
+   */
+  supportedParameters?: Array<string> | null | undefined;
 };
 
 /** @internal */
@@ -31,21 +49,50 @@ export const ModelProperties$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    alias: types.string(),
     name: types.string(),
-    input_modalities: z.array(ContentModality$inboundSchema),
-    multimodal_capabilities: types.optional(
-      z.array(MultimodalCapability$inboundSchema),
-    ),
+    alias: z.optional(z.nullable(types.string())),
+    based_on: z.optional(z.nullable(types.string())),
+    supported_parameters: z.optional(z.nullable(z.array(types.string()))),
   }),
   z.transform((v) => {
     return remap$(v, {
-      "input_modalities": "inputModalities",
-      "multimodal_capabilities": "multimodalCapabilities",
+      "based_on": "basedOn",
+      "supported_parameters": "supportedParameters",
+    });
+  }),
+);
+/** @internal */
+export type ModelProperties$Outbound = {
+  name: string;
+  alias?: string | null | undefined;
+  based_on?: string | null | undefined;
+  supported_parameters?: Array<string> | null | undefined;
+};
+
+/** @internal */
+export const ModelProperties$outboundSchema: z.ZodMiniType<
+  ModelProperties$Outbound,
+  ModelProperties
+> = z.pipe(
+  z.object({
+    name: z.string(),
+    alias: z.optional(z.nullable(z.string())),
+    basedOn: z.optional(z.nullable(z.string())),
+    supportedParameters: z.optional(z.nullable(z.array(z.string()))),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      basedOn: "based_on",
+      supportedParameters: "supported_parameters",
     });
   }),
 );
 
+export function modelPropertiesToJSON(
+  modelProperties: ModelProperties,
+): string {
+  return JSON.stringify(ModelProperties$outboundSchema.parse(modelProperties));
+}
 export function modelPropertiesFromJSON(
   jsonString: string,
 ): SafeParseResult<ModelProperties, SDKValidationError> {

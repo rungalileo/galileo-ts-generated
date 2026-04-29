@@ -16,3 +16,4 @@ let value: MetricPending = {
 | -------------------------------------------- | -------------------------------------------- | -------------------------------------------- | -------------------------------------------- |
 | `statusType`                                 | *"pending"*                                  | :heavy_check_mark:                           | N/A                                          |
 | `scorerType`                                 | [models.ScorerType](../models/scorertype.md) | :heavy_minus_sign:                           | N/A                                          |
+| `metricKeyAlias`                             | *string*                                     | :heavy_minus_sign:                           | N/A                                          |
