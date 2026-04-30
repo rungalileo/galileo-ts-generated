@@ -6,7 +6,7 @@
 import { GetIntegrationIntegrationsNameGetRequest } from "galileo-generated/models/operations";
 
 let value: GetIntegrationIntegrationsNameGetRequest = {
-  name: "databricks",
+  name: "custom",
 };
 ```
 

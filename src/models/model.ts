@@ -70,6 +70,7 @@ export type Model = {
   responsePrefixTokens?: number | undefined;
   apiVersion?: string | null | undefined;
   legacyMistralPromptFormat?: boolean | undefined;
+  requiresMaxTokens?: boolean | undefined;
   maxTopP?: number | null | undefined;
   /**
    * Maps the internal settings parameters (left) to the serialized parameters (right) we want to send in the API
@@ -105,6 +106,7 @@ export const Model$inboundSchema: z.ZodMiniType<Model, unknown> = z.pipe(
     response_prefix_tokens: z._default(types.number(), 0),
     api_version: z.optional(z.nullable(types.string())),
     legacy_mistral_prompt_format: z._default(types.boolean(), false),
+    requires_max_tokens: z._default(types.boolean(), false),
     max_top_p: z.optional(z.nullable(types.number())),
     params_map: types.optional(RunParamsMap$inboundSchema),
     output_map: z.optional(z.nullable(OutputMap$inboundSchema)),
@@ -129,6 +131,7 @@ export const Model$inboundSchema: z.ZodMiniType<Model, unknown> = z.pipe(
       "response_prefix_tokens": "responsePrefixTokens",
       "api_version": "apiVersion",
       "legacy_mistral_prompt_format": "legacyMistralPromptFormat",
+      "requires_max_tokens": "requiresMaxTokens",
       "max_top_p": "maxTopP",
       "params_map": "paramsMap",
       "output_map": "outputMap",
@@ -158,6 +161,7 @@ export type Model$Outbound = {
   response_prefix_tokens: number;
   api_version?: string | null | undefined;
   legacy_mistral_prompt_format: boolean;
+  requires_max_tokens: boolean;
   max_top_p?: number | null | undefined;
   params_map?: RunParamsMap$Outbound | undefined;
   output_map?: OutputMap$Outbound | null | undefined;
@@ -188,6 +192,7 @@ export const Model$outboundSchema: z.ZodMiniType<Model$Outbound, Model> = z
       responsePrefixTokens: z._default(z.int(), 0),
       apiVersion: z.optional(z.nullable(z.string())),
       legacyMistralPromptFormat: z._default(z.boolean(), false),
+      requiresMaxTokens: z._default(z.boolean(), false),
       maxTopP: z.optional(z.nullable(z.number())),
       paramsMap: z.optional(RunParamsMap$outboundSchema),
       outputMap: z.optional(z.nullable(OutputMap$outboundSchema)),
@@ -212,6 +217,7 @@ export const Model$outboundSchema: z.ZodMiniType<Model$Outbound, Model> = z
         responsePrefixTokens: "response_prefix_tokens",
         apiVersion: "api_version",
         legacyMistralPromptFormat: "legacy_mistral_prompt_format",
+        requiresMaxTokens: "requires_max_tokens",
         maxTopP: "max_top_p",
         paramsMap: "params_map",
         outputMap: "output_map",
