@@ -13,5 +13,5 @@ let value: StepType = "llm";
 ## Values
 
 ```typescript
-"llm" | "retriever" | "tool" | "workflow" | "agent" | "trace" | "session" | Unrecognized<string>
+"llm" | "retriever" | "tool" | "workflow" | "agent" | "control" | "trace" | "session" | Unrecognized<string>
 ```
