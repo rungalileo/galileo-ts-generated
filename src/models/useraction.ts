@@ -11,6 +11,10 @@ export const UserAction = {
   Update: "update",
   Delete: "delete",
   ReadApiKeys: "read_api_keys",
+  ChangeRoleToAdmin: "change_role_to_admin",
+  ChangeRoleToManager: "change_role_to_manager",
+  ChangeRoleToUser: "change_role_to_user",
+  ChangeRoleToReadOnly: "change_role_to_read_only",
 } as const;
 export type UserAction = OpenEnum<typeof UserAction>;
 

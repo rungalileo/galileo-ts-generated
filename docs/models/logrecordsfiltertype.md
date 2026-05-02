@@ -13,5 +13,5 @@ let value: LogRecordsFilterType = "date";
 ## Values
 
 ```typescript
-"id" | "date" | "number" | "boolean" | "text" | "collection" | Unrecognized<string>
+"id" | "date" | "number" | "boolean" | "text" | "collection" | "fully_annotated" | Unrecognized<string>
 ```

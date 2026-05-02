@@ -23,12 +23,17 @@ import {
   ContentModality,
   ContentModality$inboundSchema,
 } from "./contentmodality.js";
+import { ControlResult, ControlResult$inboundSchema } from "./controlresult.js";
 import { Document, Document$inboundSchema } from "./document.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
   FeedbackRatingInfo,
   FeedbackRatingInfo$inboundSchema,
 } from "./feedbackratinginfo.js";
+import {
+  FileContentPart,
+  FileContentPart$inboundSchema,
+} from "./filecontentpart.js";
 import { FileMetadata, FileMetadata$inboundSchema } from "./filemetadata.js";
 import {
   GalileoCoreSchemasLoggingLlmMessage,
@@ -52,36 +57,74 @@ import { MetricPending, MetricPending$inboundSchema } from "./metricpending.js";
 import { MetricRollUp, MetricRollUp$inboundSchema } from "./metricrollup.js";
 import { Metrics, Metrics$inboundSchema } from "./metrics.js";
 import { MetricSuccess, MetricSuccess$inboundSchema } from "./metricsuccess.js";
+import {
+  TextContentPart,
+  TextContentPart$inboundSchema,
+} from "./textcontentpart.js";
+
+export type PartialExtendedWorkflowSpanRecordInput1 =
+  | FileContentPart
+  | TextContentPart
+  | discriminatedUnionTypes.Unknown<"type">;
 
 /**
  * Input to the trace or span.
  */
-export type PartialExtendedWorkflowSpanRecordInput =
+export type PartialExtendedWorkflowSpanRecordInput2 =
   | string
-  | Array<GalileoCoreSchemasLoggingLlmMessage>;
+  | Array<GalileoCoreSchemasLoggingLlmMessage>
+  | Array<
+    FileContentPart | TextContentPart | discriminatedUnionTypes.Unknown<"type">
+  >;
+
+export type PartialExtendedWorkflowSpanRecordRedactedInput1 =
+  | FileContentPart
+  | TextContentPart
+  | discriminatedUnionTypes.Unknown<"type">;
 
 /**
  * Redacted input of the trace or span.
  */
-export type PartialExtendedWorkflowSpanRecordRedactedInput =
+export type PartialExtendedWorkflowSpanRecordRedactedInput2 =
   | string
-  | Array<GalileoCoreSchemasLoggingLlmMessage>;
+  | Array<GalileoCoreSchemasLoggingLlmMessage>
+  | Array<
+    FileContentPart | TextContentPart | discriminatedUnionTypes.Unknown<"type">
+  >;
+
+export type PartialExtendedWorkflowSpanRecordOutput1 =
+  | FileContentPart
+  | TextContentPart
+  | discriminatedUnionTypes.Unknown<"type">;
 
 /**
  * Output of the trace or span.
  */
-export type PartialExtendedWorkflowSpanRecordOutput =
+export type PartialExtendedWorkflowSpanRecordOutput2 =
   | GalileoCoreSchemasLoggingLlmMessage
+  | ControlResult
   | string
-  | Array<Document>;
+  | Array<Document>
+  | Array<
+    FileContentPart | TextContentPart | discriminatedUnionTypes.Unknown<"type">
+  >;
+
+export type PartialExtendedWorkflowSpanRecordRedactedOutput1 =
+  | FileContentPart
+  | TextContentPart
+  | discriminatedUnionTypes.Unknown<"type">;
 
 /**
  * Redacted output of the trace or span.
  */
-export type PartialExtendedWorkflowSpanRecordRedactedOutput =
+export type PartialExtendedWorkflowSpanRecordRedactedOutput2 =
   | GalileoCoreSchemasLoggingLlmMessage
+  | ControlResult
   | string
-  | Array<Document>;
+  | Array<Document>
+  | Array<
+    FileContentPart | TextContentPart | discriminatedUnionTypes.Unknown<"type">
+  >;
 
 export type PartialExtendedWorkflowSpanRecordMetricInfo =
   | MetricComputing
@@ -102,13 +145,26 @@ export type PartialExtendedWorkflowSpanRecord = {
   /**
    * Input to the trace or span.
    */
-  input?: string | Array<GalileoCoreSchemasLoggingLlmMessage> | undefined;
+  input?:
+    | string
+    | Array<GalileoCoreSchemasLoggingLlmMessage>
+    | Array<
+      | FileContentPart
+      | TextContentPart
+      | discriminatedUnionTypes.Unknown<"type">
+    >
+    | undefined;
   /**
    * Redacted input of the trace or span.
    */
   redactedInput?:
     | string
     | Array<GalileoCoreSchemasLoggingLlmMessage>
+    | Array<
+      | FileContentPart
+      | TextContentPart
+      | discriminatedUnionTypes.Unknown<"type">
+    >
     | null
     | undefined;
   /**
@@ -116,8 +172,14 @@ export type PartialExtendedWorkflowSpanRecord = {
    */
   output?:
     | GalileoCoreSchemasLoggingLlmMessage
+    | ControlResult
     | string
     | Array<Document>
+    | Array<
+      | FileContentPart
+      | TextContentPart
+      | discriminatedUnionTypes.Unknown<"type">
+    >
     | null
     | undefined;
   /**
@@ -125,8 +187,14 @@ export type PartialExtendedWorkflowSpanRecord = {
    */
   redactedOutput?:
     | GalileoCoreSchemasLoggingLlmMessage
+    | ControlResult
     | string
     | Array<Document>
+    | Array<
+      | FileContentPart
+      | TextContentPart
+      | discriminatedUnionTypes.Unknown<"type">
+    >
     | null
     | undefined;
   /**
@@ -225,6 +293,22 @@ export type PartialExtendedWorkflowSpanRecord = {
    */
   annotationAggregates?: { [k: string]: AnnotationAggregate } | undefined;
   /**
+   * Annotation agreement scores keyed by template ID
+   */
+  annotationAgreement?: { [k: string]: number } | undefined;
+  /**
+   * Average annotation agreement across all templates in the queue
+   */
+  overallAnnotationAgreement?: number | null | undefined;
+  /**
+   * IDs of annotation queues this record is in
+   */
+  annotationQueueIds?: Array<string> | undefined;
+  /**
+   * Whether every field is annotated by every annotator in the queue
+   */
+  fullyAnnotated?: boolean | null | undefined;
+  /**
    * Detailed information about the metrics associated with this trace or span
    */
   metricInfo?:
@@ -261,93 +345,222 @@ export type PartialExtendedWorkflowSpanRecord = {
 };
 
 /** @internal */
-export const PartialExtendedWorkflowSpanRecordInput$inboundSchema:
-  z.ZodMiniType<PartialExtendedWorkflowSpanRecordInput, unknown> = smartUnion([
-    types.string(),
-    z.array(GalileoCoreSchemasLoggingLlmMessage$inboundSchema),
-  ]);
+export const PartialExtendedWorkflowSpanRecordInput1$inboundSchema:
+  z.ZodMiniType<PartialExtendedWorkflowSpanRecordInput1, unknown> =
+    discriminatedUnion("type", {
+      file: FileContentPart$inboundSchema,
+      text: TextContentPart$inboundSchema,
+    });
 
-export function partialExtendedWorkflowSpanRecordInputFromJSON(
+export function partialExtendedWorkflowSpanRecordInput1FromJSON(
   jsonString: string,
-): SafeParseResult<PartialExtendedWorkflowSpanRecordInput, SDKValidationError> {
+): SafeParseResult<
+  PartialExtendedWorkflowSpanRecordInput1,
+  SDKValidationError
+> {
   return safeParse(
     jsonString,
     (x) =>
-      PartialExtendedWorkflowSpanRecordInput$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'PartialExtendedWorkflowSpanRecordInput' from JSON`,
+      PartialExtendedWorkflowSpanRecordInput1$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'PartialExtendedWorkflowSpanRecordInput1' from JSON`,
   );
 }
 
 /** @internal */
-export const PartialExtendedWorkflowSpanRecordRedactedInput$inboundSchema:
-  z.ZodMiniType<PartialExtendedWorkflowSpanRecordRedactedInput, unknown> =
+export const PartialExtendedWorkflowSpanRecordInput2$inboundSchema:
+  z.ZodMiniType<PartialExtendedWorkflowSpanRecordInput2, unknown> = smartUnion([
+    types.string(),
+    z.array(GalileoCoreSchemasLoggingLlmMessage$inboundSchema),
+    z.array(
+      discriminatedUnion("type", {
+        file: FileContentPart$inboundSchema,
+        text: TextContentPart$inboundSchema,
+      }),
+    ),
+  ]);
+
+export function partialExtendedWorkflowSpanRecordInput2FromJSON(
+  jsonString: string,
+): SafeParseResult<
+  PartialExtendedWorkflowSpanRecordInput2,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      PartialExtendedWorkflowSpanRecordInput2$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'PartialExtendedWorkflowSpanRecordInput2' from JSON`,
+  );
+}
+
+/** @internal */
+export const PartialExtendedWorkflowSpanRecordRedactedInput1$inboundSchema:
+  z.ZodMiniType<PartialExtendedWorkflowSpanRecordRedactedInput1, unknown> =
+    discriminatedUnion("type", {
+      file: FileContentPart$inboundSchema,
+      text: TextContentPart$inboundSchema,
+    });
+
+export function partialExtendedWorkflowSpanRecordRedactedInput1FromJSON(
+  jsonString: string,
+): SafeParseResult<
+  PartialExtendedWorkflowSpanRecordRedactedInput1,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      PartialExtendedWorkflowSpanRecordRedactedInput1$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'PartialExtendedWorkflowSpanRecordRedactedInput1' from JSON`,
+  );
+}
+
+/** @internal */
+export const PartialExtendedWorkflowSpanRecordRedactedInput2$inboundSchema:
+  z.ZodMiniType<PartialExtendedWorkflowSpanRecordRedactedInput2, unknown> =
     smartUnion([
       types.string(),
       z.array(GalileoCoreSchemasLoggingLlmMessage$inboundSchema),
+      z.array(
+        discriminatedUnion("type", {
+          file: FileContentPart$inboundSchema,
+          text: TextContentPart$inboundSchema,
+        }),
+      ),
     ]);
 
-export function partialExtendedWorkflowSpanRecordRedactedInputFromJSON(
+export function partialExtendedWorkflowSpanRecordRedactedInput2FromJSON(
   jsonString: string,
 ): SafeParseResult<
-  PartialExtendedWorkflowSpanRecordRedactedInput,
+  PartialExtendedWorkflowSpanRecordRedactedInput2,
   SDKValidationError
 > {
   return safeParse(
     jsonString,
     (x) =>
-      PartialExtendedWorkflowSpanRecordRedactedInput$inboundSchema.parse(
+      PartialExtendedWorkflowSpanRecordRedactedInput2$inboundSchema.parse(
         JSON.parse(x),
       ),
-    `Failed to parse 'PartialExtendedWorkflowSpanRecordRedactedInput' from JSON`,
+    `Failed to parse 'PartialExtendedWorkflowSpanRecordRedactedInput2' from JSON`,
   );
 }
 
 /** @internal */
-export const PartialExtendedWorkflowSpanRecordOutput$inboundSchema:
-  z.ZodMiniType<PartialExtendedWorkflowSpanRecordOutput, unknown> = smartUnion([
-    GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
-    types.string(),
-    z.array(Document$inboundSchema),
-  ]);
+export const PartialExtendedWorkflowSpanRecordOutput1$inboundSchema:
+  z.ZodMiniType<PartialExtendedWorkflowSpanRecordOutput1, unknown> =
+    discriminatedUnion("type", {
+      file: FileContentPart$inboundSchema,
+      text: TextContentPart$inboundSchema,
+    });
 
-export function partialExtendedWorkflowSpanRecordOutputFromJSON(
+export function partialExtendedWorkflowSpanRecordOutput1FromJSON(
   jsonString: string,
 ): SafeParseResult<
-  PartialExtendedWorkflowSpanRecordOutput,
+  PartialExtendedWorkflowSpanRecordOutput1,
   SDKValidationError
 > {
   return safeParse(
     jsonString,
     (x) =>
-      PartialExtendedWorkflowSpanRecordOutput$inboundSchema.parse(
+      PartialExtendedWorkflowSpanRecordOutput1$inboundSchema.parse(
         JSON.parse(x),
       ),
-    `Failed to parse 'PartialExtendedWorkflowSpanRecordOutput' from JSON`,
+    `Failed to parse 'PartialExtendedWorkflowSpanRecordOutput1' from JSON`,
   );
 }
 
 /** @internal */
-export const PartialExtendedWorkflowSpanRecordRedactedOutput$inboundSchema:
-  z.ZodMiniType<PartialExtendedWorkflowSpanRecordRedactedOutput, unknown> =
-    smartUnion([
+export const PartialExtendedWorkflowSpanRecordOutput2$inboundSchema:
+  z.ZodMiniType<PartialExtendedWorkflowSpanRecordOutput2, unknown> = smartUnion(
+    [
       GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
+      ControlResult$inboundSchema,
       types.string(),
       z.array(Document$inboundSchema),
-    ]);
+      z.array(
+        discriminatedUnion("type", {
+          file: FileContentPart$inboundSchema,
+          text: TextContentPart$inboundSchema,
+        }),
+      ),
+    ],
+  );
 
-export function partialExtendedWorkflowSpanRecordRedactedOutputFromJSON(
+export function partialExtendedWorkflowSpanRecordOutput2FromJSON(
   jsonString: string,
 ): SafeParseResult<
-  PartialExtendedWorkflowSpanRecordRedactedOutput,
+  PartialExtendedWorkflowSpanRecordOutput2,
   SDKValidationError
 > {
   return safeParse(
     jsonString,
     (x) =>
-      PartialExtendedWorkflowSpanRecordRedactedOutput$inboundSchema.parse(
+      PartialExtendedWorkflowSpanRecordOutput2$inboundSchema.parse(
         JSON.parse(x),
       ),
-    `Failed to parse 'PartialExtendedWorkflowSpanRecordRedactedOutput' from JSON`,
+    `Failed to parse 'PartialExtendedWorkflowSpanRecordOutput2' from JSON`,
+  );
+}
+
+/** @internal */
+export const PartialExtendedWorkflowSpanRecordRedactedOutput1$inboundSchema:
+  z.ZodMiniType<PartialExtendedWorkflowSpanRecordRedactedOutput1, unknown> =
+    discriminatedUnion("type", {
+      file: FileContentPart$inboundSchema,
+      text: TextContentPart$inboundSchema,
+    });
+
+export function partialExtendedWorkflowSpanRecordRedactedOutput1FromJSON(
+  jsonString: string,
+): SafeParseResult<
+  PartialExtendedWorkflowSpanRecordRedactedOutput1,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      PartialExtendedWorkflowSpanRecordRedactedOutput1$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'PartialExtendedWorkflowSpanRecordRedactedOutput1' from JSON`,
+  );
+}
+
+/** @internal */
+export const PartialExtendedWorkflowSpanRecordRedactedOutput2$inboundSchema:
+  z.ZodMiniType<PartialExtendedWorkflowSpanRecordRedactedOutput2, unknown> =
+    smartUnion([
+      GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
+      ControlResult$inboundSchema,
+      types.string(),
+      z.array(Document$inboundSchema),
+      z.array(
+        discriminatedUnion("type", {
+          file: FileContentPart$inboundSchema,
+          text: TextContentPart$inboundSchema,
+        }),
+      ),
+    ]);
+
+export function partialExtendedWorkflowSpanRecordRedactedOutput2FromJSON(
+  jsonString: string,
+): SafeParseResult<
+  PartialExtendedWorkflowSpanRecordRedactedOutput2,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      PartialExtendedWorkflowSpanRecordRedactedOutput2$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'PartialExtendedWorkflowSpanRecordRedactedOutput2' from JSON`,
   );
 }
 
@@ -392,6 +605,12 @@ export const PartialExtendedWorkflowSpanRecord$inboundSchema: z.ZodMiniType<
       smartUnion([
         types.string(),
         z.array(GalileoCoreSchemasLoggingLlmMessage$inboundSchema),
+        z.array(
+          discriminatedUnion("type", {
+            file: FileContentPart$inboundSchema,
+            text: TextContentPart$inboundSchema,
+          }),
+        ),
       ]),
     ),
     redacted_input: z.optional(
@@ -399,6 +618,12 @@ export const PartialExtendedWorkflowSpanRecord$inboundSchema: z.ZodMiniType<
         smartUnion([
           types.string(),
           z.array(GalileoCoreSchemasLoggingLlmMessage$inboundSchema),
+          z.array(
+            discriminatedUnion("type", {
+              file: FileContentPart$inboundSchema,
+              text: TextContentPart$inboundSchema,
+            }),
+          ),
         ]),
       ),
     ),
@@ -406,8 +631,15 @@ export const PartialExtendedWorkflowSpanRecord$inboundSchema: z.ZodMiniType<
       z.nullable(
         smartUnion([
           GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
+          ControlResult$inboundSchema,
           types.string(),
           z.array(Document$inboundSchema),
+          z.array(
+            discriminatedUnion("type", {
+              file: FileContentPart$inboundSchema,
+              text: TextContentPart$inboundSchema,
+            }),
+          ),
         ]),
       ),
     ),
@@ -415,8 +647,15 @@ export const PartialExtendedWorkflowSpanRecord$inboundSchema: z.ZodMiniType<
       z.nullable(
         smartUnion([
           GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
+          ControlResult$inboundSchema,
           types.string(),
           z.array(Document$inboundSchema),
+          z.array(
+            discriminatedUnion("type", {
+              file: FileContentPart$inboundSchema,
+              text: TextContentPart$inboundSchema,
+            }),
+          ),
         ]),
       ),
     ),
@@ -453,6 +692,10 @@ export const PartialExtendedWorkflowSpanRecord$inboundSchema: z.ZodMiniType<
     annotation_aggregates: types.optional(
       z.record(z.string(), AnnotationAggregate$inboundSchema),
     ),
+    annotation_agreement: types.optional(z.record(z.string(), types.number())),
+    overall_annotation_agreement: z.optional(z.nullable(types.number())),
+    annotation_queue_ids: types.optional(z.array(types.string())),
+    fully_annotated: z.optional(z.nullable(types.boolean())),
     metric_info: z.optional(
       z.nullable(z.record(
         z.string(),
@@ -498,6 +741,10 @@ export const PartialExtendedWorkflowSpanRecord$inboundSchema: z.ZodMiniType<
       "file_ids": "fileIds",
       "file_modalities": "fileModalities",
       "annotation_aggregates": "annotationAggregates",
+      "annotation_agreement": "annotationAgreement",
+      "overall_annotation_agreement": "overallAnnotationAgreement",
+      "annotation_queue_ids": "annotationQueueIds",
+      "fully_annotated": "fullyAnnotated",
       "metric_info": "metricInfo",
       "parent_id": "parentId",
       "is_complete": "isComplete",

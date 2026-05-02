@@ -15,8 +15,10 @@ let value: BucketedMetric = {
 
 ## Fields
 
-| Field                    | Type                     | Required                 | Description              |
-| ------------------------ | ------------------------ | ------------------------ | ------------------------ |
-| `name`                   | *string*                 | :heavy_check_mark:       | N/A                      |
-| `buckets`                | Record<string, *number*> | :heavy_check_mark:       | N/A                      |
-| `average`                | *number*                 | :heavy_minus_sign:       | N/A                      |
+| Field                                                                        | Type                                                                         | Required                                                                     | Description                                                                  |
+| ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `name`                                                                       | *string*                                                                     | :heavy_check_mark:                                                           | N/A                                                                          |
+| `buckets`                                                                    | Record<string, *number*>                                                     | :heavy_check_mark:                                                           | N/A                                                                          |
+| `average`                                                                    | *number*                                                                     | :heavy_minus_sign:                                                           | N/A                                                                          |
+| `rollUpMethod`                                                               | [models.RollUpMethodDisplayOptions](../models/rollupmethoddisplayoptions.md) | :heavy_minus_sign:                                                           | N/A                                                                          |
+| `dataType`                                                                   | [models.OutputTypeEnum](../models/outputtypeenum.md)                         | :heavy_minus_sign:                                                           | N/A                                                                          |
