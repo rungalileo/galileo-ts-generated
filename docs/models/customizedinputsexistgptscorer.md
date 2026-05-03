@@ -7,6 +7,16 @@ import { CustomizedInputSexistGPTScorer } from "galileo-generated/models";
 
 let value: CustomizedInputSexistGPTScorer = {
   scorerName: "_customized_input_sexist_gpt",
+  filters: [
+    {
+      name: "node_name",
+      operator: "contains",
+      value: [
+        "<value 1>",
+      ],
+      caseSensitive: true,
+    },
+  ],
 };
 ```
 
@@ -42,6 +52,7 @@ let value: CustomizedInputSexistGPTScorer = {
 | `inputType`                                                                                                | [models.InputTypeEnum](../models/inputtypeenum.md)                                                         | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `multimodalCapabilities`                                                                                   | [models.MultimodalCapability](../models/multimodalcapability.md)[]                                         | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `requiredScorers`                                                                                          | *string*[]                                                                                                 | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
+| `requiredMetricIds`                                                                                        | *string*[]                                                                                                 | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `rollUpStrategy`                                                                                           | [models.RollUpStrategy](../models/rollupstrategy.md)                                                       | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `rollUpMethods`                                                                                            | *models.CustomizedInputSexistGPTScorerRollUpMethods*                                                       | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `prompt`                                                                                                   | *string*                                                                                                   | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |

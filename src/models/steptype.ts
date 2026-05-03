@@ -13,6 +13,7 @@ export const StepType = {
   Tool: "tool",
   Workflow: "workflow",
   Agent: "agent",
+  Control: "control",
   Trace: "trace",
   Session: "session",
 } as const;

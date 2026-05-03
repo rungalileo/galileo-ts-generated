@@ -7,6 +7,13 @@ import { CustomizedToolSelectionQualityGPTScorer } from "galileo-generated/model
 
 let value: CustomizedToolSelectionQualityGPTScorer = {
   scorerName: "_customized_tool_selection_quality",
+  filters: [
+    {
+      name: "modality",
+      operator: "ne",
+      value: "ENUM_VALUE",
+    },
+  ],
 };
 ```
 
@@ -42,6 +49,7 @@ let value: CustomizedToolSelectionQualityGPTScorer = {
 | `inputType`                                                                                                                  | [models.InputTypeEnum](../models/inputtypeenum.md)                                                                           | :heavy_minus_sign:                                                                                                           | N/A                                                                                                                          |
 | `multimodalCapabilities`                                                                                                     | [models.MultimodalCapability](../models/multimodalcapability.md)[]                                                           | :heavy_minus_sign:                                                                                                           | N/A                                                                                                                          |
 | `requiredScorers`                                                                                                            | *string*[]                                                                                                                   | :heavy_minus_sign:                                                                                                           | N/A                                                                                                                          |
+| `requiredMetricIds`                                                                                                          | *string*[]                                                                                                                   | :heavy_minus_sign:                                                                                                           | N/A                                                                                                                          |
 | `rollUpStrategy`                                                                                                             | [models.RollUpStrategy](../models/rollupstrategy.md)                                                                         | :heavy_minus_sign:                                                                                                           | N/A                                                                                                                          |
 | `rollUpMethods`                                                                                                              | *models.CustomizedToolSelectionQualityGPTScorerRollUpMethods*                                                                | :heavy_minus_sign:                                                                                                           | N/A                                                                                                                          |
 | `prompt`                                                                                                                     | *string*                                                                                                                     | :heavy_minus_sign:                                                                                                           | N/A                                                                                                                          |

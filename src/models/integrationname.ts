@@ -14,7 +14,6 @@ export const IntegrationName = {
   Azure: "azure",
   Custom: "custom",
   Databricks: "databricks",
-  Labelstudio: "labelstudio",
   Mistral: "mistral",
   Nvidia: "nvidia",
   Openai: "openai",
