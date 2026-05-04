@@ -3,57 +3,59 @@
 
 ## Supported Types
 
-### `models.FilterLeafAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType`
+### `models.FilterLeafAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType`
 
 ```typescript
 const value:
-  models.FilterLeafAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType =
+  models.FilterLeafAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType =
     {
       filter: {
-        columnId: "<id>",
-        operator: "gt",
-        value: new Date("2026-12-05T01:33:13.775Z"),
-        type: "date",
+        type: "fully_annotated",
       },
     };
 ```
 
-### `models.AndNodeAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType`
+### `models.AndNodeAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType`
 
 ```typescript
 const value:
-  models.AndNodeAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType =
+  models.AndNodeAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType =
     {
       and: [
         {
-          or: [
-            {
-              and: [],
-            },
-          ],
+          filter: {
+            columnId: "<id>",
+            operator: "eq",
+            value: "<value>",
+            type: "id",
+          },
         },
       ],
     };
 ```
 
-### `models.OrNodeAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType`
+### `models.OrNodeAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType`
 
 ```typescript
 const value:
-  models.OrNodeAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType =
+  models.OrNodeAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType =
     {
       or: [],
     };
 ```
 
-### `models.NotNodeAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType`
+### `models.NotNodeAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType`
 
 ```typescript
 const value:
-  models.NotNodeAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType =
+  models.NotNodeAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType =
     {
       not: {
-        and: [],
+        or: [
+          {
+            and: [],
+          },
+        ],
       },
     };
 ```

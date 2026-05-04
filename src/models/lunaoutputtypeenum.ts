@@ -11,6 +11,7 @@ export const LunaOutputTypeEnum = {
   Float: "float",
   String: "string",
   StringList: "string_list",
+  BoolList: "bool_list",
 } as const;
 export type LunaOutputTypeEnum = OpenEnum<typeof LunaOutputTypeEnum>;
 
