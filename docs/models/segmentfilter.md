@@ -6,7 +6,16 @@
 import { SegmentFilter } from "galileo-generated/models";
 
 let value: SegmentFilter = {
-  sampleRate: 4463.52,
+  filter: {
+    name: "node_name",
+    operator: "eq",
+    value: [
+      "<value 1>",
+      "<value 2>",
+    ],
+    caseSensitive: true,
+  },
+  sampleRate: 762.78,
 };
 ```
 

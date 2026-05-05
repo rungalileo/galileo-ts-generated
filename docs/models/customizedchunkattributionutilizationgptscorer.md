@@ -7,6 +7,14 @@ import { CustomizedChunkAttributionUtilizationGPTScorer } from "galileo-generate
 
 let value: CustomizedChunkAttributionUtilizationGPTScorer = {
   scorerName: "_customized_chunk_attribution_utilization_gpt",
+  filters: [
+    {
+      name: "node_name",
+      operator: "ne",
+      value: "<value>",
+      caseSensitive: true,
+    },
+  ],
 };
 ```
 
@@ -42,6 +50,7 @@ let value: CustomizedChunkAttributionUtilizationGPTScorer = {
 | `inputType`                                                                                                | [models.InputTypeEnum](../models/inputtypeenum.md)                                                         | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `multimodalCapabilities`                                                                                   | [models.MultimodalCapability](../models/multimodalcapability.md)[]                                         | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `requiredScorers`                                                                                          | *string*[]                                                                                                 | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
+| `requiredMetricIds`                                                                                        | *string*[]                                                                                                 | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `rollUpStrategy`                                                                                           | [models.RollUpStrategy](../models/rollupstrategy.md)                                                       | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `rollUpMethods`                                                                                            | *models.CustomizedChunkAttributionUtilizationGPTScorerRollUpMethods*                                       | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `prompt`                                                                                                   | *string*                                                                                                   | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
