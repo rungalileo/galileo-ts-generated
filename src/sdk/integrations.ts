@@ -30,6 +30,7 @@ import { integrationsDeleteIntegrationIntegrationsNameDelete } from "../funcs/in
 import {
   integrationsDeleteUserIntegrationCollaboratorIntegrationsIntegrationIdUsersUserIdDelete,
 } from "../funcs/integrationsDeleteUserIntegrationCollaboratorIntegrationsIntegrationIdUsersUserIdDelete.js";
+import { integrationsDisableIntegrationIntegrationsDisablePost } from "../funcs/integrationsDisableIntegrationIntegrationsDisablePost.js";
 import { integrationsGetDatabasesForClusterIntegrationsDatabricksDatabasesGet } from "../funcs/integrationsGetDatabasesForClusterIntegrationsDatabricksDatabasesGet.js";
 import { integrationsGetDatabricksCatalogsIntegrationsDatabricksCatalogsGet } from "../funcs/integrationsGetDatabricksCatalogsIntegrationsDatabricksCatalogsGet.js";
 import { integrationsGetIntegrationIntegrationsNameGet } from "../funcs/integrationsGetIntegrationIntegrationsNameGet.js";
@@ -38,6 +39,7 @@ import { integrationsListAvailableIntegrationsIntegrationsAvailableGet } from ".
 import { integrationsListGroupIntegrationCollaboratorsIntegrationsIntegrationIdGroupsGet } from "../funcs/integrationsListGroupIntegrationCollaboratorsIntegrationsIntegrationIdGroupsGet.js";
 import { integrationsListIntegrationsIntegrationsGet } from "../funcs/integrationsListIntegrationsIntegrationsGet.js";
 import { integrationsListUserIntegrationCollaboratorsIntegrationsIntegrationIdUsersGet } from "../funcs/integrationsListUserIntegrationCollaboratorsIntegrationsIntegrationIdUsersGet.js";
+import { integrationsSelectIntegrationIntegrationsSelectPost } from "../funcs/integrationsSelectIntegrationIntegrationsSelectPost.js";
 import {
   integrationsUpdateGroupIntegrationCollaboratorIntegrationsIntegrationIdGroupsGroupIdPatch,
 } from "../funcs/integrationsUpdateGroupIntegrationCollaboratorIntegrationsIntegrationIdGroupsGroupIdPatch.js";
@@ -50,23 +52,6 @@ import * as operations from "../models/operations/index.js";
 import { unwrapAsync } from "../types/fp.js";
 
 export class Integrations extends ClientSDK {
-  /**
-   * List Integrations
-   *
-   * @remarks
-   * List the created integrations for the requesting user.
-   */
-  async listIntegrationsIntegrationsGet(
-    security: operations.ListIntegrationsIntegrationsGetSecurity,
-    options?: RequestOptions,
-  ): Promise<Array<models.IntegrationDB>> {
-    return unwrapAsync(integrationsListIntegrationsIntegrationsGet(
-      this,
-      security,
-      options,
-    ));
-  }
-
   /**
    * List Available Integrations
    *
@@ -88,25 +73,6 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Delete Integration
-   *
-   * @remarks
-   * Delete the integration created by this user.
-   */
-  async deleteIntegrationIntegrationsNameDelete(
-    security: operations.DeleteIntegrationIntegrationsNameDeleteSecurity,
-    request: operations.DeleteIntegrationIntegrationsNameDeleteRequest,
-    options?: RequestOptions,
-  ): Promise<any> {
-    return unwrapAsync(integrationsDeleteIntegrationIntegrationsNameDelete(
-      this,
-      security,
-      request,
-      options,
-    ));
-  }
-
-  /**
    * Get Integration
    *
    * @remarks
@@ -118,6 +84,25 @@ export class Integrations extends ClientSDK {
     options?: RequestOptions,
   ): Promise<operations.ResponseGetIntegrationIntegrationsNameGet> {
     return unwrapAsync(integrationsGetIntegrationIntegrationsNameGet(
+      this,
+      security,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Delete Integration
+   *
+   * @remarks
+   * Delete an integration. Admins can delete integrations created by other admins in the same org.
+   */
+  async deleteIntegrationIntegrationsNameDelete(
+    security: operations.DeleteIntegrationIntegrationsNameDeleteSecurity,
+    request: operations.DeleteIntegrationIntegrationsNameDeleteRequest,
+    options?: RequestOptions,
+  ): Promise<any> {
+    return unwrapAsync(integrationsDeleteIntegrationIntegrationsNameDelete(
       this,
       security,
       request,
@@ -351,7 +336,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update Anthropic integration
    *
    * @remarks
    * Create or update an Anthropic integration for this user from Galileo.
@@ -373,7 +358,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update AWS Bedrock integration
    *
    * @remarks
    * Create or update an AWS integration for this user from Galileo.
@@ -395,7 +380,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update AWS SageMaker integration
    *
    * @remarks
    * Create or update an AWS integration for this user from Galileo.
@@ -417,7 +402,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update Azure integration
    *
    * @remarks
    * Create or update an Azure integration for this user from Galileo.
@@ -438,7 +423,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update custom integration
    */
   async createOrUpdateIntegrationIntegrationsCustomPut(
     security: operations.CreateOrUpdateIntegrationIntegrationsCustomPutSecurity,
@@ -456,7 +441,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Unity Catalog Integration
+   * Create or update Databricks integration (legacy)
    *
    * @remarks
    * Create or update a databricks integration for this user from Galileo.
@@ -480,7 +465,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Unity Catalog Integration
+   * Create or update Databricks integration
    *
    * @remarks
    * Create or update a databricks integration for this user from Galileo.
@@ -540,7 +525,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update Mistral integration
    *
    * @remarks
    * Create or update an Mistral integration for this user from Galileo.
@@ -562,7 +547,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update NVIDIA integration
    *
    * @remarks
    * Create or update an NVIDIA integration for this user from Galileo.
@@ -583,7 +568,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update OpenAI integration
    *
    * @remarks
    * Create or update an OpenAI integration for this user from Galileo.
@@ -604,7 +589,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update Vegas Gateway integration
    *
    * @remarks
    * Create or update a Vegas Gateway integration for this user from Galileo.
@@ -626,7 +611,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update Vertex AI integration
    *
    * @remarks
    * Create or update a Google Vertex AI integration for a user.
@@ -648,7 +633,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update Writer integration
    *
    * @remarks
    * Create or update a Writer integration for a user.
@@ -666,5 +651,62 @@ export class Integrations extends ClientSDK {
         options,
       ),
     );
+  }
+
+  /**
+   * List Integrations
+   *
+   * @remarks
+   * List the created integrations for the requesting user.
+   */
+  async listIntegrationsIntegrationsGet(
+    security: operations.ListIntegrationsIntegrationsGetSecurity,
+    options?: RequestOptions,
+  ): Promise<Array<models.IntegrationDB>> {
+    return unwrapAsync(integrationsListIntegrationsIntegrationsGet(
+      this,
+      security,
+      options,
+    ));
+  }
+
+  /**
+   * Select Integration
+   *
+   * @remarks
+   * Select an integration for this user.
+   */
+  async selectIntegrationIntegrationsSelectPost(
+    security: operations.SelectIntegrationIntegrationsSelectPostSecurity,
+    request: models.IntegrationSelectRequest,
+    options?: RequestOptions,
+  ): Promise<models.IntegrationDB> {
+    return unwrapAsync(integrationsSelectIntegrationIntegrationsSelectPost(
+      this,
+      security,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Disable Integration
+   *
+   * @remarks
+   * Disable an integration type for this user.
+   *
+   * Creates an opt-out record so no shared integration of this type is used.
+   */
+  async disableIntegrationIntegrationsDisablePost(
+    security: operations.DisableIntegrationIntegrationsDisablePostSecurity,
+    request: models.IntegrationDisableRequest,
+    options?: RequestOptions,
+  ): Promise<any> {
+    return unwrapAsync(integrationsDisableIntegrationIntegrationsDisablePost(
+      this,
+      security,
+      request,
+      options,
+    ));
   }
 }
