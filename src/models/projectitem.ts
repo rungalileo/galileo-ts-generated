@@ -9,6 +9,7 @@ import { safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
+import { LogStreamInfo, LogStreamInfo$inboundSchema } from "./logstreaminfo.js";
 import { Permission, Permission$inboundSchema } from "./permission.js";
 import { ProjectLabels, ProjectLabels$inboundSchema } from "./projectlabels.js";
 import { UserInfo, UserInfo$inboundSchema } from "./userinfo.js";
@@ -37,6 +38,10 @@ export type ProjectItem = {
    * List of labels associated with the project.
    */
   labels?: Array<ProjectLabels> | undefined;
+  /**
+   * Log streams for this project. Only populated when include_logstreams=True.
+   */
+  logStreams?: Array<LogStreamInfo> | null | undefined;
 };
 
 /** @internal */
@@ -54,6 +59,7 @@ export const ProjectItem$inboundSchema: z.ZodMiniType<ProjectItem, unknown> = z
       created_by_user: z.optional(z.nullable(UserInfo$inboundSchema)),
       description: z.optional(z.nullable(types.string())),
       labels: types.optional(z.array(ProjectLabels$inboundSchema)),
+      log_streams: z.optional(z.nullable(z.array(LogStreamInfo$inboundSchema))),
     }),
     z.transform((v) => {
       return remap$(v, {
@@ -62,6 +68,7 @@ export const ProjectItem$inboundSchema: z.ZodMiniType<ProjectItem, unknown> = z
         "num_logstreams": "numLogstreams",
         "num_experiments": "numExperiments",
         "created_by_user": "createdByUser",
+        "log_streams": "logStreams",
       });
     }),
   );
