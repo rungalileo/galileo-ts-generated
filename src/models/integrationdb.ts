@@ -23,6 +23,7 @@ export type IntegrationDB = {
   updatedAt: Date;
   createdBy: string;
   isSelected: boolean;
+  isDisabled: boolean;
 };
 
 /** @internal */
@@ -38,6 +39,7 @@ export const IntegrationDB$inboundSchema: z.ZodMiniType<
     updated_at: types.date(),
     created_by: types.string(),
     is_selected: z._default(types.boolean(), false),
+    is_disabled: z._default(types.boolean(), false),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -45,6 +47,7 @@ export const IntegrationDB$inboundSchema: z.ZodMiniType<
       "updated_at": "updatedAt",
       "created_by": "createdBy",
       "is_selected": "isSelected",
+      "is_disabled": "isDisabled",
     });
   }),
 );

@@ -25,6 +25,11 @@ import {
   LogRecordsDateFilter$outboundSchema,
 } from "./logrecordsdatefilter.js";
 import {
+  LogRecordsFullyAnnotatedFilter,
+  LogRecordsFullyAnnotatedFilter$Outbound,
+  LogRecordsFullyAnnotatedFilter$outboundSchema,
+} from "./logrecordsfullyannotatedfilter.js";
+import {
   LogRecordsIDFilter,
   LogRecordsIDFilter$Outbound,
   LogRecordsIDFilter$outboundSchema,
@@ -50,6 +55,7 @@ export type LogRecordsExportRequestFilter =
   | LogRecordsBooleanFilter
   | LogRecordsCollectionFilter
   | LogRecordsDateFilter
+  | LogRecordsFullyAnnotatedFilter
   | LogRecordsIDFilter
   | LogRecordsNumberFilter
   | LogRecordsTextFilter;
@@ -58,6 +64,19 @@ export type LogRecordsExportRequestFilter =
  * Request schema for exporting log records (sessions, traces, spans).
  */
 export type LogRecordsExportRequest = {
+  /**
+   * Column IDs to include in the export. Applies only to CSV exports.
+   */
+  columnIds?: Array<string> | null | undefined;
+  exportFormat?: LLMExportFormat | undefined;
+  /**
+   * Redact sensitive data
+   */
+  redact?: boolean | undefined;
+  /**
+   * Optional filename for the exported file
+   */
+  fileName?: string | null | undefined;
   /**
    * Log stream id associated with the traces.
    */
@@ -78,6 +97,7 @@ export type LogRecordsExportRequest = {
       | LogRecordsBooleanFilter
       | LogRecordsCollectionFilter
       | LogRecordsDateFilter
+      | LogRecordsFullyAnnotatedFilter
       | LogRecordsIDFilter
       | LogRecordsNumberFilter
       | LogRecordsTextFilter
@@ -88,11 +108,6 @@ export type LogRecordsExportRequest = {
    */
   sort?: LogRecordsSortClause | null | undefined;
   /**
-   * Column IDs to include in export
-   */
-  columnIds?: Array<string> | null | undefined;
-  exportFormat?: LLMExportFormat | undefined;
-  /**
    * The root-level type of a logged step hierarchy.
    *
    * @remarks
@@ -101,14 +116,6 @@ export type LogRecordsExportRequest = {
    * used throughout the platform: session, trace, and span.
    */
   rootType: RootType;
-  /**
-   * Redact sensitive data
-   */
-  redact?: boolean | undefined;
-  /**
-   * Optional filename for the exported file
-   */
-  fileName?: string | null | undefined;
 };
 
 /** @internal */
@@ -116,6 +123,7 @@ export type LogRecordsExportRequestFilter$Outbound =
   | LogRecordsBooleanFilter$Outbound
   | LogRecordsCollectionFilter$Outbound
   | LogRecordsDateFilter$Outbound
+  | LogRecordsFullyAnnotatedFilter$Outbound
   | LogRecordsIDFilter$Outbound
   | LogRecordsNumberFilter$Outbound
   | LogRecordsTextFilter$Outbound;
@@ -128,6 +136,7 @@ export const LogRecordsExportRequestFilter$outboundSchema: z.ZodMiniType<
   LogRecordsBooleanFilter$outboundSchema,
   LogRecordsCollectionFilter$outboundSchema,
   LogRecordsDateFilter$outboundSchema,
+  LogRecordsFullyAnnotatedFilter$outboundSchema,
   LogRecordsIDFilter$outboundSchema,
   LogRecordsNumberFilter$outboundSchema,
   LogRecordsTextFilter$outboundSchema,
@@ -145,6 +154,10 @@ export function logRecordsExportRequestFilterToJSON(
 
 /** @internal */
 export type LogRecordsExportRequest$Outbound = {
+  column_ids?: Array<string> | null | undefined;
+  export_format?: string | undefined;
+  redact: boolean;
+  file_name?: string | null | undefined;
   log_stream_id?: string | null | undefined;
   experiment_id?: string | null | undefined;
   metrics_testing_id?: string | null | undefined;
@@ -153,17 +166,14 @@ export type LogRecordsExportRequest$Outbound = {
       | LogRecordsBooleanFilter$Outbound
       | LogRecordsCollectionFilter$Outbound
       | LogRecordsDateFilter$Outbound
+      | LogRecordsFullyAnnotatedFilter$Outbound
       | LogRecordsIDFilter$Outbound
       | LogRecordsNumberFilter$Outbound
       | LogRecordsTextFilter$Outbound
     >
     | undefined;
   sort?: LogRecordsSortClause$Outbound | null | undefined;
-  column_ids?: Array<string> | null | undefined;
-  export_format?: string | undefined;
   root_type: string;
-  redact: boolean;
-  file_name?: string | null | undefined;
 };
 
 /** @internal */
@@ -172,6 +182,10 @@ export const LogRecordsExportRequest$outboundSchema: z.ZodMiniType<
   LogRecordsExportRequest
 > = z.pipe(
   z.object({
+    columnIds: z.optional(z.nullable(z.array(z.string()))),
+    exportFormat: z.optional(LLMExportFormat$outboundSchema),
+    redact: z._default(z.boolean(), true),
+    fileName: z.optional(z.nullable(z.string())),
     logStreamId: z.optional(z.nullable(z.string())),
     experimentId: z.optional(z.nullable(z.string())),
     metricsTestingId: z.optional(z.nullable(z.string())),
@@ -181,6 +195,7 @@ export const LogRecordsExportRequest$outboundSchema: z.ZodMiniType<
           LogRecordsBooleanFilter$outboundSchema,
           LogRecordsCollectionFilter$outboundSchema,
           LogRecordsDateFilter$outboundSchema,
+          LogRecordsFullyAnnotatedFilter$outboundSchema,
           LogRecordsIDFilter$outboundSchema,
           LogRecordsNumberFilter$outboundSchema,
           LogRecordsTextFilter$outboundSchema,
@@ -188,21 +203,17 @@ export const LogRecordsExportRequest$outboundSchema: z.ZodMiniType<
       ),
     ),
     sort: z.optional(z.nullable(LogRecordsSortClause$outboundSchema)),
-    columnIds: z.optional(z.nullable(z.array(z.string()))),
-    exportFormat: z.optional(LLMExportFormat$outboundSchema),
     rootType: RootType$outboundSchema,
-    redact: z._default(z.boolean(), true),
-    fileName: z.optional(z.nullable(z.string())),
   }),
   z.transform((v) => {
     return remap$(v, {
+      columnIds: "column_ids",
+      exportFormat: "export_format",
+      fileName: "file_name",
       logStreamId: "log_stream_id",
       experimentId: "experiment_id",
       metricsTestingId: "metrics_testing_id",
-      columnIds: "column_ids",
-      exportFormat: "export_format",
       rootType: "root_type",
-      fileName: "file_name",
     });
   }),
 );

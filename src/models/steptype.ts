@@ -13,6 +13,7 @@ export const StepType = {
   Tool: "tool",
   Workflow: "workflow",
   Agent: "agent",
+  Control: "control",
   Trace: "trace",
   Session: "session",
 } as const;
@@ -21,3 +22,6 @@ export type StepType = OpenEnum<typeof StepType>;
 /** @internal */
 export const StepType$inboundSchema: z.ZodMiniType<StepType, unknown> =
   openEnums.inboundSchema(StepType);
+/** @internal */
+export const StepType$outboundSchema: z.ZodMiniType<string, StepType> =
+  openEnums.outboundSchema(StepType);

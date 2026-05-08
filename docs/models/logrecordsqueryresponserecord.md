@@ -16,6 +16,19 @@ const value: models.ExtendedAgentSpanRecord = {
 };
 ```
 
+### `models.ExtendedControlSpanRecord`
+
+```typescript
+const value: models.ExtendedControlSpanRecord = {
+  type: "control",
+  id: "<value>",
+  sessionId: "<value>",
+  projectId: "<value>",
+  runId: "<value>",
+  parentId: "<value>",
+};
+```
+
 ### `models.ExtendedLlmSpanRecord`
 
 ```typescript
