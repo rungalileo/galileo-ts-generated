@@ -7,6 +7,14 @@ import { CustomizedFactualityGPTScorer } from "galileo-generated/models";
 
 let value: CustomizedFactualityGPTScorer = {
   scorerName: "_customized_factuality",
+  filters: [
+    {
+      name: "node_name",
+      operator: "ne",
+      value: "<value>",
+      caseSensitive: true,
+    },
+  ],
 };
 ```
 
@@ -42,6 +50,7 @@ let value: CustomizedFactualityGPTScorer = {
 | `inputType`                                                                                                | [models.InputTypeEnum](../models/inputtypeenum.md)                                                         | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `multimodalCapabilities`                                                                                   | [models.MultimodalCapability](../models/multimodalcapability.md)[]                                         | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `requiredScorers`                                                                                          | *string*[]                                                                                                 | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
+| `requiredMetricIds`                                                                                        | *string*[]                                                                                                 | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `rollUpStrategy`                                                                                           | [models.RollUpStrategy](../models/rollupstrategy.md)                                                       | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `rollUpMethods`                                                                                            | *models.CustomizedFactualityGPTScorerRollUpMethods*                                                        | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `prompt`                                                                                                   | *string*                                                                                                   | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
