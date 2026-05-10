@@ -21,6 +21,7 @@ export type BodyCreateDatasetDatasetsPost = {
   copyFromDatasetId?: string | null | undefined;
   copyFromDatasetVersionIndex?: number | null | undefined;
   projectId?: string | null | undefined;
+  columnMapping?: string | null | undefined;
 };
 
 /** @internal */
@@ -63,6 +64,7 @@ export type BodyCreateDatasetDatasetsPost$Outbound = {
   copy_from_dataset_id?: string | null | undefined;
   copy_from_dataset_version_index?: number | null | undefined;
   project_id?: string | null | undefined;
+  column_mapping?: string | null | undefined;
 };
 
 /** @internal */
@@ -82,6 +84,7 @@ export const BodyCreateDatasetDatasetsPost$outboundSchema: z.ZodMiniType<
     copyFromDatasetId: z.optional(z.nullable(z.string())),
     copyFromDatasetVersionIndex: z.optional(z.nullable(z.int())),
     projectId: z.optional(z.nullable(z.string())),
+    columnMapping: z.optional(z.nullable(z.string())),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -89,6 +92,7 @@ export const BodyCreateDatasetDatasetsPost$outboundSchema: z.ZodMiniType<
       copyFromDatasetId: "copy_from_dataset_id",
       copyFromDatasetVersionIndex: "copy_from_dataset_version_index",
       projectId: "project_id",
+      columnMapping: "column_mapping",
     });
   }),
 );

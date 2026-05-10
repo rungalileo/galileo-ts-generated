@@ -7,6 +7,13 @@ import { CustomizedGroundednessGPTScorer } from "galileo-generated/models";
 
 let value: CustomizedGroundednessGPTScorer = {
   scorerName: "_customized_groundedness",
+  filters: [
+    {
+      name: "modality",
+      operator: "one_of",
+      value: "ENUM_VALUE",
+    },
+  ],
 };
 ```
 
@@ -42,6 +49,7 @@ let value: CustomizedGroundednessGPTScorer = {
 | `inputType`                                                                                                | [models.InputTypeEnum](../models/inputtypeenum.md)                                                         | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `multimodalCapabilities`                                                                                   | [models.MultimodalCapability](../models/multimodalcapability.md)[]                                         | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `requiredScorers`                                                                                          | *string*[]                                                                                                 | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
+| `requiredMetricIds`                                                                                        | *string*[]                                                                                                 | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `rollUpStrategy`                                                                                           | [models.RollUpStrategy](../models/rollupstrategy.md)                                                       | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `rollUpMethods`                                                                                            | *models.CustomizedGroundednessGPTScorerRollUpMethods*                                                      | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `prompt`                                                                                                   | *string*                                                                                                   | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |

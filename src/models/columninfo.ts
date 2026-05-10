@@ -68,13 +68,17 @@ export type ColumnInfo = {
    */
   applicableTypes?: Array<StepType> | undefined;
   /**
-   * Whether the column requires special handling in the UI. Setting this to True will hide the column in the UI until the UI adds support for it.
-   */
-  complex: boolean;
-  /**
    * Whether the column is optional.
    */
   isOptional: boolean;
+  /**
+   * Default roll-up aggregation method for this metric (e.g., 'sum', 'average').
+   */
+  rollUpMethod?: string | null | undefined;
+  /**
+   * Alternate metric key for this column. When scorer UUIDs are used as column IDs, this holds the legacy metric_name string for dual-key ClickHouse query fallback.
+   */
+  metricKeyAlias?: string | null | undefined;
 };
 
 /** @internal */
@@ -94,8 +98,9 @@ export const ColumnInfo$inboundSchema: z.ZodMiniType<ColumnInfo, unknown> = z
       filterable: types.optional(types.boolean()),
       is_empty: z._default(types.boolean(), false),
       applicable_types: types.optional(z.array(StepType$inboundSchema)),
-      complex: z._default(types.boolean(), false),
       is_optional: z._default(types.boolean(), false),
+      roll_up_method: z.optional(z.nullable(types.string())),
+      metric_key_alias: z.optional(z.nullable(types.string())),
     }),
     z.transform((v) => {
       return remap$(v, {
@@ -107,6 +112,8 @@ export const ColumnInfo$inboundSchema: z.ZodMiniType<ColumnInfo, unknown> = z
         "is_empty": "isEmpty",
         "applicable_types": "applicableTypes",
         "is_optional": "isOptional",
+        "roll_up_method": "rollUpMethod",
+        "metric_key_alias": "metricKeyAlias",
       });
     }),
   );

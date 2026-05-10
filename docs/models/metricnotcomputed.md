@@ -16,4 +16,5 @@ let value: MetricNotComputed = {
 | -------------------------------------------- | -------------------------------------------- | -------------------------------------------- | -------------------------------------------- |
 | `statusType`                                 | *"not_computed"*                             | :heavy_check_mark:                           | N/A                                          |
 | `scorerType`                                 | [models.ScorerType](../models/scorertype.md) | :heavy_minus_sign:                           | N/A                                          |
+| `metricKeyAlias`                             | *string*                                     | :heavy_minus_sign:                           | N/A                                          |
 | `message`                                    | *string*                                     | :heavy_minus_sign:                           | N/A                                          |

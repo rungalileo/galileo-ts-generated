@@ -7,6 +7,17 @@ import { CustomizedPromptInjectionGPTScorer } from "galileo-generated/models";
 
 let value: CustomizedPromptInjectionGPTScorer = {
   scorerName: "_customized_prompt_injection_gpt",
+  filters: [
+    {
+      name: "node_name",
+      operator: "not_in",
+      value: [
+        "<value 1>",
+        "<value 2>",
+      ],
+      caseSensitive: true,
+    },
+  ],
 };
 ```
 
@@ -42,6 +53,7 @@ let value: CustomizedPromptInjectionGPTScorer = {
 | `inputType`                                                                                                      | [models.InputTypeEnum](../models/inputtypeenum.md)                                                               | :heavy_minus_sign:                                                                                               | N/A                                                                                                              |
 | `multimodalCapabilities`                                                                                         | [models.MultimodalCapability](../models/multimodalcapability.md)[]                                               | :heavy_minus_sign:                                                                                               | N/A                                                                                                              |
 | `requiredScorers`                                                                                                | *string*[]                                                                                                       | :heavy_minus_sign:                                                                                               | N/A                                                                                                              |
+| `requiredMetricIds`                                                                                              | *string*[]                                                                                                       | :heavy_minus_sign:                                                                                               | N/A                                                                                                              |
 | `rollUpStrategy`                                                                                                 | [models.RollUpStrategy](../models/rollupstrategy.md)                                                             | :heavy_minus_sign:                                                                                               | N/A                                                                                                              |
 | `rollUpMethods`                                                                                                  | *models.CustomizedPromptInjectionGPTScorerRollUpMethods*                                                         | :heavy_minus_sign:                                                                                               | N/A                                                                                                              |
 | `prompt`                                                                                                         | *string*                                                                                                         | :heavy_minus_sign:                                                                                               | N/A                                                                                                              |
