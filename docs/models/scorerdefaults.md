@@ -5,7 +5,16 @@
 ```typescript
 import { ScorerDefaults } from "galileo-generated/models";
 
-let value: ScorerDefaults = {};
+let value: ScorerDefaults = {
+  filters: [
+    {
+      name: "metadata",
+      operator: "eq",
+      key: "<key>",
+      value: "<value>",
+    },
+  ],
+};
 ```
 
 ## Fields

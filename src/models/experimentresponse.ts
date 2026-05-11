@@ -30,6 +30,10 @@ import {
   FeedbackAggregate$inboundSchema,
 } from "./feedbackaggregate.js";
 import {
+  MetricAggregates,
+  MetricAggregates$inboundSchema,
+} from "./metricaggregates.js";
+import {
   PromptRunSettings,
   PromptRunSettings$inboundSchema,
 } from "./promptrunsettings.js";
@@ -73,6 +77,13 @@ export type ExperimentResponse = {
   dataset?: ExperimentDataset | null | undefined;
   aggregateMetrics?: { [k: string]: any } | undefined;
   /**
+   * Structured aggregate metrics with full statistical aggregates (avg, min, max, sum, count). Keys are scorer UUIDs for scorer-backed metrics (matching available_columns column IDs after stripping the 'metrics/' prefix) and raw strings for system metrics (e.g. 'duration_ns', 'cost'). Present only when use_clickhouse_run_aggregates flag is enabled.
+   */
+  structuredAggregateMetrics?:
+    | { [k: string]: MetricAggregates }
+    | null
+    | undefined;
+  /**
    * Aggregate feedback information related to the experiment (traces only)
    *
    * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
@@ -94,6 +105,9 @@ export type ExperimentResponse = {
   prompt?: ExperimentPrompt | null | undefined;
   tags?: { [k: string]: Array<RunTagDB> } | undefined;
   status?: ExperimentStatus | undefined;
+  experimentGroupId?: string | null | undefined;
+  experimentGroupName?: string | null | undefined;
+  experimentGroupIsSystem?: boolean | null | undefined;
 };
 
 /** @internal */
@@ -114,6 +128,9 @@ export const ExperimentResponse$inboundSchema: z.ZodMiniType<
     task_type: TaskType$inboundSchema,
     dataset: z.optional(z.nullable(ExperimentDataset$inboundSchema)),
     aggregate_metrics: types.optional(z.record(z.string(), z.any())),
+    structured_aggregate_metrics: z.optional(
+      z.nullable(z.record(z.string(), MetricAggregates$inboundSchema)),
+    ),
     aggregate_feedback: types.optional(
       z.record(z.string(), FeedbackAggregate$inboundSchema),
     ),
@@ -135,6 +152,9 @@ export const ExperimentResponse$inboundSchema: z.ZodMiniType<
     prompt: z.optional(z.nullable(ExperimentPrompt$inboundSchema)),
     tags: types.optional(z.record(z.string(), z.array(RunTagDB$inboundSchema))),
     status: types.optional(ExperimentStatus$inboundSchema),
+    experiment_group_id: z.optional(z.nullable(types.string())),
+    experiment_group_name: z.optional(z.nullable(types.string())),
+    experiment_group_is_system: z.optional(z.nullable(types.boolean())),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -147,12 +167,16 @@ export const ExperimentResponse$inboundSchema: z.ZodMiniType<
       "num_traces": "numTraces",
       "task_type": "taskType",
       "aggregate_metrics": "aggregateMetrics",
+      "structured_aggregate_metrics": "structuredAggregateMetrics",
       "aggregate_feedback": "aggregateFeedback",
       "rating_aggregates": "ratingAggregates",
       "ranking_score": "rankingScore",
       "playground_id": "playgroundId",
       "prompt_run_settings": "promptRunSettings",
       "prompt_model": "promptModel",
+      "experiment_group_id": "experimentGroupId",
+      "experiment_group_name": "experimentGroupName",
+      "experiment_group_is_system": "experimentGroupIsSystem",
     });
   }),
 );

@@ -10,6 +10,7 @@ import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
 import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
+import { smartUnion } from "../types/smartUnion.js";
 import {
   AnnotationAggregate,
   AnnotationAggregate$inboundSchema,
@@ -27,6 +28,10 @@ import {
   FeedbackRatingInfo,
   FeedbackRatingInfo$inboundSchema,
 } from "./feedbackratinginfo.js";
+import {
+  FileContentPart,
+  FileContentPart$inboundSchema,
+} from "./filecontentpart.js";
 import { FileMetadata, FileMetadata$inboundSchema } from "./filemetadata.js";
 import {
   MetricComputing,
@@ -46,6 +51,66 @@ import { MetricPending, MetricPending$inboundSchema } from "./metricpending.js";
 import { MetricRollUp, MetricRollUp$inboundSchema } from "./metricrollup.js";
 import { Metrics, Metrics$inboundSchema } from "./metrics.js";
 import { MetricSuccess, MetricSuccess$inboundSchema } from "./metricsuccess.js";
+import {
+  TextContentPart,
+  TextContentPart$inboundSchema,
+} from "./textcontentpart.js";
+
+export type PartialExtendedTraceRecordInput1 =
+  | FileContentPart
+  | TextContentPart
+  | discriminatedUnionTypes.Unknown<"type">;
+
+/**
+ * Input to the trace or span.
+ */
+export type PartialExtendedTraceRecordInput2 =
+  | string
+  | Array<
+    FileContentPart | TextContentPart | discriminatedUnionTypes.Unknown<"type">
+  >;
+
+export type PartialExtendedTraceRecordRedactedInput1 =
+  | FileContentPart
+  | TextContentPart
+  | discriminatedUnionTypes.Unknown<"type">;
+
+/**
+ * Redacted input of the trace or span.
+ */
+export type PartialExtendedTraceRecordRedactedInput2 =
+  | string
+  | Array<
+    FileContentPart | TextContentPart | discriminatedUnionTypes.Unknown<"type">
+  >;
+
+export type PartialExtendedTraceRecordOutput1 =
+  | FileContentPart
+  | TextContentPart
+  | discriminatedUnionTypes.Unknown<"type">;
+
+/**
+ * Output of the trace or span.
+ */
+export type PartialExtendedTraceRecordOutput2 =
+  | string
+  | Array<
+    FileContentPart | TextContentPart | discriminatedUnionTypes.Unknown<"type">
+  >;
+
+export type PartialExtendedTraceRecordRedactedOutput1 =
+  | FileContentPart
+  | TextContentPart
+  | discriminatedUnionTypes.Unknown<"type">;
+
+/**
+ * Redacted output of the trace or span.
+ */
+export type PartialExtendedTraceRecordRedactedOutput2 =
+  | string
+  | Array<
+    FileContentPart | TextContentPart | discriminatedUnionTypes.Unknown<"type">
+  >;
 
 export type PartialExtendedTraceRecordMetricInfo =
   | MetricComputing
@@ -66,19 +131,50 @@ export type PartialExtendedTraceRecord = {
   /**
    * Input to the trace or span.
    */
-  input: string;
+  input?:
+    | string
+    | Array<
+      | FileContentPart
+      | TextContentPart
+      | discriminatedUnionTypes.Unknown<"type">
+    >
+    | undefined;
   /**
    * Redacted input of the trace or span.
    */
-  redactedInput?: string | null | undefined;
+  redactedInput?:
+    | string
+    | Array<
+      | FileContentPart
+      | TextContentPart
+      | discriminatedUnionTypes.Unknown<"type">
+    >
+    | null
+    | undefined;
   /**
    * Output of the trace or span.
    */
-  output?: string | null | undefined;
+  output?:
+    | string
+    | Array<
+      | FileContentPart
+      | TextContentPart
+      | discriminatedUnionTypes.Unknown<"type">
+    >
+    | null
+    | undefined;
   /**
    * Redacted output of the trace or span.
    */
-  redactedOutput?: string | null | undefined;
+  redactedOutput?:
+    | string
+    | Array<
+      | FileContentPart
+      | TextContentPart
+      | discriminatedUnionTypes.Unknown<"type">
+    >
+    | null
+    | undefined;
   /**
    * Name of the trace, span or session.
    */
@@ -175,6 +271,22 @@ export type PartialExtendedTraceRecord = {
    */
   annotationAggregates?: { [k: string]: AnnotationAggregate } | undefined;
   /**
+   * Annotation agreement scores keyed by template ID
+   */
+  annotationAgreement?: { [k: string]: number } | undefined;
+  /**
+   * Average annotation agreement across all templates in the queue
+   */
+  overallAnnotationAgreement?: number | null | undefined;
+  /**
+   * IDs of annotation queues this record is in
+   */
+  annotationQueueIds?: Array<string> | undefined;
+  /**
+   * Whether every field is annotated by every annotator in the queue
+   */
+  fullyAnnotated?: boolean | null | undefined;
+  /**
    * Detailed information about the metrics associated with this trace or span
    */
   metricInfo?:
@@ -201,6 +313,199 @@ export type PartialExtendedTraceRecord = {
    */
   isComplete: boolean;
 };
+
+/** @internal */
+export const PartialExtendedTraceRecordInput1$inboundSchema: z.ZodMiniType<
+  PartialExtendedTraceRecordInput1,
+  unknown
+> = discriminatedUnion("type", {
+  file: FileContentPart$inboundSchema,
+  text: TextContentPart$inboundSchema,
+});
+
+export function partialExtendedTraceRecordInput1FromJSON(
+  jsonString: string,
+): SafeParseResult<PartialExtendedTraceRecordInput1, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => PartialExtendedTraceRecordInput1$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'PartialExtendedTraceRecordInput1' from JSON`,
+  );
+}
+
+/** @internal */
+export const PartialExtendedTraceRecordInput2$inboundSchema: z.ZodMiniType<
+  PartialExtendedTraceRecordInput2,
+  unknown
+> = smartUnion([
+  types.string(),
+  z.array(
+    discriminatedUnion("type", {
+      file: FileContentPart$inboundSchema,
+      text: TextContentPart$inboundSchema,
+    }),
+  ),
+]);
+
+export function partialExtendedTraceRecordInput2FromJSON(
+  jsonString: string,
+): SafeParseResult<PartialExtendedTraceRecordInput2, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => PartialExtendedTraceRecordInput2$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'PartialExtendedTraceRecordInput2' from JSON`,
+  );
+}
+
+/** @internal */
+export const PartialExtendedTraceRecordRedactedInput1$inboundSchema:
+  z.ZodMiniType<PartialExtendedTraceRecordRedactedInput1, unknown> =
+    discriminatedUnion("type", {
+      file: FileContentPart$inboundSchema,
+      text: TextContentPart$inboundSchema,
+    });
+
+export function partialExtendedTraceRecordRedactedInput1FromJSON(
+  jsonString: string,
+): SafeParseResult<
+  PartialExtendedTraceRecordRedactedInput1,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      PartialExtendedTraceRecordRedactedInput1$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'PartialExtendedTraceRecordRedactedInput1' from JSON`,
+  );
+}
+
+/** @internal */
+export const PartialExtendedTraceRecordRedactedInput2$inboundSchema:
+  z.ZodMiniType<PartialExtendedTraceRecordRedactedInput2, unknown> = smartUnion(
+    [
+      types.string(),
+      z.array(
+        discriminatedUnion("type", {
+          file: FileContentPart$inboundSchema,
+          text: TextContentPart$inboundSchema,
+        }),
+      ),
+    ],
+  );
+
+export function partialExtendedTraceRecordRedactedInput2FromJSON(
+  jsonString: string,
+): SafeParseResult<
+  PartialExtendedTraceRecordRedactedInput2,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      PartialExtendedTraceRecordRedactedInput2$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'PartialExtendedTraceRecordRedactedInput2' from JSON`,
+  );
+}
+
+/** @internal */
+export const PartialExtendedTraceRecordOutput1$inboundSchema: z.ZodMiniType<
+  PartialExtendedTraceRecordOutput1,
+  unknown
+> = discriminatedUnion("type", {
+  file: FileContentPart$inboundSchema,
+  text: TextContentPart$inboundSchema,
+});
+
+export function partialExtendedTraceRecordOutput1FromJSON(
+  jsonString: string,
+): SafeParseResult<PartialExtendedTraceRecordOutput1, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => PartialExtendedTraceRecordOutput1$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'PartialExtendedTraceRecordOutput1' from JSON`,
+  );
+}
+
+/** @internal */
+export const PartialExtendedTraceRecordOutput2$inboundSchema: z.ZodMiniType<
+  PartialExtendedTraceRecordOutput2,
+  unknown
+> = smartUnion([
+  types.string(),
+  z.array(
+    discriminatedUnion("type", {
+      file: FileContentPart$inboundSchema,
+      text: TextContentPart$inboundSchema,
+    }),
+  ),
+]);
+
+export function partialExtendedTraceRecordOutput2FromJSON(
+  jsonString: string,
+): SafeParseResult<PartialExtendedTraceRecordOutput2, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => PartialExtendedTraceRecordOutput2$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'PartialExtendedTraceRecordOutput2' from JSON`,
+  );
+}
+
+/** @internal */
+export const PartialExtendedTraceRecordRedactedOutput1$inboundSchema:
+  z.ZodMiniType<PartialExtendedTraceRecordRedactedOutput1, unknown> =
+    discriminatedUnion("type", {
+      file: FileContentPart$inboundSchema,
+      text: TextContentPart$inboundSchema,
+    });
+
+export function partialExtendedTraceRecordRedactedOutput1FromJSON(
+  jsonString: string,
+): SafeParseResult<
+  PartialExtendedTraceRecordRedactedOutput1,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      PartialExtendedTraceRecordRedactedOutput1$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'PartialExtendedTraceRecordRedactedOutput1' from JSON`,
+  );
+}
+
+/** @internal */
+export const PartialExtendedTraceRecordRedactedOutput2$inboundSchema:
+  z.ZodMiniType<PartialExtendedTraceRecordRedactedOutput2, unknown> =
+    smartUnion([
+      types.string(),
+      z.array(
+        discriminatedUnion("type", {
+          file: FileContentPart$inboundSchema,
+          text: TextContentPart$inboundSchema,
+        }),
+      ),
+    ]);
+
+export function partialExtendedTraceRecordRedactedOutput2FromJSON(
+  jsonString: string,
+): SafeParseResult<
+  PartialExtendedTraceRecordRedactedOutput2,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      PartialExtendedTraceRecordRedactedOutput2$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'PartialExtendedTraceRecordRedactedOutput2' from JSON`,
+  );
+}
 
 /** @internal */
 export const PartialExtendedTraceRecordMetricInfo$inboundSchema: z.ZodMiniType<
@@ -235,10 +540,56 @@ export const PartialExtendedTraceRecord$inboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     type: types.literal("trace"),
-    input: z._default(types.string(), ""),
-    redacted_input: z.optional(z.nullable(types.string())),
-    output: z.optional(z.nullable(types.string())),
-    redacted_output: z.optional(z.nullable(types.string())),
+    input: types.optional(
+      smartUnion([
+        types.string(),
+        z.array(
+          discriminatedUnion("type", {
+            file: FileContentPart$inboundSchema,
+            text: TextContentPart$inboundSchema,
+          }),
+        ),
+      ]),
+    ),
+    redacted_input: z.optional(
+      z.nullable(
+        smartUnion([
+          types.string(),
+          z.array(
+            discriminatedUnion("type", {
+              file: FileContentPart$inboundSchema,
+              text: TextContentPart$inboundSchema,
+            }),
+          ),
+        ]),
+      ),
+    ),
+    output: z.optional(
+      z.nullable(
+        smartUnion([
+          types.string(),
+          z.array(
+            discriminatedUnion("type", {
+              file: FileContentPart$inboundSchema,
+              text: TextContentPart$inboundSchema,
+            }),
+          ),
+        ]),
+      ),
+    ),
+    redacted_output: z.optional(
+      z.nullable(
+        smartUnion([
+          types.string(),
+          z.array(
+            discriminatedUnion("type", {
+              file: FileContentPart$inboundSchema,
+              text: TextContentPart$inboundSchema,
+            }),
+          ),
+        ]),
+      ),
+    ),
     name: z._default(types.string(), ""),
     created_at: types.optional(types.date()),
     user_metadata: types.optional(z.record(z.string(), types.string())),
@@ -272,6 +623,10 @@ export const PartialExtendedTraceRecord$inboundSchema: z.ZodMiniType<
     annotation_aggregates: types.optional(
       z.record(z.string(), AnnotationAggregate$inboundSchema),
     ),
+    annotation_agreement: types.optional(z.record(z.string(), types.number())),
+    overall_annotation_agreement: z.optional(z.nullable(types.number())),
+    annotation_queue_ids: types.optional(z.array(types.string())),
+    fully_annotated: z.optional(z.nullable(types.boolean())),
     metric_info: z.optional(
       z.nullable(z.record(
         z.string(),
@@ -315,6 +670,10 @@ export const PartialExtendedTraceRecord$inboundSchema: z.ZodMiniType<
       "file_ids": "fileIds",
       "file_modalities": "fileModalities",
       "annotation_aggregates": "annotationAggregates",
+      "annotation_agreement": "annotationAgreement",
+      "overall_annotation_agreement": "overallAnnotationAgreement",
+      "annotation_queue_ids": "annotationQueueIds",
+      "fully_annotated": "fullyAnnotated",
       "metric_info": "metricInfo",
       "is_complete": "isComplete",
     });
