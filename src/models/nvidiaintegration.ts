@@ -12,6 +12,7 @@ import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 export type NvidiaIntegration = {
   id?: string | null | undefined;
   name: "nvidia";
+  provider: "nvidia";
   extra?: { [k: string]: any } | null | undefined;
 };
 
@@ -21,7 +22,8 @@ export const NvidiaIntegration$inboundSchema: z.ZodMiniType<
   unknown
 > = z.object({
   id: z.optional(z.nullable(types.string())),
-  name: types.literal("nvidia"),
+  name: z._default(types.literal("nvidia"), "nvidia"),
+  provider: types.literal("nvidia"),
   extra: z.optional(z.nullable(z.record(z.string(), z.any()))),
 });
 

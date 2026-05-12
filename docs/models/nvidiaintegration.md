@@ -6,7 +6,7 @@
 import { NvidiaIntegration } from "galileo-generated/models";
 
 let value: NvidiaIntegration = {
-  name: "nvidia",
+  provider: "nvidia",
 };
 ```
 
@@ -15,5 +15,6 @@ let value: NvidiaIntegration = {
 | Field                 | Type                  | Required              | Description           |
 | --------------------- | --------------------- | --------------------- | --------------------- |
 | `id`                  | *string*              | :heavy_minus_sign:    | N/A                   |
-| `name`                | *"nvidia"*            | :heavy_check_mark:    | N/A                   |
+| `name`                | *"nvidia"*            | :heavy_minus_sign:    | N/A                   |
+| `provider`            | *"nvidia"*            | :heavy_check_mark:    | N/A                   |
 | `extra`               | Record<string, *any*> | :heavy_minus_sign:    | N/A                   |

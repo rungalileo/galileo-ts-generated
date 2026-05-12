@@ -39,6 +39,12 @@ import {
   MetadataFilter$outboundSchema,
 } from "./metadatafilter.js";
 import {
+  ModalityFilter,
+  ModalityFilter$inboundSchema,
+  ModalityFilter$Outbound,
+  ModalityFilter$outboundSchema,
+} from "./modalityfilter.js";
+import {
   MultimodalCapability,
   MultimodalCapability$inboundSchema,
   MultimodalCapability$outboundSchema,
@@ -83,6 +89,7 @@ import {
 
 export type CustomizedSexistGPTScorerFilter =
   | MetadataFilter
+  | ModalityFilter
   | NodeNameFilter
   | discriminatedUnionTypes.Unknown<"name">;
 
@@ -107,7 +114,10 @@ export type CustomizedSexistGPTScorer = {
   subScorers?: Array<PromptgalileoSchemasScorerNameScorerName> | undefined;
   filters?:
     | Array<
-      MetadataFilter | NodeNameFilter | discriminatedUnionTypes.Unknown<"name">
+      | MetadataFilter
+      | ModalityFilter
+      | NodeNameFilter
+      | discriminatedUnionTypes.Unknown<"name">
     >
     | null
     | undefined;
@@ -134,6 +144,7 @@ export type CustomizedSexistGPTScorer = {
   inputType?: InputTypeEnum | null | undefined;
   multimodalCapabilities?: Array<MultimodalCapability> | null | undefined;
   requiredScorers?: Array<string> | null | undefined;
+  requiredMetricIds?: Array<string> | null | undefined;
   rollUpStrategy?: RollUpStrategy | null | undefined;
   rollUpMethods?:
     | Array<NumericRollUpMethod>
@@ -158,18 +169,24 @@ export const CustomizedSexistGPTScorerFilter$inboundSchema: z.ZodMiniType<
   unknown
 > = discriminatedUnion("name", {
   metadata: MetadataFilter$inboundSchema,
+  modality: ModalityFilter$inboundSchema,
   node_name: NodeNameFilter$inboundSchema,
 });
 /** @internal */
 export type CustomizedSexistGPTScorerFilter$Outbound =
   | MetadataFilter$Outbound
+  | ModalityFilter$Outbound
   | NodeNameFilter$Outbound;
 
 /** @internal */
 export const CustomizedSexistGPTScorerFilter$outboundSchema: z.ZodMiniType<
   CustomizedSexistGPTScorerFilter$Outbound,
   CustomizedSexistGPTScorerFilter
-> = z.union([MetadataFilter$outboundSchema, NodeNameFilter$outboundSchema]);
+> = z.union([
+  MetadataFilter$outboundSchema,
+  ModalityFilter$outboundSchema,
+  NodeNameFilter$outboundSchema,
+]);
 
 export function customizedSexistGPTScorerFilterToJSON(
   customizedSexistGPTScorerFilter: CustomizedSexistGPTScorerFilter,
@@ -303,6 +320,7 @@ export const CustomizedSexistGPTScorer$inboundSchema: z.ZodMiniType<
         z.array(
           discriminatedUnion("name", {
             metadata: MetadataFilter$inboundSchema,
+            modality: ModalityFilter$inboundSchema,
             node_name: NodeNameFilter$inboundSchema,
           }),
         ),
@@ -329,6 +347,7 @@ export const CustomizedSexistGPTScorer$inboundSchema: z.ZodMiniType<
       z.nullable(z.array(MultimodalCapability$inboundSchema)),
     ),
     required_scorers: z.optional(z.nullable(z.array(types.string()))),
+    required_metric_ids: z.optional(z.nullable(z.array(types.string()))),
     roll_up_strategy: z.optional(z.nullable(RollUpStrategy$inboundSchema)),
     roll_up_methods: z.optional(
       z.nullable(
@@ -375,6 +394,7 @@ export const CustomizedSexistGPTScorer$inboundSchema: z.ZodMiniType<
       "input_type": "inputType",
       "multimodal_capabilities": "multimodalCapabilities",
       "required_scorers": "requiredScorers",
+      "required_metric_ids": "requiredMetricIds",
       "roll_up_strategy": "rollUpStrategy",
       "roll_up_methods": "rollUpMethods",
       "lora_task_id": "loraTaskId",
@@ -398,7 +418,11 @@ export type CustomizedSexistGPTScorer$Outbound = {
   extra?: { [k: string]: any } | null | undefined;
   sub_scorers?: Array<string> | undefined;
   filters?:
-    | Array<MetadataFilter$Outbound | NodeNameFilter$Outbound>
+    | Array<
+      | MetadataFilter$Outbound
+      | ModalityFilter$Outbound
+      | NodeNameFilter$Outbound
+    >
     | null
     | undefined;
   metric_name?: string | null | undefined;
@@ -418,6 +442,7 @@ export type CustomizedSexistGPTScorer$Outbound = {
   input_type?: string | null | undefined;
   multimodal_capabilities?: Array<string> | null | undefined;
   required_scorers?: Array<string> | null | undefined;
+  required_metric_ids?: Array<string> | null | undefined;
   roll_up_strategy?: string | null | undefined;
   roll_up_methods?: Array<string> | Array<string> | null | undefined;
   prompt?: string | null | undefined;
@@ -455,6 +480,7 @@ export const CustomizedSexistGPTScorer$outboundSchema: z.ZodMiniType<
         z.array(
           z.union([
             MetadataFilter$outboundSchema,
+            ModalityFilter$outboundSchema,
             NodeNameFilter$outboundSchema,
           ]),
         ),
@@ -481,6 +507,7 @@ export const CustomizedSexistGPTScorer$outboundSchema: z.ZodMiniType<
       z.nullable(z.array(MultimodalCapability$outboundSchema)),
     ),
     requiredScorers: z.optional(z.nullable(z.array(z.string()))),
+    requiredMetricIds: z.optional(z.nullable(z.array(z.string()))),
     rollUpStrategy: z.optional(z.nullable(RollUpStrategy$outboundSchema)),
     rollUpMethods: z.optional(
       z.nullable(
@@ -527,6 +554,7 @@ export const CustomizedSexistGPTScorer$outboundSchema: z.ZodMiniType<
       inputType: "input_type",
       multimodalCapabilities: "multimodal_capabilities",
       requiredScorers: "required_scorers",
+      requiredMetricIds: "required_metric_ids",
       rollUpStrategy: "roll_up_strategy",
       rollUpMethods: "roll_up_methods",
       loraTaskId: "lora_task_id",

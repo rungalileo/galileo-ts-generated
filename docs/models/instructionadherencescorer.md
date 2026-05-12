@@ -7,6 +7,13 @@ import { InstructionAdherenceScorer } from "galileo-generated/models";
 
 let value: InstructionAdherenceScorer = {
   name: "instruction_adherence",
+  filters: [
+    {
+      name: "modality",
+      operator: "eq",
+      value: "ENUM_VALUE",
+    },
+  ],
 };
 ```
 

@@ -8,12 +8,12 @@ import { safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
-  IntegrationName,
-  IntegrationName$inboundSchema,
-} from "./integrationname.js";
+  IntegrationProvider,
+  IntegrationProvider$inboundSchema,
+} from "./integrationprovider.js";
 
 export type AvailableIntegrations = {
-  integrations: Array<IntegrationName>;
+  integrations: Array<IntegrationProvider>;
 };
 
 /** @internal */
@@ -21,7 +21,7 @@ export const AvailableIntegrations$inboundSchema: z.ZodMiniType<
   AvailableIntegrations,
   unknown
 > = z.object({
-  integrations: z.array(IntegrationName$inboundSchema),
+  integrations: z.array(IntegrationProvider$inboundSchema),
 });
 
 export function availableIntegrationsFromJSON(

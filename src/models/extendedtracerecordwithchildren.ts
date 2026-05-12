@@ -10,6 +10,7 @@ import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
 import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
+import { smartUnion } from "../types/smartUnion.js";
 import {
   AnnotationAggregate,
   AnnotationAggregate$inboundSchema,
@@ -27,6 +28,10 @@ import {
   ExtendedAgentSpanRecordWithChildren,
   ExtendedAgentSpanRecordWithChildren$inboundSchema,
 } from "./extendedagentspanrecordwithchildren.js";
+import {
+  ExtendedControlSpanRecord,
+  ExtendedControlSpanRecord$inboundSchema,
+} from "./extendedcontrolspanrecord.js";
 import {
   ExtendedLlmSpanRecord,
   ExtendedLlmSpanRecord$inboundSchema,
@@ -47,6 +52,10 @@ import {
   FeedbackRatingInfo,
   FeedbackRatingInfo$inboundSchema,
 } from "./feedbackratinginfo.js";
+import {
+  FileContentPart,
+  FileContentPart$inboundSchema,
+} from "./filecontentpart.js";
 import { FileMetadata, FileMetadata$inboundSchema } from "./filemetadata.js";
 import {
   MetricComputing,
@@ -66,14 +75,75 @@ import { MetricPending, MetricPending$inboundSchema } from "./metricpending.js";
 import { MetricRollUp, MetricRollUp$inboundSchema } from "./metricrollup.js";
 import { Metrics, Metrics$inboundSchema } from "./metrics.js";
 import { MetricSuccess, MetricSuccess$inboundSchema } from "./metricsuccess.js";
+import {
+  TextContentPart,
+  TextContentPart$inboundSchema,
+} from "./textcontentpart.js";
 
 export type ExtendedTraceRecordWithChildrenSpan =
   | ExtendedAgentSpanRecordWithChildren
+  | ExtendedControlSpanRecord
   | ExtendedLlmSpanRecord
   | ExtendedRetrieverSpanRecordWithChildren
   | ExtendedToolSpanRecordWithChildren
   | ExtendedWorkflowSpanRecordWithChildren
   | discriminatedUnionTypes.Unknown<"type">;
+
+export type ExtendedTraceRecordWithChildrenInput1 =
+  | FileContentPart
+  | TextContentPart
+  | discriminatedUnionTypes.Unknown<"type">;
+
+/**
+ * Input to the trace or span.
+ */
+export type ExtendedTraceRecordWithChildrenInput2 =
+  | string
+  | Array<
+    FileContentPart | TextContentPart | discriminatedUnionTypes.Unknown<"type">
+  >;
+
+export type ExtendedTraceRecordWithChildrenRedactedInput1 =
+  | FileContentPart
+  | TextContentPart
+  | discriminatedUnionTypes.Unknown<"type">;
+
+/**
+ * Redacted input of the trace or span.
+ */
+export type ExtendedTraceRecordWithChildrenRedactedInput2 =
+  | string
+  | Array<
+    FileContentPart | TextContentPart | discriminatedUnionTypes.Unknown<"type">
+  >;
+
+export type ExtendedTraceRecordWithChildrenOutput1 =
+  | FileContentPart
+  | TextContentPart
+  | discriminatedUnionTypes.Unknown<"type">;
+
+/**
+ * Output of the trace or span.
+ */
+export type ExtendedTraceRecordWithChildrenOutput2 =
+  | string
+  | Array<
+    FileContentPart | TextContentPart | discriminatedUnionTypes.Unknown<"type">
+  >;
+
+export type ExtendedTraceRecordWithChildrenRedactedOutput1 =
+  | FileContentPart
+  | TextContentPart
+  | discriminatedUnionTypes.Unknown<"type">;
+
+/**
+ * Redacted output of the trace or span.
+ */
+export type ExtendedTraceRecordWithChildrenRedactedOutput2 =
+  | string
+  | Array<
+    FileContentPart | TextContentPart | discriminatedUnionTypes.Unknown<"type">
+  >;
 
 export type ExtendedTraceRecordWithChildrenMetricInfo =
   | MetricComputing
@@ -90,6 +160,7 @@ export type ExtendedTraceRecordWithChildren = {
   spans?:
     | Array<
       | ExtendedAgentSpanRecordWithChildren
+      | ExtendedControlSpanRecord
       | ExtendedLlmSpanRecord
       | ExtendedRetrieverSpanRecordWithChildren
       | ExtendedToolSpanRecordWithChildren
@@ -104,19 +175,50 @@ export type ExtendedTraceRecordWithChildren = {
   /**
    * Input to the trace or span.
    */
-  input: string;
+  input?:
+    | string
+    | Array<
+      | FileContentPart
+      | TextContentPart
+      | discriminatedUnionTypes.Unknown<"type">
+    >
+    | undefined;
   /**
    * Redacted input of the trace or span.
    */
-  redactedInput?: string | null | undefined;
+  redactedInput?:
+    | string
+    | Array<
+      | FileContentPart
+      | TextContentPart
+      | discriminatedUnionTypes.Unknown<"type">
+    >
+    | null
+    | undefined;
   /**
    * Output of the trace or span.
    */
-  output?: string | null | undefined;
+  output?:
+    | string
+    | Array<
+      | FileContentPart
+      | TextContentPart
+      | discriminatedUnionTypes.Unknown<"type">
+    >
+    | null
+    | undefined;
   /**
    * Redacted output of the trace or span.
    */
-  redactedOutput?: string | null | undefined;
+  redactedOutput?:
+    | string
+    | Array<
+      | FileContentPart
+      | TextContentPart
+      | discriminatedUnionTypes.Unknown<"type">
+    >
+    | null
+    | undefined;
   /**
    * Name of the trace, span or session.
    */
@@ -213,6 +315,22 @@ export type ExtendedTraceRecordWithChildren = {
    */
   annotationAggregates?: { [k: string]: AnnotationAggregate } | undefined;
   /**
+   * Annotation agreement scores keyed by template ID
+   */
+  annotationAgreement?: { [k: string]: number } | undefined;
+  /**
+   * Average annotation agreement across all templates in the queue
+   */
+  overallAnnotationAgreement?: number | null | undefined;
+  /**
+   * IDs of annotation queues this record is in
+   */
+  annotationQueueIds?: Array<string> | undefined;
+  /**
+   * Whether every field is annotated by every annotator in the queue
+   */
+  fullyAnnotated?: boolean | null | undefined;
+  /**
    * Detailed information about the metrics associated with this trace or span
    */
   metricInfo?:
@@ -247,6 +365,7 @@ export const ExtendedTraceRecordWithChildrenSpan$inboundSchema: z.ZodMiniType<
   unknown
 > = discriminatedUnion("type", {
   agent: ExtendedAgentSpanRecordWithChildren$inboundSchema,
+  control: ExtendedControlSpanRecord$inboundSchema,
   llm: ExtendedLlmSpanRecord$inboundSchema,
   retriever: ExtendedRetrieverSpanRecordWithChildren$inboundSchema,
   tool: ExtendedToolSpanRecordWithChildren$inboundSchema,
@@ -261,6 +380,199 @@ export function extendedTraceRecordWithChildrenSpanFromJSON(
     (x) =>
       ExtendedTraceRecordWithChildrenSpan$inboundSchema.parse(JSON.parse(x)),
     `Failed to parse 'ExtendedTraceRecordWithChildrenSpan' from JSON`,
+  );
+}
+
+/** @internal */
+export const ExtendedTraceRecordWithChildrenInput1$inboundSchema: z.ZodMiniType<
+  ExtendedTraceRecordWithChildrenInput1,
+  unknown
+> = discriminatedUnion("type", {
+  file: FileContentPart$inboundSchema,
+  text: TextContentPart$inboundSchema,
+});
+
+export function extendedTraceRecordWithChildrenInput1FromJSON(
+  jsonString: string,
+): SafeParseResult<ExtendedTraceRecordWithChildrenInput1, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      ExtendedTraceRecordWithChildrenInput1$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ExtendedTraceRecordWithChildrenInput1' from JSON`,
+  );
+}
+
+/** @internal */
+export const ExtendedTraceRecordWithChildrenInput2$inboundSchema: z.ZodMiniType<
+  ExtendedTraceRecordWithChildrenInput2,
+  unknown
+> = smartUnion([
+  types.string(),
+  z.array(
+    discriminatedUnion("type", {
+      file: FileContentPart$inboundSchema,
+      text: TextContentPart$inboundSchema,
+    }),
+  ),
+]);
+
+export function extendedTraceRecordWithChildrenInput2FromJSON(
+  jsonString: string,
+): SafeParseResult<ExtendedTraceRecordWithChildrenInput2, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      ExtendedTraceRecordWithChildrenInput2$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ExtendedTraceRecordWithChildrenInput2' from JSON`,
+  );
+}
+
+/** @internal */
+export const ExtendedTraceRecordWithChildrenRedactedInput1$inboundSchema:
+  z.ZodMiniType<ExtendedTraceRecordWithChildrenRedactedInput1, unknown> =
+    discriminatedUnion("type", {
+      file: FileContentPart$inboundSchema,
+      text: TextContentPart$inboundSchema,
+    });
+
+export function extendedTraceRecordWithChildrenRedactedInput1FromJSON(
+  jsonString: string,
+): SafeParseResult<
+  ExtendedTraceRecordWithChildrenRedactedInput1,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      ExtendedTraceRecordWithChildrenRedactedInput1$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'ExtendedTraceRecordWithChildrenRedactedInput1' from JSON`,
+  );
+}
+
+/** @internal */
+export const ExtendedTraceRecordWithChildrenRedactedInput2$inboundSchema:
+  z.ZodMiniType<ExtendedTraceRecordWithChildrenRedactedInput2, unknown> =
+    smartUnion([
+      types.string(),
+      z.array(
+        discriminatedUnion("type", {
+          file: FileContentPart$inboundSchema,
+          text: TextContentPart$inboundSchema,
+        }),
+      ),
+    ]);
+
+export function extendedTraceRecordWithChildrenRedactedInput2FromJSON(
+  jsonString: string,
+): SafeParseResult<
+  ExtendedTraceRecordWithChildrenRedactedInput2,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      ExtendedTraceRecordWithChildrenRedactedInput2$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'ExtendedTraceRecordWithChildrenRedactedInput2' from JSON`,
+  );
+}
+
+/** @internal */
+export const ExtendedTraceRecordWithChildrenOutput1$inboundSchema:
+  z.ZodMiniType<ExtendedTraceRecordWithChildrenOutput1, unknown> =
+    discriminatedUnion("type", {
+      file: FileContentPart$inboundSchema,
+      text: TextContentPart$inboundSchema,
+    });
+
+export function extendedTraceRecordWithChildrenOutput1FromJSON(
+  jsonString: string,
+): SafeParseResult<ExtendedTraceRecordWithChildrenOutput1, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      ExtendedTraceRecordWithChildrenOutput1$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ExtendedTraceRecordWithChildrenOutput1' from JSON`,
+  );
+}
+
+/** @internal */
+export const ExtendedTraceRecordWithChildrenOutput2$inboundSchema:
+  z.ZodMiniType<ExtendedTraceRecordWithChildrenOutput2, unknown> = smartUnion([
+    types.string(),
+    z.array(
+      discriminatedUnion("type", {
+        file: FileContentPart$inboundSchema,
+        text: TextContentPart$inboundSchema,
+      }),
+    ),
+  ]);
+
+export function extendedTraceRecordWithChildrenOutput2FromJSON(
+  jsonString: string,
+): SafeParseResult<ExtendedTraceRecordWithChildrenOutput2, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      ExtendedTraceRecordWithChildrenOutput2$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ExtendedTraceRecordWithChildrenOutput2' from JSON`,
+  );
+}
+
+/** @internal */
+export const ExtendedTraceRecordWithChildrenRedactedOutput1$inboundSchema:
+  z.ZodMiniType<ExtendedTraceRecordWithChildrenRedactedOutput1, unknown> =
+    discriminatedUnion("type", {
+      file: FileContentPart$inboundSchema,
+      text: TextContentPart$inboundSchema,
+    });
+
+export function extendedTraceRecordWithChildrenRedactedOutput1FromJSON(
+  jsonString: string,
+): SafeParseResult<
+  ExtendedTraceRecordWithChildrenRedactedOutput1,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      ExtendedTraceRecordWithChildrenRedactedOutput1$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'ExtendedTraceRecordWithChildrenRedactedOutput1' from JSON`,
+  );
+}
+
+/** @internal */
+export const ExtendedTraceRecordWithChildrenRedactedOutput2$inboundSchema:
+  z.ZodMiniType<ExtendedTraceRecordWithChildrenRedactedOutput2, unknown> =
+    smartUnion([
+      types.string(),
+      z.array(
+        discriminatedUnion("type", {
+          file: FileContentPart$inboundSchema,
+          text: TextContentPart$inboundSchema,
+        }),
+      ),
+    ]);
+
+export function extendedTraceRecordWithChildrenRedactedOutput2FromJSON(
+  jsonString: string,
+): SafeParseResult<
+  ExtendedTraceRecordWithChildrenRedactedOutput2,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      ExtendedTraceRecordWithChildrenRedactedOutput2$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'ExtendedTraceRecordWithChildrenRedactedOutput2' from JSON`,
   );
 }
 
@@ -302,16 +614,63 @@ export const ExtendedTraceRecordWithChildren$inboundSchema: z.ZodMiniType<
   z.object({
     spans: types.optional(z.array(discriminatedUnion("type", {
       agent: ExtendedAgentSpanRecordWithChildren$inboundSchema,
+      control: ExtendedControlSpanRecord$inboundSchema,
       llm: ExtendedLlmSpanRecord$inboundSchema,
       retriever: ExtendedRetrieverSpanRecordWithChildren$inboundSchema,
       tool: ExtendedToolSpanRecordWithChildren$inboundSchema,
       workflow: ExtendedWorkflowSpanRecordWithChildren$inboundSchema,
     }))),
     type: z._default(types.literal("trace"), "trace"),
-    input: z._default(types.string(), ""),
-    redacted_input: z.optional(z.nullable(types.string())),
-    output: z.optional(z.nullable(types.string())),
-    redacted_output: z.optional(z.nullable(types.string())),
+    input: types.optional(
+      smartUnion([
+        types.string(),
+        z.array(
+          discriminatedUnion("type", {
+            file: FileContentPart$inboundSchema,
+            text: TextContentPart$inboundSchema,
+          }),
+        ),
+      ]),
+    ),
+    redacted_input: z.optional(
+      z.nullable(
+        smartUnion([
+          types.string(),
+          z.array(
+            discriminatedUnion("type", {
+              file: FileContentPart$inboundSchema,
+              text: TextContentPart$inboundSchema,
+            }),
+          ),
+        ]),
+      ),
+    ),
+    output: z.optional(
+      z.nullable(
+        smartUnion([
+          types.string(),
+          z.array(
+            discriminatedUnion("type", {
+              file: FileContentPart$inboundSchema,
+              text: TextContentPart$inboundSchema,
+            }),
+          ),
+        ]),
+      ),
+    ),
+    redacted_output: z.optional(
+      z.nullable(
+        smartUnion([
+          types.string(),
+          z.array(
+            discriminatedUnion("type", {
+              file: FileContentPart$inboundSchema,
+              text: TextContentPart$inboundSchema,
+            }),
+          ),
+        ]),
+      ),
+    ),
     name: z._default(types.string(), ""),
     created_at: types.optional(types.date()),
     user_metadata: types.optional(z.record(z.string(), types.string())),
@@ -345,6 +704,10 @@ export const ExtendedTraceRecordWithChildren$inboundSchema: z.ZodMiniType<
     annotation_aggregates: types.optional(
       z.record(z.string(), AnnotationAggregate$inboundSchema),
     ),
+    annotation_agreement: types.optional(z.record(z.string(), types.number())),
+    overall_annotation_agreement: z.optional(z.nullable(types.number())),
+    annotation_queue_ids: types.optional(z.array(types.string())),
+    fully_annotated: z.optional(z.nullable(types.boolean())),
     metric_info: z.optional(
       z.nullable(z.record(
         z.string(),
@@ -389,6 +752,10 @@ export const ExtendedTraceRecordWithChildren$inboundSchema: z.ZodMiniType<
       "file_ids": "fileIds",
       "file_modalities": "fileModalities",
       "annotation_aggregates": "annotationAggregates",
+      "annotation_agreement": "annotationAgreement",
+      "overall_annotation_agreement": "overallAnnotationAgreement",
+      "annotation_queue_ids": "annotationQueueIds",
+      "fully_annotated": "fullyAnnotated",
       "metric_info": "metricInfo",
       "is_complete": "isComplete",
       "num_spans": "numSpans",

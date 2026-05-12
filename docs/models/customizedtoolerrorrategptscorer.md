@@ -7,6 +7,14 @@ import { CustomizedToolErrorRateGPTScorer } from "galileo-generated/models";
 
 let value: CustomizedToolErrorRateGPTScorer = {
   scorerName: "_customized_tool_error_rate",
+  filters: [
+    {
+      name: "node_name",
+      operator: "ne",
+      value: [],
+      caseSensitive: true,
+    },
+  ],
 };
 ```
 
@@ -42,6 +50,7 @@ let value: CustomizedToolErrorRateGPTScorer = {
 | `inputType`                                                                                                    | [models.InputTypeEnum](../models/inputtypeenum.md)                                                             | :heavy_minus_sign:                                                                                             | N/A                                                                                                            |
 | `multimodalCapabilities`                                                                                       | [models.MultimodalCapability](../models/multimodalcapability.md)[]                                             | :heavy_minus_sign:                                                                                             | N/A                                                                                                            |
 | `requiredScorers`                                                                                              | *string*[]                                                                                                     | :heavy_minus_sign:                                                                                             | N/A                                                                                                            |
+| `requiredMetricIds`                                                                                            | *string*[]                                                                                                     | :heavy_minus_sign:                                                                                             | N/A                                                                                                            |
 | `rollUpStrategy`                                                                                               | [models.RollUpStrategy](../models/rollupstrategy.md)                                                           | :heavy_minus_sign:                                                                                             | N/A                                                                                                            |
 | `rollUpMethods`                                                                                                | *models.CustomizedToolErrorRateGPTScorerRollUpMethods*                                                         | :heavy_minus_sign:                                                                                             | N/A                                                                                                            |
 | `prompt`                                                                                                       | *string*                                                                                                       | :heavy_minus_sign:                                                                                             | N/A                                                                                                            |
