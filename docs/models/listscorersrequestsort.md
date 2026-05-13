@@ -3,6 +3,15 @@
 
 ## Supported Types
 
+### `models.ScorerEnabledInPlaygroundSort`
+
+```typescript
+const value: models.ScorerEnabledInPlaygroundSort = {
+  name: "enabled_in_playground",
+  value: "<value>",
+};
+```
+
 ### `models.ScorerEnabledInRunSort`
 
 ```typescript
@@ -17,6 +26,14 @@ const value: models.ScorerEnabledInRunSort = {
 ```typescript
 const value: models.ScorerNameSort = {
   name: "name",
+};
+```
+
+### `models.ScorerUpdatedAtSort`
+
+```typescript
+const value: models.ScorerUpdatedAtSort = {
+  name: "updated_at",
 };
 ```
 

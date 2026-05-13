@@ -175,6 +175,22 @@ export type PartialExtendedToolSpanRecord = {
    */
   annotationAggregates?: { [k: string]: AnnotationAggregate } | undefined;
   /**
+   * Annotation agreement scores keyed by template ID
+   */
+  annotationAgreement?: { [k: string]: number } | undefined;
+  /**
+   * Average annotation agreement across all templates in the queue
+   */
+  overallAnnotationAgreement?: number | null | undefined;
+  /**
+   * IDs of annotation queues this record is in
+   */
+  annotationQueueIds?: Array<string> | undefined;
+  /**
+   * Whether every field is annotated by every annotator in the queue
+   */
+  fullyAnnotated?: boolean | null | undefined;
+  /**
    * Detailed information about the metrics associated with this trace or span
    */
   metricInfo?:
@@ -288,6 +304,10 @@ export const PartialExtendedToolSpanRecord$inboundSchema: z.ZodMiniType<
     annotation_aggregates: types.optional(
       z.record(z.string(), AnnotationAggregate$inboundSchema),
     ),
+    annotation_agreement: types.optional(z.record(z.string(), types.number())),
+    overall_annotation_agreement: z.optional(z.nullable(types.number())),
+    annotation_queue_ids: types.optional(z.array(types.string())),
+    fully_annotated: z.optional(z.nullable(types.boolean())),
     metric_info: z.optional(
       z.nullable(z.record(
         z.string(),
@@ -334,6 +354,10 @@ export const PartialExtendedToolSpanRecord$inboundSchema: z.ZodMiniType<
       "file_ids": "fileIds",
       "file_modalities": "fileModalities",
       "annotation_aggregates": "annotationAggregates",
+      "annotation_agreement": "annotationAgreement",
+      "overall_annotation_agreement": "overallAnnotationAgreement",
+      "annotation_queue_ids": "annotationQueueIds",
+      "fully_annotated": "fullyAnnotated",
       "metric_info": "metricInfo",
       "parent_id": "parentId",
       "is_complete": "isComplete",

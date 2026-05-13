@@ -6,10 +6,10 @@
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
 import {
-  FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType,
-  FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$Outbound,
-  FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$outboundSchema,
-} from "./filterexpressionannotatedunionlogrecordsidfilterlogrecordsdatefilterlogrecordsnumberfilterlogrecordsbooleanfilterlogrecordscollectionfilterlogrecordstextfilterfieldinfoannotationnonetyperequiredtruediscriminatortype.js";
+  FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType,
+  FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$Outbound,
+  FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$outboundSchema,
+} from "./filterexpressionannotatedunionlogrecordsidfilterlogrecordsdatefilterlogrecordsnumberfilterlogrecordsbooleanfilterlogrecordscollectionfilterlogrecordstextfilterlogrecordsfullyannotatedfilterfieldinfoannotationnonetyperequiredtruedis_38eba81e.js";
 import {
   LogRecordsBooleanFilter,
   LogRecordsBooleanFilter$Outbound,
@@ -25,6 +25,11 @@ import {
   LogRecordsDateFilter$Outbound,
   LogRecordsDateFilter$outboundSchema,
 } from "./logrecordsdatefilter.js";
+import {
+  LogRecordsFullyAnnotatedFilter,
+  LogRecordsFullyAnnotatedFilter$Outbound,
+  LogRecordsFullyAnnotatedFilter$outboundSchema,
+} from "./logrecordsfullyannotatedfilter.js";
 import {
   LogRecordsIDFilter,
   LogRecordsIDFilter$Outbound,
@@ -50,6 +55,7 @@ export type RecomputeLogRecordsMetricsRequestFilter =
   | LogRecordsBooleanFilter
   | LogRecordsCollectionFilter
   | LogRecordsDateFilter
+  | LogRecordsFullyAnnotatedFilter
   | LogRecordsIDFilter
   | LogRecordsNumberFilter
   | LogRecordsTextFilter;
@@ -81,13 +87,14 @@ export type RecomputeLogRecordsMetricsRequest = {
       | LogRecordsBooleanFilter
       | LogRecordsCollectionFilter
       | LogRecordsDateFilter
+      | LogRecordsFullyAnnotatedFilter
       | LogRecordsIDFilter
       | LogRecordsNumberFilter
       | LogRecordsTextFilter
     >
     | undefined;
   filterTree?:
-    | FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType
+    | FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType
     | null
     | undefined;
   /**
@@ -100,6 +107,10 @@ export type RecomputeLogRecordsMetricsRequest = {
    */
   includeCounts?: boolean | undefined;
   /**
+   * If True, include per-row scorer metadata (the dict returned alongside the score by code-based scorers via the (score, metadata) tuple-return contract) on each MetricSuccess in the response. Off by default to keep payloads small for callers that don't need it.
+   */
+  includeCodeMetricMetadata?: boolean | undefined;
+  /**
    * List of scorer IDs for which metrics should be recomputed.
    */
   scorerIds: Array<string>;
@@ -110,6 +121,7 @@ export type RecomputeLogRecordsMetricsRequestFilter$Outbound =
   | LogRecordsBooleanFilter$Outbound
   | LogRecordsCollectionFilter$Outbound
   | LogRecordsDateFilter$Outbound
+  | LogRecordsFullyAnnotatedFilter$Outbound
   | LogRecordsIDFilter$Outbound
   | LogRecordsNumberFilter$Outbound
   | LogRecordsTextFilter$Outbound;
@@ -123,6 +135,7 @@ export const RecomputeLogRecordsMetricsRequestFilter$outboundSchema:
     LogRecordsBooleanFilter$outboundSchema,
     LogRecordsCollectionFilter$outboundSchema,
     LogRecordsDateFilter$outboundSchema,
+    LogRecordsFullyAnnotatedFilter$outboundSchema,
     LogRecordsIDFilter$outboundSchema,
     LogRecordsNumberFilter$outboundSchema,
     LogRecordsTextFilter$outboundSchema,
@@ -152,18 +165,20 @@ export type RecomputeLogRecordsMetricsRequest$Outbound = {
       | LogRecordsBooleanFilter$Outbound
       | LogRecordsCollectionFilter$Outbound
       | LogRecordsDateFilter$Outbound
+      | LogRecordsFullyAnnotatedFilter$Outbound
       | LogRecordsIDFilter$Outbound
       | LogRecordsNumberFilter$Outbound
       | LogRecordsTextFilter$Outbound
     >
     | undefined;
   filter_tree?:
-    | FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$Outbound
+    | FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$Outbound
     | null
     | undefined;
   sort?: LogRecordsSortClause$Outbound | null | undefined;
   truncate_fields: boolean;
   include_counts: boolean;
+  include_code_metric_metadata: boolean;
   scorer_ids: Array<string>;
 };
 
@@ -185,6 +200,7 @@ export const RecomputeLogRecordsMetricsRequest$outboundSchema: z.ZodMiniType<
           LogRecordsBooleanFilter$outboundSchema,
           LogRecordsCollectionFilter$outboundSchema,
           LogRecordsDateFilter$outboundSchema,
+          LogRecordsFullyAnnotatedFilter$outboundSchema,
           LogRecordsIDFilter$outboundSchema,
           LogRecordsNumberFilter$outboundSchema,
           LogRecordsTextFilter$outboundSchema,
@@ -193,12 +209,13 @@ export const RecomputeLogRecordsMetricsRequest$outboundSchema: z.ZodMiniType<
     ),
     filterTree: z.optional(
       z.nullable(
-        FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$outboundSchema,
+        FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$outboundSchema,
       ),
     ),
     sort: z.optional(z.nullable(LogRecordsSortClause$outboundSchema)),
     truncateFields: z._default(z.boolean(), false),
     includeCounts: z._default(z.boolean(), false),
+    includeCodeMetricMetadata: z._default(z.boolean(), false),
     scorerIds: z.array(z.string()),
   }),
   z.transform((v) => {
@@ -211,6 +228,7 @@ export const RecomputeLogRecordsMetricsRequest$outboundSchema: z.ZodMiniType<
       filterTree: "filter_tree",
       truncateFields: "truncate_fields",
       includeCounts: "include_counts",
+      includeCodeMetricMetadata: "include_code_metric_metadata",
       scorerIds: "scorer_ids",
     });
   }),

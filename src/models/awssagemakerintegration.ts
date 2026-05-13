@@ -29,6 +29,7 @@ export type AwsSageMakerIntegration = {
   models?: Array<Model> | undefined;
   id?: string | null | undefined;
   name: "aws_sagemaker";
+  provider: "aws_sagemaker";
   extra?: { [k: string]: any } | null | undefined;
 };
 
@@ -45,7 +46,8 @@ export const AwsSageMakerIntegration$inboundSchema: z.ZodMiniType<
     ),
     models: types.optional(z.array(Model$inboundSchema)),
     id: z.optional(z.nullable(types.string())),
-    name: types.literal("aws_sagemaker"),
+    name: z._default(types.literal("aws_sagemaker"), "aws_sagemaker"),
+    provider: types.literal("aws_sagemaker"),
     extra: z.optional(z.nullable(z.record(z.string(), z.any()))),
   }),
   z.transform((v) => {

@@ -7,7 +7,7 @@ import { AzureIntegration } from "galileo-generated/models";
 
 let value: AzureIntegration = {
   endpoint: "<value>",
-  name: "azure",
+  provider: "azure",
 };
 ```
 
@@ -28,5 +28,6 @@ let value: AzureIntegration = {
 | `customHeaderMapping`                                                                                     | Record<string, *string*>                                                                                  | :heavy_minus_sign:                                                                                        | Custom header mapping from internal fields to be included in the LLM request.                             |
 | `availableDeployments`                                                                                    | [models.AzureModelDeployment](../models/azuremodeldeployment.md)[]                                        | :heavy_minus_sign:                                                                                        | The available deployments for this integration. If provided, we will not try to get this list from Azure. |
 | `id`                                                                                                      | *string*                                                                                                  | :heavy_minus_sign:                                                                                        | N/A                                                                                                       |
-| `name`                                                                                                    | *"azure"*                                                                                                 | :heavy_check_mark:                                                                                        | N/A                                                                                                       |
+| `name`                                                                                                    | *"azure"*                                                                                                 | :heavy_minus_sign:                                                                                        | N/A                                                                                                       |
+| `provider`                                                                                                | *"azure"*                                                                                                 | :heavy_check_mark:                                                                                        | N/A                                                                                                       |
 | `extra`                                                                                                   | Record<string, *any*>                                                                                     | :heavy_minus_sign:                                                                                        | N/A                                                                                                       |

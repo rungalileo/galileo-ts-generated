@@ -21,10 +21,12 @@ export type GeneratedOutput = ColumnMappingConfig | Array<string>;
 export type ColumnMappingMetadata = ColumnMappingConfig | Array<string>;
 
 export type ColumnMapping = {
-  input: ColumnMappingConfig | Array<string> | null;
-  output: ColumnMappingConfig | Array<string> | null;
-  generatedOutput: ColumnMappingConfig | Array<string> | null;
-  metadata: ColumnMappingConfig | Array<string> | null;
+  input?: ColumnMappingConfig | Array<string> | null | undefined;
+  output?: ColumnMappingConfig | Array<string> | null | undefined;
+  generatedOutput?: ColumnMappingConfig | Array<string> | null | undefined;
+  metadata?: ColumnMappingConfig | Array<string> | null | undefined;
+  mgt?: { [k: string]: ColumnMappingConfig } | null | undefined;
+  [additionalProperties: string]: unknown;
 };
 
 /** @internal */
@@ -103,10 +105,16 @@ export function columnMappingMetadataToJSON(
 
 /** @internal */
 export type ColumnMapping$Outbound = {
-  input: ColumnMappingConfig$Outbound | Array<string> | null;
-  output: ColumnMappingConfig$Outbound | Array<string> | null;
-  generated_output: ColumnMappingConfig$Outbound | Array<string> | null;
-  metadata: ColumnMappingConfig$Outbound | Array<string> | null;
+  input?: ColumnMappingConfig$Outbound | Array<string> | null | undefined;
+  output?: ColumnMappingConfig$Outbound | Array<string> | null | undefined;
+  generated_output?:
+    | ColumnMappingConfig$Outbound
+    | Array<string>
+    | null
+    | undefined;
+  metadata?: ColumnMappingConfig$Outbound | Array<string> | null | undefined;
+  mgt?: { [k: string]: ColumnMappingConfig$Outbound } | null | undefined;
+  [additionalProperties: string]: unknown;
 };
 
 /** @internal */
@@ -114,24 +122,40 @@ export const ColumnMapping$outboundSchema: z.ZodMiniType<
   ColumnMapping$Outbound,
   ColumnMapping
 > = z.pipe(
-  z.object({
-    input: z.nullable(
-      smartUnion([ColumnMappingConfig$outboundSchema, z.array(z.string())]),
-    ),
-    output: z.nullable(
-      smartUnion([ColumnMappingConfig$outboundSchema, z.array(z.string())]),
-    ),
-    generatedOutput: z.nullable(
-      smartUnion([ColumnMappingConfig$outboundSchema, z.array(z.string())]),
-    ),
-    metadata: z.nullable(
-      smartUnion([ColumnMappingConfig$outboundSchema, z.array(z.string())]),
-    ),
-  }),
+  z.catchall(
+    z.object({
+      input: z.optional(
+        z.nullable(
+          smartUnion([ColumnMappingConfig$outboundSchema, z.array(z.string())]),
+        ),
+      ),
+      output: z.optional(
+        z.nullable(
+          smartUnion([ColumnMappingConfig$outboundSchema, z.array(z.string())]),
+        ),
+      ),
+      generatedOutput: z.optional(
+        z.nullable(
+          smartUnion([ColumnMappingConfig$outboundSchema, z.array(z.string())]),
+        ),
+      ),
+      metadata: z.optional(
+        z.nullable(
+          smartUnion([ColumnMappingConfig$outboundSchema, z.array(z.string())]),
+        ),
+      ),
+      mgt: z.optional(
+        z.nullable(z.record(z.string(), ColumnMappingConfig$outboundSchema)),
+      ),
+    }),
+    z.any(),
+  ),
   z.transform((v) => {
-    return remap$(v, {
-      generatedOutput: "generated_output",
-    });
+    return {
+      ...remap$(v, {
+        generatedOutput: "generated_output",
+      }),
+    };
   }),
 );
 

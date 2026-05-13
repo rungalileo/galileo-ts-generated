@@ -7,6 +7,17 @@ import { CustomizedGroundTruthAdherenceGPTScorer } from "galileo-generated/model
 
 let value: CustomizedGroundTruthAdherenceGPTScorer = {
   scorerName: "_customized_ground_truth_adherence",
+  filters: [
+    {
+      name: "node_name",
+      operator: "ne",
+      value: [
+        "<value 1>",
+        "<value 2>",
+      ],
+      caseSensitive: true,
+    },
+  ],
 };
 ```
 
@@ -42,6 +53,7 @@ let value: CustomizedGroundTruthAdherenceGPTScorer = {
 | `inputType`                                                                                                | [models.InputTypeEnum](../models/inputtypeenum.md)                                                         | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `multimodalCapabilities`                                                                                   | [models.MultimodalCapability](../models/multimodalcapability.md)[]                                         | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `requiredScorers`                                                                                          | *string*[]                                                                                                 | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
+| `requiredMetricIds`                                                                                        | *string*[]                                                                                                 | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `rollUpStrategy`                                                                                           | [models.RollUpStrategy](../models/rollupstrategy.md)                                                       | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `rollUpMethods`                                                                                            | *models.CustomizedGroundTruthAdherenceGPTScorerRollUpMethods*                                              | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `prompt`                                                                                                   | *string*                                                                                                   | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |

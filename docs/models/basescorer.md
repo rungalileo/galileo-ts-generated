@@ -5,7 +5,18 @@
 ```typescript
 import { BaseScorer } from "galileo-generated/models";
 
-let value: BaseScorer = {};
+let value: BaseScorer = {
+  filters: [
+    {
+      name: "node_name",
+      operator: "not_in",
+      value: [
+        "<value 1>",
+      ],
+      caseSensitive: true,
+    },
+  ],
+};
 ```
 
 ## Fields
@@ -40,6 +51,7 @@ let value: BaseScorer = {};
 | `inputType`                                                                                                | [models.InputTypeEnum](../models/inputtypeenum.md)                                                         | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `multimodalCapabilities`                                                                                   | [models.MultimodalCapability](../models/multimodalcapability.md)[]                                         | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `requiredScorers`                                                                                          | *string*[]                                                                                                 | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
+| `requiredMetricIds`                                                                                        | *string*[]                                                                                                 | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `rollUpStrategy`                                                                                           | [models.RollUpStrategy](../models/rollupstrategy.md)                                                       | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `rollUpMethods`                                                                                            | *models.BaseScorerRollUpMethods*                                                                           | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `prompt`                                                                                                   | *string*                                                                                                   | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
