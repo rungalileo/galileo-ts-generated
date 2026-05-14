@@ -39,6 +39,7 @@ export type AnthropicIntegration = {
   customHeaderMapping?: { [k: string]: string } | null | undefined;
   id?: string | null | undefined;
   name: "anthropic";
+  provider: "anthropic";
   extra?: { [k: string]: any } | null | undefined;
 };
 
@@ -61,7 +62,8 @@ export const AnthropicIntegration$inboundSchema: z.ZodMiniType<
       z.nullable(z.record(z.string(), types.string())),
     ),
     id: z.optional(z.nullable(types.string())),
-    name: types.literal("anthropic"),
+    name: z._default(types.literal("anthropic"), "anthropic"),
+    provider: types.literal("anthropic"),
     extra: z.optional(z.nullable(z.record(z.string(), z.any()))),
   }),
   z.transform((v) => {

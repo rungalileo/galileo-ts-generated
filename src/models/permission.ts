@@ -13,6 +13,10 @@ import {
   AnnotationQueueAction$inboundSchema,
 } from "./annotationqueueaction.js";
 import { ApiKeyAction, ApiKeyAction$inboundSchema } from "./apikeyaction.js";
+import {
+  ControlResourceAction,
+  ControlResourceAction$inboundSchema,
+} from "./controlresourceaction.js";
 import { DatasetAction, DatasetAction$inboundSchema } from "./datasetaction.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
@@ -55,7 +59,8 @@ export type PermissionAction =
   | DatasetAction
   | IntegrationAction
   | OrganizationAction
-  | AnnotationQueueAction;
+  | AnnotationQueueAction
+  | ControlResourceAction;
 
 export type Permission = {
   action:
@@ -70,7 +75,8 @@ export type Permission = {
     | DatasetAction
     | IntegrationAction
     | OrganizationAction
-    | AnnotationQueueAction;
+    | AnnotationQueueAction
+    | ControlResourceAction;
   allowed: boolean;
   message?: string | null | undefined;
 };
@@ -92,6 +98,7 @@ export const PermissionAction$inboundSchema: z.ZodMiniType<
   IntegrationAction$inboundSchema,
   OrganizationAction$inboundSchema,
   AnnotationQueueAction$inboundSchema,
+  ControlResourceAction$inboundSchema,
 ]);
 
 export function permissionActionFromJSON(
@@ -120,6 +127,7 @@ export const Permission$inboundSchema: z.ZodMiniType<Permission, unknown> = z
       IntegrationAction$inboundSchema,
       OrganizationAction$inboundSchema,
       AnnotationQueueAction$inboundSchema,
+      ControlResourceAction$inboundSchema,
     ]),
     allowed: types.boolean(),
     message: z.optional(z.nullable(types.string())),

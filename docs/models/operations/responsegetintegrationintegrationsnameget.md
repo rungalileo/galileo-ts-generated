@@ -9,7 +9,7 @@ Successful Response
 
 ```typescript
 const value: models.AwsBedrockIntegration = {
-  name: "aws_bedrock",
+  provider: "aws_bedrock",
 };
 ```
 
@@ -17,7 +17,7 @@ const value: models.AwsBedrockIntegration = {
 
 ```typescript
 const value: models.AwsSageMakerIntegration = {
-  name: "aws_sagemaker",
+  provider: "aws_sagemaker",
 };
 ```
 
@@ -26,7 +26,7 @@ const value: models.AwsSageMakerIntegration = {
 ```typescript
 const value: models.AzureIntegration = {
   endpoint: "<value>",
-  name: "azure",
+  provider: "azure",
 };
 ```
 
@@ -34,7 +34,7 @@ const value: models.AzureIntegration = {
 
 ```typescript
 const value: models.AnthropicIntegration = {
-  name: "anthropic",
+  provider: "anthropic",
 };
 ```
 
@@ -42,11 +42,8 @@ const value: models.AnthropicIntegration = {
 
 ```typescript
 const value: models.CustomIntegration = {
-  models: [
-    "<value 1>",
-  ],
   endpoint: "<value>",
-  name: "custom",
+  provider: "custom",
 };
 ```
 
@@ -54,7 +51,7 @@ const value: models.CustomIntegration = {
 
 ```typescript
 const value: models.DatabricksIntegration = {
-  name: "databricks",
+  provider: "databricks",
 };
 ```
 
@@ -62,7 +59,7 @@ const value: models.DatabricksIntegration = {
 
 ```typescript
 const value: models.MistralIntegration = {
-  name: "mistral",
+  provider: "mistral",
 };
 ```
 
@@ -70,7 +67,7 @@ const value: models.MistralIntegration = {
 
 ```typescript
 const value: models.NvidiaIntegration = {
-  name: "nvidia",
+  provider: "nvidia",
 };
 ```
 
@@ -78,7 +75,7 @@ const value: models.NvidiaIntegration = {
 
 ```typescript
 const value: models.OpenAIIntegration = {
-  name: "openai",
+  provider: "openai",
 };
 ```
 
@@ -86,7 +83,7 @@ const value: models.OpenAIIntegration = {
 
 ```typescript
 const value: models.VegasGatewayIntegration = {
-  name: "vegas_gateway",
+  provider: "vegas_gateway",
 };
 ```
 
@@ -94,7 +91,7 @@ const value: models.VegasGatewayIntegration = {
 
 ```typescript
 const value: models.VertexAIIntegration = {
-  name: "vertex_ai",
+  provider: "vertex_ai",
 };
 ```
 
@@ -103,7 +100,7 @@ const value: models.VertexAIIntegration = {
 ```typescript
 const value: models.WriterIntegration = {
   organizationId: "<id>",
-  name: "writer",
+  provider: "writer",
 };
 ```
 

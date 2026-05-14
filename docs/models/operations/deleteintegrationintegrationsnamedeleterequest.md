@@ -12,6 +12,6 @@ let value: DeleteIntegrationIntegrationsNameDeleteRequest = {
 
 ## Fields
 
-| Field                                                     | Type                                                      | Required                                                  | Description                                               |
-| --------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------- |
-| `name`                                                    | [models.IntegrationName](../../models/integrationname.md) | :heavy_check_mark:                                        | N/A                                                       |
+| Field                                                             | Type                                                              | Required                                                          | Description                                                       |
+| ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- |
+| `name`                                                            | [models.IntegrationProvider](../../models/integrationprovider.md) | :heavy_check_mark:                                                | N/A                                                               |

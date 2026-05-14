@@ -12,6 +12,7 @@ import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 export type DatabricksIntegration = {
   id?: string | null | undefined;
   name: "databricks";
+  provider: "databricks";
   extra?: { [k: string]: any } | null | undefined;
 };
 
@@ -21,7 +22,8 @@ export const DatabricksIntegration$inboundSchema: z.ZodMiniType<
   unknown
 > = z.object({
   id: z.optional(z.nullable(types.string())),
-  name: types.literal("databricks"),
+  name: z._default(types.literal("databricks"), "databricks"),
+  provider: types.literal("databricks"),
   extra: z.optional(z.nullable(z.record(z.string(), z.any()))),
 });
 

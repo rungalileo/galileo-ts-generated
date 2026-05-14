@@ -8,10 +8,25 @@ import { remap as remap$ } from "../lib/primitives.js";
 import { smartUnion } from "../types/smartUnion.js";
 import { AgentType, AgentType$outboundSchema } from "./agenttype.js";
 import {
+  ControlResult,
+  ControlResult$Outbound,
+  ControlResult$outboundSchema,
+} from "./controlresult.js";
+import {
+  ControlSpan,
+  ControlSpan$Outbound,
+  ControlSpan$outboundSchema,
+} from "./controlspan.js";
+import {
   Document,
   Document$Outbound,
   Document$outboundSchema,
 } from "./document.js";
+import {
+  FileContentPart,
+  FileContentPart$Outbound,
+  FileContentPart$outboundSchema,
+} from "./filecontentpart.js";
 import {
   GalileoCoreSchemasLoggingLlmMessage,
   GalileoCoreSchemasLoggingLlmMessage$Outbound,
@@ -33,6 +48,11 @@ import {
   RetrieverSpan$outboundSchema,
 } from "./retrieverspan.js";
 import {
+  TextContentPart,
+  TextContentPart$Outbound,
+  TextContentPart$outboundSchema,
+} from "./textcontentpart.js";
+import {
   ToolSpan,
   ToolSpan$Outbound,
   ToolSpan$outboundSchema,
@@ -43,35 +63,49 @@ import {
   WorkflowSpan$outboundSchema,
 } from "./workflowspan.js";
 
+export type AgentSpanInput1 = FileContentPart | TextContentPart;
+
 /**
  * Input to the trace or span.
  */
-export type AgentSpanInput =
+export type AgentSpanInput2 =
   | string
-  | Array<GalileoCoreSchemasLoggingLlmMessage>;
+  | Array<GalileoCoreSchemasLoggingLlmMessage>
+  | Array<FileContentPart | TextContentPart>;
+
+export type AgentSpanRedactedInput1 = FileContentPart | TextContentPart;
 
 /**
  * Redacted input of the trace or span.
  */
-export type AgentSpanRedactedInput =
+export type AgentSpanRedactedInput2 =
   | string
-  | Array<GalileoCoreSchemasLoggingLlmMessage>;
+  | Array<GalileoCoreSchemasLoggingLlmMessage>
+  | Array<FileContentPart | TextContentPart>;
+
+export type AgentSpanOutput1 = FileContentPart | TextContentPart;
 
 /**
  * Output of the trace or span.
  */
-export type AgentSpanOutput =
+export type AgentSpanOutput2 =
   | GalileoCoreSchemasLoggingLlmMessage
+  | ControlResult
   | string
-  | Array<Document>;
+  | Array<Document>
+  | Array<FileContentPart | TextContentPart>;
+
+export type AgentSpanRedactedOutput1 = FileContentPart | TextContentPart;
 
 /**
  * Redacted output of the trace or span.
  */
-export type AgentSpanRedactedOutput =
+export type AgentSpanRedactedOutput2 =
   | GalileoCoreSchemasLoggingLlmMessage
+  | ControlResult
   | string
-  | Array<Document>;
+  | Array<Document>
+  | Array<FileContentPart | TextContentPart>;
 
 export type AgentSpan = {
   /**
@@ -81,13 +115,18 @@ export type AgentSpan = {
   /**
    * Input to the trace or span.
    */
-  input?: string | Array<GalileoCoreSchemasLoggingLlmMessage> | undefined;
+  input?:
+    | string
+    | Array<GalileoCoreSchemasLoggingLlmMessage>
+    | Array<FileContentPart | TextContentPart>
+    | undefined;
   /**
    * Redacted input of the trace or span.
    */
   redactedInput?:
     | string
     | Array<GalileoCoreSchemasLoggingLlmMessage>
+    | Array<FileContentPart | TextContentPart>
     | null
     | undefined;
   /**
@@ -95,8 +134,10 @@ export type AgentSpan = {
    */
   output?:
     | GalileoCoreSchemasLoggingLlmMessage
+    | ControlResult
     | string
     | Array<Document>
+    | Array<FileContentPart | TextContentPart>
     | null
     | undefined;
   /**
@@ -104,8 +145,10 @@ export type AgentSpan = {
    */
   redactedOutput?:
     | GalileoCoreSchemasLoggingLlmMessage
+    | ControlResult
     | string
     | Array<Document>
+    | Array<FileContentPart | TextContentPart>
     | null
     | undefined;
   /**
@@ -169,101 +212,207 @@ export type AgentSpan = {
    * Child spans.
    */
   spans?:
-    | Array<AgentSpan | LlmSpan | RetrieverSpan | ToolSpan | WorkflowSpan>
+    | Array<
+      | AgentSpan
+      | ControlSpan
+      | LlmSpan
+      | RetrieverSpan
+      | ToolSpan
+      | WorkflowSpan
+    >
     | undefined;
   agentType?: AgentType | undefined;
 };
 
 export type AgentSpanSpan =
   | AgentSpan
+  | ControlSpan
   | LlmSpan
   | RetrieverSpan
   | ToolSpan
   | WorkflowSpan;
 
 /** @internal */
-export type AgentSpanInput$Outbound =
-  | string
-  | Array<GalileoCoreSchemasLoggingLlmMessage$Outbound>;
+export type AgentSpanInput1$Outbound =
+  | FileContentPart$Outbound
+  | TextContentPart$Outbound;
 
 /** @internal */
-export const AgentSpanInput$outboundSchema: z.ZodMiniType<
-  AgentSpanInput$Outbound,
-  AgentSpanInput
-> = smartUnion([
-  z.string(),
-  z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
-]);
+export const AgentSpanInput1$outboundSchema: z.ZodMiniType<
+  AgentSpanInput1$Outbound,
+  AgentSpanInput1
+> = z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]);
 
-export function agentSpanInputToJSON(agentSpanInput: AgentSpanInput): string {
-  return JSON.stringify(AgentSpanInput$outboundSchema.parse(agentSpanInput));
+export function agentSpanInput1ToJSON(
+  agentSpanInput1: AgentSpanInput1,
+): string {
+  return JSON.stringify(AgentSpanInput1$outboundSchema.parse(agentSpanInput1));
 }
 
 /** @internal */
-export type AgentSpanRedactedInput$Outbound =
+export type AgentSpanInput2$Outbound =
   | string
-  | Array<GalileoCoreSchemasLoggingLlmMessage$Outbound>;
+  | Array<GalileoCoreSchemasLoggingLlmMessage$Outbound>
+  | Array<FileContentPart$Outbound | TextContentPart$Outbound>;
 
 /** @internal */
-export const AgentSpanRedactedInput$outboundSchema: z.ZodMiniType<
-  AgentSpanRedactedInput$Outbound,
-  AgentSpanRedactedInput
+export const AgentSpanInput2$outboundSchema: z.ZodMiniType<
+  AgentSpanInput2$Outbound,
+  AgentSpanInput2
 > = smartUnion([
   z.string(),
   z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
+  z.array(
+    z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
+  ),
 ]);
 
-export function agentSpanRedactedInputToJSON(
-  agentSpanRedactedInput: AgentSpanRedactedInput,
+export function agentSpanInput2ToJSON(
+  agentSpanInput2: AgentSpanInput2,
+): string {
+  return JSON.stringify(AgentSpanInput2$outboundSchema.parse(agentSpanInput2));
+}
+
+/** @internal */
+export type AgentSpanRedactedInput1$Outbound =
+  | FileContentPart$Outbound
+  | TextContentPart$Outbound;
+
+/** @internal */
+export const AgentSpanRedactedInput1$outboundSchema: z.ZodMiniType<
+  AgentSpanRedactedInput1$Outbound,
+  AgentSpanRedactedInput1
+> = z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]);
+
+export function agentSpanRedactedInput1ToJSON(
+  agentSpanRedactedInput1: AgentSpanRedactedInput1,
 ): string {
   return JSON.stringify(
-    AgentSpanRedactedInput$outboundSchema.parse(agentSpanRedactedInput),
+    AgentSpanRedactedInput1$outboundSchema.parse(agentSpanRedactedInput1),
   );
 }
 
 /** @internal */
-export type AgentSpanOutput$Outbound =
-  | GalileoCoreSchemasLoggingLlmMessage$Outbound
+export type AgentSpanRedactedInput2$Outbound =
   | string
-  | Array<Document$Outbound>;
+  | Array<GalileoCoreSchemasLoggingLlmMessage$Outbound>
+  | Array<FileContentPart$Outbound | TextContentPart$Outbound>;
 
 /** @internal */
-export const AgentSpanOutput$outboundSchema: z.ZodMiniType<
-  AgentSpanOutput$Outbound,
-  AgentSpanOutput
+export const AgentSpanRedactedInput2$outboundSchema: z.ZodMiniType<
+  AgentSpanRedactedInput2$Outbound,
+  AgentSpanRedactedInput2
 > = smartUnion([
-  GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
   z.string(),
-  z.array(Document$outboundSchema),
+  z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
+  z.array(
+    z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
+  ),
 ]);
 
-export function agentSpanOutputToJSON(
-  agentSpanOutput: AgentSpanOutput,
+export function agentSpanRedactedInput2ToJSON(
+  agentSpanRedactedInput2: AgentSpanRedactedInput2,
 ): string {
-  return JSON.stringify(AgentSpanOutput$outboundSchema.parse(agentSpanOutput));
+  return JSON.stringify(
+    AgentSpanRedactedInput2$outboundSchema.parse(agentSpanRedactedInput2),
+  );
 }
 
 /** @internal */
-export type AgentSpanRedactedOutput$Outbound =
-  | GalileoCoreSchemasLoggingLlmMessage$Outbound
-  | string
-  | Array<Document$Outbound>;
+export type AgentSpanOutput1$Outbound =
+  | FileContentPart$Outbound
+  | TextContentPart$Outbound;
 
 /** @internal */
-export const AgentSpanRedactedOutput$outboundSchema: z.ZodMiniType<
-  AgentSpanRedactedOutput$Outbound,
-  AgentSpanRedactedOutput
-> = smartUnion([
-  GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
-  z.string(),
-  z.array(Document$outboundSchema),
-]);
+export const AgentSpanOutput1$outboundSchema: z.ZodMiniType<
+  AgentSpanOutput1$Outbound,
+  AgentSpanOutput1
+> = z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]);
 
-export function agentSpanRedactedOutputToJSON(
-  agentSpanRedactedOutput: AgentSpanRedactedOutput,
+export function agentSpanOutput1ToJSON(
+  agentSpanOutput1: AgentSpanOutput1,
 ): string {
   return JSON.stringify(
-    AgentSpanRedactedOutput$outboundSchema.parse(agentSpanRedactedOutput),
+    AgentSpanOutput1$outboundSchema.parse(agentSpanOutput1),
+  );
+}
+
+/** @internal */
+export type AgentSpanOutput2$Outbound =
+  | GalileoCoreSchemasLoggingLlmMessage$Outbound
+  | ControlResult$Outbound
+  | string
+  | Array<Document$Outbound>
+  | Array<FileContentPart$Outbound | TextContentPart$Outbound>;
+
+/** @internal */
+export const AgentSpanOutput2$outboundSchema: z.ZodMiniType<
+  AgentSpanOutput2$Outbound,
+  AgentSpanOutput2
+> = smartUnion([
+  GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
+  ControlResult$outboundSchema,
+  z.string(),
+  z.array(Document$outboundSchema),
+  z.array(
+    z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
+  ),
+]);
+
+export function agentSpanOutput2ToJSON(
+  agentSpanOutput2: AgentSpanOutput2,
+): string {
+  return JSON.stringify(
+    AgentSpanOutput2$outboundSchema.parse(agentSpanOutput2),
+  );
+}
+
+/** @internal */
+export type AgentSpanRedactedOutput1$Outbound =
+  | FileContentPart$Outbound
+  | TextContentPart$Outbound;
+
+/** @internal */
+export const AgentSpanRedactedOutput1$outboundSchema: z.ZodMiniType<
+  AgentSpanRedactedOutput1$Outbound,
+  AgentSpanRedactedOutput1
+> = z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]);
+
+export function agentSpanRedactedOutput1ToJSON(
+  agentSpanRedactedOutput1: AgentSpanRedactedOutput1,
+): string {
+  return JSON.stringify(
+    AgentSpanRedactedOutput1$outboundSchema.parse(agentSpanRedactedOutput1),
+  );
+}
+
+/** @internal */
+export type AgentSpanRedactedOutput2$Outbound =
+  | GalileoCoreSchemasLoggingLlmMessage$Outbound
+  | ControlResult$Outbound
+  | string
+  | Array<Document$Outbound>
+  | Array<FileContentPart$Outbound | TextContentPart$Outbound>;
+
+/** @internal */
+export const AgentSpanRedactedOutput2$outboundSchema: z.ZodMiniType<
+  AgentSpanRedactedOutput2$Outbound,
+  AgentSpanRedactedOutput2
+> = smartUnion([
+  GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
+  ControlResult$outboundSchema,
+  z.string(),
+  z.array(Document$outboundSchema),
+  z.array(
+    z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
+  ),
+]);
+
+export function agentSpanRedactedOutput2ToJSON(
+  agentSpanRedactedOutput2: AgentSpanRedactedOutput2,
+): string {
+  return JSON.stringify(
+    AgentSpanRedactedOutput2$outboundSchema.parse(agentSpanRedactedOutput2),
   );
 }
 
@@ -273,22 +422,28 @@ export type AgentSpan$Outbound = {
   input?:
     | string
     | Array<GalileoCoreSchemasLoggingLlmMessage$Outbound>
+    | Array<FileContentPart$Outbound | TextContentPart$Outbound>
     | undefined;
   redacted_input?:
     | string
     | Array<GalileoCoreSchemasLoggingLlmMessage$Outbound>
+    | Array<FileContentPart$Outbound | TextContentPart$Outbound>
     | null
     | undefined;
   output?:
     | GalileoCoreSchemasLoggingLlmMessage$Outbound
+    | ControlResult$Outbound
     | string
     | Array<Document$Outbound>
+    | Array<FileContentPart$Outbound | TextContentPart$Outbound>
     | null
     | undefined;
   redacted_output?:
     | GalileoCoreSchemasLoggingLlmMessage$Outbound
+    | ControlResult$Outbound
     | string
     | Array<Document$Outbound>
+    | Array<FileContentPart$Outbound | TextContentPart$Outbound>
     | null
     | undefined;
   name: string;
@@ -309,6 +464,7 @@ export type AgentSpan$Outbound = {
   spans?:
     | Array<
       | AgentSpan$Outbound
+      | ControlSpan$Outbound
       | LlmSpan$Outbound
       | RetrieverSpan$Outbound
       | ToolSpan$Outbound
@@ -329,6 +485,12 @@ export const AgentSpan$outboundSchema: z.ZodMiniType<
       smartUnion([
         z.string(),
         z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
+        z.array(
+          z.union([
+            FileContentPart$outboundSchema,
+            TextContentPart$outboundSchema,
+          ]),
+        ),
       ]),
     ),
     redactedInput: z.optional(
@@ -336,6 +498,12 @@ export const AgentSpan$outboundSchema: z.ZodMiniType<
         smartUnion([
           z.string(),
           z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
+          z.array(
+            z.union([
+              FileContentPart$outboundSchema,
+              TextContentPart$outboundSchema,
+            ]),
+          ),
         ]),
       ),
     ),
@@ -343,8 +511,15 @@ export const AgentSpan$outboundSchema: z.ZodMiniType<
       z.nullable(
         smartUnion([
           GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
+          ControlResult$outboundSchema,
           z.string(),
           z.array(Document$outboundSchema),
+          z.array(
+            z.union([
+              FileContentPart$outboundSchema,
+              TextContentPart$outboundSchema,
+            ]),
+          ),
         ]),
       ),
     ),
@@ -352,8 +527,15 @@ export const AgentSpan$outboundSchema: z.ZodMiniType<
       z.nullable(
         smartUnion([
           GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
+          ControlResult$outboundSchema,
           z.string(),
           z.array(Document$outboundSchema),
+          z.array(
+            z.union([
+              FileContentPart$outboundSchema,
+              TextContentPart$outboundSchema,
+            ]),
+          ),
         ]),
       ),
     ),
@@ -374,12 +556,13 @@ export const AgentSpan$outboundSchema: z.ZodMiniType<
     parentId: z.optional(z.nullable(z.string())),
     spans: z.optional(z.array(z.union([
       z.lazy(() => AgentSpan$outboundSchema),
+      ControlSpan$outboundSchema,
       LlmSpan$outboundSchema,
       z.lazy(() => RetrieverSpan$outboundSchema),
+      z.lazy(() => ToolSpan$outboundSchema),
       z.lazy(() =>
-        ToolSpan$outboundSchema
+        WorkflowSpan$outboundSchema
       ),
-      z.lazy(() => WorkflowSpan$outboundSchema),
     ]))),
     agentType: z.optional(AgentType$outboundSchema),
   }),
@@ -410,6 +593,7 @@ export function agentSpanToJSON(agentSpan: AgentSpan): string {
 /** @internal */
 export type AgentSpanSpan$Outbound =
   | AgentSpan$Outbound
+  | ControlSpan$Outbound
   | LlmSpan$Outbound
   | RetrieverSpan$Outbound
   | ToolSpan$Outbound
@@ -421,6 +605,7 @@ export const AgentSpanSpan$outboundSchema: z.ZodMiniType<
   AgentSpanSpan
 > = z.union([
   z.lazy(() => AgentSpan$outboundSchema),
+  ControlSpan$outboundSchema,
   LlmSpan$outboundSchema,
   z.lazy(() => RetrieverSpan$outboundSchema),
   z.lazy(() => ToolSpan$outboundSchema),

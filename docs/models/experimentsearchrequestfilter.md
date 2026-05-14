@@ -22,6 +22,29 @@ const value: models.ExperimentCreatedByFilter = {
 };
 ```
 
+### `models.ExperimentGroupIDFilter`
+
+```typescript
+const value: models.ExperimentGroupIDFilter = {
+  name: "experiment_group_id",
+  value: "<value>",
+};
+```
+
+### `models.ExperimentGroupNameFilter`
+
+```typescript
+const value: models.ExperimentGroupNameFilter = {
+  name: "experiment_group_name",
+  operator: "eq",
+  value: [
+    "<value 1>",
+    "<value 2>",
+    "<value 3>",
+  ],
+};
+```
+
 ### `models.ExperimentIDFilter`
 
 ```typescript

@@ -31,6 +31,8 @@ export const ProjectAction = {
   DismissAlert: "dismiss_alert",
   EditSlice: "edit_slice",
   EditEdit: "edit_edit",
+  UpdateControlBindings: "update_control_bindings",
+  UseControlRuntime: "use_control_runtime",
 } as const;
 export type ProjectAction = OpenEnum<typeof ProjectAction>;
 
