@@ -7,6 +7,14 @@ import { CustomizedAgenticSessionSuccessGPTScorer } from "galileo-generated/mode
 
 let value: CustomizedAgenticSessionSuccessGPTScorer = {
   scorerName: "_customized_agentic_session_success",
+  filters: [
+    {
+      name: "metadata",
+      operator: "one_of",
+      key: "<key>",
+      value: "<value>",
+    },
+  ],
 };
 ```
 
@@ -42,6 +50,7 @@ let value: CustomizedAgenticSessionSuccessGPTScorer = {
 | `inputType`                                                                                                                    | [models.InputTypeEnum](../models/inputtypeenum.md)                                                                             | :heavy_minus_sign:                                                                                                             | N/A                                                                                                                            |
 | `multimodalCapabilities`                                                                                                       | [models.MultimodalCapability](../models/multimodalcapability.md)[]                                                             | :heavy_minus_sign:                                                                                                             | N/A                                                                                                                            |
 | `requiredScorers`                                                                                                              | *string*[]                                                                                                                     | :heavy_minus_sign:                                                                                                             | N/A                                                                                                                            |
+| `requiredMetricIds`                                                                                                            | *string*[]                                                                                                                     | :heavy_minus_sign:                                                                                                             | N/A                                                                                                                            |
 | `rollUpStrategy`                                                                                                               | [models.RollUpStrategy](../models/rollupstrategy.md)                                                                           | :heavy_minus_sign:                                                                                                             | N/A                                                                                                                            |
 | `rollUpMethods`                                                                                                                | *models.CustomizedAgenticSessionSuccessGPTScorerRollUpMethods*                                                                 | :heavy_minus_sign:                                                                                                             | N/A                                                                                                                            |
 | `prompt`                                                                                                                       | *string*                                                                                                                       | :heavy_minus_sign:                                                                                                             | N/A                                                                                                                            |

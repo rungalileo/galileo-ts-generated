@@ -7,6 +7,16 @@ import { CustomizedInstructionAdherenceGPTScorer } from "galileo-generated/model
 
 let value: CustomizedInstructionAdherenceGPTScorer = {
   scorerName: "_customized_instruction_adherence",
+  filters: [
+    {
+      name: "metadata",
+      operator: "eq",
+      key: "<key>",
+      value: [
+        "<value 1>",
+      ],
+    },
+  ],
 };
 ```
 
@@ -42,6 +52,7 @@ let value: CustomizedInstructionAdherenceGPTScorer = {
 | `inputType`                                                                                                | [models.InputTypeEnum](../models/inputtypeenum.md)                                                         | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `multimodalCapabilities`                                                                                   | [models.MultimodalCapability](../models/multimodalcapability.md)[]                                         | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `requiredScorers`                                                                                          | *string*[]                                                                                                 | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
+| `requiredMetricIds`                                                                                        | *string*[]                                                                                                 | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `rollUpStrategy`                                                                                           | [models.RollUpStrategy](../models/rollupstrategy.md)                                                       | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `rollUpMethods`                                                                                            | *models.CustomizedInstructionAdherenceGPTScorerRollUpMethods*                                              | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `prompt`                                                                                                   | *string*                                                                                                   | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |

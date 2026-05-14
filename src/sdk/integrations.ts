@@ -18,6 +18,7 @@ import { integrationsCreateOrUpdateIntegrationIntegrationsVegasGatewayPut } from
 import { integrationsCreateOrUpdateIntegrationIntegrationsVertexAiPut } from "../funcs/integrationsCreateOrUpdateIntegrationIntegrationsVertexAiPut.js";
 import { integrationsCreateOrUpdateIntegrationIntegrationsWriterPut } from "../funcs/integrationsCreateOrUpdateIntegrationIntegrationsWriterPut.js";
 import { integrationsCreateOrUpdateIntegrationSelectionIntegrationsIntegrationIdSelectPut } from "../funcs/integrationsCreateOrUpdateIntegrationSelectionIntegrationsIntegrationIdSelectPut.js";
+import { integrationsCreateOrUpdateNamedCustomIntegrationIntegrationsCustomNamePut } from "../funcs/integrationsCreateOrUpdateNamedCustomIntegrationIntegrationsCustomNamePut.js";
 import { integrationsCreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPut } from "../funcs/integrationsCreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPut.js";
 import {
   integrationsCreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPut,
@@ -27,17 +28,27 @@ import {
   integrationsDeleteGroupIntegrationCollaboratorIntegrationsIntegrationIdGroupsGroupIdDelete,
 } from "../funcs/integrationsDeleteGroupIntegrationCollaboratorIntegrationsIntegrationIdGroupsGroupIdDelete.js";
 import { integrationsDeleteIntegrationIntegrationsNameDelete } from "../funcs/integrationsDeleteIntegrationIntegrationsNameDelete.js";
+import { integrationsDeleteNamedCustomIntegrationIntegrationsCustomNameDelete } from "../funcs/integrationsDeleteNamedCustomIntegrationIntegrationsCustomNameDelete.js";
 import {
   integrationsDeleteUserIntegrationCollaboratorIntegrationsIntegrationIdUsersUserIdDelete,
 } from "../funcs/integrationsDeleteUserIntegrationCollaboratorIntegrationsIntegrationIdUsersUserIdDelete.js";
+import { integrationsDisableIntegrationIntegrationsDisablePost } from "../funcs/integrationsDisableIntegrationIntegrationsDisablePost.js";
+import { integrationsGetCustomIntegrationDefinitionIntegrationsCustomDefinitionGet } from "../funcs/integrationsGetCustomIntegrationDefinitionIntegrationsCustomDefinitionGet.js";
 import { integrationsGetDatabasesForClusterIntegrationsDatabricksDatabasesGet } from "../funcs/integrationsGetDatabasesForClusterIntegrationsDatabricksDatabasesGet.js";
 import { integrationsGetDatabricksCatalogsIntegrationsDatabricksCatalogsGet } from "../funcs/integrationsGetDatabricksCatalogsIntegrationsDatabricksCatalogsGet.js";
+import { integrationsGetIntegrationCostsIntegrationsCostsSummaryGet } from "../funcs/integrationsGetIntegrationCostsIntegrationsCostsSummaryGet.js";
 import { integrationsGetIntegrationIntegrationsNameGet } from "../funcs/integrationsGetIntegrationIntegrationsNameGet.js";
 import { integrationsGetIntegrationStatusIntegrationsNameStatusGet } from "../funcs/integrationsGetIntegrationStatusIntegrationsNameStatusGet.js";
+import {
+  integrationsGetNamedCustomIntegrationDefinitionIntegrationsCustomNameDefinitionGet,
+} from "../funcs/integrationsGetNamedCustomIntegrationDefinitionIntegrationsCustomNameDefinitionGet.js";
+import { integrationsGetNamedCustomIntegrationIntegrationsCustomNameGet } from "../funcs/integrationsGetNamedCustomIntegrationIntegrationsCustomNameGet.js";
+import { integrationsGetNamedCustomIntegrationStatusIntegrationsCustomNameStatusGet } from "../funcs/integrationsGetNamedCustomIntegrationStatusIntegrationsCustomNameStatusGet.js";
 import { integrationsListAvailableIntegrationsIntegrationsAvailableGet } from "../funcs/integrationsListAvailableIntegrationsIntegrationsAvailableGet.js";
 import { integrationsListGroupIntegrationCollaboratorsIntegrationsIntegrationIdGroupsGet } from "../funcs/integrationsListGroupIntegrationCollaboratorsIntegrationsIntegrationIdGroupsGet.js";
 import { integrationsListIntegrationsIntegrationsGet } from "../funcs/integrationsListIntegrationsIntegrationsGet.js";
 import { integrationsListUserIntegrationCollaboratorsIntegrationsIntegrationIdUsersGet } from "../funcs/integrationsListUserIntegrationCollaboratorsIntegrationsIntegrationIdUsersGet.js";
+import { integrationsSelectIntegrationIntegrationsSelectPost } from "../funcs/integrationsSelectIntegrationIntegrationsSelectPost.js";
 import {
   integrationsUpdateGroupIntegrationCollaboratorIntegrationsIntegrationIdGroupsGroupIdPatch,
 } from "../funcs/integrationsUpdateGroupIntegrationCollaboratorIntegrationsIntegrationIdGroupsGroupIdPatch.js";
@@ -50,23 +61,6 @@ import * as operations from "../models/operations/index.js";
 import { unwrapAsync } from "../types/fp.js";
 
 export class Integrations extends ClientSDK {
-  /**
-   * List Integrations
-   *
-   * @remarks
-   * List the created integrations for the requesting user.
-   */
-  async listIntegrationsIntegrationsGet(
-    security: operations.ListIntegrationsIntegrationsGetSecurity,
-    options?: RequestOptions,
-  ): Promise<Array<models.IntegrationDB>> {
-    return unwrapAsync(integrationsListIntegrationsIntegrationsGet(
-      this,
-      security,
-      options,
-    ));
-  }
-
   /**
    * List Available Integrations
    *
@@ -88,25 +82,6 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Delete Integration
-   *
-   * @remarks
-   * Delete the integration created by this user.
-   */
-  async deleteIntegrationIntegrationsNameDelete(
-    security: operations.DeleteIntegrationIntegrationsNameDeleteSecurity,
-    request: operations.DeleteIntegrationIntegrationsNameDeleteRequest,
-    options?: RequestOptions,
-  ): Promise<any> {
-    return unwrapAsync(integrationsDeleteIntegrationIntegrationsNameDelete(
-      this,
-      security,
-      request,
-      options,
-    ));
-  }
-
-  /**
    * Get Integration
    *
    * @remarks
@@ -118,6 +93,25 @@ export class Integrations extends ClientSDK {
     options?: RequestOptions,
   ): Promise<operations.ResponseGetIntegrationIntegrationsNameGet> {
     return unwrapAsync(integrationsGetIntegrationIntegrationsNameGet(
+      this,
+      security,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Delete Integration
+   *
+   * @remarks
+   * Delete an integration. Admins can delete integrations created by other admins in the same org.
+   */
+  async deleteIntegrationIntegrationsNameDelete(
+    security: operations.DeleteIntegrationIntegrationsNameDeleteSecurity,
+    request: operations.DeleteIntegrationIntegrationsNameDeleteRequest,
+    options?: RequestOptions,
+  ): Promise<any> {
+    return unwrapAsync(integrationsDeleteIntegrationIntegrationsNameDelete(
       this,
       security,
       request,
@@ -351,7 +345,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update Anthropic integration
    *
    * @remarks
    * Create or update an Anthropic integration for this user from Galileo.
@@ -373,7 +367,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update AWS Bedrock integration
    *
    * @remarks
    * Create or update an AWS integration for this user from Galileo.
@@ -395,7 +389,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update AWS SageMaker integration
    *
    * @remarks
    * Create or update an AWS integration for this user from Galileo.
@@ -417,7 +411,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update Azure integration
    *
    * @remarks
    * Create or update an Azure integration for this user from Galileo.
@@ -438,7 +432,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update custom integration
    */
   async createOrUpdateIntegrationIntegrationsCustomPut(
     security: operations.CreateOrUpdateIntegrationIntegrationsCustomPutSecurity,
@@ -456,7 +450,67 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Unity Catalog Integration
+   * Create or update a named custom integration
+   */
+  async createOrUpdateNamedCustomIntegrationIntegrationsCustomNamePut(
+    security:
+      operations.CreateOrUpdateNamedCustomIntegrationIntegrationsCustomNamePutSecurity,
+    request:
+      operations.CreateOrUpdateNamedCustomIntegrationIntegrationsCustomNamePutRequest,
+    options?: RequestOptions,
+  ): Promise<models.IntegrationDB> {
+    return unwrapAsync(
+      integrationsCreateOrUpdateNamedCustomIntegrationIntegrationsCustomNamePut(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Get a named custom integration
+   */
+  async getNamedCustomIntegrationIntegrationsCustomNameGet(
+    security:
+      operations.GetNamedCustomIntegrationIntegrationsCustomNameGetSecurity,
+    request:
+      operations.GetNamedCustomIntegrationIntegrationsCustomNameGetRequest,
+    options?: RequestOptions,
+  ): Promise<models.IntegrationDB> {
+    return unwrapAsync(
+      integrationsGetNamedCustomIntegrationIntegrationsCustomNameGet(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Delete a named custom integration
+   */
+  async deleteNamedCustomIntegrationIntegrationsCustomNameDelete(
+    security:
+      operations.DeleteNamedCustomIntegrationIntegrationsCustomNameDeleteSecurity,
+    request:
+      operations.DeleteNamedCustomIntegrationIntegrationsCustomNameDeleteRequest,
+    options?: RequestOptions,
+  ): Promise<any> {
+    return unwrapAsync(
+      integrationsDeleteNamedCustomIntegrationIntegrationsCustomNameDelete(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Create or update Databricks integration (legacy)
    *
    * @remarks
    * Create or update a databricks integration for this user from Galileo.
@@ -480,7 +534,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Unity Catalog Integration
+   * Create or update Databricks integration
    *
    * @remarks
    * Create or update a databricks integration for this user from Galileo.
@@ -540,7 +594,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update Mistral integration
    *
    * @remarks
    * Create or update an Mistral integration for this user from Galileo.
@@ -562,7 +616,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update NVIDIA integration
    *
    * @remarks
    * Create or update an NVIDIA integration for this user from Galileo.
@@ -583,7 +637,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update OpenAI integration
    *
    * @remarks
    * Create or update an OpenAI integration for this user from Galileo.
@@ -604,7 +658,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update Vegas Gateway integration
    *
    * @remarks
    * Create or update a Vegas Gateway integration for this user from Galileo.
@@ -626,7 +680,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update Vertex AI integration
    *
    * @remarks
    * Create or update a Google Vertex AI integration for a user.
@@ -648,7 +702,7 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create Or Update Integration
+   * Create or update Writer integration
    *
    * @remarks
    * Create or update a Writer integration for a user.
@@ -660,6 +714,147 @@ export class Integrations extends ClientSDK {
   ): Promise<models.IntegrationDB> {
     return unwrapAsync(
       integrationsCreateOrUpdateIntegrationIntegrationsWriterPut(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * List Integrations
+   *
+   * @remarks
+   * List the created integrations for the requesting user.
+   */
+  async listIntegrationsIntegrationsGet(
+    security: operations.ListIntegrationsIntegrationsGetSecurity,
+    options?: RequestOptions,
+  ): Promise<Array<models.IntegrationDB>> {
+    return unwrapAsync(integrationsListIntegrationsIntegrationsGet(
+      this,
+      security,
+      options,
+    ));
+  }
+
+  /**
+   * Get Integration Costs
+   */
+  async getIntegrationCostsIntegrationsCostsSummaryGet(
+    security: operations.GetIntegrationCostsIntegrationsCostsSummaryGetSecurity,
+    request: operations.GetIntegrationCostsIntegrationsCostsSummaryGetRequest,
+    options?: RequestOptions,
+  ): Promise<models.IntegrationCostsResponse> {
+    return unwrapAsync(
+      integrationsGetIntegrationCostsIntegrationsCostsSummaryGet(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Select Integration
+   *
+   * @remarks
+   * Select an integration for this user.
+   */
+  async selectIntegrationIntegrationsSelectPost(
+    security: operations.SelectIntegrationIntegrationsSelectPostSecurity,
+    request: models.IntegrationSelectRequest,
+    options?: RequestOptions,
+  ): Promise<models.IntegrationDB> {
+    return unwrapAsync(integrationsSelectIntegrationIntegrationsSelectPost(
+      this,
+      security,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Disable Integration
+   *
+   * @remarks
+   * Disable an integration type for this user.
+   *
+   * Creates an opt-out record so no shared integration of this type is used.
+   */
+  async disableIntegrationIntegrationsDisablePost(
+    security: operations.DisableIntegrationIntegrationsDisablePostSecurity,
+    request: models.IntegrationDisableRequest,
+    options?: RequestOptions,
+  ): Promise<any> {
+    return unwrapAsync(integrationsDisableIntegrationIntegrationsDisablePost(
+      this,
+      security,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Get custom integration definition
+   *
+   * @remarks
+   * Return the full JSON definition of the custom integration, including decrypted secrets.
+   *
+   * Only users with edit permission on the integration (its creator and admins)
+   * are authorized to call this endpoint.
+   */
+  async getCustomIntegrationDefinitionIntegrationsCustomDefinitionGet(
+    security:
+      operations.GetCustomIntegrationDefinitionIntegrationsCustomDefinitionGetSecurity,
+    options?: RequestOptions,
+  ): Promise<models.CustomIntegrationDefinition> {
+    return unwrapAsync(
+      integrationsGetCustomIntegrationDefinitionIntegrationsCustomDefinitionGet(
+        this,
+        security,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Check status of a named custom integration
+   */
+  async getNamedCustomIntegrationStatusIntegrationsCustomNameStatusGet(
+    security:
+      operations.GetNamedCustomIntegrationStatusIntegrationsCustomNameStatusGetSecurity,
+    request:
+      operations.GetNamedCustomIntegrationStatusIntegrationsCustomNameStatusGetRequest,
+    options?: RequestOptions,
+  ): Promise<{ [k: string]: string }> {
+    return unwrapAsync(
+      integrationsGetNamedCustomIntegrationStatusIntegrationsCustomNameStatusGet(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Get definition of a named custom integration
+   *
+   * @remarks
+   * Return the full JSON definition of a named custom integration, including decrypted secrets.
+   */
+  async getNamedCustomIntegrationDefinitionIntegrationsCustomNameDefinitionGet(
+    security:
+      operations.GetNamedCustomIntegrationDefinitionIntegrationsCustomNameDefinitionGetSecurity,
+    request:
+      operations.GetNamedCustomIntegrationDefinitionIntegrationsCustomNameDefinitionGetRequest,
+    options?: RequestOptions,
+  ): Promise<models.CustomIntegrationDefinition> {
+    return unwrapAsync(
+      integrationsGetNamedCustomIntegrationDefinitionIntegrationsCustomNameDefinitionGet(
         this,
         security,
         request,

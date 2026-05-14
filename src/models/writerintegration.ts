@@ -14,6 +14,7 @@ export type WriterIntegration = {
   organizationId: string;
   id?: string | null | undefined;
   name: "writer";
+  provider: "writer";
   extra?: { [k: string]: any } | null | undefined;
 };
 
@@ -25,7 +26,8 @@ export const WriterIntegration$inboundSchema: z.ZodMiniType<
   z.object({
     organization_id: types.string(),
     id: z.optional(z.nullable(types.string())),
-    name: types.literal("writer"),
+    name: z._default(types.literal("writer"), "writer"),
+    provider: types.literal("writer"),
     extra: z.optional(z.nullable(z.record(z.string(), z.any()))),
   }),
   z.transform((v) => {

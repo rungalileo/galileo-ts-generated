@@ -49,6 +49,7 @@ export type AzureIntegration = {
   availableDeployments?: Array<AzureModelDeployment> | null | undefined;
   id?: string | null | undefined;
   name: "azure";
+  provider: "azure";
   extra?: { [k: string]: any } | null | undefined;
 };
 
@@ -79,7 +80,8 @@ export const AzureIntegration$inboundSchema: z.ZodMiniType<
       z.nullable(z.array(AzureModelDeployment$inboundSchema)),
     ),
     id: z.optional(z.nullable(types.string())),
-    name: types.literal("azure"),
+    name: z._default(types.literal("azure"), "azure"),
+    provider: types.literal("azure"),
     extra: z.optional(z.nullable(z.record(z.string(), z.any()))),
   }),
   z.transform((v) => {

@@ -6,7 +6,7 @@
 ### `models.UserAction`
 
 ```typescript
-const value: models.UserAction = "delete";
+const value: models.UserAction = "read_api_keys";
 ```
 
 ### `models.GroupAction`
@@ -24,7 +24,7 @@ const value: models.GroupMemberAction = "update_role";
 ### `models.ProjectAction`
 
 ```typescript
-const value: models.ProjectAction = "delete_run";
+const value: models.ProjectAction = "rename_run";
 ```
 
 ### `models.RegisteredScorerAction`
@@ -73,5 +73,11 @@ const value: models.OrganizationAction = "delete_log_data";
 
 ```typescript
 const value: models.AnnotationQueueAction = "update";
+```
+
+### `models.ControlResourceAction`
+
+```typescript
+const value: models.ControlResourceAction = "update";
 ```
 

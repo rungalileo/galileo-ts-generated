@@ -12,10 +12,25 @@ import {
   AgentSpan$outboundSchema,
 } from "./agentspan.js";
 import {
+  ControlResult,
+  ControlResult$Outbound,
+  ControlResult$outboundSchema,
+} from "./controlresult.js";
+import {
+  ControlSpan,
+  ControlSpan$Outbound,
+  ControlSpan$outboundSchema,
+} from "./controlspan.js";
+import {
   Document,
   Document$Outbound,
   Document$outboundSchema,
 } from "./document.js";
+import {
+  FileContentPart,
+  FileContentPart$Outbound,
+  FileContentPart$outboundSchema,
+} from "./filecontentpart.js";
 import {
   GalileoCoreSchemasLoggingLlmMessage,
   GalileoCoreSchemasLoggingLlmMessage$Outbound,
@@ -37,40 +52,59 @@ import {
   RetrieverSpan$outboundSchema,
 } from "./retrieverspan.js";
 import {
+  TextContentPart,
+  TextContentPart$Outbound,
+  TextContentPart$outboundSchema,
+} from "./textcontentpart.js";
+import {
   ToolSpan,
   ToolSpan$Outbound,
   ToolSpan$outboundSchema,
 } from "./toolspan.js";
 
+export type WorkflowSpanInput1 = FileContentPart | TextContentPart;
+
 /**
  * Input to the trace or span.
  */
-export type WorkflowSpanInput =
+export type WorkflowSpanInput2 =
   | string
-  | Array<GalileoCoreSchemasLoggingLlmMessage>;
+  | Array<GalileoCoreSchemasLoggingLlmMessage>
+  | Array<FileContentPart | TextContentPart>;
+
+export type WorkflowSpanRedactedInput1 = FileContentPart | TextContentPart;
 
 /**
  * Redacted input of the trace or span.
  */
-export type WorkflowSpanRedactedInput =
+export type WorkflowSpanRedactedInput2 =
   | string
-  | Array<GalileoCoreSchemasLoggingLlmMessage>;
+  | Array<GalileoCoreSchemasLoggingLlmMessage>
+  | Array<FileContentPart | TextContentPart>;
+
+export type WorkflowSpanOutput1 = FileContentPart | TextContentPart;
 
 /**
  * Output of the trace or span.
  */
-export type WorkflowSpanOutput =
+export type WorkflowSpanOutput2 =
   | GalileoCoreSchemasLoggingLlmMessage
+  | ControlResult
   | string
-  | Array<Document>;
+  | Array<Document>
+  | Array<FileContentPart | TextContentPart>;
+
+export type WorkflowSpanRedactedOutput1 = FileContentPart | TextContentPart;
 
 /**
  * Redacted output of the trace or span.
  */
-export type WorkflowSpanRedactedOutput =
+export type WorkflowSpanRedactedOutput2 =
   | GalileoCoreSchemasLoggingLlmMessage
+  | ControlResult
   | string
-  | Array<Document>;
+  | Array<Document>
+  | Array<FileContentPart | TextContentPart>;
 
 export type WorkflowSpan = {
   /**
@@ -80,13 +114,18 @@ export type WorkflowSpan = {
   /**
    * Input to the trace or span.
    */
-  input?: string | Array<GalileoCoreSchemasLoggingLlmMessage> | undefined;
+  input?:
+    | string
+    | Array<GalileoCoreSchemasLoggingLlmMessage>
+    | Array<FileContentPart | TextContentPart>
+    | undefined;
   /**
    * Redacted input of the trace or span.
    */
   redactedInput?:
     | string
     | Array<GalileoCoreSchemasLoggingLlmMessage>
+    | Array<FileContentPart | TextContentPart>
     | null
     | undefined;
   /**
@@ -94,8 +133,10 @@ export type WorkflowSpan = {
    */
   output?:
     | GalileoCoreSchemasLoggingLlmMessage
+    | ControlResult
     | string
     | Array<Document>
+    | Array<FileContentPart | TextContentPart>
     | null
     | undefined;
   /**
@@ -103,8 +144,10 @@ export type WorkflowSpan = {
    */
   redactedOutput?:
     | GalileoCoreSchemasLoggingLlmMessage
+    | ControlResult
     | string
     | Array<Document>
+    | Array<FileContentPart | TextContentPart>
     | null
     | undefined;
   /**
@@ -168,106 +211,214 @@ export type WorkflowSpan = {
    * Child spans.
    */
   spans?:
-    | Array<AgentSpan | LlmSpan | RetrieverSpan | ToolSpan | WorkflowSpan>
+    | Array<
+      | AgentSpan
+      | ControlSpan
+      | LlmSpan
+      | RetrieverSpan
+      | ToolSpan
+      | WorkflowSpan
+    >
     | undefined;
 };
 
 export type WorkflowSpanSpan =
   | AgentSpan
+  | ControlSpan
   | LlmSpan
   | RetrieverSpan
   | ToolSpan
   | WorkflowSpan;
 
 /** @internal */
-export type WorkflowSpanInput$Outbound =
-  | string
-  | Array<GalileoCoreSchemasLoggingLlmMessage$Outbound>;
+export type WorkflowSpanInput1$Outbound =
+  | FileContentPart$Outbound
+  | TextContentPart$Outbound;
 
 /** @internal */
-export const WorkflowSpanInput$outboundSchema: z.ZodMiniType<
-  WorkflowSpanInput$Outbound,
-  WorkflowSpanInput
+export const WorkflowSpanInput1$outboundSchema: z.ZodMiniType<
+  WorkflowSpanInput1$Outbound,
+  WorkflowSpanInput1
+> = z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]);
+
+export function workflowSpanInput1ToJSON(
+  workflowSpanInput1: WorkflowSpanInput1,
+): string {
+  return JSON.stringify(
+    WorkflowSpanInput1$outboundSchema.parse(workflowSpanInput1),
+  );
+}
+
+/** @internal */
+export type WorkflowSpanInput2$Outbound =
+  | string
+  | Array<GalileoCoreSchemasLoggingLlmMessage$Outbound>
+  | Array<FileContentPart$Outbound | TextContentPart$Outbound>;
+
+/** @internal */
+export const WorkflowSpanInput2$outboundSchema: z.ZodMiniType<
+  WorkflowSpanInput2$Outbound,
+  WorkflowSpanInput2
 > = smartUnion([
   z.string(),
   z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
+  z.array(
+    z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
+  ),
 ]);
 
-export function workflowSpanInputToJSON(
-  workflowSpanInput: WorkflowSpanInput,
+export function workflowSpanInput2ToJSON(
+  workflowSpanInput2: WorkflowSpanInput2,
 ): string {
   return JSON.stringify(
-    WorkflowSpanInput$outboundSchema.parse(workflowSpanInput),
+    WorkflowSpanInput2$outboundSchema.parse(workflowSpanInput2),
   );
 }
 
 /** @internal */
-export type WorkflowSpanRedactedInput$Outbound =
-  | string
-  | Array<GalileoCoreSchemasLoggingLlmMessage$Outbound>;
+export type WorkflowSpanRedactedInput1$Outbound =
+  | FileContentPart$Outbound
+  | TextContentPart$Outbound;
 
 /** @internal */
-export const WorkflowSpanRedactedInput$outboundSchema: z.ZodMiniType<
-  WorkflowSpanRedactedInput$Outbound,
-  WorkflowSpanRedactedInput
+export const WorkflowSpanRedactedInput1$outboundSchema: z.ZodMiniType<
+  WorkflowSpanRedactedInput1$Outbound,
+  WorkflowSpanRedactedInput1
+> = z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]);
+
+export function workflowSpanRedactedInput1ToJSON(
+  workflowSpanRedactedInput1: WorkflowSpanRedactedInput1,
+): string {
+  return JSON.stringify(
+    WorkflowSpanRedactedInput1$outboundSchema.parse(workflowSpanRedactedInput1),
+  );
+}
+
+/** @internal */
+export type WorkflowSpanRedactedInput2$Outbound =
+  | string
+  | Array<GalileoCoreSchemasLoggingLlmMessage$Outbound>
+  | Array<FileContentPart$Outbound | TextContentPart$Outbound>;
+
+/** @internal */
+export const WorkflowSpanRedactedInput2$outboundSchema: z.ZodMiniType<
+  WorkflowSpanRedactedInput2$Outbound,
+  WorkflowSpanRedactedInput2
 > = smartUnion([
   z.string(),
   z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
+  z.array(
+    z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
+  ),
 ]);
 
-export function workflowSpanRedactedInputToJSON(
-  workflowSpanRedactedInput: WorkflowSpanRedactedInput,
+export function workflowSpanRedactedInput2ToJSON(
+  workflowSpanRedactedInput2: WorkflowSpanRedactedInput2,
 ): string {
   return JSON.stringify(
-    WorkflowSpanRedactedInput$outboundSchema.parse(workflowSpanRedactedInput),
+    WorkflowSpanRedactedInput2$outboundSchema.parse(workflowSpanRedactedInput2),
   );
 }
 
 /** @internal */
-export type WorkflowSpanOutput$Outbound =
-  | GalileoCoreSchemasLoggingLlmMessage$Outbound
-  | string
-  | Array<Document$Outbound>;
+export type WorkflowSpanOutput1$Outbound =
+  | FileContentPart$Outbound
+  | TextContentPart$Outbound;
 
 /** @internal */
-export const WorkflowSpanOutput$outboundSchema: z.ZodMiniType<
-  WorkflowSpanOutput$Outbound,
-  WorkflowSpanOutput
-> = smartUnion([
-  GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
-  z.string(),
-  z.array(Document$outboundSchema),
-]);
+export const WorkflowSpanOutput1$outboundSchema: z.ZodMiniType<
+  WorkflowSpanOutput1$Outbound,
+  WorkflowSpanOutput1
+> = z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]);
 
-export function workflowSpanOutputToJSON(
-  workflowSpanOutput: WorkflowSpanOutput,
+export function workflowSpanOutput1ToJSON(
+  workflowSpanOutput1: WorkflowSpanOutput1,
 ): string {
   return JSON.stringify(
-    WorkflowSpanOutput$outboundSchema.parse(workflowSpanOutput),
+    WorkflowSpanOutput1$outboundSchema.parse(workflowSpanOutput1),
   );
 }
 
 /** @internal */
-export type WorkflowSpanRedactedOutput$Outbound =
+export type WorkflowSpanOutput2$Outbound =
   | GalileoCoreSchemasLoggingLlmMessage$Outbound
+  | ControlResult$Outbound
   | string
-  | Array<Document$Outbound>;
+  | Array<Document$Outbound>
+  | Array<FileContentPart$Outbound | TextContentPart$Outbound>;
 
 /** @internal */
-export const WorkflowSpanRedactedOutput$outboundSchema: z.ZodMiniType<
-  WorkflowSpanRedactedOutput$Outbound,
-  WorkflowSpanRedactedOutput
+export const WorkflowSpanOutput2$outboundSchema: z.ZodMiniType<
+  WorkflowSpanOutput2$Outbound,
+  WorkflowSpanOutput2
 > = smartUnion([
   GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
+  ControlResult$outboundSchema,
   z.string(),
   z.array(Document$outboundSchema),
+  z.array(
+    z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
+  ),
 ]);
 
-export function workflowSpanRedactedOutputToJSON(
-  workflowSpanRedactedOutput: WorkflowSpanRedactedOutput,
+export function workflowSpanOutput2ToJSON(
+  workflowSpanOutput2: WorkflowSpanOutput2,
 ): string {
   return JSON.stringify(
-    WorkflowSpanRedactedOutput$outboundSchema.parse(workflowSpanRedactedOutput),
+    WorkflowSpanOutput2$outboundSchema.parse(workflowSpanOutput2),
+  );
+}
+
+/** @internal */
+export type WorkflowSpanRedactedOutput1$Outbound =
+  | FileContentPart$Outbound
+  | TextContentPart$Outbound;
+
+/** @internal */
+export const WorkflowSpanRedactedOutput1$outboundSchema: z.ZodMiniType<
+  WorkflowSpanRedactedOutput1$Outbound,
+  WorkflowSpanRedactedOutput1
+> = z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]);
+
+export function workflowSpanRedactedOutput1ToJSON(
+  workflowSpanRedactedOutput1: WorkflowSpanRedactedOutput1,
+): string {
+  return JSON.stringify(
+    WorkflowSpanRedactedOutput1$outboundSchema.parse(
+      workflowSpanRedactedOutput1,
+    ),
+  );
+}
+
+/** @internal */
+export type WorkflowSpanRedactedOutput2$Outbound =
+  | GalileoCoreSchemasLoggingLlmMessage$Outbound
+  | ControlResult$Outbound
+  | string
+  | Array<Document$Outbound>
+  | Array<FileContentPart$Outbound | TextContentPart$Outbound>;
+
+/** @internal */
+export const WorkflowSpanRedactedOutput2$outboundSchema: z.ZodMiniType<
+  WorkflowSpanRedactedOutput2$Outbound,
+  WorkflowSpanRedactedOutput2
+> = smartUnion([
+  GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
+  ControlResult$outboundSchema,
+  z.string(),
+  z.array(Document$outboundSchema),
+  z.array(
+    z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
+  ),
+]);
+
+export function workflowSpanRedactedOutput2ToJSON(
+  workflowSpanRedactedOutput2: WorkflowSpanRedactedOutput2,
+): string {
+  return JSON.stringify(
+    WorkflowSpanRedactedOutput2$outboundSchema.parse(
+      workflowSpanRedactedOutput2,
+    ),
   );
 }
 
@@ -277,22 +428,28 @@ export type WorkflowSpan$Outbound = {
   input?:
     | string
     | Array<GalileoCoreSchemasLoggingLlmMessage$Outbound>
+    | Array<FileContentPart$Outbound | TextContentPart$Outbound>
     | undefined;
   redacted_input?:
     | string
     | Array<GalileoCoreSchemasLoggingLlmMessage$Outbound>
+    | Array<FileContentPart$Outbound | TextContentPart$Outbound>
     | null
     | undefined;
   output?:
     | GalileoCoreSchemasLoggingLlmMessage$Outbound
+    | ControlResult$Outbound
     | string
     | Array<Document$Outbound>
+    | Array<FileContentPart$Outbound | TextContentPart$Outbound>
     | null
     | undefined;
   redacted_output?:
     | GalileoCoreSchemasLoggingLlmMessage$Outbound
+    | ControlResult$Outbound
     | string
     | Array<Document$Outbound>
+    | Array<FileContentPart$Outbound | TextContentPart$Outbound>
     | null
     | undefined;
   name: string;
@@ -313,6 +470,7 @@ export type WorkflowSpan$Outbound = {
   spans?:
     | Array<
       | AgentSpan$Outbound
+      | ControlSpan$Outbound
       | LlmSpan$Outbound
       | RetrieverSpan$Outbound
       | ToolSpan$Outbound
@@ -332,6 +490,12 @@ export const WorkflowSpan$outboundSchema: z.ZodMiniType<
       smartUnion([
         z.string(),
         z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
+        z.array(
+          z.union([
+            FileContentPart$outboundSchema,
+            TextContentPart$outboundSchema,
+          ]),
+        ),
       ]),
     ),
     redactedInput: z.optional(
@@ -339,6 +503,12 @@ export const WorkflowSpan$outboundSchema: z.ZodMiniType<
         smartUnion([
           z.string(),
           z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
+          z.array(
+            z.union([
+              FileContentPart$outboundSchema,
+              TextContentPart$outboundSchema,
+            ]),
+          ),
         ]),
       ),
     ),
@@ -346,8 +516,15 @@ export const WorkflowSpan$outboundSchema: z.ZodMiniType<
       z.nullable(
         smartUnion([
           GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
+          ControlResult$outboundSchema,
           z.string(),
           z.array(Document$outboundSchema),
+          z.array(
+            z.union([
+              FileContentPart$outboundSchema,
+              TextContentPart$outboundSchema,
+            ]),
+          ),
         ]),
       ),
     ),
@@ -355,8 +532,15 @@ export const WorkflowSpan$outboundSchema: z.ZodMiniType<
       z.nullable(
         smartUnion([
           GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
+          ControlResult$outboundSchema,
           z.string(),
           z.array(Document$outboundSchema),
+          z.array(
+            z.union([
+              FileContentPart$outboundSchema,
+              TextContentPart$outboundSchema,
+            ]),
+          ),
         ]),
       ),
     ),
@@ -377,12 +561,13 @@ export const WorkflowSpan$outboundSchema: z.ZodMiniType<
     parentId: z.optional(z.nullable(z.string())),
     spans: z.optional(z.array(z.union([
       z.lazy(() => AgentSpan$outboundSchema),
+      ControlSpan$outboundSchema,
       LlmSpan$outboundSchema,
       z.lazy(() => RetrieverSpan$outboundSchema),
+      z.lazy(() => ToolSpan$outboundSchema),
       z.lazy(() =>
-        ToolSpan$outboundSchema
+        WorkflowSpan$outboundSchema
       ),
-      z.lazy(() => WorkflowSpan$outboundSchema),
     ]))),
   }),
   z.transform((v) => {
@@ -411,6 +596,7 @@ export function workflowSpanToJSON(workflowSpan: WorkflowSpan): string {
 /** @internal */
 export type WorkflowSpanSpan$Outbound =
   | AgentSpan$Outbound
+  | ControlSpan$Outbound
   | LlmSpan$Outbound
   | RetrieverSpan$Outbound
   | ToolSpan$Outbound
@@ -422,6 +608,7 @@ export const WorkflowSpanSpan$outboundSchema: z.ZodMiniType<
   WorkflowSpanSpan
 > = z.union([
   z.lazy(() => AgentSpan$outboundSchema),
+  ControlSpan$outboundSchema,
   LlmSpan$outboundSchema,
   z.lazy(() => RetrieverSpan$outboundSchema),
   z.lazy(() => ToolSpan$outboundSchema),
