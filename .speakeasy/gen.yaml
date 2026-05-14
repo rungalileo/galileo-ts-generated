@@ -29,13 +29,13 @@ generation:
   requestBodyFieldName: body
   versioningStrategy: manual
   persistentEdits:
-    enabled: "true"
+    enabled: 'true'
   tests:
     generateTests: false
     generateNewTests: true
     skipResponseBodyAssertions: false
 typescript:
-  version: 0.2.14
+  version: 0.2.15
   acceptHeaderEnum: false
   additionalDependencies:
     dependencies: {}

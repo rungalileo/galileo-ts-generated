@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.15](https://github.com/rungalileo/galileo-ts-generated/compare/galileo-generated-v0.2.14...galileo-generated-v0.2.15) (2026-05-14)
+
+
+### Miscellaneous
+
+* **update:** Updated SDK based on current state of the OpenAPI spec. ([#79](https://github.com/rungalileo/galileo-ts-generated/issues/79)) ([f00b79b](https://github.com/rungalileo/galileo-ts-generated/commit/f00b79b1ba483863038a3a8453d6205bc0de8473))
+
 ## [0.2.14](https://github.com/rungalileo/galileo-ts-generated/compare/galileo-generated-v0.2.13...galileo-generated-v0.2.14) (2026-04-27)
 
 
