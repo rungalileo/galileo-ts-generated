@@ -11,22 +11,38 @@ import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
-import { InputTypeEnum, InputTypeEnum$inboundSchema } from "./inputtypeenum.js";
+import {
+  InputTypeEnum,
+  InputTypeEnum$inboundSchema,
+  InputTypeEnum$outboundSchema,
+} from "./inputtypeenum.js";
 import {
   MetadataFilter,
   MetadataFilter$inboundSchema,
+  MetadataFilter$Outbound,
+  MetadataFilter$outboundSchema,
 } from "./metadatafilter.js";
+import {
+  ModalityFilter,
+  ModalityFilter$inboundSchema,
+  ModalityFilter$Outbound,
+  ModalityFilter$outboundSchema,
+} from "./modalityfilter.js";
 import {
   NodeNameFilter,
   NodeNameFilter$inboundSchema,
+  NodeNameFilter$Outbound,
+  NodeNameFilter$outboundSchema,
 } from "./nodenamefilter.js";
 import {
   OutputTypeEnum,
   OutputTypeEnum$inboundSchema,
+  OutputTypeEnum$outboundSchema,
 } from "./outputtypeenum.js";
 
 export type ScorerDefaultsFilter =
   | MetadataFilter
+  | ModalityFilter
   | NodeNameFilter
   | discriminatedUnionTypes.Unknown<"name">;
 
@@ -38,7 +54,10 @@ export type ScorerDefaults = {
    */
   filters?:
     | Array<
-      MetadataFilter | NodeNameFilter | discriminatedUnionTypes.Unknown<"name">
+      | MetadataFilter
+      | ModalityFilter
+      | NodeNameFilter
+      | discriminatedUnionTypes.Unknown<"name">
     >
     | null
     | undefined;
@@ -66,9 +85,32 @@ export const ScorerDefaultsFilter$inboundSchema: z.ZodMiniType<
   unknown
 > = discriminatedUnion("name", {
   metadata: MetadataFilter$inboundSchema,
+  modality: ModalityFilter$inboundSchema,
   node_name: NodeNameFilter$inboundSchema,
 });
+/** @internal */
+export type ScorerDefaultsFilter$Outbound =
+  | MetadataFilter$Outbound
+  | ModalityFilter$Outbound
+  | NodeNameFilter$Outbound;
 
+/** @internal */
+export const ScorerDefaultsFilter$outboundSchema: z.ZodMiniType<
+  ScorerDefaultsFilter$Outbound,
+  ScorerDefaultsFilter
+> = z.union([
+  MetadataFilter$outboundSchema,
+  ModalityFilter$outboundSchema,
+  NodeNameFilter$outboundSchema,
+]);
+
+export function scorerDefaultsFilterToJSON(
+  scorerDefaultsFilter: ScorerDefaultsFilter,
+): string {
+  return JSON.stringify(
+    ScorerDefaultsFilter$outboundSchema.parse(scorerDefaultsFilter),
+  );
+}
 export function scorerDefaultsFilterFromJSON(
   jsonString: string,
 ): SafeParseResult<ScorerDefaultsFilter, SDKValidationError> {
@@ -92,6 +134,7 @@ export const ScorerDefaults$inboundSchema: z.ZodMiniType<
         z.array(
           discriminatedUnion("name", {
             metadata: MetadataFilter$inboundSchema,
+            modality: ModalityFilter$inboundSchema,
             node_name: NodeNameFilter$inboundSchema,
           }),
         ),
@@ -113,7 +156,63 @@ export const ScorerDefaults$inboundSchema: z.ZodMiniType<
     });
   }),
 );
+/** @internal */
+export type ScorerDefaults$Outbound = {
+  model_name?: string | null | undefined;
+  num_judges?: number | null | undefined;
+  filters?:
+    | Array<
+      | MetadataFilter$Outbound
+      | ModalityFilter$Outbound
+      | NodeNameFilter$Outbound
+    >
+    | null
+    | undefined;
+  scoreable_node_types?: Array<string> | null | undefined;
+  cot_enabled?: boolean | null | undefined;
+  output_type?: string | null | undefined;
+  input_type?: string | null | undefined;
+};
 
+/** @internal */
+export const ScorerDefaults$outboundSchema: z.ZodMiniType<
+  ScorerDefaults$Outbound,
+  ScorerDefaults
+> = z.pipe(
+  z.object({
+    modelName: z.optional(z.nullable(z.string())),
+    numJudges: z.optional(z.nullable(z.int())),
+    filters: z.optional(
+      z.nullable(
+        z.array(
+          z.union([
+            MetadataFilter$outboundSchema,
+            ModalityFilter$outboundSchema,
+            NodeNameFilter$outboundSchema,
+          ]),
+        ),
+      ),
+    ),
+    scoreableNodeTypes: z.optional(z.nullable(z.array(z.string()))),
+    cotEnabled: z.optional(z.nullable(z.boolean())),
+    outputType: z.optional(z.nullable(OutputTypeEnum$outboundSchema)),
+    inputType: z.optional(z.nullable(InputTypeEnum$outboundSchema)),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      modelName: "model_name",
+      numJudges: "num_judges",
+      scoreableNodeTypes: "scoreable_node_types",
+      cotEnabled: "cot_enabled",
+      outputType: "output_type",
+      inputType: "input_type",
+    });
+  }),
+);
+
+export function scorerDefaultsToJSON(scorerDefaults: ScorerDefaults): string {
+  return JSON.stringify(ScorerDefaults$outboundSchema.parse(scorerDefaults));
+}
 export function scorerDefaultsFromJSON(
   jsonString: string,
 ): SafeParseResult<ScorerDefaults, SDKValidationError> {

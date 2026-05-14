@@ -20,6 +20,12 @@ import {
   MetadataFilter$outboundSchema,
 } from "./metadatafilter.js";
 import {
+  ModalityFilter,
+  ModalityFilter$inboundSchema,
+  ModalityFilter$Outbound,
+  ModalityFilter$outboundSchema,
+} from "./modalityfilter.js";
+import {
   NodeNameFilter,
   NodeNameFilter$inboundSchema,
   NodeNameFilter$Outbound,
@@ -28,6 +34,7 @@ import {
 
 export type OutputSexistScorerFilter =
   | MetadataFilter
+  | ModalityFilter
   | NodeNameFilter
   | discriminatedUnionTypes.Unknown<"name">;
 
@@ -44,7 +51,10 @@ export type OutputSexistScorer = {
    */
   filters?:
     | Array<
-      MetadataFilter | NodeNameFilter | discriminatedUnionTypes.Unknown<"name">
+      | MetadataFilter
+      | ModalityFilter
+      | NodeNameFilter
+      | discriminatedUnionTypes.Unknown<"name">
     >
     | null
     | undefined;
@@ -65,18 +75,24 @@ export const OutputSexistScorerFilter$inboundSchema: z.ZodMiniType<
   unknown
 > = discriminatedUnion("name", {
   metadata: MetadataFilter$inboundSchema,
+  modality: ModalityFilter$inboundSchema,
   node_name: NodeNameFilter$inboundSchema,
 });
 /** @internal */
 export type OutputSexistScorerFilter$Outbound =
   | MetadataFilter$Outbound
+  | ModalityFilter$Outbound
   | NodeNameFilter$Outbound;
 
 /** @internal */
 export const OutputSexistScorerFilter$outboundSchema: z.ZodMiniType<
   OutputSexistScorerFilter$Outbound,
   OutputSexistScorerFilter
-> = z.union([MetadataFilter$outboundSchema, NodeNameFilter$outboundSchema]);
+> = z.union([
+  MetadataFilter$outboundSchema,
+  ModalityFilter$outboundSchema,
+  NodeNameFilter$outboundSchema,
+]);
 
 export function outputSexistScorerFilterToJSON(
   outputSexistScorerFilter: OutputSexistScorerFilter,
@@ -118,6 +134,7 @@ export const OutputSexistScorer$inboundSchema: z.ZodMiniType<
         z.array(
           discriminatedUnion("name", {
             metadata: MetadataFilter$inboundSchema,
+            modality: ModalityFilter$inboundSchema,
             node_name: NodeNameFilter$inboundSchema,
           }),
         ),
@@ -138,7 +155,11 @@ export const OutputSexistScorer$inboundSchema: z.ZodMiniType<
 export type OutputSexistScorer$Outbound = {
   name: "output_sexist";
   filters?:
-    | Array<MetadataFilter$Outbound | NodeNameFilter$Outbound>
+    | Array<
+      | MetadataFilter$Outbound
+      | ModalityFilter$Outbound
+      | NodeNameFilter$Outbound
+    >
     | null
     | undefined;
   type: string;
@@ -158,6 +179,7 @@ export const OutputSexistScorer$outboundSchema: z.ZodMiniType<
         z.array(
           z.union([
             MetadataFilter$outboundSchema,
+            ModalityFilter$outboundSchema,
             NodeNameFilter$outboundSchema,
           ]),
         ),

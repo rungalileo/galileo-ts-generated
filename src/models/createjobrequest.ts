@@ -438,9 +438,11 @@ export type CreateJobRequest = {
     | null
     | undefined;
   isSession?: boolean | null | undefined;
+  validationConfig?: { [k: string]: any } | null | undefined;
   uploadDataInSeparateTask?: boolean | undefined;
   logMetricComputingRecords?: boolean | undefined;
   streamMetrics?: boolean | undefined;
+  multijudgeAverageBooleanMetrics?: boolean | undefined;
 };
 
 /** @internal */
@@ -758,9 +760,11 @@ export type CreateJobRequest$Outbound = {
     | null
     | undefined;
   is_session?: boolean | null | undefined;
+  validation_config?: { [k: string]: any } | null | undefined;
   upload_data_in_separate_task: boolean;
   log_metric_computing_records: boolean;
   stream_metrics: boolean;
+  multijudge_average_boolean_metrics: boolean;
 };
 
 /** @internal */
@@ -882,9 +886,11 @@ export const CreateJobRequest$outboundSchema: z.ZodMiniType<
       z.nullable(MetricCritiqueJobConfiguration$outboundSchema),
     ),
     isSession: z.optional(z.nullable(z.boolean())),
+    validationConfig: z.optional(z.nullable(z.record(z.string(), z.any()))),
     uploadDataInSeparateTask: z._default(z.boolean(), true),
-    logMetricComputingRecords: z._default(z.boolean(), false),
+    logMetricComputingRecords: z._default(z.boolean(), true),
     streamMetrics: z._default(z.boolean(), false),
+    multijudgeAverageBooleanMetrics: z._default(z.boolean(), false),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -926,9 +932,11 @@ export const CreateJobRequest$outboundSchema: z.ZodMiniType<
       promptOptimizationConfiguration: "prompt_optimization_configuration",
       metricCritiqueConfiguration: "metric_critique_configuration",
       isSession: "is_session",
+      validationConfig: "validation_config",
       uploadDataInSeparateTask: "upload_data_in_separate_task",
       logMetricComputingRecords: "log_metric_computing_records",
       streamMetrics: "stream_metrics",
+      multijudgeAverageBooleanMetrics: "multijudge_average_boolean_metrics",
     });
   }),
 );

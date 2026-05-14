@@ -132,15 +132,6 @@ async function $do(
         }),
       },
     ],
-    [
-      {
-        type: "http:basic",
-        value: {
-          username: security?.httpBasic?.username,
-          password: security?.httpBasic?.password,
-        },
-      },
-    ],
   );
 
   const context = {

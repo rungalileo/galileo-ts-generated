@@ -14,6 +14,7 @@ export type OpenAIIntegration = {
   organizationId?: string | null | undefined;
   id?: string | null | undefined;
   name: "openai";
+  provider: "openai";
   extra?: { [k: string]: any } | null | undefined;
 };
 
@@ -25,7 +26,8 @@ export const OpenAIIntegration$inboundSchema: z.ZodMiniType<
   z.object({
     organization_id: z.optional(z.nullable(types.string())),
     id: z.optional(z.nullable(types.string())),
-    name: types.literal("openai"),
+    name: z._default(types.literal("openai"), "openai"),
+    provider: types.literal("openai"),
     extra: z.optional(z.nullable(z.record(z.string(), z.any()))),
   }),
   z.transform((v) => {
