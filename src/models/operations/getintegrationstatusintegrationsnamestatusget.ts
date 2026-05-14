@@ -14,7 +14,7 @@ export type GetIntegrationStatusIntegrationsNameStatusGetSecurity = {
 };
 
 export type GetIntegrationStatusIntegrationsNameStatusGetRequest = {
-  name: models.IntegrationName;
+  name: models.IntegrationProvider;
 };
 
 /** @internal */
@@ -68,7 +68,7 @@ export const GetIntegrationStatusIntegrationsNameStatusGetRequest$outboundSchema
     GetIntegrationStatusIntegrationsNameStatusGetRequest$Outbound,
     GetIntegrationStatusIntegrationsNameStatusGetRequest
   > = z.object({
-    name: models.IntegrationName$outboundSchema,
+    name: models.IntegrationProvider$outboundSchema,
   });
 
 export function getIntegrationStatusIntegrationsNameStatusGetRequestToJSON(

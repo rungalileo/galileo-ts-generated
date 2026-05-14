@@ -21,6 +21,16 @@ import {
   ExperimentCreatedByFilter$outboundSchema,
 } from "./experimentcreatedbyfilter.js";
 import {
+  ExperimentGroupIDFilter,
+  ExperimentGroupIDFilter$Outbound,
+  ExperimentGroupIDFilter$outboundSchema,
+} from "./experimentgroupidfilter.js";
+import {
+  ExperimentGroupNameFilter,
+  ExperimentGroupNameFilter$Outbound,
+  ExperimentGroupNameFilter$outboundSchema,
+} from "./experimentgroupnamefilter.js";
+import {
   ExperimentIDFilter,
   ExperimentIDFilter$Outbound,
   ExperimentIDFilter$outboundSchema,
@@ -49,6 +59,8 @@ import {
 export type ExperimentSearchRequestFilter =
   | ExperimentCreatedAtFilter
   | ExperimentCreatedByFilter
+  | ExperimentGroupIDFilter
+  | ExperimentGroupNameFilter
   | ExperimentIDFilter
   | ExperimentNameFilter
   | ExperimentUpdatedAtFilter;
@@ -65,6 +77,8 @@ export type ExperimentSearchRequest = {
     | Array<
       | ExperimentCreatedAtFilter
       | ExperimentCreatedByFilter
+      | ExperimentGroupIDFilter
+      | ExperimentGroupNameFilter
       | ExperimentIDFilter
       | ExperimentNameFilter
       | ExperimentUpdatedAtFilter
@@ -83,6 +97,8 @@ export type ExperimentSearchRequest = {
 export type ExperimentSearchRequestFilter$Outbound =
   | ExperimentCreatedAtFilter$Outbound
   | ExperimentCreatedByFilter$Outbound
+  | ExperimentGroupIDFilter$Outbound
+  | ExperimentGroupNameFilter$Outbound
   | ExperimentIDFilter$Outbound
   | ExperimentNameFilter$Outbound
   | ExperimentUpdatedAtFilter$Outbound;
@@ -94,6 +110,8 @@ export const ExperimentSearchRequestFilter$outboundSchema: z.ZodMiniType<
 > = z.union([
   ExperimentCreatedAtFilter$outboundSchema,
   ExperimentCreatedByFilter$outboundSchema,
+  ExperimentGroupIDFilter$outboundSchema,
+  ExperimentGroupNameFilter$outboundSchema,
   ExperimentIDFilter$outboundSchema,
   ExperimentNameFilter$outboundSchema,
   ExperimentUpdatedAtFilter$outboundSchema,
@@ -143,6 +161,8 @@ export type ExperimentSearchRequest$Outbound = {
     | Array<
       | ExperimentCreatedAtFilter$Outbound
       | ExperimentCreatedByFilter$Outbound
+      | ExperimentGroupIDFilter$Outbound
+      | ExperimentGroupNameFilter$Outbound
       | ExperimentIDFilter$Outbound
       | ExperimentNameFilter$Outbound
       | ExperimentUpdatedAtFilter$Outbound
@@ -170,6 +190,8 @@ export const ExperimentSearchRequest$outboundSchema: z.ZodMiniType<
         z.union([
           ExperimentCreatedAtFilter$outboundSchema,
           ExperimentCreatedByFilter$outboundSchema,
+          ExperimentGroupIDFilter$outboundSchema,
+          ExperimentGroupNameFilter$outboundSchema,
           ExperimentIDFilter$outboundSchema,
           ExperimentNameFilter$outboundSchema,
           ExperimentUpdatedAtFilter$outboundSchema,

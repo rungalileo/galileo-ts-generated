@@ -10,19 +10,21 @@ import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
-  IntegrationName,
-  IntegrationName$inboundSchema,
-} from "./integrationname.js";
+  IntegrationProvider,
+  IntegrationProvider$inboundSchema,
+} from "./integrationprovider.js";
 import { Permission, Permission$inboundSchema } from "./permission.js";
 
 export type IntegrationDB = {
   id: string;
   permissions?: Array<Permission> | undefined;
-  name: IntegrationName;
+  name: string;
+  provider: IntegrationProvider;
   createdAt: Date;
   updatedAt: Date;
   createdBy: string;
   isSelected: boolean;
+  isDisabled: boolean;
 };
 
 /** @internal */
@@ -33,11 +35,13 @@ export const IntegrationDB$inboundSchema: z.ZodMiniType<
   z.object({
     id: types.string(),
     permissions: types.optional(z.array(Permission$inboundSchema)),
-    name: IntegrationName$inboundSchema,
+    name: types.string(),
+    provider: IntegrationProvider$inboundSchema,
     created_at: types.date(),
     updated_at: types.date(),
     created_by: types.string(),
     is_selected: z._default(types.boolean(), false),
+    is_disabled: z._default(types.boolean(), false),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -45,6 +49,7 @@ export const IntegrationDB$inboundSchema: z.ZodMiniType<
       "updated_at": "updatedAt",
       "created_by": "createdBy",
       "is_selected": "isSelected",
+      "is_disabled": "isDisabled",
     });
   }),
 );

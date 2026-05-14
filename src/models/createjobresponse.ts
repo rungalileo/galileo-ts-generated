@@ -385,9 +385,11 @@ export type CreateJobResponse = {
     | null
     | undefined;
   isSession?: boolean | null | undefined;
+  validationConfig?: { [k: string]: any } | null | undefined;
   uploadDataInSeparateTask: boolean;
   logMetricComputingRecords: boolean;
   streamMetrics: boolean;
+  multijudgeAverageBooleanMetrics: boolean;
   message: string;
   link: string;
 };
@@ -668,9 +670,11 @@ export const CreateJobResponse$inboundSchema: z.ZodMiniType<
       z.nullable(MetricCritiqueJobConfiguration$inboundSchema),
     ),
     is_session: z.optional(z.nullable(types.boolean())),
+    validation_config: z.optional(z.nullable(z.record(z.string(), z.any()))),
     upload_data_in_separate_task: z._default(types.boolean(), true),
-    log_metric_computing_records: z._default(types.boolean(), false),
+    log_metric_computing_records: z._default(types.boolean(), true),
     stream_metrics: z._default(types.boolean(), false),
+    multijudge_average_boolean_metrics: z._default(types.boolean(), false),
     message: types.string(),
     link: types.string(),
   }),
@@ -714,9 +718,11 @@ export const CreateJobResponse$inboundSchema: z.ZodMiniType<
       "prompt_optimization_configuration": "promptOptimizationConfiguration",
       "metric_critique_configuration": "metricCritiqueConfiguration",
       "is_session": "isSession",
+      "validation_config": "validationConfig",
       "upload_data_in_separate_task": "uploadDataInSeparateTask",
       "log_metric_computing_records": "logMetricComputingRecords",
       "stream_metrics": "streamMetrics",
+      "multijudge_average_boolean_metrics": "multijudgeAverageBooleanMetrics",
     });
   }),
 );

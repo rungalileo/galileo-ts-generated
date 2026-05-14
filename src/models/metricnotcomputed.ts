@@ -14,6 +14,7 @@ import { ScorerType, ScorerType$inboundSchema } from "./scorertype.js";
 export type MetricNotComputed = {
   statusType: "not_computed";
   scorerType?: ScorerType | null | undefined;
+  metricKeyAlias?: string | null | undefined;
   message: string;
 };
 
@@ -25,12 +26,14 @@ export const MetricNotComputed$inboundSchema: z.ZodMiniType<
   z.object({
     status_type: types.literal("not_computed"),
     scorer_type: z.optional(z.nullable(ScorerType$inboundSchema)),
+    metric_key_alias: z.optional(z.nullable(types.string())),
     message: z._default(types.string(), "Metric not computed."),
   }),
   z.transform((v) => {
     return remap$(v, {
       "status_type": "statusType",
       "scorer_type": "scorerType",
+      "metric_key_alias": "metricKeyAlias",
     });
   }),
 );

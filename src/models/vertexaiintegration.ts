@@ -26,6 +26,7 @@ export type VertexAIIntegration = {
   gcsConfig?: VertexAIGCSConfigResponse | null | undefined;
   id?: string | null | undefined;
   name: "vertex_ai";
+  provider: "vertex_ai";
   extra?: { [k: string]: any } | null | undefined;
 };
 
@@ -40,7 +41,8 @@ export const VertexAIIntegration$inboundSchema: z.ZodMiniType<
     ),
     gcs_config: z.optional(z.nullable(VertexAIGCSConfigResponse$inboundSchema)),
     id: z.optional(z.nullable(types.string())),
-    name: types.literal("vertex_ai"),
+    name: z._default(types.literal("vertex_ai"), "vertex_ai"),
+    provider: types.literal("vertex_ai"),
     extra: z.optional(z.nullable(z.record(z.string(), z.any()))),
   }),
   z.transform((v) => {

@@ -6,7 +6,7 @@
 import { DatabricksIntegration } from "galileo-generated/models";
 
 let value: DatabricksIntegration = {
-  name: "databricks",
+  provider: "databricks",
 };
 ```
 
@@ -15,5 +15,6 @@ let value: DatabricksIntegration = {
 | Field                 | Type                  | Required              | Description           |
 | --------------------- | --------------------- | --------------------- | --------------------- |
 | `id`                  | *string*              | :heavy_minus_sign:    | N/A                   |
-| `name`                | *"databricks"*        | :heavy_check_mark:    | N/A                   |
+| `name`                | *"databricks"*        | :heavy_minus_sign:    | N/A                   |
+| `provider`            | *"databricks"*        | :heavy_check_mark:    | N/A                   |
 | `extra`               | Record<string, *any*> | :heavy_minus_sign:    | N/A                   |

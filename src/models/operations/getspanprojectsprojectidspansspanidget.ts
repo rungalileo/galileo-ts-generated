@@ -33,6 +33,7 @@ export type ResponseGetSpanProjectsProjectIdSpansSpanIdGet =
   | models.ExtendedLlmSpanRecord
   | models.ExtendedToolSpanRecordWithChildren
   | models.ExtendedRetrieverSpanRecordWithChildren
+  | models.ExtendedControlSpanRecord
   | discriminatedUnionTypes.Unknown<"type">;
 
 /** @internal */
@@ -122,6 +123,7 @@ export const ResponseGetSpanProjectsProjectIdSpansSpanIdGet$inboundSchema:
       llm: models.ExtendedLlmSpanRecord$inboundSchema,
       tool: models.ExtendedToolSpanRecordWithChildren$inboundSchema,
       retriever: models.ExtendedRetrieverSpanRecordWithChildren$inboundSchema,
+      control: models.ExtendedControlSpanRecord$inboundSchema,
     });
 
 export function responseGetSpanProjectsProjectIdSpansSpanIdGetFromJSON(

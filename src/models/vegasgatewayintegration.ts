@@ -12,6 +12,7 @@ import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 export type VegasGatewayIntegration = {
   id?: string | null | undefined;
   name: "vegas_gateway";
+  provider: "vegas_gateway";
   extra?: { [k: string]: any } | null | undefined;
 };
 
@@ -21,7 +22,8 @@ export const VegasGatewayIntegration$inboundSchema: z.ZodMiniType<
   unknown
 > = z.object({
   id: z.optional(z.nullable(types.string())),
-  name: types.literal("vegas_gateway"),
+  name: z._default(types.literal("vegas_gateway"), "vegas_gateway"),
+  provider: types.literal("vegas_gateway"),
   extra: z.optional(z.nullable(z.record(z.string(), z.any()))),
 });
 

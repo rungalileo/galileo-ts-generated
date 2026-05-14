@@ -7,6 +7,14 @@ import { OutputToneScorer } from "galileo-generated/models";
 
 let value: OutputToneScorer = {
   name: "output_tone",
+  filters: [
+    {
+      name: "metadata",
+      operator: "ne",
+      key: "<key>",
+      value: [],
+    },
+  ],
 };
 ```
 
