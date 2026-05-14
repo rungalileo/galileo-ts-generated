@@ -86,7 +86,7 @@ export class BaseEntity {
 		}
 	}
 
-	protected static async safeExecute<T>(
+	public static async safeExecute<T>(
 		operation: () => Promise<T>
 	): Promise<Result<T, Error>> {
 		try {

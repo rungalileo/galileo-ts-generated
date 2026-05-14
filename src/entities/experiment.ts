@@ -1,0 +1,330 @@
+/*
+ * Experiment domain entity.
+ *
+ * Lifecycle-only: no dirty-tracked fields (no `save()`), no `run()`
+ * orchestration, no filter/sort/column DSL, no polymorphic
+ * dataset/prompt/model unions.
+ *
+ * The generated SDK currently exposes no
+ * `createExperimentProjectsProjectIdExperimentsPost` endpoint (only
+ * get/list/update/delete). Until the OpenAPI spec is regenerated to
+ * include creation, `Experiment.create()` throws a clearly-marked error.
+ * Existing experiments can still be fetched via `get()` / `list()` and
+ * hydrated normally.
+ */
+
+import { BaseEntity } from "./base-entity.js";
+import { StatefulEntity, SyncState } from "./stateful-entity.js";
+import { GalileoConfig } from "../lib/galileo-config.js";
+import { GalileoGeneratedError } from "../models/errors/galileogeneratederror.js";
+import type { ExperimentResponse } from "../models/experimentresponse.js";
+import type { RunTagDB } from "../models/runtagdb.js";
+import type { TaskType } from "../models/tasktype.js";
+
+export interface ExperimentInit {
+	name: string;
+	projectId?: string | null;
+	projectName?: string | null;
+}
+
+export interface ExperimentGetOptions {
+	id?: string;
+	name?: string;
+	projectId?: string;
+	projectName?: string;
+}
+
+export interface ExperimentListOptions {
+	projectId?: string;
+	projectName?: string;
+}
+
+export interface ExperimentAddTagOptions {
+	key: string;
+	value: string;
+	tagType?: string;
+}
+
+type ExperimentHydrationSource = {
+	id?: string | undefined;
+	name?: string | undefined;
+	projectId?: string | undefined;
+	createdAt?: Date | undefined;
+	updatedAt?: Date | null | undefined;
+	createdBy?: string | null | undefined;
+	numSpans?: number | null | undefined;
+	numTraces?: number | null | undefined;
+	taskType?: TaskType | undefined;
+	aggregateMetrics?: Record<string, unknown> | undefined;
+	tags?: Record<string, RunTagDB[]> | undefined;
+};
+
+export class Experiment extends StatefulEntity {
+	public id: string | null = null;
+	public createdAt: Date | null = null;
+	public updatedAt: Date | null = null;
+	public projectId: string | null;
+	public projectName: string | null;
+	public createdBy: string | null = null;
+	public numSpans: number | null = null;
+	public numTraces: number | null = null;
+	public taskType: TaskType | null = null;
+	public aggregateMetrics: Record<string, unknown> = {};
+	public tags: Record<string, RunTagDB[]> = {};
+
+	#name: string;
+
+	get name(): string {
+		return this.#name;
+	}
+
+	constructor(init: ExperimentInit) {
+		super();
+		if (!init.name) {
+			throw new TypeError("Experiment requires a name");
+		}
+		this.#name = init.name;
+		this.projectId = init.projectId ?? null;
+		this.projectName = init.projectName ?? null;
+	}
+
+	static _fromApi(raw: ExperimentResponse): Experiment {
+		const experiment = new Experiment({
+			name: raw.name,
+			projectId: raw.projectId,
+		});
+		experiment._hydrate(raw);
+		return experiment;
+	}
+
+	static async get(opts: ExperimentGetOptions): Promise<Experiment | null> {
+		const { id, name } = opts;
+		if (id == null && name == null) {
+			throw new TypeError("Experiment.get: provide either id or name");
+		}
+		const projectId = await Experiment.#resolveProjectId(opts);
+		const client = BaseEntity.getCLient();
+		if (id != null) {
+			const result = await BaseEntity.safeExecute(() =>
+				client.experiment.getExperimentProjectsProjectIdExperimentsExperimentIdGet(
+					{},
+					{ projectId, experimentId: id }
+				)
+			);
+			if (!result.ok) {
+				if (Experiment.#isNotFound(result.error)) return null;
+				throw result.error;
+			}
+			return Experiment._fromApi(result.value);
+		}
+		const list = await Experiment.list({ projectId });
+		return list.find((e) => e.name === name) ?? null;
+	}
+
+	static async list(
+		opts: ExperimentListOptions = {}
+	): Promise<Experiment[]> {
+		const projectId = await Experiment.#resolveProjectId(opts);
+		const client = BaseEntity.getCLient();
+		const result = await BaseEntity.safeExecute(() =>
+			client.experiment.listExperimentsProjectsProjectIdExperimentsGet(
+				{},
+				{ projectId }
+			)
+		);
+		if (!result.ok) throw result.error;
+		return result.value.map((e) => Experiment._fromApi(e));
+	}
+
+	async create(): Promise<this> {
+		throw new Error(
+			"Experiment.create is not yet supported by the generated SDK. " +
+				"The OpenAPI spec must be regenerated to include the experiment " +
+				"creation endpoint before this method can be wired."
+		);
+	}
+
+	async refresh(): Promise<this> {
+		this.ensureNotDeleted();
+		if (this.id == null) {
+			throw new Error(
+				"Experiment ID is not set. Cannot refresh a local-only experiment."
+			);
+		}
+		if (this.projectId == null) {
+			throw new Error(
+				"Experiment projectId is not set. Cannot refresh without a parent project."
+			);
+		}
+		const client = BaseEntity.getCLient();
+		const result = await BaseEntity.safeExecute(() =>
+			client.experiment.getExperimentProjectsProjectIdExperimentsExperimentIdGet(
+				{},
+				{ projectId: this.projectId!, experimentId: this.id! }
+			)
+		);
+		if (!result.ok) {
+			this._setState(SyncState.FailedSync, result.error);
+			throw result.error;
+		}
+		this._hydrate(result.value);
+		return this;
+	}
+
+	async delete(): Promise<void> {
+		if (this.id == null) {
+			throw new Error(
+				"Experiment ID is not set. Cannot delete a local-only experiment."
+			);
+		}
+		if (this.projectId == null) {
+			throw new Error(
+				"Experiment projectId is not set. Cannot delete without a parent project."
+			);
+		}
+		const client = BaseEntity.getCLient();
+		const result = await BaseEntity.safeExecute(() =>
+			client.experiment.deleteExperimentProjectsProjectIdExperimentsExperimentIdDelete(
+				{},
+				{ projectId: this.projectId!, experimentId: this.id! }
+			)
+		);
+		if (!result.ok) {
+			this._setState(SyncState.FailedSync, result.error);
+			throw result.error;
+		}
+		this._setState(SyncState.Deleted);
+	}
+
+	async project(): Promise<import("./project.js").Project | null> {
+		if (this.projectId == null) return null;
+		const { Project } = await import("./project.js");
+		return Project.get({ id: this.projectId });
+	}
+
+	async dataset(): Promise<import("./dataset.js").Dataset | null> {
+		// Dataset linkage lives on the raw ExperimentResponse; fetch the latest
+		// payload to read it on demand.
+		if (this.id == null || this.projectId == null) return null;
+		const client = BaseEntity.getCLient();
+		const result = await BaseEntity.safeExecute(() =>
+			client.experiment.getExperimentProjectsProjectIdExperimentsExperimentIdGet(
+				{},
+				{ projectId: this.projectId!, experimentId: this.id! }
+			)
+		);
+		if (!result.ok) throw result.error;
+		const datasetRef = result.value.dataset;
+		if (!datasetRef || !datasetRef.datasetId) return null;
+		const { Dataset } = await import("./dataset.js");
+		return Dataset.get({ id: datasetRef.datasetId });
+	}
+
+	async prompt(): Promise<import("./prompt.js").Prompt | null> {
+		if (this.id == null || this.projectId == null) return null;
+		const client = BaseEntity.getCLient();
+		const result = await BaseEntity.safeExecute(() =>
+			client.experiment.getExperimentProjectsProjectIdExperimentsExperimentIdGet(
+				{},
+				{ projectId: this.projectId!, experimentId: this.id! }
+			)
+		);
+		if (!result.ok) throw result.error;
+		const promptRef = result.value.prompt;
+		if (!promptRef || !promptRef.promptTemplateId) return null;
+		const { Prompt } = await import("./prompt.js");
+		return Prompt.get({ id: promptRef.promptTemplateId });
+	}
+
+	async addTag(opts: ExperimentAddTagOptions): Promise<this> {
+		if (this.id == null || this.projectId == null) {
+			throw new Error(
+				"Experiment ID is not set. Cannot tag a local-only experiment."
+			);
+		}
+		const client = BaseEntity.getCLient();
+		const result = await BaseEntity.safeExecute(() =>
+			client.experimentTags.setTagForExperimentProjectsProjectIdExperimentsExperimentIdTagsPost(
+				{},
+				{
+					projectId: this.projectId!,
+					experimentId: this.id!,
+					body: {
+						key: opts.key,
+						value: opts.value,
+						tagType: opts.tagType ?? "generic",
+					},
+				}
+			)
+		);
+		if (!result.ok) throw result.error;
+		await this.refresh();
+		return this;
+	}
+
+	protected _hydrate(raw: ExperimentResponse): void {
+		this._applyHydration({
+			id: raw.id,
+			name: raw.name,
+			projectId: raw.projectId,
+			createdAt: raw.createdAt,
+			updatedAt: raw.updatedAt,
+			createdBy: raw.createdBy,
+			numSpans: raw.numSpans,
+			numTraces: raw.numTraces,
+			taskType: raw.taskType,
+			aggregateMetrics: raw.aggregateMetrics,
+			tags: raw.tags,
+		});
+	}
+
+	private _applyHydration(raw: ExperimentHydrationSource): void {
+		if (raw.id !== undefined) this.id = raw.id;
+		if (raw.name !== undefined) this.#name = raw.name;
+		if (raw.projectId !== undefined) this.projectId = raw.projectId;
+		if (raw.createdAt !== undefined) this.createdAt = raw.createdAt;
+		if (raw.updatedAt !== undefined) this.updatedAt = raw.updatedAt ?? null;
+		if (raw.createdBy !== undefined) this.createdBy = raw.createdBy ?? null;
+		if (raw.numSpans !== undefined) this.numSpans = raw.numSpans ?? null;
+		if (raw.numTraces !== undefined) this.numTraces = raw.numTraces ?? null;
+		if (raw.taskType !== undefined) this.taskType = raw.taskType;
+		if (raw.aggregateMetrics !== undefined)
+			this.aggregateMetrics = raw.aggregateMetrics;
+		if (raw.tags !== undefined) this.tags = raw.tags;
+		this._setState(SyncState.Synced);
+	}
+
+	static async #resolveProjectId(opts: {
+		projectId?: string | undefined;
+		projectName?: string | undefined;
+	}): Promise<string> {
+		if (opts.projectId) return opts.projectId;
+		if (opts.projectName) {
+			const { Project } = await import("./project.js");
+			const project = await Project.get({ name: opts.projectName });
+			if (!project || !project.id) {
+				throw new Error(`Project '${opts.projectName}' not found`);
+			}
+			return project.id;
+		}
+		const envProject = GalileoConfig.get().projectName;
+		if (envProject) {
+			const { Project } = await import("./project.js");
+			const project = await Project.get({ name: envProject });
+			if (!project || !project.id) {
+				throw new Error(`Project '${envProject}' not found`);
+			}
+			return project.id;
+		}
+		throw new TypeError(
+			"projectId or projectName must be provided (or GALILEO_PROJECT env var must be set)"
+		);
+	}
+
+	static #isNotFound(error: Error): boolean {
+		if (error instanceof GalileoGeneratedError && error.statusCode === 404) {
+			return true;
+		}
+		return /\b404\b|not\s*found/i.test(error.message);
+	}
+}
