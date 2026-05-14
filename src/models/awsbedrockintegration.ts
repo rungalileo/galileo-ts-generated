@@ -31,6 +31,7 @@ export type AwsBedrockIntegration = {
   inferenceProfiles?: { [k: string]: string } | undefined;
   id?: string | null | undefined;
   name: "aws_bedrock";
+  provider: "aws_bedrock";
   extra?: { [k: string]: any } | null | undefined;
 };
 
@@ -47,7 +48,8 @@ export const AwsBedrockIntegration$inboundSchema: z.ZodMiniType<
     region: z._default(types.string(), "us-west-2"),
     inference_profiles: types.optional(z.record(z.string(), types.string())),
     id: z.optional(z.nullable(types.string())),
-    name: types.literal("aws_bedrock"),
+    name: z._default(types.literal("aws_bedrock"), "aws_bedrock"),
+    provider: types.literal("aws_bedrock"),
     extra: z.optional(z.nullable(z.record(z.string(), z.any()))),
   }),
   z.transform((v) => {

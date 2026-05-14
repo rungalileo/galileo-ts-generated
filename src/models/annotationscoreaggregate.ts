@@ -9,9 +9,11 @@ import { safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
+import { ScoreBucket, ScoreBucket$inboundSchema } from "./scorebucket.js";
 
 export type AnnotationScoreAggregate = {
   annotationType: "score";
+  buckets: Array<ScoreBucket>;
   average: number;
   unratedCount: number;
 };
@@ -23,6 +25,7 @@ export const AnnotationScoreAggregate$inboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     annotation_type: types.literal("score"),
+    buckets: z.array(ScoreBucket$inboundSchema),
     average: types.number(),
     unrated_count: types.number(),
   }),

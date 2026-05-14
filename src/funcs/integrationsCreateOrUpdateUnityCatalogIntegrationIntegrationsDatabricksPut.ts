@@ -29,7 +29,7 @@ import { APICall, APIPromise } from "../types/async.js";
 import { Result } from "../types/fp.js";
 
 /**
- * Create Or Update Unity Catalog Integration
+ * Create or update Databricks integration
  *
  * @remarks
  * Create or update a databricks integration for this user from Galileo.

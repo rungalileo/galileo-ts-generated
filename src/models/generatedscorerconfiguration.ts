@@ -10,13 +10,19 @@ import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
+  MultimodalCapability,
+  MultimodalCapability$inboundSchema,
+  MultimodalCapability$outboundSchema,
+} from "./multimodalcapability.js";
+import {
   OutputTypeEnum,
   OutputTypeEnum$inboundSchema,
+  OutputTypeEnum$outboundSchema,
 } from "./outputtypeenum.js";
 
 export type GeneratedScorerConfiguration = {
-  modelAlias: string;
-  numJudges: number;
+  modelAlias?: string | undefined;
+  numJudges?: number | undefined;
   /**
    * Enumeration of output types.
    */
@@ -28,11 +34,15 @@ export type GeneratedScorerConfiguration = {
   /**
    * Whether chain of thought is enabled for this scorer.
    */
-  cotEnabled: boolean;
+  cotEnabled?: boolean | undefined;
   /**
    * Whether ground truth is enabled for this scorer.
    */
-  groundTruth: boolean;
+  groundTruth?: boolean | undefined;
+  /**
+   * Multimodal capabilities required by this scorer.
+   */
+  multimodalCapabilities?: Array<MultimodalCapability> | null | undefined;
 };
 
 /** @internal */
@@ -47,6 +57,9 @@ export const GeneratedScorerConfiguration$inboundSchema: z.ZodMiniType<
     scoreable_node_types: types.optional(z.array(types.string())),
     cot_enabled: z._default(types.boolean(), false),
     ground_truth: z._default(types.boolean(), false),
+    multimodal_capabilities: z.optional(
+      z.nullable(z.array(MultimodalCapability$inboundSchema)),
+    ),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -56,10 +69,59 @@ export const GeneratedScorerConfiguration$inboundSchema: z.ZodMiniType<
       "scoreable_node_types": "scoreableNodeTypes",
       "cot_enabled": "cotEnabled",
       "ground_truth": "groundTruth",
+      "multimodal_capabilities": "multimodalCapabilities",
+    });
+  }),
+);
+/** @internal */
+export type GeneratedScorerConfiguration$Outbound = {
+  model_alias: string;
+  num_judges: number;
+  output_type?: string | undefined;
+  scoreable_node_types?: Array<string> | undefined;
+  cot_enabled: boolean;
+  ground_truth: boolean;
+  multimodal_capabilities?: Array<string> | null | undefined;
+};
+
+/** @internal */
+export const GeneratedScorerConfiguration$outboundSchema: z.ZodMiniType<
+  GeneratedScorerConfiguration$Outbound,
+  GeneratedScorerConfiguration
+> = z.pipe(
+  z.object({
+    modelAlias: z._default(z.string(), "gpt-4.1-mini"),
+    numJudges: z._default(z.int(), 3),
+    outputType: z.optional(OutputTypeEnum$outboundSchema),
+    scoreableNodeTypes: z.optional(z.array(z.string())),
+    cotEnabled: z._default(z.boolean(), false),
+    groundTruth: z._default(z.boolean(), false),
+    multimodalCapabilities: z.optional(
+      z.nullable(z.array(MultimodalCapability$outboundSchema)),
+    ),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      modelAlias: "model_alias",
+      numJudges: "num_judges",
+      outputType: "output_type",
+      scoreableNodeTypes: "scoreable_node_types",
+      cotEnabled: "cot_enabled",
+      groundTruth: "ground_truth",
+      multimodalCapabilities: "multimodal_capabilities",
     });
   }),
 );
 
+export function generatedScorerConfigurationToJSON(
+  generatedScorerConfiguration: GeneratedScorerConfiguration,
+): string {
+  return JSON.stringify(
+    GeneratedScorerConfiguration$outboundSchema.parse(
+      generatedScorerConfiguration,
+    ),
+  );
+}
 export function generatedScorerConfigurationFromJSON(
   jsonString: string,
 ): SafeParseResult<GeneratedScorerConfiguration, SDKValidationError> {

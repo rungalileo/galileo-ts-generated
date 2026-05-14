@@ -3,6 +3,7 @@
  * @generated-id: c57c4261091b
  */
 
+import { experimentCreateExperimentProjectsProjectIdExperimentsPost } from "../funcs/experimentCreateExperimentProjectsProjectIdExperimentsPost.js";
 import { experimentDeleteExperimentProjectsProjectIdExperimentsExperimentIdDelete } from "../funcs/experimentDeleteExperimentProjectsProjectIdExperimentsExperimentIdDelete.js";
 import {
   experimentExperimentsAvailableColumnsProjectsProjectIdExperimentsAvailableColumnsPost,
@@ -47,6 +48,28 @@ export class Experiment extends ClientSDK {
       request,
       options,
     ));
+  }
+
+  /**
+   * Create Experiment
+   *
+   * @remarks
+   * Create a new experiment for a project.
+   */
+  async createExperimentProjectsProjectIdExperimentsPost(
+    security:
+      operations.CreateExperimentProjectsProjectIdExperimentsPostSecurity,
+    request: operations.CreateExperimentProjectsProjectIdExperimentsPostRequest,
+    options?: RequestOptions,
+  ): Promise<models.ExperimentResponse> {
+    return unwrapAsync(
+      experimentCreateExperimentProjectsProjectIdExperimentsPost(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
   }
 
   /**
@@ -188,6 +211,46 @@ export class Experiment extends ClientSDK {
   }
 
   /**
+   * Update Metric Settings
+   */
+  async updateMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsPatch(
+    security:
+      operations.UpdateMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsPatchSecurity,
+    request:
+      operations.UpdateMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsPatchRequest,
+    options?: RequestOptions,
+  ): Promise<models.MetricSettingsResponse> {
+    return unwrapAsync(
+      experimentUpdateMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsPatch(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Get Metric Settings
+   */
+  async getMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsGet(
+    security:
+      operations.GetMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsGetSecurity,
+    request:
+      operations.GetMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsGetRequest,
+    options?: RequestOptions,
+  ): Promise<models.MetricSettingsResponse> {
+    return unwrapAsync(
+      experimentGetMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsGet(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
    * Get Experiment Metrics
    *
    * @remarks
@@ -225,46 +288,6 @@ export class Experiment extends ClientSDK {
   ): Promise<models.ExperimentMetricsResponse> {
     return unwrapAsync(
       experimentGetExperimentsMetricsProjectsProjectIdExperimentsMetricsPost(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
-   * Update Metric Settings
-   */
-  async updateMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsPatch(
-    security:
-      operations.UpdateMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsPatchSecurity,
-    request:
-      operations.UpdateMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsPatchRequest,
-    options?: RequestOptions,
-  ): Promise<models.MetricSettingsResponse> {
-    return unwrapAsync(
-      experimentUpdateMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsPatch(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
-   * Get Metric Settings
-   */
-  async getMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsGet(
-    security:
-      operations.GetMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsGetSecurity,
-    request:
-      operations.GetMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsGetRequest,
-    options?: RequestOptions,
-  ): Promise<models.MetricSettingsResponse> {
-    return unwrapAsync(
-      experimentGetMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsGet(
         this,
         security,
         request,

@@ -6,12 +6,12 @@
 import { GetIntegrationIntegrationsNameGetRequest } from "galileo-generated/models/operations";
 
 let value: GetIntegrationIntegrationsNameGetRequest = {
-  name: "databricks",
+  name: "custom",
 };
 ```
 
 ## Fields
 
-| Field                                                     | Type                                                      | Required                                                  | Description                                               |
-| --------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------- |
-| `name`                                                    | [models.IntegrationName](../../models/integrationname.md) | :heavy_check_mark:                                        | N/A                                                       |
+| Field                                                             | Type                                                              | Required                                                          | Description                                                       |
+| ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- |
+| `name`                                                            | [models.IntegrationProvider](../../models/integrationprovider.md) | :heavy_check_mark:                                                | N/A                                                               |

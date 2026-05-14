@@ -12,6 +12,7 @@ import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 export type MistralIntegration = {
   id?: string | null | undefined;
   name: "mistral";
+  provider: "mistral";
   extra?: { [k: string]: any } | null | undefined;
 };
 
@@ -21,7 +22,8 @@ export const MistralIntegration$inboundSchema: z.ZodMiniType<
   unknown
 > = z.object({
   id: z.optional(z.nullable(types.string())),
-  name: types.literal("mistral"),
+  name: z._default(types.literal("mistral"), "mistral"),
+  provider: types.literal("mistral"),
   extra: z.optional(z.nullable(z.record(z.string(), z.any()))),
 });
 

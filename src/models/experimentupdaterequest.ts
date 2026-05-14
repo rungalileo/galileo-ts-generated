@@ -9,12 +9,16 @@ import { remap as remap$ } from "../lib/primitives.js";
 export type ExperimentUpdateRequest = {
   name: string;
   taskType?: 16 | undefined;
+  experimentGroupId?: string | null | undefined;
+  experimentGroupName?: string | null | undefined;
 };
 
 /** @internal */
 export type ExperimentUpdateRequest$Outbound = {
   name: string;
   task_type?: 16 | undefined;
+  experiment_group_id?: string | null | undefined;
+  experiment_group_name?: string | null | undefined;
 };
 
 /** @internal */
@@ -25,10 +29,14 @@ export const ExperimentUpdateRequest$outboundSchema: z.ZodMiniType<
   z.object({
     name: z.string(),
     taskType: z.optional(z.literal(16)),
+    experimentGroupId: z.optional(z.nullable(z.string())),
+    experimentGroupName: z.optional(z.nullable(z.string())),
   }),
   z.transform((v) => {
     return remap$(v, {
       taskType: "task_type",
+      experimentGroupId: "experiment_group_id",
+      experimentGroupName: "experiment_group_name",
     });
   }),
 );

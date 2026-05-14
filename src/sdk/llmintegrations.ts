@@ -11,6 +11,7 @@ import {
   llmIntegrationsGetIntegrationsAndModelInfoForRunLlmIntegrationsProjectsProjectIdRunsRunIdGet,
 } from "../funcs/llmIntegrationsGetIntegrationsAndModelInfoForRunLlmIntegrationsProjectsProjectIdRunsRunIdGet.js";
 import { llmIntegrationsGetIntegrationsAndModelInfoLlmIntegrationsGet } from "../funcs/llmIntegrationsGetIntegrationsAndModelInfoLlmIntegrationsGet.js";
+import { llmIntegrationsGetRecommendedModelsLlmIntegrationsRecommendedModelsGet } from "../funcs/llmIntegrationsGetRecommendedModelsLlmIntegrationsRecommendedModelsGet.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
 import * as models from "../models/index.js";
 import * as operations from "../models/operations/index.js";
@@ -58,6 +59,26 @@ export class LlmIntegrations extends ClientSDK {
         this,
         security,
         request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Get Recommended Models
+   *
+   * @remarks
+   * Get recommended models for all purposes, grouped by integration.
+   */
+  async getRecommendedModelsLlmIntegrationsRecommendedModelsGet(
+    security:
+      operations.GetRecommendedModelsLlmIntegrationsRecommendedModelsGetSecurity,
+    options?: RequestOptions,
+  ): Promise<models.RecommendedModelsResponse> {
+    return unwrapAsync(
+      llmIntegrationsGetRecommendedModelsLlmIntegrationsRecommendedModelsGet(
+        this,
+        security,
         options,
       ),
     );

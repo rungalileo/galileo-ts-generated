@@ -19,7 +19,7 @@ export type GetIntegrationIntegrationsNameGetSecurity = {
 };
 
 export type GetIntegrationIntegrationsNameGetRequest = {
-  name: models.IntegrationName;
+  name: models.IntegrationProvider;
 };
 
 /**
@@ -38,7 +38,7 @@ export type ResponseGetIntegrationIntegrationsNameGet =
   | models.VegasGatewayIntegration
   | models.VertexAIIntegration
   | models.WriterIntegration
-  | discriminatedUnionTypes.Unknown<"name">;
+  | discriminatedUnionTypes.Unknown<"provider">;
 
 /** @internal */
 export type GetIntegrationIntegrationsNameGetSecurity$Outbound = {
@@ -91,7 +91,7 @@ export const GetIntegrationIntegrationsNameGetRequest$outboundSchema:
     GetIntegrationIntegrationsNameGetRequest$Outbound,
     GetIntegrationIntegrationsNameGetRequest
   > = z.object({
-    name: models.IntegrationName$outboundSchema,
+    name: models.IntegrationProvider$outboundSchema,
   });
 
 export function getIntegrationIntegrationsNameGetRequestToJSON(
@@ -108,7 +108,7 @@ export function getIntegrationIntegrationsNameGetRequestToJSON(
 /** @internal */
 export const ResponseGetIntegrationIntegrationsNameGet$inboundSchema:
   z.ZodMiniType<ResponseGetIntegrationIntegrationsNameGet, unknown> =
-    discriminatedUnion("name", {
+    discriminatedUnion("provider", {
       aws_bedrock: models.AwsBedrockIntegration$inboundSchema,
       aws_sagemaker: models.AwsSageMakerIntegration$inboundSchema,
       azure: models.AzureIntegration$inboundSchema,

@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * Delete Integration
  *
  * @remarks
- * Delete the integration created by this user.
+ * Delete an integration. Admins can delete integrations created by other admins in the same org.
  */
 export function integrationsDeleteIntegrationIntegrationsNameDelete(
   client: GalileoGeneratedCore,
@@ -126,15 +126,6 @@ async function $do(
         value: resolveOAuth2Password(security?.oAuth2PasswordBearer, {
           defaults: { tokenURL: "https://api.galileo.ai/login" },
         }),
-      },
-    ],
-    [
-      {
-        type: "http:basic",
-        value: {
-          username: security?.httpBasic?.username,
-          password: security?.httpBasic?.password,
-        },
       },
     ],
   );

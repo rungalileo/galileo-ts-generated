@@ -111,6 +111,9 @@ async function $do(
         payload?.body.append_suffix_if_duplicate,
       );
     }
+    if (payload?.body.column_mapping !== undefined) {
+      appendForm(body, "column_mapping", payload?.body.column_mapping);
+    }
     if (payload?.body.copy_from_dataset_id !== undefined) {
       appendForm(
         body,
