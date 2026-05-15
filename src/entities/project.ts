@@ -8,6 +8,7 @@
 
 import { BaseEntity } from "./base-entity.js";
 import { StatefulEntity, SyncState } from "./stateful-entity.js";
+import { safeExecute } from "../lib/result.js";
 import type { ProjectDB } from "../models/projectdb.js";
 import type { ProjectCreateResponse } from "../models/projectcreateresponse.js";
 import type { ProjectUpdateResponse } from "../models/projectupdateresponse.js";
@@ -74,7 +75,7 @@ export class Project extends StatefulEntity {
 		}
 		const client = BaseEntity.getCLient();
 		if (id != null) {
-			const result = await BaseEntity.safeExecute(() =>
+			const result = await safeExecute(() =>
 				client.projects.getProjectProjectsProjectIdGet({}, { projectId: id })
 			);
 			if (!result.ok) {
@@ -85,7 +86,7 @@ export class Project extends StatefulEntity {
 			}
 			return Project._fromApi(result.value);
 		}
-		const listResult = await BaseEntity.safeExecute(() =>
+		const listResult = await safeExecute(() =>
 			client.projects.getProjectsProjectsGet({}, { projectName: name })
 		);
 		if (!listResult.ok) {
@@ -97,7 +98,7 @@ export class Project extends StatefulEntity {
 
 	static async list(): Promise<Project[]> {
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.projects.getProjectsProjectsGet({}, {})
 		);
 		if (!result.ok) {
@@ -109,7 +110,7 @@ export class Project extends StatefulEntity {
 	async create(): Promise<this> {
 		this.ensureNotDeleted();
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.projects.createProjectProjectsPost(
 				{},
 				{ name: this.#name, type: "gen_ai" }
@@ -131,7 +132,7 @@ export class Project extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.projects.getProjectProjectsProjectIdGet(
 				{},
 				{ projectId: this.id! }
@@ -153,7 +154,7 @@ export class Project extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.projects.updateProjectProjectsProjectIdPut(
 				{},
 				{ projectId: this.id!, body: { name: this.#name } }
@@ -175,7 +176,7 @@ export class Project extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.projects.deleteProjectProjectsProjectIdDelete(
 				{},
 				{ projectId: this.id! }

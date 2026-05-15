@@ -14,6 +14,7 @@
 import { BaseEntity } from "./base-entity.js";
 import { StatefulEntity, SyncState } from "./stateful-entity.js";
 import { PromptVersion } from "./prompt-version.js";
+import { safeExecute } from "../lib/result.js";
 import type { BasePromptTemplateResponse } from "../models/baseprompttemplateresponse.js";
 import type { BasePromptTemplateVersion } from "../models/baseprompttemplateversion.js";
 import type { GalileoCoreSchemasSharedMessageMessage } from "../models/galileocoreschemassharedmessagemessage.js";
@@ -123,7 +124,7 @@ export class Prompt extends StatefulEntity {
 		}
 		const client = BaseEntity.getCLient();
 		if (id != null) {
-			const result = await BaseEntity.safeExecute(() =>
+			const result = await safeExecute(() =>
 				client.prompts.getGlobalTemplateTemplatesTemplateIdGet(
 					{},
 					{ templateId: id }
@@ -143,7 +144,7 @@ export class Prompt extends StatefulEntity {
 		const client = BaseEntity.getCLient();
 		const projectId = await Prompt.#resolveOptionalProjectId(opts);
 		if (projectId != null) {
-			const result = await BaseEntity.safeExecute(() =>
+			const result = await safeExecute(() =>
 				client.prompts.getProjectTemplatesProjectsProjectIdTemplatesGet(
 					{},
 					{ projectId }
@@ -170,7 +171,7 @@ export class Prompt extends StatefulEntity {
 			body?: ListPromptTemplateParams;
 		} = { body };
 		if (opts.limit != null) request.limit = opts.limit;
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.prompts.queryTemplatesTemplatesQueryPost({}, request)
 		);
 		if (!result.ok) throw result.error;
@@ -200,7 +201,7 @@ export class Prompt extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.prompts.createPromptTemplateWithVersionProjectsProjectIdTemplatesPost(
 				{},
 				{
@@ -225,7 +226,7 @@ export class Prompt extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.prompts.getGlobalTemplateTemplatesTemplateIdGet(
 				{},
 				{ templateId: this.id! }
@@ -247,7 +248,7 @@ export class Prompt extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.prompts.updateGlobalTemplateTemplatesTemplateIdPatch(
 				{},
 				{ templateId: this.id!, body: { name: this.#name } }
@@ -268,7 +269,7 @@ export class Prompt extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.prompts.deleteGlobalTemplateTemplatesTemplateIdDelete(
 				{},
 				{ templateId: this.id! }
@@ -292,7 +293,7 @@ export class Prompt extends StatefulEntity {
 		const client = BaseEntity.getCLient();
 		const messages = opts.messages ?? this.messages;
 		const body: BasePromptTemplateVersion = { template: messages };
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.prompts.createGlobalPromptTemplateVersionTemplatesTemplateIdVersionsPost(
 				{},
 				{ templateId: this.id!, body }
@@ -311,7 +312,7 @@ export class Prompt extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.prompts.queryTemplateVersionsTemplatesTemplateIdVersionsQueryPost(
 				{},
 				{ templateId: this.id! }
@@ -331,7 +332,7 @@ export class Prompt extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.prompts.setSelectedTemplateVersionProjectsProjectIdTemplatesTemplateIdVersionsVersionPut(
 				{},
 				{

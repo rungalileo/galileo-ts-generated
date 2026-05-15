@@ -16,6 +16,7 @@
 import { BaseEntity } from "./base-entity.js";
 import { resolveProjectId } from "./resolve-project.js";
 import { StatefulEntity, SyncState } from "./stateful-entity.js";
+import { safeExecute } from "../lib/result.js";
 import type { ExperimentResponse } from "../models/experimentresponse.js";
 import type { RunTagDB } from "../models/runtagdb.js";
 import type { TaskType } from "../models/tasktype.js";
@@ -118,7 +119,7 @@ export class Experiment extends StatefulEntity {
 		const projectId = await resolveProjectId(opts);
 		const client = BaseEntity.getCLient();
 		if (id != null) {
-			const result = await BaseEntity.safeExecute(() =>
+			const result = await safeExecute(() =>
 				client.experiment.getExperimentProjectsProjectIdExperimentsExperimentIdGet(
 					{},
 					{ projectId, experimentId: id }
@@ -139,7 +140,7 @@ export class Experiment extends StatefulEntity {
 	): Promise<Experiment[]> {
 		const projectId = await resolveProjectId(opts);
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.experiment.listExperimentsProjectsProjectIdExperimentsGet(
 				{},
 				{ projectId }
@@ -156,7 +157,7 @@ export class Experiment extends StatefulEntity {
 			projectName: this.projectName ?? undefined,
 		});
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.experiment.createExperimentProjectsProjectIdExperimentsPost(
 				{},
 				{ projectId, body: { name: this.#name } }
@@ -183,7 +184,7 @@ export class Experiment extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.experiment.getExperimentProjectsProjectIdExperimentsExperimentIdGet(
 				{},
 				{ projectId: this.projectId!, experimentId: this.id! }
@@ -210,7 +211,7 @@ export class Experiment extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.experiment.deleteExperimentProjectsProjectIdExperimentsExperimentIdDelete(
 				{},
 				{ projectId: this.projectId!, experimentId: this.id! }
@@ -234,7 +235,7 @@ export class Experiment extends StatefulEntity {
 		// payload to read it on demand.
 		if (this.id == null || this.projectId == null) return null;
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.experiment.getExperimentProjectsProjectIdExperimentsExperimentIdGet(
 				{},
 				{ projectId: this.projectId!, experimentId: this.id! }
@@ -250,7 +251,7 @@ export class Experiment extends StatefulEntity {
 	async prompt(): Promise<import("./prompt.js").Prompt | null> {
 		if (this.id == null || this.projectId == null) return null;
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.experiment.getExperimentProjectsProjectIdExperimentsExperimentIdGet(
 				{},
 				{ projectId: this.projectId!, experimentId: this.id! }
@@ -270,7 +271,7 @@ export class Experiment extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.experimentTags.setTagForExperimentProjectsProjectIdExperimentsExperimentIdTagsPost(
 				{},
 				{

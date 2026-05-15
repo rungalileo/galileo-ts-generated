@@ -19,6 +19,7 @@ import { BaseEntity } from "./base-entity.js";
 import { SyncState } from "./stateful-entity.js";
 import { Metric, type MetricInit } from "./metric.js";
 import { isNodeLike } from "../lib/runtime.js";
+import { safeExecute } from "../lib/result.js";
 import type { ScorerResponse } from "../models/scorerresponse.js";
 
 export interface CodeMetricInit extends MetricInit {
@@ -90,7 +91,7 @@ export class CodeMetric extends Metric {
 			content: new Blob([code], { type: "text/plain" }),
 		});
 
-		const validateResult = await BaseEntity.safeExecute(() =>
+		const validateResult = await safeExecute(() =>
 			client.prompts.validateCodeScorerScorersCodeValidatePost(
 				{},
 				{ file: buildFile() }
@@ -112,7 +113,7 @@ export class CodeMetric extends Metric {
 			throw err;
 		}
 
-		const scorerResult = await BaseEntity.safeExecute(() =>
+		const scorerResult = await safeExecute(() =>
 			client.prompts.createScorersPost(
 				{},
 				{
@@ -135,7 +136,7 @@ export class CodeMetric extends Metric {
 			throw err;
 		}
 
-		const versionResult = await BaseEntity.safeExecute(() =>
+		const versionResult = await safeExecute(() =>
 			client.prompts.createCodeScorerVersionScorersScorerIdVersionCodePost(
 				{},
 				{
@@ -167,7 +168,7 @@ export class CodeMetric extends Metric {
 		const timeoutMs = 60000;
 		const client = BaseEntity.getCLient();
 		while (Date.now() - start < timeoutMs) {
-			const result = await BaseEntity.safeExecute(() =>
+			const result = await safeExecute(() =>
 				client.prompts.getValidateCodeScorerTaskResultScorersCodeValidateTaskIdGet(
 					{},
 					{ taskId }

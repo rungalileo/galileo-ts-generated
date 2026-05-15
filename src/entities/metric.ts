@@ -16,6 +16,7 @@
 
 import { BaseEntity } from "./base-entity.js";
 import { StatefulEntity, SyncState } from "./stateful-entity.js";
+import { safeExecute } from "../lib/result.js";
 import type { ListScorersRequest } from "../models/listscorersrequest.js";
 import type { ScorerResponse } from "../models/scorerresponse.js";
 import type { ScorerTypes } from "../models/scorertypes.js";
@@ -144,7 +145,7 @@ export abstract class Metric extends StatefulEntity {
 		}
 		const client = BaseEntity.getCLient();
 		if (id != null) {
-			const result = await BaseEntity.safeExecute(() =>
+			const result = await safeExecute(() =>
 				client.prompts.getScorerScorersScorerIdGet({}, { scorerId: id })
 			);
 			if (!result.ok) {
@@ -167,7 +168,7 @@ export abstract class Metric extends StatefulEntity {
 		}
 		const request: { limit?: number; body: ListScorersRequest } = { body };
 		if (opts.limit != null) request.limit = opts.limit;
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.prompts.listScorersWithFiltersScorersListPost({}, request)
 		);
 		if (!result.ok) throw result.error;
@@ -183,7 +184,7 @@ export abstract class Metric extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.prompts.getScorerScorersScorerIdGet(
 				{},
 				{ scorerId: this.id! }
@@ -205,7 +206,7 @@ export abstract class Metric extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.prompts.deleteScorerScorersScorerIdDelete(
 				{},
 				{ scorerId: this.id! }

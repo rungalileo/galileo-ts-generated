@@ -16,6 +16,7 @@
 
 import { BaseEntity } from "./base-entity.js";
 import { StatefulEntity, SyncState } from "./stateful-entity.js";
+import { safeExecute } from "../lib/result.js";
 import type { DatasetAppendRow } from "../models/datasetappendrow.js";
 import type { DatasetDB } from "../models/datasetdb.js";
 import type { DatasetContent } from "../models/datasetcontent.js";
@@ -112,7 +113,7 @@ export class Dataset extends StatefulEntity {
 		}
 		const client = BaseEntity.getCLient();
 		if (id != null) {
-			const result = await BaseEntity.safeExecute(() =>
+			const result = await safeExecute(() =>
 				client.datasets.getDatasetDatasetsDatasetIdGet({}, { datasetId: id })
 			);
 			if (!result.ok) {
@@ -122,7 +123,7 @@ export class Dataset extends StatefulEntity {
 			return Dataset._fromApi(result.value);
 		}
 		// Name lookup: list & filter (the generated endpoint does not support name lookup directly).
-		const listResult = await BaseEntity.safeExecute(() =>
+		const listResult = await safeExecute(() =>
 			client.datasets.listDatasetsDatasetsGet({}, { limit: 1000 })
 		);
 		if (!listResult.ok) throw listResult.error;
@@ -133,7 +134,7 @@ export class Dataset extends StatefulEntity {
 	static async list(opts: DatasetListOptions = {}): Promise<Dataset[]> {
 		const { limit = 100 } = opts;
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.datasets.listDatasetsDatasetsGet({}, { limit })
 		);
 		if (!result.ok) throw result.error;
@@ -144,7 +145,7 @@ export class Dataset extends StatefulEntity {
 		opts: DatasetGenerateOptions = {}
 	): Promise<SyntheticDatasetExtensionResponse> {
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.datasets.extendDatasetContentDatasetsExtendPost(
 				{},
 				Dataset.#buildExtendBody(opts)
@@ -157,7 +158,7 @@ export class Dataset extends StatefulEntity {
 	async create(): Promise<this> {
 		this.ensureNotDeleted();
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.datasets.createDatasetDatasetsPost(
 				{},
 				{ body: { name: this.#name } }
@@ -179,7 +180,7 @@ export class Dataset extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.datasets.getDatasetDatasetsDatasetIdGet(
 				{},
 				{ datasetId: this.id! }
@@ -201,7 +202,7 @@ export class Dataset extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.datasets.updateDatasetDatasetsDatasetIdPatch(
 				{},
 				{ datasetId: this.id!, body: { name: this.#name } }
@@ -223,7 +224,7 @@ export class Dataset extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.datasets.deleteDatasetDatasetsDatasetIdDelete(
 				{},
 				{ datasetId: this.id! }
@@ -243,7 +244,7 @@ export class Dataset extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.datasets.getDatasetContentDatasetsDatasetIdContentGet(
 				{},
 				{ datasetId: this.id! }
@@ -274,7 +275,7 @@ export class Dataset extends StatefulEntity {
 			editType: "append_row",
 			values: row as DatasetAppendRow["values"],
 		}));
-		const writeResult = await BaseEntity.safeExecute(() =>
+		const writeResult = await safeExecute(() =>
 			client.datasets.updateDatasetContentDatasetsDatasetIdContentPatch(
 				{},
 				{ datasetId: this.id!, body: { edits } }
@@ -300,7 +301,7 @@ export class Dataset extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.datasets.queryDatasetVersionsDatasetsDatasetIdVersionsQueryPost(
 				{},
 				{ datasetId: this.id! }
@@ -323,7 +324,7 @@ export class Dataset extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.datasets.getDatasetVersionContentDatasetsDatasetIdVersionsVersionIndexContentGet(
 				{},
 				{ datasetId: this.id!, versionIndex: index }
@@ -342,7 +343,7 @@ export class Dataset extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.datasets.extendDatasetContentDatasetsExtendPost(
 				{},
 				Dataset.#buildExtendBody(opts, this.id!)

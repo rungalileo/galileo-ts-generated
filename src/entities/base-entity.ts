@@ -1,7 +1,5 @@
 import { GalileoGenerated, SDKOptions } from "../index.js";
 import { Token } from "../models/token.js";
-import type { Result } from "../types/fp.js";
-import { OK, ERR } from "../types/fp.js";
 import { GalileoConfig } from "../lib/galileo-config.js";
 import { GalileoGeneratedError } from "../models/errors/galileogeneratederror.js";
 
@@ -84,20 +82,6 @@ export class BaseEntity {
 	protected ensureNotDeleted(): void {
 		if (this.deleted) {
 			throw new Error("Cannot perform operation on deleted entity");
-		}
-	}
-
-	public static async safeExecute<T>(
-		operation: () => Promise<T>
-	): Promise<Result<T, Error>> {
-		try {
-			const value = await operation();
-			return OK(value);
-		} catch (error) {
-			const err = error instanceof Error
-				? error
-				: new Error(String(error));
-			return ERR(err);
 		}
 	}
 

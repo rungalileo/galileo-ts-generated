@@ -12,6 +12,7 @@
 import { BaseEntity } from "./base-entity.js";
 import { resolveProjectId } from "./resolve-project.js";
 import { StatefulEntity, SyncState } from "./stateful-entity.js";
+import { safeExecute } from "../lib/result.js";
 import type { LogStreamResponse } from "../models/logstreamresponse.js";
 
 export interface LogStreamInit {
@@ -92,7 +93,7 @@ export class LogStream extends StatefulEntity {
 	): Promise<LogStream[]> {
 		const projectId = await resolveProjectId(opts);
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.logStream.listLogStreamsProjectsProjectIdLogStreamsGet(
 				{},
 				{ projectId }
@@ -112,7 +113,7 @@ export class LogStream extends StatefulEntity {
 			projectName: this.projectName ?? undefined,
 		});
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.logStream.createLogStreamProjectsProjectIdLogStreamsPost(
 				{},
 				{ projectId, body: { name: this.#name } }
@@ -139,7 +140,7 @@ export class LogStream extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.logStream.getLogStreamProjectsProjectIdLogStreamsLogStreamIdGet(
 				{},
 				{ projectId: this.projectId!, logStreamId: this.id! }
@@ -166,7 +167,7 @@ export class LogStream extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await BaseEntity.safeExecute(() =>
+		const result = await safeExecute(() =>
 			client.logStream.deleteLogStreamProjectsProjectIdLogStreamsLogStreamIdDelete(
 				{},
 				{ projectId: this.projectId!, logStreamId: this.id! }
