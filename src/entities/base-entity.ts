@@ -2,6 +2,7 @@ import { GalileoGenerated, SDKOptions } from "../index.js";
 import { Token } from "../models/token.js";
 import { GalileoConfig } from "../lib/galileo-config.js";
 import { GalileoGeneratedError } from "../models/errors/galileogeneratederror.js";
+import { safeExecute } from "./result.js";
 
 /**
  * Base class for Galileo SDK entities with shared authentication and API client management.
@@ -95,6 +96,27 @@ export class BaseEntity {
 			return true;
 		}
 		return /\b404\b|not\s*found/i.test(error.message);
+	}
+
+	/**
+	 * Run an entity lookup that may 404 and convert the not-found case into
+	 * a `null` return rather than rethrowing. Any other error from the
+	 * underlying call propagates.
+	 *
+	 * `operation` performs the SDK call; `mapper` converts the raw response
+	 * to the entity instance (sync or async, e.g. `_fromApi` or the polymorphic
+	 * `Metric._createMetricFromType`).
+	 */
+	protected static async fetchNullable<T, R>(
+		operation: () => Promise<T>,
+		mapper: (raw: T) => R | Promise<R>
+	): Promise<R | null> {
+		const result = await safeExecute(operation);
+		if (!result.ok) {
+			if (BaseEntity.isNotFound(result.error)) return null;
+			throw result.error;
+		}
+		return await mapper(result.value);
 	}
 
 	/**

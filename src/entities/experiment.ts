@@ -112,17 +112,14 @@ export class Experiment extends StatefulEntity {
 		const projectId = await resolveProjectId(opts);
 		const client = BaseEntity.getCLient();
 		if (id != null) {
-			const result = await safeExecute(() =>
-				client.experiment.getExperimentProjectsProjectIdExperimentsExperimentIdGet(
-					{},
-					{ projectId, experimentId: id }
-				)
+			return BaseEntity.fetchNullable(
+				() =>
+					client.experiment.getExperimentProjectsProjectIdExperimentsExperimentIdGet(
+						{},
+						{ projectId, experimentId: id }
+					),
+				(raw) => Experiment._fromApi(raw)
 			);
-			if (!result.ok) {
-				if (BaseEntity.isNotFound(result.error)) return null;
-				throw result.error;
-			}
-			return Experiment._fromApi(result.value);
 		}
 		const list = await Experiment.list({ projectId });
 		return list.find((e) => e.name === name) ?? null;

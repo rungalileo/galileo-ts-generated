@@ -118,17 +118,14 @@ export class Prompt extends StatefulEntity {
 		const { id, name } = opts;
 		const client = BaseEntity.getCLient();
 		if (id != null) {
-			const result = await safeExecute(() =>
-				client.prompts.getGlobalTemplateTemplatesTemplateIdGet(
-					{},
-					{ templateId: id }
-				)
+			return BaseEntity.fetchNullable(
+				() =>
+					client.prompts.getGlobalTemplateTemplatesTemplateIdGet(
+						{},
+						{ templateId: id }
+					),
+				(raw) => Prompt._fromApi(raw)
 			);
-			if (!result.ok) {
-				if (BaseEntity.isNotFound(result.error)) return null;
-				throw result.error;
-			}
-			return Prompt._fromApi(result.value);
 		}
 		const list = await Prompt.list({ nameFilter: name, limit: 1000 });
 		return list.find((p) => p.name === name) ?? null;

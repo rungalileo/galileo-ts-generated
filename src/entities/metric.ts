@@ -138,14 +138,14 @@ export abstract class Metric extends StatefulEntity {
 		const { id, name } = opts;
 		const client = BaseEntity.getCLient();
 		if (id != null) {
-			const result = await safeExecute(() =>
-				client.prompts.getScorerScorersScorerIdGet({}, { scorerId: id })
+			return BaseEntity.fetchNullable(
+				() =>
+					client.prompts.getScorerScorersScorerIdGet(
+						{},
+						{ scorerId: id }
+					),
+				(raw) => Metric._createMetricFromType(raw)
 			);
-			if (!result.ok) {
-				if (BaseEntity.isNotFound(result.error)) return null;
-				throw result.error;
-			}
-			return Metric._createMetricFromType(result.value);
 		}
 		const list = await Metric.list({ nameFilter: name });
 		return list.find((m) => m.name === name) ?? null;

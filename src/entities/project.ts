@@ -68,16 +68,14 @@ export class Project extends StatefulEntity {
 		const { id, name } = opts;
 		const client = BaseEntity.getCLient();
 		if (id != null) {
-			const result = await safeExecute(() =>
-				client.projects.getProjectProjectsProjectIdGet({}, { projectId: id })
+			return BaseEntity.fetchNullable(
+				() =>
+					client.projects.getProjectProjectsProjectIdGet(
+						{},
+						{ projectId: id }
+					),
+				(raw) => Project._fromApi(raw)
 			);
-			if (!result.ok) {
-				if (BaseEntity.isNotFound(result.error)) {
-					return null;
-				}
-				throw result.error;
-			}
-			return Project._fromApi(result.value);
 		}
 		const listResult = await safeExecute(() =>
 			client.projects.getProjectsProjectsGet({}, { projectName: name })

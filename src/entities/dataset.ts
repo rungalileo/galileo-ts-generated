@@ -106,14 +106,14 @@ export class Dataset extends StatefulEntity {
 		const { id, name } = opts;
 		const client = BaseEntity.getCLient();
 		if (id != null) {
-			const result = await safeExecute(() =>
-				client.datasets.getDatasetDatasetsDatasetIdGet({}, { datasetId: id })
+			return BaseEntity.fetchNullable(
+				() =>
+					client.datasets.getDatasetDatasetsDatasetIdGet(
+						{},
+						{ datasetId: id }
+					),
+				(raw) => Dataset._fromApi(raw)
 			);
-			if (!result.ok) {
-				if (BaseEntity.isNotFound(result.error)) return null;
-				throw result.error;
-			}
-			return Dataset._fromApi(result.value);
 		}
 		// Name lookup: list & filter (the generated endpoint does not support name lookup directly).
 		const listResult = await safeExecute(() =>
