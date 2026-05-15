@@ -16,6 +16,7 @@ import { StatefulEntity, SyncState } from "./stateful-entity.js";
 import { PromptVersion } from "./prompt-version.js";
 import { GalileoGeneratedError } from "../models/errors/galileogeneratederror.js";
 import type { BasePromptTemplateResponse } from "../models/baseprompttemplateresponse.js";
+import type { BasePromptTemplateVersion } from "../models/baseprompttemplateversion.js";
 import type { GalileoCoreSchemasSharedMessageMessage } from "../models/galileocoreschemassharedmessagemessage.js";
 import type { ListPromptTemplateParams } from "../models/listprompttemplateparams.js";
 
@@ -291,10 +292,11 @@ export class Prompt extends StatefulEntity {
 		}
 		const client = BaseEntity.getCLient();
 		const messages = opts.messages ?? this.messages;
+		const body: BasePromptTemplateVersion = { template: messages };
 		const result = await BaseEntity.safeExecute(() =>
 			client.prompts.createGlobalPromptTemplateVersionTemplatesTemplateIdVersionsPost(
 				{},
-				{ templateId: this.id!, body: { template: messages } as never }
+				{ templateId: this.id!, body }
 			)
 		);
 		if (!result.ok) throw result.error;
