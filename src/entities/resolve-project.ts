@@ -25,22 +25,8 @@ export async function resolveProjectId(opts: {
 	projectId?: string | undefined;
 	projectName?: string | undefined;
 }): Promise<string> {
-	if (opts.projectId !== undefined) {
-		if (opts.projectId === "") {
-			throw new TypeError(
-				"resolveProjectId: projectId must be a non-empty string"
-			);
-		}
-		return opts.projectId;
-	}
-	if (opts.projectName !== undefined) {
-		if (opts.projectName === "") {
-			throw new TypeError(
-				"resolveProjectId: projectName must be a non-empty string"
-			);
-		}
-		return resolveProjectByName(opts.projectName);
-	}
+	const explicit = await resolveExplicitProjectId(opts);
+	if (explicit !== null) return explicit;
 	const envProject = GalileoConfig.get().projectName;
 	if (envProject) {
 		return resolveProjectByName(envProject);
@@ -48,6 +34,53 @@ export async function resolveProjectId(opts: {
 	throw new TypeError(
 		"projectId or projectName must be provided (or GALILEO_PROJECT env var must be set)"
 	);
+}
+
+/**
+ * Optional variant of {@link resolveProjectId}: same validation rules for
+ * explicit `projectId` / `projectName`, but returns `null` (instead of
+ * consulting `GALILEO_PROJECT` and/or throwing) when neither is provided.
+ *
+ * Use this for endpoints where "no project context" is a meaningful path —
+ * e.g. `Prompt.list()` falls back to the global template list rather than
+ * env-scoping unexpectedly.
+ *
+ * Still throws on:
+ *   - empty-string `projectId` / `projectName` (treated as caller error,
+ *     never silently downgraded to `null`), and
+ *   - `projectName` that doesn't match a project.
+ */
+export async function resolveOptionalProjectId(opts: {
+	projectId?: string | undefined;
+	projectName?: string | undefined;
+}): Promise<string | null> {
+	return resolveExplicitProjectId(opts);
+}
+
+/**
+ * Resolves an *explicit* projectId/projectName pair without consulting
+ * env vars. Returns `null` when neither is provided.
+ *
+ * Shared by both public helpers above so empty-string validation and
+ * name-lookup live in one place.
+ */
+async function resolveExplicitProjectId(opts: {
+	projectId?: string | undefined;
+	projectName?: string | undefined;
+}): Promise<string | null> {
+	if (opts.projectId !== undefined) {
+		if (opts.projectId === "") {
+			throw new TypeError("projectId must be a non-empty string");
+		}
+		return opts.projectId;
+	}
+	if (opts.projectName !== undefined) {
+		if (opts.projectName === "") {
+			throw new TypeError("projectName must be a non-empty string");
+		}
+		return resolveProjectByName(opts.projectName);
+	}
+	return null;
 }
 
 async function resolveProjectByName(name: string): Promise<string> {

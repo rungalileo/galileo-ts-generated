@@ -12,6 +12,7 @@
  */
 
 import { BaseEntity } from "./base-entity.js";
+import { resolveOptionalProjectId } from "./resolve-project.js";
 import { StatefulEntity, SyncState } from "./stateful-entity.js";
 import { PromptVersion } from "./prompt-version.js";
 import { safeExecute } from "./result.js";
@@ -142,7 +143,7 @@ export class Prompt extends StatefulEntity {
 
 	static async list(opts: PromptListOptions = {}): Promise<Prompt[]> {
 		const client = BaseEntity.getCLient();
-		const projectId = await Prompt.#resolveOptionalProjectId(opts);
+		const projectId = await resolveOptionalProjectId(opts);
 		if (projectId != null) {
 			const result = await safeExecute(() =>
 				client.prompts.getProjectTemplatesProjectsProjectIdTemplatesGet(
@@ -176,21 +177,6 @@ export class Prompt extends StatefulEntity {
 		);
 		if (!result.ok) throw result.error;
 		return (result.value.templates ?? []).map((t) => Prompt._fromApi(t));
-	}
-
-	static async #resolveOptionalProjectId(
-		opts: PromptListOptions
-	): Promise<string | null> {
-		if (opts.projectId) return opts.projectId;
-		if (opts.projectName) {
-			const { Project } = await import("./project.js");
-			const project = await Project.get({ name: opts.projectName });
-			if (!project || !project.id) {
-				throw new Error(`Project '${opts.projectName}' not found`);
-			}
-			return project.id;
-		}
-		return null;
 	}
 
 	async create(): Promise<this> {
