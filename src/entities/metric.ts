@@ -17,6 +17,7 @@
 import { BaseEntity } from "./base-entity.js";
 import { StatefulEntity, SyncState } from "./stateful-entity.js";
 import { GalileoGeneratedError } from "../models/errors/galileogeneratederror.js";
+import type { ListScorersRequest } from "../models/listscorersrequest.js";
 import type { ScorerResponse } from "../models/scorerresponse.js";
 import type { ScorerTypes } from "../models/scorertypes.js";
 
@@ -159,19 +160,16 @@ export abstract class Metric extends StatefulEntity {
 
 	static async list(opts: MetricListOptions = {}): Promise<Metric[]> {
 		const client = BaseEntity.getCLient();
-		const body: Record<string, unknown> = {};
+		const body: ListScorersRequest = {};
 		if (opts.nameFilter) {
-			body["filters"] = [{ name: "name", value: opts.nameFilter }];
+			body.filters = [
+				{ name: "name", operator: "eq", value: opts.nameFilter },
+			];
 		}
-		const request: { limit?: number; body: Record<string, unknown> } = {
-			body,
-		};
+		const request: { limit?: number; body: ListScorersRequest } = { body };
 		if (opts.limit != null) request.limit = opts.limit;
 		const result = await BaseEntity.safeExecute(() =>
-			client.prompts.listScorersWithFiltersScorersListPost(
-				{},
-				request as never
-			)
+			client.prompts.listScorersWithFiltersScorersListPost({}, request)
 		);
 		if (!result.ok) throw result.error;
 		const scorers = result.value.scorers ?? [];

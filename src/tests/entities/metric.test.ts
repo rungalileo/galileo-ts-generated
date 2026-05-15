@@ -133,5 +133,36 @@ describe('Metric', () => {
       expect(list[1]).toBeInstanceOf(CodeMetric);
       expect(list[2]).toBeInstanceOf(GalileoMetric);
     });
+
+    test('test list with nameFilter sends filters with eq operator', async () => {
+      mockListScorers.mockResolvedValue(listScorersResponseFixture());
+      await Metric.list({ nameFilter: 'foo' });
+      expect(mockListScorers).toHaveBeenCalledWith(
+        {},
+        {
+          body: {
+            filters: [{ name: 'name', operator: 'eq', value: 'foo' }],
+          },
+        }
+      );
+    });
+
+    test('test list with limit forwards limit', async () => {
+      mockListScorers.mockResolvedValue(listScorersResponseFixture());
+      await Metric.list({ limit: 50 });
+      expect(mockListScorers).toHaveBeenCalledWith(
+        {},
+        expect.objectContaining({ limit: 50 })
+      );
+    });
+
+    test('test list without nameFilter sends empty filters', async () => {
+      mockListScorers.mockResolvedValue(listScorersResponseFixture());
+      await Metric.list();
+      const callArgs = mockListScorers.mock.calls[0]![1] as {
+        body: { filters?: unknown };
+      };
+      expect(callArgs.body.filters).toBeUndefined();
+    });
   });
 });
