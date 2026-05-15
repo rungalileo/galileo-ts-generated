@@ -154,6 +154,7 @@ export class LogStream extends StatefulEntity {
 	}
 
 	async delete(): Promise<void> {
+		this.ensureNotDeleted();
 		if (this.id == null) {
 			throw new Error(
 				"LogStream ID is not set. Cannot delete a local-only log stream."

@@ -315,6 +315,20 @@ describe('Project', () => {
       await expect(project!.delete()).rejects.toThrow('cannot delete');
       expect(project!.hasFailed()).toBe(true);
     });
+
+    test('test delete after successful delete throws and keeps DELETED state', async () => {
+      mockGetProject.mockResolvedValue(projectDBFixture());
+      mockDeleteProject.mockResolvedValue({ message: 'ok' });
+      const project = await Project.get({ id: 'proj-123' });
+      await project!.delete();
+      expect(project!.isDeleted()).toBe(true);
+      mockDeleteProject.mockClear();
+      await expect(project!.delete()).rejects.toThrow(
+        'Cannot perform operation on deleted entity'
+      );
+      expect(mockDeleteProject).not.toHaveBeenCalled();
+      expect(project!.isDeleted()).toBe(true);
+    });
   });
 
   describe('relationships', () => {

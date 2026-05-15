@@ -217,6 +217,7 @@ export class Dataset extends StatefulEntity {
 	}
 
 	async delete(): Promise<void> {
+		this.ensureNotDeleted();
 		if (this.id == null) {
 			throw new Error(
 				"Dataset ID is not set. Cannot delete a local-only dataset."

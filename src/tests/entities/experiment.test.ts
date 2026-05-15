@@ -222,6 +222,24 @@ describe('Experiment', () => {
         'Experiment ID is not set'
       );
     });
+
+    test('test delete after successful delete throws and keeps DELETED state', async () => {
+      mockGetExperiment.mockResolvedValue(
+        experimentResponseFixture({ id: 'exp-d', projectId: 'proj-1' })
+      );
+      mockDeleteExperiment.mockResolvedValue(undefined);
+      const exp = await Experiment.get({
+        id: 'exp-d',
+        projectId: 'proj-1',
+      });
+      await exp!.delete();
+      mockDeleteExperiment.mockClear();
+      await expect(exp!.delete()).rejects.toThrow(
+        'Cannot perform operation on deleted entity'
+      );
+      expect(mockDeleteExperiment).not.toHaveBeenCalled();
+      expect(exp!.isDeleted()).toBe(true);
+    });
   });
 
   describe('addTag', () => {

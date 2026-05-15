@@ -169,6 +169,7 @@ export class Project extends StatefulEntity {
 	}
 
 	async delete(): Promise<void> {
+		this.ensureNotDeleted();
 		if (this.id == null) {
 			throw new Error(
 				"Project ID is not set. Cannot delete a local-only project."

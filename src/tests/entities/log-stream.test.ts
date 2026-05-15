@@ -208,5 +208,18 @@ describe('LogStream', () => {
       const ls = new LogStream({ name: 'x', projectId: 'p' });
       await expect(ls.delete()).rejects.toThrow('LogStream ID is not set');
     });
+
+    test('test delete after successful delete throws and keeps DELETED state', async () => {
+      mockListLogStreams.mockResolvedValue([logStreamResponseFixture()]);
+      const ls = (await LogStream.list({ projectId: 'proj-123' }))[0]!;
+      mockDeleteLogStream.mockResolvedValue(undefined);
+      await ls.delete();
+      mockDeleteLogStream.mockClear();
+      await expect(ls.delete()).rejects.toThrow(
+        'Cannot perform operation on deleted entity'
+      );
+      expect(mockDeleteLogStream).not.toHaveBeenCalled();
+      expect(ls.isDeleted()).toBe(true);
+    });
   });
 });

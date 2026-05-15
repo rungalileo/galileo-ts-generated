@@ -269,6 +269,19 @@ describe('Dataset', () => {
       await ds!.delete();
       expect(ds!.isDeleted()).toBe(true);
     });
+
+    test('test delete after successful delete throws and keeps DELETED state', async () => {
+      mockGetDataset.mockResolvedValue(datasetDBFixture());
+      mockDeleteDataset.mockResolvedValue(undefined);
+      const ds = await Dataset.get({ id: 'ds-123' });
+      await ds!.delete();
+      mockDeleteDataset.mockClear();
+      await expect(ds!.delete()).rejects.toThrow(
+        'Cannot perform operation on deleted entity'
+      );
+      expect(mockDeleteDataset).not.toHaveBeenCalled();
+      expect(ds!.isDeleted()).toBe(true);
+    });
   });
 
   describe('refresh', () => {

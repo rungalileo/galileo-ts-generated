@@ -199,6 +199,7 @@ export abstract class Metric extends StatefulEntity {
 	}
 
 	async delete(): Promise<void> {
+		this.ensureNotDeleted();
 		if (this.id == null) {
 			throw new Error(
 				"Metric ID is not set. Cannot delete a local-only metric."

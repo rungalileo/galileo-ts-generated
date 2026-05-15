@@ -212,5 +212,19 @@ describe('LlmMetric', () => {
       expect(mockDeleteScorer).toHaveBeenCalledWith({}, { scorerId: 'sc-1' });
       expect(m.isDeleted()).toBe(true);
     });
+
+    test('test delete after successful delete throws and keeps DELETED state', async () => {
+      mockDeleteScorer.mockResolvedValue({ id: 'a' });
+      const m = LlmMetric._fromApi(
+        scorerResponseFixture({ id: 'sc-1', scorerType: 'llm' })
+      );
+      await m.delete();
+      mockDeleteScorer.mockClear();
+      await expect(m.delete()).rejects.toThrow(
+        'Cannot perform operation on deleted entity'
+      );
+      expect(mockDeleteScorer).not.toHaveBeenCalled();
+      expect(m.isDeleted()).toBe(true);
+    });
   });
 });

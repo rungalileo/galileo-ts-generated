@@ -185,6 +185,7 @@ export class Experiment extends StatefulEntity {
 	}
 
 	async delete(): Promise<void> {
+		this.ensureNotDeleted();
 		if (this.id == null) {
 			throw new Error(
 				"Experiment ID is not set. Cannot delete a local-only experiment."
