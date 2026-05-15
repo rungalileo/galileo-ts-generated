@@ -93,19 +93,15 @@ export class CodeMetric extends Metric {
 			content: new Blob([code], { type: "text/plain" }),
 		});
 
-		const validateResult = await safeExecute(() =>
+		const validateValue = await this._executeWithFailureState(() =>
 			client.prompts.validateCodeScorerScorersCodeValidatePost(
 				{},
 				{ file: buildFile() }
 			)
 		);
-		if (!validateResult.ok) {
-			this._setState(SyncState.FailedSync, validateResult.error);
-			throw validateResult.error;
-		}
 
 		const taskResult = (await this._validateCode(
-			validateResult.value.taskId
+			validateValue.taskId
 		)) as { status?: TaskResultStatus };
 		if (taskResult.status !== TaskResultStatus.Completed) {
 			const err = new Error(
@@ -115,7 +111,7 @@ export class CodeMetric extends Metric {
 			throw err;
 		}
 
-		const scorerResult = await safeExecute(() =>
+		const scorer = await this._executeWithFailureState(() =>
 			client.prompts.createScorersPost(
 				{},
 				{
@@ -125,11 +121,6 @@ export class CodeMetric extends Metric {
 				}
 			)
 		);
-		if (!scorerResult.ok) {
-			this._setState(SyncState.FailedSync, scorerResult.error);
-			throw scorerResult.error;
-		}
-		const scorer = scorerResult.value;
 		if (scorer.id == null) {
 			const err = new Error(
 				"CodeMetric.create: server returned scorer without an id"
@@ -138,7 +129,7 @@ export class CodeMetric extends Metric {
 			throw err;
 		}
 
-		const versionResult = await safeExecute(() =>
+		await this._executeWithFailureState(() =>
 			client.prompts.createCodeScorerVersionScorersScorerIdVersionCodePost(
 				{},
 				{
@@ -150,10 +141,6 @@ export class CodeMetric extends Metric {
 				}
 			)
 		);
-		if (!versionResult.ok) {
-			this._setState(SyncState.FailedSync, versionResult.error);
-			throw versionResult.error;
-		}
 
 		this._hydrate(scorer);
 		return this;

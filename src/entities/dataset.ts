@@ -164,17 +164,13 @@ export class Dataset extends StatefulEntity {
 	async create(): Promise<this> {
 		this.ensureNotDeleted();
 		const client = BaseEntity.getCLient();
-		const result = await safeExecute(() =>
+		const value = await this._executeWithFailureState(() =>
 			client.datasets.createDatasetDatasetsPost(
 				{},
 				{ body: { name: this.#name } }
 			)
 		);
-		if (!result.ok) {
-			this._setState(SyncState.FailedSync, result.error);
-			throw result.error;
-		}
-		this._hydrate(result.value);
+		this._hydrate(value);
 		return this;
 	}
 
@@ -186,17 +182,13 @@ export class Dataset extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await safeExecute(() =>
+		const value = await this._executeWithFailureState(() =>
 			client.datasets.getDatasetDatasetsDatasetIdGet(
 				{},
 				{ datasetId: this.id! }
 			)
 		);
-		if (!result.ok) {
-			this._setState(SyncState.FailedSync, result.error);
-			throw result.error;
-		}
-		this._hydrate(result.value);
+		this._hydrate(value);
 		return this;
 	}
 
@@ -208,17 +200,13 @@ export class Dataset extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await safeExecute(() =>
+		const value = await this._executeWithFailureState(() =>
 			client.datasets.updateDatasetDatasetsDatasetIdPatch(
 				{},
 				{ datasetId: this.id!, body: { name: this.#name } }
 			)
 		);
-		if (!result.ok) {
-			this._setState(SyncState.FailedSync, result.error);
-			throw result.error;
-		}
-		this._hydrate(result.value);
+		this._hydrate(value);
 		return this;
 	}
 
@@ -230,16 +218,12 @@ export class Dataset extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await safeExecute(() =>
+		await this._executeWithFailureState(() =>
 			client.datasets.deleteDatasetDatasetsDatasetIdDelete(
 				{},
 				{ datasetId: this.id! }
 			)
 		);
-		if (!result.ok) {
-			this._setState(SyncState.FailedSync, result.error);
-			throw result.error;
-		}
 		this._setState(SyncState.Deleted);
 	}
 
@@ -282,16 +266,12 @@ export class Dataset extends StatefulEntity {
 			editType: "append_row",
 			values: row as DatasetAppendRow["values"],
 		}));
-		const writeResult = await safeExecute(() =>
+		await this._executeWithFailureState(() =>
 			client.datasets.updateDatasetContentDatasetsDatasetIdContentPatch(
 				{},
 				{ datasetId: this.id!, body: { edits } }
 			)
 		);
-		if (!writeResult.ok) {
-			this._setState(SyncState.FailedSync, writeResult.error);
-			throw writeResult.error;
-		}
 		try {
 			await this.refresh();
 		} catch (refreshError) {

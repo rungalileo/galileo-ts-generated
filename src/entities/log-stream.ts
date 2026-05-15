@@ -113,17 +113,13 @@ export class LogStream extends StatefulEntity {
 			projectName: this.projectName ?? undefined,
 		});
 		const client = BaseEntity.getCLient();
-		const result = await safeExecute(() =>
+		const value = await this._executeWithFailureState(() =>
 			client.logStream.createLogStreamProjectsProjectIdLogStreamsPost(
 				{},
 				{ projectId, body: { name: this.#name } }
 			)
 		);
-		if (!result.ok) {
-			this._setState(SyncState.FailedSync, result.error);
-			throw result.error;
-		}
-		this._hydrate(result.value);
+		this._hydrate(value);
 		return this;
 	}
 
@@ -140,17 +136,13 @@ export class LogStream extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await safeExecute(() =>
+		const value = await this._executeWithFailureState(() =>
 			client.logStream.getLogStreamProjectsProjectIdLogStreamsLogStreamIdGet(
 				{},
 				{ projectId: this.projectId!, logStreamId: this.id! }
 			)
 		);
-		if (!result.ok) {
-			this._setState(SyncState.FailedSync, result.error);
-			throw result.error;
-		}
-		this._hydrate(result.value);
+		this._hydrate(value);
 		return this;
 	}
 
@@ -167,16 +159,12 @@ export class LogStream extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await safeExecute(() =>
+		await this._executeWithFailureState(() =>
 			client.logStream.deleteLogStreamProjectsProjectIdLogStreamsLogStreamIdDelete(
 				{},
 				{ projectId: this.projectId!, logStreamId: this.id! }
 			)
 		);
-		if (!result.ok) {
-			this._setState(SyncState.FailedSync, result.error);
-			throw result.error;
-		}
 		this._setState(SyncState.Deleted);
 	}
 

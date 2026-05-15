@@ -101,17 +101,13 @@ export class Project extends StatefulEntity {
 	async create(): Promise<this> {
 		this.ensureNotDeleted();
 		const client = BaseEntity.getCLient();
-		const result = await safeExecute(() =>
+		const value = await this._executeWithFailureState(() =>
 			client.projects.createProjectProjectsPost(
 				{},
 				{ name: this.#name, type: "gen_ai" }
 			)
 		);
-		if (!result.ok) {
-			this._setState(SyncState.FailedSync, result.error);
-			throw result.error;
-		}
-		this._hydrateFromCreate(result.value);
+		this._hydrateFromCreate(value);
 		return this;
 	}
 
@@ -123,17 +119,13 @@ export class Project extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await safeExecute(() =>
+		const value = await this._executeWithFailureState(() =>
 			client.projects.getProjectProjectsProjectIdGet(
 				{},
 				{ projectId: this.id! }
 			)
 		);
-		if (!result.ok) {
-			this._setState(SyncState.FailedSync, result.error);
-			throw result.error;
-		}
-		this._hydrate(result.value);
+		this._hydrate(value);
 		return this;
 	}
 
@@ -145,17 +137,13 @@ export class Project extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await safeExecute(() =>
+		const value = await this._executeWithFailureState(() =>
 			client.projects.updateProjectProjectsProjectIdPut(
 				{},
 				{ projectId: this.id!, body: { name: this.#name } }
 			)
 		);
-		if (!result.ok) {
-			this._setState(SyncState.FailedSync, result.error);
-			throw result.error;
-		}
-		this._hydrateFromUpdate(result.value);
+		this._hydrateFromUpdate(value);
 		return this;
 	}
 
@@ -167,16 +155,12 @@ export class Project extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await safeExecute(() =>
+		await this._executeWithFailureState(() =>
 			client.projects.deleteProjectProjectsProjectIdDelete(
 				{},
 				{ projectId: this.id! }
 			)
 		);
-		if (!result.ok) {
-			this._setState(SyncState.FailedSync, result.error);
-			throw result.error;
-		}
 		this._setState(SyncState.Deleted);
 	}
 

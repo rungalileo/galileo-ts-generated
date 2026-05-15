@@ -15,7 +15,6 @@
 import { BaseEntity } from "./base-entity.js";
 import { Metric, type MetricInit } from "./metric.js";
 import { SyncState } from "./stateful-entity.js";
-import { safeExecute } from "./result.js";
 import type { OutputTypeEnum } from "../models/outputtypeenum.js";
 import type { ScorerResponse } from "../models/scorerresponse.js";
 
@@ -60,7 +59,7 @@ export class LlmMetric extends Metric {
 		this.ensureNotDeleted();
 		const client = BaseEntity.getCLient();
 
-		const scorerResult = await safeExecute(() =>
+		const scorer = await this._executeWithFailureState(() =>
 			client.prompts.createScorersPost(
 				{},
 				{
@@ -70,11 +69,6 @@ export class LlmMetric extends Metric {
 				}
 			)
 		);
-		if (!scorerResult.ok) {
-			this._setState(SyncState.FailedSync, scorerResult.error);
-			throw scorerResult.error;
-		}
-		const scorer = scorerResult.value;
 		if (scorer.id == null) {
 			const err = new Error(
 				"LlmMetric.create: server returned scorer without an id"
@@ -83,7 +77,7 @@ export class LlmMetric extends Metric {
 			throw err;
 		}
 
-		const versionResult = await safeExecute(() =>
+		await this._executeWithFailureState(() =>
 			client.prompts.createLlmScorerVersionScorersScorerIdVersionLlmPost(
 				{},
 				{
@@ -99,10 +93,6 @@ export class LlmMetric extends Metric {
 				}
 			)
 		);
-		if (!versionResult.ok) {
-			this._setState(SyncState.FailedSync, versionResult.error);
-			throw versionResult.error;
-		}
 
 		this._hydrate(scorer);
 		return this;

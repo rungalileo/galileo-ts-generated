@@ -177,17 +177,13 @@ export abstract class Metric extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await safeExecute(() =>
+		const value = await this._executeWithFailureState(() =>
 			client.prompts.getScorerScorersScorerIdGet(
 				{},
 				{ scorerId: this.id! }
 			)
 		);
-		if (!result.ok) {
-			this._setState(SyncState.FailedSync, result.error);
-			throw result.error;
-		}
-		this._hydrate(result.value);
+		this._hydrate(value);
 		return this;
 	}
 
@@ -199,16 +195,12 @@ export abstract class Metric extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await safeExecute(() =>
+		await this._executeWithFailureState(() =>
 			client.prompts.deleteScorerScorersScorerIdDelete(
 				{},
 				{ scorerId: this.id! }
 			)
 		);
-		if (!result.ok) {
-			this._setState(SyncState.FailedSync, result.error);
-			throw result.error;
-		}
 		this._setState(SyncState.Deleted);
 	}
 

@@ -177,7 +177,7 @@ export class Prompt extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await safeExecute(() =>
+		const value = await this._executeWithFailureState(() =>
 			client.prompts.createPromptTemplateWithVersionProjectsProjectIdTemplatesPost(
 				{},
 				{
@@ -186,11 +186,7 @@ export class Prompt extends StatefulEntity {
 				}
 			)
 		);
-		if (!result.ok) {
-			this._setState(SyncState.FailedSync, result.error);
-			throw result.error;
-		}
-		this._hydrate(result.value);
+		this._hydrate(value);
 		return this;
 	}
 
@@ -202,17 +198,13 @@ export class Prompt extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await safeExecute(() =>
+		const value = await this._executeWithFailureState(() =>
 			client.prompts.getGlobalTemplateTemplatesTemplateIdGet(
 				{},
 				{ templateId: this.id! }
 			)
 		);
-		if (!result.ok) {
-			this._setState(SyncState.FailedSync, result.error);
-			throw result.error;
-		}
-		this._hydrate(result.value);
+		this._hydrate(value);
 		return this;
 	}
 
@@ -224,17 +216,13 @@ export class Prompt extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await safeExecute(() =>
+		const value = await this._executeWithFailureState(() =>
 			client.prompts.updateGlobalTemplateTemplatesTemplateIdPatch(
 				{},
 				{ templateId: this.id!, body: { name: this.#name } }
 			)
 		);
-		if (!result.ok) {
-			this._setState(SyncState.FailedSync, result.error);
-			throw result.error;
-		}
-		this._hydrate(result.value);
+		this._hydrate(value);
 		return this;
 	}
 
@@ -245,16 +233,12 @@ export class Prompt extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		const result = await safeExecute(() =>
+		await this._executeWithFailureState(() =>
 			client.prompts.deleteGlobalTemplateTemplatesTemplateIdDelete(
 				{},
 				{ templateId: this.id! }
 			)
 		);
-		if (!result.ok) {
-			this._setState(SyncState.FailedSync, result.error);
-			throw result.error;
-		}
 		this._setState(SyncState.Deleted);
 	}
 

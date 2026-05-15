@@ -1,4 +1,5 @@
 import { BaseEntity } from "./base-entity.js";
+import { safeExecute } from "./result.js";
 
 /**
  * Lifecycle state for a stateful entity.
@@ -109,5 +110,27 @@ export abstract class StatefulEntity extends BaseEntity {
 		throw new Error(
 			`${this.constructor.name} does not support updates after creation`
 		);
+	}
+
+	/**
+	 * Run a mutating SDK call and translate any thrown error into the
+	 * `FailedSync` lifecycle transition before rethrowing.
+	 *
+	 *   - Success path: returns the unwrapped value.
+	 *   - Failure path: calls `_setState(FailedSync, error)` then throws.
+	 *
+	 * Use this in `create()` / `refresh()` / `_save()` / `delete()` and other
+	 * mutations that should mark the entity as failed on error. Lookups that
+	 * translate 404 to `null` instead should use `BaseEntity.fetchNullable`.
+	 */
+	protected async _executeWithFailureState<T>(
+		operation: () => Promise<T>
+	): Promise<T> {
+		const result = await safeExecute(operation);
+		if (!result.ok) {
+			this._setState(SyncState.FailedSync, result.error);
+			throw result.error;
+		}
+		return result.value;
 	}
 }
