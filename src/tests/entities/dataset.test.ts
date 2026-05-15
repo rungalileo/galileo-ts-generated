@@ -341,12 +341,29 @@ describe('Dataset', () => {
   });
 
   describe('extend', () => {
-    test('test extend on hydrated dataset calls SDK', async () => {
+    test('test extend on hydrated dataset sends sourceDataset.datasetId', async () => {
       mockGetDataset.mockResolvedValue(datasetDBFixture());
       mockExtendDataset.mockResolvedValue({ datasetId: 'ds-123' });
       const ds = await Dataset.get({ id: 'ds-123' });
       const result = await ds!.extend({ count: 5 });
+      expect(mockExtendDataset).toHaveBeenCalledWith(
+        {},
+        expect.objectContaining({
+          count: 5,
+          sourceDataset: { datasetId: 'ds-123' },
+        })
+      );
       expect(result.datasetId).toBe('ds-123');
+    });
+
+    test('test static generate does not send sourceDataset', async () => {
+      mockExtendDataset.mockResolvedValue({ datasetId: 'ds-gen' });
+      await Dataset.generate({ count: 3, prompt: 'p' });
+      const callArgs = mockExtendDataset.mock.calls[0]![1] as Record<
+        string,
+        unknown
+      >;
+      expect(callArgs).not.toHaveProperty('sourceDataset');
     });
 
     test('test extend on local-only throws', async () => {

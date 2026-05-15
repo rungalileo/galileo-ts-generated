@@ -336,7 +336,7 @@ export class Dataset extends StatefulEntity {
 		const result = await BaseEntity.safeExecute(() =>
 			client.datasets.extendDatasetContentDatasetsExtendPost(
 				{},
-				Dataset.#buildExtendBody({ ...opts, projectId: opts.projectId })
+				Dataset.#buildExtendBody(opts, this.id!)
 			)
 		);
 		if (!result.ok) throw result.error;
@@ -376,7 +376,10 @@ export class Dataset extends StatefulEntity {
 		this._setState(SyncState.Synced);
 	}
 
-	static #buildExtendBody(opts: DatasetGenerateOptions) {
+	static #buildExtendBody(
+		opts: DatasetGenerateOptions,
+		sourceDatasetId?: string
+	) {
 		const body: Record<string, unknown> = {
 			count: opts.count ?? 10,
 		};
@@ -388,6 +391,9 @@ export class Dataset extends StatefulEntity {
 		if (opts.promptSettings !== undefined)
 			body["promptSettings"] = opts.promptSettings;
 		if (opts.projectId !== undefined) body["projectId"] = opts.projectId;
+		if (sourceDatasetId !== undefined) {
+			body["sourceDataset"] = { datasetId: sourceDatasetId };
+		}
 		return body as never;
 	}
 
