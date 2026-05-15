@@ -97,8 +97,22 @@ export class Experiment extends StatefulEntity {
 		return experiment;
 	}
 
+	/**
+	 * Look up an experiment by `id` or by `name`. Provide exactly one.
+	 *
+	 * The underlying endpoint is project-scoped, so a project context is
+	 * required: pass `projectId` / `projectName` on `opts`, or set the
+	 * `GALILEO_PROJECT` environment variable. Without a project context this
+	 * method throws — unlike `Project.get` / `Dataset.get` / `Prompt.get`,
+	 * which look up globally.
+	 */
 	static async get(opts: ExperimentGetOptions): Promise<Experiment | null> {
 		const { id, name } = opts;
+		if (id != null && name != null) {
+			throw new TypeError(
+				"Experiment.get: provide exactly one of id or name, not both"
+			);
+		}
 		if (id == null && name == null) {
 			throw new TypeError("Experiment.get: provide either id or name");
 		}

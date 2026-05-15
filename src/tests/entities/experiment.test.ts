@@ -135,6 +135,12 @@ describe('Experiment', () => {
       ).rejects.toThrow('provide either id or name');
     });
 
+    test('test get with both id and name throws', async () => {
+      await expect(
+        Experiment.get({ id: 'a', name: 'b', projectId: 'p' })
+      ).rejects.toThrow('provide exactly one of id or name, not both');
+    });
+
     test('test get returns null on 404', async () => {
       mockGetExperiment.mockRejectedValue(
         Object.assign(new Error('not found'), { statusCode: 404 })
