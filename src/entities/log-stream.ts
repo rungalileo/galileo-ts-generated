@@ -159,11 +159,13 @@ export class LogStream extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		await this._executeWithFailureState(() =>
-			client.logStream.deleteLogStreamProjectsProjectIdLogStreamsLogStreamIdDelete(
-				{},
-				{ projectId: this.projectId!, logStreamId: this.id! }
-			)
+		await this._executeWithFailureState(
+			() =>
+				client.logStream.deleteLogStreamProjectsProjectIdLogStreamsLogStreamIdDelete(
+					{},
+					{ projectId: this.projectId!, logStreamId: this.id! }
+				),
+			{ idempotentNotFound: true }
 		);
 		this._setState(SyncState.Deleted);
 	}

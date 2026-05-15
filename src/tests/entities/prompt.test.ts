@@ -353,6 +353,17 @@ describe('Prompt', () => {
       );
       expect(p!.isDeleted()).toBe(true);
     });
+
+    test('test delete on backend 404 is idempotent and ends in DELETED', async () => {
+      mockGetGlobalTemplate.mockResolvedValue(promptTemplateResponseFixture());
+      mockDeleteGlobalTemplate.mockRejectedValue(
+        Object.assign(new Error('not found'), { statusCode: 404 })
+      );
+      const p = await Prompt.get({ id: 'prompt-123' });
+      await expect(p!.delete()).resolves.toBeUndefined();
+      expect(p!.isDeleted()).toBe(true);
+      expect(p!.hasFailed()).toBe(false);
+    });
   });
 
   describe('createVersion', () => {

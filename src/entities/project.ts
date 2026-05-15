@@ -155,11 +155,13 @@ export class Project extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		await this._executeWithFailureState(() =>
-			client.projects.deleteProjectProjectsProjectIdDelete(
-				{},
-				{ projectId: this.id! }
-			)
+		await this._executeWithFailureState(
+			() =>
+				client.projects.deleteProjectProjectsProjectIdDelete(
+					{},
+					{ projectId: this.id! }
+				),
+			{ idempotentNotFound: true }
 		);
 		this._setState(SyncState.Deleted);
 	}

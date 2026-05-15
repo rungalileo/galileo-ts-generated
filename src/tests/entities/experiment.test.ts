@@ -229,6 +229,22 @@ describe('Experiment', () => {
       );
     });
 
+    test('test delete on backend 404 is idempotent and ends in DELETED', async () => {
+      mockGetExperiment.mockResolvedValue(
+        experimentResponseFixture({ id: 'exp-d', projectId: 'proj-1' })
+      );
+      mockDeleteExperiment.mockRejectedValue(
+        Object.assign(new Error('not found'), { statusCode: 404 })
+      );
+      const exp = await Experiment.get({
+        id: 'exp-d',
+        projectId: 'proj-1',
+      });
+      await expect(exp!.delete()).resolves.toBeUndefined();
+      expect(exp!.isDeleted()).toBe(true);
+      expect(exp!.hasFailed()).toBe(false);
+    });
+
     test('test delete after successful delete throws and keeps DELETED state', async () => {
       mockGetExperiment.mockResolvedValue(
         experimentResponseFixture({ id: 'exp-d', projectId: 'proj-1' })

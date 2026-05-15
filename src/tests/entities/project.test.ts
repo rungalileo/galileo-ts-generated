@@ -335,6 +335,17 @@ describe('Project', () => {
       expect(project!.hasFailed()).toBe(true);
     });
 
+    test('test delete on backend 404 is idempotent and ends in DELETED', async () => {
+      mockGetProject.mockResolvedValue(projectDBFixture());
+      mockDeleteProject.mockRejectedValue(
+        Object.assign(new Error('not found'), { statusCode: 404 })
+      );
+      const project = await Project.get({ id: 'proj-123' });
+      await expect(project!.delete()).resolves.toBeUndefined();
+      expect(project!.isDeleted()).toBe(true);
+      expect(project!.hasFailed()).toBe(false);
+    });
+
     test('test delete after successful delete throws and keeps DELETED state', async () => {
       mockGetProject.mockResolvedValue(projectDBFixture());
       mockDeleteProject.mockResolvedValue({ message: 'ok' });

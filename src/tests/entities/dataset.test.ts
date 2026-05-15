@@ -303,6 +303,17 @@ describe('Dataset', () => {
       expect(ds!.isDeleted()).toBe(true);
     });
 
+    test('test delete on backend 404 is idempotent and ends in DELETED', async () => {
+      mockGetDataset.mockResolvedValue(datasetDBFixture());
+      mockDeleteDataset.mockRejectedValue(
+        Object.assign(new Error('not found'), { statusCode: 404 })
+      );
+      const ds = await Dataset.get({ id: 'ds-123' });
+      await expect(ds!.delete()).resolves.toBeUndefined();
+      expect(ds!.isDeleted()).toBe(true);
+      expect(ds!.hasFailed()).toBe(false);
+    });
+
     test('test delete after successful delete throws and keeps DELETED state', async () => {
       mockGetDataset.mockResolvedValue(datasetDBFixture());
       mockDeleteDataset.mockResolvedValue(undefined);

@@ -193,11 +193,13 @@ export class Experiment extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		await this._executeWithFailureState(() =>
-			client.experiment.deleteExperimentProjectsProjectIdExperimentsExperimentIdDelete(
-				{},
-				{ projectId: this.projectId!, experimentId: this.id! }
-			)
+		await this._executeWithFailureState(
+			() =>
+				client.experiment.deleteExperimentProjectsProjectIdExperimentsExperimentIdDelete(
+					{},
+					{ projectId: this.projectId!, experimentId: this.id! }
+				),
+			{ idempotentNotFound: true }
 		);
 		this._setState(SyncState.Deleted);
 	}

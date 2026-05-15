@@ -209,6 +209,17 @@ describe('LogStream', () => {
       await expect(ls.delete()).rejects.toThrow('LogStream ID is not set');
     });
 
+    test('test delete on backend 404 is idempotent and ends in DELETED', async () => {
+      mockListLogStreams.mockResolvedValue([logStreamResponseFixture()]);
+      const ls = (await LogStream.list({ projectId: 'proj-123' }))[0]!;
+      mockDeleteLogStream.mockRejectedValue(
+        Object.assign(new Error('not found'), { statusCode: 404 })
+      );
+      await expect(ls.delete()).resolves.toBeUndefined();
+      expect(ls.isDeleted()).toBe(true);
+      expect(ls.hasFailed()).toBe(false);
+    });
+
     test('test delete after successful delete throws and keeps DELETED state', async () => {
       mockListLogStreams.mockResolvedValue([logStreamResponseFixture()]);
       const ls = (await LogStream.list({ projectId: 'proj-123' }))[0]!;

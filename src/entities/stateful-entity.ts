@@ -119,15 +119,34 @@ export abstract class StatefulEntity extends BaseEntity {
 	 *   - Success path: returns the unwrapped value.
 	 *   - Failure path: calls `_setState(FailedSync, error)` then throws.
 	 *
+	 * `delete()` callers can pass `{ idempotentNotFound: true }` to make a
+	 * server-side 404 a silent no-op (returns `null`) instead of failing:
+	 * the convention for DELETE is idempotent ("already gone" is success),
+	 * and a `FailedSync` on a deleted resource is a confusing UX.
+	 *
 	 * Use this in `create()` / `refresh()` / `_save()` / `delete()` and other
 	 * mutations that should mark the entity as failed on error. Lookups that
 	 * translate 404 to `null` instead should use `BaseEntity.fetchNullable`.
 	 */
 	protected async _executeWithFailureState<T>(
 		operation: () => Promise<T>
-	): Promise<T> {
+	): Promise<T>;
+	protected async _executeWithFailureState<T>(
+		operation: () => Promise<T>,
+		options: { idempotentNotFound: true }
+	): Promise<T | null>;
+	protected async _executeWithFailureState<T>(
+		operation: () => Promise<T>,
+		options: { idempotentNotFound?: boolean } = {}
+	): Promise<T | null> {
 		const result = await safeExecute(operation);
 		if (!result.ok) {
+			if (
+				options.idempotentNotFound &&
+				StatefulEntity.isNotFound(result.error)
+			) {
+				return null;
+			}
 			this._setState(SyncState.FailedSync, result.error);
 			throw result.error;
 		}

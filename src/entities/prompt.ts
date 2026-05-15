@@ -233,11 +233,13 @@ export class Prompt extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		await this._executeWithFailureState(() =>
-			client.prompts.deleteGlobalTemplateTemplatesTemplateIdDelete(
-				{},
-				{ templateId: this.id! }
-			)
+		await this._executeWithFailureState(
+			() =>
+				client.prompts.deleteGlobalTemplateTemplatesTemplateIdDelete(
+					{},
+					{ templateId: this.id! }
+				),
+			{ idempotentNotFound: true }
 		);
 		this._setState(SyncState.Deleted);
 	}

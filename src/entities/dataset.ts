@@ -218,11 +218,13 @@ export class Dataset extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		await this._executeWithFailureState(() =>
-			client.datasets.deleteDatasetDatasetsDatasetIdDelete(
-				{},
-				{ datasetId: this.id! }
-			)
+		await this._executeWithFailureState(
+			() =>
+				client.datasets.deleteDatasetDatasetsDatasetIdDelete(
+					{},
+					{ datasetId: this.id! }
+				),
+			{ idempotentNotFound: true }
 		);
 		this._setState(SyncState.Deleted);
 	}

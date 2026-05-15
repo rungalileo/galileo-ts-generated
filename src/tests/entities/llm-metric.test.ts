@@ -213,6 +213,18 @@ describe('LlmMetric', () => {
       expect(m.isDeleted()).toBe(true);
     });
 
+    test('test delete on backend 404 is idempotent and ends in DELETED', async () => {
+      const m = LlmMetric._fromApi(
+        scorerResponseFixture({ id: 'sc-1', scorerType: 'llm' })
+      );
+      mockDeleteScorer.mockRejectedValue(
+        Object.assign(new Error('not found'), { statusCode: 404 })
+      );
+      await expect(m.delete()).resolves.toBeUndefined();
+      expect(m.isDeleted()).toBe(true);
+      expect(m.hasFailed()).toBe(false);
+    });
+
     test('test delete after successful delete throws and keeps DELETED state', async () => {
       mockDeleteScorer.mockResolvedValue({ id: 'a' });
       const m = LlmMetric._fromApi(

@@ -195,11 +195,13 @@ export abstract class Metric extends StatefulEntity {
 			);
 		}
 		const client = BaseEntity.getCLient();
-		await this._executeWithFailureState(() =>
-			client.prompts.deleteScorerScorersScorerIdDelete(
-				{},
-				{ scorerId: this.id! }
-			)
+		await this._executeWithFailureState(
+			() =>
+				client.prompts.deleteScorerScorersScorerIdDelete(
+					{},
+					{ scorerId: this.id! }
+				),
+			{ idempotentNotFound: true }
 		);
 		this._setState(SyncState.Deleted);
 	}
