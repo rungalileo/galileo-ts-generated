@@ -161,7 +161,7 @@ export abstract class Metric extends StatefulEntity {
 	static async list(opts: MetricListOptions = {}): Promise<Metric[]> {
 		const client = BaseEntity.getCLient();
 		const body: ListScorersRequest = {};
-		if (opts.nameFilter) {
+		if (opts.nameFilter !== undefined) {
 			body.filters = [
 				{ name: "name", operator: "eq", value: opts.nameFilter },
 			];

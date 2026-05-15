@@ -164,5 +164,18 @@ describe('Metric', () => {
       };
       expect(callArgs.body.filters).toBeUndefined();
     });
+
+    test('test list with empty-string nameFilter sends filter with empty value', async () => {
+      mockListScorers.mockResolvedValue(listScorersResponseFixture());
+      await Metric.list({ nameFilter: '' });
+      expect(mockListScorers).toHaveBeenCalledWith(
+        {},
+        {
+          body: {
+            filters: [{ name: 'name', operator: 'eq', value: '' }],
+          },
+        }
+      );
+    });
   });
 });

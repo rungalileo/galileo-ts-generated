@@ -152,7 +152,7 @@ export class Prompt extends StatefulEntity {
 			);
 			if (!result.ok) throw result.error;
 			let templates = result.value;
-			if (opts.nameFilter) {
+			if (opts.nameFilter !== undefined) {
 				templates = templates.filter((t) => t.name === opts.nameFilter);
 			}
 			if (opts.limit != null) {
@@ -161,7 +161,7 @@ export class Prompt extends StatefulEntity {
 			return templates.map((t) => Prompt._fromApi(t));
 		}
 		const body: ListPromptTemplateParams = {};
-		if (opts.nameFilter) {
+		if (opts.nameFilter !== undefined) {
 			body.filters = [
 				{ name: "name", operator: "eq", value: opts.nameFilter },
 			];

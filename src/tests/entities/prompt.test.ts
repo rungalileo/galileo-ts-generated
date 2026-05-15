@@ -200,6 +200,19 @@ describe('Prompt', () => {
       );
     });
 
+    test('test list with empty-string nameFilter sends filter with empty value (global path)', async () => {
+      mockQueryTemplates.mockResolvedValue(listPromptTemplateResponseFixture());
+      await Prompt.list({ nameFilter: '' });
+      expect(mockQueryTemplates).toHaveBeenCalledWith(
+        {},
+        {
+          body: {
+            filters: [{ name: 'name', operator: 'eq', value: '' }],
+          },
+        }
+      );
+    });
+
     test('test list with limit forwards limit on global path', async () => {
       mockQueryTemplates.mockResolvedValue(listPromptTemplateResponseFixture());
       await Prompt.list({ limit: 25 });
