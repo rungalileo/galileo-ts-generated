@@ -16,7 +16,7 @@
 
 import { BaseEntity } from "./base-entity.js";
 import { StatefulEntity, SyncState } from "./stateful-entity.js";
-import { safeExecute } from "../lib/result.js";
+import { safeExecute } from "./result.js";
 import type { ListScorersRequest } from "../models/listscorersrequest.js";
 import type { ScorerResponse } from "../models/scorerresponse.js";
 import type { ScorerTypes } from "../models/scorertypes.js";

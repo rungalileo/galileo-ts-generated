@@ -12,7 +12,7 @@
 import { BaseEntity } from "./base-entity.js";
 import { resolveProjectId } from "./resolve-project.js";
 import { StatefulEntity, SyncState } from "./stateful-entity.js";
-import { safeExecute } from "../lib/result.js";
+import { safeExecute } from "./result.js";
 import type { LogStreamResponse } from "../models/logstreamresponse.js";
 
 export interface LogStreamInit {

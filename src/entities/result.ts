@@ -7,9 +7,10 @@ import { OK, ERR, type Result } from "../types/fp.js";
  *   - Resolves with `ERR(error)` when the operation throws, wrapping non-Error
  *     throws in an Error so the failure type is always `Error`.
  *
- * Lives outside `BaseEntity` because it has no dependency on entity state —
- * it's a general-purpose try/catch → Result adapter, kept beside the
- * `OK` / `ERR` / `Result` primitives in `src/types/fp.ts`.
+ * Lives in `src/entities/` because it's used exclusively by the entity layer
+ * and that directory is wholesale safe-to-edit per AGENTS.md, whereas
+ * `src/lib/` only whitelists specific files. Pairs with the `OK` / `ERR` /
+ * `Result` primitives generated into `src/types/fp.ts`.
  */
 export async function safeExecute<T>(
 	operation: () => Promise<T>

@@ -16,7 +16,7 @@
 import { BaseEntity } from "./base-entity.js";
 import { resolveProjectId } from "./resolve-project.js";
 import { StatefulEntity, SyncState } from "./stateful-entity.js";
-import { safeExecute } from "../lib/result.js";
+import { safeExecute } from "./result.js";
 import type { ExperimentResponse } from "../models/experimentresponse.js";
 import type { RunTagDB } from "../models/runtagdb.js";
 import type { TaskType } from "../models/tasktype.js";

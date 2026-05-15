@@ -15,7 +15,7 @@
 import { BaseEntity } from "./base-entity.js";
 import { Metric, type MetricInit } from "./metric.js";
 import { SyncState } from "./stateful-entity.js";
-import { safeExecute } from "../lib/result.js";
+import { safeExecute } from "./result.js";
 import type { OutputTypeEnum } from "../models/outputtypeenum.js";
 import type { ScorerResponse } from "../models/scorerresponse.js";
 

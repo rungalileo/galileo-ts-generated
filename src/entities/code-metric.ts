@@ -20,7 +20,7 @@ import { BaseEntity } from "./base-entity.js";
 import { SyncState } from "./stateful-entity.js";
 import { Metric, type MetricInit } from "./metric.js";
 import { isNodeLike } from "../lib/runtime.js";
-import { safeExecute } from "../lib/result.js";
+import { safeExecute } from "./result.js";
 import { TaskResultStatus } from "../models/taskresultstatus.js";
 import type { ScorerResponse } from "../models/scorerresponse.js";
 

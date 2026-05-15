@@ -15,7 +15,7 @@
 
 import { BaseEntity } from "./base-entity.js";
 import { StatefulEntity, SyncState } from "./stateful-entity.js";
-import { safeExecute } from "../lib/result.js";
+import { safeExecute } from "./result.js";
 import type { DatasetAppendRow } from "../models/datasetappendrow.js";
 import type { DatasetDB } from "../models/datasetdb.js";
 import type { DatasetContent } from "../models/datasetcontent.js";

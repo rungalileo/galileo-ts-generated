@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest';
-import { safeExecute } from '../../lib/result.js';
+import { safeExecute } from '../../entities/result.js';
 
 describe('safeExecute', () => {
   test('test safeExecute returns OK on success', async () => {

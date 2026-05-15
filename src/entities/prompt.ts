@@ -14,7 +14,7 @@
 import { BaseEntity } from "./base-entity.js";
 import { StatefulEntity, SyncState } from "./stateful-entity.js";
 import { PromptVersion } from "./prompt-version.js";
-import { safeExecute } from "../lib/result.js";
+import { safeExecute } from "./result.js";
 import type { BasePromptTemplateResponse } from "../models/baseprompttemplateresponse.js";
 import type { BasePromptTemplateVersion } from "../models/baseprompttemplateversion.js";
 import type { GalileoCoreSchemasSharedMessageMessage } from "../models/galileocoreschemassharedmessagemessage.js";

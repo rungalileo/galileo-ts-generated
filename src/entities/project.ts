@@ -8,7 +8,7 @@
 
 import { BaseEntity } from "./base-entity.js";
 import { StatefulEntity, SyncState } from "./stateful-entity.js";
-import { safeExecute } from "../lib/result.js";
+import { safeExecute } from "./result.js";
 import type { ProjectDB } from "../models/projectdb.js";
 import type { ProjectCreateResponse } from "../models/projectcreateresponse.js";
 import type { ProjectUpdateResponse } from "../models/projectupdateresponse.js";
