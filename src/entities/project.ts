@@ -64,15 +64,8 @@ export class Project extends StatefulEntity {
 		id?: string;
 		name?: string;
 	}): Promise<Project | null> {
+		BaseEntity.assertSingleIdentifier(opts, "Project");
 		const { id, name } = opts;
-		if (id != null && name != null) {
-			throw new TypeError(
-				"Project.get: provide exactly one of id or name, not both"
-			);
-		}
-		if (id == null && name == null) {
-			throw new TypeError("Project.get: provide either id or name");
-		}
 		const client = BaseEntity.getCLient();
 		if (id != null) {
 			const result = await safeExecute(() =>

@@ -134,15 +134,8 @@ export abstract class Metric extends StatefulEntity {
 	}
 
 	static async get(opts: MetricGetOptions): Promise<Metric | null> {
+		BaseEntity.assertSingleIdentifier(opts, "Metric");
 		const { id, name } = opts;
-		if (id != null && name != null) {
-			throw new TypeError(
-				"Metric.get: provide exactly one of id or name, not both"
-			);
-		}
-		if (id == null && name == null) {
-			throw new TypeError("Metric.get: provide either id or name");
-		}
 		const client = BaseEntity.getCLient();
 		if (id != null) {
 			const result = await safeExecute(() =>

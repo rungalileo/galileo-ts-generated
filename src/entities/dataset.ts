@@ -102,15 +102,8 @@ export class Dataset extends StatefulEntity {
 		id?: string;
 		name?: string;
 	}): Promise<Dataset | null> {
+		BaseEntity.assertSingleIdentifier(opts, "Dataset");
 		const { id, name } = opts;
-		if (id != null && name != null) {
-			throw new TypeError(
-				"Dataset.get: provide exactly one of id or name, not both"
-			);
-		}
-		if (id == null && name == null) {
-			throw new TypeError("Dataset.get: provide either id or name");
-		}
 		const client = BaseEntity.getCLient();
 		if (id != null) {
 			const result = await safeExecute(() =>

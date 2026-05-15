@@ -107,15 +107,8 @@ export class Experiment extends StatefulEntity {
 	 * which look up globally.
 	 */
 	static async get(opts: ExperimentGetOptions): Promise<Experiment | null> {
+		BaseEntity.assertSingleIdentifier(opts, "Experiment");
 		const { id, name } = opts;
-		if (id != null && name != null) {
-			throw new TypeError(
-				"Experiment.get: provide exactly one of id or name, not both"
-			);
-		}
-		if (id == null && name == null) {
-			throw new TypeError("Experiment.get: provide either id or name");
-		}
 		const projectId = await resolveProjectId(opts);
 		const client = BaseEntity.getCLient();
 		if (id != null) {

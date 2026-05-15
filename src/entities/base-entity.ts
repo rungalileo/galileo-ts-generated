@@ -96,4 +96,24 @@ export class BaseEntity {
 		}
 		return /\b404\b|not\s*found/i.test(error.message);
 	}
+
+	/**
+	 * Enforces the "provide exactly one of id or name" contract used by every
+	 * entity's `get(...)` lookup. Throws `TypeError` when both are provided
+	 * or when neither is. `entity` is the class name used in the error
+	 * message (e.g. "Project.get: provide either id or name").
+	 */
+	protected static assertSingleIdentifier(
+		opts: { id?: string | undefined; name?: string | undefined },
+		entity: string
+	): void {
+		if (opts.id != null && opts.name != null) {
+			throw new TypeError(
+				`${entity}.get: provide exactly one of id or name, not both`
+			);
+		}
+		if (opts.id == null && opts.name == null) {
+			throw new TypeError(`${entity}.get: provide either id or name`);
+		}
+	}
 }
