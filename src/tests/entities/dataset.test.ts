@@ -231,6 +231,29 @@ describe('Dataset', () => {
       );
       expect(ds!.isSynced()).toBe(true);
     });
+
+    test('test save hydrates response fields (numRows, updatedAt)', async () => {
+      mockGetDataset.mockResolvedValue(
+        datasetDBFixture({
+          numRows: 5,
+          updatedAt: new Date('2026-02-02T00:00:00Z'),
+        })
+      );
+      mockUpdateDataset.mockResolvedValue(
+        datasetDBFixture({
+          name: 'renamed',
+          numRows: 9,
+          updatedAt: new Date('2026-03-15T00:00:00Z'),
+        })
+      );
+      const ds = await Dataset.get({ id: 'ds-123' });
+      expect(ds!.numRows).toBe(5);
+      ds!.name = 'renamed';
+      await ds!.save();
+      expect(ds!.numRows).toBe(9);
+      expect(ds!.updatedAt).toEqual(new Date('2026-03-15T00:00:00Z'));
+      expect(ds!.isSynced()).toBe(true);
+    });
   });
 
   describe('delete', () => {
@@ -280,6 +303,68 @@ describe('Dataset', () => {
     test('test getContent on local-only throws', async () => {
       const ds = new Dataset({ name: 'x' });
       await expect(ds.getContent()).rejects.toThrow('Dataset ID is not set');
+    });
+  });
+
+  describe('addRows', () => {
+    test('test addRows sends edits array of append_row operations', async () => {
+      mockGetDataset.mockResolvedValue(datasetDBFixture());
+      mockUpdateDatasetContent.mockResolvedValue(undefined);
+      const ds = await Dataset.get({ id: 'ds-123' });
+      await ds!.addRows([
+        { input: 'a', output: '1' },
+        { input: 'b', output: '2' },
+      ]);
+      expect(mockUpdateDatasetContent).toHaveBeenCalledWith(
+        {},
+        {
+          datasetId: 'ds-123',
+          body: {
+            edits: [
+              { editType: 'append_row', values: { input: 'a', output: '1' } },
+              { editType: 'append_row', values: { input: 'b', output: '2' } },
+            ],
+          },
+        }
+      );
+    });
+
+    test('test addRows on local-only throws', async () => {
+      const ds = new Dataset({ name: 'x' });
+      await expect(ds.addRows([{ input: 'a' }])).rejects.toThrow(
+        'Dataset ID is not set'
+      );
+    });
+
+    test('test addRows write failure transitions to FAILED_SYNC with write error', async () => {
+      mockGetDataset.mockResolvedValueOnce(datasetDBFixture());
+      const ds = await Dataset.get({ id: 'ds-123' });
+      const writeErr = new Error('write blew up');
+      mockUpdateDatasetContent.mockRejectedValueOnce(writeErr);
+      await expect(ds!.addRows([{ input: 'a' }])).rejects.toBe(writeErr);
+      expect(ds!.hasFailed()).toBe(true);
+      expect(ds!.lastError).toBe(writeErr);
+    });
+
+    test('test addRows write succeeds + refresh fails stays SYNCED and rethrows refresh error', async () => {
+      mockGetDataset.mockResolvedValueOnce(datasetDBFixture());
+      const ds = await Dataset.get({ id: 'ds-123' });
+      mockUpdateDatasetContent.mockResolvedValueOnce(undefined);
+      const refreshErr = new Error('refresh blew up');
+      mockGetDataset.mockRejectedValueOnce(refreshErr);
+      await expect(ds!.addRows([{ input: 'a' }])).rejects.toBe(refreshErr);
+      expect(ds!.isSynced()).toBe(true);
+    });
+
+    test('test addRows write + refresh both succeed hydrates fresh state', async () => {
+      mockGetDataset
+        .mockResolvedValueOnce(datasetDBFixture({ numRows: 5 }))
+        .mockResolvedValueOnce(datasetDBFixture({ numRows: 7 }));
+      mockUpdateDatasetContent.mockResolvedValueOnce(undefined);
+      const ds = await Dataset.get({ id: 'ds-123' });
+      await ds!.addRows([{ input: 'a' }, { input: 'b' }]);
+      expect(ds!.numRows).toBe(7);
+      expect(ds!.isSynced()).toBe(true);
     });
   });
 

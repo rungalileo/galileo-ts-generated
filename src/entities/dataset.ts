@@ -17,6 +17,7 @@
 import { BaseEntity } from "./base-entity.js";
 import { StatefulEntity, SyncState } from "./stateful-entity.js";
 import { GalileoGeneratedError } from "../models/errors/galileogeneratederror.js";
+import type { DatasetAppendRow } from "../models/datasetappendrow.js";
 import type { DatasetDB } from "../models/datasetdb.js";
 import type { DatasetContent } from "../models/datasetcontent.js";
 import type { DatasetVersionDB } from "../models/datasetversiondb.js";
@@ -211,7 +212,7 @@ export class Dataset extends StatefulEntity {
 			this._setState(SyncState.FailedSync, result.error);
 			throw result.error;
 		}
-		this._setState(SyncState.Synced);
+		this._hydrate(result.value);
 		return this;
 	}
 
@@ -253,8 +254,14 @@ export class Dataset extends StatefulEntity {
 	}
 
 	/**
-	 * Add rows to this dataset; refreshes numRows + updatedAt from the API and
-	 * settles back to SYNCED on success. Failure transitions to FAILED_SYNC.
+	 * Add rows to this dataset.
+	 *
+	 * State transitions:
+	 *   - Write fails → FAILED_SYNC with the write error.
+	 *   - Write succeeds, refresh succeeds → SYNCED with fresh server state.
+	 *   - Write succeeds, refresh fails → SYNCED (write is durable) and the
+	 *     refresh error is rethrown so the caller knows local state may be
+	 *     stale until they call `refresh()` again.
 	 */
 	async addRows(rows: Record<string, unknown>[]): Promise<this> {
 		if (this.id == null) {
@@ -262,26 +269,28 @@ export class Dataset extends StatefulEntity {
 				"Dataset ID is not set. Cannot add rows to a local-only dataset."
 			);
 		}
-		try {
-			const client = BaseEntity.getCLient();
-			await client.datasets.updateDatasetContentDatasetsDatasetIdContentPatch(
+		const client = BaseEntity.getCLient();
+		const edits: DatasetAppendRow[] = rows.map((row) => ({
+			editType: "append_row",
+			values: row as DatasetAppendRow["values"],
+		}));
+		const writeResult = await BaseEntity.safeExecute(() =>
+			client.datasets.updateDatasetContentDatasetsDatasetIdContentPatch(
 				{},
-				{
-					datasetId: this.id,
-					updateDatasetContentRequest: {
-						editType: "append",
-						rows,
-					} as never,
-				} as never
-			);
-			await this.refresh();
-			return this;
-		} catch (error) {
-			const err =
-				error instanceof Error ? error : new Error(String(error));
-			this._setState(SyncState.FailedSync, err);
-			throw err;
+				{ datasetId: this.id!, body: { edits } }
+			)
+		);
+		if (!writeResult.ok) {
+			this._setState(SyncState.FailedSync, writeResult.error);
+			throw writeResult.error;
 		}
+		try {
+			await this.refresh();
+		} catch (refreshError) {
+			this._setState(SyncState.Synced);
+			throw refreshError;
+		}
+		return this;
 	}
 
 	async getVersions(): Promise<ListDatasetVersionResponse> {
