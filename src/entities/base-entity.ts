@@ -1,8 +1,8 @@
 import { GalileoGenerated, SDKOptions } from "../index.js";
 import { Token } from "../models/token.js";
-import type { Result } from "../types/fp.js";
-import { OK, ERR } from "../types/fp.js";
 import { GalileoConfig } from "../lib/galileo-config.js";
+import { GalileoGeneratedError } from "../models/errors/galileogeneratederror.js";
+import { safeExecute } from "./result.js";
 
 /**
  * Base class for Galileo SDK entities with shared authentication and API client management.
@@ -86,17 +86,71 @@ export class BaseEntity {
 		}
 	}
 
-	protected static async safeExecute<T>(
-		operation: () => Promise<T>
-	): Promise<Result<T, Error>> {
-		try {
-			const value = await operation();
-			return OK(value);
-		} catch (error) {
-			const err = error instanceof Error 
-				? error 
-				: new Error(String(error));
-			return ERR(err);
+	/**
+	 * Returns true when the given error represents a 404 from the API.
+	 * Used by entity `get(...)` static methods to translate "not found"
+	 * into a `null` return rather than rethrowing.
+	 */
+	protected static isNotFound(error: Error): boolean {
+		if (error instanceof GalileoGeneratedError && error.statusCode === 404) {
+			return true;
+		}
+		return /\b404\b|not\s*found/i.test(error.message);
+	}
+
+	/**
+	 * Run an entity lookup that may 404 and convert the not-found case into
+	 * a `null` return rather than rethrowing. Any other error from the
+	 * underlying call propagates.
+	 *
+	 * `operation` performs the SDK call; `mapper` converts the raw response
+	 * to the entity instance (sync or async, e.g. `_fromApi` or the polymorphic
+	 * `Metric._createMetricFromType`).
+	 */
+	protected static async fetchNullable<T, R>(
+		operation: () => Promise<T>,
+		mapper: (raw: T) => R | Promise<R>
+	): Promise<R | null> {
+		const result = await safeExecute(operation);
+		if (!result.ok) {
+			if (BaseEntity.isNotFound(result.error)) return null;
+			throw result.error;
+		}
+		return await mapper(result.value);
+	}
+
+	/**
+	 * Enforces the "provide exactly one of id or name" contract used by every
+	 * entity's `get(...)` lookup. Throws `TypeError` when:
+	 *   - both `id` and `name` are provided,
+	 *   - neither is provided, or
+	 *   - either is the empty string (treated as caller error so it isn't
+	 *     silently translated into a 404/empty-filter at the backend).
+	 *
+	 * `entity` is the class name used in the error message
+	 * (e.g. "Project.get: provide either id or name").
+	 */
+	protected static assertSingleIdentifier(
+		opts: { id?: string | undefined; name?: string | undefined },
+		entity: string
+	): void {
+		if (opts.id === "") {
+			throw new TypeError(
+				`${entity}.get: id must be a non-empty string`
+			);
+		}
+		if (opts.name === "") {
+			throw new TypeError(
+				`${entity}.get: name must be a non-empty string`
+			);
+		}
+		if (opts.id != null && opts.name != null) {
+			throw new TypeError(
+				`${entity}.get: provide exactly one of id or name, not both`
+			);
+		}
+		if (opts.id == null && opts.name == null) {
+			throw new TypeError(`${entity}.get: provide either id or name`);
 		}
 	}
 }

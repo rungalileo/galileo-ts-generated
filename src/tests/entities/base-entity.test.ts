@@ -1,7 +1,6 @@
 import { describe, test, expect, afterEach, vi } from 'vitest';
 import { BaseEntity } from '../../entities/base-entity.js';
 import { GalileoConfig } from '../../lib/galileo-config.js';
-import type { Result } from '../../types/fp.js';
 
 const { mockLoginApiKey, mockLoginEmail } = vi.hoisted(() => ({
   mockLoginApiKey: vi.fn().mockResolvedValue({ accessToken: 'mock-token' }),
@@ -21,11 +20,6 @@ vi.mock('../../index.js', () => ({
 class TestEntity extends BaseEntity {
   callEnsureNotDeleted(): void {
     this.ensureNotDeleted();
-  }
-  static async callSafeExecute<T>(
-    operation: () => Promise<T>
-  ): Promise<Result<T, Error>> {
-    return BaseEntity.safeExecute(operation);
   }
 }
 
@@ -117,35 +111,4 @@ describe('BaseEntity', () => {
     });
   });
 
-  describe('safeExecute', () => {
-    test('test safeExecute returns OK on success', async () => {
-      const result = await TestEntity.callSafeExecute(async () => 42);
-      expect(result.ok).toBe(true);
-      if (result.ok) {
-        expect(result.value).toBe(42);
-      }
-    });
-
-    test('test safeExecute returns ERR on throw', async () => {
-      const result = await TestEntity.callSafeExecute(async () => {
-        throw new Error('fail');
-      });
-      expect(result.ok).toBe(false);
-      if (!result.ok) {
-        expect(result.error).toBeInstanceOf(Error);
-        expect(result.error.message).toBe('fail');
-      }
-    });
-
-    test('test safeExecute wraps non-Error throw in Error', async () => {
-      const result = await TestEntity.callSafeExecute(async () => {
-        throw 'string-error';
-      });
-      expect(result.ok).toBe(false);
-      if (!result.ok) {
-        expect(result.error).toBeInstanceOf(Error);
-        expect(result.error.message).toBe('string-error');
-      }
-    });
-  });
 });

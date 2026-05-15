@@ -108,10 +108,39 @@ const token = await BaseEntity.getToken();
 const client = BaseEntity.getCLient();
 ```
 
+#### Active-Record Domain Entities
+
+The `src/entities/` directory provides Active-Record-style domain classes
+over the generated SDK. Each class extends `StatefulEntity` and exposes a
+`LOCAL_ONLY → SYNCED ↔ DIRTY → (FAILED_SYNC | DELETED)` lifecycle.
+
+```typescript
+import { Project } from "galileo-generated/entities";
+
+// Fetch + lifecycle
+const project = await Project.get({ name: "My AI Project" });
+if (project) {
+  project.name = "Renamed";       // DIRTY
+  await project.save();           // SYNCED again
+
+  const datasets = await project.listDatasets();
+  await project.delete();         // DELETED
+}
+
+// Create
+const fresh = await new Project({ name: "new-project" }).create();
+```
+
+Available entities: `Project`, `Dataset`, `LogStream`, `Experiment`,
+`Prompt`, `PromptVersion`, and the `Metric` hierarchy (`LlmMetric`,
+`CodeMetric`, `GalileoMetric`, `LocalMetric`). All ship with Vitest test
+coverage under `src/tests/entities/`.
+
 ## Testing
 
-- No test suite is currently configured. CI runs lint only (`test.yaml`).
-- To run lint locally: `npm run lint`.
+- Test suite uses Vitest 2.x and MSW for HTTP mocking.
+- Run all tests: `npm test` (or `npx vitest run`).
+- Run lint locally: `npm run lint`.
 
 ## Configuration
 
