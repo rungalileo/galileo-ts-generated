@@ -89,7 +89,7 @@ describe('CodeMetric', () => {
 
     test('test create orchestrates validate -> poll -> createScorer -> createVersion', async () => {
       mockValidateCode.mockResolvedValue({ taskId: 'task-1' });
-      mockGetValidateTaskResult.mockResolvedValue({ status: 'SUCCESS' });
+      mockGetValidateTaskResult.mockResolvedValue({ status: 'completed' });
       mockCreateScorer.mockResolvedValue(
         scorerResponseFixture({
           id: 'scorer-new',
@@ -121,27 +121,27 @@ describe('CodeMetric', () => {
       const versionCall = mockCreateCodeVersion.mock.calls[0]!;
       expect(versionCall[1].scorerId).toBe('scorer-new');
       expect(versionCall[1].body.validationResult).toBe(
-        JSON.stringify({ status: 'SUCCESS' })
+        JSON.stringify({ status: 'completed' })
       );
       expect(m.id).toBe('scorer-new');
       expect(m.isSynced()).toBe(true);
     });
 
-    test('test create transitions to FAILED_SYNC when validation returns FAILURE', async () => {
+    test('test create transitions to FAILED_SYNC when validation returns failed', async () => {
       mockValidateCode.mockResolvedValue({ taskId: 'task-1' });
       mockGetValidateTaskResult.mockResolvedValue({
-        status: 'FAILURE',
+        status: 'failed',
       });
 
       const m = new CodeMetric({ name: 'cm', code: 'bad' });
-      await expect(m.create()).rejects.toThrow(/status 'FAILURE'/);
+      await expect(m.create()).rejects.toThrow(/status 'failed'/);
       expect(m.hasFailed()).toBe(true);
       expect(mockCreateScorer).not.toHaveBeenCalled();
     });
 
     test('test create surfaces createScorer failure as FAILED_SYNC', async () => {
       mockValidateCode.mockResolvedValue({ taskId: 'task-1' });
-      mockGetValidateTaskResult.mockResolvedValue({ status: 'SUCCESS' });
+      mockGetValidateTaskResult.mockResolvedValue({ status: 'completed' });
       mockCreateScorer.mockRejectedValue(new Error('500: server burned'));
 
       const m = new CodeMetric({ name: 'cm', code: 'def x(): pass' });

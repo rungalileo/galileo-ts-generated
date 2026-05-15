@@ -6,13 +6,14 @@
  *
  * `create()` orchestrates the three-step server flow:
  *   1. POST /scorers/code/validate   (multipart file upload of the code)
- *   2. Poll /scorers/code/validate/{task_id} until SUCCESS or FAILURE
+ *   2. Poll /scorers/code/validate/{task_id} until `completed` or `failed`
+ *      (the terminal `TaskResultStatus` values).
  *   3. POST /scorers                 (create the scorer record)
  *   4. POST /scorers/{id}/version/code (register the first code version)
  *
  * Validation failure or polling timeout transitions the instance to
- * FAILED_SYNC; a SUCCESS-validated payload is forwarded to step 3 as the
- * `validationResult` body parameter to skip server-side re-validation.
+ * FAILED_SYNC; a `completed` validation payload is forwarded to step 3 as
+ * the `validationResult` body parameter to skip server-side re-validation.
  */
 
 import { BaseEntity } from "./base-entity.js";
@@ -20,6 +21,7 @@ import { SyncState } from "./stateful-entity.js";
 import { Metric, type MetricInit } from "./metric.js";
 import { isNodeLike } from "../lib/runtime.js";
 import { safeExecute } from "../lib/result.js";
+import { TaskResultStatus } from "../models/taskresultstatus.js";
 import type { ScorerResponse } from "../models/scorerresponse.js";
 
 export interface CodeMetricInit extends MetricInit {
@@ -104,8 +106,8 @@ export class CodeMetric extends Metric {
 
 		const taskResult = (await this._validateCode(
 			validateResult.value.taskId
-		)) as { status?: string };
-		if (taskResult.status !== "SUCCESS") {
+		)) as { status?: TaskResultStatus };
+		if (taskResult.status !== TaskResultStatus.Completed) {
 			const err = new Error(
 				`CodeMetric.create: code validation returned status '${taskResult.status ?? "UNKNOWN"}'`
 			);
@@ -175,8 +177,11 @@ export class CodeMetric extends Metric {
 				)
 			);
 			if (!result.ok) throw result.error;
-			const status = (result.value as { status?: string }).status;
-			if (status === "SUCCESS" || status === "FAILURE") {
+			const status = (result.value as { status?: TaskResultStatus }).status;
+			if (
+				status === TaskResultStatus.Completed ||
+				status === TaskResultStatus.Failed
+			) {
 				return result.value;
 			}
 			await new Promise((resolve) => setTimeout(resolve, delayMs));
