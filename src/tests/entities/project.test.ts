@@ -179,6 +179,22 @@ describe('Project', () => {
         'provide either id or name'
       );
     });
+
+    test('test get with empty-string id throws non-empty error and does not call SDK', async () => {
+      await expect(Project.get({ id: '' })).rejects.toThrow(
+        'id must be a non-empty string'
+      );
+      expect(mockGetProject).not.toHaveBeenCalled();
+      expect(mockGetProjects).not.toHaveBeenCalled();
+    });
+
+    test('test get with empty-string name throws non-empty error and does not call SDK', async () => {
+      await expect(Project.get({ name: '' })).rejects.toThrow(
+        'name must be a non-empty string'
+      );
+      expect(mockGetProject).not.toHaveBeenCalled();
+      expect(mockGetProjects).not.toHaveBeenCalled();
+    });
   });
 
   describe('static list', () => {
