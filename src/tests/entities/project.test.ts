@@ -21,6 +21,7 @@ const {
   mockDeleteProject,
   mockGetProjects,
   mockListDatasets,
+  mockQueryDatasets,
   mockListLogStreams,
   mockListExperiments,
   mockQueryTemplates,
@@ -32,6 +33,7 @@ const {
   mockDeleteProject: vi.fn(),
   mockGetProjects: vi.fn(),
   mockListDatasets: vi.fn(),
+  mockQueryDatasets: vi.fn(),
   mockListLogStreams: vi.fn(),
   mockListExperiments: vi.fn(),
   mockQueryTemplates: vi.fn(),
@@ -49,6 +51,7 @@ vi.mock('../../index.js', () => ({
     },
     datasets: {
       listDatasetsDatasetsGet: mockListDatasets,
+      queryDatasetsDatasetsQueryPost: mockQueryDatasets,
     },
     logStream: {
       listLogStreamsProjectsProjectIdLogStreamsGet: mockListLogStreams,
@@ -354,15 +357,24 @@ describe('Project', () => {
       expect(streams[0]!.id).toBe('ls-1');
     });
 
-    test('test listDatasets returns Dataset[]', async () => {
+    test('test listDatasets routes scoped query endpoint with used_in_project filter', async () => {
       mockGetProject.mockResolvedValue(projectDBFixture({ id: 'proj-rel' }));
-      mockListDatasets.mockResolvedValue(
+      mockQueryDatasets.mockResolvedValue(
         listDatasetResponseFixture({
           datasets: [datasetDBFixture({ id: 'ds-x' })],
         })
       );
       const project = await Project.get({ id: 'proj-rel' });
       const datasets = await project!.listDatasets();
+      expect(mockQueryDatasets).toHaveBeenCalledWith(
+        {},
+        expect.objectContaining({
+          body: {
+            filters: [{ name: 'used_in_project', value: 'proj-rel' }],
+          },
+        })
+      );
+      expect(mockListDatasets).not.toHaveBeenCalled();
       expect(datasets).toHaveLength(1);
       expect(datasets[0]!.id).toBe('ds-x');
     });

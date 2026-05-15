@@ -10,6 +10,7 @@ import {
 const {
   mockCreateDataset,
   mockListDatasets,
+  mockQueryDatasets,
   mockGetDataset,
   mockUpdateDataset,
   mockDeleteDataset,
@@ -21,6 +22,7 @@ const {
 } = vi.hoisted(() => ({
   mockCreateDataset: vi.fn(),
   mockListDatasets: vi.fn(),
+  mockQueryDatasets: vi.fn(),
   mockGetDataset: vi.fn(),
   mockUpdateDataset: vi.fn(),
   mockDeleteDataset: vi.fn(),
@@ -36,6 +38,7 @@ vi.mock('../../index.js', () => ({
     datasets: {
       createDatasetDatasetsPost: mockCreateDataset,
       listDatasetsDatasetsGet: mockListDatasets,
+      queryDatasetsDatasetsQueryPost: mockQueryDatasets,
       getDatasetDatasetsDatasetIdGet: mockGetDataset,
       updateDatasetDatasetsDatasetIdPatch: mockUpdateDataset,
       deleteDatasetDatasetsDatasetIdDelete: mockDeleteDataset,
@@ -192,6 +195,36 @@ describe('Dataset', () => {
       mockListDatasets.mockResolvedValue(listDatasetResponseFixture());
       await Dataset.list({ limit: 5 });
       expect(mockListDatasets).toHaveBeenCalledWith({}, { limit: 5 });
+    });
+
+    test('test list with projectId routes to query endpoint with used_in_project filter', async () => {
+      mockQueryDatasets.mockResolvedValue(
+        listDatasetResponseFixture({
+          datasets: [datasetDBFixture({ id: 'ds-9' })],
+        })
+      );
+      const result = await Dataset.list({ projectId: 'proj-7' });
+      expect(mockQueryDatasets).toHaveBeenCalledWith(
+        {},
+        {
+          body: {
+            filters: [{ name: 'used_in_project', value: 'proj-7' }],
+          },
+          limit: 100,
+        }
+      );
+      expect(mockListDatasets).not.toHaveBeenCalled();
+      expect(result).toHaveLength(1);
+      expect(result[0]!.id).toBe('ds-9');
+    });
+
+    test('test list with projectId forwards explicit limit', async () => {
+      mockQueryDatasets.mockResolvedValue(listDatasetResponseFixture());
+      await Dataset.list({ projectId: 'proj-7', limit: 25 });
+      expect(mockQueryDatasets).toHaveBeenCalledWith(
+        {},
+        expect.objectContaining({ limit: 25 })
+      );
     });
   });
 

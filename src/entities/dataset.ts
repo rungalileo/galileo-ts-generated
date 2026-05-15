@@ -4,10 +4,9 @@
  * Only `name` is dirty-tracked for `save()`.
  *
  * Notes / limitations:
- *   - `Dataset.list` does not filter by project: the generated
- *     `listDatasetsDatasetsGet` does not accept `project_id` / `project_name`,
- *     so filtering would require a different endpoint. Callers can use
- *     `Project.listDatasets()` once the corresponding endpoint is wired.
+ *   - `Dataset.list` routes through the global `listDatasetsDatasetsGet`
+ *     when no `projectId` is given, and through `queryDatasetsDatasetsQueryPost`
+ *     with a `DatasetUsedInProjectFilter` when `projectId` is provided.
  *   - `Dataset.generate` / `dataset.extend` returns the generated
  *     `SyntheticDatasetExtensionResponse` (an async job handle: `{ datasetId }`).
  *     Polling-to-rows behaviour is not implemented — callers can poll via
@@ -21,6 +20,7 @@ import type { DatasetAppendRow } from "../models/datasetappendrow.js";
 import type { DatasetDB } from "../models/datasetdb.js";
 import type { DatasetContent } from "../models/datasetcontent.js";
 import type { DatasetVersionDB } from "../models/datasetversiondb.js";
+import type { ListDatasetParams } from "../models/listdatasetparams.js";
 import type { ListDatasetVersionResponse } from "../models/listdatasetversionresponse.js";
 import type { SyntheticDatasetExtensionResponse } from "../models/syntheticdatasetextensionresponse.js";
 
@@ -132,8 +132,21 @@ export class Dataset extends StatefulEntity {
 	}
 
 	static async list(opts: DatasetListOptions = {}): Promise<Dataset[]> {
-		const { limit = 100 } = opts;
+		const { limit = 100, projectId } = opts;
 		const client = BaseEntity.getCLient();
+		if (projectId != null) {
+			const body: ListDatasetParams = {
+				filters: [{ name: "used_in_project", value: projectId }],
+			};
+			const result = await safeExecute(() =>
+				client.datasets.queryDatasetsDatasetsQueryPost(
+					{},
+					{ body, limit }
+				)
+			);
+			if (!result.ok) throw result.error;
+			return (result.value.datasets ?? []).map((d) => Dataset._fromApi(d));
+		}
 		const result = await safeExecute(() =>
 			client.datasets.listDatasetsDatasetsGet({}, { limit })
 		);
