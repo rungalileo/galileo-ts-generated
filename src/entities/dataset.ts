@@ -278,6 +278,7 @@ export class Dataset extends StatefulEntity {
 	 *     stale until they call `refresh()` again.
 	 */
 	async addRows(rows: Record<string, unknown>[]): Promise<this> {
+		this.ensureNotDeleted();
 		if (this.id == null) {
 			throw new Error(
 				"Dataset ID is not set. Cannot add rows to a local-only dataset."

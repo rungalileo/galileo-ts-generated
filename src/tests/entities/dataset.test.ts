@@ -382,6 +382,19 @@ describe('Dataset', () => {
       );
     });
 
+    test('test addRows on deleted dataset throws and does not call SDK', async () => {
+      mockGetDataset.mockResolvedValue(datasetDBFixture());
+      mockDeleteDataset.mockResolvedValue(undefined);
+      const ds = await Dataset.get({ id: 'ds-123' });
+      await ds!.delete();
+      mockUpdateDatasetContent.mockClear();
+      await expect(ds!.addRows([{ input: 'a' }])).rejects.toThrow(
+        'Cannot perform operation on deleted entity'
+      );
+      expect(mockUpdateDatasetContent).not.toHaveBeenCalled();
+      expect(ds!.isDeleted()).toBe(true);
+    });
+
     test('test addRows write failure transitions to FAILED_SYNC with write error', async () => {
       mockGetDataset.mockResolvedValueOnce(datasetDBFixture());
       const ds = await Dataset.get({ id: 'ds-123' });
