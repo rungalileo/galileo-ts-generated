@@ -4,10 +4,22 @@ import { CodeMetric } from '../../entities/code-metric.js';
 import { GalileoConfig } from '../../lib/galileo-config.js';
 import { scorerResponseFixture } from './_fixtures.js';
 
-const { mockGetScorer, mockDeleteScorer, mockReadFile } = vi.hoisted(() => ({
+const {
+  mockGetScorer,
+  mockDeleteScorer,
+  mockReadFile,
+  mockValidateCode,
+  mockGetValidateTaskResult,
+  mockCreateScorer,
+  mockCreateCodeVersion,
+} = vi.hoisted(() => ({
   mockGetScorer: vi.fn(),
   mockDeleteScorer: vi.fn(),
   mockReadFile: vi.fn(),
+  mockValidateCode: vi.fn(),
+  mockGetValidateTaskResult: vi.fn(),
+  mockCreateScorer: vi.fn(),
+  mockCreateCodeVersion: vi.fn(),
 }));
 
 vi.mock('../../index.js', () => ({
@@ -15,6 +27,12 @@ vi.mock('../../index.js', () => ({
     prompts: {
       getScorerScorersScorerIdGet: mockGetScorer,
       deleteScorerScorersScorerIdDelete: mockDeleteScorer,
+      validateCodeScorerScorersCodeValidatePost: mockValidateCode,
+      getValidateCodeScorerTaskResultScorersCodeValidateTaskIdGet:
+        mockGetValidateTaskResult,
+      createScorersPost: mockCreateScorer,
+      createCodeScorerVersionScorersScorerIdVersionCodePost:
+        mockCreateCodeVersion,
     },
   })),
   SDKOptions: {},
@@ -64,9 +82,72 @@ describe('CodeMetric', () => {
   });
 
   describe('create', () => {
-    test('test create throws not-yet-supported', async () => {
+    test('test create requires code to be set', async () => {
+      const m = new CodeMetric({ name: 'cm' });
+      await expect(m.create()).rejects.toThrow(/requires `code`/);
+    });
+
+    test('test create orchestrates validate -> poll -> createScorer -> createVersion', async () => {
+      mockValidateCode.mockResolvedValue({ taskId: 'task-1' });
+      mockGetValidateTaskResult.mockResolvedValue({ status: 'SUCCESS' });
+      mockCreateScorer.mockResolvedValue(
+        scorerResponseFixture({
+          id: 'scorer-new',
+          name: 'cm',
+          scorerType: 'code',
+          userPrompt: 'def x(): pass',
+        })
+      );
+      mockCreateCodeVersion.mockResolvedValue({ version: 1 });
+
       const m = new CodeMetric({ name: 'cm', code: 'def x(): pass' });
-      await expect(m.create()).rejects.toThrow(/not yet supported/i);
+      const result = await m.create();
+
+      expect(result).toBe(m);
+      expect(mockValidateCode).toHaveBeenCalledTimes(1);
+      expect(mockGetValidateTaskResult).toHaveBeenCalledWith(
+        {},
+        { taskId: 'task-1' }
+      );
+      expect(mockCreateScorer).toHaveBeenCalledWith(
+        {},
+        {
+          name: 'cm',
+          scorerType: 'code',
+          userPrompt: 'def x(): pass',
+        }
+      );
+      expect(mockCreateCodeVersion).toHaveBeenCalledTimes(1);
+      const versionCall = mockCreateCodeVersion.mock.calls[0]!;
+      expect(versionCall[1].scorerId).toBe('scorer-new');
+      expect(versionCall[1].body.validationResult).toBe(
+        JSON.stringify({ status: 'SUCCESS' })
+      );
+      expect(m.id).toBe('scorer-new');
+      expect(m.isSynced()).toBe(true);
+    });
+
+    test('test create transitions to FAILED_SYNC when validation returns FAILURE', async () => {
+      mockValidateCode.mockResolvedValue({ taskId: 'task-1' });
+      mockGetValidateTaskResult.mockResolvedValue({
+        status: 'FAILURE',
+      });
+
+      const m = new CodeMetric({ name: 'cm', code: 'bad' });
+      await expect(m.create()).rejects.toThrow(/status 'FAILURE'/);
+      expect(m.hasFailed()).toBe(true);
+      expect(mockCreateScorer).not.toHaveBeenCalled();
+    });
+
+    test('test create surfaces createScorer failure as FAILED_SYNC', async () => {
+      mockValidateCode.mockResolvedValue({ taskId: 'task-1' });
+      mockGetValidateTaskResult.mockResolvedValue({ status: 'SUCCESS' });
+      mockCreateScorer.mockRejectedValue(new Error('500: server burned'));
+
+      const m = new CodeMetric({ name: 'cm', code: 'def x(): pass' });
+      await expect(m.create()).rejects.toThrow('500: server burned');
+      expect(m.hasFailed()).toBe(true);
+      expect(mockCreateCodeVersion).not.toHaveBeenCalled();
     });
   });
 

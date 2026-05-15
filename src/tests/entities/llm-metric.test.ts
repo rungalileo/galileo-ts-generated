@@ -4,9 +4,16 @@ import { LlmMetric } from '../../entities/llm-metric.js';
 import { GalileoConfig } from '../../lib/galileo-config.js';
 import { scorerResponseFixture } from './_fixtures.js';
 
-const { mockGetScorer, mockDeleteScorer } = vi.hoisted(() => ({
+const {
+  mockGetScorer,
+  mockDeleteScorer,
+  mockCreateScorer,
+  mockCreateLlmVersion,
+} = vi.hoisted(() => ({
   mockGetScorer: vi.fn(),
   mockDeleteScorer: vi.fn(),
+  mockCreateScorer: vi.fn(),
+  mockCreateLlmVersion: vi.fn(),
 }));
 
 vi.mock('../../index.js', () => ({
@@ -14,6 +21,8 @@ vi.mock('../../index.js', () => ({
     prompts: {
       getScorerScorersScorerIdGet: mockGetScorer,
       deleteScorerScorersScorerIdDelete: mockDeleteScorer,
+      createScorersPost: mockCreateScorer,
+      createLlmScorerVersionScorersScorerIdVersionLlmPost: mockCreateLlmVersion,
     },
   })),
   SDKOptions: {},
@@ -103,9 +112,68 @@ describe('LlmMetric', () => {
   });
 
   describe('create', () => {
-    test('test create throws not-yet-supported', async () => {
-      const m = new LlmMetric({ name: 'j' });
-      await expect(m.create()).rejects.toThrow(/not yet supported/i);
+    test('test create runs createScorer then createLlmVersion and hydrates', async () => {
+      mockCreateScorer.mockResolvedValue(
+        scorerResponseFixture({
+          id: 'lm-new',
+          name: 'judge',
+          scorerType: 'llm',
+          userPrompt: 'Is this good?',
+        })
+      );
+      mockCreateLlmVersion.mockResolvedValue({ version: 1 });
+
+      const m = new LlmMetric({
+        name: 'judge',
+        prompt: 'Is this good?',
+        model: 'gpt-4',
+        judges: 3,
+        cotEnabled: true,
+      });
+      const result = await m.create();
+
+      expect(result).toBe(m);
+      expect(mockCreateScorer).toHaveBeenCalledWith(
+        {},
+        {
+          name: 'judge',
+          scorerType: 'llm',
+          userPrompt: 'Is this good?',
+        }
+      );
+      expect(mockCreateLlmVersion).toHaveBeenCalledWith(
+        {},
+        {
+          scorerId: 'lm-new',
+          body: {
+            userPrompt: 'Is this good?',
+            modelName: 'gpt-4',
+            numJudges: 3,
+            cotEnabled: true,
+            outputType: undefined,
+          },
+        }
+      );
+      expect(m.id).toBe('lm-new');
+      expect(m.isSynced()).toBe(true);
+    });
+
+    test('test create transitions to FAILED_SYNC on createScorer error', async () => {
+      mockCreateScorer.mockRejectedValue(new Error('nope'));
+      const m = new LlmMetric({ name: 'judge', prompt: 'x' });
+      await expect(m.create()).rejects.toThrow('nope');
+      expect(m.hasFailed()).toBe(true);
+      expect(mockCreateLlmVersion).not.toHaveBeenCalled();
+    });
+
+    test('test create transitions to FAILED_SYNC on createLlmVersion error', async () => {
+      mockCreateScorer.mockResolvedValue(
+        scorerResponseFixture({ id: 'lm-new', scorerType: 'llm' })
+      );
+      mockCreateLlmVersion.mockRejectedValue(new Error('version failed'));
+      const m = new LlmMetric({ name: 'judge', prompt: 'x' });
+      await expect(m.create()).rejects.toThrow('version failed');
+      expect(m.hasFailed()).toBe(true);
     });
   });
 

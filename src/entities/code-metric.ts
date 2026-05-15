@@ -4,10 +4,15 @@
  * scorerType is fixed to "code". `loadCode({ path })` is Node-only and
  * guarded via a runtime check.
  *
- * There is no top-level `createScorer` endpoint in this SDK. We expose
- * `validateCode` and `createVersion` against an existing scorer, but full
- * 3-step `create()` (validate → create scorer → create code version) is
- * not available; it throws.
+ * `create()` orchestrates the three-step server flow:
+ *   1. POST /scorers/code/validate   (multipart file upload of the code)
+ *   2. Poll /scorers/code/validate/{task_id} until SUCCESS or FAILURE
+ *   3. POST /scorers                 (create the scorer record)
+ *   4. POST /scorers/{id}/version/code (register the first code version)
+ *
+ * Validation failure or polling timeout transitions the instance to
+ * FAILED_SYNC; a SUCCESS-validated payload is forwarded to step 3 as the
+ * `validationResult` body parameter to skip server-side re-validation.
  */
 
 import { BaseEntity } from "./base-entity.js";
@@ -60,12 +65,87 @@ export class CodeMetric extends Metric {
 	}
 
 	async create(): Promise<this> {
-		throw new Error(
-			"CodeMetric.create is not yet supported by this SDK. " +
-				"The top-level scorer-create endpoint is not exposed; only " +
-				"validateCode and createCodeScorerVersion are available against " +
-				"an existing scorer id."
+		this.ensureNotDeleted();
+		if (this.code == null) {
+			throw new Error(
+				"CodeMetric.create requires `code`. Set it via the constructor or call loadCode({ path }) first."
+			);
+		}
+		const client = BaseEntity.getCLient();
+		const code = this.code;
+		const fileName = `${this.name}.py`;
+		const buildFile = (): {
+			fileName: string;
+			content: Blob;
+		} => ({
+			fileName,
+			content: new Blob([code], { type: "text/plain" }),
+		});
+
+		const validateResult = await BaseEntity.safeExecute(() =>
+			client.prompts.validateCodeScorerScorersCodeValidatePost(
+				{},
+				{ file: buildFile() }
+			)
 		);
+		if (!validateResult.ok) {
+			this._setState(SyncState.FailedSync, validateResult.error);
+			throw validateResult.error;
+		}
+
+		const taskResult = (await this._validateCode(
+			validateResult.value.taskId
+		)) as { status?: string };
+		if (taskResult.status !== "SUCCESS") {
+			const err = new Error(
+				`CodeMetric.create: code validation returned status '${taskResult.status ?? "UNKNOWN"}'`
+			);
+			this._setState(SyncState.FailedSync, err);
+			throw err;
+		}
+
+		const scorerResult = await BaseEntity.safeExecute(() =>
+			client.prompts.createScorersPost(
+				{},
+				{
+					name: this.name,
+					scorerType: "code",
+					userPrompt: this.code,
+				}
+			)
+		);
+		if (!scorerResult.ok) {
+			this._setState(SyncState.FailedSync, scorerResult.error);
+			throw scorerResult.error;
+		}
+		const scorer = scorerResult.value;
+		if (scorer.id == null) {
+			const err = new Error(
+				"CodeMetric.create: server returned scorer without an id"
+			);
+			this._setState(SyncState.FailedSync, err);
+			throw err;
+		}
+
+		const versionResult = await BaseEntity.safeExecute(() =>
+			client.prompts.createCodeScorerVersionScorersScorerIdVersionCodePost(
+				{},
+				{
+					scorerId: scorer.id,
+					body: {
+						file: buildFile(),
+						validationResult: JSON.stringify(taskResult),
+					},
+				}
+			)
+		);
+		if (!versionResult.ok) {
+			this._setState(SyncState.FailedSync, versionResult.error);
+			throw versionResult.error;
+		}
+
+		this._hydrate(scorer);
+		return this;
 	}
 
 	/**

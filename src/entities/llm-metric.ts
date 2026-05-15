@@ -5,13 +5,17 @@
  * legacy (userPrompt/modelName/numJudges) names with priority resolution
  * (modern wins).
  *
- * The LLM autogen endpoint (`autogenLlmScorerScorersLlmAutogenPost`) starts
- * an async task and returns a task id; full "create then poll" orchestration
- * is not implemented here. `create()` throws a clear error pointing to the
- * autogen API as the manual fallback.
+ * `create()` issues two server calls:
+ *   1. POST /scorers                         (create the scorer record)
+ *   2. POST /scorers/{id}/version/llm        (register the first LLM version)
+ * No async polling is required — this replaces the previous autogen-based
+ * workaround. Any failure transitions the instance to FAILED_SYNC.
  */
 
+import { BaseEntity } from "./base-entity.js";
 import { Metric, type MetricInit } from "./metric.js";
+import { SyncState } from "./stateful-entity.js";
+import type { OutputTypeEnum } from "../models/outputtypeenum.js";
 import type { ScorerResponse } from "../models/scorerresponse.js";
 
 export interface LlmMetricInit extends MetricInit {
@@ -52,11 +56,55 @@ export class LlmMetric extends Metric {
 	}
 
 	async create(): Promise<this> {
-		throw new Error(
-			"LlmMetric.create is not yet supported by this SDK. " +
-				"Use the autogen LLM scorer endpoint (autogenLlmScorerScorersLlmAutogenPost) " +
-				"directly via the generated SDK client."
+		this.ensureNotDeleted();
+		const client = BaseEntity.getCLient();
+
+		const scorerResult = await BaseEntity.safeExecute(() =>
+			client.prompts.createScorersPost(
+				{},
+				{
+					name: this.name,
+					scorerType: "llm",
+					userPrompt: this.prompt ?? undefined,
+				}
+			)
 		);
+		if (!scorerResult.ok) {
+			this._setState(SyncState.FailedSync, scorerResult.error);
+			throw scorerResult.error;
+		}
+		const scorer = scorerResult.value;
+		if (scorer.id == null) {
+			const err = new Error(
+				"LlmMetric.create: server returned scorer without an id"
+			);
+			this._setState(SyncState.FailedSync, err);
+			throw err;
+		}
+
+		const versionResult = await BaseEntity.safeExecute(() =>
+			client.prompts.createLlmScorerVersionScorersScorerIdVersionLlmPost(
+				{},
+				{
+					scorerId: scorer.id,
+					body: {
+						userPrompt: this.prompt ?? undefined,
+						modelName: this.model ?? undefined,
+						numJudges: this.judges ?? undefined,
+						cotEnabled: this.cotEnabled ?? undefined,
+						outputType:
+							(this.outputType as OutputTypeEnum | null) ?? undefined,
+					},
+				}
+			)
+		);
+		if (!versionResult.ok) {
+			this._setState(SyncState.FailedSync, versionResult.error);
+			throw versionResult.error;
+		}
+
+		this._hydrate(scorer);
+		return this;
 	}
 
 	protected override _hydrate(raw: ScorerResponse): void {

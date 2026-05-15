@@ -5,12 +5,12 @@
  * orchestration, no filter/sort/column DSL, no polymorphic
  * dataset/prompt/model unions.
  *
- * The generated SDK currently exposes no
- * `createExperimentProjectsProjectIdExperimentsPost` endpoint (only
- * get/list/update/delete). Until the OpenAPI spec is regenerated to
- * include creation, `Experiment.create()` throws a clearly-marked error.
- * Existing experiments can still be fetched via `get()` / `list()` and
- * hydrated normally.
+ * `create()` issues a single POST against
+ * `createExperimentProjectsProjectIdExperimentsPost` with `{ name }`. The
+ * server schema accepts a much richer payload (taskType, dataset,
+ * promptTemplateVersionId, scorers, experimentGroup*, ...), but
+ * `ExperimentInit` is intentionally kept minimal here; broader payload
+ * support is a follow-up.
  */
 
 import { BaseEntity } from "./base-entity.js";
@@ -137,11 +137,24 @@ export class Experiment extends StatefulEntity {
 	}
 
 	async create(): Promise<this> {
-		throw new Error(
-			"Experiment.create is not yet supported by the generated SDK. " +
-				"The OpenAPI spec must be regenerated to include the experiment " +
-				"creation endpoint before this method can be wired."
+		this.ensureNotDeleted();
+		const projectId = await Experiment.#resolveProjectId({
+			projectId: this.projectId ?? undefined,
+			projectName: this.projectName ?? undefined,
+		});
+		const client = BaseEntity.getCLient();
+		const result = await BaseEntity.safeExecute(() =>
+			client.experiment.createExperimentProjectsProjectIdExperimentsPost(
+				{},
+				{ projectId, body: { name: this.#name } }
+			)
 		);
+		if (!result.ok) {
+			this._setState(SyncState.FailedSync, result.error);
+			throw result.error;
+		}
+		this._hydrate(result.value);
+		return this;
 	}
 
 	async refresh(): Promise<this> {

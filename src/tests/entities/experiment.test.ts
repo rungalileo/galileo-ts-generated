@@ -7,11 +7,13 @@ import { experimentResponseFixture } from './_fixtures.js';
 const {
   mockListExperiments,
   mockGetExperiment,
+  mockCreateExperiment,
   mockDeleteExperiment,
   mockSetTag,
 } = vi.hoisted(() => ({
   mockListExperiments: vi.fn(),
   mockGetExperiment: vi.fn(),
+  mockCreateExperiment: vi.fn(),
   mockDeleteExperiment: vi.fn(),
   mockSetTag: vi.fn(),
 }));
@@ -21,6 +23,7 @@ vi.mock('../../index.js', () => ({
     experiment: {
       listExperimentsProjectsProjectIdExperimentsGet: mockListExperiments,
       getExperimentProjectsProjectIdExperimentsExperimentIdGet: mockGetExperiment,
+      createExperimentProjectsProjectIdExperimentsPost: mockCreateExperiment,
       deleteExperimentProjectsProjectIdExperimentsExperimentIdDelete:
         mockDeleteExperiment,
     },
@@ -142,9 +145,31 @@ describe('Experiment', () => {
   });
 
   describe('create', () => {
-    test('test create throws not-yet-supported error', async () => {
-      const exp = new Experiment({ name: 'x', projectId: 'p' });
-      await expect(exp.create()).rejects.toThrow(/not yet supported/i);
+    test('test create posts to createExperiment endpoint and hydrates to SYNCED', async () => {
+      mockCreateExperiment.mockResolvedValue(
+        experimentResponseFixture({
+          id: 'exp-new',
+          name: 'eval',
+          projectId: 'proj-1',
+        })
+      );
+      const exp = new Experiment({ name: 'eval', projectId: 'proj-1' });
+      const result = await exp.create();
+      expect(result).toBe(exp);
+      expect(mockCreateExperiment).toHaveBeenCalledWith(
+        {},
+        { projectId: 'proj-1', body: { name: 'eval' } }
+      );
+      expect(exp.id).toBe('exp-new');
+      expect(exp.projectId).toBe('proj-1');
+      expect(exp.isSynced()).toBe(true);
+    });
+
+    test('test create transitions to FAILED_SYNC on API error', async () => {
+      mockCreateExperiment.mockRejectedValue(new Error('boom'));
+      const exp = new Experiment({ name: 'eval', projectId: 'proj-1' });
+      await expect(exp.create()).rejects.toThrow('boom');
+      expect(exp.hasFailed()).toBe(true);
     });
   });
 
