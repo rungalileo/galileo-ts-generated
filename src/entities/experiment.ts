@@ -14,8 +14,8 @@
  */
 
 import { BaseEntity } from "./base-entity.js";
+import { resolveProjectId } from "./resolve-project.js";
 import { StatefulEntity, SyncState } from "./stateful-entity.js";
-import { GalileoConfig } from "../lib/galileo-config.js";
 import type { ExperimentResponse } from "../models/experimentresponse.js";
 import type { RunTagDB } from "../models/runtagdb.js";
 import type { TaskType } from "../models/tasktype.js";
@@ -115,7 +115,7 @@ export class Experiment extends StatefulEntity {
 		if (id == null && name == null) {
 			throw new TypeError("Experiment.get: provide either id or name");
 		}
-		const projectId = await Experiment.#resolveProjectId(opts);
+		const projectId = await resolveProjectId(opts);
 		const client = BaseEntity.getCLient();
 		if (id != null) {
 			const result = await BaseEntity.safeExecute(() =>
@@ -137,7 +137,7 @@ export class Experiment extends StatefulEntity {
 	static async list(
 		opts: ExperimentListOptions = {}
 	): Promise<Experiment[]> {
-		const projectId = await Experiment.#resolveProjectId(opts);
+		const projectId = await resolveProjectId(opts);
 		const client = BaseEntity.getCLient();
 		const result = await BaseEntity.safeExecute(() =>
 			client.experiment.listExperimentsProjectsProjectIdExperimentsGet(
@@ -151,7 +151,7 @@ export class Experiment extends StatefulEntity {
 
 	async create(): Promise<this> {
 		this.ensureNotDeleted();
-		const projectId = await Experiment.#resolveProjectId({
+		const projectId = await resolveProjectId({
 			projectId: this.projectId ?? undefined,
 			projectName: this.projectName ?? undefined,
 		});
@@ -319,33 +319,6 @@ export class Experiment extends StatefulEntity {
 			this.aggregateMetrics = raw.aggregateMetrics;
 		if (raw.tags !== undefined) this.tags = raw.tags;
 		this._setState(SyncState.Synced);
-	}
-
-	static async #resolveProjectId(opts: {
-		projectId?: string | undefined;
-		projectName?: string | undefined;
-	}): Promise<string> {
-		if (opts.projectId) return opts.projectId;
-		if (opts.projectName) {
-			const { Project } = await import("./project.js");
-			const project = await Project.get({ name: opts.projectName });
-			if (!project || !project.id) {
-				throw new Error(`Project '${opts.projectName}' not found`);
-			}
-			return project.id;
-		}
-		const envProject = GalileoConfig.get().projectName;
-		if (envProject) {
-			const { Project } = await import("./project.js");
-			const project = await Project.get({ name: envProject });
-			if (!project || !project.id) {
-				throw new Error(`Project '${envProject}' not found`);
-			}
-			return project.id;
-		}
-		throw new TypeError(
-			"projectId or projectName must be provided (or GALILEO_PROJECT env var must be set)"
-		);
 	}
 
 }
