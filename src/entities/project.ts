@@ -8,7 +8,6 @@
 
 import { BaseEntity } from "./base-entity.js";
 import { StatefulEntity, SyncState } from "./stateful-entity.js";
-import { GalileoGeneratedError } from "../models/errors/galileogeneratederror.js";
 import type { ProjectDB } from "../models/projectdb.js";
 import type { ProjectCreateResponse } from "../models/projectcreateresponse.js";
 import type { ProjectUpdateResponse } from "../models/projectupdateresponse.js";
@@ -79,7 +78,7 @@ export class Project extends StatefulEntity {
 				client.projects.getProjectProjectsProjectIdGet({}, { projectId: id })
 			);
 			if (!result.ok) {
-				if (Project.#isNotFound(result.error)) {
+				if (BaseEntity.isNotFound(result.error)) {
 					return null;
 				}
 				throw result.error;
@@ -270,10 +269,4 @@ export class Project extends StatefulEntity {
 		this._setState(SyncState.Synced);
 	}
 
-	static #isNotFound(error: Error): boolean {
-		if (error instanceof GalileoGeneratedError && error.statusCode === 404) {
-			return true;
-		}
-		return /\b404\b|not\s*found/i.test(error.message);
-	}
 }

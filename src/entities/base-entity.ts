@@ -3,6 +3,7 @@ import { Token } from "../models/token.js";
 import type { Result } from "../types/fp.js";
 import { OK, ERR } from "../types/fp.js";
 import { GalileoConfig } from "../lib/galileo-config.js";
+import { GalileoGeneratedError } from "../models/errors/galileogeneratederror.js";
 
 /**
  * Base class for Galileo SDK entities with shared authentication and API client management.
@@ -93,10 +94,22 @@ export class BaseEntity {
 			const value = await operation();
 			return OK(value);
 		} catch (error) {
-			const err = error instanceof Error 
-				? error 
+			const err = error instanceof Error
+				? error
 				: new Error(String(error));
 			return ERR(err);
 		}
+	}
+
+	/**
+	 * Returns true when the given error represents a 404 from the API.
+	 * Used by entity `get(...)` static methods to translate "not found"
+	 * into a `null` return rather than rethrowing.
+	 */
+	protected static isNotFound(error: Error): boolean {
+		if (error instanceof GalileoGeneratedError && error.statusCode === 404) {
+			return true;
+		}
+		return /\b404\b|not\s*found/i.test(error.message);
 	}
 }

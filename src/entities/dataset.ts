@@ -16,7 +16,6 @@
 
 import { BaseEntity } from "./base-entity.js";
 import { StatefulEntity, SyncState } from "./stateful-entity.js";
-import { GalileoGeneratedError } from "../models/errors/galileogeneratederror.js";
 import type { DatasetAppendRow } from "../models/datasetappendrow.js";
 import type { DatasetDB } from "../models/datasetdb.js";
 import type { DatasetContent } from "../models/datasetcontent.js";
@@ -117,7 +116,7 @@ export class Dataset extends StatefulEntity {
 				client.datasets.getDatasetDatasetsDatasetIdGet({}, { datasetId: id })
 			);
 			if (!result.ok) {
-				if (Dataset.#isNotFound(result.error)) return null;
+				if (BaseEntity.isNotFound(result.error)) return null;
 				throw result.error;
 			}
 			return Dataset._fromApi(result.value);
@@ -407,10 +406,4 @@ export class Dataset extends StatefulEntity {
 		return body as never;
 	}
 
-	static #isNotFound(error: Error): boolean {
-		if (error instanceof GalileoGeneratedError && error.statusCode === 404) {
-			return true;
-		}
-		return /\b404\b|not\s*found/i.test(error.message);
-	}
 }

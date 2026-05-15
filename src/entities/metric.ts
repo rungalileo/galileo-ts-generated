@@ -16,7 +16,6 @@
 
 import { BaseEntity } from "./base-entity.js";
 import { StatefulEntity, SyncState } from "./stateful-entity.js";
-import { GalileoGeneratedError } from "../models/errors/galileogeneratederror.js";
 import type { ListScorersRequest } from "../models/listscorersrequest.js";
 import type { ScorerResponse } from "../models/scorerresponse.js";
 import type { ScorerTypes } from "../models/scorertypes.js";
@@ -149,7 +148,7 @@ export abstract class Metric extends StatefulEntity {
 				client.prompts.getScorerScorersScorerIdGet({}, { scorerId: id })
 			);
 			if (!result.ok) {
-				if (Metric.#isNotFound(result.error)) return null;
+				if (BaseEntity.isNotFound(result.error)) return null;
 				throw result.error;
 			}
 			return Metric._createMetricFromType(result.value);
@@ -252,10 +251,4 @@ export abstract class Metric extends StatefulEntity {
 		this._setState(SyncState.Synced);
 	}
 
-	static #isNotFound(error: Error): boolean {
-		if (error instanceof GalileoGeneratedError && error.statusCode === 404) {
-			return true;
-		}
-		return /\b404\b|not\s*found/i.test(error.message);
-	}
 }

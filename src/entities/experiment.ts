@@ -16,7 +16,6 @@
 import { BaseEntity } from "./base-entity.js";
 import { StatefulEntity, SyncState } from "./stateful-entity.js";
 import { GalileoConfig } from "../lib/galileo-config.js";
-import { GalileoGeneratedError } from "../models/errors/galileogeneratederror.js";
 import type { ExperimentResponse } from "../models/experimentresponse.js";
 import type { RunTagDB } from "../models/runtagdb.js";
 import type { TaskType } from "../models/tasktype.js";
@@ -126,7 +125,7 @@ export class Experiment extends StatefulEntity {
 				)
 			);
 			if (!result.ok) {
-				if (Experiment.#isNotFound(result.error)) return null;
+				if (BaseEntity.isNotFound(result.error)) return null;
 				throw result.error;
 			}
 			return Experiment._fromApi(result.value);
@@ -349,10 +348,4 @@ export class Experiment extends StatefulEntity {
 		);
 	}
 
-	static #isNotFound(error: Error): boolean {
-		if (error instanceof GalileoGeneratedError && error.statusCode === 404) {
-			return true;
-		}
-		return /\b404\b|not\s*found/i.test(error.message);
-	}
 }

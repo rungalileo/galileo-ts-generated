@@ -14,7 +14,6 @@
 import { BaseEntity } from "./base-entity.js";
 import { StatefulEntity, SyncState } from "./stateful-entity.js";
 import { PromptVersion } from "./prompt-version.js";
-import { GalileoGeneratedError } from "../models/errors/galileogeneratederror.js";
 import type { BasePromptTemplateResponse } from "../models/baseprompttemplateresponse.js";
 import type { BasePromptTemplateVersion } from "../models/baseprompttemplateversion.js";
 import type { GalileoCoreSchemasSharedMessageMessage } from "../models/galileocoreschemassharedmessagemessage.js";
@@ -131,7 +130,7 @@ export class Prompt extends StatefulEntity {
 				)
 			);
 			if (!result.ok) {
-				if (Prompt.#isNotFound(result.error)) return null;
+				if (BaseEntity.isNotFound(result.error)) return null;
 				throw result.error;
 			}
 			return Prompt._fromApi(result.value);
@@ -381,10 +380,4 @@ export class Prompt extends StatefulEntity {
 		this._setState(SyncState.Synced);
 	}
 
-	static #isNotFound(error: Error): boolean {
-		if (error instanceof GalileoGeneratedError && error.statusCode === 404) {
-			return true;
-		}
-		return /\b404\b|not\s*found/i.test(error.message);
-	}
 }
