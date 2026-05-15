@@ -15,6 +15,9 @@ const {
   mockUpdateGlobalTemplate,
   mockDeleteGlobalTemplate,
   mockQueryTemplates,
+  mockGetProjectTemplates,
+  mockGetProjects,
+  mockGetProject,
   mockQueryVersions,
   mockCreateGlobalVersion,
   mockSetSelectedVersion,
@@ -24,6 +27,9 @@ const {
   mockUpdateGlobalTemplate: vi.fn(),
   mockDeleteGlobalTemplate: vi.fn(),
   mockQueryTemplates: vi.fn(),
+  mockGetProjectTemplates: vi.fn(),
+  mockGetProjects: vi.fn(),
+  mockGetProject: vi.fn(),
   mockQueryVersions: vi.fn(),
   mockCreateGlobalVersion: vi.fn(),
   mockSetSelectedVersion: vi.fn(),
@@ -38,12 +44,17 @@ vi.mock('../../index.js', () => ({
       updateGlobalTemplateTemplatesTemplateIdPatch: mockUpdateGlobalTemplate,
       deleteGlobalTemplateTemplatesTemplateIdDelete: mockDeleteGlobalTemplate,
       queryTemplatesTemplatesQueryPost: mockQueryTemplates,
+      getProjectTemplatesProjectsProjectIdTemplatesGet: mockGetProjectTemplates,
       queryTemplateVersionsTemplatesTemplateIdVersionsQueryPost:
         mockQueryVersions,
       createGlobalPromptTemplateVersionTemplatesTemplateIdVersionsPost:
         mockCreateGlobalVersion,
       setSelectedTemplateVersionProjectsProjectIdTemplatesTemplateIdVersionsVersionPut:
         mockSetSelectedVersion,
+    },
+    projects: {
+      getProjectsProjectsGet: mockGetProjects,
+      getProjectProjectsProjectIdGet: mockGetProject,
     },
   })),
   SDKOptions: {},
@@ -176,13 +187,77 @@ describe('Prompt', () => {
       expect(list[0]).toBeInstanceOf(Prompt);
     });
 
-    test('test list with nameFilter passes name_filter in body', async () => {
+    test('test list with nameFilter sends filters array with eq operator', async () => {
       mockQueryTemplates.mockResolvedValue(listPromptTemplateResponseFixture());
       await Prompt.list({ nameFilter: 'pref' });
       expect(mockQueryTemplates).toHaveBeenCalledWith(
         {},
-        { body: { name_filter: 'pref' } }
+        {
+          body: {
+            filters: [{ name: 'name', operator: 'eq', value: 'pref' }],
+          },
+        }
       );
+    });
+
+    test('test list with limit forwards limit on global path', async () => {
+      mockQueryTemplates.mockResolvedValue(listPromptTemplateResponseFixture());
+      await Prompt.list({ limit: 25 });
+      expect(mockQueryTemplates).toHaveBeenCalledWith(
+        {},
+        expect.objectContaining({ limit: 25 })
+      );
+    });
+
+    test('test list with projectId routes to project-scoped endpoint', async () => {
+      mockGetProjectTemplates.mockResolvedValue([
+        promptTemplateResponseFixture({ id: 'p-1', name: 'a' }),
+        promptTemplateResponseFixture({ id: 'p-2', name: 'b' }),
+      ]);
+      const list = await Prompt.list({ projectId: 'proj-9' });
+      expect(mockGetProjectTemplates).toHaveBeenCalledWith(
+        {},
+        { projectId: 'proj-9' }
+      );
+      expect(mockQueryTemplates).not.toHaveBeenCalled();
+      expect(list).toHaveLength(2);
+      expect(list[0]!.id).toBe('p-1');
+    });
+
+    test('test list with projectId and nameFilter filters client-side', async () => {
+      mockGetProjectTemplates.mockResolvedValue([
+        promptTemplateResponseFixture({ id: 'p-1', name: 'foo' }),
+        promptTemplateResponseFixture({ id: 'p-2', name: 'bar' }),
+      ]);
+      const list = await Prompt.list({
+        projectId: 'proj-9',
+        nameFilter: 'bar',
+      });
+      expect(list).toHaveLength(1);
+      expect(list[0]!.name).toBe('bar');
+    });
+
+    test('test list with projectName resolves to projectId then routes scoped', async () => {
+      mockGetProjects.mockResolvedValue([
+        { id: 'proj-x', name: 'my-project' },
+      ]);
+      mockGetProjectTemplates.mockResolvedValue([
+        promptTemplateResponseFixture({ id: 'p-9' }),
+      ]);
+      const list = await Prompt.list({ projectName: 'my-project' });
+      expect(mockGetProjects).toHaveBeenCalled();
+      expect(mockGetProjectTemplates).toHaveBeenCalledWith(
+        {},
+        { projectId: 'proj-x' }
+      );
+      expect(list[0]!.id).toBe('p-9');
+    });
+
+    test('test list with unknown projectName throws', async () => {
+      mockGetProjects.mockResolvedValue([]);
+      await expect(
+        Prompt.list({ projectName: 'missing' })
+      ).rejects.toThrow("Project 'missing' not found");
     });
   });
 

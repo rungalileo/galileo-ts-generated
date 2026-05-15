@@ -17,6 +17,7 @@ import { PromptVersion } from "./prompt-version.js";
 import { GalileoGeneratedError } from "../models/errors/galileogeneratederror.js";
 import type { BasePromptTemplateResponse } from "../models/baseprompttemplateresponse.js";
 import type { GalileoCoreSchemasSharedMessageMessage } from "../models/galileocoreschemassharedmessagemessage.js";
+import type { ListPromptTemplateParams } from "../models/listprompttemplateparams.js";
 
 export type PromptMessages =
 	| string
@@ -140,19 +141,55 @@ export class Prompt extends StatefulEntity {
 
 	static async list(opts: PromptListOptions = {}): Promise<Prompt[]> {
 		const client = BaseEntity.getCLient();
-		const request: { limit?: number; body?: Record<string, unknown> } = {};
-		if (opts.limit != null) request.limit = opts.limit;
-		if (opts.nameFilter) {
-			request.body = { name_filter: opts.nameFilter };
+		const projectId = await Prompt.#resolveOptionalProjectId(opts);
+		if (projectId != null) {
+			const result = await BaseEntity.safeExecute(() =>
+				client.prompts.getProjectTemplatesProjectsProjectIdTemplatesGet(
+					{},
+					{ projectId }
+				)
+			);
+			if (!result.ok) throw result.error;
+			let templates = result.value;
+			if (opts.nameFilter) {
+				templates = templates.filter((t) => t.name === opts.nameFilter);
+			}
+			if (opts.limit != null) {
+				templates = templates.slice(0, opts.limit);
+			}
+			return templates.map((t) => Prompt._fromApi(t));
 		}
+		const body: ListPromptTemplateParams = {};
+		if (opts.nameFilter) {
+			body.filters = [
+				{ name: "name", operator: "eq", value: opts.nameFilter },
+			];
+		}
+		const request: {
+			limit?: number;
+			body?: ListPromptTemplateParams;
+		} = { body };
+		if (opts.limit != null) request.limit = opts.limit;
 		const result = await BaseEntity.safeExecute(() =>
-			client.prompts.queryTemplatesTemplatesQueryPost(
-				{},
-				request as never
-			)
+			client.prompts.queryTemplatesTemplatesQueryPost({}, request)
 		);
 		if (!result.ok) throw result.error;
 		return (result.value.templates ?? []).map((t) => Prompt._fromApi(t));
+	}
+
+	static async #resolveOptionalProjectId(
+		opts: PromptListOptions
+	): Promise<string | null> {
+		if (opts.projectId) return opts.projectId;
+		if (opts.projectName) {
+			const { Project } = await import("./project.js");
+			const project = await Project.get({ name: opts.projectName });
+			if (!project || !project.id) {
+				throw new Error(`Project '${opts.projectName}' not found`);
+			}
+			return project.id;
+		}
+		return null;
 	}
 
 	async create(): Promise<this> {

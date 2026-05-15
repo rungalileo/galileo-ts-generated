@@ -7,7 +7,6 @@ import {
   datasetDBFixture,
   experimentResponseFixture,
   listDatasetResponseFixture,
-  listPromptTemplateResponseFixture,
   logStreamResponseFixture,
   projectCreateResponseFixture,
   projectDBFixture,
@@ -25,6 +24,7 @@ const {
   mockListLogStreams,
   mockListExperiments,
   mockQueryTemplates,
+  mockGetProjectTemplates,
 } = vi.hoisted(() => ({
   mockCreateProject: vi.fn(),
   mockGetProject: vi.fn(),
@@ -35,6 +35,7 @@ const {
   mockListLogStreams: vi.fn(),
   mockListExperiments: vi.fn(),
   mockQueryTemplates: vi.fn(),
+  mockGetProjectTemplates: vi.fn(),
 }));
 
 vi.mock('../../index.js', () => ({
@@ -57,6 +58,7 @@ vi.mock('../../index.js', () => ({
     },
     prompts: {
       queryTemplatesTemplatesQueryPost: mockQueryTemplates,
+      getProjectTemplatesProjectsProjectIdTemplatesGet: mockGetProjectTemplates,
     },
   })),
   SDKOptions: {},
@@ -366,15 +368,18 @@ describe('Project', () => {
       expect(experiments[0]!.id).toBe('exp-1');
     });
 
-    test('test listPrompts returns Prompt[]', async () => {
+    test('test listPrompts routes scoped endpoint with projectId', async () => {
       mockGetProject.mockResolvedValue(projectDBFixture({ id: 'proj-rel' }));
-      mockQueryTemplates.mockResolvedValue(
-        listPromptTemplateResponseFixture({
-          templates: [promptTemplateResponseFixture({ id: 'p-1' })],
-        })
-      );
+      mockGetProjectTemplates.mockResolvedValue([
+        promptTemplateResponseFixture({ id: 'p-1' }),
+      ]);
       const project = await Project.get({ id: 'proj-rel' });
       const prompts = await project!.listPrompts();
+      expect(mockGetProjectTemplates).toHaveBeenCalledWith(
+        {},
+        { projectId: 'proj-rel' }
+      );
+      expect(mockQueryTemplates).not.toHaveBeenCalled();
       expect(prompts).toHaveLength(1);
       expect(prompts[0]!.id).toBe('p-1');
     });
