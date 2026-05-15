@@ -52,6 +52,14 @@ export class CodeMetric extends Metric {
 	/**
 	 * Node-only. Reads `path` from disk and stages the contents on `this.code`.
 	 * Browser bundles do not include `fs/promises`; this method throws there.
+	 *
+	 * Security: `path` is passed unmodified to `fs.readFile`, so the calling
+	 * code is responsible for ensuring it is trusted. Do NOT pass paths that
+	 * are influenced by untrusted input (request bodies, user-supplied config,
+	 * environment variables that originate from outside the process) — doing
+	 * so creates a path-traversal vector exposing any file the Node process
+	 * can read. If you need to accept user-supplied code, read the bytes
+	 * yourself and assign `this.code` directly instead of calling `loadCode`.
 	 */
 	async loadCode(opts: CodeMetricLoadCodeOptions): Promise<this> {
 		if (!isNodeLike()) {
