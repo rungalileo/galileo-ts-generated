@@ -160,6 +160,8 @@ export * from "./datasetprependrow.js";
 export * from "./datasetproject.js";
 export * from "./datasetprojectlastusedatsort.js";
 export * from "./datasetprojectssort.js";
+export * from "./datasetremovecolumn.js";
+export * from "./datasetrenamecolumn.js";
 export * from "./datasetrow.js";
 export * from "./datasetrowmetadata.js";
 export * from "./datasetrowssort.js";
