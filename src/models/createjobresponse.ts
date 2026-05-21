@@ -390,6 +390,7 @@ export type CreateJobResponse = {
   logMetricComputingRecords: boolean;
   streamMetrics: boolean;
   multijudgeAverageBooleanMetrics: boolean;
+  storeMetricIds: boolean;
   message: string;
   link: string;
 };
@@ -675,6 +676,7 @@ export const CreateJobResponse$inboundSchema: z.ZodMiniType<
     log_metric_computing_records: z._default(types.boolean(), true),
     stream_metrics: z._default(types.boolean(), false),
     multijudge_average_boolean_metrics: z._default(types.boolean(), false),
+    store_metric_ids: z._default(types.boolean(), false),
     message: types.string(),
     link: types.string(),
   }),
@@ -723,6 +725,7 @@ export const CreateJobResponse$inboundSchema: z.ZodMiniType<
       "log_metric_computing_records": "logMetricComputingRecords",
       "stream_metrics": "streamMetrics",
       "multijudge_average_boolean_metrics": "multijudgeAverageBooleanMetrics",
+      "store_metric_ids": "storeMetricIds",
     });
   }),
 );

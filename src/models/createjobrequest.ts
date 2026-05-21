@@ -443,6 +443,7 @@ export type CreateJobRequest = {
   logMetricComputingRecords?: boolean | undefined;
   streamMetrics?: boolean | undefined;
   multijudgeAverageBooleanMetrics?: boolean | undefined;
+  storeMetricIds?: boolean | undefined;
 };
 
 /** @internal */
@@ -765,6 +766,7 @@ export type CreateJobRequest$Outbound = {
   log_metric_computing_records: boolean;
   stream_metrics: boolean;
   multijudge_average_boolean_metrics: boolean;
+  store_metric_ids: boolean;
 };
 
 /** @internal */
@@ -891,6 +893,7 @@ export const CreateJobRequest$outboundSchema: z.ZodMiniType<
     logMetricComputingRecords: z._default(z.boolean(), true),
     streamMetrics: z._default(z.boolean(), false),
     multijudgeAverageBooleanMetrics: z._default(z.boolean(), false),
+    storeMetricIds: z._default(z.boolean(), false),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -937,6 +940,7 @@ export const CreateJobRequest$outboundSchema: z.ZodMiniType<
       logMetricComputingRecords: "log_metric_computing_records",
       streamMetrics: "stream_metrics",
       multijudgeAverageBooleanMetrics: "multijudge_average_boolean_metrics",
+      storeMetricIds: "store_metric_ids",
     });
   }),
 );
