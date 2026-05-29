@@ -120,6 +120,7 @@ export * from "./getprojectspaginatedprojectspaginatedpost.js";
 export * from "./getprojectsprojectsget.js";
 export * from "./getprojecttemplatesprojectsprojectidtemplatesget.js";
 export * from "./getrecommendedmodelsllmintegrationsrecommendedmodelsget.js";
+export * from "./getscorerhealthscoresscorersscoreridhealthscoresget.js";
 export * from "./getscorerscorersscoreridget.js";
 export * from "./getscorerversioncodescorersscoreridversioncodeget.js";
 export * from "./getscorerversionorlatestscorersscoreridversionget.js";
@@ -220,3 +221,4 @@ export * from "./validatecodescorerlogrecordscorerscodevalidatelogrecordpost.js"
 export * from "./validatecodescorerscorerscodevalidatepost.js";
 export * from "./validatellmscorerdatasetscorersllmvalidatedatasetpost.js";
 export * from "./validatellmscorerlogrecordscorersllmvalidatelogrecordpost.js";
+export * from "./writescorerversionhealthscorescorersscoreridversionsversionnumberhealthscorespost.js";
