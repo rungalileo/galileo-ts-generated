@@ -1,16 +1,20 @@
-# ListPromptDatasetsProjectsProjectIdPromptDatasetsGetSecurity
+# WriteScorerVersionHealthScoreScorersScorerIdVersionsVersionNumberHealthScoresPostSecurity
 
 ## Example Usage
 
 ```typescript
-import { ListPromptDatasetsProjectsProjectIdPromptDatasetsGetSecurity } from "galileo-generated/models/operations";
+import {
+  WriteScorerVersionHealthScoreScorersScorerIdVersionsVersionNumberHealthScoresPostSecurity,
+} from "galileo-generated/models/operations";
 
-let value: ListPromptDatasetsProjectsProjectIdPromptDatasetsGetSecurity = {
-  httpBasic: {
-    username: "",
-    password: "",
-  },
-};
+let value:
+  WriteScorerVersionHealthScoreScorersScorerIdVersionsVersionNumberHealthScoresPostSecurity =
+    {
+      httpBasic: {
+        username: "",
+        password: "",
+      },
+    };
 ```
 
 ## Fields
