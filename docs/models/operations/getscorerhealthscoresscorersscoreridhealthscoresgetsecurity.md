@@ -1,17 +1,16 @@
-# DeletePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdDeleteSecurity
+# GetScorerHealthScoresScorersScorerIdHealthScoresGetSecurity
 
 ## Example Usage
 
 ```typescript
-import { DeletePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdDeleteSecurity } from "galileo-generated/models/operations";
+import { GetScorerHealthScoresScorersScorerIdHealthScoresGetSecurity } from "galileo-generated/models/operations";
 
-let value:
-  DeletePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdDeleteSecurity = {
-    httpBasic: {
-      username: "",
-      password: "",
-    },
-  };
+let value: GetScorerHealthScoresScorersScorerIdHealthScoresGetSecurity = {
+  httpBasic: {
+    username: "",
+    password: "",
+  },
+};
 ```
 
 ## Fields
