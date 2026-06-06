@@ -15,9 +15,9 @@ export type BodyCreateCodeScorerVersionScorersScorerIdVersionCodePostFile = {
 export type BodyCreateCodeScorerVersionScorersScorerIdVersionCodePost = {
   file: BodyCreateCodeScorerVersionScorersScorerIdVersionCodePostFile | Blob;
   /**
-   * Pre-validated result as JSON string to skip validation
+   * Pre-validated result as JSON string from the validate endpoint
    */
-  validationResult?: string | null | undefined;
+  validationResult: string;
 };
 
 /** @internal */
@@ -58,7 +58,7 @@ export type BodyCreateCodeScorerVersionScorersScorerIdVersionCodePost$Outbound =
     file:
       | BodyCreateCodeScorerVersionScorersScorerIdVersionCodePostFile$Outbound
       | Blob;
-    validation_result?: string | null | undefined;
+    validation_result: string;
   };
 
 /** @internal */
@@ -74,7 +74,7 @@ export const BodyCreateCodeScorerVersionScorersScorerIdVersionCodePost$outboundS
         ),
         blobLikeSchema,
       ]),
-      validationResult: z.optional(z.nullable(z.string())),
+      validationResult: z.string(),
     }),
     z.transform((v) => {
       return remap$(v, {
