@@ -9,10 +9,8 @@ import { datasetsCreateGroupDatasetCollaboratorsDatasetsDatasetIdGroupsPost } fr
 import { datasetsCreateUserDatasetCollaboratorsDatasetsDatasetIdUsersPost } from "../funcs/datasetsCreateUserDatasetCollaboratorsDatasetsDatasetIdUsersPost.js";
 import { datasetsDeleteDatasetDatasetsDatasetIdDelete } from "../funcs/datasetsDeleteDatasetDatasetsDatasetIdDelete.js";
 import { datasetsDeleteGroupDatasetCollaboratorDatasetsDatasetIdGroupsGroupIdDelete } from "../funcs/datasetsDeleteGroupDatasetCollaboratorDatasetsDatasetIdGroupsGroupIdDelete.js";
-import { datasetsDeletePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdDelete } from "../funcs/datasetsDeletePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdDelete.js";
 import { datasetsDeleteUserDatasetCollaboratorDatasetsDatasetIdUsersUserIdDelete } from "../funcs/datasetsDeleteUserDatasetCollaboratorDatasetsDatasetIdUsersUserIdDelete.js";
 import { datasetsDownloadDatasetDatasetsDatasetIdDownloadGet } from "../funcs/datasetsDownloadDatasetDatasetsDatasetIdDownloadGet.js";
-import { datasetsDownloadPromptDatasetProjectsProjectIdPromptDatasetsDatasetIdGet } from "../funcs/datasetsDownloadPromptDatasetProjectsProjectIdPromptDatasetsDatasetIdGet.js";
 import { datasetsExtendDatasetContentDatasetsExtendPost } from "../funcs/datasetsExtendDatasetContentDatasetsExtendPost.js";
 import { datasetsGetDatasetContentDatasetsDatasetIdContentGet } from "../funcs/datasetsGetDatasetContentDatasetsDatasetIdContentGet.js";
 import { datasetsGetDatasetDatasetsDatasetIdGet } from "../funcs/datasetsGetDatasetDatasetsDatasetIdGet.js";
@@ -22,7 +20,6 @@ import { datasetsGetDatasetVersionContentDatasetsDatasetIdVersionsVersionIndexCo
 import { datasetsListDatasetProjectsDatasetsDatasetIdProjectsGet } from "../funcs/datasetsListDatasetProjectsDatasetsDatasetIdProjectsGet.js";
 import { datasetsListDatasetsDatasetsGet } from "../funcs/datasetsListDatasetsDatasetsGet.js";
 import { datasetsListGroupDatasetCollaboratorsDatasetsDatasetIdGroupsGet } from "../funcs/datasetsListGroupDatasetCollaboratorsDatasetsDatasetIdGroupsGet.js";
-import { datasetsListPromptDatasetsProjectsProjectIdPromptDatasetsGet } from "../funcs/datasetsListPromptDatasetsProjectsProjectIdPromptDatasetsGet.js";
 import { datasetsListUserDatasetCollaboratorsDatasetsDatasetIdUsersGet } from "../funcs/datasetsListUserDatasetCollaboratorsDatasetsDatasetIdUsersGet.js";
 import { datasetsPreviewDatasetDatasetsDatasetIdPreviewPost } from "../funcs/datasetsPreviewDatasetDatasetsDatasetIdPreviewPost.js";
 import { datasetsQueryDatasetContentDatasetsDatasetIdContentQueryPost } from "../funcs/datasetsQueryDatasetContentDatasetsDatasetIdContentQueryPost.js";
@@ -32,9 +29,7 @@ import { datasetsUpdateDatasetContentDatasetsDatasetIdContentPatch } from "../fu
 import { datasetsUpdateDatasetDatasetsDatasetIdPatch } from "../funcs/datasetsUpdateDatasetDatasetsDatasetIdPatch.js";
 import { datasetsUpdateDatasetVersionDatasetsDatasetIdVersionsVersionIndexPatch } from "../funcs/datasetsUpdateDatasetVersionDatasetsDatasetIdVersionsVersionIndexPatch.js";
 import { datasetsUpdateGroupDatasetCollaboratorDatasetsDatasetIdGroupsGroupIdPatch } from "../funcs/datasetsUpdateGroupDatasetCollaboratorDatasetsDatasetIdGroupsGroupIdPatch.js";
-import { datasetsUpdatePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdPut } from "../funcs/datasetsUpdatePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdPut.js";
 import { datasetsUpdateUserDatasetCollaboratorDatasetsDatasetIdUsersUserIdPatch } from "../funcs/datasetsUpdateUserDatasetCollaboratorDatasetsDatasetIdUsersUserIdPatch.js";
-import { datasetsUploadPromptEvaluationDatasetProjectsProjectIdPromptDatasetsPost } from "../funcs/datasetsUploadPromptEvaluationDatasetProjectsProjectIdPromptDatasetsPost.js";
 import { datasetsUpsertDatasetContentDatasetsDatasetIdContentPut } from "../funcs/datasetsUpsertDatasetContentDatasetsDatasetIdContentPut.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
 import * as models from "../models/index.js";
@@ -42,50 +37,6 @@ import * as operations from "../models/operations/index.js";
 import { unwrapAsync } from "../types/fp.js";
 
 export class Datasets extends ClientSDK {
-  /**
-   * Upload Prompt Evaluation Dataset
-   *
-   * @deprecated method: This will be removed in a future release, please migrate away from it as soon as possible.
-   */
-  async uploadPromptEvaluationDatasetProjectsProjectIdPromptDatasetsPost(
-    security:
-      operations.UploadPromptEvaluationDatasetProjectsProjectIdPromptDatasetsPostSecurity,
-    request:
-      operations.UploadPromptEvaluationDatasetProjectsProjectIdPromptDatasetsPostRequest,
-    options?: RequestOptions,
-  ): Promise<models.PromptDatasetDB> {
-    return unwrapAsync(
-      datasetsUploadPromptEvaluationDatasetProjectsProjectIdPromptDatasetsPost(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
-   * List Prompt Datasets
-   *
-   * @deprecated method: This will be removed in a future release, please migrate away from it as soon as possible.
-   */
-  async listPromptDatasetsProjectsProjectIdPromptDatasetsGet(
-    security:
-      operations.ListPromptDatasetsProjectsProjectIdPromptDatasetsGetSecurity,
-    request:
-      operations.ListPromptDatasetsProjectsProjectIdPromptDatasetsGetRequest,
-    options?: RequestOptions,
-  ): Promise<models.ListPromptDatasetResponse> {
-    return unwrapAsync(
-      datasetsListPromptDatasetsProjectsProjectIdPromptDatasetsGet(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
   /**
    * Create Dataset
    *
@@ -224,72 +175,6 @@ export class Datasets extends ClientSDK {
   }
 
   /**
-   * Update Prompt Dataset
-   *
-   * @deprecated method: This will be removed in a future release, please migrate away from it as soon as possible.
-   */
-  async updatePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdPut(
-    security:
-      operations.UpdatePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdPutSecurity,
-    request:
-      operations.UpdatePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdPutRequest,
-    options?: RequestOptions,
-  ): Promise<models.PromptDatasetDB> {
-    return unwrapAsync(
-      datasetsUpdatePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdPut(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
-   * Delete Prompt Dataset
-   *
-   * @deprecated method: This will be removed in a future release, please migrate away from it as soon as possible.
-   */
-  async deletePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdDelete(
-    security:
-      operations.DeletePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdDeleteSecurity,
-    request:
-      operations.DeletePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdDeleteRequest,
-    options?: RequestOptions,
-  ): Promise<any> {
-    return unwrapAsync(
-      datasetsDeletePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdDelete(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
-   * Download Prompt Dataset
-   *
-   * @deprecated method: This will be removed in a future release, please migrate away from it as soon as possible.
-   */
-  async downloadPromptDatasetProjectsProjectIdPromptDatasetsDatasetIdGet(
-    security:
-      operations.DownloadPromptDatasetProjectsProjectIdPromptDatasetsDatasetIdGetSecurity,
-    request:
-      operations.DownloadPromptDatasetProjectsProjectIdPromptDatasetsDatasetIdGetRequest,
-    options?: RequestOptions,
-  ): Promise<void> {
-    return unwrapAsync(
-      datasetsDownloadPromptDatasetProjectsProjectIdPromptDatasetsDatasetIdGet(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
    * Update Dataset Content
    *
    * @remarks
@@ -298,8 +183,9 @@ export class Datasets extends ClientSDK {
    * The `index` and `column_name` fields are treated as keys tied to a specific version of the dataset.
    * As such, these values are considered immutable identifiers for the dataset's structure.
    *
-   * For example, if an edit operation changes the name of a column, subsequent edit operations in
-   * the same request should reference the column using its original name.
+   * Edits are applied sequentially in list order, and each edit sees the table state left by the
+   * previous one. For example, after a `rename_column` edit renames `col_a` to `col_b`, any
+   * subsequent `update_row` in the same request must reference the column as `col_b`, not `col_a`.
    *
    * The `If-Match` header is used to ensure that updates are only applied if the client's version of the dataset
    * matches the server's version. This prevents conflicts from simultaneous updates. The `ETag` header in the response

@@ -155,6 +155,7 @@ export type CustomizedInstructionAdherenceGPTScorer = {
     | { [k: string]: number }
     | null
     | undefined;
+  scorerPathName?: string | null | undefined;
   functionExplanationParamName?: string | undefined;
 };
 
@@ -383,6 +384,7 @@ export const CustomizedInstructionAdherenceGPTScorer$inboundSchema:
           ]),
         ),
       ),
+      scorer_path_name: z.optional(z.nullable(types.string())),
       function_explanation_param_name: z._default(
         types.string(),
         "explanation",
@@ -419,6 +421,7 @@ export const CustomizedInstructionAdherenceGPTScorer$inboundSchema:
         "luna_input_type": "lunaInputType",
         "luna_output_type": "lunaOutputType",
         "class_name_to_vocab_ix": "classNameToVocabIx",
+        "scorer_path_name": "scorerPathName",
         "function_explanation_param_name": "functionExplanationParamName",
       });
     }),
@@ -473,6 +476,7 @@ export type CustomizedInstructionAdherenceGPTScorer$Outbound = {
     | { [k: string]: number }
     | null
     | undefined;
+  scorer_path_name?: string | null | undefined;
   function_explanation_param_name: string;
 };
 
@@ -555,6 +559,7 @@ export const CustomizedInstructionAdherenceGPTScorer$outboundSchema:
           ]),
         ),
       ),
+      scorerPathName: z.optional(z.nullable(z.string())),
       functionExplanationParamName: z._default(z.string(), "explanation"),
     }),
     z.transform((v) => {
@@ -588,6 +593,7 @@ export const CustomizedInstructionAdherenceGPTScorer$outboundSchema:
         lunaInputType: "luna_input_type",
         lunaOutputType: "luna_output_type",
         classNameToVocabIx: "class_name_to_vocab_ix",
+        scorerPathName: "scorer_path_name",
         functionExplanationParamName: "function_explanation_param_name",
       });
     }),
