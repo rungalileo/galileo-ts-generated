@@ -132,10 +132,6 @@ import {
   InstructionAdherenceScorer$inboundSchema,
 } from "./instructionadherencescorer.js";
 import {
-  MetricCritiqueJobConfiguration,
-  MetricCritiqueJobConfiguration$inboundSchema,
-} from "./metriccritiquejobconfiguration.js";
-import {
   OutputPIIScorer,
   OutputPIIScorer$inboundSchema,
 } from "./outputpiiscorer.js";
@@ -159,10 +155,6 @@ import {
   PromptInjectionScorer,
   PromptInjectionScorer$inboundSchema,
 } from "./promptinjectionscorer.js";
-import {
-  PromptOptimizationConfiguration,
-  PromptOptimizationConfiguration$inboundSchema,
-} from "./promptoptimizationconfiguration.js";
 import {
   PromptPerplexityScorer,
   PromptPerplexityScorer$inboundSchema,
@@ -375,21 +367,14 @@ export type CreateJobResponse = {
   subScorers?: Array<PromptgalileoSchemasScorerNameScorerName> | undefined;
   lunaModel?: string | null | undefined;
   segmentFilters?: Array<SegmentFilter> | null | undefined;
-  promptOptimizationConfiguration?:
-    | PromptOptimizationConfiguration
-    | null
-    | undefined;
-  epoch: number;
-  metricCritiqueConfiguration?:
-    | MetricCritiqueJobConfiguration
-    | null
-    | undefined;
   isSession?: boolean | null | undefined;
   validationConfig?: { [k: string]: any } | null | undefined;
   uploadDataInSeparateTask: boolean;
   logMetricComputingRecords: boolean;
   streamMetrics: boolean;
   multijudgeAverageBooleanMetrics: boolean;
+  storeMetricIds: boolean;
+  traceIds?: Array<string> | undefined;
   message: string;
   link: string;
 };
@@ -554,7 +539,7 @@ export const CreateJobResponse$inboundSchema: z.ZodMiniType<
     project_id: types.string(),
     run_id: types.string(),
     job_id: z.optional(z.nullable(types.string())),
-    job_name: z._default(types.string(), "default"),
+    job_name: z._default(types.string(), "log_stream_scorer"),
     should_retry: z._default(types.boolean(), true),
     user_id: z.optional(z.nullable(types.string())),
     task_type: z.optional(z.nullable(TaskType$inboundSchema)),
@@ -662,19 +647,14 @@ export const CreateJobResponse$inboundSchema: z.ZodMiniType<
     segment_filters: z.optional(
       z.nullable(z.array(SegmentFilter$inboundSchema)),
     ),
-    prompt_optimization_configuration: z.optional(
-      z.nullable(PromptOptimizationConfiguration$inboundSchema),
-    ),
-    epoch: z._default(types.number(), 0),
-    metric_critique_configuration: z.optional(
-      z.nullable(MetricCritiqueJobConfiguration$inboundSchema),
-    ),
     is_session: z.optional(z.nullable(types.boolean())),
     validation_config: z.optional(z.nullable(z.record(z.string(), z.any()))),
     upload_data_in_separate_task: z._default(types.boolean(), true),
     log_metric_computing_records: z._default(types.boolean(), true),
     stream_metrics: z._default(types.boolean(), false),
     multijudge_average_boolean_metrics: z._default(types.boolean(), false),
+    store_metric_ids: z._default(types.boolean(), false),
+    trace_ids: types.optional(z.array(types.string())),
     message: types.string(),
     link: types.string(),
   }),
@@ -715,14 +695,14 @@ export const CreateJobResponse$inboundSchema: z.ZodMiniType<
       "sub_scorers": "subScorers",
       "luna_model": "lunaModel",
       "segment_filters": "segmentFilters",
-      "prompt_optimization_configuration": "promptOptimizationConfiguration",
-      "metric_critique_configuration": "metricCritiqueConfiguration",
       "is_session": "isSession",
       "validation_config": "validationConfig",
       "upload_data_in_separate_task": "uploadDataInSeparateTask",
       "log_metric_computing_records": "logMetricComputingRecords",
       "stream_metrics": "streamMetrics",
       "multijudge_average_boolean_metrics": "multijudgeAverageBooleanMetrics",
+      "store_metric_ids": "storeMetricIds",
+      "trace_ids": "traceIds",
     });
   }),
 );
