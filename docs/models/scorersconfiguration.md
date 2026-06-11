@@ -37,6 +37,7 @@ let value: ScorersConfiguration = {};
 | `contextAdherenceLuna`           | *boolean*                        | :heavy_minus_sign:               | N/A                              |
 | `contextRelevanceLuna`           | *boolean*                        | :heavy_minus_sign:               | N/A                              |
 | `chunkRelevanceLuna`             | *boolean*                        | :heavy_minus_sign:               | N/A                              |
+| `completenessLuna`               | *boolean*                        | :heavy_minus_sign:               | N/A                              |
 | `completenessNli`                | *boolean*                        | :heavy_minus_sign:               | N/A                              |
 | `toolErrorRateLuna`              | *boolean*                        | :heavy_minus_sign:               | N/A                              |
 | `toolSelectionQualityLuna`       | *boolean*                        | :heavy_minus_sign:               | N/A                              |
