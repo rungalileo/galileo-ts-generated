@@ -312,6 +312,7 @@ export type PartialExtendedTraceRecord = {
    * Whether the trace is complete or not
    */
   isComplete: boolean;
+  numSpans?: number | null | undefined;
 };
 
 /** @internal */
@@ -646,6 +647,7 @@ export const PartialExtendedTraceRecord$inboundSchema: z.ZodMiniType<
       z.nullable(z.record(z.string(), FileMetadata$inboundSchema)),
     ),
     is_complete: z._default(types.boolean(), true),
+    num_spans: z.optional(z.nullable(types.number())),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -676,6 +678,7 @@ export const PartialExtendedTraceRecord$inboundSchema: z.ZodMiniType<
       "fully_annotated": "fullyAnnotated",
       "metric_info": "metricInfo",
       "is_complete": "isComplete",
+      "num_spans": "numSpans",
     });
   }),
 );

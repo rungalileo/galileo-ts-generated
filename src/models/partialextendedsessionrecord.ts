@@ -325,6 +325,7 @@ export type PartialExtendedSessionRecord = {
    */
   files?: { [k: string]: FileMetadata } | null | undefined;
   previousSessionId?: string | null | undefined;
+  numTraces?: number | null | undefined;
 };
 
 /** @internal */
@@ -677,6 +678,7 @@ export const PartialExtendedSessionRecord$inboundSchema: z.ZodMiniType<
       z.nullable(z.record(z.string(), FileMetadata$inboundSchema)),
     ),
     previous_session_id: z.optional(z.nullable(types.string())),
+    num_traces: z.optional(z.nullable(types.number())),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -707,6 +709,7 @@ export const PartialExtendedSessionRecord$inboundSchema: z.ZodMiniType<
       "fully_annotated": "fullyAnnotated",
       "metric_info": "metricInfo",
       "previous_session_id": "previousSessionId",
+      "num_traces": "numTraces",
     });
   }),
 );
