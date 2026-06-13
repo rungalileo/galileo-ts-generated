@@ -161,6 +161,7 @@ export type CustomizedAgenticSessionSuccessGPTScorer = {
     | { [k: string]: number }
     | null
     | undefined;
+  scorerPathName?: string | null | undefined;
 };
 
 /** @internal */
@@ -390,6 +391,7 @@ export const CustomizedAgenticSessionSuccessGPTScorer$inboundSchema:
           ]),
         ),
       ),
+      scorer_path_name: z.optional(z.nullable(types.string())),
     }),
     z.transform((v) => {
       return remap$(v, {
@@ -422,6 +424,7 @@ export const CustomizedAgenticSessionSuccessGPTScorer$inboundSchema:
         "luna_input_type": "lunaInputType",
         "luna_output_type": "lunaOutputType",
         "class_name_to_vocab_ix": "classNameToVocabIx",
+        "scorer_path_name": "scorerPathName",
       });
     }),
   );
@@ -475,6 +478,7 @@ export type CustomizedAgenticSessionSuccessGPTScorer$Outbound = {
     | { [k: string]: number }
     | null
     | undefined;
+  scorer_path_name?: string | null | undefined;
 };
 
 /** @internal */
@@ -556,6 +560,7 @@ export const CustomizedAgenticSessionSuccessGPTScorer$outboundSchema:
           ]),
         ),
       ),
+      scorerPathName: z.optional(z.nullable(z.string())),
     }),
     z.transform((v) => {
       return remap$(v, {
@@ -588,6 +593,7 @@ export const CustomizedAgenticSessionSuccessGPTScorer$outboundSchema:
         lunaInputType: "luna_input_type",
         lunaOutputType: "luna_output_type",
         classNameToVocabIx: "class_name_to_vocab_ix",
+        scorerPathName: "scorer_path_name",
       });
     }),
   );

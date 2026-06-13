@@ -3,6 +3,20 @@
 
 ## Supported Types
 
+### `models.ChoiceAggregate`
+
+```typescript
+const value: models.ChoiceAggregate = {
+  feedbackType: "choice",
+  counts: {
+    "key": 525240,
+    "key1": 656819,
+    "key2": 410116,
+  },
+  unratedCount: 488982,
+};
+```
+
 ### `models.LikeDislikeAggregate`
 
 ```typescript

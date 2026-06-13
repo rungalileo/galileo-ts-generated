@@ -13,5 +13,5 @@ let value: AnnotationType = "tags";
 ## Values
 
 ```typescript
-"like_dislike" | "star" | "score" | "tags" | "text" | Unrecognized<string>
+"like_dislike" | "star" | "score" | "tags" | "text" | "choice" | Unrecognized<string>
 ```
