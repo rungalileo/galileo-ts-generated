@@ -3,6 +3,15 @@
 
 ## Supported Types
 
+### `models.ChoiceRating`
+
+```typescript
+const value: models.ChoiceRating = {
+  feedbackType: "choice",
+  value: "<value>",
+};
+```
+
 ### `models.LikeDislikeRating`
 
 ```typescript

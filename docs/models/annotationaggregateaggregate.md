@@ -3,6 +3,19 @@
 
 ## Supported Types
 
+### `models.AnnotationChoiceAggregate`
+
+```typescript
+const value: models.AnnotationChoiceAggregate = {
+  annotationType: "choice",
+  counts: {
+    "key": 88702,
+    "key1": 959252,
+  },
+  unratedCount: 293555,
+};
+```
+
 ### `models.AnnotationLikeDislikeAggregate`
 
 ```typescript

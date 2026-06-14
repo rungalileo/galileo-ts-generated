@@ -10,6 +10,7 @@ import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
 import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
+import { ChoiceRating, ChoiceRating$inboundSchema } from "./choicerating.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
   LikeDislikeRating,
@@ -21,6 +22,7 @@ import { TagsRating, TagsRating$inboundSchema } from "./tagsrating.js";
 import { TextRating, TextRating$inboundSchema } from "./textrating.js";
 
 export type Rating =
+  | ChoiceRating
   | LikeDislikeRating
   | ScoreRating
   | StarRating
@@ -31,6 +33,7 @@ export type Rating =
 export type FeedbackRatingDB = {
   explanation?: string | null | undefined;
   rating:
+    | ChoiceRating
     | LikeDislikeRating
     | ScoreRating
     | StarRating
@@ -44,6 +47,7 @@ export type FeedbackRatingDB = {
 /** @internal */
 export const Rating$inboundSchema: z.ZodMiniType<Rating, unknown> =
   discriminatedUnion("feedback_type", {
+    choice: ChoiceRating$inboundSchema,
     like_dislike: LikeDislikeRating$inboundSchema,
     score: ScoreRating$inboundSchema,
     star: StarRating$inboundSchema,
@@ -69,6 +73,7 @@ export const FeedbackRatingDB$inboundSchema: z.ZodMiniType<
   z.object({
     explanation: z.optional(z.nullable(types.string())),
     rating: discriminatedUnion("feedback_type", {
+      choice: ChoiceRating$inboundSchema,
       like_dislike: LikeDislikeRating$inboundSchema,
       score: ScoreRating$inboundSchema,
       star: StarRating$inboundSchema,
