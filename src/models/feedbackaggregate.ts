@@ -8,6 +8,10 @@ import { safeParse } from "../lib/schemas.js";
 import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
 import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import { Result as SafeParseResult } from "../types/fp.js";
+import {
+  ChoiceAggregate,
+  ChoiceAggregate$inboundSchema,
+} from "./choiceaggregate.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
   LikeDislikeAggregate,
@@ -22,6 +26,7 @@ import { TagsAggregate, TagsAggregate$inboundSchema } from "./tagsaggregate.js";
 import { TextAggregate, TextAggregate$inboundSchema } from "./textaggregate.js";
 
 export type FeedbackAggregateAggregate =
+  | ChoiceAggregate
   | LikeDislikeAggregate
   | ScoreAggregate
   | StarAggregate
@@ -31,6 +36,7 @@ export type FeedbackAggregateAggregate =
 
 export type FeedbackAggregate = {
   aggregate:
+    | ChoiceAggregate
     | LikeDislikeAggregate
     | ScoreAggregate
     | StarAggregate
@@ -44,6 +50,7 @@ export const FeedbackAggregateAggregate$inboundSchema: z.ZodMiniType<
   FeedbackAggregateAggregate,
   unknown
 > = discriminatedUnion("feedback_type", {
+  choice: ChoiceAggregate$inboundSchema,
   like_dislike: LikeDislikeAggregate$inboundSchema,
   score: ScoreAggregate$inboundSchema,
   star: StarAggregate$inboundSchema,
@@ -67,6 +74,7 @@ export const FeedbackAggregate$inboundSchema: z.ZodMiniType<
   unknown
 > = z.object({
   aggregate: discriminatedUnion("feedback_type", {
+    choice: ChoiceAggregate$inboundSchema,
     like_dislike: LikeDislikeAggregate$inboundSchema,
     score: ScoreAggregate$inboundSchema,
     star: StarAggregate$inboundSchema,
