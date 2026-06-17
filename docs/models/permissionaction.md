@@ -27,6 +27,12 @@ const value: models.GroupMemberAction = "update_role";
 const value: models.ProjectAction = "rename_run";
 ```
 
+### `models.ScorerAction`
+
+```typescript
+const value: models.ScorerAction = "update";
+```
+
 ### `models.RegisteredScorerAction`
 
 ```typescript
