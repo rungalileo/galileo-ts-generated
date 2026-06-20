@@ -3,6 +3,15 @@
 
 ## Supported Types
 
+### `models.ChoiceRating`
+
+```typescript
+const value: models.ChoiceRating = {
+  feedbackType: "choice",
+  value: "<value>",
+};
+```
+
 ### `models.LikeDislikeRating`
 
 ```typescript
@@ -47,6 +56,15 @@ const value: models.TagsRating = {
 ```typescript
 const value: models.TextRating = {
   feedbackType: "text",
+  value: "<value>",
+};
+```
+
+### `models.TreeChoiceRating`
+
+```typescript
+const value: models.TreeChoiceRating = {
+  feedbackType: "tree_choice",
   value: "<value>",
 };
 ```

@@ -13,26 +13,27 @@ let value: AggregatedTraceViewNode = {
   hasChildren: true,
   metrics: {
     "key": {
+      aggregationType: "categorical",
       name: "<value>",
       label: "<value>",
     },
   },
-  traceCount: 405729,
-  weight: 12.2,
+  traceCount: 1220,
+  weight: 8121.49,
 };
 ```
 
 ## Fields
 
-| Field                                                                    | Type                                                                     | Required                                                                 | Description                                                              |
-| ------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
-| `id`                                                                     | *string*                                                                 | :heavy_check_mark:                                                       | N/A                                                                      |
-| `name`                                                                   | *string*                                                                 | :heavy_check_mark:                                                       | N/A                                                                      |
-| `type`                                                                   | [models.StepType](../models/steptype.md)                                 | :heavy_check_mark:                                                       | N/A                                                                      |
-| `occurrences`                                                            | *number*                                                                 | :heavy_check_mark:                                                       | N/A                                                                      |
-| `parentId`                                                               | *string*                                                                 | :heavy_minus_sign:                                                       | N/A                                                                      |
-| `hasChildren`                                                            | *boolean*                                                                | :heavy_check_mark:                                                       | N/A                                                                      |
-| `metrics`                                                                | Record<string, [models.SystemMetricInfo](../models/systemmetricinfo.md)> | :heavy_check_mark:                                                       | N/A                                                                      |
-| `traceCount`                                                             | *number*                                                                 | :heavy_check_mark:                                                       | N/A                                                                      |
-| `weight`                                                                 | *number*                                                                 | :heavy_check_mark:                                                       | N/A                                                                      |
-| `insights`                                                               | [models.InsightSummary](../models/insightsummary.md)[]                   | :heavy_minus_sign:                                                       | N/A                                                                      |
+| Field                                                  | Type                                                   | Required                                               | Description                                            |
+| ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ |
+| `id`                                                   | *string*                                               | :heavy_check_mark:                                     | N/A                                                    |
+| `name`                                                 | *string*                                               | :heavy_check_mark:                                     | N/A                                                    |
+| `type`                                                 | [models.StepType](../models/steptype.md)               | :heavy_check_mark:                                     | N/A                                                    |
+| `occurrences`                                          | *number*                                               | :heavy_check_mark:                                     | N/A                                                    |
+| `parentId`                                             | *string*                                               | :heavy_minus_sign:                                     | N/A                                                    |
+| `hasChildren`                                          | *boolean*                                              | :heavy_check_mark:                                     | N/A                                                    |
+| `metrics`                                              | Record<string, *models.MetricsUnion*>                  | :heavy_check_mark:                                     | N/A                                                    |
+| `traceCount`                                           | *number*                                               | :heavy_check_mark:                                     | N/A                                                    |
+| `weight`                                               | *number*                                               | :heavy_check_mark:                                     | N/A                                                    |
+| `insights`                                             | [models.InsightSummary](../models/insightsummary.md)[] | :heavy_minus_sign:                                     | N/A                                                    |
