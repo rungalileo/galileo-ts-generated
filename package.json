@@ -129,6 +129,6 @@
   "types": "./dist/commonjs/index.d.ts",
   "module": "./dist/esm/index.js",
   "optionalDependencies": {
-    "undici": "^7.22.0"
+    "undici": "^7.28.0"
   }
 }
