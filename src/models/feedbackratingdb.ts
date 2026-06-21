@@ -10,6 +10,7 @@ import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
 import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
+import { ChoiceRating, ChoiceRating$inboundSchema } from "./choicerating.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
   LikeDislikeRating,
@@ -19,23 +20,31 @@ import { ScoreRating, ScoreRating$inboundSchema } from "./scorerating.js";
 import { StarRating, StarRating$inboundSchema } from "./starrating.js";
 import { TagsRating, TagsRating$inboundSchema } from "./tagsrating.js";
 import { TextRating, TextRating$inboundSchema } from "./textrating.js";
+import {
+  TreeChoiceRating,
+  TreeChoiceRating$inboundSchema,
+} from "./treechoicerating.js";
 
 export type Rating =
+  | ChoiceRating
   | LikeDislikeRating
   | ScoreRating
   | StarRating
   | TagsRating
   | TextRating
+  | TreeChoiceRating
   | discriminatedUnionTypes.Unknown<"feedbackType">;
 
 export type FeedbackRatingDB = {
   explanation?: string | null | undefined;
   rating:
+    | ChoiceRating
     | LikeDislikeRating
     | ScoreRating
     | StarRating
     | TagsRating
     | TextRating
+    | TreeChoiceRating
     | discriminatedUnionTypes.Unknown<"feedbackType">;
   createdAt: Date;
   createdBy: string | null;
@@ -44,11 +53,13 @@ export type FeedbackRatingDB = {
 /** @internal */
 export const Rating$inboundSchema: z.ZodMiniType<Rating, unknown> =
   discriminatedUnion("feedback_type", {
+    choice: ChoiceRating$inboundSchema,
     like_dislike: LikeDislikeRating$inboundSchema,
     score: ScoreRating$inboundSchema,
     star: StarRating$inboundSchema,
     tags: TagsRating$inboundSchema,
     text: TextRating$inboundSchema,
+    tree_choice: TreeChoiceRating$inboundSchema,
   }, { outputPropertyName: "feedbackType" });
 
 export function ratingFromJSON(
@@ -69,11 +80,13 @@ export const FeedbackRatingDB$inboundSchema: z.ZodMiniType<
   z.object({
     explanation: z.optional(z.nullable(types.string())),
     rating: discriminatedUnion("feedback_type", {
+      choice: ChoiceRating$inboundSchema,
       like_dislike: LikeDislikeRating$inboundSchema,
       score: ScoreRating$inboundSchema,
       star: StarRating$inboundSchema,
       tags: TagsRating$inboundSchema,
       text: TextRating$inboundSchema,
+      tree_choice: TreeChoiceRating$inboundSchema,
     }, { outputPropertyName: "feedbackType" }),
     created_at: types.date(),
     created_by: types.nullable(types.string()),

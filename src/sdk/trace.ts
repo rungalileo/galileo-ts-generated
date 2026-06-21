@@ -123,7 +123,7 @@ export class Trace extends ClientSDK {
     security: operations.GetTraceProjectsProjectIdTracesTraceIdGetSecurity,
     request: operations.GetTraceProjectsProjectIdTracesTraceIdGetRequest,
     options?: RequestOptions,
-  ): Promise<models.ExtendedTraceRecordWithChildren> {
+  ): Promise<operations.ResponseGetTraceProjectsProjectIdTracesTraceIdGet> {
     return unwrapAsync(traceGetTraceProjectsProjectIdTracesTraceIdGet(
       this,
       security,
