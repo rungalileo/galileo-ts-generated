@@ -163,11 +163,6 @@ import {
   InstructionAdherenceScorer$outboundSchema,
 } from "./instructionadherencescorer.js";
 import {
-  MetricCritiqueJobConfiguration,
-  MetricCritiqueJobConfiguration$Outbound,
-  MetricCritiqueJobConfiguration$outboundSchema,
-} from "./metriccritiquejobconfiguration.js";
-import {
   OutputPIIScorer,
   OutputPIIScorer$Outbound,
   OutputPIIScorer$outboundSchema,
@@ -196,11 +191,6 @@ import {
   PromptInjectionScorer$Outbound,
   PromptInjectionScorer$outboundSchema,
 } from "./promptinjectionscorer.js";
-import {
-  PromptOptimizationConfiguration,
-  PromptOptimizationConfiguration$Outbound,
-  PromptOptimizationConfiguration$outboundSchema,
-} from "./promptoptimizationconfiguration.js";
 import {
   PromptPerplexityScorer,
   PromptPerplexityScorer$Outbound,
@@ -428,21 +418,14 @@ export type CreateJobRequest = {
   subScorers?: Array<PromptgalileoSchemasScorerNameScorerName> | undefined;
   lunaModel?: string | null | undefined;
   segmentFilters?: Array<SegmentFilter> | null | undefined;
-  promptOptimizationConfiguration?:
-    | PromptOptimizationConfiguration
-    | null
-    | undefined;
-  epoch?: number | undefined;
-  metricCritiqueConfiguration?:
-    | MetricCritiqueJobConfiguration
-    | null
-    | undefined;
   isSession?: boolean | null | undefined;
   validationConfig?: { [k: string]: any } | null | undefined;
   uploadDataInSeparateTask?: boolean | undefined;
   logMetricComputingRecords?: boolean | undefined;
   streamMetrics?: boolean | undefined;
   multijudgeAverageBooleanMetrics?: boolean | undefined;
+  storeMetricIds?: boolean | undefined;
+  traceIds?: Array<string> | undefined;
 };
 
 /** @internal */
@@ -750,21 +733,14 @@ export type CreateJobRequest$Outbound = {
   sub_scorers?: Array<string> | undefined;
   luna_model?: string | null | undefined;
   segment_filters?: Array<SegmentFilter$Outbound> | null | undefined;
-  prompt_optimization_configuration?:
-    | PromptOptimizationConfiguration$Outbound
-    | null
-    | undefined;
-  epoch: number;
-  metric_critique_configuration?:
-    | MetricCritiqueJobConfiguration$Outbound
-    | null
-    | undefined;
   is_session?: boolean | null | undefined;
   validation_config?: { [k: string]: any } | null | undefined;
   upload_data_in_separate_task: boolean;
   log_metric_computing_records: boolean;
   stream_metrics: boolean;
   multijudge_average_boolean_metrics: boolean;
+  store_metric_ids: boolean;
+  trace_ids?: Array<string> | undefined;
 };
 
 /** @internal */
@@ -777,7 +753,7 @@ export const CreateJobRequest$outboundSchema: z.ZodMiniType<
     projectId: z.string(),
     runId: z.string(),
     jobId: z.optional(z.nullable(z.string())),
-    jobName: z._default(z.string(), "default"),
+    jobName: z._default(z.string(), "log_stream_scorer"),
     shouldRetry: z._default(z.boolean(), true),
     userId: z.optional(z.nullable(z.string())),
     taskType: z.optional(z.nullable(TaskType$outboundSchema)),
@@ -878,19 +854,14 @@ export const CreateJobRequest$outboundSchema: z.ZodMiniType<
     segmentFilters: z.optional(
       z.nullable(z.array(SegmentFilter$outboundSchema)),
     ),
-    promptOptimizationConfiguration: z.optional(
-      z.nullable(PromptOptimizationConfiguration$outboundSchema),
-    ),
-    epoch: z._default(z.int(), 0),
-    metricCritiqueConfiguration: z.optional(
-      z.nullable(MetricCritiqueJobConfiguration$outboundSchema),
-    ),
     isSession: z.optional(z.nullable(z.boolean())),
     validationConfig: z.optional(z.nullable(z.record(z.string(), z.any()))),
     uploadDataInSeparateTask: z._default(z.boolean(), true),
     logMetricComputingRecords: z._default(z.boolean(), true),
     streamMetrics: z._default(z.boolean(), false),
     multijudgeAverageBooleanMetrics: z._default(z.boolean(), false),
+    storeMetricIds: z._default(z.boolean(), false),
+    traceIds: z.optional(z.array(z.string())),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -929,14 +900,14 @@ export const CreateJobRequest$outboundSchema: z.ZodMiniType<
       subScorers: "sub_scorers",
       lunaModel: "luna_model",
       segmentFilters: "segment_filters",
-      promptOptimizationConfiguration: "prompt_optimization_configuration",
-      metricCritiqueConfiguration: "metric_critique_configuration",
       isSession: "is_session",
       validationConfig: "validation_config",
       uploadDataInSeparateTask: "upload_data_in_separate_task",
       logMetricComputingRecords: "log_metric_computing_records",
       streamMetrics: "stream_metrics",
       multijudgeAverageBooleanMetrics: "multijudge_average_boolean_metrics",
+      storeMetricIds: "store_metric_ids",
+      traceIds: "trace_ids",
     });
   }),
 );

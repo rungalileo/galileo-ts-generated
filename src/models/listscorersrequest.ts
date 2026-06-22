@@ -40,6 +40,11 @@ import {
   ScorerIDFilter$outboundSchema,
 } from "./scoreridfilter.js";
 import {
+  ScorerIsGlobalFilter,
+  ScorerIsGlobalFilter$Outbound,
+  ScorerIsGlobalFilter$outboundSchema,
+} from "./scorerisglobalfilter.js";
+import {
   ScorerLabelFilter,
   ScorerLabelFilter$Outbound,
   ScorerLabelFilter$outboundSchema,
@@ -59,6 +64,11 @@ import {
   ScorerNameSort$Outbound,
   ScorerNameSort$outboundSchema,
 } from "./scorernamesort.js";
+import {
+  ScorerScopeProjectsFilter,
+  ScorerScopeProjectsFilter$Outbound,
+  ScorerScopeProjectsFilter$outboundSchema,
+} from "./scorerscopeprojectsfilter.js";
 import {
   ScorerScoreableNodeTypesFilter,
   ScorerScoreableNodeTypesFilter$Outbound,
@@ -91,9 +101,11 @@ export type ListScorersRequestFilter =
   | ScorerExcludeMultimodalScorersFilter
   | ScorerExcludeSlmScorersFilter
   | ScorerIDFilter
+  | ScorerIsGlobalFilter
   | ScorerLabelFilter
   | ScorerModelTypeFilter
   | ScorerNameFilter
+  | ScorerScopeProjectsFilter
   | ScorerScoreableNodeTypesFilter
   | ScorerTypeFilter
   | ScorerTagsFilter
@@ -113,9 +125,11 @@ export type ListScorersRequest = {
       | ScorerExcludeMultimodalScorersFilter
       | ScorerExcludeSlmScorersFilter
       | ScorerIDFilter
+      | ScorerIsGlobalFilter
       | ScorerLabelFilter
       | ScorerModelTypeFilter
       | ScorerNameFilter
+      | ScorerScopeProjectsFilter
       | ScorerScoreableNodeTypesFilter
       | ScorerTypeFilter
       | ScorerTagsFilter
@@ -138,9 +152,11 @@ export type ListScorersRequestFilter$Outbound =
   | ScorerExcludeMultimodalScorersFilter$Outbound
   | ScorerExcludeSlmScorersFilter$Outbound
   | ScorerIDFilter$Outbound
+  | ScorerIsGlobalFilter$Outbound
   | ScorerLabelFilter$Outbound
   | ScorerModelTypeFilter$Outbound
   | ScorerNameFilter$Outbound
+  | ScorerScopeProjectsFilter$Outbound
   | ScorerScoreableNodeTypesFilter$Outbound
   | ScorerTypeFilter$Outbound
   | ScorerTagsFilter$Outbound
@@ -156,9 +172,11 @@ export const ListScorersRequestFilter$outboundSchema: z.ZodMiniType<
   ScorerExcludeMultimodalScorersFilter$outboundSchema,
   ScorerExcludeSlmScorersFilter$outboundSchema,
   ScorerIDFilter$outboundSchema,
+  ScorerIsGlobalFilter$outboundSchema,
   ScorerLabelFilter$outboundSchema,
   ScorerModelTypeFilter$outboundSchema,
   ScorerNameFilter$outboundSchema,
+  ScorerScopeProjectsFilter$outboundSchema,
   ScorerScoreableNodeTypesFilter$outboundSchema,
   ScorerTypeFilter$outboundSchema,
   ScorerTagsFilter$outboundSchema,
@@ -208,9 +226,11 @@ export type ListScorersRequest$Outbound = {
       | ScorerExcludeMultimodalScorersFilter$Outbound
       | ScorerExcludeSlmScorersFilter$Outbound
       | ScorerIDFilter$Outbound
+      | ScorerIsGlobalFilter$Outbound
       | ScorerLabelFilter$Outbound
       | ScorerModelTypeFilter$Outbound
       | ScorerNameFilter$Outbound
+      | ScorerScopeProjectsFilter$Outbound
       | ScorerScoreableNodeTypesFilter$Outbound
       | ScorerTypeFilter$Outbound
       | ScorerTagsFilter$Outbound
@@ -239,9 +259,11 @@ export const ListScorersRequest$outboundSchema: z.ZodMiniType<
         ScorerExcludeMultimodalScorersFilter$outboundSchema,
         ScorerExcludeSlmScorersFilter$outboundSchema,
         ScorerIDFilter$outboundSchema,
+        ScorerIsGlobalFilter$outboundSchema,
         ScorerLabelFilter$outboundSchema,
         ScorerModelTypeFilter$outboundSchema,
         ScorerNameFilter$outboundSchema,
+        ScorerScopeProjectsFilter$outboundSchema,
         ScorerScoreableNodeTypesFilter$outboundSchema,
         ScorerTypeFilter$outboundSchema,
         ScorerTagsFilter$outboundSchema,

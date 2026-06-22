@@ -47,6 +47,15 @@ const value: models.ScorerIDFilter = {
 };
 ```
 
+### `models.ScorerIsGlobalFilter`
+
+```typescript
+const value: models.ScorerIsGlobalFilter = {
+  name: "is_global",
+  value: true,
+};
+```
+
 ### `models.ScorerLabelFilter`
 
 ```typescript
@@ -74,6 +83,19 @@ const value: models.ScorerNameFilter = {
   name: "name",
   operator: "contains",
   value: "<value>",
+};
+```
+
+### `models.ScorerScopeProjectsFilter`
+
+```typescript
+const value: models.ScorerScopeProjectsFilter = {
+  name: "scope_projects",
+  projectIds: [
+    "<value 1>",
+    "<value 2>",
+    "<value 3>",
+  ],
 };
 ```
 
