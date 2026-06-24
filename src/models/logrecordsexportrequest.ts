@@ -78,6 +78,10 @@ export type LogRecordsExportRequest = {
    */
   fileName?: string | null | undefined;
   /**
+   * When true, export only enabled scorer metrics with computed values (success or roll_up). For session exports, omit entire sessions unless every enabled metric at session, trace, or span level is ready (success, roll_up, or not_applicable).
+   */
+  exportComputedMetricsOnly?: boolean | undefined;
+  /**
    * Log stream id associated with the traces.
    */
   logStreamId?: string | null | undefined;
@@ -158,6 +162,7 @@ export type LogRecordsExportRequest$Outbound = {
   export_format?: string | undefined;
   redact: boolean;
   file_name?: string | null | undefined;
+  export_computed_metrics_only: boolean;
   log_stream_id?: string | null | undefined;
   experiment_id?: string | null | undefined;
   metrics_testing_id?: string | null | undefined;
@@ -186,6 +191,7 @@ export const LogRecordsExportRequest$outboundSchema: z.ZodMiniType<
     exportFormat: z.optional(LLMExportFormat$outboundSchema),
     redact: z._default(z.boolean(), true),
     fileName: z.optional(z.nullable(z.string())),
+    exportComputedMetricsOnly: z._default(z.boolean(), false),
     logStreamId: z.optional(z.nullable(z.string())),
     experimentId: z.optional(z.nullable(z.string())),
     metricsTestingId: z.optional(z.nullable(z.string())),
@@ -210,6 +216,7 @@ export const LogRecordsExportRequest$outboundSchema: z.ZodMiniType<
       columnIds: "column_ids",
       exportFormat: "export_format",
       fileName: "file_name",
+      exportComputedMetricsOnly: "export_computed_metrics_only",
       logStreamId: "log_stream_id",
       experimentId: "experiment_id",
       metricsTestingId: "metrics_testing_id",

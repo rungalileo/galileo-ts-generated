@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { ClosedEnum } from "../types/enums.js";
 import {
   ExperimentDatasetRequest,
   ExperimentDatasetRequest$Outbound,
@@ -21,9 +22,17 @@ import {
   ScorerConfig$outboundSchema,
 } from "./scorerconfig.js";
 
+export const ExperimentCreateRequestTaskType = {
+  Sixteen: 16,
+  Seventeen: 17,
+} as const;
+export type ExperimentCreateRequestTaskType = ClosedEnum<
+  typeof ExperimentCreateRequestTaskType
+>;
+
 export type ExperimentCreateRequest = {
   name: string;
-  taskType?: 16 | undefined;
+  taskType?: ExperimentCreateRequestTaskType | undefined;
   playgroundId?: string | null | undefined;
   promptTemplateVersionId?: string | null | undefined;
   dataset?: ExperimentDatasetRequest | null | undefined;
@@ -36,9 +45,14 @@ export type ExperimentCreateRequest = {
 };
 
 /** @internal */
+export const ExperimentCreateRequestTaskType$outboundSchema: z.ZodMiniEnum<
+  typeof ExperimentCreateRequestTaskType
+> = z.enum(ExperimentCreateRequestTaskType);
+
+/** @internal */
 export type ExperimentCreateRequest$Outbound = {
   name: string;
-  task_type?: 16 | undefined;
+  task_type?: number | undefined;
   playground_id?: string | null | undefined;
   prompt_template_version_id?: string | null | undefined;
   dataset?: ExperimentDatasetRequest$Outbound | null | undefined;
@@ -57,7 +71,7 @@ export const ExperimentCreateRequest$outboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     name: z.string(),
-    taskType: z.optional(z.literal(16)),
+    taskType: z.optional(ExperimentCreateRequestTaskType$outboundSchema),
     playgroundId: z.optional(z.nullable(z.string())),
     promptTemplateVersionId: z.optional(z.nullable(z.string())),
     dataset: z.optional(z.nullable(ExperimentDatasetRequest$outboundSchema)),
