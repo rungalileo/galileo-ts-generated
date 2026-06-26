@@ -5,7 +5,8 @@
 
 import * as z from "zod/v4-mini";
 import { GalileoGeneratedCore } from "../core.js";
-import { encodeSimple } from "../lib/encodings.js";
+import { encodeFormQuery, encodeSimple } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -101,8 +102,11 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/scorers/{scorer_id}")(pathParams);
+
+  const query = encodeFormQuery({
+    "actions": payload.actions,
+  });
 
   const headers = new Headers(compactMap({
     Accept: "application/json",
@@ -123,15 +127,6 @@ async function $do(
         value: resolveOAuth2Password(security?.oAuth2PasswordBearer, {
           defaults: { tokenURL: "https://api.galileo.ai/login" },
         }),
-      },
-    ],
-    [
-      {
-        type: "http:basic",
-        value: {
-          username: security?.httpBasic?.username,
-          password: security?.httpBasic?.password,
-        },
       },
     ],
   );
@@ -157,6 +152,7 @@ async function $do(
     baseURL: options?.serverURL,
     path: path,
     headers: headers,
+    query: query,
     body: body,
     userAgent: client._options.userAgent,
     timeoutMs: options?.timeoutMs || client._options.timeoutMs || -1,
@@ -168,7 +164,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["422", "4XX", "5XX"],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });
