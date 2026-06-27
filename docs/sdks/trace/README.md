@@ -257,7 +257,7 @@ async function run() {
         {
           input: "who is a smart LLM?",
           output: "I am!",
-          createdAt: new Date("2026-05-12T23:58:32.249464Z"),
+          createdAt: new Date("2026-06-24T20:49:53.260749Z"),
           userMetadata: {
 
           },
@@ -280,7 +280,7 @@ async function run() {
                 role: "user",
               },
               name: "",
-              createdAt: new Date("2026-05-12T23:58:32.249423Z"),
+              createdAt: new Date("2026-06-24T20:49:53.260705Z"),
               userMetadata: {
 
               },
@@ -326,7 +326,7 @@ async function run() {
         {
           input: "who is a smart LLM?",
           output: "I am!",
-          createdAt: new Date("2026-05-12T23:58:32.249464Z"),
+          createdAt: new Date("2026-06-24T20:49:53.260749Z"),
           userMetadata: {
   
           },
@@ -349,7 +349,7 @@ async function run() {
                 role: "user",
               },
               name: "",
-              createdAt: new Date("2026-05-12T23:58:32.249423Z"),
+              createdAt: new Date("2026-06-24T20:49:53.260705Z"),
               userMetadata: {
   
               },
@@ -547,7 +547,7 @@ run();
 
 ### Response
 
-**Promise\<[models.ExtendedTraceRecordWithChildren](../../models/extendedtracerecordwithchildren.md)\>**
+**Promise\<[operations.ResponseGetTraceProjectsProjectIdTracesTraceIdGet](../../models/operations/responsegettraceprojectsprojectidtracestraceidget.md)\>**
 
 ### Errors
 
@@ -1394,7 +1394,7 @@ async function run() {
           input: "who is a smart LLM?",
           output: "I am!",
           name: "",
-          createdAt: new Date("2026-05-12T23:58:32.270557Z"),
+          createdAt: new Date("2026-06-24T20:49:53.280936Z"),
           userMetadata: {
 
           },
@@ -1417,7 +1417,7 @@ async function run() {
                 role: "user",
               },
               name: "",
-              createdAt: new Date("2026-05-12T23:58:32.254617Z"),
+              createdAt: new Date("2026-06-24T20:49:53.266731Z"),
               userMetadata: {
 
               },
@@ -1467,7 +1467,7 @@ async function run() {
           input: "who is a smart LLM?",
           output: "I am!",
           name: "",
-          createdAt: new Date("2026-05-12T23:58:32.270557Z"),
+          createdAt: new Date("2026-06-24T20:49:53.280936Z"),
           userMetadata: {
   
           },
@@ -1490,7 +1490,7 @@ async function run() {
                 role: "user",
               },
               name: "",
-              createdAt: new Date("2026-05-12T23:58:32.254617Z"),
+              createdAt: new Date("2026-06-24T20:49:53.266731Z"),
               userMetadata: {
   
               },

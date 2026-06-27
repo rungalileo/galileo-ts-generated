@@ -45,6 +45,7 @@ import {
   OutputTypeEnum,
   OutputTypeEnum$inboundSchema,
 } from "./outputtypeenum.js";
+import { Permission, Permission$inboundSchema } from "./permission.js";
 import {
   RollUpMethodDisplayOptions,
   RollUpMethodDisplayOptions$inboundSchema,
@@ -53,6 +54,10 @@ import {
   ScorerDefaults,
   ScorerDefaults$inboundSchema,
 } from "./scorerdefaults.js";
+import {
+  ScorerScopeProjectRef,
+  ScorerScopeProjectRef$inboundSchema,
+} from "./scorerscopeprojectref.js";
 import { ScorerTypes, ScorerTypes$inboundSchema } from "./scorertypes.js";
 
 export type ScorerResponseMetricColorPickerConfig =
@@ -64,6 +69,7 @@ export type ScorerResponseMetricColorPickerConfig =
 
 export type ScorerResponse = {
   id: string;
+  permissions?: Array<Permission> | undefined;
   name: string;
   scorerType: ScorerTypes;
   defaults?: ScorerDefaults | null | undefined;
@@ -102,6 +108,8 @@ export type ScorerResponse = {
     | undefined;
   colorThresholdConfig?: MetricColorPickerNumeric | null | undefined;
   metricName?: string | null | undefined;
+  isGlobal: boolean;
+  scopeProjects?: Array<ScorerScopeProjectRef> | undefined;
 };
 
 /** @internal */
@@ -133,6 +141,7 @@ export const ScorerResponse$inboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     id: types.string(),
+    permissions: types.optional(z.array(Permission$inboundSchema)),
     name: types.string(),
     scorer_type: ScorerTypes$inboundSchema,
     defaults: z.optional(z.nullable(ScorerDefaults$inboundSchema)),
@@ -176,6 +185,10 @@ export const ScorerResponse$inboundSchema: z.ZodMiniType<
       z.nullable(MetricColorPickerNumeric$inboundSchema),
     ),
     metric_name: z.optional(z.nullable(types.string())),
+    is_global: z._default(types.boolean(), false),
+    scope_projects: types.optional(
+      z.array(ScorerScopeProjectRef$inboundSchema),
+    ),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -201,6 +214,8 @@ export const ScorerResponse$inboundSchema: z.ZodMiniType<
       "metric_color_picker_config": "metricColorPickerConfig",
       "color_threshold_config": "colorThresholdConfig",
       "metric_name": "metricName",
+      "is_global": "isGlobal",
+      "scope_projects": "scopeProjects",
     });
   }),
 );
