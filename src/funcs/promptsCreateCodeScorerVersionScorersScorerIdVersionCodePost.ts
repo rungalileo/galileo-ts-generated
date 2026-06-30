@@ -6,10 +6,7 @@
 import * as z from "zod/v4-mini";
 import { GalileoGeneratedCore } from "../core.js";
 import { appendForm, encodeSimple } from "../lib/encodings.js";
-import {
-  getContentTypeFromFileName,
-  readableStreamToArrayBuffer,
-} from "../lib/files.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -30,9 +27,7 @@ import { SDKValidationError } from "../models/errors/sdkvalidationerror.js";
 import * as models from "../models/index.js";
 import * as operations from "../models/operations/index.js";
 import { APICall, APIPromise } from "../types/async.js";
-import { isBlobLike } from "../types/blobs.js";
 import { Result } from "../types/fp.js";
-import { isReadableStream } from "../types/streams.js";
 
 /**
  * Create Code Scorer Version
@@ -106,38 +101,8 @@ async function $do(
   const payload = parsed.value;
   const body = new FormData();
 
-  if (isBlobLike(payload.body.file)) {
-    appendForm(body, "file", payload.body.file);
-  } else if (isReadableStream(payload.body.file.content)) {
-    const buffer = await readableStreamToArrayBuffer(payload.body.file.content);
-    const contentType = getContentTypeFromFileName(payload.body.file.fileName)
-      || "application/octet-stream";
-    const blob = new Blob([buffer], { type: contentType });
-    appendForm(body, "file", blob, payload.body.file.fileName);
-  } else if (payload.body.file.content instanceof Uint8Array) {
-    const contentType = getContentTypeFromFileName(payload.body.file.fileName)
-      || "application/octet-stream";
-    appendForm(
-      body,
-      "file",
-      new Blob([new Uint8Array(payload.body.file.content).buffer], {
-        type: contentType,
-      }),
-      payload.body.file.fileName,
-    );
-  } else {
-    const contentType = getContentTypeFromFileName(payload.body.file.fileName)
-      || "application/octet-stream";
-    appendForm(
-      body,
-      "file",
-      new Blob([payload.body.file.content], { type: contentType }),
-      payload.body.file.fileName,
-    );
-  }
-  if (payload.body.validation_result !== undefined) {
-    appendForm(body, "validation_result", payload.body.validation_result);
-  }
+  appendForm(body, "file", payload.body.file);
+  appendForm(body, "validation_result", payload.body.validation_result);
 
   const pathParams = {
     scorer_id: encodeSimple("scorer_id", payload.scorer_id, {
@@ -145,7 +110,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/scorers/{scorer_id}/version/code")(pathParams);
 
   const headers = new Headers(compactMap({
@@ -167,15 +131,6 @@ async function $do(
         value: resolveOAuth2Password(security?.oAuth2PasswordBearer, {
           defaults: { tokenURL: "https://api.galileo.ai/login" },
         }),
-      },
-    ],
-    [
-      {
-        type: "http:basic",
-        value: {
-          username: security?.httpBasic?.username,
-          password: security?.httpBasic?.password,
-        },
       },
     ],
   );
@@ -213,7 +168,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["422", "4XX", "5XX"],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });

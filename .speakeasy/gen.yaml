@@ -55,6 +55,7 @@ typescript:
     test: vitest run
     test:watch: vitest
   alwaysIncludeInboundAndOutbound: false
+  apiPromiseHelpers: false
   author: Galileo/Speakeasy
   baseErrorName: GalileoGeneratedError
   clientServerStatusCodesAsErrors: true
@@ -65,7 +66,9 @@ typescript:
   enableReactQuery: false
   enumFormat: union
   envVarPrefix: GALILEOGENERATED
+  eventStreamClassName: EventStream
   exportZodModelNamespace: false
+  fixEnumNameSanitization: false
   flatAdditionalProperties: true
   flattenGlobalSecurity: true
   flatteningOrder: parameters-first
@@ -95,6 +98,8 @@ typescript:
   packageName: galileo-generated
   preApplyUnionDiscriminators: true
   preserveModelFieldNames: false
+  privateIdentifierPrefix: '#'
+  requestExtras: false
   responseFormat: flat
   sseFlatResponse: false
   templateVersion: v2

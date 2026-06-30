@@ -206,36 +206,38 @@ run();
 
 ### [Data](docs/sdks/data/README.md)
 
+* [createLunaScorerVersionScorersScorerIdVersionLunaPost](docs/sdks/data/README.md#createlunascorerversionscorersscoreridversionlunapost) - Create Luna Scorer Version
+* [manualLlmValidateScorersLlmValidatePost](docs/sdks/data/README.md#manualllmvalidatescorersllmvalidatepost) - Manual Llm Validate
+* [manualLlmValidateMultipartScorersLlmValidateMultipartPost](docs/sdks/data/README.md#manualllmvalidatemultipartscorersllmvalidatemultipartpost) - Manual Llm Validate Multipart
+* [createScorersPost](docs/sdks/data/README.md#createscorerspost) - Create
+* [updateScorersScorerIdPatch](docs/sdks/data/README.md#updatescorersscoreridpatch) - Update
 * [deleteScorerScorersScorerIdDelete](docs/sdks/data/README.md#deletescorerscorersscoreriddelete) - Delete Scorer
 * [getScorerScorersScorerIdGet](docs/sdks/data/README.md#getscorerscorersscoreridget) - Get Scorer
-* [updateScorersScorerIdPatch](docs/sdks/data/README.md#updatescorersscoreridpatch) - Update
+* [createLlmScorerVersionScorersScorerIdVersionLlmPost](docs/sdks/data/README.md#createllmscorerversionscorersscoreridversionllmpost) - Create Llm Scorer Version
 * [validateCodeScorerScorersCodeValidatePost](docs/sdks/data/README.md#validatecodescorerscorerscodevalidatepost) - Validate Code Scorer
+* [validateCodeScorerLogRecordScorersCodeValidateLogRecordPost](docs/sdks/data/README.md#validatecodescorerlogrecordscorerscodevalidatelogrecordpost) - Validate Code Scorer Log Record
 * [getValidateCodeScorerTaskResultScorersCodeValidateTaskIdGet](docs/sdks/data/README.md#getvalidatecodescorertaskresultscorerscodevalidatetaskidget) - Get Validate Code Scorer Task Result
 * [createCodeScorerVersionScorersScorerIdVersionCodePost](docs/sdks/data/README.md#createcodescorerversionscorersscoreridversioncodepost) - Create Code Scorer Version
 * [getScorerVersionCodeScorersScorerIdVersionCodeGet](docs/sdks/data/README.md#getscorerversioncodescorersscoreridversioncodeget) - Get Scorer Version Code
 * [createPresetScorerVersionScorersScorerIdVersionPresetPost](docs/sdks/data/README.md#createpresetscorerversionscorersscoreridversionpresetpost) - Create Preset Scorer Version
-* [createLunaScorerVersionScorersScorerIdVersionLunaPost](docs/sdks/data/README.md#createlunascorerversionscorersscoreridversionlunapost) - Create Luna Scorer Version
 * [listScorersWithFiltersScorersListPost](docs/sdks/data/README.md#listscorerswithfiltersscorerslistpost) - List Scorers With Filters
 * [listTagsScorersTagsGet](docs/sdks/data/README.md#listtagsscorerstagsget) - List Tags
 * [getScorerVersionOrLatestScorersScorerIdVersionGet](docs/sdks/data/README.md#getscorerversionorlatestscorersscoreridversionget) - Get Scorer Version Or Latest
 * [listAllVersionsForScorerScorersScorerIdVersionsGet](docs/sdks/data/README.md#listallversionsforscorerscorersscoreridversionsget) - List All Versions For Scorer
+* [setScorerScopeScorersScorerIdScopePut](docs/sdks/data/README.md#setscorerscopescorersscoreridscopeput) - Set Scorer Scope
 * [listProjectsForScorerRouteScorersScorerIdProjectsGet](docs/sdks/data/README.md#listprojectsforscorerroutescorersscoreridprojectsget) - List Projects For Scorer Route
 * [listProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProjectsGet](docs/sdks/data/README.md#listprojectsforscorerversionroutescorersversionsscorerversionidprojectsget) - List Projects For Scorer Version Route
 * [restoreScorerVersionScorersScorerIdVersionsVersionNumberRestorePost](docs/sdks/data/README.md#restorescorerversionscorersscoreridversionsversionnumberrestorepost) - Restore Scorer Version
 * [autogenLlmScorerScorersLlmAutogenPost](docs/sdks/data/README.md#autogenllmscorerscorersllmautogenpost) - Autogen Llm Scorer
-* [manualLlmValidateScorersLlmValidatePost](docs/sdks/data/README.md#manualllmvalidatescorersllmvalidatepost) - Manual Llm Validate
-* [createScorersPost](docs/sdks/data/README.md#createscorerspost) - Create
-* [createLlmScorerVersionScorersScorerIdVersionLlmPost](docs/sdks/data/README.md#createllmscorerversionscorersscoreridversionllmpost) - Create Llm Scorer Version
-* [validateCodeScorerLogRecordScorersCodeValidateLogRecordPost](docs/sdks/data/README.md#validatecodescorerlogrecordscorerscodevalidatelogrecordpost) - Validate Code Scorer Log Record
 * [validateLlmScorerLogRecordScorersLlmValidateLogRecordPost](docs/sdks/data/README.md#validatellmscorerlogrecordscorersllmvalidatelogrecordpost) - Validate Llm Scorer Log Record
 * [validateLlmScorerDatasetScorersLlmValidateDatasetPost](docs/sdks/data/README.md#validatellmscorerdatasetscorersllmvalidatedatasetpost) - Validate Llm Scorer Dataset
 * [validateCodeScorerDatasetScorersCodeValidateDatasetPost](docs/sdks/data/README.md#validatecodescorerdatasetscorerscodevalidatedatasetpost) - Validate Code Scorer Dataset
 * [computeHealthScoreEndpointProjectsProjectIdMetricsTestingRunIdHealthScorePost](docs/sdks/data/README.md#computehealthscoreendpointprojectsprojectidmetricstestingrunidhealthscorepost) - Compute Health Score Endpoint
+* [getScorerHealthScoresScorersScorerIdHealthScoresGet](docs/sdks/data/README.md#getscorerhealthscoresscorersscoreridhealthscoresget) - Get Scorer Health Scores
+* [writeScorerVersionHealthScoreScorersScorerIdVersionsVersionNumberHealthScoresPost](docs/sdks/data/README.md#writescorerversionhealthscorescorersscoreridversionsversionnumberhealthscorespost) - Write Scorer Version Health Score
 
 ### [Datasets](docs/sdks/datasets/README.md)
 
-* [~~uploadPromptEvaluationDatasetProjectsProjectIdPromptDatasetsPost~~](docs/sdks/datasets/README.md#uploadpromptevaluationdatasetprojectsprojectidpromptdatasetspost) - Upload Prompt Evaluation Dataset :warning: **Deprecated**
-* [~~listPromptDatasetsProjectsProjectIdPromptDatasetsGet~~](docs/sdks/datasets/README.md#listpromptdatasetsprojectsprojectidpromptdatasetsget) - List Prompt Datasets :warning: **Deprecated**
 * [createDatasetDatasetsPost](docs/sdks/datasets/README.md#createdatasetdatasetspost) - Create Dataset
 * [listDatasetsDatasetsGet](docs/sdks/datasets/README.md#listdatasetsdatasetsget) - List Datasets
 * [bulkDeleteDatasetsDatasetsBulkDeleteDelete](docs/sdks/datasets/README.md#bulkdeletedatasetsdatasetsbulkdeletedelete) - Bulk Delete Datasets
@@ -243,9 +245,6 @@ run();
 * [updateDatasetDatasetsDatasetIdPatch](docs/sdks/datasets/README.md#updatedatasetdatasetsdatasetidpatch) - Update Dataset
 * [deleteDatasetDatasetsDatasetIdDelete](docs/sdks/datasets/README.md#deletedatasetdatasetsdatasetiddelete) - Delete Dataset
 * [queryDatasetsDatasetsQueryPost](docs/sdks/datasets/README.md#querydatasetsdatasetsquerypost) - Query Datasets
-* [~~updatePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdPut~~](docs/sdks/datasets/README.md#updatepromptdatasetprojectsprojectidpromptdatasetsdatasetidput) - Update Prompt Dataset :warning: **Deprecated**
-* [~~deletePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdDelete~~](docs/sdks/datasets/README.md#deletepromptdatasetprojectsprojectidpromptdatasetsdatasetiddelete) - Delete Prompt Dataset :warning: **Deprecated**
-* [~~downloadPromptDatasetProjectsProjectIdPromptDatasetsDatasetIdGet~~](docs/sdks/datasets/README.md#downloadpromptdatasetprojectsprojectidpromptdatasetsdatasetidget) - Download Prompt Dataset :warning: **Deprecated**
 * [updateDatasetContentDatasetsDatasetIdContentPatch](docs/sdks/datasets/README.md#updatedatasetcontentdatasetsdatasetidcontentpatch) - Update Dataset Content
 * [getDatasetContentDatasetsDatasetIdContentGet](docs/sdks/datasets/README.md#getdatasetcontentdatasetsdatasetidcontentget) - Get Dataset Content
 * [upsertDatasetContentDatasetsDatasetIdContentPut](docs/sdks/datasets/README.md#upsertdatasetcontentdatasetsdatasetidcontentput) - Upsert Dataset Content
@@ -266,6 +265,7 @@ run();
 * [listDatasetProjectsDatasetsDatasetIdProjectsGet](docs/sdks/datasets/README.md#listdatasetprojectsdatasetsdatasetidprojectsget) - List Dataset Projects
 * [extendDatasetContentDatasetsExtendPost](docs/sdks/datasets/README.md#extenddatasetcontentdatasetsextendpost) - Extend Dataset Content
 * [getDatasetSyntheticExtendStatusDatasetsExtendDatasetIdGet](docs/sdks/datasets/README.md#getdatasetsyntheticextendstatusdatasetsextenddatasetidget) - Get Dataset Synthetic Extend Status
+* [countDatasetsDatasetsQueryCountPost](docs/sdks/datasets/README.md#countdatasetsdatasetsquerycountpost) - Count Datasets
 * [getDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet](docs/sdks/datasets/README.md#getdatasetvariablepreviewdatasetsdatasetidvariablepreviewget) - Get Dataset Variable Preview
 
 ### [Experiment](docs/sdks/experiment/README.md)
@@ -370,7 +370,6 @@ run();
 * [~~getAllProjectsProjectsAllGet~~](docs/sdks/projects/README.md#getallprojectsprojectsallget) - Get All Projects :warning: **Deprecated**
 * [~~getProjectsProjectsGet~~](docs/sdks/projects/README.md#getprojectsprojectsget) - Get Projects :warning: **Deprecated**
 * [createProjectProjectsPost](docs/sdks/projects/README.md#createprojectprojectspost) - Create Project
-* [uploadFileProjectsProjectIdUploadFilePost](docs/sdks/projects/README.md#uploadfileprojectsprojectiduploadfilepost) - Upload File
 * [getCollaboratorRolesCollaboratorRolesGet](docs/sdks/projects/README.md#getcollaboratorrolescollaboratorrolesget) - Get Collaborator Roles
 * [getProjectProjectsProjectIdGet](docs/sdks/projects/README.md#getprojectprojectsprojectidget) - Get Project
 * [updateProjectProjectsProjectIdPut](docs/sdks/projects/README.md#updateprojectprojectsprojectidput) - Update Project
@@ -414,31 +413,35 @@ run();
 * [listGroupPromptTemplateCollaboratorsTemplatesTemplateIdGroupsGet](docs/sdks/prompts/README.md#listgroupprompttemplatecollaboratorstemplatestemplateidgroupsget) - List Group Prompt Template Collaborators
 * [updateGroupPromptTemplateCollaboratorTemplatesTemplateIdGroupsGroupIdPatch](docs/sdks/prompts/README.md#updategroupprompttemplatecollaboratortemplatestemplateidgroupsgroupidpatch) - Update Group Prompt Template Collaborator
 * [deleteGroupPromptTemplateCollaboratorTemplatesTemplateIdGroupsGroupIdDelete](docs/sdks/prompts/README.md#deletegroupprompttemplatecollaboratortemplatestemplateidgroupsgroupiddelete) - Delete Group Prompt Template Collaborator
+* [createLunaScorerVersionScorersScorerIdVersionLunaPost](docs/sdks/prompts/README.md#createlunascorerversionscorersscoreridversionlunapost) - Create Luna Scorer Version
+* [manualLlmValidateScorersLlmValidatePost](docs/sdks/prompts/README.md#manualllmvalidatescorersllmvalidatepost) - Manual Llm Validate
+* [manualLlmValidateMultipartScorersLlmValidateMultipartPost](docs/sdks/prompts/README.md#manualllmvalidatemultipartscorersllmvalidatemultipartpost) - Manual Llm Validate Multipart
+* [createScorersPost](docs/sdks/prompts/README.md#createscorerspost) - Create
+* [updateScorersScorerIdPatch](docs/sdks/prompts/README.md#updatescorersscoreridpatch) - Update
 * [deleteScorerScorersScorerIdDelete](docs/sdks/prompts/README.md#deletescorerscorersscoreriddelete) - Delete Scorer
 * [getScorerScorersScorerIdGet](docs/sdks/prompts/README.md#getscorerscorersscoreridget) - Get Scorer
-* [updateScorersScorerIdPatch](docs/sdks/prompts/README.md#updatescorersscoreridpatch) - Update
+* [createLlmScorerVersionScorersScorerIdVersionLlmPost](docs/sdks/prompts/README.md#createllmscorerversionscorersscoreridversionllmpost) - Create Llm Scorer Version
 * [validateCodeScorerScorersCodeValidatePost](docs/sdks/prompts/README.md#validatecodescorerscorerscodevalidatepost) - Validate Code Scorer
+* [validateCodeScorerLogRecordScorersCodeValidateLogRecordPost](docs/sdks/prompts/README.md#validatecodescorerlogrecordscorerscodevalidatelogrecordpost) - Validate Code Scorer Log Record
 * [getValidateCodeScorerTaskResultScorersCodeValidateTaskIdGet](docs/sdks/prompts/README.md#getvalidatecodescorertaskresultscorerscodevalidatetaskidget) - Get Validate Code Scorer Task Result
 * [createCodeScorerVersionScorersScorerIdVersionCodePost](docs/sdks/prompts/README.md#createcodescorerversionscorersscoreridversioncodepost) - Create Code Scorer Version
 * [getScorerVersionCodeScorersScorerIdVersionCodeGet](docs/sdks/prompts/README.md#getscorerversioncodescorersscoreridversioncodeget) - Get Scorer Version Code
 * [createPresetScorerVersionScorersScorerIdVersionPresetPost](docs/sdks/prompts/README.md#createpresetscorerversionscorersscoreridversionpresetpost) - Create Preset Scorer Version
-* [createLunaScorerVersionScorersScorerIdVersionLunaPost](docs/sdks/prompts/README.md#createlunascorerversionscorersscoreridversionlunapost) - Create Luna Scorer Version
 * [listScorersWithFiltersScorersListPost](docs/sdks/prompts/README.md#listscorerswithfiltersscorerslistpost) - List Scorers With Filters
 * [listTagsScorersTagsGet](docs/sdks/prompts/README.md#listtagsscorerstagsget) - List Tags
 * [getScorerVersionOrLatestScorersScorerIdVersionGet](docs/sdks/prompts/README.md#getscorerversionorlatestscorersscoreridversionget) - Get Scorer Version Or Latest
 * [listAllVersionsForScorerScorersScorerIdVersionsGet](docs/sdks/prompts/README.md#listallversionsforscorerscorersscoreridversionsget) - List All Versions For Scorer
+* [setScorerScopeScorersScorerIdScopePut](docs/sdks/prompts/README.md#setscorerscopescorersscoreridscopeput) - Set Scorer Scope
 * [listProjectsForScorerRouteScorersScorerIdProjectsGet](docs/sdks/prompts/README.md#listprojectsforscorerroutescorersscoreridprojectsget) - List Projects For Scorer Route
 * [listProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProjectsGet](docs/sdks/prompts/README.md#listprojectsforscorerversionroutescorersversionsscorerversionidprojectsget) - List Projects For Scorer Version Route
 * [restoreScorerVersionScorersScorerIdVersionsVersionNumberRestorePost](docs/sdks/prompts/README.md#restorescorerversionscorersscoreridversionsversionnumberrestorepost) - Restore Scorer Version
 * [autogenLlmScorerScorersLlmAutogenPost](docs/sdks/prompts/README.md#autogenllmscorerscorersllmautogenpost) - Autogen Llm Scorer
-* [manualLlmValidateScorersLlmValidatePost](docs/sdks/prompts/README.md#manualllmvalidatescorersllmvalidatepost) - Manual Llm Validate
-* [createScorersPost](docs/sdks/prompts/README.md#createscorerspost) - Create
-* [createLlmScorerVersionScorersScorerIdVersionLlmPost](docs/sdks/prompts/README.md#createllmscorerversionscorersscoreridversionllmpost) - Create Llm Scorer Version
-* [validateCodeScorerLogRecordScorersCodeValidateLogRecordPost](docs/sdks/prompts/README.md#validatecodescorerlogrecordscorerscodevalidatelogrecordpost) - Validate Code Scorer Log Record
 * [validateLlmScorerLogRecordScorersLlmValidateLogRecordPost](docs/sdks/prompts/README.md#validatellmscorerlogrecordscorersllmvalidatelogrecordpost) - Validate Llm Scorer Log Record
 * [validateLlmScorerDatasetScorersLlmValidateDatasetPost](docs/sdks/prompts/README.md#validatellmscorerdatasetscorersllmvalidatedatasetpost) - Validate Llm Scorer Dataset
 * [validateCodeScorerDatasetScorersCodeValidateDatasetPost](docs/sdks/prompts/README.md#validatecodescorerdatasetscorerscodevalidatedatasetpost) - Validate Code Scorer Dataset
 * [computeHealthScoreEndpointProjectsProjectIdMetricsTestingRunIdHealthScorePost](docs/sdks/prompts/README.md#computehealthscoreendpointprojectsprojectidmetricstestingrunidhealthscorepost) - Compute Health Score Endpoint
+* [getScorerHealthScoresScorersScorerIdHealthScoresGet](docs/sdks/prompts/README.md#getscorerhealthscoresscorersscoreridhealthscoresget) - Get Scorer Health Scores
+* [writeScorerVersionHealthScoreScorersScorerIdVersionsVersionNumberHealthScoresPost](docs/sdks/prompts/README.md#writescorerversionhealthscorescorersscoreridversionsversionnumberhealthscorespost) - Write Scorer Version Health Score
 
 ### [Protect](docs/sdks/protect/README.md)
 
@@ -450,31 +453,35 @@ run();
 
 ### [Rows](docs/sdks/rows/README.md)
 
+* [createLunaScorerVersionScorersScorerIdVersionLunaPost](docs/sdks/rows/README.md#createlunascorerversionscorersscoreridversionlunapost) - Create Luna Scorer Version
+* [manualLlmValidateScorersLlmValidatePost](docs/sdks/rows/README.md#manualllmvalidatescorersllmvalidatepost) - Manual Llm Validate
+* [manualLlmValidateMultipartScorersLlmValidateMultipartPost](docs/sdks/rows/README.md#manualllmvalidatemultipartscorersllmvalidatemultipartpost) - Manual Llm Validate Multipart
+* [createScorersPost](docs/sdks/rows/README.md#createscorerspost) - Create
+* [updateScorersScorerIdPatch](docs/sdks/rows/README.md#updatescorersscoreridpatch) - Update
 * [deleteScorerScorersScorerIdDelete](docs/sdks/rows/README.md#deletescorerscorersscoreriddelete) - Delete Scorer
 * [getScorerScorersScorerIdGet](docs/sdks/rows/README.md#getscorerscorersscoreridget) - Get Scorer
-* [updateScorersScorerIdPatch](docs/sdks/rows/README.md#updatescorersscoreridpatch) - Update
+* [createLlmScorerVersionScorersScorerIdVersionLlmPost](docs/sdks/rows/README.md#createllmscorerversionscorersscoreridversionllmpost) - Create Llm Scorer Version
 * [validateCodeScorerScorersCodeValidatePost](docs/sdks/rows/README.md#validatecodescorerscorerscodevalidatepost) - Validate Code Scorer
+* [validateCodeScorerLogRecordScorersCodeValidateLogRecordPost](docs/sdks/rows/README.md#validatecodescorerlogrecordscorerscodevalidatelogrecordpost) - Validate Code Scorer Log Record
 * [getValidateCodeScorerTaskResultScorersCodeValidateTaskIdGet](docs/sdks/rows/README.md#getvalidatecodescorertaskresultscorerscodevalidatetaskidget) - Get Validate Code Scorer Task Result
 * [createCodeScorerVersionScorersScorerIdVersionCodePost](docs/sdks/rows/README.md#createcodescorerversionscorersscoreridversioncodepost) - Create Code Scorer Version
 * [getScorerVersionCodeScorersScorerIdVersionCodeGet](docs/sdks/rows/README.md#getscorerversioncodescorersscoreridversioncodeget) - Get Scorer Version Code
 * [createPresetScorerVersionScorersScorerIdVersionPresetPost](docs/sdks/rows/README.md#createpresetscorerversionscorersscoreridversionpresetpost) - Create Preset Scorer Version
-* [createLunaScorerVersionScorersScorerIdVersionLunaPost](docs/sdks/rows/README.md#createlunascorerversionscorersscoreridversionlunapost) - Create Luna Scorer Version
 * [listScorersWithFiltersScorersListPost](docs/sdks/rows/README.md#listscorerswithfiltersscorerslistpost) - List Scorers With Filters
 * [listTagsScorersTagsGet](docs/sdks/rows/README.md#listtagsscorerstagsget) - List Tags
 * [getScorerVersionOrLatestScorersScorerIdVersionGet](docs/sdks/rows/README.md#getscorerversionorlatestscorersscoreridversionget) - Get Scorer Version Or Latest
 * [listAllVersionsForScorerScorersScorerIdVersionsGet](docs/sdks/rows/README.md#listallversionsforscorerscorersscoreridversionsget) - List All Versions For Scorer
+* [setScorerScopeScorersScorerIdScopePut](docs/sdks/rows/README.md#setscorerscopescorersscoreridscopeput) - Set Scorer Scope
 * [listProjectsForScorerRouteScorersScorerIdProjectsGet](docs/sdks/rows/README.md#listprojectsforscorerroutescorersscoreridprojectsget) - List Projects For Scorer Route
 * [listProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProjectsGet](docs/sdks/rows/README.md#listprojectsforscorerversionroutescorersversionsscorerversionidprojectsget) - List Projects For Scorer Version Route
 * [restoreScorerVersionScorersScorerIdVersionsVersionNumberRestorePost](docs/sdks/rows/README.md#restorescorerversionscorersscoreridversionsversionnumberrestorepost) - Restore Scorer Version
 * [autogenLlmScorerScorersLlmAutogenPost](docs/sdks/rows/README.md#autogenllmscorerscorersllmautogenpost) - Autogen Llm Scorer
-* [manualLlmValidateScorersLlmValidatePost](docs/sdks/rows/README.md#manualllmvalidatescorersllmvalidatepost) - Manual Llm Validate
-* [createScorersPost](docs/sdks/rows/README.md#createscorerspost) - Create
-* [createLlmScorerVersionScorersScorerIdVersionLlmPost](docs/sdks/rows/README.md#createllmscorerversionscorersscoreridversionllmpost) - Create Llm Scorer Version
-* [validateCodeScorerLogRecordScorersCodeValidateLogRecordPost](docs/sdks/rows/README.md#validatecodescorerlogrecordscorerscodevalidatelogrecordpost) - Validate Code Scorer Log Record
 * [validateLlmScorerLogRecordScorersLlmValidateLogRecordPost](docs/sdks/rows/README.md#validatellmscorerlogrecordscorersllmvalidatelogrecordpost) - Validate Llm Scorer Log Record
 * [validateLlmScorerDatasetScorersLlmValidateDatasetPost](docs/sdks/rows/README.md#validatellmscorerdatasetscorersllmvalidatedatasetpost) - Validate Llm Scorer Dataset
 * [validateCodeScorerDatasetScorersCodeValidateDatasetPost](docs/sdks/rows/README.md#validatecodescorerdatasetscorerscodevalidatedatasetpost) - Validate Code Scorer Dataset
 * [computeHealthScoreEndpointProjectsProjectIdMetricsTestingRunIdHealthScorePost](docs/sdks/rows/README.md#computehealthscoreendpointprojectsprojectidmetricstestingrunidhealthscorepost) - Compute Health Score Endpoint
+* [getScorerHealthScoresScorersScorerIdHealthScoresGet](docs/sdks/rows/README.md#getscorerhealthscoresscorersscoreridhealthscoresget) - Get Scorer Health Scores
+* [writeScorerVersionHealthScoreScorersScorerIdVersionsVersionNumberHealthScoresPost](docs/sdks/rows/README.md#writescorerversionhealthscorescorersscoreridversionsversionnumberhealthscorespost) - Write Scorer Version Health Score
 
 ### [RunScorerSettings](docs/sdks/runscorersettings/README.md)
 
@@ -545,6 +552,7 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`codeMetricGenerationCreateCodeMetricGenerationCodeMetricGenerationsPost`](docs/sdks/codemetricgeneration/README.md#createcodemetricgenerationcodemetricgenerationspost) - Create Code Metric Generation
 - [`codeMetricGenerationGetCodeMetricGenerationStatusCodeMetricGenerationsGenerationIdStatusGet`](docs/sdks/codemetricgeneration/README.md#getcodemetricgenerationstatuscodemetricgenerationsgenerationidstatusget) - Get Code Metric Generation Status
 - [`datasetsBulkDeleteDatasetsDatasetsBulkDeleteDelete`](docs/sdks/datasets/README.md#bulkdeletedatasetsdatasetsbulkdeletedelete) - Bulk Delete Datasets
+- [`datasetsCountDatasetsDatasetsQueryCountPost`](docs/sdks/datasets/README.md#countdatasetsdatasetsquerycountpost) - Count Datasets
 - [`datasetsCreateDatasetDatasetsPost`](docs/sdks/datasets/README.md#createdatasetdatasetspost) - Create Dataset
 - [`datasetsCreateGroupDatasetCollaboratorsDatasetsDatasetIdGroupsPost`](docs/sdks/datasets/README.md#creategroupdatasetcollaboratorsdatasetsdatasetidgroupspost) - Create Group Dataset Collaborators
 - [`datasetsCreateUserDatasetCollaboratorsDatasetsDatasetIdUsersPost`](docs/sdks/datasets/README.md#createuserdatasetcollaboratorsdatasetsdatasetiduserspost) - Create User Dataset Collaborators
@@ -658,7 +666,6 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`projectsUpdateGroupProjectCollaboratorProjectsProjectIdGroupsGroupIdPatch`](docs/sdks/projects/README.md#updategroupprojectcollaboratorprojectsprojectidgroupsgroupidpatch) - Update Group Project Collaborator
 - [`projectsUpdateProjectProjectsProjectIdPut`](docs/sdks/projects/README.md#updateprojectprojectsprojectidput) - Update Project
 - [`projectsUpdateUserProjectCollaboratorProjectsProjectIdUsersUserIdPatch`](docs/sdks/projects/README.md#updateuserprojectcollaboratorprojectsprojectidusersuseridpatch) - Update User Project Collaborator
-- [`projectsUploadFileProjectsProjectIdUploadFilePost`](docs/sdks/projects/README.md#uploadfileprojectsprojectiduploadfilepost) - Upload File
 - [`promptsAutogenLlmScorerScorersLlmAutogenPost`](docs/sdks/data/README.md#autogenllmscorerscorersllmautogenpost) - Autogen Llm Scorer
 - [`promptsAutogenLlmScorerScorersLlmAutogenPost`](docs/sdks/prompts/README.md#autogenllmscorerscorersllmautogenpost) - Autogen Llm Scorer
 - [`promptsAutogenLlmScorerScorersLlmAutogenPost`](docs/sdks/rows/README.md#autogenllmscorerscorersllmautogenpost) - Autogen Llm Scorer
@@ -696,6 +703,9 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`promptsGetGlobalTemplateTemplatesTemplateIdGet`](docs/sdks/prompts/README.md#getglobaltemplatetemplatestemplateidget) - Get Global Template
 - [`promptsGetGlobalTemplateVersionTemplatesTemplateIdVersionsVersionGet`](docs/sdks/prompts/README.md#getglobaltemplateversiontemplatestemplateidversionsversionget) - Get Global Template Version
 - [`promptsGetProjectTemplatesProjectsProjectIdTemplatesGet`](docs/sdks/prompts/README.md#getprojecttemplatesprojectsprojectidtemplatesget) - Get Project Templates
+- [`promptsGetScorerHealthScoresScorersScorerIdHealthScoresGet`](docs/sdks/data/README.md#getscorerhealthscoresscorersscoreridhealthscoresget) - Get Scorer Health Scores
+- [`promptsGetScorerHealthScoresScorersScorerIdHealthScoresGet`](docs/sdks/prompts/README.md#getscorerhealthscoresscorersscoreridhealthscoresget) - Get Scorer Health Scores
+- [`promptsGetScorerHealthScoresScorersScorerIdHealthScoresGet`](docs/sdks/rows/README.md#getscorerhealthscoresscorersscoreridhealthscoresget) - Get Scorer Health Scores
 - [`promptsGetScorerScorersScorerIdGet`](docs/sdks/data/README.md#getscorerscorersscoreridget) - Get Scorer
 - [`promptsGetScorerScorersScorerIdGet`](docs/sdks/prompts/README.md#getscorerscorersscoreridget) - Get Scorer
 - [`promptsGetScorerScorersScorerIdGet`](docs/sdks/rows/README.md#getscorerscorersscoreridget) - Get Scorer
@@ -726,6 +736,9 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`promptsListTagsScorersTagsGet`](docs/sdks/prompts/README.md#listtagsscorerstagsget) - List Tags
 - [`promptsListTagsScorersTagsGet`](docs/sdks/rows/README.md#listtagsscorerstagsget) - List Tags
 - [`promptsListUserPromptTemplateCollaboratorsTemplatesTemplateIdUsersGet`](docs/sdks/prompts/README.md#listuserprompttemplatecollaboratorstemplatestemplateidusersget) - List User Prompt Template Collaborators
+- [`promptsManualLlmValidateMultipartScorersLlmValidateMultipartPost`](docs/sdks/data/README.md#manualllmvalidatemultipartscorersllmvalidatemultipartpost) - Manual Llm Validate Multipart
+- [`promptsManualLlmValidateMultipartScorersLlmValidateMultipartPost`](docs/sdks/prompts/README.md#manualllmvalidatemultipartscorersllmvalidatemultipartpost) - Manual Llm Validate Multipart
+- [`promptsManualLlmValidateMultipartScorersLlmValidateMultipartPost`](docs/sdks/rows/README.md#manualllmvalidatemultipartscorersllmvalidatemultipartpost) - Manual Llm Validate Multipart
 - [`promptsManualLlmValidateScorersLlmValidatePost`](docs/sdks/data/README.md#manualllmvalidatescorersllmvalidatepost) - Manual Llm Validate
 - [`promptsManualLlmValidateScorersLlmValidatePost`](docs/sdks/prompts/README.md#manualllmvalidatescorersllmvalidatepost) - Manual Llm Validate
 - [`promptsManualLlmValidateScorersLlmValidatePost`](docs/sdks/rows/README.md#manualllmvalidatescorersllmvalidatepost) - Manual Llm Validate
@@ -735,6 +748,9 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`promptsRestoreScorerVersionScorersScorerIdVersionsVersionNumberRestorePost`](docs/sdks/data/README.md#restorescorerversionscorersscoreridversionsversionnumberrestorepost) - Restore Scorer Version
 - [`promptsRestoreScorerVersionScorersScorerIdVersionsVersionNumberRestorePost`](docs/sdks/prompts/README.md#restorescorerversionscorersscoreridversionsversionnumberrestorepost) - Restore Scorer Version
 - [`promptsRestoreScorerVersionScorersScorerIdVersionsVersionNumberRestorePost`](docs/sdks/rows/README.md#restorescorerversionscorersscoreridversionsversionnumberrestorepost) - Restore Scorer Version
+- [`promptsSetScorerScopeScorersScorerIdScopePut`](docs/sdks/data/README.md#setscorerscopescorersscoreridscopeput) - Set Scorer Scope
+- [`promptsSetScorerScopeScorersScorerIdScopePut`](docs/sdks/prompts/README.md#setscorerscopescorersscoreridscopeput) - Set Scorer Scope
+- [`promptsSetScorerScopeScorersScorerIdScopePut`](docs/sdks/rows/README.md#setscorerscopescorersscoreridscopeput) - Set Scorer Scope
 - [`promptsSetSelectedGlobalTemplateVersionTemplatesTemplateIdVersionsVersionPut`](docs/sdks/prompts/README.md#setselectedglobaltemplateversiontemplatestemplateidversionsversionput) - Set Selected Global Template Version
 - [`promptsUpdateGlobalTemplateTemplatesTemplateIdPatch`](docs/sdks/prompts/README.md#updateglobaltemplatetemplatestemplateidpatch) - Update Global Template
 - [`promptsUpdateGroupPromptTemplateCollaboratorTemplatesTemplateIdGroupsGroupIdPatch`](docs/sdks/prompts/README.md#updategroupprompttemplatecollaboratortemplatestemplateidgroupsgroupidpatch) - Update Group Prompt Template Collaborator
@@ -757,6 +773,9 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`promptsValidateLlmScorerLogRecordScorersLlmValidateLogRecordPost`](docs/sdks/data/README.md#validatellmscorerlogrecordscorersllmvalidatelogrecordpost) - Validate Llm Scorer Log Record
 - [`promptsValidateLlmScorerLogRecordScorersLlmValidateLogRecordPost`](docs/sdks/prompts/README.md#validatellmscorerlogrecordscorersllmvalidatelogrecordpost) - Validate Llm Scorer Log Record
 - [`promptsValidateLlmScorerLogRecordScorersLlmValidateLogRecordPost`](docs/sdks/rows/README.md#validatellmscorerlogrecordscorersllmvalidatelogrecordpost) - Validate Llm Scorer Log Record
+- [`promptsWriteScorerVersionHealthScoreScorersScorerIdVersionsVersionNumberHealthScoresPost`](docs/sdks/data/README.md#writescorerversionhealthscorescorersscoreridversionsversionnumberhealthscorespost) - Write Scorer Version Health Score
+- [`promptsWriteScorerVersionHealthScoreScorersScorerIdVersionsVersionNumberHealthScoresPost`](docs/sdks/prompts/README.md#writescorerversionhealthscorescorersscoreridversionsversionnumberhealthscorespost) - Write Scorer Version Health Score
+- [`promptsWriteScorerVersionHealthScoreScorersScorerIdVersionsVersionNumberHealthScoresPost`](docs/sdks/rows/README.md#writescorerversionhealthscorescorersscoreridversionsversionnumberhealthscorespost) - Write Scorer Version Health Score
 - [`protectCreateStageProjectsProjectIdStagesPost`](docs/sdks/protect/README.md#createstageprojectsprojectidstagespost) - Create Stage
 - [`protectCreateStageProjectsProjectIdStagesPost`](docs/sdks/stage/README.md#createstageprojectsprojectidstagespost) - Create Stage
 - [`protectGetStageProjectsProjectIdStagesGet`](docs/sdks/protect/README.md#getstageprojectsprojectidstagesget) - Get Stage
@@ -799,11 +818,6 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`traceTracesAvailableColumnsProjectsProjectIdTracesAvailableColumnsPost`](docs/sdks/trace/README.md#tracesavailablecolumnsprojectsprojectidtracesavailablecolumnspost) - Traces Available Columns
 - [`traceUpdateSpanProjectsProjectIdSpansSpanIdPatch`](docs/sdks/trace/README.md#updatespanprojectsprojectidspansspanidpatch) - Update Span
 - [`traceUpdateTraceProjectsProjectIdTracesTraceIdPatch`](docs/sdks/trace/README.md#updatetraceprojectsprojectidtracestraceidpatch) - Update Trace
-- ~~[`datasetsDeletePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdDelete`](docs/sdks/datasets/README.md#deletepromptdatasetprojectsprojectidpromptdatasetsdatasetiddelete)~~ - Delete Prompt Dataset :warning: **Deprecated**
-- ~~[`datasetsDownloadPromptDatasetProjectsProjectIdPromptDatasetsDatasetIdGet`](docs/sdks/datasets/README.md#downloadpromptdatasetprojectsprojectidpromptdatasetsdatasetidget)~~ - Download Prompt Dataset :warning: **Deprecated**
-- ~~[`datasetsListPromptDatasetsProjectsProjectIdPromptDatasetsGet`](docs/sdks/datasets/README.md#listpromptdatasetsprojectsprojectidpromptdatasetsget)~~ - List Prompt Datasets :warning: **Deprecated**
-- ~~[`datasetsUpdatePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdPut`](docs/sdks/datasets/README.md#updatepromptdatasetprojectsprojectidpromptdatasetsdatasetidput)~~ - Update Prompt Dataset :warning: **Deprecated**
-- ~~[`datasetsUploadPromptEvaluationDatasetProjectsProjectIdPromptDatasetsPost`](docs/sdks/datasets/README.md#uploadpromptevaluationdatasetprojectsprojectidpromptdatasetspost)~~ - Upload Prompt Evaluation Dataset :warning: **Deprecated**
 - ~~[`experimentListExperimentsProjectsProjectIdExperimentsGet`](docs/sdks/experiment/README.md#listexperimentsprojectsprojectidexperimentsget)~~ - List Experiments :warning: **Deprecated**
 - ~~[`integrationsCreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPut`](docs/sdks/integrations/README.md#createorupdateunitycatalogintegrationintegrationsdatabricksunitycatalogsqlput)~~ - Create or update Databricks integration (legacy) :warning: **Deprecated**
 - ~~[`logStreamListLogStreamsProjectsProjectIdLogStreamsGet`](docs/sdks/logstream/README.md#listlogstreamsprojectsprojectidlogstreamsget)~~ - List Log Streams :warning: **Deprecated**
@@ -817,38 +831,6 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 
 </details>
 <!-- End Standalone functions [standalone-funcs] -->
-
-<!-- Start File uploads [file-upload] -->
-## File uploads
-
-Certain SDK methods accept files as part of a multi-part request. It is possible and typically recommended to upload files as a stream rather than reading the entire contents into memory. This avoids excessive memory consumption and potentially crashing with out-of-memory errors when working with very large files. The following example demonstrates how to attach a file stream to a request.
-
-> [!TIP]
->
-> Depending on your JavaScript runtime, there are convenient utilities that return a handle to a file without reading the entire contents into memory:
->
-> - **Node.js v20+:** Since v20, Node.js comes with a native `openAsBlob` function in [`node:fs`](https://nodejs.org/docs/latest-v20.x/api/fs.html#fsopenasblobpath-options).
-> - **Bun:** The native [`Bun.file`](https://bun.sh/docs/api/file-io#reading-files-bun-file) function produces a file handle that can be used for streaming file uploads.
-> - **Browsers:** All supported browsers return an instance to a [`File`](https://developer.mozilla.org/en-US/docs/Web/API/File) when reading the value from an `<input type="file">` element.
-> - **Node.js v18:** A file stream can be created using the `fileFrom` helper from [`fetch-blob/from.js`](https://www.npmjs.com/package/fetch-blob).
-
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.datasets.createDatasetDatasetsPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {});
-
-  console.log(result);
-}
-
-run();
-
-```
-<!-- End File uploads [file-upload] -->
 
 <!-- Start Retries [retries] -->
 ## Retries
@@ -981,7 +963,7 @@ run();
 
 
 **Inherit from [`GalileoGeneratedError`](./src/models/errors/galileogeneratederror.ts)**:
-* [`HTTPValidationError`](./src/models/errors/httpvalidationerror.ts): Status code `422`. Applicable to 212 of 274 methods.*
+* [`HTTPValidationError`](./src/models/errors/httpvalidationerror.ts): Status code `422`. Applicable to 210 of 281 methods.*
 * [`ResponseValidationError`](./src/models/errors/responsevalidationerror.ts): Type mismatch between the data returned from the server and the structure expected by the SDK. See `error.rawValue` for the raw value and `error.pretty()` for a nicely formatted multi-line string.
 
 </details>

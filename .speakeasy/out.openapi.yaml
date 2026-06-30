@@ -69,102 +69,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
-  /projects/{project_id}/prompt_datasets:
-    post:
-      tags:
-        - "datasets"
-      summary: "Upload Prompt Evaluation Dataset"
-      operationId: "upload_prompt_evaluation_dataset_projects__project_id__prompt_datasets_post"
-      deprecated: true
-      security:
-        - APIKeyHeader: []
-        - OAuth2PasswordBearer: []
-        - HTTPBasic: []
-      parameters:
-        - name: "project_id"
-          in: "path"
-          required: true
-          schema:
-            type: "string"
-            format: "uuid4"
-            title: "Project Id"
-        - name: "format"
-          in: "query"
-          required: false
-          schema:
-            $ref: "#/components/schemas/DatasetFormat"
-            default: "csv"
-        - name: "hidden"
-          in: "query"
-          required: false
-          schema:
-            type: "boolean"
-            default: false
-            title: "Hidden"
-      requestBody:
-        required: true
-        content:
-          multipart/form-data:
-            schema:
-              $ref: "#/components/schemas/Body_upload_prompt_evaluation_dataset_projects__project_id__prompt_datasets_post"
-      responses:
-        "200":
-          description: "Successful Response"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/PromptDatasetDB"
-        "422":
-          description: "Validation Error"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/HTTPValidationError"
-    get:
-      tags:
-        - "datasets"
-      summary: "List Prompt Datasets"
-      operationId: "list_prompt_datasets_projects__project_id__prompt_datasets_get"
-      deprecated: true
-      security:
-        - APIKeyHeader: []
-        - OAuth2PasswordBearer: []
-        - HTTPBasic: []
-      parameters:
-        - name: "project_id"
-          in: "path"
-          required: true
-          schema:
-            type: "string"
-            format: "uuid4"
-            title: "Project Id"
-        - name: "starting_token"
-          in: "query"
-          required: false
-          schema:
-            type: "integer"
-            default: 0
-            title: "Starting Token"
-        - name: "limit"
-          in: "query"
-          required: false
-          schema:
-            type: "integer"
-            default: 100
-            title: "Limit"
-      responses:
-        "200":
-          description: "Successful Response"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ListPromptDatasetResponse"
-        "422":
-          description: "Validation Error"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/HTTPValidationError"
   /datasets:
     post:
       tags:
@@ -440,156 +344,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
-  /projects/{project_id}/prompt_datasets/{dataset_id}:
-    put:
-      tags:
-        - "datasets"
-      summary: "Update Prompt Dataset"
-      operationId: "update_prompt_dataset_projects__project_id__prompt_datasets__dataset_id__put"
-      deprecated: true
-      security:
-        - APIKeyHeader: []
-        - OAuth2PasswordBearer: []
-        - HTTPBasic: []
-      parameters:
-        - name: "project_id"
-          in: "path"
-          required: true
-          schema:
-            type: "string"
-            format: "uuid4"
-            title: "Project Id"
-        - name: "dataset_id"
-          in: "path"
-          required: true
-          schema:
-            type: "string"
-            format: "uuid4"
-            title: "Dataset Id"
-        - name: "file_name"
-          in: "query"
-          required: false
-          schema:
-            anyOf:
-              - type: "string"
-              - type: "null"
-            title: "File Name"
-        - name: "num_rows"
-          in: "query"
-          required: false
-          schema:
-            anyOf:
-              - type: "integer"
-              - type: "null"
-            title: "Num Rows"
-        - name: "format"
-          in: "query"
-          required: false
-          schema:
-            $ref: "#/components/schemas/DatasetFormat"
-            default: "csv"
-        - name: "hidden"
-          in: "query"
-          required: false
-          schema:
-            type: "boolean"
-            default: false
-            title: "Hidden"
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              $ref: "#/components/schemas/Body_update_prompt_dataset_projects__project_id__prompt_datasets__dataset_id__put"
-      responses:
-        "200":
-          description: "Successful Response"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/PromptDatasetDB"
-        "422":
-          description: "Validation Error"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/HTTPValidationError"
-    delete:
-      tags:
-        - "datasets"
-      summary: "Delete Prompt Dataset"
-      operationId: "delete_prompt_dataset_projects__project_id__prompt_datasets__dataset_id__delete"
-      deprecated: true
-      security:
-        - APIKeyHeader: []
-        - OAuth2PasswordBearer: []
-        - HTTPBasic: []
-      parameters:
-        - name: "project_id"
-          in: "path"
-          required: true
-          schema:
-            type: "string"
-            format: "uuid4"
-            title: "Project Id"
-        - name: "dataset_id"
-          in: "path"
-          required: true
-          schema:
-            type: "string"
-            format: "uuid4"
-            title: "Dataset Id"
-      responses:
-        "200":
-          description: "Successful Response"
-          content:
-            application/json:
-              schema: {}
-        "422":
-          description: "Validation Error"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/HTTPValidationError"
-    get:
-      tags:
-        - "datasets"
-      summary: "Download Prompt Dataset"
-      operationId: "download_prompt_dataset_projects__project_id__prompt_datasets__dataset_id__get"
-      deprecated: true
-      security:
-        - APIKeyHeader: []
-        - OAuth2PasswordBearer: []
-        - HTTPBasic: []
-      parameters:
-        - name: "project_id"
-          in: "path"
-          required: true
-          schema:
-            type: "string"
-            format: "uuid4"
-            title: "Project Id"
-        - name: "dataset_id"
-          in: "path"
-          required: true
-          schema:
-            type: "string"
-            format: "uuid4"
-            title: "Dataset Id"
-      responses:
-        "200":
-          description: "Successful Response"
-        "422":
-          description: "Validation Error"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/HTTPValidationError"
   /datasets/{dataset_id}/content:
     patch:
       tags:
         - "datasets"
       summary: "Update Dataset Content"
-      description: "Update the content of a dataset.\n\nThe `index` and `column_name` fields are treated as keys tied to a specific version of the dataset.\nAs such, these values are considered immutable identifiers for the dataset's structure.\n\nFor example, if an edit operation changes the name of a column, subsequent edit operations in\nthe same request should reference the column using its original name.\n\nThe `If-Match` header is used to ensure that updates are only applied if the client's version of the dataset\nmatches the server's version. This prevents conflicts from simultaneous updates. The `ETag` header in the response\nprovides the new version identifier after a successful update."
+      description: "Update the content of a dataset.\n\nThe `index` and `column_name` fields are treated as keys tied to a specific version of the dataset.\nAs such, these values are considered immutable identifiers for the dataset's structure.\n\nEdits are applied sequentially in list order, and each edit sees the table state left by the\nprevious one. For example, after a `rename_column` edit renames `col_a` to `col_b`, any\nsubsequent `update_row` in the same request must reference the column as `col_b`, not `col_a`.\n\nThe `If-Match` header is used to ensure that updates are only applied if the client's version of the dataset\nmatches the server's version. This prevents conflicts from simultaneous updates. The `ETag` header in the response\nprovides the new version identifier after a successful update."
       operationId: "update_dataset_content_datasets__dataset_id__content_patch"
       security:
         - APIKeyHeader: []
@@ -1651,42 +1411,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ProjectCreateResponse"
-        "422":
-          description: "Validation Error"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/HTTPValidationError"
-  /projects/{project_id}/upload_file:
-    post:
-      tags:
-        - "projects"
-      summary: "Upload File"
-      operationId: "upload_file_projects__project_id__upload_file_post"
-      security:
-        - APIKeyHeader: []
-        - OAuth2PasswordBearer: []
-        - HTTPBasic: []
-      parameters:
-        - name: "project_id"
-          in: "path"
-          required: true
-          schema:
-            type: "string"
-            format: "uuid4"
-            title: "Project Id"
-      requestBody:
-        required: true
-        content:
-          multipart/form-data:
-            schema:
-              $ref: "#/components/schemas/Body_upload_file_projects__project_id__upload_file_post"
-      responses:
-        "200":
-          description: "Successful Response"
-          content:
-            application/json:
-              schema: {}
         "422":
           description: "Validation Error"
           content:
@@ -4457,295 +4181,6 @@ paths:
         - APIKeyHeader: []
         - OAuth2PasswordBearer: []
         - HTTPBasic: []
-  /scorers/{scorer_id}:
-    delete:
-      tags:
-        - "data"
-        - "prompts"
-        - "rows"
-      summary: "Delete Scorer"
-      operationId: "delete_scorer_scorers__scorer_id__delete"
-      security:
-        - APIKeyHeader: []
-        - OAuth2PasswordBearer: []
-        - HTTPBasic: []
-      parameters:
-        - name: "scorer_id"
-          in: "path"
-          required: true
-          schema:
-            type: "string"
-            format: "uuid4"
-            title: "Scorer Id"
-      responses:
-        "200":
-          description: "Successful Response"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/DeleteScorerResponse"
-        "422":
-          description: "Validation Error"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/HTTPValidationError"
-    get:
-      tags:
-        - "data"
-        - "prompts"
-        - "rows"
-      summary: "Get Scorer"
-      operationId: "get_scorer_scorers__scorer_id__get"
-      security:
-        - APIKeyHeader: []
-        - OAuth2PasswordBearer: []
-        - HTTPBasic: []
-      parameters:
-        - name: "scorer_id"
-          in: "path"
-          required: true
-          schema:
-            type: "string"
-            format: "uuid4"
-            title: "Scorer Id"
-      responses:
-        "200":
-          description: "Successful Response"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ScorerResponse"
-        "422":
-          description: "Validation Error"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/HTTPValidationError"
-    patch:
-      tags:
-        - "data"
-        - "prompts"
-        - "rows"
-      summary: "Update"
-      operationId: "update_scorers__scorer_id__patch"
-      security:
-        - APIKeyHeader: []
-        - OAuth2PasswordBearer: []
-        - HTTPBasic: []
-      parameters:
-        - name: "scorer_id"
-          in: "path"
-          required: true
-          schema:
-            type: "string"
-            format: "uuid4"
-            title: "Scorer Id"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/UpdateScorerRequest"
-      responses:
-        "200":
-          description: "Successful Response"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ScorerResponse"
-        "422":
-          description: "Validation Error"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/HTTPValidationError"
-  /scorers/code/validate:
-    post:
-      tags:
-        - "data"
-        - "prompts"
-        - "rows"
-      summary: "Validate Code Scorer"
-      description: "Validate a code scorer with optional simple input/output test."
-      operationId: "validate_code_scorer_scorers_code_validate_post"
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              $ref: "#/components/schemas/Body_validate_code_scorer_scorers_code_validate_post"
-        required: true
-      responses:
-        "200":
-          description: "Successful Response"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ValidateCodeScorerResponse"
-        "422":
-          description: "Validation Error"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/HTTPValidationError"
-      security:
-        - APIKeyHeader: []
-        - OAuth2PasswordBearer: []
-        - HTTPBasic: []
-  /scorers/code/validate/{task_id}:
-    get:
-      tags:
-        - "data"
-        - "prompts"
-        - "rows"
-      summary: "Get Validate Code Scorer Task Result"
-      description: "Poll for a code-scorer validation task result (returns status/result).\n\nThe validation job creates an entry in `registered_scorer_task_results` (pending) and the runner\nwill PATCH the internal task-results endpoint when it finishes. This GET allows clients to poll\nthe current task result."
-      operationId: "get_validate_code_scorer_task_result_scorers_code_validate__task_id__get"
-      security:
-        - APIKeyHeader: []
-        - OAuth2PasswordBearer: []
-        - HTTPBasic: []
-      parameters:
-        - name: "task_id"
-          in: "path"
-          required: true
-          schema:
-            type: "string"
-            format: "uuid4"
-            title: "Task Id"
-      responses:
-        "200":
-          description: "Successful Response"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/RegisteredScorerTaskResultResponse"
-        "422":
-          description: "Validation Error"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/HTTPValidationError"
-  /scorers/{scorer_id}/version/code:
-    post:
-      tags:
-        - "data"
-        - "prompts"
-        - "rows"
-      summary: "Create Code Scorer Version"
-      operationId: "create_code_scorer_version_scorers__scorer_id__version_code_post"
-      security:
-        - APIKeyHeader: []
-        - OAuth2PasswordBearer: []
-        - HTTPBasic: []
-      parameters:
-        - name: "scorer_id"
-          in: "path"
-          required: true
-          schema:
-            type: "string"
-            format: "uuid4"
-            title: "Scorer Id"
-      requestBody:
-        required: true
-        content:
-          multipart/form-data:
-            schema:
-              $ref: "#/components/schemas/Body_create_code_scorer_version_scorers__scorer_id__version_code_post"
-      responses:
-        "200":
-          description: "Successful Response"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/BaseScorerVersionResponse"
-        "422":
-          description: "Validation Error"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/HTTPValidationError"
-    get:
-      tags:
-        - "data"
-        - "prompts"
-        - "rows"
-      summary: "Get Scorer Version Code"
-      operationId: "get_scorer_version_code_scorers__scorer_id__version_code_get"
-      security:
-        - APIKeyHeader: []
-        - OAuth2PasswordBearer: []
-        - HTTPBasic: []
-      parameters:
-        - name: "scorer_id"
-          in: "path"
-          required: true
-          schema:
-            type: "string"
-            format: "uuid4"
-            title: "Scorer Id"
-        - name: "version"
-          in: "query"
-          required: false
-          schema:
-            anyOf:
-              - type: "integer"
-              - type: "null"
-            description: "version number, defaults to latest version"
-            title: "Version"
-          description: "version number, defaults to latest version"
-      responses:
-        "200":
-          description: "Successful Response"
-          content:
-            application/json:
-              schema: {}
-        "422":
-          description: "Validation Error"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/HTTPValidationError"
-  /scorers/{scorer_id}/version/preset:
-    post:
-      tags:
-        - "data"
-        - "prompts"
-        - "rows"
-      summary: "Create Preset Scorer Version"
-      description: "Create a preset scorer version."
-      operationId: "create_preset_scorer_version_scorers__scorer_id__version_preset_post"
-      security:
-        - APIKeyHeader: []
-        - OAuth2PasswordBearer: []
-        - HTTPBasic: []
-      parameters:
-        - name: "scorer_id"
-          in: "path"
-          required: true
-          schema:
-            type: "string"
-            format: "uuid4"
-            title: "Scorer Id"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/CreateScorerVersionRequest"
-      responses:
-        "200":
-          description: "Successful Response"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/BaseScorerVersionResponse"
-        "422":
-          description: "Validation Error"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/HTTPValidationError"
   /scorers/{scorer_id}/version/luna:
     post:
       tags:
@@ -4785,344 +4220,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
-  /scorers/list:
-    post:
-      tags:
-        - "data"
-        - "prompts"
-        - "rows"
-      summary: "List Scorers With Filters"
-      operationId: "list_scorers_with_filters_scorers_list_post"
-      security:
-        - APIKeyHeader: []
-        - OAuth2PasswordBearer: []
-        - HTTPBasic: []
-      parameters:
-        - name: "starting_token"
-          in: "query"
-          required: false
-          schema:
-            type: "integer"
-            default: 0
-            title: "Starting Token"
-        - name: "limit"
-          in: "query"
-          required: false
-          schema:
-            type: "integer"
-            default: 100
-            title: "Limit"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ListScorersRequest"
-      responses:
-        "200":
-          description: "Successful Response"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ListScorersResponse"
-        "422":
-          description: "Validation Error"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/HTTPValidationError"
-  /scorers/tags:
-    get:
-      tags:
-        - "data"
-        - "prompts"
-        - "rows"
-      summary: "List Tags"
-      operationId: "list_tags_scorers_tags_get"
-      responses:
-        "200":
-          description: "Successful Response"
-          content:
-            application/json:
-              schema:
-                items:
-                  type: "string"
-                type: "array"
-                title: "Response List Tags Scorers Tags Get"
-      security:
-        - APIKeyHeader: []
-        - OAuth2PasswordBearer: []
-        - HTTPBasic: []
-  /scorers/{scorer_id}/version:
-    get:
-      tags:
-        - "data"
-        - "prompts"
-        - "rows"
-      summary: "Get Scorer Version Or Latest"
-      operationId: "get_scorer_version_or_latest_scorers__scorer_id__version_get"
-      security:
-        - APIKeyHeader: []
-        - OAuth2PasswordBearer: []
-        - HTTPBasic: []
-      parameters:
-        - name: "scorer_id"
-          in: "path"
-          required: true
-          schema:
-            type: "string"
-            format: "uuid4"
-            title: "Scorer Id"
-        - name: "version"
-          in: "query"
-          required: false
-          schema:
-            type: "integer"
-            title: "Version"
-      responses:
-        "200":
-          description: "Successful Response"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/BaseScorerVersionResponse"
-        "422":
-          description: "Validation Error"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/HTTPValidationError"
-  /scorers/{scorer_id}/versions:
-    get:
-      tags:
-        - "data"
-        - "prompts"
-        - "rows"
-      summary: "List All Versions For Scorer"
-      operationId: "list_all_versions_for_scorer_scorers__scorer_id__versions_get"
-      security:
-        - APIKeyHeader: []
-        - OAuth2PasswordBearer: []
-        - HTTPBasic: []
-      parameters:
-        - name: "scorer_id"
-          in: "path"
-          required: true
-          schema:
-            type: "string"
-            format: "uuid4"
-            title: "Scorer Id"
-        - name: "run_id"
-          in: "query"
-          required: false
-          schema:
-            anyOf:
-              - type: "string"
-                format: "uuid4"
-              - type: "null"
-            title: "Run Id"
-        - name: "starting_token"
-          in: "query"
-          required: false
-          schema:
-            type: "integer"
-            default: 0
-            title: "Starting Token"
-        - name: "limit"
-          in: "query"
-          required: false
-          schema:
-            type: "integer"
-            default: 100
-            title: "Limit"
-      responses:
-        "200":
-          description: "Successful Response"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ListScorerVersionsResponse"
-        "422":
-          description: "Validation Error"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/HTTPValidationError"
-  /scorers/{scorer_id}/projects:
-    get:
-      tags:
-        - "data"
-        - "prompts"
-        - "rows"
-      summary: "List Projects For Scorer Route"
-      description: "List all projects associated with a specific scorer."
-      operationId: "list_projects_for_scorer_route_scorers__scorer_id__projects_get"
-      security:
-        - APIKeyHeader: []
-        - OAuth2PasswordBearer: []
-        - HTTPBasic: []
-      parameters:
-        - name: "scorer_id"
-          in: "path"
-          required: true
-          schema:
-            type: "string"
-            format: "uuid4"
-            title: "Scorer Id"
-        - name: "starting_token"
-          in: "query"
-          required: false
-          schema:
-            type: "integer"
-            default: 0
-            title: "Starting Token"
-        - name: "limit"
-          in: "query"
-          required: false
-          schema:
-            type: "integer"
-            default: 100
-            title: "Limit"
-      responses:
-        "200":
-          description: "Successful Response"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api__schemas__project_v2__GetProjectsPaginatedResponse"
-        "422":
-          description: "Validation Error"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/HTTPValidationError"
-  /scorers/versions/{scorer_version_id}/projects:
-    get:
-      tags:
-        - "data"
-        - "prompts"
-        - "rows"
-      summary: "List Projects For Scorer Version Route"
-      description: "List all projects associated with a specific scorer version."
-      operationId: "list_projects_for_scorer_version_route_scorers_versions__scorer_version_id__projects_get"
-      security:
-        - APIKeyHeader: []
-        - OAuth2PasswordBearer: []
-        - HTTPBasic: []
-      parameters:
-        - name: "scorer_version_id"
-          in: "path"
-          required: true
-          schema:
-            type: "string"
-            format: "uuid4"
-            title: "Scorer Version Id"
-        - name: "scorer_id"
-          in: "query"
-          required: true
-          schema:
-            type: "string"
-            format: "uuid4"
-            title: "Scorer Id"
-        - name: "starting_token"
-          in: "query"
-          required: false
-          schema:
-            type: "integer"
-            default: 0
-            title: "Starting Token"
-        - name: "limit"
-          in: "query"
-          required: false
-          schema:
-            type: "integer"
-            default: 100
-            title: "Limit"
-      responses:
-        "200":
-          description: "Successful Response"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api__schemas__project_v2__GetProjectsPaginatedResponse"
-        "422":
-          description: "Validation Error"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/HTTPValidationError"
-  /scorers/{scorer_id}/versions/{version_number}/restore:
-    post:
-      tags:
-        - "data"
-        - "prompts"
-        - "rows"
-      summary: "Restore Scorer Version"
-      description: "List all scorers."
-      operationId: "restore_scorer_version_scorers__scorer_id__versions__version_number__restore_post"
-      security:
-        - APIKeyHeader: []
-        - OAuth2PasswordBearer: []
-        - HTTPBasic: []
-      parameters:
-        - name: "scorer_id"
-          in: "path"
-          required: true
-          schema:
-            type: "string"
-            format: "uuid4"
-            title: "Scorer Id"
-        - name: "version_number"
-          in: "path"
-          required: true
-          schema:
-            type: "integer"
-            title: "Version Number"
-      responses:
-        "200":
-          description: "Successful Response"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/BaseScorerVersionResponse"
-        "422":
-          description: "Validation Error"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/HTTPValidationError"
-  /scorers/llm/autogen:
-    post:
-      tags:
-        - "data"
-        - "prompts"
-        - "rows"
-      summary: "Autogen Llm Scorer"
-      description: "Autogenerate an LLM scorer configuration.\n\nReturns a Celery task ID that can be used to poll for the autogeneration results."
-      operationId: "autogen_llm_scorer_scorers_llm_autogen_post"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/CreateLLMScorerAutogenRequest"
-        required: true
-      responses:
-        "200":
-          description: "Successful Response"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/GenerationResponse"
-        "422":
-          description: "Validation Error"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/HTTPValidationError"
-      security:
-        - APIKeyHeader: []
-        - OAuth2PasswordBearer: []
-        - HTTPBasic: []
   /scorers/llm/validate:
     post:
       tags:
@@ -5131,13 +4228,30 @@ paths:
         - "rows"
       summary: "Manual Llm Validate"
       operationId: "manual_llm_validate_scorers_llm_validate_post"
+      responses:
+        "200":
+          description: "Successful Response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GeneratedScorerValidationResponse"
+      security:
+        - APIKeyHeader: []
+        - OAuth2PasswordBearer: []
+        - HTTPBasic: []
+  /scorers/llm/validate/multipart:
+    post:
+      tags:
+        - "data"
+        - "prompts"
+        - "rows"
+      summary: "Manual Llm Validate Multipart"
+      operationId: "manual_llm_validate_multipart_scorers_llm_validate_multipart_post"
       requestBody:
         content:
-          application/json:
+          multipart/form-data:
             schema:
-              additionalProperties: true
-              type: "object"
-              title: "Body"
+              $ref: "#/components/schemas/Body_manual_llm_validate_multipart_scorers_llm_validate_multipart_post"
         required: true
       responses:
         "200":
@@ -6857,6 +5971,41 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
+  /datasets/query/count:
+    post:
+      tags:
+        - "datasets"
+      summary: "Count Datasets"
+      description: "Count datasets visible to the current user with filtering."
+      operationId: "count_datasets_datasets_query_count_post"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ListDatasetParams"
+              default:
+                filters: []
+                sort:
+                  name: "created_at"
+                  ascending: false
+                  sort_type: "column"
+      responses:
+        "200":
+          description: "Successful Response"
+          content:
+            application/json:
+              schema:
+                type: "integer"
+                title: "Response Count Datasets Datasets Query Count Post"
+        "422":
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+      security:
+        - APIKeyHeader: []
+        - OAuth2PasswordBearer: []
   /datasets/{dataset_id}/variable_preview:
     get:
       tags:
@@ -7004,7 +6153,117 @@ paths:
       security:
         - APIKeyHeader: []
         - OAuth2PasswordBearer: []
+  /scorers/{scorer_id}:
+    patch:
+      tags:
+        - "data"
+        - "prompts"
+        - "rows"
+      summary: "Update"
+      operationId: "update_scorers__scorer_id__patch"
+      security:
+        - APIKeyHeader: []
+        - OAuth2PasswordBearer: []
         - HTTPBasic: []
+      parameters:
+        - name: "scorer_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            format: "uuid4"
+            title: "Scorer Id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateScorerRequest"
+      responses:
+        "200":
+          description: "Successful Response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ScorerResponse"
+        "422":
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+    delete:
+      tags:
+        - "data"
+        - "prompts"
+        - "rows"
+      summary: "Delete Scorer"
+      operationId: "delete_scorer_scorers__scorer_id__delete"
+      security:
+        - APIKeyHeader: []
+        - OAuth2PasswordBearer: []
+      parameters:
+        - name: "scorer_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            format: "uuid4"
+            title: "Scorer Id"
+      responses:
+        "200":
+          description: "Successful Response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteScorerResponse"
+        "422":
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+    get:
+      tags:
+        - "data"
+        - "prompts"
+        - "rows"
+      summary: "Get Scorer"
+      operationId: "get_scorer_scorers__scorer_id__get"
+      security:
+        - APIKeyHeader: []
+        - OAuth2PasswordBearer: []
+      parameters:
+        - name: "scorer_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            format: "uuid4"
+            title: "Scorer Id"
+        - name: "actions"
+          in: "query"
+          required: false
+          schema:
+            type: "array"
+            items:
+              $ref: "#/components/schemas/ScorerAction"
+            description: "Actions to include in the 'permissions' field of the scorer."
+            title: "Actions"
+          description: "Actions to include in the 'permissions' field of the scorer."
+      responses:
+        "200":
+          description: "Successful Response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ScorerResponse"
+        "422":
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
   /scorers/{scorer_id}/version/llm:
     post:
       tags:
@@ -7016,7 +6275,6 @@ paths:
       security:
         - APIKeyHeader: []
         - OAuth2PasswordBearer: []
-        - HTTPBasic: []
       parameters:
         - name: "scorer_id"
           in: "path"
@@ -7044,6 +6302,37 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
+  /scorers/code/validate:
+    post:
+      tags:
+        - "data"
+        - "prompts"
+        - "rows"
+      summary: "Validate Code Scorer"
+      description: "Validate a code scorer with optional simple input/output test."
+      operationId: "validate_code_scorer_scorers_code_validate_post"
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/Body_validate_code_scorer_scorers_code_validate_post"
+        required: true
+      responses:
+        "200":
+          description: "Successful Response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidateCodeScorerResponse"
+        "422":
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+      security:
+        - APIKeyHeader: []
+        - OAuth2PasswordBearer: []
   /scorers/code/validate/log_record:
     post:
       tags:
@@ -7075,7 +6364,528 @@ paths:
       security:
         - APIKeyHeader: []
         - OAuth2PasswordBearer: []
-        - HTTPBasic: []
+  /scorers/code/validate/{task_id}:
+    get:
+      tags:
+        - "data"
+        - "prompts"
+        - "rows"
+      summary: "Get Validate Code Scorer Task Result"
+      description: "Poll for a code-scorer validation task result (returns status/result).\n\nThe validation job creates an entry in `registered_scorer_task_results` (pending) and the runner\nwill PATCH the internal task-results endpoint when it finishes. This GET allows clients to poll\nthe current task result."
+      operationId: "get_validate_code_scorer_task_result_scorers_code_validate__task_id__get"
+      security:
+        - APIKeyHeader: []
+        - OAuth2PasswordBearer: []
+      parameters:
+        - name: "task_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            format: "uuid4"
+            title: "Task Id"
+      responses:
+        "200":
+          description: "Successful Response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegisteredScorerTaskResultResponse"
+        "422":
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+  /scorers/{scorer_id}/version/code:
+    post:
+      tags:
+        - "data"
+        - "prompts"
+        - "rows"
+      summary: "Create Code Scorer Version"
+      operationId: "create_code_scorer_version_scorers__scorer_id__version_code_post"
+      security:
+        - APIKeyHeader: []
+        - OAuth2PasswordBearer: []
+      parameters:
+        - name: "scorer_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            format: "uuid4"
+            title: "Scorer Id"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/Body_create_code_scorer_version_scorers__scorer_id__version_code_post"
+      responses:
+        "200":
+          description: "Successful Response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseScorerVersionResponse"
+        "422":
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+    get:
+      tags:
+        - "data"
+        - "prompts"
+        - "rows"
+      summary: "Get Scorer Version Code"
+      operationId: "get_scorer_version_code_scorers__scorer_id__version_code_get"
+      security:
+        - APIKeyHeader: []
+        - OAuth2PasswordBearer: []
+      parameters:
+        - name: "scorer_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            format: "uuid4"
+            title: "Scorer Id"
+        - name: "version"
+          in: "query"
+          required: false
+          schema:
+            anyOf:
+              - type: "integer"
+              - type: "null"
+            description: "version number, defaults to latest version"
+            title: "Version"
+          description: "version number, defaults to latest version"
+      responses:
+        "200":
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        "422":
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+  /scorers/{scorer_id}/version/preset:
+    post:
+      tags:
+        - "data"
+        - "prompts"
+        - "rows"
+      summary: "Create Preset Scorer Version"
+      description: "Create a preset scorer version."
+      operationId: "create_preset_scorer_version_scorers__scorer_id__version_preset_post"
+      security:
+        - APIKeyHeader: []
+        - OAuth2PasswordBearer: []
+      parameters:
+        - name: "scorer_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            format: "uuid4"
+            title: "Scorer Id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateScorerVersionRequest"
+      responses:
+        "200":
+          description: "Successful Response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseScorerVersionResponse"
+        "422":
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+  /scorers/list:
+    post:
+      tags:
+        - "data"
+        - "prompts"
+        - "rows"
+      summary: "List Scorers With Filters"
+      operationId: "list_scorers_with_filters_scorers_list_post"
+      security:
+        - APIKeyHeader: []
+        - OAuth2PasswordBearer: []
+      parameters:
+        - name: "actions"
+          in: "query"
+          required: false
+          schema:
+            type: "array"
+            items:
+              $ref: "#/components/schemas/ScorerAction"
+            description: "Actions to include in the 'permissions' field of the scorers."
+            title: "Actions"
+          description: "Actions to include in the 'permissions' field of the scorers."
+        - name: "starting_token"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+            default: 0
+            title: "Starting Token"
+        - name: "limit"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+            default: 100
+            title: "Limit"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ListScorersRequest"
+      responses:
+        "200":
+          description: "Successful Response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListScorersResponse"
+        "422":
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+  /scorers/tags:
+    get:
+      tags:
+        - "data"
+        - "prompts"
+        - "rows"
+      summary: "List Tags"
+      operationId: "list_tags_scorers_tags_get"
+      responses:
+        "200":
+          description: "Successful Response"
+          content:
+            application/json:
+              schema:
+                items:
+                  type: "string"
+                type: "array"
+                title: "Response List Tags Scorers Tags Get"
+      security:
+        - APIKeyHeader: []
+        - OAuth2PasswordBearer: []
+  /scorers/{scorer_id}/version:
+    get:
+      tags:
+        - "data"
+        - "prompts"
+        - "rows"
+      summary: "Get Scorer Version Or Latest"
+      operationId: "get_scorer_version_or_latest_scorers__scorer_id__version_get"
+      security:
+        - APIKeyHeader: []
+        - OAuth2PasswordBearer: []
+      parameters:
+        - name: "scorer_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            format: "uuid4"
+            title: "Scorer Id"
+        - name: "version"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+            title: "Version"
+      responses:
+        "200":
+          description: "Successful Response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseScorerVersionResponse"
+        "422":
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+  /scorers/{scorer_id}/versions:
+    get:
+      tags:
+        - "data"
+        - "prompts"
+        - "rows"
+      summary: "List All Versions For Scorer"
+      operationId: "list_all_versions_for_scorer_scorers__scorer_id__versions_get"
+      security:
+        - APIKeyHeader: []
+        - OAuth2PasswordBearer: []
+      parameters:
+        - name: "scorer_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            format: "uuid4"
+            title: "Scorer Id"
+        - name: "run_id"
+          in: "query"
+          required: false
+          schema:
+            anyOf:
+              - type: "string"
+                format: "uuid4"
+              - type: "null"
+            title: "Run Id"
+        - name: "starting_token"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+            default: 0
+            title: "Starting Token"
+        - name: "limit"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+            default: 100
+            title: "Limit"
+      responses:
+        "200":
+          description: "Successful Response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListScorerVersionsResponse"
+        "422":
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+  /scorers/{scorer_id}/scope:
+    put:
+      tags:
+        - "data"
+        - "prompts"
+        - "rows"
+      summary: "Set Scorer Scope"
+      description: "Full-replace a scorer's access scope (Share / manage visibility). metrics_rbac only."
+      operationId: "set_scorer_scope_scorers__scorer_id__scope_put"
+      security:
+        - APIKeyHeader: []
+        - OAuth2PasswordBearer: []
+      parameters:
+        - name: "scorer_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            format: "uuid4"
+            title: "Scorer Id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateScorerScopeRequest"
+      responses:
+        "200":
+          description: "Successful Response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ScorerResponse"
+        "422":
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+  /scorers/{scorer_id}/projects:
+    get:
+      tags:
+        - "data"
+        - "prompts"
+        - "rows"
+      summary: "List Projects For Scorer Route"
+      description: "List all projects associated with a specific scorer."
+      operationId: "list_projects_for_scorer_route_scorers__scorer_id__projects_get"
+      security:
+        - APIKeyHeader: []
+        - OAuth2PasswordBearer: []
+      parameters:
+        - name: "scorer_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            format: "uuid4"
+            title: "Scorer Id"
+        - name: "starting_token"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+            default: 0
+            title: "Starting Token"
+        - name: "limit"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+            default: 100
+            title: "Limit"
+      responses:
+        "200":
+          description: "Successful Response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api__schemas__project_v2__GetProjectsPaginatedResponse"
+        "422":
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+  /scorers/versions/{scorer_version_id}/projects:
+    get:
+      tags:
+        - "data"
+        - "prompts"
+        - "rows"
+      summary: "List Projects For Scorer Version Route"
+      description: "List all projects associated with a specific scorer version."
+      operationId: "list_projects_for_scorer_version_route_scorers_versions__scorer_version_id__projects_get"
+      security:
+        - APIKeyHeader: []
+        - OAuth2PasswordBearer: []
+      parameters:
+        - name: "scorer_version_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            format: "uuid4"
+            title: "Scorer Version Id"
+        - name: "starting_token"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+            default: 0
+            title: "Starting Token"
+        - name: "limit"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+            default: 100
+            title: "Limit"
+      responses:
+        "200":
+          description: "Successful Response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api__schemas__project_v2__GetProjectsPaginatedResponse"
+        "422":
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+  /scorers/{scorer_id}/versions/{version_number}/restore:
+    post:
+      tags:
+        - "data"
+        - "prompts"
+        - "rows"
+      summary: "Restore Scorer Version"
+      description: "List all scorers."
+      operationId: "restore_scorer_version_scorers__scorer_id__versions__version_number__restore_post"
+      security:
+        - APIKeyHeader: []
+        - OAuth2PasswordBearer: []
+      parameters:
+        - name: "scorer_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            format: "uuid4"
+            title: "Scorer Id"
+        - name: "version_number"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            title: "Version Number"
+      responses:
+        "200":
+          description: "Successful Response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseScorerVersionResponse"
+        "422":
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+  /scorers/llm/autogen:
+    post:
+      tags:
+        - "data"
+        - "prompts"
+        - "rows"
+      summary: "Autogen Llm Scorer"
+      description: "Autogenerate an LLM scorer configuration.\n\nReturns a Celery task ID that can be used to poll for the autogeneration results."
+      operationId: "autogen_llm_scorer_scorers_llm_autogen_post"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateLLMScorerAutogenRequest"
+        required: true
+      responses:
+        "200":
+          description: "Successful Response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenerationResponse"
+        "422":
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+      security:
+        - APIKeyHeader: []
+        - OAuth2PasswordBearer: []
   /scorers/llm/validate/log_record:
     post:
       tags:
@@ -7169,7 +6979,6 @@ paths:
       security:
         - APIKeyHeader: []
         - OAuth2PasswordBearer: []
-        - HTTPBasic: []
   /projects/{project_id}/metrics-testing/{run_id}/health-score:
     post:
       tags:
@@ -7210,6 +7019,91 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthScoreResult"
+        "422":
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+  /scorers/{scorer_id}/health-scores:
+    get:
+      tags:
+        - "data"
+        - "prompts"
+        - "rows"
+      summary: "Get Scorer Health Scores"
+      description: "Return all persisted health scores for a scorer against a dataset, ordered by version ASC.\n\nscores[0] is the baseline (first recorded), scores[-1] is the latest."
+      operationId: "get_scorer_health_scores_scorers__scorer_id__health_scores_get"
+      security:
+        - APIKeyHeader: []
+        - OAuth2PasswordBearer: []
+      parameters:
+        - name: "scorer_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            format: "uuid4"
+            title: "Scorer Id"
+        - name: "dataset_id"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+            format: "uuid4"
+            title: "Dataset Id"
+      responses:
+        "200":
+          description: "Successful Response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ScorerHealthScoresResponse"
+        "422":
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+  /scorers/{scorer_id}/versions/{version_number}/health-scores:
+    post:
+      tags:
+        - "data"
+        - "prompts"
+        - "rows"
+      summary: "Write Scorer Version Health Score"
+      description: "Persist the health score for a scorer version against a dataset.\n\nCalled by the UI after saving a metric version, passing the score from the last compute."
+      operationId: "write_scorer_version_health_score_scorers__scorer_id__versions__version_number__health_scores_post"
+      security:
+        - APIKeyHeader: []
+        - OAuth2PasswordBearer: []
+      parameters:
+        - name: "scorer_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            format: "uuid4"
+            title: "Scorer Id"
+        - name: "version_number"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            title: "Version Number"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WriteHealthScoreRequest"
+      responses:
+        "200":
+          description: "Successful Response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ScorerVersionHealthScoreEntry"
         "422":
           description: "Validation Error"
           content:
@@ -7334,7 +7228,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ExtendedTraceRecordWithChildren"
+                oneOf:
+                  - $ref: "#/components/schemas/ExtendedTraceRecordWithChildren"
+                  - $ref: "#/components/schemas/StubTraceRecord"
+                discriminator:
+                  propertyName: "type"
+                  mapping:
+                    trace: "#/components/schemas/ExtendedTraceRecordWithChildren"
+                    stub_trace: "#/components/schemas/StubTraceRecord"
+                title: "Response Get Trace Projects  Project Id  Traces  Trace Id  Get"
         "422":
           description: "Validation Error"
           content:
@@ -9176,7 +9078,14 @@ components:
           title: "Has Children"
         metrics:
           additionalProperties:
-            $ref: "#/components/schemas/SystemMetricInfo"
+            oneOf:
+              - $ref: "#/components/schemas/SystemMetricInfo"
+              - $ref: "#/components/schemas/CategoricalMetricInfo"
+            discriminator:
+              propertyName: "aggregation_type"
+              mapping:
+                categorical: "#/components/schemas/CategoricalMetricInfo"
+                numeric: "#/components/schemas/SystemMetricInfo"
           type: "object"
           title: "Metrics"
         trace_count:
@@ -9295,20 +9204,44 @@ components:
             - $ref: "#/components/schemas/AnnotationStarAggregate"
             - $ref: "#/components/schemas/AnnotationScoreAggregate"
             - $ref: "#/components/schemas/AnnotationTagsAggregate"
+            - $ref: "#/components/schemas/AnnotationChoiceAggregate"
+            - $ref: "#/components/schemas/AnnotationTreeChoiceAggregate"
             - $ref: "#/components/schemas/AnnotationTextAggregate"
           title: "Aggregate"
           discriminator:
             propertyName: "annotation_type"
             mapping:
+              choice: "#/components/schemas/AnnotationChoiceAggregate"
               like_dislike: "#/components/schemas/AnnotationLikeDislikeAggregate"
               score: "#/components/schemas/AnnotationScoreAggregate"
               star: "#/components/schemas/AnnotationStarAggregate"
               tags: "#/components/schemas/AnnotationTagsAggregate"
               text: "#/components/schemas/AnnotationTextAggregate"
+              tree_choice: "#/components/schemas/AnnotationTreeChoiceAggregate"
       type: "object"
       required:
         - "aggregate"
       title: "AnnotationAggregate"
+    AnnotationChoiceAggregate:
+      properties:
+        annotation_type:
+          type: "string"
+          const: "choice"
+          title: "Annotation Type"
+          default: "choice"
+        counts:
+          additionalProperties:
+            type: "integer"
+          type: "object"
+          title: "Counts"
+        unrated_count:
+          type: "integer"
+          title: "Unrated Count"
+      type: "object"
+      required:
+        - "counts"
+        - "unrated_count"
+      title: "AnnotationChoiceAggregate"
     AnnotationLikeDislikeAggregate:
       properties:
         annotation_type:
@@ -9456,6 +9389,26 @@ components:
         - "count"
         - "unrated_count"
       title: "AnnotationTextAggregate"
+    AnnotationTreeChoiceAggregate:
+      properties:
+        annotation_type:
+          type: "string"
+          const: "tree_choice"
+          title: "Annotation Type"
+          default: "tree_choice"
+        counts:
+          additionalProperties:
+            type: "integer"
+          type: "object"
+          title: "Counts"
+        unrated_count:
+          type: "integer"
+          title: "Unrated Count"
+      type: "object"
+      required:
+        - "counts"
+        - "unrated_count"
+      title: "AnnotationTreeChoiceAggregate"
     AnnotationType:
       type: "string"
       enum:
@@ -9464,6 +9417,8 @@ components:
         - "score"
         - "tags"
         - "text"
+        - "choice"
+        - "tree_choice"
       title: "AnnotationType"
     AnthropicAuthenticationType:
       type: "string"
@@ -10400,6 +10355,10 @@ components:
               type: "array"
             - type: "null"
           title: "Multimodal Capabilities"
+        requires_tools_in_llm_span:
+          type: "boolean"
+          title: "Requires Tools In Llm Span"
+          default: false
         required_scorers:
           anyOf:
             - items:
@@ -10464,6 +10423,11 @@ components:
               type: "object"
             - type: "null"
           title: "Class Name To Vocab Ix"
+        scorer_path_name:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Scorer Path Name"
       type: "object"
       title: "BaseScorer"
     BaseScorerVersionDB:
@@ -10643,17 +10607,16 @@ components:
       properties:
         file:
           type: "string"
-          format: "binary"
+          contentMediaType: "application/octet-stream"
           title: "File"
         validation_result:
-          anyOf:
-            - type: "string"
-            - type: "null"
+          type: "string"
           title: "Validation Result"
-          description: "Pre-validated result as JSON string to skip validation"
+          description: "Pre-validated result as JSON string from the validate endpoint"
       type: "object"
       required:
         - "file"
+        - "validation_result"
       title: "Body_create_code_scorer_version_scorers__scorer_id__version_code_post"
     Body_create_dataset_datasets_post:
       properties:
@@ -10677,7 +10640,7 @@ components:
         file:
           anyOf:
             - type: "string"
-              format: "binary"
+              contentMediaType: "application/octet-stream"
             - type: "null"
           title: "File"
         copy_from_dataset_id:
@@ -10739,54 +10702,35 @@ components:
         - "username"
         - "password"
       title: "Body_login_email_login_post"
-    Body_update_prompt_dataset_projects__project_id__prompt_datasets__dataset_id__put:
+    Body_manual_llm_validate_multipart_scorers_llm_validate_multipart_post:
       properties:
-        file:
-          anyOf:
-            - type: "string"
-              format: "binary"
-            - type: "null"
-          title: "File"
-        column_names:
-          anyOf:
-            - items:
-                type: "string"
-              type: "array"
-            - type: "null"
-          title: "Column Names"
-      type: "object"
-      title: "Body_update_prompt_dataset_projects__project_id__prompt_datasets__dataset_id__put"
-    Body_upload_file_projects__project_id__upload_file_post:
-      properties:
-        file:
+        body:
           type: "string"
-          format: "binary"
-          title: "File"
-        upload_metadata:
-          type: "string"
-          contentMediaType: "application/json"
-          contentSchema: {}
-          title: "Upload Metadata"
+          title: "Body"
+          description: "JSON-encoded GeneratedScorerValidationRequest"
+        query_files:
+          items:
+            type: "string"
+            contentMediaType: "application/octet-stream"
+          type: "array"
+          title: "Query Files"
+          default: []
+        response_files:
+          items:
+            type: "string"
+            contentMediaType: "application/octet-stream"
+          type: "array"
+          title: "Response Files"
+          default: []
       type: "object"
       required:
-        - "file"
-        - "upload_metadata"
-      title: "Body_upload_file_projects__project_id__upload_file_post"
-    Body_upload_prompt_evaluation_dataset_projects__project_id__prompt_datasets_post:
-      properties:
-        file:
-          type: "string"
-          format: "binary"
-          title: "File"
-      type: "object"
-      required:
-        - "file"
-      title: "Body_upload_prompt_evaluation_dataset_projects__project_id__prompt_datasets_post"
+        - "body"
+      title: "Body_manual_llm_validate_multipart_scorers_llm_validate_multipart_post"
     Body_validate_code_scorer_dataset_scorers_code_validate_dataset_post:
       properties:
         file:
           type: "string"
-          format: "binary"
+          contentMediaType: "application/octet-stream"
           title: "File"
         dataset_id:
           type: "string"
@@ -10836,7 +10780,7 @@ components:
       properties:
         file:
           type: "string"
-          format: "binary"
+          contentMediaType: "application/octet-stream"
           title: "File"
         log_stream_id:
           anyOf:
@@ -10895,7 +10839,7 @@ components:
       properties:
         file:
           type: "string"
-          format: "binary"
+          contentMediaType: "application/octet-stream"
           title: "File"
         test_input:
           anyOf:
@@ -11081,6 +11025,33 @@ components:
         - "value"
       title: "CategoricalColorConstraint"
       description: "A color constraint for categorical or multi-label metric values.\n\nAssigns a color when a categorical score matches the given operator and value.\n\nOperators and expected value shapes:\n  - eq: value must be a single string.\n  - one_of: value must be a list of strings.\n\nExample:\n    {\"color\": \"green\", \"operator\": \"eq\", \"value\": \"pass\"}\n    {\"color\": \"red\", \"operator\": \"one_of\", \"value\": [\"fail\", \"error\"]}"
+    CategoricalMetricInfo:
+      properties:
+        aggregation_type:
+          type: "string"
+          const: "categorical"
+          title: "Aggregation Type"
+          description: "Discriminator: categorical metrics aggregated as per-label counts"
+          default: "categorical"
+        name:
+          type: "string"
+          title: "Name"
+          description: "Unique identifier for the metric"
+        label:
+          type: "string"
+          title: "Label"
+          description: "Human-readable display name for the metric"
+        category_counts:
+          additionalProperties:
+            type: "integer"
+          type: "object"
+          title: "Category Counts"
+          description: "Count of occurrences per category label across records"
+      type: "object"
+      required:
+        - "name"
+        - "label"
+      title: "CategoricalMetricInfo"
     CategoricalRollUpMethod:
       type: "string"
       enum:
@@ -11141,6 +11112,42 @@ components:
         - "template"
       title: "ChainPollTemplate"
       description: "Template for a chainpoll metric prompt,\ncontaining all the info necessary to send a chainpoll prompt."
+    ChoiceAggregate:
+      properties:
+        feedback_type:
+          type: "string"
+          const: "choice"
+          title: "Feedback Type"
+          default: "choice"
+        counts:
+          additionalProperties:
+            type: "integer"
+          type: "object"
+          title: "Counts"
+        unrated_count:
+          type: "integer"
+          title: "Unrated Count"
+      type: "object"
+      required:
+        - "counts"
+        - "unrated_count"
+      title: "ChoiceAggregate"
+    ChoiceRating:
+      properties:
+        feedback_type:
+          type: "string"
+          const: "choice"
+          title: "Feedback Type"
+          default: "choice"
+        value:
+          type: "string"
+          maxLength: 255
+          minLength: 1
+          title: "Value"
+      type: "object"
+      required:
+        - "value"
+      title: "ChoiceRating"
     ChunkAttributionUtilizationScorer:
       properties:
         name:
@@ -12039,7 +12046,7 @@ components:
         job_name:
           type: "string"
           title: "Job Name"
-          default: "default"
+          default: "log_stream_scorer"
         should_retry:
           type: "boolean"
           title: "Should Retry"
@@ -12141,7 +12148,7 @@ components:
         protect_scorer_payload:
           anyOf:
             - type: "string"
-              format: "binary"
+              contentMediaType: "application/octet-stream"
             - type: "null"
           title: "Protect Scorer Payload"
         prompt_settings:
@@ -12300,18 +12307,6 @@ components:
               type: "array"
             - type: "null"
           title: "Segment Filters"
-        prompt_optimization_configuration:
-          anyOf:
-            - $ref: "#/components/schemas/PromptOptimizationConfiguration"
-            - type: "null"
-        epoch:
-          type: "integer"
-          title: "Epoch"
-          default: 0
-        metric_critique_configuration:
-          anyOf:
-            - $ref: "#/components/schemas/MetricCritiqueJobConfiguration"
-            - type: "null"
         is_session:
           anyOf:
             - type: "boolean"
@@ -12339,6 +12334,17 @@ components:
           type: "boolean"
           title: "Multijudge Average Boolean Metrics"
           default: false
+        store_metric_ids:
+          type: "boolean"
+          title: "Store Metric Ids"
+          default: false
+        trace_ids:
+          items:
+            type: "string"
+            format: "uuid4"
+          type: "array"
+          maxItems: 64
+          title: "Trace Ids"
       type: "object"
       required:
         - "project_id"
@@ -12367,7 +12373,7 @@ components:
         job_name:
           type: "string"
           title: "Job Name"
-          default: "default"
+          default: "log_stream_scorer"
         should_retry:
           type: "boolean"
           title: "Should Retry"
@@ -12469,7 +12475,7 @@ components:
         protect_scorer_payload:
           anyOf:
             - type: "string"
-              format: "binary"
+              contentMediaType: "application/octet-stream"
             - type: "null"
           title: "Protect Scorer Payload"
         prompt_settings:
@@ -12628,18 +12634,6 @@ components:
               type: "array"
             - type: "null"
           title: "Segment Filters"
-        prompt_optimization_configuration:
-          anyOf:
-            - $ref: "#/components/schemas/PromptOptimizationConfiguration"
-            - type: "null"
-        epoch:
-          type: "integer"
-          title: "Epoch"
-          default: 0
-        metric_critique_configuration:
-          anyOf:
-            - $ref: "#/components/schemas/MetricCritiqueJobConfiguration"
-            - type: "null"
         is_session:
           anyOf:
             - type: "boolean"
@@ -12667,6 +12661,17 @@ components:
           type: "boolean"
           title: "Multijudge Average Boolean Metrics"
           default: false
+        store_metric_ids:
+          type: "boolean"
+          title: "Store Metric Ids"
+          default: false
+        trace_ids:
+          items:
+            type: "string"
+            format: "uuid4"
+          type: "array"
+          maxItems: 64
+          title: "Trace Ids"
         message:
           type: "string"
           title: "Message"
@@ -12805,6 +12810,11 @@ components:
               format: "uuid4"
             - type: "null"
           title: "Id"
+        label:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Label"
         description:
           type: "string"
           title: "Description"
@@ -12901,6 +12911,18 @@ components:
                   numeric: "#/components/schemas/MetricColorPickerNumeric"
             - type: "null"
           title: "Metric Color Picker Config"
+        is_global:
+          anyOf:
+            - type: "boolean"
+            - type: "null"
+          title: "Is Global"
+        project_ids:
+          items:
+            type: "string"
+            format: "uuid4"
+          type: "array"
+          maxItems: 1000
+          title: "Project Ids"
       type: "object"
       required:
         - "name"
@@ -13464,6 +13486,10 @@ components:
               type: "array"
             - type: "null"
           title: "Multimodal Capabilities"
+        requires_tools_in_llm_span:
+          type: "boolean"
+          title: "Requires Tools In Llm Span"
+          default: false
         required_scorers:
           anyOf:
             - items:
@@ -13528,6 +13554,11 @@ components:
               type: "object"
             - type: "null"
           title: "Class Name To Vocab Ix"
+        scorer_path_name:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Scorer Path Name"
       type: "object"
       title: "CustomizedAgenticSessionSuccessGPTScorer"
     CustomizedAgenticWorkflowSuccessGPTScorer:
@@ -13695,6 +13726,10 @@ components:
               type: "array"
             - type: "null"
           title: "Multimodal Capabilities"
+        requires_tools_in_llm_span:
+          type: "boolean"
+          title: "Requires Tools In Llm Span"
+          default: false
         required_scorers:
           anyOf:
             - items:
@@ -13759,6 +13794,11 @@ components:
               type: "object"
             - type: "null"
           title: "Class Name To Vocab Ix"
+        scorer_path_name:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Scorer Path Name"
       type: "object"
       title: "CustomizedAgenticWorkflowSuccessGPTScorer"
     CustomizedChunkAttributionUtilizationGPTScorer:
@@ -13921,6 +13961,10 @@ components:
               type: "array"
             - type: "null"
           title: "Multimodal Capabilities"
+        requires_tools_in_llm_span:
+          type: "boolean"
+          title: "Requires Tools In Llm Span"
+          default: false
         required_scorers:
           anyOf:
             - items:
@@ -13985,6 +14029,11 @@ components:
               type: "object"
             - type: "null"
           title: "Class Name To Vocab Ix"
+        scorer_path_name:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Scorer Path Name"
       type: "object"
       title: "CustomizedChunkAttributionUtilizationGPTScorer"
     CustomizedCompletenessGPTScorer:
@@ -14146,6 +14195,10 @@ components:
               type: "array"
             - type: "null"
           title: "Multimodal Capabilities"
+        requires_tools_in_llm_span:
+          type: "boolean"
+          title: "Requires Tools In Llm Span"
+          default: false
         required_scorers:
           anyOf:
             - items:
@@ -14210,6 +14263,11 @@ components:
               type: "object"
             - type: "null"
           title: "Class Name To Vocab Ix"
+        scorer_path_name:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Scorer Path Name"
       type: "object"
       title: "CustomizedCompletenessGPTScorer"
     CustomizedFactualityGPTScorer:
@@ -14376,6 +14434,10 @@ components:
               type: "array"
             - type: "null"
           title: "Multimodal Capabilities"
+        requires_tools_in_llm_span:
+          type: "boolean"
+          title: "Requires Tools In Llm Span"
+          default: false
         required_scorers:
           anyOf:
             - items:
@@ -14440,6 +14502,11 @@ components:
               type: "object"
             - type: "null"
           title: "Class Name To Vocab Ix"
+        scorer_path_name:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Scorer Path Name"
         function_explanation_param_name:
           type: "string"
           title: "Function Explanation Param Name"
@@ -14607,6 +14674,10 @@ components:
               type: "array"
             - type: "null"
           title: "Multimodal Capabilities"
+        requires_tools_in_llm_span:
+          type: "boolean"
+          title: "Requires Tools In Llm Span"
+          default: false
         required_scorers:
           anyOf:
             - items:
@@ -14671,6 +14742,11 @@ components:
               type: "object"
             - type: "null"
           title: "Class Name To Vocab Ix"
+        scorer_path_name:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Scorer Path Name"
       type: "object"
       title: "CustomizedGroundTruthAdherenceGPTScorer"
     CustomizedGroundednessGPTScorer:
@@ -14836,6 +14912,10 @@ components:
               type: "array"
             - type: "null"
           title: "Multimodal Capabilities"
+        requires_tools_in_llm_span:
+          type: "boolean"
+          title: "Requires Tools In Llm Span"
+          default: false
         required_scorers:
           anyOf:
             - items:
@@ -14900,6 +14980,11 @@ components:
               type: "object"
             - type: "null"
           title: "Class Name To Vocab Ix"
+        scorer_path_name:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Scorer Path Name"
       type: "object"
       title: "CustomizedGroundednessGPTScorer"
     CustomizedInputSexistGPTScorer:
@@ -15065,6 +15150,10 @@ components:
               type: "array"
             - type: "null"
           title: "Multimodal Capabilities"
+        requires_tools_in_llm_span:
+          type: "boolean"
+          title: "Requires Tools In Llm Span"
+          default: false
         required_scorers:
           anyOf:
             - items:
@@ -15129,6 +15218,11 @@ components:
               type: "object"
             - type: "null"
           title: "Class Name To Vocab Ix"
+        scorer_path_name:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Scorer Path Name"
       type: "object"
       title: "CustomizedInputSexistGPTScorer"
     CustomizedInputToxicityGPTScorer:
@@ -15294,6 +15388,10 @@ components:
               type: "array"
             - type: "null"
           title: "Multimodal Capabilities"
+        requires_tools_in_llm_span:
+          type: "boolean"
+          title: "Requires Tools In Llm Span"
+          default: false
         required_scorers:
           anyOf:
             - items:
@@ -15358,6 +15456,11 @@ components:
               type: "object"
             - type: "null"
           title: "Class Name To Vocab Ix"
+        scorer_path_name:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Scorer Path Name"
       type: "object"
       title: "CustomizedInputToxicityGPTScorer"
     CustomizedInstructionAdherenceGPTScorer:
@@ -15523,6 +15626,10 @@ components:
               type: "array"
             - type: "null"
           title: "Multimodal Capabilities"
+        requires_tools_in_llm_span:
+          type: "boolean"
+          title: "Requires Tools In Llm Span"
+          default: false
         required_scorers:
           anyOf:
             - items:
@@ -15587,6 +15694,11 @@ components:
               type: "object"
             - type: "null"
           title: "Class Name To Vocab Ix"
+        scorer_path_name:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Scorer Path Name"
         function_explanation_param_name:
           type: "string"
           title: "Function Explanation Param Name"
@@ -15756,6 +15868,10 @@ components:
               type: "array"
             - type: "null"
           title: "Multimodal Capabilities"
+        requires_tools_in_llm_span:
+          type: "boolean"
+          title: "Requires Tools In Llm Span"
+          default: false
         required_scorers:
           anyOf:
             - items:
@@ -15820,6 +15936,11 @@ components:
               type: "object"
             - type: "null"
           title: "Class Name To Vocab Ix"
+        scorer_path_name:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Scorer Path Name"
       type: "object"
       title: "CustomizedPromptInjectionGPTScorer"
     CustomizedSexistGPTScorer:
@@ -15985,6 +16106,10 @@ components:
               type: "array"
             - type: "null"
           title: "Multimodal Capabilities"
+        requires_tools_in_llm_span:
+          type: "boolean"
+          title: "Requires Tools In Llm Span"
+          default: false
         required_scorers:
           anyOf:
             - items:
@@ -16049,6 +16174,11 @@ components:
               type: "object"
             - type: "null"
           title: "Class Name To Vocab Ix"
+        scorer_path_name:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Scorer Path Name"
       type: "object"
       title: "CustomizedSexistGPTScorer"
     CustomizedToolErrorRateGPTScorer:
@@ -16216,6 +16346,10 @@ components:
               type: "array"
             - type: "null"
           title: "Multimodal Capabilities"
+        requires_tools_in_llm_span:
+          type: "boolean"
+          title: "Requires Tools In Llm Span"
+          default: false
         required_scorers:
           anyOf:
             - items:
@@ -16280,6 +16414,11 @@ components:
               type: "object"
             - type: "null"
           title: "Class Name To Vocab Ix"
+        scorer_path_name:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Scorer Path Name"
       type: "object"
       title: "CustomizedToolErrorRateGPTScorer"
     CustomizedToolSelectionQualityGPTScorer:
@@ -16445,6 +16584,10 @@ components:
               type: "array"
             - type: "null"
           title: "Multimodal Capabilities"
+        requires_tools_in_llm_span:
+          type: "boolean"
+          title: "Requires Tools In Llm Span"
+          default: false
         required_scorers:
           anyOf:
             - items:
@@ -16509,6 +16652,11 @@ components:
               type: "object"
             - type: "null"
           title: "Class Name To Vocab Ix"
+        scorer_path_name:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Scorer Path Name"
       type: "object"
       title: "CustomizedToolSelectionQualityGPTScorer"
     CustomizedToxicityGPTScorer:
@@ -16674,6 +16822,10 @@ components:
               type: "array"
             - type: "null"
           title: "Multimodal Capabilities"
+        requires_tools_in_llm_span:
+          type: "boolean"
+          title: "Requires Tools In Llm Span"
+          default: false
         required_scorers:
           anyOf:
             - items:
@@ -16738,6 +16890,11 @@ components:
               type: "object"
             - type: "null"
           title: "Class Name To Vocab Ix"
+        scorer_path_name:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Scorer Path Name"
       type: "object"
       title: "CustomizedToxicityGPTScorer"
     DataType:
@@ -16789,10 +16946,12 @@ components:
         - "score_rating"
         - "star_rating"
         - "tags_rating"
+        - "choice_rating"
         - "thumb_rating_aggregate"
         - "score_rating_aggregate"
         - "star_rating_aggregate"
         - "tags_rating_aggregate"
+        - "choice_rating_aggregate"
       title: "DataTypeOptions"
     DataUnit:
       type: "string"
@@ -17416,6 +17575,43 @@ components:
           default: "custom"
       type: "object"
       title: "DatasetProjectsSort"
+    DatasetRemoveColumn:
+      properties:
+        edit_type:
+          type: "string"
+          const: "remove_column"
+          title: "Edit Type"
+          default: "remove_column"
+        column_name:
+          type: "string"
+          maxLength: 255
+          title: "Column Name"
+      type: "object"
+      required:
+        - "column_name"
+      title: "DatasetRemoveColumn"
+      description: "Drop a column from the dataset schema."
+    DatasetRenameColumn:
+      properties:
+        edit_type:
+          type: "string"
+          const: "rename_column"
+          title: "Edit Type"
+          default: "rename_column"
+        column_name:
+          type: "string"
+          maxLength: 255
+          title: "Column Name"
+        new_column_name:
+          type: "string"
+          maxLength: 255
+          title: "New Column Name"
+      type: "object"
+      required:
+        - "column_name"
+        - "new_column_name"
+      title: "DatasetRenameColumn"
+      description: "Rename a column in the dataset schema, preserving values."
     DatasetRow:
       properties:
         row_id:
@@ -17730,6 +17926,7 @@ components:
         - "permission_error"
         - "not_found_error"
         - "workflow_error"
+        - "rate_limit_error"
         - "system_error"
         - "not_applicable_reason"
         - "uncataloged_error"
@@ -18206,6 +18403,11 @@ components:
             - type: "integer"
             - type: "null"
           title: "Num Traces"
+        num_sessions:
+          anyOf:
+            - type: "integer"
+            - type: "null"
+          title: "Num Sessions"
         task_type:
           $ref: "#/components/schemas/TaskType"
         dataset:
@@ -23051,15 +23253,19 @@ components:
             - $ref: "#/components/schemas/ScoreAggregate"
             - $ref: "#/components/schemas/TagsAggregate"
             - $ref: "#/components/schemas/TextAggregate"
+            - $ref: "#/components/schemas/ChoiceAggregate"
+            - $ref: "#/components/schemas/TreeChoiceAggregate"
           title: "Aggregate"
           discriminator:
             propertyName: "feedback_type"
             mapping:
+              choice: "#/components/schemas/ChoiceAggregate"
               like_dislike: "#/components/schemas/LikeDislikeAggregate"
               score: "#/components/schemas/ScoreAggregate"
               star: "#/components/schemas/StarAggregate"
               tags: "#/components/schemas/TagsAggregate"
               text: "#/components/schemas/TextAggregate"
+              tree_choice: "#/components/schemas/TreeChoiceAggregate"
       type: "object"
       required:
         - "aggregate"
@@ -23079,15 +23285,19 @@ components:
             - $ref: "#/components/schemas/ScoreRating"
             - $ref: "#/components/schemas/TagsRating"
             - $ref: "#/components/schemas/TextRating"
+            - $ref: "#/components/schemas/ChoiceRating"
+            - $ref: "#/components/schemas/TreeChoiceRating"
           title: "Rating"
           discriminator:
             propertyName: "feedback_type"
             mapping:
+              choice: "#/components/schemas/ChoiceRating"
               like_dislike: "#/components/schemas/LikeDislikeRating"
               score: "#/components/schemas/ScoreRating"
               star: "#/components/schemas/StarRating"
               tags: "#/components/schemas/TagsRating"
               text: "#/components/schemas/TextRating"
+              tree_choice: "#/components/schemas/TreeChoiceRating"
         created_at:
           type: "string"
           format: "date-time"
@@ -23138,6 +23348,8 @@ components:
         - "score"
         - "tags"
         - "text"
+        - "choice"
+        - "tree_choice"
       title: "FeedbackType"
     FewShotExample:
       properties:
@@ -24288,6 +24500,7 @@ components:
         - "update"
         - "delete"
         - "share"
+        - "read_secrets"
       title: "IntegrationAction"
     IntegrationCostsDataPoint:
       properties:
@@ -24985,32 +25198,6 @@ components:
       required:
         - "log_streams"
       title: "ListLogStreamResponse"
-    ListPromptDatasetResponse:
-      properties:
-        starting_token:
-          type: "integer"
-          title: "Starting Token"
-          default: 0
-        limit:
-          type: "integer"
-          title: "Limit"
-          default: 100
-        paginated:
-          type: "boolean"
-          title: "Paginated"
-          default: false
-        next_starting_token:
-          anyOf:
-            - type: "integer"
-            - type: "null"
-          title: "Next Starting Token"
-        datasets:
-          items:
-            $ref: "#/components/schemas/PromptDatasetDB"
-          type: "array"
-          title: "Datasets"
-      type: "object"
-      title: "ListPromptDatasetResponse"
     ListPromptTemplateParams:
       properties:
         filters:
@@ -25161,7 +25348,10 @@ components:
               - $ref: "#/components/schemas/ScorerUpdatedAtFilter"
               - $ref: "#/components/schemas/ScorerLabelFilter"
               - $ref: "#/components/schemas/ScorerScoreableNodeTypesFilter"
+              - $ref: "#/components/schemas/ScorerMultimodalCapabilitiesFilter"
               - $ref: "#/components/schemas/ScorerIDFilter"
+              - $ref: "#/components/schemas/ScorerIsGlobalFilter"
+              - $ref: "#/components/schemas/ScorerScopeProjectsFilter"
             discriminator:
               propertyName: "name"
               mapping:
@@ -25170,9 +25360,12 @@ components:
                 exclude_multimodal_scorers: "#/components/schemas/ScorerExcludeMultimodalScorersFilter"
                 exclude_slm_scorers: "#/components/schemas/ScorerExcludeSlmScorersFilter"
                 id: "#/components/schemas/ScorerIDFilter"
+                is_global: "#/components/schemas/ScorerIsGlobalFilter"
                 label: "#/components/schemas/ScorerLabelFilter"
                 model_type: "#/components/schemas/ScorerModelTypeFilter"
+                multimodal_capabilities: "#/components/schemas/ScorerMultimodalCapabilitiesFilter"
                 name: "#/components/schemas/ScorerNameFilter"
+                scope_projects: "#/components/schemas/ScorerScopeProjectsFilter"
                 scoreable_node_types: "#/components/schemas/ScorerScoreableNodeTypesFilter"
                 scorer_type: "#/components/schemas/ScorerTypeFilter"
                 tags: "#/components/schemas/ScorerTagsFilter"
@@ -25283,6 +25476,30 @@ components:
             - type: "null"
           title: "Time To First Token Ns"
           description: "Time until the first token was generated in nanoseconds."
+        num_image_input_tokens:
+          anyOf:
+            - type: "integer"
+            - type: "null"
+          title: "Num Image Input Tokens"
+          description: "Number of image input tokens."
+        num_audio_input_tokens:
+          anyOf:
+            - type: "integer"
+            - type: "null"
+          title: "Num Audio Input Tokens"
+          description: "Number of audio input tokens."
+        num_audio_output_tokens:
+          anyOf:
+            - type: "integer"
+            - type: "null"
+          title: "Num Audio Output Tokens"
+          description: "Number of audio output tokens."
+        num_image_output_tokens:
+          anyOf:
+            - type: "integer"
+            - type: "null"
+          title: "Num Image Output Tokens"
+          description: "Number of image output tokens."
       additionalProperties: true
       type: "object"
       title: "LlmMetrics"
@@ -25512,14 +25729,14 @@ components:
       examples:
         - columns:
             - applicable_types:
-                - "trace"
-                - "agent"
                 - "tool"
-                - "llm"
-                - "control"
+                - "workflow"
                 - "session"
                 - "retriever"
-                - "workflow"
+                - "control"
+                - "trace"
+                - "llm"
+                - "agent"
               category: "standard"
               data_type: "text"
               description: "Input to the trace or span."
@@ -25533,14 +25750,14 @@ components:
               multi_valued: false
               sortable: true
             - applicable_types:
-                - "trace"
-                - "agent"
                 - "tool"
-                - "llm"
-                - "control"
+                - "workflow"
                 - "session"
                 - "retriever"
-                - "workflow"
+                - "control"
+                - "trace"
+                - "llm"
+                - "agent"
               category: "standard"
               data_type: "text"
               description: "Output of the trace or span."
@@ -25554,14 +25771,14 @@ components:
               multi_valued: false
               sortable: true
             - applicable_types:
-                - "trace"
-                - "agent"
                 - "tool"
-                - "llm"
-                - "control"
+                - "workflow"
                 - "session"
                 - "retriever"
-                - "workflow"
+                - "control"
+                - "trace"
+                - "llm"
+                - "agent"
               category: "standard"
               data_type: "text"
               description: "Name of the trace, span or session."
@@ -25575,14 +25792,14 @@ components:
               multi_valued: false
               sortable: true
             - applicable_types:
-                - "trace"
-                - "agent"
                 - "tool"
-                - "llm"
-                - "control"
+                - "workflow"
                 - "session"
                 - "retriever"
-                - "workflow"
+                - "control"
+                - "trace"
+                - "llm"
+                - "agent"
               category: "standard"
               data_type: "timestamp"
               description: "Timestamp of the trace or span's creation."
@@ -25596,13 +25813,13 @@ components:
               multi_valued: false
               sortable: true
             - applicable_types:
-                - "trace"
                 - "tool"
-                - "agent"
-                - "llm"
-                - "control"
-                - "retriever"
                 - "workflow"
+                - "retriever"
+                - "control"
+                - "trace"
+                - "llm"
+                - "agent"
               category: "standard"
               data_type: "string_list"
               description: "Tags associated with this trace or span."
@@ -25616,13 +25833,13 @@ components:
               multi_valued: true
               sortable: false
             - applicable_types:
-                - "trace"
                 - "tool"
-                - "agent"
-                - "llm"
-                - "control"
-                - "retriever"
                 - "workflow"
+                - "retriever"
+                - "control"
+                - "trace"
+                - "llm"
+                - "agent"
               category: "standard"
               data_type: "integer"
               description: "Status code of the trace or span. Used for logging failure or error states."
@@ -25636,14 +25853,14 @@ components:
               multi_valued: false
               sortable: true
             - applicable_types:
-                - "trace"
-                - "agent"
                 - "tool"
-                - "llm"
-                - "control"
+                - "workflow"
                 - "session"
                 - "retriever"
-                - "workflow"
+                - "control"
+                - "trace"
+                - "llm"
+                - "agent"
               category: "standard"
               data_type: "text"
               description: "A user-provided session, trace or span ID."
@@ -25657,13 +25874,13 @@ components:
               multi_valued: false
               sortable: true
             - applicable_types:
-                - "trace"
                 - "tool"
-                - "agent"
-                - "llm"
-                - "control"
-                - "retriever"
                 - "workflow"
+                - "retriever"
+                - "control"
+                - "trace"
+                - "llm"
+                - "agent"
               category: "standard"
               data_type: "text"
               description: "Input to the dataset associated with this trace"
@@ -25677,13 +25894,13 @@ components:
               multi_valued: false
               sortable: true
             - applicable_types:
-                - "trace"
                 - "tool"
-                - "agent"
-                - "llm"
-                - "control"
-                - "retriever"
                 - "workflow"
+                - "retriever"
+                - "control"
+                - "trace"
+                - "llm"
+                - "agent"
               category: "standard"
               data_type: "text"
               description: "Output from the dataset associated with this trace"
@@ -25697,14 +25914,14 @@ components:
               multi_valued: false
               sortable: true
             - applicable_types:
-                - "trace"
-                - "agent"
                 - "tool"
-                - "llm"
-                - "control"
+                - "workflow"
                 - "session"
                 - "retriever"
-                - "workflow"
+                - "control"
+                - "trace"
+                - "llm"
+                - "agent"
               category: "standard"
               data_type: "uuid"
               description: "Galileo ID of the session, trace or span"
@@ -25718,13 +25935,13 @@ components:
               multi_valued: false
               sortable: true
             - applicable_types:
-                - "trace"
                 - "tool"
-                - "agent"
-                - "llm"
-                - "control"
-                - "retriever"
                 - "workflow"
+                - "retriever"
+                - "control"
+                - "trace"
+                - "llm"
+                - "agent"
               category: "standard"
               data_type: "uuid"
               description: "Galileo ID of the session containing the trace (or the same value as id for a trace)"
@@ -25738,13 +25955,13 @@ components:
               multi_valued: false
               sortable: true
             - applicable_types:
-                - "trace"
                 - "tool"
-                - "agent"
-                - "llm"
-                - "control"
-                - "retriever"
                 - "workflow"
+                - "retriever"
+                - "control"
+                - "trace"
+                - "llm"
+                - "agent"
               category: "standard"
               data_type: "uuid"
               description: "Galileo ID of the project associated with this trace or span"
@@ -25758,13 +25975,13 @@ components:
               multi_valued: false
               sortable: true
             - applicable_types:
-                - "trace"
                 - "tool"
-                - "agent"
-                - "llm"
-                - "control"
-                - "retriever"
                 - "workflow"
+                - "retriever"
+                - "control"
+                - "trace"
+                - "llm"
+                - "agent"
               category: "standard"
               data_type: "uuid"
               description: "Galileo ID of the run (log stream or experiment) associated with this trace or span"
@@ -25778,13 +25995,13 @@ components:
               multi_valued: false
               sortable: true
             - applicable_types:
-                - "trace"
                 - "tool"
-                - "agent"
-                - "llm"
-                - "control"
-                - "retriever"
                 - "workflow"
+                - "retriever"
+                - "control"
+                - "trace"
+                - "llm"
+                - "agent"
               category: "standard"
               data_type: "timestamp"
               description: "Timestamp of the session or trace or span's last update"
@@ -25798,13 +26015,13 @@ components:
               multi_valued: false
               sortable: true
             - applicable_types:
-                - "trace"
                 - "tool"
-                - "agent"
-                - "llm"
-                - "control"
-                - "retriever"
                 - "workflow"
+                - "retriever"
+                - "control"
+                - "trace"
+                - "llm"
+                - "agent"
               category: "standard"
               data_type: "boolean"
               description: "Whether or not this trace or span has child spans"
@@ -25818,13 +26035,13 @@ components:
               multi_valued: false
               sortable: true
             - applicable_types:
-                - "trace"
                 - "tool"
-                - "agent"
-                - "llm"
-                - "control"
-                - "retriever"
                 - "workflow"
+                - "retriever"
+                - "control"
+                - "trace"
+                - "llm"
+                - "agent"
               category: "standard"
               data_type: "boolean"
               description: "Whether the parent trace is complete or not"
@@ -25838,21 +26055,21 @@ components:
               multi_valued: false
               sortable: true
             - allowed_values:
-                - "trace"
                 - "tool"
-                - "agent"
-                - "llm"
-                - "control"
+                - "workflow"
                 - "session"
                 - "retriever"
-                - "workflow"
+                - "control"
+                - "trace"
+                - "llm"
+                - "agent"
               applicable_types:
                 - "tool"
-                - "agent"
-                - "llm"
-                - "control"
-                - "retriever"
                 - "workflow"
+                - "retriever"
+                - "control"
+                - "llm"
+                - "agent"
               category: "standard"
               data_type: "text"
               description: "Type of the trace, span or session."
@@ -25867,11 +26084,11 @@ components:
               sortable: true
             - applicable_types:
                 - "tool"
-                - "agent"
-                - "llm"
-                - "control"
-                - "retriever"
                 - "workflow"
+                - "retriever"
+                - "control"
+                - "llm"
+                - "agent"
               category: "standard"
               data_type: "uuid"
               description: "Galileo ID of the trace containing the span (or the same value as id for a trace)"
@@ -25886,11 +26103,11 @@ components:
               sortable: true
             - applicable_types:
                 - "tool"
-                - "agent"
-                - "llm"
-                - "control"
-                - "retriever"
                 - "workflow"
+                - "retriever"
+                - "control"
+                - "llm"
+                - "agent"
               category: "standard"
               data_type: "uuid"
               description: "Galileo ID of the parent of this span"
@@ -25905,11 +26122,11 @@ components:
               sortable: true
             - applicable_types:
                 - "tool"
-                - "agent"
-                - "llm"
-                - "control"
-                - "retriever"
                 - "workflow"
+                - "retriever"
+                - "control"
+                - "llm"
+                - "agent"
               category: "standard"
               data_type: "integer"
               description: "Topological step number of the span."
@@ -25923,14 +26140,14 @@ components:
               multi_valued: false
               sortable: true
             - allowed_values:
-                - "react"
-                - "judge"
-                - "reflection"
                 - "planner"
                 - "classifier"
+                - "react"
+                - "supervisor"
+                - "reflection"
+                - "judge"
                 - "router"
                 - "default"
-                - "supervisor"
               applicable_types:
                 - "agent"
               category: "standard"
@@ -26141,6 +26358,7 @@ components:
               is_optional: false
               label: "BLEU - DEPRECATED"
               multi_valued: false
+              roll_up_method: "average"
               sortable: true
     LogRecordsBooleanFilter:
       properties:
@@ -26541,6 +26759,11 @@ components:
             - type: "null"
           title: "File Name"
           description: "Optional filename for the exported file"
+        export_computed_metrics_only:
+          type: "boolean"
+          title: "Export Computed Metrics Only"
+          description: "When true, export only enabled scorer metrics with computed values (success or roll_up). For session exports, omit entire sessions unless every enabled metric at session, trace, or span level is ready (success, roll_up, or not_applicable)."
+          default: false
         log_stream_id:
           anyOf:
             - type: "string"
@@ -27062,7 +27285,7 @@ components:
               annotation_agreement: {}
               annotation_queue_ids: []
               annotations: {}
-              created_at: "2026-05-12T23:58:32.308040Z"
+              created_at: "2026-06-27T03:52:59.589068Z"
               dataset_metadata: {}
               feedback_rating_info: {}
               file_ids: []
@@ -27079,7 +27302,7 @@ components:
               annotation_agreement: {}
               annotation_queue_ids: []
               annotations: {}
-              created_at: "2026-05-12T23:58:32.308167Z"
+              created_at: "2026-06-27T03:52:59.589203Z"
               dataset_metadata: {}
               feedback_rating_info: {}
               file_ids: []
@@ -27352,7 +27575,7 @@ components:
               annotation_agreement: {}
               annotation_queue_ids: []
               annotations: {}
-              created_at: "2026-05-12T23:58:32.302404Z"
+              created_at: "2026-06-27T03:52:59.582494Z"
               dataset_metadata: {}
               feedback_rating_info: {}
               file_ids: []
@@ -27375,7 +27598,7 @@ components:
               annotation_agreement: {}
               annotation_queue_ids: []
               annotations: {}
-              created_at: "2026-05-12T23:58:32.302552Z"
+              created_at: "2026-06-27T03:52:59.582657Z"
               dataset_metadata: {}
               feedback_rating_info: {}
               file_ids: []
@@ -27698,14 +27921,14 @@ components:
         - log_stream_id: "00000000-0000-0000-0000-000000000000"
           parent_id: "11000011-0000-0000-0000-110000110000"
           spans:
-            - created_at: "2026-05-12T23:58:32.270557Z"
+            - created_at: "2026-06-27T03:52:59.553630Z"
               dataset_metadata: {}
               input: "who is a smart LLM?"
               metrics: {}
               name: ""
               output: "I am!"
               spans:
-                - created_at: "2026-05-12T23:58:32.254617Z"
+                - created_at: "2026-06-27T03:52:59.537346Z"
                   dataset_metadata: {}
                   id: "22222222-2222-4222-a222-222222222222"
                   input:
@@ -28343,14 +28566,14 @@ components:
         - log_stream_id: "00000000-0000-0000-0000-000000000000"
           session_id: "00000000-0000-0000-0000-000000000000"
           traces:
-            - created_at: "2026-05-12T23:58:32.249464Z"
+            - created_at: "2026-06-27T03:52:59.531009Z"
               dataset_metadata: {}
               input: "who is a smart LLM?"
               metrics: {}
               name: ""
               output: "I am!"
               spans:
-                - created_at: "2026-05-12T23:58:32.249423Z"
+                - created_at: "2026-06-27T03:52:59.530930Z"
                   dataset_metadata: {}
                   input:
                     - content: "Question: who is a smart LLM?"
@@ -28368,14 +28591,14 @@ components:
               user_metadata: {}
         - experiment_id: "00000000-0000-0000-0000-000000000000"
           traces:
-            - created_at: "2026-05-12T23:58:32.249811Z"
+            - created_at: "2026-06-27T03:52:59.531479Z"
               dataset_metadata: {}
               input: "who is a smart LLM?"
               metrics: {}
               name: ""
               output: "I am!"
               spans:
-                - created_at: "2026-05-12T23:58:32.249767Z"
+                - created_at: "2026-06-27T03:52:59.531436Z"
                   dataset_metadata: {}
                   id: "11111111-1111-4111-a111-111111111111"
                   input:
@@ -28439,6 +28662,10 @@ components:
           type: "integer"
           title: "Traces Count"
           description: "total number of traces ingested"
+        spans_count:
+          type: "integer"
+          title: "Spans Count"
+          description: "total number of spans ingested"
         trace_ids:
           anyOf:
             - items:
@@ -28454,6 +28681,7 @@ components:
         - "project_name"
         - "records_count"
         - "traces_count"
+        - "spans_count"
       title: "LogTracesIngestResponse"
     LoggingMethod:
       type: "string"
@@ -29017,55 +29245,6 @@ components:
         - "intended_value"
         - "original_explanation"
       title: "MetricCritiqueContent"
-    MetricCritiqueJobConfiguration:
-      properties:
-        project_type:
-          anyOf:
-            - type: "string"
-              const: "prompt_evaluation"
-            - type: "string"
-              const: "llm_monitor"
-            - type: "string"
-              const: "gen_ai"
-          title: "Project Type"
-        metric_name:
-          type: "string"
-          title: "Metric Name"
-        scorer_id:
-          anyOf:
-            - type: "string"
-              format: "uuid4"
-            - type: "null"
-          title: "Scorer Id"
-        critique_ids:
-          items:
-            type: "string"
-            format: "uuid4"
-          type: "array"
-          title: "Critique Ids"
-        recompute_settings:
-          anyOf:
-            - oneOf:
-                - $ref: "#/components/schemas/RecomputeSettingsRuns"
-                - $ref: "#/components/schemas/RecomputeSettingsProject"
-                - $ref: "#/components/schemas/RecomputeSettingsObserve"
-                - $ref: "#/components/schemas/RecomputeSettingsLogStream"
-              discriminator:
-                propertyName: "mode"
-                mapping:
-                  log_stream_filters: "#/components/schemas/RecomputeSettingsLogStream"
-                  observe_filters: "#/components/schemas/RecomputeSettingsObserve"
-                  project: "#/components/schemas/RecomputeSettingsProject"
-                  runs: "#/components/schemas/RecomputeSettingsRuns"
-            - type: "null"
-          title: "Recompute Settings"
-      type: "object"
-      required:
-        - "project_type"
-        - "metric_name"
-        - "critique_ids"
-      title: "MetricCritiqueJobConfiguration"
-      description: "Info necessary to execute a metric critique job."
     MetricError:
       properties:
         status_type:
@@ -29319,6 +29498,11 @@ components:
             - type: "integer"
             - type: "null"
           title: "Num Judges"
+        multijudge_average:
+          anyOf:
+            - type: "number"
+            - type: "null"
+          title: "Multijudge Average"
         input_tokens:
           anyOf:
             - type: "integer"
@@ -29508,6 +29692,11 @@ components:
             - type: "integer"
             - type: "null"
           title: "Num Judges"
+        multijudge_average:
+          anyOf:
+            - type: "number"
+            - type: "null"
+          title: "Multijudge Average"
         input_tokens:
           anyOf:
             - type: "integer"
@@ -29611,9 +29800,10 @@ components:
           title: "Name"
           description: "Name of the metric that we are testing."
         output_type:
-          $ref: "#/components/schemas/OutputTypeEnum"
-          description: "Output type of the metrics testing table. If not provided, all columns are returned."
-          default: "boolean"
+          anyOf:
+            - $ref: "#/components/schemas/OutputTypeEnum"
+            - type: "null"
+          description: "Output type of the scorer. Required when metric_key is REGISTERED_SCORER_VALIDATION; used to determine the data_type for validation columns."
         cot_enabled:
           type: "boolean"
           title: "Cot Enabled"
@@ -31892,6 +32082,11 @@ components:
               format: "uuid4"
             - type: "null"
           title: "Previous Session Id"
+        num_traces:
+          anyOf:
+            - type: "integer"
+            - type: "null"
+          title: "Num Traces"
       type: "object"
       title: "PartialExtendedSessionRecord"
     PartialExtendedToolSpanRecord:
@@ -32468,6 +32663,11 @@ components:
           title: "Is Complete"
           description: "Whether the trace is complete or not"
           default: true
+        num_spans:
+          anyOf:
+            - type: "integer"
+            - type: "null"
+          title: "Num Spans"
       type: "object"
       title: "PartialExtendedTraceRecord"
     PartialExtendedWorkflowSpanRecord:
@@ -32837,6 +33037,7 @@ components:
             - $ref: "#/components/schemas/GroupAction"
             - $ref: "#/components/schemas/GroupMemberAction"
             - $ref: "#/components/schemas/ProjectAction"
+            - $ref: "#/components/schemas/ScorerAction"
             - $ref: "#/components/schemas/RegisteredScorerAction"
             - $ref: "#/components/schemas/ApiKeyAction"
             - $ref: "#/components/schemas/GeneratedScorerAction"
@@ -33539,16 +33740,6 @@ components:
             - type: "string"
             - type: "null"
           title: "Name"
-        created_by:
-          anyOf:
-            - type: "string"
-              format: "uuid4"
-            - type: "null"
-          title: "Created By"
-        type:
-          anyOf:
-            - $ref: "#/components/schemas/ProjectType"
-            - type: "null"
         labels:
           anyOf:
             - items:
@@ -33561,6 +33752,7 @@ components:
             - type: "string"
             - type: "null"
           title: "Description"
+      additionalProperties: false
       type: "object"
       title: "ProjectUpdate"
     ProjectUpdateResponse:
@@ -33652,42 +33844,6 @@ components:
           default: "column"
       type: "object"
       title: "ProjectUpdatedAtSortV1"
-    PromptDatasetDB:
-      properties:
-        id:
-          type: "string"
-          format: "uuid4"
-          title: "Id"
-        dataset_id:
-          type: "string"
-          format: "uuid4"
-          title: "Dataset Id"
-        file_name:
-          anyOf:
-            - type: "string"
-            - type: "null"
-          title: "File Name"
-        message:
-          anyOf:
-            - type: "string"
-              minLength: 1
-            - type: "null"
-          title: "Message"
-        num_rows:
-          anyOf:
-            - type: "integer"
-            - type: "null"
-          title: "Num Rows"
-        rows:
-          anyOf:
-            - type: "integer"
-            - type: "null"
-          title: "Rows"
-      type: "object"
-      required:
-        - "id"
-        - "dataset_id"
-      title: "PromptDatasetDB"
     PromptInjectionScorer:
       properties:
         name:
@@ -33776,65 +33932,6 @@ components:
       type: "object"
       title: "PromptInjectionTemplate"
       description: "Template for the prompt injection metric,\ncontaining all the info necessary to send the prompt injection prompt."
-    PromptOptimizationConfiguration:
-      properties:
-        prompt:
-          type: "string"
-          title: "Prompt"
-        evaluation_criteria:
-          type: "string"
-          title: "Evaluation Criteria"
-        task_description:
-          type: "string"
-          title: "Task Description"
-        includes_target:
-          type: "boolean"
-          title: "Includes Target"
-        num_rows:
-          type: "integer"
-          title: "Num Rows"
-        iterations:
-          type: "integer"
-          title: "Iterations"
-        max_tokens:
-          type: "integer"
-          title: "Max Tokens"
-        temperature:
-          type: "number"
-          title: "Temperature"
-        generation_model_alias:
-          type: "string"
-          title: "Generation Model Alias"
-        evaluation_model_alias:
-          type: "string"
-          title: "Evaluation Model Alias"
-        integration_name:
-          $ref: "#/components/schemas/LLMIntegration"
-          default: "openai"
-        reasoning_effort:
-          anyOf:
-            - type: "string"
-            - type: "null"
-          title: "Reasoning Effort"
-        verbosity:
-          anyOf:
-            - type: "string"
-            - type: "null"
-          title: "Verbosity"
-      type: "object"
-      required:
-        - "prompt"
-        - "evaluation_criteria"
-        - "task_description"
-        - "includes_target"
-        - "num_rows"
-        - "iterations"
-        - "max_tokens"
-        - "temperature"
-        - "generation_model_alias"
-        - "evaluation_model_alias"
-      title: "PromptOptimizationConfiguration"
-      description: "Configuration for prompt optimization."
     PromptPerplexityScorer:
       properties:
         name:
@@ -34318,6 +34415,7 @@ components:
         - "custom_metric_autogen"
         - "autotune"
         - "signals"
+        - "ai_assistant"
       title: "RecommendedModelPurpose"
     RecommendedModelsResponse:
       properties:
@@ -34483,68 +34581,6 @@ components:
             ascending: false
             name: "updated_at"
             sort_type: "column"
-    RecomputeSettingsLogStream:
-      properties:
-        mode:
-          type: "string"
-          const: "log_stream_filters"
-          title: "Mode"
-          default: "log_stream_filters"
-        run_id:
-          type: "string"
-          format: "uuid4"
-          title: "Run Id"
-        filters:
-          items: {}
-          type: "array"
-          title: "Filters"
-      type: "object"
-      required:
-        - "run_id"
-        - "filters"
-      title: "RecomputeSettingsLogStream"
-    RecomputeSettingsObserve:
-      properties:
-        mode:
-          type: "string"
-          const: "observe_filters"
-          title: "Mode"
-          default: "observe_filters"
-        filters:
-          items: {}
-          type: "array"
-          title: "Filters"
-      type: "object"
-      required:
-        - "filters"
-      title: "RecomputeSettingsObserve"
-    RecomputeSettingsProject:
-      properties:
-        mode:
-          type: "string"
-          const: "project"
-          title: "Mode"
-          default: "project"
-      type: "object"
-      title: "RecomputeSettingsProject"
-    RecomputeSettingsRuns:
-      properties:
-        mode:
-          type: "string"
-          const: "runs"
-          title: "Mode"
-          default: "runs"
-        run_ids:
-          items:
-            type: "string"
-            format: "uuid4"
-          type: "array"
-          minItems: 1
-          title: "Run Ids"
-      type: "object"
-      required:
-        - "run_ids"
-      title: "RecomputeSettingsRuns"
     RegisteredScorer:
       properties:
         id:
@@ -35120,8 +35156,6 @@ components:
         - "updated_at"
         - "last_updated_by"
         - "creator"
-        - "logged_splits"
-        - "logged_inference_names"
       title: "RunDB"
     RunDBThin:
       properties:
@@ -35190,6 +35224,16 @@ components:
           title: "Example Content Id"
         creator:
           $ref: "#/components/schemas/UserDB"
+        logged_splits:
+          items:
+            type: "string"
+          type: "array"
+          title: "Logged Splits"
+        logged_inference_names:
+          items:
+            type: "string"
+          type: "array"
+          title: "Logged Inference Names"
       type: "object"
       required:
         - "created_by"
@@ -35472,6 +35516,15 @@ components:
       required:
         - "value"
       title: "ScoreRating"
+    ScorerAction:
+      type: "string"
+      enum:
+        - "update"
+        - "delete"
+        - "share"
+        - "export"
+        - "autotune_apply"
+      title: "ScorerAction"
     ScorerConfig:
       properties:
         model_name:
@@ -35752,6 +35805,17 @@ components:
       type: "object"
       title: "ScorerExcludeSlmScorersFilter"
       description: "Internal filter: excludes scorers with model_type == slm while including\nscorers where model_type IS NULL. Auto-appended by the service layer."
+    ScorerHealthScoresResponse:
+      properties:
+        scores:
+          items:
+            $ref: "#/components/schemas/ScorerVersionHealthScoreEntry"
+          type: "array"
+          title: "Scores"
+      type: "object"
+      required:
+        - "scores"
+      title: "ScorerHealthScoresResponse"
     ScorerIDFilter:
       properties:
         name:
@@ -35785,6 +35849,28 @@ components:
       required:
         - "value"
       title: "ScorerIDFilter"
+    ScorerIsGlobalFilter:
+      properties:
+        name:
+          type: "string"
+          const: "is_global"
+          title: "Name"
+          default: "is_global"
+        operator:
+          type: "string"
+          enum:
+            - "eq"
+            - "ne"
+          title: "Operator"
+          default: "eq"
+        value:
+          type: "boolean"
+          title: "Value"
+      type: "object"
+      required:
+        - "value"
+      title: "ScorerIsGlobalFilter"
+      description: "Filters on the access scope tier: is_global=True (global metrics) vs\nis_global=False (project-scoped metrics)."
     ScorerLabelFilter:
       properties:
         name:
@@ -35855,6 +35941,38 @@ components:
         - "operator"
         - "value"
       title: "ScorerModelTypeFilter"
+    ScorerMultimodalCapabilitiesFilter:
+      properties:
+        name:
+          type: "string"
+          const: "multimodal_capabilities"
+          title: "Name"
+          default: "multimodal_capabilities"
+        operator:
+          type: "string"
+          enum:
+            - "eq"
+            - "contains"
+            - "one_of"
+            - "not_in"
+          title: "Operator"
+        value:
+          anyOf:
+            - type: "string"
+            - items:
+                type: "string"
+              type: "array"
+          title: "Value"
+        case_sensitive:
+          type: "boolean"
+          title: "Case Sensitive"
+          default: true
+      type: "object"
+      required:
+        - "operator"
+        - "value"
+      title: "ScorerMultimodalCapabilitiesFilter"
+      description: "Filter scorers by multimodal_capabilities.\n\nUse operator ``contains`` to match scorers that support a single capability\n(e.g. ``{\"name\": \"multimodal_capabilities\", \"operator\": \"contains\", \"value\": \"vision\"}``).\nUse ``one_of`` to match scorers whose capabilities include ANY of the given\nvalues (e.g. ``{\"name\": \"multimodal_capabilities\", \"operator\": \"one_of\", \"value\": [\"vision\", \"audio\"]}``)."
     ScorerNameFilter:
       properties:
         name:
@@ -35911,6 +36029,12 @@ components:
           type: "string"
           format: "uuid4"
           title: "Id"
+        permissions:
+          items:
+            $ref: "#/components/schemas/Permission"
+          type: "array"
+          title: "Permissions"
+          default: []
         name:
           type: "string"
           title: "Name"
@@ -36062,6 +36186,15 @@ components:
             - type: "string"
             - type: "null"
           title: "Metric Name"
+        is_global:
+          type: "boolean"
+          title: "Is Global"
+          default: false
+        scope_projects:
+          items:
+            $ref: "#/components/schemas/ScorerScopeProjectRef"
+          type: "array"
+          title: "Scope Projects"
       type: "object"
       required:
         - "id"
@@ -36069,6 +36202,45 @@ components:
         - "scorer_type"
         - "tags"
       title: "ScorerResponse"
+    ScorerScopeProjectRef:
+      properties:
+        id:
+          type: "string"
+          format: "uuid4"
+          title: "Id"
+        name:
+          type: "string"
+          title: "Name"
+      type: "object"
+      required:
+        - "id"
+        - "name"
+      title: "ScorerScopeProjectRef"
+      description: "Minimal project representation (id and name only) for scorer access scope."
+    ScorerScopeProjectsFilter:
+      properties:
+        name:
+          type: "string"
+          const: "scope_projects"
+          title: "Name"
+          default: "scope_projects"
+        project_ids:
+          items:
+            type: "string"
+            format: "uuid4"
+          type: "array"
+          maxItems: 1000
+          minItems: 1
+          title: "Project Ids"
+        include_global:
+          type: "boolean"
+          title: "Include Global"
+          default: false
+      type: "object"
+      required:
+        - "project_ids"
+      title: "ScorerScopeProjectsFilter"
+      description: "Matches scorers whose access scope (scorer_projects) includes ANY of the\ngiven project ids. include_global=True additionally matches global scorers\n(\"metrics available in project X\").\n\nDistinct from the run-usage \"projects used\" relation (scorers_to_projects /\nGET /scorers/{scorer_id}/projects), which tracks where a scorer has run."
     ScorerScoreableNodeTypesFilter:
       properties:
         name:
@@ -36223,6 +36395,53 @@ components:
           default: "column"
       type: "object"
       title: "ScorerUpdatedAtSort"
+    ScorerVersionHealthScoreEntry:
+      properties:
+        id:
+          type: "string"
+          format: "uuid4"
+          title: "Id"
+        scorer_version_id:
+          type: "string"
+          format: "uuid4"
+          title: "Scorer Version Id"
+        scorer_version_number:
+          type: "integer"
+          title: "Scorer Version Number"
+        dataset_id:
+          type: "string"
+          format: "uuid4"
+          title: "Dataset Id"
+        health_score_type:
+          type: "string"
+          title: "Health Score Type"
+        score:
+          type: "number"
+          title: "Score"
+        secondary:
+          anyOf:
+            - additionalProperties:
+                anyOf:
+                  - type: "number"
+                  - type: "null"
+              type: "object"
+            - type: "null"
+          title: "Secondary"
+        computed_at:
+          type: "string"
+          format: "date-time"
+          title: "Computed At"
+      type: "object"
+      required:
+        - "id"
+        - "scorer_version_id"
+        - "scorer_version_number"
+        - "dataset_id"
+        - "health_score_type"
+        - "score"
+        - "secondary"
+        - "computed_at"
+      title: "ScorerVersionHealthScoreEntry"
     ScorersConfiguration:
       properties:
         latency:
@@ -36304,6 +36523,10 @@ components:
         chunk_relevance_luna:
           type: "boolean"
           title: "Chunk Relevance Luna"
+          default: false
+        completeness_luna:
+          type: "boolean"
+          title: "Completeness Luna"
           default: false
         completeness_nli:
           type: "boolean"
@@ -36448,6 +36671,11 @@ components:
           type: "boolean"
           title: "Llm Scorers"
           description: "Whether to sample only on LLM scorers."
+          default: false
+        multimodal_scorers:
+          type: "boolean"
+          title: "Multimodal Scorers"
+          description: "Whether to sample only on multimodal scorers."
           default: false
       type: "object"
       required:
@@ -36854,6 +37082,66 @@ components:
       required:
         - "input_strings"
       title: "StringData"
+    StubTraceRecord:
+      properties:
+        spans:
+          items:
+            oneOf:
+              - $ref: "#/components/schemas/ExtendedAgentSpanRecordWithChildren"
+              - $ref: "#/components/schemas/ExtendedWorkflowSpanRecordWithChildren"
+              - $ref: "#/components/schemas/ExtendedLlmSpanRecord"
+              - $ref: "#/components/schemas/ExtendedToolSpanRecordWithChildren"
+              - $ref: "#/components/schemas/ExtendedRetrieverSpanRecordWithChildren"
+              - $ref: "#/components/schemas/ExtendedControlSpanRecord"
+            discriminator:
+              propertyName: "type"
+              mapping:
+                agent: "#/components/schemas/ExtendedAgentSpanRecordWithChildren"
+                control: "#/components/schemas/ExtendedControlSpanRecord"
+                llm: "#/components/schemas/ExtendedLlmSpanRecord"
+                retriever: "#/components/schemas/ExtendedRetrieverSpanRecordWithChildren"
+                tool: "#/components/schemas/ExtendedToolSpanRecordWithChildren"
+                workflow: "#/components/schemas/ExtendedWorkflowSpanRecordWithChildren"
+          type: "array"
+          title: "Spans"
+        type:
+          type: "string"
+          const: "stub_trace"
+          title: "Type"
+          description: "Discriminator; identifies this as a synthesized placeholder, not a real trace."
+          default: "stub_trace"
+        id:
+          type: "string"
+          format: "uuid4"
+          title: "Id"
+          description: "ID of the missing trace, taken from span trace_id references."
+        project_id:
+          anyOf:
+            - type: "string"
+              format: "uuid4"
+            - type: "null"
+          title: "Project Id"
+          description: "Project ID inferred from child spans, if all agree; otherwise None."
+        run_id:
+          anyOf:
+            - type: "string"
+              format: "uuid4"
+            - type: "null"
+          title: "Run Id"
+          description: "Run ID inferred from child spans, if all agree; otherwise None."
+        session_id:
+          anyOf:
+            - type: "string"
+              format: "uuid4"
+            - type: "null"
+          title: "Session Id"
+          description: "Session ID inferred from child spans, if all agree; otherwise None."
+      additionalProperties: false
+      type: "object"
+      required:
+        - "id"
+      title: "StubTraceRecord"
+      description: "Placeholder for a trace referenced by spans but not yet ingested.\n\nSynthesized when one or more spans declare trace_id=X but no\nTraceRecord with that id exists in storage. Holds the orphan spans\ntogether so the client can render them under a single root.\n\nExtends ExtendedRecordWithChildSpans so isinstance checks work\nuniformly for both real and stub traces."
     SubscriptionConfig:
       properties:
         statuses:
@@ -36965,6 +37253,12 @@ components:
       description: "Response for synthetic dataset extension requests."
     SystemMetricInfo:
       properties:
+        aggregation_type:
+          type: "string"
+          const: "numeric"
+          title: "Aggregation Type"
+          description: "Discriminator: numeric metrics aggregated via stats/histogram"
+          default: "numeric"
         name:
           type: "string"
           title: "Name"
@@ -37103,21 +37397,10 @@ components:
     TaskType:
       type: "integer"
       enum:
-        - 0
-        - 1
-        - 2
-        - 3
-        - 4
-        - 5
-        - 6
         - 7
-        - 8
         - 9
-        - 10
-        - 11
         - 12
         - 13
-        - 14
         - 15
         - 16
         - 17
@@ -37803,6 +38086,41 @@ components:
           default: -1
       type: "object"
       title: "TraceMetadata"
+    TreeChoiceAggregate:
+      properties:
+        feedback_type:
+          type: "string"
+          const: "tree_choice"
+          title: "Feedback Type"
+          default: "tree_choice"
+        counts:
+          additionalProperties:
+            type: "integer"
+          type: "object"
+          title: "Counts"
+        unrated_count:
+          type: "integer"
+          title: "Unrated Count"
+      type: "object"
+      required:
+        - "counts"
+        - "unrated_count"
+      title: "TreeChoiceAggregate"
+    TreeChoiceRating:
+      properties:
+        feedback_type:
+          type: "string"
+          const: "tree_choice"
+          title: "Feedback Type"
+          default: "tree_choice"
+        value:
+          type: "string"
+          minLength: 1
+          title: "Value"
+      type: "object"
+      required:
+        - "value"
+      title: "TreeChoiceRating"
     UncertaintyScorer:
       properties:
         name:
@@ -37840,6 +38158,8 @@ components:
               - $ref: "#/components/schemas/DatasetDeleteRow"
               - $ref: "#/components/schemas/DatasetFilterRows"
               - $ref: "#/components/schemas/DatasetCopyRecordData"
+              - $ref: "#/components/schemas/DatasetRemoveColumn"
+              - $ref: "#/components/schemas/DatasetRenameColumn"
             discriminator:
               propertyName: "edit_type"
               mapping:
@@ -37848,6 +38168,8 @@ components:
                 delete_row: "#/components/schemas/DatasetDeleteRow"
                 filter_rows: "#/components/schemas/DatasetFilterRows"
                 prepend_row: "#/components/schemas/DatasetPrependRow"
+                remove_column: "#/components/schemas/DatasetRemoveColumn"
+                rename_column: "#/components/schemas/DatasetRenameColumn"
                 update_row: "#/components/schemas/DatasetUpdateRow"
           type: "array"
           minItems: 1
@@ -37985,6 +38307,23 @@ components:
           title: "Metric Color Picker Config"
       type: "object"
       title: "UpdateScorerRequest"
+    UpdateScorerScopeRequest:
+      properties:
+        is_global:
+          type: "boolean"
+          title: "Is Global"
+        project_ids:
+          items:
+            type: "string"
+            format: "uuid4"
+          type: "array"
+          maxItems: 1000
+          title: "Project Ids"
+      type: "object"
+      required:
+        - "is_global"
+      title: "UpdateScorerScopeRequest"
+      description: "Full-replace access scope update for a scorer (Share / manage visibility).\n\nis_global=True promotes the scorer to global (org admin only; project_ids\nmust be empty). is_global=False scopes the scorer to exactly project_ids."
     UpsertDatasetContentRequest:
       properties:
         dataset_id:
@@ -38244,6 +38583,21 @@ components:
           $ref: "#/components/schemas/ChainPollTemplate"
         scorer_configuration:
           $ref: "#/components/schemas/GeneratedScorerConfiguration"
+        normalized_input:
+          anyOf:
+            - items:
+                oneOf:
+                  - $ref: "#/components/schemas/TextContentPart"
+                  - $ref: "#/components/schemas/FileContentPart"
+                discriminator:
+                  propertyName: "type"
+                  mapping:
+                    file: "#/components/schemas/FileContentPart"
+                    text: "#/components/schemas/TextContentPart"
+              type: "array"
+            - type: "null"
+          title: "Normalized Input"
+          description: "Optional multimodal content parts. When set, replaces the text-only query/response formatting in the validation job so that file content is passed through to the LLM."
         user_prompt:
           type: "string"
           title: "User Prompt"
@@ -38391,6 +38745,21 @@ components:
           $ref: "#/components/schemas/ChainPollTemplate"
         scorer_configuration:
           $ref: "#/components/schemas/GeneratedScorerConfiguration"
+        normalized_input:
+          anyOf:
+            - items:
+                oneOf:
+                  - $ref: "#/components/schemas/TextContentPart"
+                  - $ref: "#/components/schemas/FileContentPart"
+                discriminator:
+                  propertyName: "type"
+                  mapping:
+                    file: "#/components/schemas/FileContentPart"
+                    text: "#/components/schemas/TextContentPart"
+              type: "array"
+            - type: "null"
+          title: "Normalized Input"
+          description: "Optional multimodal content parts. When set, replaces the text-only query/response formatting in the validation job so that file content is passed through to the LLM."
         user_prompt:
           type: "string"
           title: "User Prompt"
@@ -38501,6 +38870,11 @@ components:
         type:
           type: "string"
           title: "Error Type"
+        input:
+          title: "Input"
+        ctx:
+          type: "object"
+          title: "Context"
       type: "object"
       required:
         - "loc"
@@ -38906,6 +39280,33 @@ components:
           description: "Child spans."
       type: "object"
       title: "WorkflowSpan"
+    WriteHealthScoreRequest:
+      properties:
+        dataset_id:
+          type: "string"
+          format: "uuid4"
+          title: "Dataset Id"
+        health_score_type:
+          type: "string"
+          title: "Health Score Type"
+        score:
+          type: "number"
+          title: "Score"
+        secondary:
+          anyOf:
+            - additionalProperties:
+                anyOf:
+                  - type: "number"
+                  - type: "null"
+              type: "object"
+            - type: "null"
+          title: "Secondary"
+      type: "object"
+      required:
+        - "dataset_id"
+        - "health_score_type"
+        - "score"
+      title: "WriteHealthScoreRequest"
     WriterIntegration:
       properties:
         organization_id:
@@ -39175,6 +39576,8 @@ components:
         - "completeness"
         - "context_adherence"
         - "context_adherence_luna"
+        - "context_adherence_vision"
+        - "context_adherence_audio"
         - "context_relevance"
         - "context_relevance_luna"
         - "conversation_quality"
@@ -39192,6 +39595,8 @@ components:
         - "input_tone_gpt"
         - "input_toxicity"
         - "input_toxicity_luna"
+        - "input_toxicity_vision"
+        - "input_toxicity_audio"
         - "instruction_adherence"
         - "output_pii"
         - "output_pii_gpt"
@@ -39203,6 +39608,8 @@ components:
         - "output_tone_gpt"
         - "output_toxicity"
         - "output_toxicity_luna"
+        - "output_toxicity_vision"
+        - "output_toxicity_audio"
         - "prompt_injection"
         - "prompt_injection_luna"
         - "prompt_perplexity"
@@ -39259,6 +39666,7 @@ components:
         - "_context_relevance"
         - "_context_relevance_luna"
         - "_chunk_relevance_luna"
+        - "_completeness_luna"
         - "_chunk_attribution_utilization_gpt"
         - "_factuality"
         - "_groundedness"
