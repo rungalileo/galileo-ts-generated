@@ -18,7 +18,7 @@ Login Email
 import { GalileoGenerated } from "galileo-generated";
 
 const galileoGenerated = new GalileoGenerated({
-  apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  oAuth2PasswordBearer: process.env["GALILEOGENERATED_O_AUTH2_PASSWORD_BEARER"] ?? "",
 });
 
 async function run() {
@@ -44,7 +44,7 @@ import { authLoginEmailLoginPost } from "galileo-generated/funcs/authLoginEmailL
 // Use `GalileoGeneratedCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const galileoGenerated = new GalileoGeneratedCore({
-  apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  oAuth2PasswordBearer: process.env["GALILEOGENERATED_O_AUTH2_PASSWORD_BEARER"] ?? "",
 });
 
 async function run() {
@@ -94,7 +94,7 @@ Login Api Key
 import { GalileoGenerated } from "galileo-generated";
 
 const galileoGenerated = new GalileoGenerated({
-  apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  oAuth2PasswordBearer: process.env["GALILEOGENERATED_O_AUTH2_PASSWORD_BEARER"] ?? "",
 });
 
 async function run() {
@@ -119,7 +119,7 @@ import { authLoginApiKeyLoginApiKeyPost } from "galileo-generated/funcs/authLogi
 // Use `GalileoGeneratedCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const galileoGenerated = new GalileoGeneratedCore({
-  apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  oAuth2PasswordBearer: process.env["GALILEOGENERATED_O_AUTH2_PASSWORD_BEARER"] ?? "",
 });
 
 async function run() {

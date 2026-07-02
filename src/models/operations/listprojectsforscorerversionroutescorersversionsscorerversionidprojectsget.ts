@@ -11,13 +11,11 @@ export type ListProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProje
   {
     apiKeyHeader?: string | undefined;
     oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
-    httpBasic?: models.SchemeHTTPBasic | undefined;
   };
 
 export type ListProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProjectsGetRequest =
   {
     scorerVersionId: string;
-    scorerId: string;
     startingToken?: number | undefined;
     limit?: number | undefined;
   };
@@ -29,7 +27,6 @@ export type ListProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProje
     OAuth2PasswordBearer?:
       | models.OAuth2PasswordBearerInput$Outbound
       | undefined;
-    HTTPBasic?: models.SchemeHTTPBasic$Outbound | undefined;
   };
 
 /** @internal */
@@ -43,13 +40,11 @@ export const ListProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProj
       oAuth2PasswordBearer: z.optional(
         models.OAuth2PasswordBearerInput$outboundSchema,
       ),
-      httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
     }),
     z.transform((v) => {
       return remap$(v, {
         apiKeyHeader: "APIKeyHeader",
         oAuth2PasswordBearer: "OAuth2PasswordBearer",
-        httpBasic: "HTTPBasic",
       });
     }),
   );
@@ -70,7 +65,6 @@ export function listProjectsForScorerVersionRouteScorersVersionsScorerVersionIdP
 export type ListProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProjectsGetRequest$Outbound =
   {
     scorer_version_id: string;
-    scorer_id: string;
     starting_token: number;
     limit: number;
   };
@@ -83,14 +77,12 @@ export const ListProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProj
   > = z.pipe(
     z.object({
       scorerVersionId: z.string(),
-      scorerId: z.string(),
       startingToken: z._default(z.int(), 0),
       limit: z._default(z.int(), 100),
     }),
     z.transform((v) => {
       return remap$(v, {
         scorerVersionId: "scorer_version_id",
-        scorerId: "scorer_id",
         startingToken: "starting_token",
       });
     }),
