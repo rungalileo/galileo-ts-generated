@@ -47,6 +47,7 @@ async function run() {
         numJudges: 3,
         name: "context_adherence",
         regexField: "",
+        requiresToolsInLlmSpan: false,
       },
     ],
     promptScorerSettings: {
@@ -127,6 +128,7 @@ async function run() {
         numJudges: 3,
         name: "context_adherence",
         regexField: "",
+        requiresToolsInLlmSpan: false,
       },
     ],
     promptScorerSettings: {

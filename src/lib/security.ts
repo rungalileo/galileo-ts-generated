@@ -5,8 +5,8 @@
 
 import * as models from "../models/index.js";
 import { env } from "./env.js";
-import { isPlainObject } from "./is-plain-object.js";
 import { ExactPartial, invariant } from "./primitives.js";
+import { isPlainObject } from "./primitives.js";
 
 type OAuth2PasswordFlow = {
   username: string;
@@ -244,16 +244,38 @@ function applyBearer(
 
 export function resolveGlobalSecurity(
   security: Partial<models.Security> | null | undefined,
+  allowedFields?: number[],
 ): SecurityState | null {
-  return resolveSecurity(
+  let inputs: SecurityInput[][] = [
     [
       {
-        fieldName: "Galileo-API-Key",
-        type: "apiKey:header",
-        value: security?.apiKeyHeader ?? env().GALILEOGENERATED_API_KEY_HEADER,
+        fieldName: "Authorization",
+        type: "oauth2:password",
+        value: resolveOAuth2Password(security?.oAuth2PasswordBearer, {
+          defaults: {
+            token: env().GALILEOGENERATED_TOKEN,
+            clientID: env().GALILEOGENERATED_CLIENT_ID,
+            clientSecret: env().GALILEOGENERATED_CLIENT_SECRET,
+            username: env().GALILEOGENERATED_USERNAME,
+            password: env().GALILEOGENERATED_PASSWORD,
+            tokenURL: env().GALILEOGENERATED_TOKEN_URL
+              || "https://api.galileo.ai/login",
+          },
+        }),
       },
     ],
-  );
+  ];
+
+  if (allowedFields) {
+    inputs = allowedFields.map((i) => {
+      if (i < 0 || i >= inputs.length) {
+        throw new RangeError(`invalid allowedFields index ${i}`);
+      }
+      return inputs[i]!;
+    });
+  }
+
+  return resolveSecurity(...inputs);
 }
 
 export async function extractSecurity<
