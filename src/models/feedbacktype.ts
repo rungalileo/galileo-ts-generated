@@ -13,6 +13,8 @@ export const FeedbackType = {
   Score: "score",
   Tags: "tags",
   Text: "text",
+  Choice: "choice",
+  TreeChoice: "tree_choice",
 } as const;
 export type FeedbackType = OpenEnum<typeof FeedbackType>;
 
