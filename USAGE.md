@@ -3,7 +3,8 @@
 import { GalileoGenerated } from "galileo-generated";
 
 const galileoGenerated = new GalileoGenerated({
-  apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  oAuth2PasswordBearer: process.env["GALILEOGENERATED_O_AUTH2_PASSWORD_BEARER"]
+    ?? "",
 });
 
 async function run() {
