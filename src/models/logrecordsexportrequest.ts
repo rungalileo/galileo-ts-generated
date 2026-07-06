@@ -78,6 +78,10 @@ export type LogRecordsExportRequest = {
    */
   fileName?: string | null | undefined;
   /**
+   * When true, export only enabled scorer metrics with computed values (success or roll_up). For session exports, omit entire sessions unless every enabled metric at session, trace, or span level is ready (success, roll_up, or not_applicable).
+   */
+  exportComputedMetricsOnly?: boolean | undefined;
+  /**
    * Log stream id associated with the traces.
    */
   logStreamId?: string | null | undefined;
@@ -116,6 +120,10 @@ export type LogRecordsExportRequest = {
    * used throughout the platform: session, trace, and span.
    */
   rootType: RootType;
+  /**
+   * If True, include per-row scorer metadata (the dict returned alongside the score by code-based scorers via the (score, metadata) tuple-return contract) on each MetricSuccess in the export. Off by default to keep payloads small for callers that don't need it.
+   */
+  includeCodeMetricMetadata?: boolean | undefined;
 };
 
 /** @internal */
@@ -158,6 +166,7 @@ export type LogRecordsExportRequest$Outbound = {
   export_format?: string | undefined;
   redact: boolean;
   file_name?: string | null | undefined;
+  export_computed_metrics_only: boolean;
   log_stream_id?: string | null | undefined;
   experiment_id?: string | null | undefined;
   metrics_testing_id?: string | null | undefined;
@@ -174,6 +183,7 @@ export type LogRecordsExportRequest$Outbound = {
     | undefined;
   sort?: LogRecordsSortClause$Outbound | null | undefined;
   root_type: string;
+  include_code_metric_metadata: boolean;
 };
 
 /** @internal */
@@ -186,6 +196,7 @@ export const LogRecordsExportRequest$outboundSchema: z.ZodMiniType<
     exportFormat: z.optional(LLMExportFormat$outboundSchema),
     redact: z._default(z.boolean(), true),
     fileName: z.optional(z.nullable(z.string())),
+    exportComputedMetricsOnly: z._default(z.boolean(), false),
     logStreamId: z.optional(z.nullable(z.string())),
     experimentId: z.optional(z.nullable(z.string())),
     metricsTestingId: z.optional(z.nullable(z.string())),
@@ -204,16 +215,19 @@ export const LogRecordsExportRequest$outboundSchema: z.ZodMiniType<
     ),
     sort: z.optional(z.nullable(LogRecordsSortClause$outboundSchema)),
     rootType: RootType$outboundSchema,
+    includeCodeMetricMetadata: z._default(z.boolean(), false),
   }),
   z.transform((v) => {
     return remap$(v, {
       columnIds: "column_ids",
       exportFormat: "export_format",
       fileName: "file_name",
+      exportComputedMetricsOnly: "export_computed_metrics_only",
       logStreamId: "log_stream_id",
       experimentId: "experiment_id",
       metricsTestingId: "metrics_testing_id",
       rootType: "root_type",
+      includeCodeMetricMetadata: "include_code_metric_metadata",
     });
   }),
 );
