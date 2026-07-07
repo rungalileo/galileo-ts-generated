@@ -11,6 +11,7 @@ export type ComputeHealthScoreEndpointProjectsProjectIdMetricsTestingRunIdHealth
   {
     apiKeyHeader?: string | undefined;
     oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
+    httpBasic?: models.SchemeHTTPBasic | undefined;
   };
 
 export type ComputeHealthScoreEndpointProjectsProjectIdMetricsTestingRunIdHealthScorePostRequest =
@@ -27,6 +28,7 @@ export type ComputeHealthScoreEndpointProjectsProjectIdMetricsTestingRunIdHealth
     OAuth2PasswordBearer?:
       | models.OAuth2PasswordBearerInput$Outbound
       | undefined;
+    HTTPBasic?: models.SchemeHTTPBasic$Outbound | undefined;
   };
 
 /** @internal */
@@ -40,11 +42,13 @@ export const ComputeHealthScoreEndpointProjectsProjectIdMetricsTestingRunIdHealt
       oAuth2PasswordBearer: z.optional(
         models.OAuth2PasswordBearerInput$outboundSchema,
       ),
+      httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
     }),
     z.transform((v) => {
       return remap$(v, {
         apiKeyHeader: "APIKeyHeader",
         oAuth2PasswordBearer: "OAuth2PasswordBearer",
+        httpBasic: "HTTPBasic",
       });
     }),
   );

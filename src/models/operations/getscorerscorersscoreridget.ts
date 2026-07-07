@@ -15,6 +15,10 @@ export type GetScorerScorersScorerIdGetSecurity = {
 
 export type GetScorerScorersScorerIdGetRequest = {
   scorerId: string;
+  /**
+   * Actions to include in the 'permissions' field of the scorer.
+   */
+  actions?: Array<models.ScorerAction> | undefined;
 };
 
 /** @internal */
@@ -58,6 +62,7 @@ export function getScorerScorersScorerIdGetSecurityToJSON(
 /** @internal */
 export type GetScorerScorersScorerIdGetRequest$Outbound = {
   scorer_id: string;
+  actions?: Array<string> | undefined;
 };
 
 /** @internal */
@@ -67,6 +72,7 @@ export const GetScorerScorersScorerIdGetRequest$outboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     scorerId: z.string(),
+    actions: z.optional(z.array(models.ScorerAction$outboundSchema)),
   }),
   z.transform((v) => {
     return remap$(v, {

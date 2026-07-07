@@ -6,6 +6,7 @@
 import * as z from "zod/v4-mini";
 import { GalileoGeneratedCore } from "../core.js";
 import { encodeBodyForm } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -29,6 +30,8 @@ import { Result } from "../types/fp.js";
 
 /**
  * Login Email
+ *
+ * If set, this operation will use {@link Security.oAuth2PasswordBearer} from the global security.
  */
 export function authLoginEmailLoginPost(
   client: GalileoGeneratedCore,
@@ -97,19 +100,21 @@ async function $do(
     Accept: "application/json",
   }));
 
-  const secConfig = await extractSecurity(client._options.apiKeyHeader);
-  const securityInput = secConfig == null ? {} : { apiKeyHeader: secConfig };
-  const requestSecurity = resolveGlobalSecurity(securityInput);
+  const secConfig = await extractSecurity(client._options.oAuth2PasswordBearer);
+  const securityInput = secConfig == null
+    ? {}
+    : { oAuth2PasswordBearer: secConfig };
+  const requestSecurity = resolveGlobalSecurity(securityInput, [0]);
 
   const context = {
     options: client._options,
     baseURL: options?.serverURL ?? client._baseURL ?? "",
     operationID: "login_email_login_post",
-    oAuth2Scopes: null,
+    oAuth2Scopes: [],
 
     resolvedSecurity: requestSecurity,
 
-    securitySource: client._options.apiKeyHeader,
+    securitySource: client._options.oAuth2PasswordBearer,
     retryConfig: options?.retries
       || client._options.retryConfig
       || { strategy: "none" },
@@ -133,7 +138,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["422", "4XX", "5XX"],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });
