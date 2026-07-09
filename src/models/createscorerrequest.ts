@@ -58,6 +58,7 @@ export type CreateScorerRequestMetricColorPickerConfig =
 export type CreateScorerRequest = {
   name: string;
   id?: string | null | undefined;
+  label?: string | null | undefined;
   description?: string | undefined;
   tags?: Array<string> | undefined;
   defaults?: ScorerDefaults | null | undefined;
@@ -81,6 +82,8 @@ export type CreateScorerRequest = {
     | MetricColorPickerNumeric
     | null
     | undefined;
+  isGlobal?: boolean | null | undefined;
+  projectIds?: Array<string> | undefined;
 };
 
 /** @internal */
@@ -117,6 +120,7 @@ export function createScorerRequestMetricColorPickerConfigToJSON(
 export type CreateScorerRequest$Outbound = {
   name: string;
   id?: string | null | undefined;
+  label?: string | null | undefined;
   description: string;
   tags?: Array<string> | undefined;
   defaults?: ScorerDefaults$Outbound | null | undefined;
@@ -140,6 +144,8 @@ export type CreateScorerRequest$Outbound = {
     | MetricColorPickerNumeric$Outbound
     | null
     | undefined;
+  is_global?: boolean | null | undefined;
+  project_ids?: Array<string> | undefined;
 };
 
 /** @internal */
@@ -150,6 +156,7 @@ export const CreateScorerRequest$outboundSchema: z.ZodMiniType<
   z.object({
     name: z.string(),
     id: z.optional(z.nullable(z.string())),
+    label: z.optional(z.nullable(z.string())),
     description: z._default(z.string(), ""),
     tags: z.optional(z.array(z.string())),
     defaults: z.optional(z.nullable(ScorerDefaults$outboundSchema)),
@@ -180,6 +187,8 @@ export const CreateScorerRequest$outboundSchema: z.ZodMiniType<
         ]),
       ),
     ),
+    isGlobal: z.optional(z.nullable(z.boolean())),
+    projectIds: z.optional(z.array(z.string())),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -196,6 +205,8 @@ export const CreateScorerRequest$outboundSchema: z.ZodMiniType<
       requiredMetricIds: "required_metric_ids",
       rollUpMethod: "roll_up_method",
       metricColorPickerConfig: "metric_color_picker_config",
+      isGlobal: "is_global",
+      projectIds: "project_ids",
     });
   }),
 );

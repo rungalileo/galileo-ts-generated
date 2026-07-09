@@ -11,6 +11,7 @@ export type GetNamedCustomIntegrationDefinitionIntegrationsCustomNameDefinitionG
   {
     apiKeyHeader?: string | undefined;
     oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
+    httpBasic?: models.SchemeHTTPBasic | undefined;
   };
 
 export type GetNamedCustomIntegrationDefinitionIntegrationsCustomNameDefinitionGetRequest =
@@ -28,6 +29,7 @@ export type GetNamedCustomIntegrationDefinitionIntegrationsCustomNameDefinitionG
     OAuth2PasswordBearer?:
       | models.OAuth2PasswordBearerInput$Outbound
       | undefined;
+    HTTPBasic?: models.SchemeHTTPBasic$Outbound | undefined;
   };
 
 /** @internal */
@@ -41,11 +43,13 @@ export const GetNamedCustomIntegrationDefinitionIntegrationsCustomNameDefinition
       oAuth2PasswordBearer: z.optional(
         models.OAuth2PasswordBearerInput$outboundSchema,
       ),
+      httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
     }),
     z.transform((v) => {
       return remap$(v, {
         apiKeyHeader: "APIKeyHeader",
         oAuth2PasswordBearer: "OAuth2PasswordBearer",
+        httpBasic: "HTTPBasic",
       });
     }),
   );
