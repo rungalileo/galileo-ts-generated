@@ -14,6 +14,10 @@ export type ListScorersWithFiltersScorersListPostSecurity = {
 };
 
 export type ListScorersWithFiltersScorersListPostRequest = {
+  /**
+   * Actions to include in the 'permissions' field of the scorers.
+   */
+  actions?: Array<models.ScorerAction> | undefined;
   startingToken?: number | undefined;
   limit?: number | undefined;
   body: models.ListScorersRequest;
@@ -61,6 +65,7 @@ export function listScorersWithFiltersScorersListPostSecurityToJSON(
 
 /** @internal */
 export type ListScorersWithFiltersScorersListPostRequest$Outbound = {
+  actions?: Array<string> | undefined;
   starting_token: number;
   limit: number;
   body: models.ListScorersRequest$Outbound;
@@ -73,6 +78,7 @@ export const ListScorersWithFiltersScorersListPostRequest$outboundSchema:
     ListScorersWithFiltersScorersListPostRequest
   > = z.pipe(
     z.object({
+      actions: z.optional(z.array(models.ScorerAction$outboundSchema)),
       startingToken: z._default(z.int(), 0),
       limit: z._default(z.int(), 100),
       body: models.ListScorersRequest$outboundSchema,

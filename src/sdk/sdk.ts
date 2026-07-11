@@ -4,6 +4,8 @@
  */
 
 import { ClientSDK } from "../lib/sdks.js";
+import { AnnotationQueue } from "./annotationqueue.js";
+import { AnnotationQueueRecords } from "./annotationqueuerecords.js";
 import { Auth } from "./auth.js";
 import { CodeMetricGeneration } from "./codemetricgeneration.js";
 import { Data } from "./data.js";
@@ -107,6 +109,18 @@ export class GalileoGenerated extends ClientSDK {
   private _llmIntegrations?: LlmIntegrations;
   get llmIntegrations(): LlmIntegrations {
     return (this._llmIntegrations ??= new LlmIntegrations(this._options));
+  }
+
+  private _annotationQueue?: AnnotationQueue;
+  get annotationQueue(): AnnotationQueue {
+    return (this._annotationQueue ??= new AnnotationQueue(this._options));
+  }
+
+  private _annotationQueueRecords?: AnnotationQueueRecords;
+  get annotationQueueRecords(): AnnotationQueueRecords {
+    return (this._annotationQueueRecords ??= new AnnotationQueueRecords(
+      this._options,
+    ));
   }
 
   private _codeMetricGeneration?: CodeMetricGeneration;
