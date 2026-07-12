@@ -7,11 +7,10 @@
 * [createJobJobsPost](#createjobjobspost) - Create Job
 * [getJobJobsJobIdGet](#getjobjobsjobidget) - Get Job
 * [getJobsForProjectRunProjectsProjectIdRunsRunIdJobsGet](#getjobsforprojectrunprojectsprojectidrunsrunidjobsget) - Get Jobs For Project Run
-* [getLatestJobForProjectRunProjectsProjectIdRunsRunIdJobsLatestGet](#getlatestjobforprojectrunprojectsprojectidrunsrunidjobslatestget) - Get Latest Job For Project Run
 
 ## createJobJobsPost
 
-Create Job
+Create a job for a project run and enqueue it for processing.
 
 ### Example Usage
 
@@ -47,6 +46,7 @@ async function run() {
         numJudges: 3,
         name: "context_adherence",
         regexField: "",
+        requiresToolsInLlmSpan: false,
       },
     ],
     promptScorerSettings: {
@@ -127,6 +127,7 @@ async function run() {
         numJudges: 3,
         name: "context_adherence",
         regexField: "",
+        requiresToolsInLlmSpan: false,
       },
     ],
     promptScorerSettings: {
@@ -271,7 +272,7 @@ run();
 
 ## getJobsForProjectRunProjectsProjectIdRunsRunIdJobsGet
 
-Get all jobs by for a project and run.
+Get all jobs for a project and run.
 
 Returns them in order of creation from newest to oldest.
 
@@ -340,83 +341,6 @@ run();
 ### Response
 
 **Promise\<[models.JobDB[]](../../models/.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
-## getLatestJobForProjectRunProjectsProjectIdRunsRunIdJobsLatestGet
-
-Returns the most recently updated job for a run.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="get_latest_job_for_project_run_projects__project_id__runs__run_id__jobs_latest_get" method="get" path="/projects/{project_id}/runs/{run_id}/jobs/latest" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.jobs.getLatestJobForProjectRunProjectsProjectIdRunsRunIdJobsLatestGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    projectId: "<value>",
-    runId: "<value>",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { jobsGetLatestJobForProjectRunProjectsProjectIdRunsRunIdJobsLatestGet } from "galileo-generated/funcs/jobsGetLatestJobForProjectRunProjectsProjectIdRunsRunIdJobsLatestGet.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await jobsGetLatestJobForProjectRunProjectsProjectIdRunsRunIdJobsLatestGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    projectId: "<value>",
-    runId: "<value>",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("jobsGetLatestJobForProjectRunProjectsProjectIdRunsRunIdJobsLatestGet failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                                  | Type                                                                                                                                                                                       | Required                                                                                                                                                                                   | Description                                                                                                                                                                                |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                                  | [operations.GetLatestJobForProjectRunProjectsProjectIdRunsRunIdJobsLatestGetRequest](../../models/operations/getlatestjobforprojectrunprojectsprojectidrunsrunidjobslatestgetrequest.md)   | :heavy_check_mark:                                                                                                                                                                         | The request object to use for the request.                                                                                                                                                 |
-| `security`                                                                                                                                                                                 | [operations.GetLatestJobForProjectRunProjectsProjectIdRunsRunIdJobsLatestGetSecurity](../../models/operations/getlatestjobforprojectrunprojectsprojectidrunsrunidjobslatestgetsecurity.md) | :heavy_check_mark:                                                                                                                                                                         | The security requirements to use for the request.                                                                                                                                          |
-| `options`                                                                                                                                                                                  | RequestOptions                                                                                                                                                                             | :heavy_minus_sign:                                                                                                                                                                         | Used to set various options for making HTTP requests.                                                                                                                                      |
-| `options.fetchOptions`                                                                                                                                                                     | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                                    | :heavy_minus_sign:                                                                                                                                                                         | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.             |
-| `options.retries`                                                                                                                                                                          | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                              | :heavy_minus_sign:                                                                                                                                                                         | Enables retrying HTTP requests under certain failure conditions.                                                                                                                           |
-
-### Response
-
-**Promise\<[models.JobDB](../../models/jobdb.md)\>**
 
 ### Errors
 

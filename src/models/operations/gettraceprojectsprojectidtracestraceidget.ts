@@ -5,6 +5,11 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
+import { safeParse } from "../../lib/schemas.js";
+import * as discriminatedUnionTypes from "../../types/discriminatedUnion.js";
+import { discriminatedUnion } from "../../types/discriminatedUnion.js";
+import { Result as SafeParseResult } from "../../types/fp.js";
+import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
 
 export type GetTraceProjectsProjectIdTracesTraceIdGetSecurity = {
@@ -18,6 +23,14 @@ export type GetTraceProjectsProjectIdTracesTraceIdGetRequest = {
   projectId: string;
   includePresignedUrls?: boolean | undefined;
 };
+
+/**
+ * Successful Response
+ */
+export type ResponseGetTraceProjectsProjectIdTracesTraceIdGet =
+  | (models.ExtendedTraceRecordWithChildren & { type: "trace" })
+  | models.StubTraceRecord
+  | discriminatedUnionTypes.Unknown<"type">;
 
 /** @internal */
 export type GetTraceProjectsProjectIdTracesTraceIdGetSecurity$Outbound = {
@@ -94,5 +107,32 @@ export function getTraceProjectsProjectIdTracesTraceIdGetRequestToJSON(
     GetTraceProjectsProjectIdTracesTraceIdGetRequest$outboundSchema.parse(
       getTraceProjectsProjectIdTracesTraceIdGetRequest,
     ),
+  );
+}
+
+/** @internal */
+export const ResponseGetTraceProjectsProjectIdTracesTraceIdGet$inboundSchema:
+  z.ZodMiniType<ResponseGetTraceProjectsProjectIdTracesTraceIdGet, unknown> =
+    discriminatedUnion("type", {
+      trace: z.intersection(
+        models.ExtendedTraceRecordWithChildren$inboundSchema,
+        z.object({ type: z.literal("trace") }),
+      ),
+      stub_trace: models.StubTraceRecord$inboundSchema,
+    });
+
+export function responseGetTraceProjectsProjectIdTracesTraceIdGetFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  ResponseGetTraceProjectsProjectIdTracesTraceIdGet,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      ResponseGetTraceProjectsProjectIdTracesTraceIdGet$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'ResponseGetTraceProjectsProjectIdTracesTraceIdGet' from JSON`,
   );
 }

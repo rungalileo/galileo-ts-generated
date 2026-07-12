@@ -10,12 +10,14 @@ import * as models from "../index.js";
 export type DisableIntegrationIntegrationsDisablePostSecurity = {
   apiKeyHeader?: string | undefined;
   oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
+  httpBasic?: models.SchemeHTTPBasic | undefined;
 };
 
 /** @internal */
 export type DisableIntegrationIntegrationsDisablePostSecurity$Outbound = {
   APIKeyHeader?: string | undefined;
   OAuth2PasswordBearer?: models.OAuth2PasswordBearerInput$Outbound | undefined;
+  HTTPBasic?: models.SchemeHTTPBasic$Outbound | undefined;
 };
 
 /** @internal */
@@ -29,11 +31,13 @@ export const DisableIntegrationIntegrationsDisablePostSecurity$outboundSchema:
       oAuth2PasswordBearer: z.optional(
         models.OAuth2PasswordBearerInput$outboundSchema,
       ),
+      httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
     }),
     z.transform((v) => {
       return remap$(v, {
         apiKeyHeader: "APIKeyHeader",
         oAuth2PasswordBearer: "OAuth2PasswordBearer",
+        httpBasic: "HTTPBasic",
       });
     }),
   );
