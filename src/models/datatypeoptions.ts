@@ -30,10 +30,12 @@ export const DataTypeOptions = {
   ScoreRating: "score_rating",
   StarRating: "star_rating",
   TagsRating: "tags_rating",
+  ChoiceRating: "choice_rating",
   ThumbRatingAggregate: "thumb_rating_aggregate",
   ScoreRatingAggregate: "score_rating_aggregate",
   StarRatingAggregate: "star_rating_aggregate",
   TagsRatingAggregate: "tags_rating_aggregate",
+  ChoiceRatingAggregate: "choice_rating_aggregate",
 } as const;
 export type DataTypeOptions = OpenEnum<typeof DataTypeOptions>;
 
