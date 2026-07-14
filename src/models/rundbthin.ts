@@ -29,6 +29,8 @@ export type RunDBThin = {
   runTags?: Array<RunTagDB> | undefined;
   exampleContentId?: string | null | undefined;
   creator: UserDB;
+  loggedSplits?: Array<string> | undefined;
+  loggedInferenceNames?: Array<string> | undefined;
 };
 
 /** @internal */
@@ -50,6 +52,8 @@ export const RunDBThin$inboundSchema: z.ZodMiniType<RunDBThin, unknown> = z
       run_tags: types.optional(z.array(RunTagDB$inboundSchema)),
       example_content_id: z.optional(z.nullable(types.string())),
       creator: UserDB$inboundSchema,
+      logged_splits: types.optional(z.array(types.string())),
+      logged_inference_names: types.optional(z.array(types.string())),
     }),
     z.transform((v) => {
       return remap$(v, {
@@ -64,6 +68,8 @@ export const RunDBThin$inboundSchema: z.ZodMiniType<RunDBThin, unknown> = z
         "last_updated_by": "lastUpdatedBy",
         "run_tags": "runTags",
         "example_content_id": "exampleContentId",
+        "logged_splits": "loggedSplits",
+        "logged_inference_names": "loggedInferenceNames",
       });
     }),
   );
