@@ -17,7 +17,7 @@ Healthcheck
 import { GalileoGenerated } from "galileo-generated";
 
 const galileoGenerated = new GalileoGenerated({
-  apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  oAuth2PasswordBearer: process.env["GALILEOGENERATED_O_AUTH2_PASSWORD_BEARER"] ?? "",
 });
 
 async function run() {
@@ -40,7 +40,7 @@ import { healthHealthcheckHealthcheckGet } from "galileo-generated/funcs/healthH
 // Use `GalileoGeneratedCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const galileoGenerated = new GalileoGeneratedCore({
-  apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  oAuth2PasswordBearer: process.env["GALILEOGENERATED_O_AUTH2_PASSWORD_BEARER"] ?? "",
 });
 
 async function run() {
