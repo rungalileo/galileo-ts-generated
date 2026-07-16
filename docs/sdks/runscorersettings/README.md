@@ -22,7 +22,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.runScorerSettings.upsertScorersConfigProjectsProjectIdRunsRunIdScorerSettingsPatch({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     runId: "<value>",
@@ -71,7 +71,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await runScorerSettingsUpsertScorersConfigProjectsProjectIdRunsRunIdScorerSettingsPatch(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     runId: "<value>",
@@ -143,7 +143,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.runScorerSettings.upsertScorersConfigProjectsProjectIdRunsRunIdScorerSettingsPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     runId: "<value>",
@@ -195,7 +195,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await runScorerSettingsUpsertScorersConfigProjectsProjectIdRunsRunIdScorerSettingsPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     runId: "<value>",
@@ -272,7 +272,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.runScorerSettings.getSettingsProjectsProjectIdRunsRunIdScorerSettingsGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     runId: "<value>",
     projectId: "<value>",
@@ -298,7 +298,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await runScorerSettingsGetSettingsProjectsProjectIdRunsRunIdScorerSettingsGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     runId: "<value>",
     projectId: "<value>",

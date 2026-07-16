@@ -6,7 +6,6 @@
 import { jobsCreateJobJobsPost } from "../funcs/jobsCreateJobJobsPost.js";
 import { jobsGetJobJobsJobIdGet } from "../funcs/jobsGetJobJobsJobIdGet.js";
 import { jobsGetJobsForProjectRunProjectsProjectIdRunsRunIdJobsGet } from "../funcs/jobsGetJobsForProjectRunProjectsProjectIdRunsRunIdJobsGet.js";
-import { jobsGetLatestJobForProjectRunProjectsProjectIdRunsRunIdJobsLatestGet } from "../funcs/jobsGetLatestJobForProjectRunProjectsProjectIdRunsRunIdJobsLatestGet.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
 import * as models from "../models/index.js";
 import * as operations from "../models/operations/index.js";
@@ -15,6 +14,9 @@ import { unwrapAsync } from "../types/fp.js";
 export class Jobs extends ClientSDK {
   /**
    * Create Job
+   *
+   * @remarks
+   * Create a job for a project run and enqueue it for processing.
    */
   async createJobJobsPost(
     security: operations.CreateJobJobsPostSecurity,
@@ -52,7 +54,7 @@ export class Jobs extends ClientSDK {
    * Get Jobs For Project Run
    *
    * @remarks
-   * Get all jobs by for a project and run.
+   * Get all jobs for a project and run.
    *
    * Returns them in order of creation from newest to oldest.
    */
@@ -65,29 +67,6 @@ export class Jobs extends ClientSDK {
   ): Promise<Array<models.JobDB>> {
     return unwrapAsync(
       jobsGetJobsForProjectRunProjectsProjectIdRunsRunIdJobsGet(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
-   * Get Latest Job For Project Run
-   *
-   * @remarks
-   * Returns the most recently updated job for a run.
-   */
-  async getLatestJobForProjectRunProjectsProjectIdRunsRunIdJobsLatestGet(
-    security:
-      operations.GetLatestJobForProjectRunProjectsProjectIdRunsRunIdJobsLatestGetSecurity,
-    request:
-      operations.GetLatestJobForProjectRunProjectsProjectIdRunsRunIdJobsLatestGetRequest,
-    options?: RequestOptions,
-  ): Promise<models.JobDB> {
-    return unwrapAsync(
-      jobsGetLatestJobForProjectRunProjectsProjectIdRunsRunIdJobsLatestGet(
         this,
         security,
         request,

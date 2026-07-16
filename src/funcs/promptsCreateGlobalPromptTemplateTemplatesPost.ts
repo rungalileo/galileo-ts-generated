@@ -6,6 +6,7 @@
 import * as z from "zod/v4-mini";
 import { GalileoGeneratedCore } from "../core.js";
 import { encodeFormQuery, encodeJSON } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -36,10 +37,8 @@ import { Result } from "../types/fp.js";
  *
  * Parameters
  * ----------
- * ctx : Context
- *     Request context including authentication information
  * create_request : CreatePromptTemplateWithVersionRequestBody
- *     Request body containing template name and content
+ *     Request body containing template name and content.
  * principal : Principal
  *     Principal object.
  *
@@ -129,6 +128,13 @@ async function $do(
       {
         fieldName: "Galileo-API-Key",
         type: "apiKey:header",
+        value: security?.classicAPIKeyHeader,
+      },
+    ],
+    [
+      {
+        fieldName: "Splunk-AO-API-Key",
+        type: "apiKey:header",
         value: security?.apiKeyHeader,
       },
     ],
@@ -185,7 +191,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["422", "4XX", "5XX"],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });
