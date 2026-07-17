@@ -33,6 +33,7 @@ import {
   integrationsDeleteUserIntegrationCollaboratorIntegrationsIntegrationIdUsersUserIdDelete,
 } from "../funcs/integrationsDeleteUserIntegrationCollaboratorIntegrationsIntegrationIdUsersUserIdDelete.js";
 import { integrationsDisableIntegrationIntegrationsDisablePost } from "../funcs/integrationsDisableIntegrationIntegrationsDisablePost.js";
+import { integrationsGetBillingUsageBillingUsageMetricGet } from "../funcs/integrationsGetBillingUsageBillingUsageMetricGet.js";
 import { integrationsGetCustomIntegrationDefinitionIntegrationsCustomDefinitionGet } from "../funcs/integrationsGetCustomIntegrationDefinitionIntegrationsCustomDefinitionGet.js";
 import { integrationsGetDatabasesForClusterIntegrationsDatabricksDatabasesGet } from "../funcs/integrationsGetDatabasesForClusterIntegrationsDatabricksDatabasesGet.js";
 import { integrationsGetDatabricksCatalogsIntegrationsDatabricksCatalogsGet } from "../funcs/integrationsGetDatabricksCatalogsIntegrationsDatabricksCatalogsGet.js";
@@ -755,6 +756,22 @@ export class Integrations extends ClientSDK {
         options,
       ),
     );
+  }
+
+  /**
+   * Get Billing Usage
+   */
+  async getBillingUsageBillingUsageMetricGet(
+    security: operations.GetBillingUsageBillingUsageMetricGetSecurity,
+    request: operations.GetBillingUsageBillingUsageMetricGetRequest,
+    options?: RequestOptions,
+  ): Promise<models.BillingUsageResponse> {
+    return unwrapAsync(integrationsGetBillingUsageBillingUsageMetricGet(
+      this,
+      security,
+      request,
+      options,
+    ));
   }
 
   /**

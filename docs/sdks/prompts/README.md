@@ -32,31 +32,35 @@
 * [listGroupPromptTemplateCollaboratorsTemplatesTemplateIdGroupsGet](#listgroupprompttemplatecollaboratorstemplatestemplateidgroupsget) - List Group Prompt Template Collaborators
 * [updateGroupPromptTemplateCollaboratorTemplatesTemplateIdGroupsGroupIdPatch](#updategroupprompttemplatecollaboratortemplatestemplateidgroupsgroupidpatch) - Update Group Prompt Template Collaborator
 * [deleteGroupPromptTemplateCollaboratorTemplatesTemplateIdGroupsGroupIdDelete](#deletegroupprompttemplatecollaboratortemplatestemplateidgroupsgroupiddelete) - Delete Group Prompt Template Collaborator
+* [createLunaScorerVersionScorersScorerIdVersionLunaPost](#createlunascorerversionscorersscoreridversionlunapost) - Create Luna Scorer Version
+* [manualLlmValidateScorersLlmValidatePost](#manualllmvalidatescorersllmvalidatepost) - Manual Llm Validate
+* [manualLlmValidateMultipartScorersLlmValidateMultipartPost](#manualllmvalidatemultipartscorersllmvalidatemultipartpost) - Manual Llm Validate Multipart
+* [createScorersPost](#createscorerspost) - Create
+* [updateScorersScorerIdPatch](#updatescorersscoreridpatch) - Update
 * [deleteScorerScorersScorerIdDelete](#deletescorerscorersscoreriddelete) - Delete Scorer
 * [getScorerScorersScorerIdGet](#getscorerscorersscoreridget) - Get Scorer
-* [updateScorersScorerIdPatch](#updatescorersscoreridpatch) - Update
+* [createLlmScorerVersionScorersScorerIdVersionLlmPost](#createllmscorerversionscorersscoreridversionllmpost) - Create Llm Scorer Version
 * [validateCodeScorerScorersCodeValidatePost](#validatecodescorerscorerscodevalidatepost) - Validate Code Scorer
+* [validateCodeScorerLogRecordScorersCodeValidateLogRecordPost](#validatecodescorerlogrecordscorerscodevalidatelogrecordpost) - Validate Code Scorer Log Record
 * [getValidateCodeScorerTaskResultScorersCodeValidateTaskIdGet](#getvalidatecodescorertaskresultscorerscodevalidatetaskidget) - Get Validate Code Scorer Task Result
 * [createCodeScorerVersionScorersScorerIdVersionCodePost](#createcodescorerversionscorersscoreridversioncodepost) - Create Code Scorer Version
 * [getScorerVersionCodeScorersScorerIdVersionCodeGet](#getscorerversioncodescorersscoreridversioncodeget) - Get Scorer Version Code
 * [createPresetScorerVersionScorersScorerIdVersionPresetPost](#createpresetscorerversionscorersscoreridversionpresetpost) - Create Preset Scorer Version
-* [createLunaScorerVersionScorersScorerIdVersionLunaPost](#createlunascorerversionscorersscoreridversionlunapost) - Create Luna Scorer Version
 * [listScorersWithFiltersScorersListPost](#listscorerswithfiltersscorerslistpost) - List Scorers With Filters
 * [listTagsScorersTagsGet](#listtagsscorerstagsget) - List Tags
 * [getScorerVersionOrLatestScorersScorerIdVersionGet](#getscorerversionorlatestscorersscoreridversionget) - Get Scorer Version Or Latest
 * [listAllVersionsForScorerScorersScorerIdVersionsGet](#listallversionsforscorerscorersscoreridversionsget) - List All Versions For Scorer
+* [setScorerScopeScorersScorerIdScopePut](#setscorerscopescorersscoreridscopeput) - Set Scorer Scope
 * [listProjectsForScorerRouteScorersScorerIdProjectsGet](#listprojectsforscorerroutescorersscoreridprojectsget) - List Projects For Scorer Route
 * [listProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProjectsGet](#listprojectsforscorerversionroutescorersversionsscorerversionidprojectsget) - List Projects For Scorer Version Route
 * [restoreScorerVersionScorersScorerIdVersionsVersionNumberRestorePost](#restorescorerversionscorersscoreridversionsversionnumberrestorepost) - Restore Scorer Version
 * [autogenLlmScorerScorersLlmAutogenPost](#autogenllmscorerscorersllmautogenpost) - Autogen Llm Scorer
-* [manualLlmValidateScorersLlmValidatePost](#manualllmvalidatescorersllmvalidatepost) - Manual Llm Validate
-* [createScorersPost](#createscorerspost) - Create
-* [createLlmScorerVersionScorersScorerIdVersionLlmPost](#createllmscorerversionscorersscoreridversionllmpost) - Create Llm Scorer Version
-* [validateCodeScorerLogRecordScorersCodeValidateLogRecordPost](#validatecodescorerlogrecordscorerscodevalidatelogrecordpost) - Validate Code Scorer Log Record
 * [validateLlmScorerLogRecordScorersLlmValidateLogRecordPost](#validatellmscorerlogrecordscorersllmvalidatelogrecordpost) - Validate Llm Scorer Log Record
 * [validateLlmScorerDatasetScorersLlmValidateDatasetPost](#validatellmscorerdatasetscorersllmvalidatedatasetpost) - Validate Llm Scorer Dataset
 * [validateCodeScorerDatasetScorersCodeValidateDatasetPost](#validatecodescorerdatasetscorerscodevalidatedatasetpost) - Validate Code Scorer Dataset
 * [computeHealthScoreEndpointProjectsProjectIdMetricsTestingRunIdHealthScorePost](#computehealthscoreendpointprojectsprojectidmetricstestingrunidhealthscorepost) - Compute Health Score Endpoint
+* [getScorerHealthScoresScorersScorerIdHealthScoresGet](#getscorerhealthscoresscorersscoreridhealthscoresget) - Get Scorer Health Scores
+* [writeScorerVersionHealthScoreScorersScorerIdVersionsVersionNumberHealthScoresPost](#writescorerversionhealthscorescorersscoreridversionsversionnumberhealthscorespost) - Write Scorer Version Health Score
 
 ## createPromptTemplateWithVersionProjectsProjectIdTemplatesPost
 
@@ -74,8 +78,6 @@ create_request : CreatePromptTemplateWithVersionRequestBody, optional
         examples=
         [BasePromptTemplateVersion.test_data() | BasePromptTemplate.test_data()],
     )
-db_read : Session, optional
-    Session object to execute DB reads, by default Depends(get_db_read)
 
 Returns
 -------
@@ -92,7 +94,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.createPromptTemplateWithVersionProjectsProjectIdTemplatesPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -121,7 +123,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsCreatePromptTemplateWithVersionProjectsProjectIdTemplatesPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -169,12 +171,10 @@ Parameters
 ----------
 project_id : UUID4
     Project ID.
-ctx : Context, optional
-    User context with database session, by default Depends(get_user_context)
 
 Returns
 -------
-List[GetTemplateResponse]
+List[BasePromptTemplateResponse]
     List of prompt template responses.
 
 ### Example Usage
@@ -187,7 +187,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.getProjectTemplatesProjectsProjectIdTemplatesGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
   });
@@ -212,7 +212,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsGetProjectTemplatesProjectsProjectIdTemplatesGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
   });
@@ -255,18 +255,15 @@ Get a prompt template from a project.
 Parameters
 ----------
 project_id : UUID4
-    Prokect ID.
+    Project ID.
 template_name : str
     Prompt template name.
 version : Optional[int]
     Version number to fetch. defaults to selected version.
-ctx : Context, optional
-    User context with database session, by default Depends(get_user_context).
-
 
 Returns
 -------
-GetTemplateResponse
+BasePromptTemplateVersionResponse
     Prompt template response.
 
 ### Example Usage
@@ -279,7 +276,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.getTemplateVersionByNameProjectsProjectIdTemplatesVersionsGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     templateName: "<value>",
@@ -305,7 +302,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsGetTemplateVersionByNameProjectsProjectIdTemplatesVersionsGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     templateName: "<value>",
@@ -352,12 +349,10 @@ template_id : UUID4
     Prompt template ID.
 project_id : UUID4
     Project ID.
-ctx : Context, optional
-    User context with database session, by default Depends(get_user_context).
 
 Returns
 -------
-GetTemplateResponse
+BasePromptTemplateResponse
     Prompt template response.
 
 > :warning: **DEPRECATED**: This will be removed in a future release, please migrate away from it as soon as possible.
@@ -372,7 +367,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.getTemplateFromProjectProjectsProjectIdTemplatesTemplateIdGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
     projectId: "<value>",
@@ -398,7 +393,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsGetTemplateFromProjectProjectsProjectIdTemplatesTemplateIdGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
     projectId: "<value>",
@@ -451,7 +446,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.deleteTemplateProjectsProjectIdTemplatesTemplateIdDelete({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
     projectId: "<value>",
@@ -477,7 +472,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsDeleteTemplateProjectsProjectIdTemplatesTemplateIdDelete(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
     projectId: "<value>",
@@ -524,12 +519,8 @@ project_id : UUID4
     Project ID.
 template_id : UUID4
     Prompt template ID.
-body : dict, optional
-    Body of the request, by default Body( ...,
-        examples=[CreatePromptTemplateVersionRequest.test_data()],
-    )
-db_read : Session, optional
-    Database session, by default Depends(get_db_read)
+base_prompt_template_version : BasePromptTemplateVersion
+    Version details to create.
 
 Returns
 -------
@@ -548,7 +539,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.createPromptTemplateVersionProjectsProjectIdTemplatesTemplateIdVersionsPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     templateId: "<value>",
@@ -584,7 +575,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsCreatePromptTemplateVersionProjectsProjectIdTemplatesTemplateIdVersionsPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     templateId: "<value>",
@@ -636,11 +627,9 @@ Query prompt templates the user has access to.
 Parameters
 ----------
 params : ListPromptTemplateParams
-    Query parameters for filtering and sorting
+    Query parameters for filtering and sorting.
 pagination : PaginationRequestMixin
-    Pagination parameters
-ctx : Context
-    User context containing database session and user information
+    Pagination parameters.
 
 Returns
 -------
@@ -657,7 +646,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.queryTemplatesTemplatesQueryPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {});
 
   console.log(result);
@@ -680,7 +669,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsQueryTemplatesTemplatesQueryPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {});
   if (res.ok) {
     const { value: result } = res;
@@ -720,19 +709,15 @@ Query versions of a specific prompt template.
 
 Parameters
 ----------
-template_id : UUID4
-    ID of the template to query versions for
 params : ListPromptTemplateVersionParams
-    Query parameters for filtering and sorting
+    Query parameters for filtering and sorting.
 pagination : PaginationRequestMixin
-    Pagination parameters
-ctx : Context
-    User context containing database session and user information
+    Pagination parameters.
 
 Returns
 -------
 ListPromptTemplateVersionResponse
-    Paginated list of template version responses
+    Paginated list of template version responses.
 
 ### Example Usage
 
@@ -744,7 +729,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.queryTemplateVersionsTemplatesTemplateIdVersionsQueryPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
   });
@@ -769,7 +754,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsQueryTemplateVersionsTemplatesTemplateIdVersionsQueryPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
   });
@@ -815,8 +800,6 @@ template_id : UUID4
     Template ID.
 version : int
     Version number to fetch.
-ctx : Context, optional
-    User context with database session, by default Depends(get_user_context)
 
 Returns
 -------
@@ -835,7 +818,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.getTemplateVersionProjectsProjectIdTemplatesTemplateIdVersionsVersionGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
     version: 865969,
@@ -862,7 +845,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsGetTemplateVersionProjectsProjectIdTemplatesTemplateIdVersionsVersionGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
     version: 865969,
@@ -916,7 +899,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.setSelectedTemplateVersionProjectsProjectIdTemplatesTemplateIdVersionsVersionPut({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     templateId: "<value>",
@@ -945,7 +928,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsSetSelectedTemplateVersionProjectsProjectIdTemplatesTemplateIdVersionsVersionPut(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     templateId: "<value>",
@@ -997,7 +980,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.renderTemplateRenderTemplatePost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     body: {
       template: "<value>",
@@ -1027,7 +1010,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsRenderTemplateRenderTemplatePost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     body: {
       template: "<value>",
@@ -1082,7 +1065,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.generateTemplateInputStubInputStubPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templates: [
       "<value 1>",
@@ -1110,7 +1093,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsGenerateTemplateInputStubInputStubPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templates: [
       "<value 1>",
@@ -1155,10 +1138,8 @@ Create a global prompt template.
 
 Parameters
 ----------
-ctx : Context
-    Request context including authentication information
 create_request : CreatePromptTemplateWithVersionRequestBody
-    Request body containing template name and content
+    Request body containing template name and content.
 principal : Principal
     Principal object.
 
@@ -1177,7 +1158,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.createGlobalPromptTemplateTemplatesPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     body: {
       template: "<value>",
@@ -1208,7 +1189,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsCreateGlobalPromptTemplateTemplatesPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     body: {
       template: "<value>",
@@ -1255,23 +1236,18 @@ run();
 Delete multiple global prompt templates in bulk.
 
 This endpoint allows efficient deletion of multiple global prompt templates at once.
-It validates permissions for each template in the service and provides detailed feedback about
-successful and failed deletions for each template.
+It validates permissions for each template in the service and provides detailed
+feedback about successful and failed deletions for each template.
 
 Parameters
 ----------
 delete_request : BulkDeletePromptTemplatesRequest
-    Request containing list of template IDs to delete (max 100)
-ctx : Context
-    Request context including authentication information
+    Request containing list of template IDs to delete (max 100).
 
 Returns
 -------
 BulkDeletePromptTemplatesResponse
-    Details about the bulk deletion operation including:
-    - Number of successfully deleted templates
-    - List of failed deletions with reasons
-    - Summary message
+    Details about the bulk deletion operation including deleted count and failures.
 
 ### Example Usage
 
@@ -1283,7 +1259,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.bulkDeleteGlobalTemplatesTemplatesBulkDeleteDelete({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateIds: [],
   });
@@ -1308,7 +1284,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsBulkDeleteGlobalTemplatesTemplatesBulkDeleteDelete(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateIds: [],
   });
@@ -1352,15 +1328,13 @@ Parameters
 ----------
 template_id : UUID4
     Prompt template id.
-ctx : Context
-    Request context including authentication information
 principal : Principal
     Principal object.
 
 Returns
 -------
 BasePromptTemplateResponse
-    Details about the created prompt template.
+    Details about the prompt template.
 
 ### Example Usage
 
@@ -1372,7 +1346,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.getGlobalTemplateTemplatesTemplateIdGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
   });
@@ -1397,7 +1371,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsGetGlobalTemplateTemplatesTemplateIdGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
   });
@@ -1445,8 +1419,6 @@ template : PromptTemplate
     Prompt template to update.
 principal : Principal
     Principal object.
-ctx : Context
-    Request context including authentication information.
 
 Returns
 -------
@@ -1463,7 +1435,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.updateGlobalTemplateTemplatesTemplateIdPatch({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
     body: {},
@@ -1489,7 +1461,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsUpdateGlobalTemplateTemplatesTemplateIdPatch(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
     body: {},
@@ -1534,8 +1506,6 @@ Parameters
 ----------
 template_id : UUID4
     Prompt template id.
-ctx : Context
-    Request context including authentication information
 
 Returns
 -------
@@ -1552,7 +1522,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.deleteGlobalTemplateTemplatesTemplateIdDelete({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
   });
@@ -1577,7 +1547,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsDeleteGlobalTemplateTemplatesTemplateIdDelete(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
   });
@@ -1621,10 +1591,8 @@ Parameters
 ----------
 template_id : UUID4
     Prompt template ID.
-ctx : Context
-    Request context including authentication information
 base_prompt_template_version : BasePromptTemplateVersion
-    Version details to create
+    Version details to create.
 
 Returns
 -------
@@ -1641,7 +1609,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.createGlobalPromptTemplateVersionTemplatesTemplateIdVersionsPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
     body: {
@@ -1674,7 +1642,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsCreateGlobalPromptTemplateVersionTemplatesTemplateIdVersionsPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
     body: {
@@ -1728,8 +1696,6 @@ template_id : UUID4
     Prompt template id.
 version : int
     Version number.
-ctx : Context
-    Request context including authentication information
 
 Returns
 -------
@@ -1746,7 +1712,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.getGlobalTemplateVersionTemplatesTemplateIdVersionsVersionGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
     version: 139301,
@@ -1772,7 +1738,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsGetGlobalTemplateVersionTemplatesTemplateIdVersionsVersionGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
     version: 139301,
@@ -1819,8 +1785,6 @@ template_id : UUID4
     Prompt template id.
 version : int
     Version number.
-ctx : Context
-    Request context including authentication information
 
 Returns
 -------
@@ -1837,7 +1801,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.setSelectedGlobalTemplateVersionTemplatesTemplateIdVersionsVersionPut({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
     version: 239630,
@@ -1863,7 +1827,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsSetSelectedGlobalTemplateVersionTemplatesTemplateIdVersionsVersionPut(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
     version: 239630,
@@ -1914,7 +1878,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.createUserPromptTemplateCollaboratorsTemplatesTemplateIdUsersPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
     body: [
@@ -1944,7 +1908,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsCreateUserPromptTemplateCollaboratorsTemplatesTemplateIdUsersPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
     body: [
@@ -1999,7 +1963,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.listUserPromptTemplateCollaboratorsTemplatesTemplateIdUsersGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
   });
@@ -2024,7 +1988,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsListUserPromptTemplateCollaboratorsTemplatesTemplateIdUsersGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
   });
@@ -2074,7 +2038,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.updateUserPromptTemplateCollaboratorTemplatesTemplateIdUsersUserIdPatch({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
     userId: "<value>",
@@ -2103,7 +2067,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsUpdateUserPromptTemplateCollaboratorTemplatesTemplateIdUsersUserIdPatch(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
     userId: "<value>",
@@ -2157,7 +2121,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.deleteUserPromptTemplateCollaboratorTemplatesTemplateIdUsersUserIdDelete({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
     userId: "<value>",
@@ -2183,7 +2147,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsDeleteUserPromptTemplateCollaboratorTemplatesTemplateIdUsersUserIdDelete(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
     userId: "<value>",
@@ -2234,7 +2198,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.createGroupPromptTemplateCollaboratorsTemplatesTemplateIdGroupsPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
     body: [],
@@ -2260,7 +2224,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsCreateGroupPromptTemplateCollaboratorsTemplatesTemplateIdGroupsPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
     body: [],
@@ -2311,7 +2275,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.listGroupPromptTemplateCollaboratorsTemplatesTemplateIdGroupsGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
   });
@@ -2336,7 +2300,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsListGroupPromptTemplateCollaboratorsTemplatesTemplateIdGroupsGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
   });
@@ -2386,7 +2350,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.updateGroupPromptTemplateCollaboratorTemplatesTemplateIdGroupsGroupIdPatch({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
     groupId: "<value>",
@@ -2417,7 +2381,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsUpdateGroupPromptTemplateCollaboratorTemplatesTemplateIdGroupsGroupIdPatch(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
     groupId: "<value>",
@@ -2471,7 +2435,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.deleteGroupPromptTemplateCollaboratorTemplatesTemplateIdGroupsGroupIdDelete({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
     groupId: "<value>",
@@ -2499,7 +2463,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsDeleteGroupPromptTemplateCollaboratorTemplatesTemplateIdGroupsGroupIdDelete(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     templateId: "<value>",
     groupId: "<value>",
@@ -2536,6 +2500,427 @@ run();
 | errors.HTTPValidationError          | 422                                 | application/json                    |
 | errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
 
+## createLunaScorerVersionScorersScorerIdVersionLunaPost
+
+Create Luna Scorer Version
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="create_luna_scorer_version_scorers__scorer_id__version_luna_post" method="post" path="/scorers/{scorer_id}/version/luna" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.prompts.createLunaScorerVersionScorersScorerIdVersionLunaPost({
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
+  }, {
+    scorerId: "<value>",
+    body: {
+      loraTaskId: 603023,
+      prompt: "<value>",
+    },
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { promptsCreateLunaScorerVersionScorersScorerIdVersionLunaPost } from "galileo-generated/funcs/promptsCreateLunaScorerVersionScorersScorerIdVersionLunaPost.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await promptsCreateLunaScorerVersionScorersScorerIdVersionLunaPost(galileoGenerated, {
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
+  }, {
+    scorerId: "<value>",
+    body: {
+      loraTaskId: 603023,
+      prompt: "<value>",
+    },
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("promptsCreateLunaScorerVersionScorersScorerIdVersionLunaPost failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.CreateLunaScorerVersionScorersScorerIdVersionLunaPostRequest](../../models/operations/createlunascorerversionscorersscoreridversionlunapostrequest.md)             | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `security`                                                                                                                                                                     | [operations.CreateLunaScorerVersionScorersScorerIdVersionLunaPostSecurity](../../models/operations/createlunascorerversionscorersscoreridversionlunapostsecurity.md)           | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[models.BaseScorerVersionResponse](../../models/basescorerversionresponse.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
+## manualLlmValidateScorersLlmValidatePost
+
+Manual Llm Validate
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="manual_llm_validate_scorers_llm_validate_post" method="post" path="/scorers/llm/validate" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.prompts.manualLlmValidateScorersLlmValidatePost({
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { promptsManualLlmValidateScorersLlmValidatePost } from "galileo-generated/funcs/promptsManualLlmValidateScorersLlmValidatePost.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await promptsManualLlmValidateScorersLlmValidatePost(galileoGenerated, {
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("promptsManualLlmValidateScorersLlmValidatePost failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `security`                                                                                                                                                                     | [operations.ManualLlmValidateScorersLlmValidatePostSecurity](../../models/operations/manualllmvalidatescorersllmvalidatepostsecurity.md)                                       | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[models.GeneratedScorerValidationResponse](../../models/generatedscorervalidationresponse.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
+## manualLlmValidateMultipartScorersLlmValidateMultipartPost
+
+Manual Llm Validate Multipart
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="manual_llm_validate_multipart_scorers_llm_validate_multipart_post" method="post" path="/scorers/llm/validate/multipart" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.prompts.manualLlmValidateMultipartScorersLlmValidateMultipartPost({
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
+  }, {
+    body: "<value>",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { promptsManualLlmValidateMultipartScorersLlmValidateMultipartPost } from "galileo-generated/funcs/promptsManualLlmValidateMultipartScorersLlmValidateMultipartPost.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await promptsManualLlmValidateMultipartScorersLlmValidateMultipartPost(galileoGenerated, {
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
+  }, {
+    body: "<value>",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("promptsManualLlmValidateMultipartScorersLlmValidateMultipartPost failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [models.BodyManualLlmValidateMultipartScorersLlmValidateMultipartPost](../../models/bodymanualllmvalidatemultipartscorersllmvalidatemultipartpost.md)                          | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `security`                                                                                                                                                                     | [operations.ManualLlmValidateMultipartScorersLlmValidateMultipartPostSecurity](../../models/operations/manualllmvalidatemultipartscorersllmvalidatemultipartpostsecurity.md)   | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[models.GeneratedScorerValidationResponse](../../models/generatedscorervalidationresponse.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
+## createScorersPost
+
+Create
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="create_scorers_post" method="post" path="/scorers" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.prompts.createScorersPost({
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
+  }, {
+    name: "<value>",
+    defaults: {
+      filters: [
+        {
+          name: "metadata",
+          operator: "one_of",
+          key: "<key>",
+          value: "<value>",
+        },
+      ],
+    },
+    scorerType: "preset",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { promptsCreateScorersPost } from "galileo-generated/funcs/promptsCreateScorersPost.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await promptsCreateScorersPost(galileoGenerated, {
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
+  }, {
+    name: "<value>",
+    defaults: {
+      filters: [
+        {
+          name: "metadata",
+          operator: "one_of",
+          key: "<key>",
+          value: "<value>",
+        },
+      ],
+    },
+    scorerType: "preset",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("promptsCreateScorersPost failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [models.CreateScorerRequest](../../models/createscorerrequest.md)                                                                                                              | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `security`                                                                                                                                                                     | [operations.CreateScorersPostSecurity](../../models/operations/createscorerspostsecurity.md)                                                                                   | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[models.ScorerResponse](../../models/scorerresponse.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
+## updateScorersScorerIdPatch
+
+Update
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="update_scorers__scorer_id__patch" method="patch" path="/scorers/{scorer_id}" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.prompts.updateScorersScorerIdPatch({
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
+  }, {
+    scorerId: "<value>",
+    body: {
+      defaults: {
+        filters: [
+          {
+            name: "modality",
+            operator: "ne",
+            value: "ENUM_VALUE",
+          },
+        ],
+      },
+    },
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { promptsUpdateScorersScorerIdPatch } from "galileo-generated/funcs/promptsUpdateScorersScorerIdPatch.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await promptsUpdateScorersScorerIdPatch(galileoGenerated, {
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
+  }, {
+    scorerId: "<value>",
+    body: {
+      defaults: {
+        filters: [
+          {
+            name: "modality",
+            operator: "ne",
+            value: "ENUM_VALUE",
+          },
+        ],
+      },
+    },
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("promptsUpdateScorersScorerIdPatch failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.UpdateScorersScorerIdPatchRequest](../../models/operations/updatescorersscoreridpatchrequest.md)                                                                   | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `security`                                                                                                                                                                     | [operations.UpdateScorersScorerIdPatchSecurity](../../models/operations/updatescorersscoreridpatchsecurity.md)                                                                 | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[models.ScorerResponse](../../models/scorerresponse.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
 ## deleteScorerScorersScorerIdDelete
 
 Delete Scorer
@@ -2550,7 +2935,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.deleteScorerScorersScorerIdDelete({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     scorerId: "<value>",
   });
@@ -2575,7 +2960,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsDeleteScorerScorersScorerIdDelete(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     scorerId: "<value>",
   });
@@ -2625,7 +3010,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.getScorerScorersScorerIdGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     scorerId: "<value>",
   });
@@ -2650,7 +3035,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsGetScorerScorersScorerIdGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     scorerId: "<value>",
   });
@@ -2686,34 +3071,24 @@ run();
 | errors.HTTPValidationError          | 422                                 | application/json                    |
 | errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
 
-## updateScorersScorerIdPatch
+## createLlmScorerVersionScorersScorerIdVersionLlmPost
 
-Update
+Create Llm Scorer Version
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="update_scorers__scorer_id__patch" method="patch" path="/scorers/{scorer_id}" -->
+<!-- UsageSnippet language="typescript" operationID="create_llm_scorer_version_scorers__scorer_id__version_llm_post" method="post" path="/scorers/{scorer_id}/version/llm" -->
 ```typescript
 import { GalileoGenerated } from "galileo-generated";
 
 const galileoGenerated = new GalileoGenerated();
 
 async function run() {
-  const result = await galileoGenerated.prompts.updateScorersScorerIdPatch({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  const result = await galileoGenerated.prompts.createLlmScorerVersionScorersScorerIdVersionLlmPost({
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     scorerId: "<value>",
-    body: {
-      defaults: {
-        filters: [
-          {
-            name: "modality",
-            operator: "ne",
-            value: "ENUM_VALUE",
-          },
-        ],
-      },
-    },
+    body: {},
   });
 
   console.log(result);
@@ -2728,34 +3103,24 @@ The standalone function version of this method:
 
 ```typescript
 import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { promptsUpdateScorersScorerIdPatch } from "galileo-generated/funcs/promptsUpdateScorersScorerIdPatch.js";
+import { promptsCreateLlmScorerVersionScorersScorerIdVersionLlmPost } from "galileo-generated/funcs/promptsCreateLlmScorerVersionScorersScorerIdVersionLlmPost.js";
 
 // Use `GalileoGeneratedCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
-  const res = await promptsUpdateScorersScorerIdPatch(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  const res = await promptsCreateLlmScorerVersionScorersScorerIdVersionLlmPost(galileoGenerated, {
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     scorerId: "<value>",
-    body: {
-      defaults: {
-        filters: [
-          {
-            name: "modality",
-            operator: "ne",
-            value: "ENUM_VALUE",
-          },
-        ],
-      },
-    },
+    body: {},
   });
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("promptsUpdateScorersScorerIdPatch failed:", res.error);
+    console.log("promptsCreateLlmScorerVersionScorersScorerIdVersionLlmPost failed:", res.error);
   }
 }
 
@@ -2766,15 +3131,15 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.UpdateScorersScorerIdPatchRequest](../../models/operations/updatescorersscoreridpatchrequest.md)                                                                   | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `security`                                                                                                                                                                     | [operations.UpdateScorersScorerIdPatchSecurity](../../models/operations/updatescorersscoreridpatchsecurity.md)                                                                 | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `request`                                                                                                                                                                      | [operations.CreateLlmScorerVersionScorersScorerIdVersionLlmPostRequest](../../models/operations/createllmscorerversionscorersscoreridversionllmpostrequest.md)                 | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `security`                                                                                                                                                                     | [operations.CreateLlmScorerVersionScorersScorerIdVersionLlmPostSecurity](../../models/operations/createllmscorerversionscorersscoreridversionllmpostsecurity.md)               | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[models.ScorerResponse](../../models/scorerresponse.md)\>**
+**Promise\<[models.BaseScorerVersionResponse](../../models/basescorerversionresponse.md)\>**
 
 ### Errors
 
@@ -2792,15 +3157,14 @@ Validate a code scorer with optional simple input/output test.
 <!-- UsageSnippet language="typescript" operationID="validate_code_scorer_scorers_code_validate_post" method="post" path="/scorers/code/validate" -->
 ```typescript
 import { GalileoGenerated } from "galileo-generated";
-import { openAsBlob } from "node:fs";
 
 const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.validateCodeScorerScorersCodeValidatePost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
-    file: await openAsBlob("example.file"),
+    file: "" // Populate with string from file, for example example.file,
   });
 
   console.log(result);
@@ -2816,7 +3180,6 @@ The standalone function version of this method:
 ```typescript
 import { GalileoGeneratedCore } from "galileo-generated/core.js";
 import { promptsValidateCodeScorerScorersCodeValidatePost } from "galileo-generated/funcs/promptsValidateCodeScorerScorersCodeValidatePost.js";
-import { openAsBlob } from "node:fs";
 
 // Use `GalileoGeneratedCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -2824,9 +3187,9 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsValidateCodeScorerScorersCodeValidatePost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
-    file: await openAsBlob("example.file"),
+    file: "" // Populate with string from file, for example example.file,
   });
   if (res.ok) {
     const { value: result } = res;
@@ -2860,6 +3223,81 @@ run();
 | errors.HTTPValidationError          | 422                                 | application/json                    |
 | errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
 
+## validateCodeScorerLogRecordScorersCodeValidateLogRecordPost
+
+Validate a code scorer using actual log records.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="validate_code_scorer_log_record_scorers_code_validate_log_record_post" method="post" path="/scorers/code/validate/log_record" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.prompts.validateCodeScorerLogRecordScorersCodeValidateLogRecordPost({
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
+  }, {
+    file: "" // Populate with string from file, for example example.file,
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { promptsValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost } from "galileo-generated/funcs/promptsValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await promptsValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost(galileoGenerated, {
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
+  }, {
+    file: "" // Populate with string from file, for example example.file,
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("promptsValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                        | Type                                                                                                                                                                             | Required                                                                                                                                                                         | Description                                                                                                                                                                      |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `request`                                                                                                                                                                        | [models.BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost](../../models/bodyvalidatecodescorerlogrecordscorerscodevalidatelogrecordpost.md)                        | :heavy_check_mark:                                                                                                                                                               | The request object to use for the request.                                                                                                                                       |
+| `security`                                                                                                                                                                       | [operations.ValidateCodeScorerLogRecordScorersCodeValidateLogRecordPostSecurity](../../models/operations/validatecodescorerlogrecordscorerscodevalidatelogrecordpostsecurity.md) | :heavy_check_mark:                                                                                                                                                               | The security requirements to use for the request.                                                                                                                                |
+| `options`                                                                                                                                                                        | RequestOptions                                                                                                                                                                   | :heavy_minus_sign:                                                                                                                                                               | Used to set various options for making HTTP requests.                                                                                                                            |
+| `options.fetchOptions`                                                                                                                                                           | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                          | :heavy_minus_sign:                                                                                                                                                               | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.   |
+| `options.retries`                                                                                                                                                                | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                               | Enables retrying HTTP requests under certain failure conditions.                                                                                                                 |
+
+### Response
+
+**Promise\<[models.ValidateScorerLogRecordResponse](../../models/validatescorerlogrecordresponse.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
 ## getValidateCodeScorerTaskResultScorersCodeValidateTaskIdGet
 
 Poll for a code-scorer validation task result (returns status/result).
@@ -2878,7 +3316,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.getValidateCodeScorerTaskResultScorersCodeValidateTaskIdGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     taskId: "<value>",
   });
@@ -2903,7 +3341,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsGetValidateCodeScorerTaskResultScorersCodeValidateTaskIdGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     taskId: "<value>",
   });
@@ -2948,17 +3386,17 @@ Create Code Scorer Version
 <!-- UsageSnippet language="typescript" operationID="create_code_scorer_version_scorers__scorer_id__version_code_post" method="post" path="/scorers/{scorer_id}/version/code" -->
 ```typescript
 import { GalileoGenerated } from "galileo-generated";
-import { openAsBlob } from "node:fs";
 
 const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.createCodeScorerVersionScorersScorerIdVersionCodePost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     scorerId: "<value>",
     body: {
-      file: await openAsBlob("example.file"),
+      file: "" // Populate with string from file, for example example.file,
+      validationResult: "<value>",
     },
   });
 
@@ -2975,7 +3413,6 @@ The standalone function version of this method:
 ```typescript
 import { GalileoGeneratedCore } from "galileo-generated/core.js";
 import { promptsCreateCodeScorerVersionScorersScorerIdVersionCodePost } from "galileo-generated/funcs/promptsCreateCodeScorerVersionScorersScorerIdVersionCodePost.js";
-import { openAsBlob } from "node:fs";
 
 // Use `GalileoGeneratedCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -2983,11 +3420,12 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsCreateCodeScorerVersionScorersScorerIdVersionCodePost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     scorerId: "<value>",
     body: {
-      file: await openAsBlob("example.file"),
+      file: "" // Populate with string from file, for example example.file,
+      validationResult: "<value>",
     },
   });
   if (res.ok) {
@@ -3036,7 +3474,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.getScorerVersionCodeScorersScorerIdVersionCodeGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     scorerId: "<value>",
   });
@@ -3061,7 +3499,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsGetScorerVersionCodeScorersScorerIdVersionCodeGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     scorerId: "<value>",
   });
@@ -3111,7 +3549,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.createPresetScorerVersionScorersScorerIdVersionPresetPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     scorerId: "<value>",
     body: {},
@@ -3137,7 +3575,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsCreatePresetScorerVersionScorersScorerIdVersionPresetPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     scorerId: "<value>",
     body: {},
@@ -3174,89 +3612,6 @@ run();
 | errors.HTTPValidationError          | 422                                 | application/json                    |
 | errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
 
-## createLunaScorerVersionScorersScorerIdVersionLunaPost
-
-Create Luna Scorer Version
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="create_luna_scorer_version_scorers__scorer_id__version_luna_post" method="post" path="/scorers/{scorer_id}/version/luna" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.prompts.createLunaScorerVersionScorersScorerIdVersionLunaPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    scorerId: "<value>",
-    body: {
-      loraTaskId: 603023,
-      prompt: "<value>",
-    },
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { promptsCreateLunaScorerVersionScorersScorerIdVersionLunaPost } from "galileo-generated/funcs/promptsCreateLunaScorerVersionScorersScorerIdVersionLunaPost.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await promptsCreateLunaScorerVersionScorersScorerIdVersionLunaPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    scorerId: "<value>",
-    body: {
-      loraTaskId: 603023,
-      prompt: "<value>",
-    },
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("promptsCreateLunaScorerVersionScorersScorerIdVersionLunaPost failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.CreateLunaScorerVersionScorersScorerIdVersionLunaPostRequest](../../models/operations/createlunascorerversionscorersscoreridversionlunapostrequest.md)             | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `security`                                                                                                                                                                     | [operations.CreateLunaScorerVersionScorersScorerIdVersionLunaPostSecurity](../../models/operations/createlunascorerversionscorersscoreridversionlunapostsecurity.md)           | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[models.BaseScorerVersionResponse](../../models/basescorerversionresponse.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
 ## listScorersWithFiltersScorersListPost
 
 List Scorers With Filters
@@ -3271,7 +3626,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.listScorersWithFiltersScorersListPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     body: {
       filters: [
@@ -3306,7 +3661,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsListScorersWithFiltersScorersListPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     body: {
       filters: [
@@ -3366,7 +3721,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.listTagsScorersTagsGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   });
 
   console.log(result);
@@ -3389,7 +3744,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsListTagsScorersTagsGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -3435,7 +3790,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.getScorerVersionOrLatestScorersScorerIdVersionGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     scorerId: "<value>",
   });
@@ -3460,7 +3815,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsGetScorerVersionOrLatestScorersScorerIdVersionGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     scorerId: "<value>",
   });
@@ -3510,7 +3865,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.listAllVersionsForScorerScorersScorerIdVersionsGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     scorerId: "<value>",
   });
@@ -3535,7 +3890,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsListAllVersionsForScorerScorersScorerIdVersionsGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     scorerId: "<value>",
   });
@@ -3571,6 +3926,87 @@ run();
 | errors.HTTPValidationError          | 422                                 | application/json                    |
 | errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
 
+## setScorerScopeScorersScorerIdScopePut
+
+Full-replace a scorer's access scope (Share / manage visibility). metrics_rbac only.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="set_scorer_scope_scorers__scorer_id__scope_put" method="put" path="/scorers/{scorer_id}/scope" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.prompts.setScorerScopeScorersScorerIdScopePut({
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
+  }, {
+    scorerId: "<value>",
+    body: {
+      isGlobal: true,
+    },
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { promptsSetScorerScopeScorersScorerIdScopePut } from "galileo-generated/funcs/promptsSetScorerScopeScorersScorerIdScopePut.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await promptsSetScorerScopeScorersScorerIdScopePut(galileoGenerated, {
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
+  }, {
+    scorerId: "<value>",
+    body: {
+      isGlobal: true,
+    },
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("promptsSetScorerScopeScorersScorerIdScopePut failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.SetScorerScopeScorersScorerIdScopePutRequest](../../models/operations/setscorerscopescorersscoreridscopeputrequest.md)                                             | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `security`                                                                                                                                                                     | [operations.SetScorerScopeScorersScorerIdScopePutSecurity](../../models/operations/setscorerscopescorersscoreridscopeputsecurity.md)                                           | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[models.ScorerResponse](../../models/scorerresponse.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
 ## listProjectsForScorerRouteScorersScorerIdProjectsGet
 
 List all projects associated with a specific scorer.
@@ -3585,7 +4021,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.listProjectsForScorerRouteScorersScorerIdProjectsGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     scorerId: "<value>",
   });
@@ -3610,7 +4046,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsListProjectsForScorerRouteScorersScorerIdProjectsGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     scorerId: "<value>",
   });
@@ -3660,10 +4096,9 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.listProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProjectsGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     scorerVersionId: "<value>",
-    scorerId: "<value>",
   });
 
   console.log(result);
@@ -3688,10 +4123,9 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsListProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProjectsGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     scorerVersionId: "<value>",
-    scorerId: "<value>",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -3739,7 +4173,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.restoreScorerVersionScorersScorerIdVersionsVersionNumberRestorePost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     scorerId: "<value>",
     versionNumber: 388789,
@@ -3765,7 +4199,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsRestoreScorerVersionScorersScorerIdVersionsVersionNumberRestorePost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     scorerId: "<value>",
     versionNumber: 388789,
@@ -3818,7 +4252,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.autogenLlmScorerScorersLlmAutogenPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     instructions: "<value>",
     modelName: "<value>",
@@ -3850,7 +4284,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsAutogenLlmScorerScorersLlmAutogenPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     instructions: "<value>",
     modelName: "<value>",
@@ -3893,336 +4327,6 @@ run();
 | errors.HTTPValidationError          | 422                                 | application/json                    |
 | errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
 
-## manualLlmValidateScorersLlmValidatePost
-
-Manual Llm Validate
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="manual_llm_validate_scorers_llm_validate_post" method="post" path="/scorers/llm/validate" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.prompts.manualLlmValidateScorersLlmValidatePost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    "key": "<value>",
-    "key1": "<value>",
-    "key2": "<value>",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { promptsManualLlmValidateScorersLlmValidatePost } from "galileo-generated/funcs/promptsManualLlmValidateScorersLlmValidatePost.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await promptsManualLlmValidateScorersLlmValidatePost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    "key": "<value>",
-    "key1": "<value>",
-    "key2": "<value>",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("promptsManualLlmValidateScorersLlmValidatePost failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [{ [k: string]: any }](../../models/.md)                                                                                                                                       | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `security`                                                                                                                                                                     | [operations.ManualLlmValidateScorersLlmValidatePostSecurity](../../models/operations/manualllmvalidatescorersllmvalidatepostsecurity.md)                                       | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[models.GeneratedScorerValidationResponse](../../models/generatedscorervalidationresponse.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
-## createScorersPost
-
-Create
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="create_scorers_post" method="post" path="/scorers" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.prompts.createScorersPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    name: "<value>",
-    defaults: {
-      filters: [
-        {
-          name: "metadata",
-          operator: "one_of",
-          key: "<key>",
-          value: "<value>",
-        },
-      ],
-    },
-    scorerType: "preset",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { promptsCreateScorersPost } from "galileo-generated/funcs/promptsCreateScorersPost.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await promptsCreateScorersPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    name: "<value>",
-    defaults: {
-      filters: [
-        {
-          name: "metadata",
-          operator: "one_of",
-          key: "<key>",
-          value: "<value>",
-        },
-      ],
-    },
-    scorerType: "preset",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("promptsCreateScorersPost failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [models.CreateScorerRequest](../../models/createscorerrequest.md)                                                                                                              | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `security`                                                                                                                                                                     | [operations.CreateScorersPostSecurity](../../models/operations/createscorerspostsecurity.md)                                                                                   | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[models.ScorerResponse](../../models/scorerresponse.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
-## createLlmScorerVersionScorersScorerIdVersionLlmPost
-
-Create Llm Scorer Version
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="create_llm_scorer_version_scorers__scorer_id__version_llm_post" method="post" path="/scorers/{scorer_id}/version/llm" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.prompts.createLlmScorerVersionScorersScorerIdVersionLlmPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    scorerId: "<value>",
-    body: {},
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { promptsCreateLlmScorerVersionScorersScorerIdVersionLlmPost } from "galileo-generated/funcs/promptsCreateLlmScorerVersionScorersScorerIdVersionLlmPost.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await promptsCreateLlmScorerVersionScorersScorerIdVersionLlmPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    scorerId: "<value>",
-    body: {},
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("promptsCreateLlmScorerVersionScorersScorerIdVersionLlmPost failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.CreateLlmScorerVersionScorersScorerIdVersionLlmPostRequest](../../models/operations/createllmscorerversionscorersscoreridversionllmpostrequest.md)                 | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `security`                                                                                                                                                                     | [operations.CreateLlmScorerVersionScorersScorerIdVersionLlmPostSecurity](../../models/operations/createllmscorerversionscorersscoreridversionllmpostsecurity.md)               | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[models.BaseScorerVersionResponse](../../models/basescorerversionresponse.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
-## validateCodeScorerLogRecordScorersCodeValidateLogRecordPost
-
-Validate a code scorer using actual log records.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="validate_code_scorer_log_record_scorers_code_validate_log_record_post" method="post" path="/scorers/code/validate/log_record" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-import { openAsBlob } from "node:fs";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.prompts.validateCodeScorerLogRecordScorersCodeValidateLogRecordPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    file: await openAsBlob("example.file"),
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { promptsValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost } from "galileo-generated/funcs/promptsValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost.js";
-import { openAsBlob } from "node:fs";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await promptsValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    file: await openAsBlob("example.file"),
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("promptsValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                        | Type                                                                                                                                                                             | Required                                                                                                                                                                         | Description                                                                                                                                                                      |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `request`                                                                                                                                                                        | [models.BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost](../../models/bodyvalidatecodescorerlogrecordscorerscodevalidatelogrecordpost.md)                        | :heavy_check_mark:                                                                                                                                                               | The request object to use for the request.                                                                                                                                       |
-| `security`                                                                                                                                                                       | [operations.ValidateCodeScorerLogRecordScorersCodeValidateLogRecordPostSecurity](../../models/operations/validatecodescorerlogrecordscorerscodevalidatelogrecordpostsecurity.md) | :heavy_check_mark:                                                                                                                                                               | The security requirements to use for the request.                                                                                                                                |
-| `options`                                                                                                                                                                        | RequestOptions                                                                                                                                                                   | :heavy_minus_sign:                                                                                                                                                               | Used to set various options for making HTTP requests.                                                                                                                            |
-| `options.fetchOptions`                                                                                                                                                           | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                          | :heavy_minus_sign:                                                                                                                                                               | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.   |
-| `options.retries`                                                                                                                                                                | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                               | Enables retrying HTTP requests under certain failure conditions.                                                                                                                 |
-
-### Response
-
-**Promise\<[models.ValidateScorerLogRecordResponse](../../models/validatescorerlogrecordresponse.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
 ## validateLlmScorerLogRecordScorersLlmValidateLogRecordPost
 
 Validate Llm Scorer Log Record
@@ -4237,7 +4341,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.validateLlmScorerLogRecordScorersLlmValidateLogRecordPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     logStreamId: "00000000-0000-0000-0000-000000000000",
     filters: [
@@ -4282,7 +4386,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsValidateLlmScorerLogRecordScorersLlmValidateLogRecordPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     logStreamId: "00000000-0000-0000-0000-000000000000",
     filters: [
@@ -4352,7 +4456,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.validateLlmScorerDatasetScorersLlmValidateDatasetPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     query: "<value>",
     response: "<value>",
@@ -4384,7 +4488,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsValidateLlmScorerDatasetScorersLlmValidateDatasetPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     query: "<value>",
     response: "<value>",
@@ -4436,15 +4540,14 @@ Validate a code scorer against dataset rows.
 <!-- UsageSnippet language="typescript" operationID="validate_code_scorer_dataset_scorers_code_validate_dataset_post" method="post" path="/scorers/code/validate/dataset" -->
 ```typescript
 import { GalileoGenerated } from "galileo-generated";
-import { openAsBlob } from "node:fs";
 
 const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.validateCodeScorerDatasetScorersCodeValidateDatasetPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
-    file: await openAsBlob("example.file"),
+    file: "" // Populate with string from file, for example example.file,
     datasetId: "7060d7e5-816f-4c57-bb2f-63dadd7c422e",
   });
 
@@ -4461,7 +4564,6 @@ The standalone function version of this method:
 ```typescript
 import { GalileoGeneratedCore } from "galileo-generated/core.js";
 import { promptsValidateCodeScorerDatasetScorersCodeValidateDatasetPost } from "galileo-generated/funcs/promptsValidateCodeScorerDatasetScorersCodeValidateDatasetPost.js";
-import { openAsBlob } from "node:fs";
 
 // Use `GalileoGeneratedCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -4469,9 +4571,9 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsValidateCodeScorerDatasetScorersCodeValidateDatasetPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
-    file: await openAsBlob("example.file"),
+    file: "" // Populate with string from file, for example example.file,
     datasetId: "7060d7e5-816f-4c57-bb2f-63dadd7c422e",
   });
   if (res.ok) {
@@ -4520,7 +4622,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.prompts.computeHealthScoreEndpointProjectsProjectIdMetricsTestingRunIdHealthScorePost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     runId: "<value>",
@@ -4552,7 +4654,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await promptsComputeHealthScoreEndpointProjectsProjectIdMetricsTestingRunIdHealthScorePost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     runId: "<value>",
@@ -4585,6 +4687,176 @@ run();
 ### Response
 
 **Promise\<[models.HealthScoreResult](../../models/healthscoreresult.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
+## getScorerHealthScoresScorersScorerIdHealthScoresGet
+
+Return all persisted health scores for a scorer against a dataset, ordered by version ASC.
+
+scores[0] is the baseline (first recorded), scores[-1] is the latest.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="get_scorer_health_scores_scorers__scorer_id__health_scores_get" method="get" path="/scorers/{scorer_id}/health-scores" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.prompts.getScorerHealthScoresScorersScorerIdHealthScoresGet({
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
+  }, {
+    scorerId: "<value>",
+    datasetId: "<value>",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { promptsGetScorerHealthScoresScorersScorerIdHealthScoresGet } from "galileo-generated/funcs/promptsGetScorerHealthScoresScorersScorerIdHealthScoresGet.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await promptsGetScorerHealthScoresScorersScorerIdHealthScoresGet(galileoGenerated, {
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
+  }, {
+    scorerId: "<value>",
+    datasetId: "<value>",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("promptsGetScorerHealthScoresScorersScorerIdHealthScoresGet failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.GetScorerHealthScoresScorersScorerIdHealthScoresGetRequest](../../models/operations/getscorerhealthscoresscorersscoreridhealthscoresgetrequest.md)                 | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `security`                                                                                                                                                                     | [operations.GetScorerHealthScoresScorersScorerIdHealthScoresGetSecurity](../../models/operations/getscorerhealthscoresscorersscoreridhealthscoresgetsecurity.md)               | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[models.ScorerHealthScoresResponse](../../models/scorerhealthscoresresponse.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
+## writeScorerVersionHealthScoreScorersScorerIdVersionsVersionNumberHealthScoresPost
+
+Persist the health score for a scorer version against a dataset.
+
+Called by the UI after saving a metric version, passing the score from the last compute.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="write_scorer_version_health_score_scorers__scorer_id__versions__version_number__health_scores_post" method="post" path="/scorers/{scorer_id}/versions/{version_number}/health-scores" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.prompts.writeScorerVersionHealthScoreScorersScorerIdVersionsVersionNumberHealthScoresPost({
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
+  }, {
+    scorerId: "<value>",
+    versionNumber: 747590,
+    body: {
+      datasetId: "<value>",
+      healthScoreType: "<value>",
+      score: 6368.83,
+    },
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import {
+  promptsWriteScorerVersionHealthScoreScorersScorerIdVersionsVersionNumberHealthScoresPost,
+} from "galileo-generated/funcs/promptsWriteScorerVersionHealthScoreScorersScorerIdVersionsVersionNumberHealthScoresPost.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await promptsWriteScorerVersionHealthScoreScorersScorerIdVersionsVersionNumberHealthScoresPost(galileoGenerated, {
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
+  }, {
+    scorerId: "<value>",
+    versionNumber: 747590,
+    body: {
+      datasetId: "<value>",
+      healthScoreType: "<value>",
+      score: 6368.83,
+    },
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("promptsWriteScorerVersionHealthScoreScorersScorerIdVersionsVersionNumberHealthScoresPost failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `request`                                                                                                                                                                                                                    | [operations.WriteScorerVersionHealthScoreScorersScorerIdVersionsVersionNumberHealthScoresPostRequest](../../models/operations/writescorerversionhealthscorescorersscoreridversionsversionnumberhealthscorespostrequest.md)   | :heavy_check_mark:                                                                                                                                                                                                           | The request object to use for the request.                                                                                                                                                                                   |
+| `security`                                                                                                                                                                                                                   | [operations.WriteScorerVersionHealthScoreScorersScorerIdVersionsVersionNumberHealthScoresPostSecurity](../../models/operations/writescorerversionhealthscorescorersscoreridversionsversionnumberhealthscorespostsecurity.md) | :heavy_check_mark:                                                                                                                                                                                                           | The security requirements to use for the request.                                                                                                                                                                            |
+| `options`                                                                                                                                                                                                                    | RequestOptions                                                                                                                                                                                                               | :heavy_minus_sign:                                                                                                                                                                                                           | Used to set various options for making HTTP requests.                                                                                                                                                                        |
+| `options.fetchOptions`                                                                                                                                                                                                       | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                                                                      | :heavy_minus_sign:                                                                                                                                                                                                           | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.                                               |
+| `options.retries`                                                                                                                                                                                                            | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                                                                | :heavy_minus_sign:                                                                                                                                                                                                           | Enables retrying HTTP requests under certain failure conditions.                                                                                                                                                             |
+
+### Response
+
+**Promise\<[models.ScorerVersionHealthScoreEntry](../../models/scorerversionhealthscoreentry.md)\>**
 
 ### Errors
 
