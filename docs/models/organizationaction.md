@@ -5,7 +5,7 @@
 ```typescript
 import { OrganizationAction } from "galileo-generated/models";
 
-let value: OrganizationAction = "read_settings";
+let value: OrganizationAction = "update_settings";
 
 // Open enum: unrecognized values are captured as Unrecognized<string>
 ```
@@ -13,5 +13,5 @@ let value: OrganizationAction = "read_settings";
 ## Values
 
 ```typescript
-"rename" | "delete" | "delete_log_data" | "read_settings" | "update_settings" | Unrecognized<string>
+"rename" | "delete" | "delete_log_data" | "read_settings" | "update_settings" | "read_cost_settings" | "read_ai_usage" | Unrecognized<string>
 ```

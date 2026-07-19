@@ -5,9 +5,15 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
+import { safeParse } from "../../lib/schemas.js";
+import * as discriminatedUnionTypes from "../../types/discriminatedUnion.js";
+import { discriminatedUnion } from "../../types/discriminatedUnion.js";
+import { Result as SafeParseResult } from "../../types/fp.js";
+import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
 
 export type GetTraceProjectsProjectIdTracesTraceIdGetSecurity = {
+  classicAPIKeyHeader?: string | undefined;
   apiKeyHeader?: string | undefined;
   oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
   httpBasic?: models.SchemeHTTPBasic | undefined;
@@ -19,8 +25,17 @@ export type GetTraceProjectsProjectIdTracesTraceIdGetRequest = {
   includePresignedUrls?: boolean | undefined;
 };
 
+/**
+ * Successful Response
+ */
+export type ResponseGetTraceProjectsProjectIdTracesTraceIdGet =
+  | (models.ExtendedTraceRecordWithChildren & { type: "trace" })
+  | models.StubTraceRecord
+  | discriminatedUnionTypes.Unknown<"type">;
+
 /** @internal */
 export type GetTraceProjectsProjectIdTracesTraceIdGetSecurity$Outbound = {
+  ClassicAPIKeyHeader?: string | undefined;
   APIKeyHeader?: string | undefined;
   OAuth2PasswordBearer?: models.OAuth2PasswordBearerInput$Outbound | undefined;
   HTTPBasic?: models.SchemeHTTPBasic$Outbound | undefined;
@@ -33,6 +48,7 @@ export const GetTraceProjectsProjectIdTracesTraceIdGetSecurity$outboundSchema:
     GetTraceProjectsProjectIdTracesTraceIdGetSecurity
   > = z.pipe(
     z.object({
+      classicAPIKeyHeader: z.optional(z.string()),
       apiKeyHeader: z.optional(z.string()),
       oAuth2PasswordBearer: z.optional(
         models.OAuth2PasswordBearerInput$outboundSchema,
@@ -41,6 +57,7 @@ export const GetTraceProjectsProjectIdTracesTraceIdGetSecurity$outboundSchema:
     }),
     z.transform((v) => {
       return remap$(v, {
+        classicAPIKeyHeader: "ClassicAPIKeyHeader",
         apiKeyHeader: "APIKeyHeader",
         oAuth2PasswordBearer: "OAuth2PasswordBearer",
         httpBasic: "HTTPBasic",
@@ -94,5 +111,32 @@ export function getTraceProjectsProjectIdTracesTraceIdGetRequestToJSON(
     GetTraceProjectsProjectIdTracesTraceIdGetRequest$outboundSchema.parse(
       getTraceProjectsProjectIdTracesTraceIdGetRequest,
     ),
+  );
+}
+
+/** @internal */
+export const ResponseGetTraceProjectsProjectIdTracesTraceIdGet$inboundSchema:
+  z.ZodMiniType<ResponseGetTraceProjectsProjectIdTracesTraceIdGet, unknown> =
+    discriminatedUnion("type", {
+      trace: z.intersection(
+        models.ExtendedTraceRecordWithChildren$inboundSchema,
+        z.object({ type: z.literal("trace") }),
+      ),
+      stub_trace: models.StubTraceRecord$inboundSchema,
+    });
+
+export function responseGetTraceProjectsProjectIdTracesTraceIdGetFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  ResponseGetTraceProjectsProjectIdTracesTraceIdGet,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      ResponseGetTraceProjectsProjectIdTracesTraceIdGet$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'ResponseGetTraceProjectsProjectIdTracesTraceIdGet' from JSON`,
   );
 }

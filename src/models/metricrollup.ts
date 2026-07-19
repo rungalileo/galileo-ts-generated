@@ -27,6 +27,7 @@ export type MetricRollUp = {
   cost?: number | null | undefined;
   modelAlias?: string | null | undefined;
   numJudges?: number | null | undefined;
+  multijudgeAverage?: number | null | undefined;
   inputTokens?: number | null | undefined;
   outputTokens?: number | null | undefined;
   totalTokens?: number | null | undefined;
@@ -69,6 +70,7 @@ export const MetricRollUp$inboundSchema: z.ZodMiniType<MetricRollUp, unknown> =
       cost: z.optional(z.nullable(types.number())),
       model_alias: z.optional(z.nullable(types.string())),
       num_judges: z.optional(z.nullable(types.number())),
+      multijudge_average: z.optional(z.nullable(types.number())),
       input_tokens: z.optional(z.nullable(types.number())),
       output_tokens: z.optional(z.nullable(types.number())),
       total_tokens: z.optional(z.nullable(types.number())),
@@ -88,6 +90,7 @@ export const MetricRollUp$inboundSchema: z.ZodMiniType<MetricRollUp, unknown> =
         "metric_key_alias": "metricKeyAlias",
         "model_alias": "modelAlias",
         "num_judges": "numJudges",
+        "multijudge_average": "multijudgeAverage",
         "input_tokens": "inputTokens",
         "output_tokens": "outputTokens",
         "total_tokens": "totalTokens",
