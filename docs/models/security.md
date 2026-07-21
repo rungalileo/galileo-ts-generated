@@ -10,6 +10,6 @@ let value: Security = {};
 
 ## Fields
 
-| Field              | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `apiKeyHeader`     | *string*           | :heavy_minus_sign: | N/A                |
+| Field                              | Type                               | Required                           | Description                        |
+| ---------------------------------- | ---------------------------------- | ---------------------------------- | ---------------------------------- |
+| `oAuth2PasswordBearer`             | *models.OAuth2PasswordBearerInput* | :heavy_minus_sign:                 | N/A                                |

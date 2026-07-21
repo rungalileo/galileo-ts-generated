@@ -37,6 +37,7 @@
 * [createOrUpdateIntegrationIntegrationsWriterPut](#createorupdateintegrationintegrationswriterput) - Create or update Writer integration
 * [listIntegrationsIntegrationsGet](#listintegrationsintegrationsget) - List Integrations
 * [getIntegrationCostsIntegrationsCostsSummaryGet](#getintegrationcostsintegrationscostssummaryget) - Get Integration Costs
+* [getBillingUsageBillingUsageMetricGet](#getbillingusagebillingusagemetricget) - Get Billing Usage
 * [selectIntegrationIntegrationsSelectPost](#selectintegrationintegrationsselectpost) - Select Integration
 * [disableIntegrationIntegrationsDisablePost](#disableintegrationintegrationsdisablepost) - Disable Integration
 * [getCustomIntegrationDefinitionIntegrationsCustomDefinitionGet](#getcustomintegrationdefinitionintegrationscustomdefinitionget) - Get custom integration definition
@@ -57,7 +58,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.listAvailableIntegrationsIntegrationsAvailableGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   });
 
   console.log(result);
@@ -80,7 +81,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsListAvailableIntegrationsIntegrationsAvailableGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -126,7 +127,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.getIntegrationIntegrationsNameGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     name: "aws_bedrock",
   });
@@ -151,7 +152,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsGetIntegrationIntegrationsNameGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     name: "aws_bedrock",
   });
@@ -201,7 +202,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.deleteIntegrationIntegrationsNameDelete({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     name: "aws_bedrock",
   });
@@ -226,7 +227,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsDeleteIntegrationIntegrationsNameDelete(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     name: "aws_bedrock",
   });
@@ -276,7 +277,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.getIntegrationStatusIntegrationsNameStatusGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     name: "aws_bedrock",
   });
@@ -301,7 +302,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsGetIntegrationStatusIntegrationsNameStatusGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     name: "aws_bedrock",
   });
@@ -351,7 +352,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.listUserIntegrationCollaboratorsIntegrationsIntegrationIdUsersGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     integrationId: "<value>",
   });
@@ -376,7 +377,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsListUserIntegrationCollaboratorsIntegrationsIntegrationIdUsersGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     integrationId: "<value>",
   });
@@ -426,7 +427,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.createUserIntegrationCollaboratorsIntegrationsIntegrationIdUsersPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     integrationId: "<value>",
     body: [],
@@ -452,7 +453,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsCreateUserIntegrationCollaboratorsIntegrationsIntegrationIdUsersPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     integrationId: "<value>",
     body: [],
@@ -503,7 +504,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.updateUserIntegrationCollaboratorIntegrationsIntegrationIdUsersUserIdPatch({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     integrationId: "<value>",
     userId: "<value>",
@@ -534,7 +535,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsUpdateUserIntegrationCollaboratorIntegrationsIntegrationIdUsersUserIdPatch(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     integrationId: "<value>",
     userId: "<value>",
@@ -588,7 +589,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.deleteUserIntegrationCollaboratorIntegrationsIntegrationIdUsersUserIdDelete({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     integrationId: "<value>",
     userId: "<value>",
@@ -616,7 +617,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsDeleteUserIntegrationCollaboratorIntegrationsIntegrationIdUsersUserIdDelete(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     integrationId: "<value>",
     userId: "<value>",
@@ -667,7 +668,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.createGroupIntegrationCollaboratorsIntegrationsIntegrationIdGroupsPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     integrationId: "<value>",
     body: [
@@ -699,7 +700,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsCreateGroupIntegrationCollaboratorsIntegrationsIntegrationIdGroupsPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     integrationId: "<value>",
     body: [
@@ -754,7 +755,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.listGroupIntegrationCollaboratorsIntegrationsIntegrationIdGroupsGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     integrationId: "<value>",
   });
@@ -779,7 +780,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsListGroupIntegrationCollaboratorsIntegrationsIntegrationIdGroupsGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     integrationId: "<value>",
   });
@@ -829,7 +830,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.updateGroupIntegrationCollaboratorIntegrationsIntegrationIdGroupsGroupIdPatch({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     integrationId: "<value>",
     groupId: "<value>",
@@ -860,7 +861,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsUpdateGroupIntegrationCollaboratorIntegrationsIntegrationIdGroupsGroupIdPatch(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     integrationId: "<value>",
     groupId: "<value>",
@@ -914,7 +915,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.deleteGroupIntegrationCollaboratorIntegrationsIntegrationIdGroupsGroupIdDelete({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     integrationId: "<value>",
     groupId: "<value>",
@@ -942,7 +943,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsDeleteGroupIntegrationCollaboratorIntegrationsIntegrationIdGroupsGroupIdDelete(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     integrationId: "<value>",
     groupId: "<value>",
@@ -993,7 +994,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.createOrUpdateIntegrationSelectionIntegrationsIntegrationIdSelectPut({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     integrationId: "<value>",
   });
@@ -1018,7 +1019,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsCreateOrUpdateIntegrationSelectionIntegrationsIntegrationIdSelectPut(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     integrationId: "<value>",
   });
@@ -1068,7 +1069,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.createOrUpdateIntegrationIntegrationsAnthropicPut({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     token: "<value>",
   });
@@ -1093,7 +1094,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsCreateOrUpdateIntegrationIntegrationsAnthropicPut(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     token: "<value>",
   });
@@ -1143,7 +1144,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.createOrUpdateIntegrationIntegrationsAwsBedrockPut({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     token: {
 
@@ -1170,7 +1171,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsCreateOrUpdateIntegrationIntegrationsAwsBedrockPut(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     token: {
   
@@ -1222,7 +1223,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.createOrUpdateIntegrationIntegrationsAwsSagemakerPut({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     token: {
       "key": "<value>",
@@ -1250,7 +1251,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsCreateOrUpdateIntegrationIntegrationsAwsSagemakerPut(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     token: {
       "key": "<value>",
@@ -1303,7 +1304,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.createOrUpdateIntegrationIntegrationsAzurePut({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     endpoint: "<value>",
     token: "<value>",
@@ -1329,7 +1330,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsCreateOrUpdateIntegrationIntegrationsAzurePut(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     endpoint: "<value>",
     token: "<value>",
@@ -1380,7 +1381,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.createOrUpdateIntegrationIntegrationsCustomPut({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     endpoint: "<value>",
   });
@@ -1405,7 +1406,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsCreateOrUpdateIntegrationIntegrationsCustomPut(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     endpoint: "<value>",
   });
@@ -1455,7 +1456,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.createOrUpdateNamedCustomIntegrationIntegrationsCustomNamePut({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     name: "<value>",
     body: {
@@ -1483,7 +1484,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsCreateOrUpdateNamedCustomIntegrationIntegrationsCustomNamePut(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     name: "<value>",
     body: {
@@ -1536,7 +1537,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.getNamedCustomIntegrationIntegrationsCustomNameGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     name: "<value>",
   });
@@ -1561,7 +1562,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsGetNamedCustomIntegrationIntegrationsCustomNameGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     name: "<value>",
   });
@@ -1611,7 +1612,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.deleteNamedCustomIntegrationIntegrationsCustomNameDelete({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     name: "<value>",
   });
@@ -1636,7 +1637,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsDeleteNamedCustomIntegrationIntegrationsCustomNameDelete(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     name: "<value>",
   });
@@ -1688,7 +1689,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.createOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPut({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     token: "<value>",
     hostname: "https://dependent-relative.biz",
@@ -1716,7 +1717,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsCreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPut(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     token: "<value>",
     hostname: "https://dependent-relative.biz",
@@ -1767,7 +1768,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.createOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPut({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     token: "<value>",
     hostname: "https://worthwhile-term.biz",
@@ -1793,7 +1794,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsCreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPut(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     token: "<value>",
     hostname: "https://worthwhile-term.biz",
@@ -1844,7 +1845,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.getDatabricksCatalogsIntegrationsDatabricksCatalogsGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   });
 
   console.log(result);
@@ -1867,7 +1868,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsGetDatabricksCatalogsIntegrationsDatabricksCatalogsGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -1913,7 +1914,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.getDatabasesForClusterIntegrationsDatabricksDatabasesGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   });
 
   console.log(result);
@@ -1936,7 +1937,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsGetDatabasesForClusterIntegrationsDatabricksDatabasesGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -1984,7 +1985,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.createOrUpdateIntegrationIntegrationsMistralPut({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     token: "<value>",
   });
@@ -2009,7 +2010,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsCreateOrUpdateIntegrationIntegrationsMistralPut(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     token: "<value>",
   });
@@ -2059,7 +2060,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.createOrUpdateIntegrationIntegrationsNvidiaPut({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     token: "<value>",
     hostname: "https://common-breastplate.info",
@@ -2085,7 +2086,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsCreateOrUpdateIntegrationIntegrationsNvidiaPut(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     token: "<value>",
     hostname: "https://common-breastplate.info",
@@ -2136,7 +2137,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.createOrUpdateIntegrationIntegrationsOpenaiPut({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     token: "<value>",
   });
@@ -2161,7 +2162,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsCreateOrUpdateIntegrationIntegrationsOpenaiPut(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     token: "<value>",
   });
@@ -2211,7 +2212,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.createOrUpdateIntegrationIntegrationsVegasGatewayPut({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     endpoint: "https://rich-caption.name/",
     useCase: "<value>",
@@ -2238,7 +2239,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsCreateOrUpdateIntegrationIntegrationsVegasGatewayPut(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     endpoint: "https://rich-caption.name/",
     useCase: "<value>",
@@ -2290,7 +2291,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.createOrUpdateIntegrationIntegrationsVertexAiPut({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     token: "<value>",
   });
@@ -2315,7 +2316,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsCreateOrUpdateIntegrationIntegrationsVertexAiPut(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     token: "<value>",
   });
@@ -2365,7 +2366,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.createOrUpdateIntegrationIntegrationsWriterPut({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     organizationId: "<id>",
     token: "<value>",
@@ -2391,7 +2392,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsCreateOrUpdateIntegrationIntegrationsWriterPut(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     organizationId: "<id>",
     token: "<value>",
@@ -2442,7 +2443,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.listIntegrationsIntegrationsGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   });
 
   console.log(result);
@@ -2465,7 +2466,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsListIntegrationsIntegrationsGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -2511,7 +2512,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.getIntegrationCostsIntegrationsCostsSummaryGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     startTime: new Date("2026-03-25T04:25:47.231Z"),
     endTime: new Date("2026-12-02T19:10:59.980Z"),
@@ -2538,7 +2539,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsGetIntegrationCostsIntegrationsCostsSummaryGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     startTime: new Date("2026-03-25T04:25:47.231Z"),
     endTime: new Date("2026-12-02T19:10:59.980Z"),
@@ -2576,6 +2577,87 @@ run();
 | errors.HTTPValidationError          | 422                                 | application/json                    |
 | errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
 
+## getBillingUsageBillingUsageMetricGet
+
+Get Billing Usage
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="get_billing_usage_billing_usage__metric__get" method="get" path="/billing/usage/{metric}" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.integrations.getBillingUsageBillingUsageMetricGet({
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
+  }, {
+    metric: "luna_tokens",
+    startTime: new Date("2026-08-05T16:42:55.738Z"),
+    endTime: new Date("2026-10-24T18:37:15.889Z"),
+    interval: "hourly",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { integrationsGetBillingUsageBillingUsageMetricGet } from "galileo-generated/funcs/integrationsGetBillingUsageBillingUsageMetricGet.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await integrationsGetBillingUsageBillingUsageMetricGet(galileoGenerated, {
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
+  }, {
+    metric: "luna_tokens",
+    startTime: new Date("2026-08-05T16:42:55.738Z"),
+    endTime: new Date("2026-10-24T18:37:15.889Z"),
+    interval: "hourly",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("integrationsGetBillingUsageBillingUsageMetricGet failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.GetBillingUsageBillingUsageMetricGetRequest](../../models/operations/getbillingusagebillingusagemetricgetrequest.md)                                               | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `security`                                                                                                                                                                     | [operations.GetBillingUsageBillingUsageMetricGetSecurity](../../models/operations/getbillingusagebillingusagemetricgetsecurity.md)                                             | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[models.BillingUsageResponse](../../models/billingusageresponse.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
 ## selectIntegrationIntegrationsSelectPost
 
 Select an integration for this user.
@@ -2590,7 +2672,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.selectIntegrationIntegrationsSelectPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     integrationName: "<value>",
     integrationId: "<value>",
@@ -2616,7 +2698,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsSelectIntegrationIntegrationsSelectPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     integrationName: "<value>",
     integrationId: "<value>",
@@ -2669,7 +2751,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.disableIntegrationIntegrationsDisablePost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     integrationName: "<value>",
   });
@@ -2694,7 +2776,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsDisableIntegrationIntegrationsDisablePost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     integrationName: "<value>",
   });
@@ -2747,7 +2829,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.getCustomIntegrationDefinitionIntegrationsCustomDefinitionGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   });
 
   console.log(result);
@@ -2770,7 +2852,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsGetCustomIntegrationDefinitionIntegrationsCustomDefinitionGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -2816,7 +2898,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.getNamedCustomIntegrationStatusIntegrationsCustomNameStatusGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     name: "<value>",
   });
@@ -2841,7 +2923,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsGetNamedCustomIntegrationStatusIntegrationsCustomNameStatusGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     name: "<value>",
   });
@@ -2891,7 +2973,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.integrations.getNamedCustomIntegrationDefinitionIntegrationsCustomNameDefinitionGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     name: "<value>",
   });
@@ -2918,7 +3000,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await integrationsGetNamedCustomIntegrationDefinitionIntegrationsCustomNameDefinitionGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     name: "<value>",
   });
