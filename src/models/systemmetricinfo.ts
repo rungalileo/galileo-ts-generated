@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { remap as remap$ } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
@@ -12,6 +13,10 @@ import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import { Histogram, Histogram$inboundSchema } from "./histogram.js";
 
 export type SystemMetricInfo = {
+  /**
+   * Discriminator: numeric metrics aggregated via stats/histogram
+   */
+  aggregationType: "numeric";
   /**
    * Unique identifier for the metric
    */
@@ -70,21 +75,29 @@ export type SystemMetricInfo = {
 export const SystemMetricInfo$inboundSchema: z.ZodMiniType<
   SystemMetricInfo,
   unknown
-> = z.object({
-  name: types.string(),
-  label: types.string(),
-  unit: z.optional(z.nullable(DataUnit$inboundSchema)),
-  values: types.optional(z.array(types.number())),
-  mean: z.optional(z.nullable(types.number())),
-  median: z.optional(z.nullable(types.number())),
-  p5: z.optional(z.nullable(types.number())),
-  p25: z.optional(z.nullable(types.number())),
-  p75: z.optional(z.nullable(types.number())),
-  p95: z.optional(z.nullable(types.number())),
-  min: z.optional(z.nullable(types.number())),
-  max: z.optional(z.nullable(types.number())),
-  histogram: z.optional(z.nullable(Histogram$inboundSchema)),
-});
+> = z.pipe(
+  z.object({
+    aggregation_type: types.literal("numeric"),
+    name: types.string(),
+    label: types.string(),
+    unit: z.optional(z.nullable(DataUnit$inboundSchema)),
+    values: types.optional(z.array(types.number())),
+    mean: z.optional(z.nullable(types.number())),
+    median: z.optional(z.nullable(types.number())),
+    p5: z.optional(z.nullable(types.number())),
+    p25: z.optional(z.nullable(types.number())),
+    p75: z.optional(z.nullable(types.number())),
+    p95: z.optional(z.nullable(types.number())),
+    min: z.optional(z.nullable(types.number())),
+    max: z.optional(z.nullable(types.number())),
+    histogram: z.optional(z.nullable(Histogram$inboundSchema)),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "aggregation_type": "aggregationType",
+    });
+  }),
+);
 
 export function systemMetricInfoFromJSON(
   jsonString: string,
