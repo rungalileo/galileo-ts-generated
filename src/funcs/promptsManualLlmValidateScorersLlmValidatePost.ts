@@ -3,12 +3,10 @@
  * @generated-id: c3653348a8c8
  */
 
-import * as z from "zod/v4-mini";
 import { GalileoGeneratedCore } from "../core.js";
-import { encodeJSON } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
 import { RequestOptions } from "../lib/sdks.js";
 import { resolveOAuth2Password, resolveSecurity } from "../lib/security.js";
 import { pathToFunc } from "../lib/url.js";
@@ -20,7 +18,6 @@ import {
   RequestTimeoutError,
   UnexpectedClientError,
 } from "../models/errors/httpclienterrors.js";
-import * as errors from "../models/errors/index.js";
 import { ResponseValidationError } from "../models/errors/responsevalidationerror.js";
 import { SDKValidationError } from "../models/errors/sdkvalidationerror.js";
 import * as models from "../models/index.js";
@@ -34,12 +31,10 @@ import { Result } from "../types/fp.js";
 export function promptsManualLlmValidateScorersLlmValidatePost(
   client: GalileoGeneratedCore,
   security: operations.ManualLlmValidateScorersLlmValidatePostSecurity,
-  request: { [k: string]: any },
   options?: RequestOptions,
 ): APIPromise<
   Result<
     models.GeneratedScorerValidationResponse,
-    | errors.HTTPValidationError
     | GalileoGeneratedError
     | ResponseValidationError
     | ConnectionError
@@ -53,7 +48,6 @@ export function promptsManualLlmValidateScorersLlmValidatePost(
   return new APIPromise($do(
     client,
     security,
-    request,
     options,
   ));
 }
@@ -61,13 +55,11 @@ export function promptsManualLlmValidateScorersLlmValidatePost(
 async function $do(
   client: GalileoGeneratedCore,
   security: operations.ManualLlmValidateScorersLlmValidatePostSecurity,
-  request: { [k: string]: any },
   options?: RequestOptions,
 ): Promise<
   [
     Result<
       models.GeneratedScorerValidationResponse,
-      | errors.HTTPValidationError
       | GalileoGeneratedError
       | ResponseValidationError
       | ConnectionError
@@ -80,21 +72,9 @@ async function $do(
     APICall,
   ]
 > {
-  const parsed = safeParse(
-    request,
-    (value) => z.parse(z.record(z.string(), z.any()), value),
-    "Input validation failed",
-  );
-  if (!parsed.ok) {
-    return [parsed, { status: "invalid" }];
-  }
-  const payload = parsed.value;
-  const body = encodeJSON("body", payload, { explode: true });
-
   const path = pathToFunc("/scorers/llm/validate")();
 
   const headers = new Headers(compactMap({
-    "Content-Type": "application/json",
     Accept: "application/json",
   }));
 
@@ -102,6 +82,13 @@ async function $do(
     [
       {
         fieldName: "Galileo-API-Key",
+        type: "apiKey:header",
+        value: security?.classicAPIKeyHeader,
+      },
+    ],
+    [
+      {
+        fieldName: "Splunk-AO-API-Key",
         type: "apiKey:header",
         value: security?.apiKeyHeader,
       },
@@ -147,7 +134,6 @@ async function $do(
     baseURL: options?.serverURL,
     path: path,
     headers: headers,
-    body: body,
     userAgent: client._options.userAgent,
     timeoutMs: options?.timeoutMs || client._options.timeoutMs || -1,
   }, options);
@@ -158,7 +144,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["422", "4XX", "5XX"],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });
@@ -167,13 +154,8 @@ async function $do(
   }
   const response = doResult.value;
 
-  const responseFields = {
-    HttpMeta: { Response: response, Request: req },
-  };
-
   const [result] = await M.match<
     models.GeneratedScorerValidationResponse,
-    | errors.HTTPValidationError
     | GalileoGeneratedError
     | ResponseValidationError
     | ConnectionError
@@ -184,10 +166,9 @@ async function $do(
     | SDKValidationError
   >(
     M.json(200, models.GeneratedScorerValidationResponse$inboundSchema),
-    M.jsonErr(422, errors.HTTPValidationError$inboundSchema),
     M.fail("4XX"),
     M.fail("5XX"),
-  )(response, req, { extraFields: responseFields });
+  )(response, req);
   if (!result.ok) {
     return [result, { status: "complete", request: req, response }];
   }
