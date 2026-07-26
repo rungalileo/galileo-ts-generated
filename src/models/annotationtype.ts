@@ -13,6 +13,8 @@ export const AnnotationType = {
   Score: "score",
   Tags: "tags",
   Text: "text",
+  Choice: "choice",
+  TreeChoice: "tree_choice",
 } as const;
 export type AnnotationType = OpenEnum<typeof AnnotationType>;
 
