@@ -8,8 +8,10 @@ import { remap as remap$ } from "../../lib/primitives.js";
 import * as models from "../index.js";
 
 export type LogTracesProjectsProjectIdTracesPostSecurity = {
+  classicAPIKeyHeader?: string | undefined;
   apiKeyHeader?: string | undefined;
   oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
+  httpBasic?: models.SchemeHTTPBasic | undefined;
 };
 
 export type LogTracesProjectsProjectIdTracesPostRequest = {
@@ -19,8 +21,10 @@ export type LogTracesProjectsProjectIdTracesPostRequest = {
 
 /** @internal */
 export type LogTracesProjectsProjectIdTracesPostSecurity$Outbound = {
+  ClassicAPIKeyHeader?: string | undefined;
   APIKeyHeader?: string | undefined;
   OAuth2PasswordBearer?: models.OAuth2PasswordBearerInput$Outbound | undefined;
+  HTTPBasic?: models.SchemeHTTPBasic$Outbound | undefined;
 };
 
 /** @internal */
@@ -30,15 +34,19 @@ export const LogTracesProjectsProjectIdTracesPostSecurity$outboundSchema:
     LogTracesProjectsProjectIdTracesPostSecurity
   > = z.pipe(
     z.object({
+      classicAPIKeyHeader: z.optional(z.string()),
       apiKeyHeader: z.optional(z.string()),
       oAuth2PasswordBearer: z.optional(
         models.OAuth2PasswordBearerInput$outboundSchema,
       ),
+      httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
     }),
     z.transform((v) => {
       return remap$(v, {
+        classicAPIKeyHeader: "ClassicAPIKeyHeader",
         apiKeyHeader: "APIKeyHeader",
         oAuth2PasswordBearer: "OAuth2PasswordBearer",
+        httpBasic: "HTTPBasic",
       });
     }),
   );
