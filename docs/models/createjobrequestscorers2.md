@@ -16,7 +16,8 @@ const value: models.ScorerConfig[] = [];
 ```typescript
 const value: models.CreateJobRequestScorers1[] = [
   {
-    name: "rouge",
+    name: "prompt_injection",
+    type: "luna",
   },
 ];
 ```
