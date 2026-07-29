@@ -6,6 +6,7 @@
 import * as z from "zod/v4-mini";
 import { GalileoGeneratedCore } from "../core.js";
 import { encodeSimple } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -111,7 +112,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/code-metric-generations/{generation_id}/status")(
     pathParams,
   );
@@ -125,6 +125,13 @@ async function $do(
       {
         fieldName: "Galileo-API-Key",
         type: "apiKey:header",
+        value: security?.classicAPIKeyHeader,
+      },
+    ],
+    [
+      {
+        fieldName: "Splunk-AO-API-Key",
+        type: "apiKey:header",
         value: security?.apiKeyHeader,
       },
     ],
@@ -135,6 +142,15 @@ async function $do(
         value: resolveOAuth2Password(security?.oAuth2PasswordBearer, {
           defaults: { tokenURL: "https://api.galileo.ai/login" },
         }),
+      },
+    ],
+    [
+      {
+        type: "http:basic",
+        value: {
+          username: security?.httpBasic?.username,
+          password: security?.httpBasic?.password,
+        },
       },
     ],
   );
@@ -172,7 +188,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["422", "4XX", "5XX"],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });
