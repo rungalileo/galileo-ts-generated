@@ -51,6 +51,7 @@ export type BaseScorerVersionResponse = {
   updatedAt: Date;
   chainPollTemplate?: ChainPollTemplate | null | undefined;
   allowedModel?: boolean | null | undefined;
+  createdBy?: string | null | undefined;
 };
 
 /** @internal */
@@ -83,6 +84,7 @@ export const BaseScorerVersionResponse$inboundSchema: z.ZodMiniType<
       z.nullable(ChainPollTemplate$inboundSchema),
     ),
     allowed_model: z.optional(z.nullable(types.boolean())),
+    created_by: z.optional(z.nullable(types.string())),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -100,6 +102,7 @@ export const BaseScorerVersionResponse$inboundSchema: z.ZodMiniType<
       "updated_at": "updatedAt",
       "chain_poll_template": "chainPollTemplate",
       "allowed_model": "allowedModel",
+      "created_by": "createdBy",
     });
   }),
 );

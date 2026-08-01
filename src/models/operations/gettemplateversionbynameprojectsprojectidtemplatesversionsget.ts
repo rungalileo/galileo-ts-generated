@@ -9,6 +9,7 @@ import * as models from "../index.js";
 
 export type GetTemplateVersionByNameProjectsProjectIdTemplatesVersionsGetSecurity =
   {
+    classicAPIKeyHeader?: string | undefined;
     apiKeyHeader?: string | undefined;
     oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
     httpBasic?: models.SchemeHTTPBasic | undefined;
@@ -24,6 +25,7 @@ export type GetTemplateVersionByNameProjectsProjectIdTemplatesVersionsGetRequest
 /** @internal */
 export type GetTemplateVersionByNameProjectsProjectIdTemplatesVersionsGetSecurity$Outbound =
   {
+    ClassicAPIKeyHeader?: string | undefined;
     APIKeyHeader?: string | undefined;
     OAuth2PasswordBearer?:
       | models.OAuth2PasswordBearerInput$Outbound
@@ -38,6 +40,7 @@ export const GetTemplateVersionByNameProjectsProjectIdTemplatesVersionsGetSecuri
     GetTemplateVersionByNameProjectsProjectIdTemplatesVersionsGetSecurity
   > = z.pipe(
     z.object({
+      classicAPIKeyHeader: z.optional(z.string()),
       apiKeyHeader: z.optional(z.string()),
       oAuth2PasswordBearer: z.optional(
         models.OAuth2PasswordBearerInput$outboundSchema,
@@ -46,6 +49,7 @@ export const GetTemplateVersionByNameProjectsProjectIdTemplatesVersionsGetSecuri
     }),
     z.transform((v) => {
       return remap$(v, {
+        classicAPIKeyHeader: "ClassicAPIKeyHeader",
         apiKeyHeader: "APIKeyHeader",
         oAuth2PasswordBearer: "OAuth2PasswordBearer",
         httpBasic: "HTTPBasic",

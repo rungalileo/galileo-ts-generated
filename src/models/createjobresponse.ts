@@ -4,7 +4,6 @@
  */
 
 import * as z from "zod/v4-mini";
-import * as b64$ from "../lib/base64.js";
 import { remap as remap$ } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
 import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
@@ -21,7 +20,6 @@ import {
   AgenticWorkflowSuccessScorer$inboundSchema,
 } from "./agenticworkflowsuccessscorer.js";
 import { BaseScorer, BaseScorer$inboundSchema } from "./basescorer.js";
-import { BleuScorer, BleuScorer$inboundSchema } from "./bleuscorer.js";
 import {
   ChunkAttributionUtilizationScorer,
   ChunkAttributionUtilizationScorer$inboundSchema,
@@ -132,10 +130,6 @@ import {
   InstructionAdherenceScorer$inboundSchema,
 } from "./instructionadherencescorer.js";
 import {
-  MetricCritiqueJobConfiguration,
-  MetricCritiqueJobConfiguration$inboundSchema,
-} from "./metriccritiquejobconfiguration.js";
-import {
   OutputPIIScorer,
   OutputPIIScorer$inboundSchema,
 } from "./outputpiiscorer.js";
@@ -160,14 +154,6 @@ import {
   PromptInjectionScorer$inboundSchema,
 } from "./promptinjectionscorer.js";
 import {
-  PromptOptimizationConfiguration,
-  PromptOptimizationConfiguration$inboundSchema,
-} from "./promptoptimizationconfiguration.js";
-import {
-  PromptPerplexityScorer,
-  PromptPerplexityScorer$inboundSchema,
-} from "./promptperplexityscorer.js";
-import {
   PromptRunSettings,
   PromptRunSettings$inboundSchema,
 } from "./promptrunsettings.js";
@@ -175,7 +161,6 @@ import {
   RegisteredScorer,
   RegisteredScorer$inboundSchema,
 } from "./registeredscorer.js";
-import { RougeScorer, RougeScorer$inboundSchema } from "./rougescorer.js";
 import { ScorerConfig, ScorerConfig$inboundSchema } from "./scorerconfig.js";
 import {
   ScorersConfiguration,
@@ -195,17 +180,12 @@ import {
   ToolSelectionQualityScorer,
   ToolSelectionQualityScorer$inboundSchema,
 } from "./toolselectionqualityscorer.js";
-import {
-  UncertaintyScorer,
-  UncertaintyScorer$inboundSchema,
-} from "./uncertaintyscorer.js";
 
 export type CreateJobResponseLabels = Array<Array<string>> | Array<string>;
 
 export type CreateJobResponseScorers1 =
   | AgenticSessionSuccessScorer
   | AgenticWorkflowSuccessScorer
-  | BleuScorer
   | ChunkAttributionUtilizationScorer
   | CompletenessScorer
   | ContextAdherenceScorer
@@ -222,11 +202,8 @@ export type CreateJobResponseScorers1 =
   | OutputToneScorer
   | OutputToxicityScorer
   | PromptInjectionScorer
-  | PromptPerplexityScorer
-  | RougeScorer
   | ToolErrorRateScorer
   | ToolSelectionQualityScorer
-  | UncertaintyScorer
   | discriminatedUnionTypes.Unknown<"name">;
 
 /**
@@ -237,7 +214,6 @@ export type CreateJobResponseScorers2 =
   | Array<
     | AgenticSessionSuccessScorer
     | AgenticWorkflowSuccessScorer
-    | BleuScorer
     | ChunkAttributionUtilizationScorer
     | CompletenessScorer
     | ContextAdherenceScorer
@@ -254,11 +230,8 @@ export type CreateJobResponseScorers2 =
     | OutputToneScorer
     | OutputToxicityScorer
     | PromptInjectionScorer
-    | PromptPerplexityScorer
-    | RougeScorer
     | ToolErrorRateScorer
     | ToolSelectionQualityScorer
-    | UncertaintyScorer
     | discriminatedUnionTypes.Unknown<"name">
   >;
 
@@ -303,7 +276,7 @@ export type CreateJobResponse = {
   promptTemplateVersionId?: string | null | undefined;
   monitorBatchId?: string | null | undefined;
   protectTraceId?: string | null | undefined;
-  protectScorerPayload?: Uint8Array | string | null | undefined;
+  protectScorerPayload?: string | null | undefined;
   promptSettings?: PromptRunSettings | null | undefined;
   /**
    * For G2.0 we send all scorers as ScorerConfig, for G1.0 we send preset scorers  as GalileoScorer
@@ -313,7 +286,6 @@ export type CreateJobResponse = {
     | Array<
       | AgenticSessionSuccessScorer
       | AgenticWorkflowSuccessScorer
-      | BleuScorer
       | ChunkAttributionUtilizationScorer
       | CompletenessScorer
       | ContextAdherenceScorer
@@ -330,11 +302,8 @@ export type CreateJobResponse = {
       | OutputToneScorer
       | OutputToxicityScorer
       | PromptInjectionScorer
-      | PromptPerplexityScorer
-      | RougeScorer
       | ToolErrorRateScorer
       | ToolSelectionQualityScorer
-      | UncertaintyScorer
       | discriminatedUnionTypes.Unknown<"name">
     >
     | null
@@ -375,21 +344,14 @@ export type CreateJobResponse = {
   subScorers?: Array<PromptgalileoSchemasScorerNameScorerName> | undefined;
   lunaModel?: string | null | undefined;
   segmentFilters?: Array<SegmentFilter> | null | undefined;
-  promptOptimizationConfiguration?:
-    | PromptOptimizationConfiguration
-    | null
-    | undefined;
-  epoch: number;
-  metricCritiqueConfiguration?:
-    | MetricCritiqueJobConfiguration
-    | null
-    | undefined;
   isSession?: boolean | null | undefined;
   validationConfig?: { [k: string]: any } | null | undefined;
   uploadDataInSeparateTask: boolean;
   logMetricComputingRecords: boolean;
   streamMetrics: boolean;
   multijudgeAverageBooleanMetrics: boolean;
+  storeMetricIds: boolean;
+  traceIds?: Array<string> | undefined;
   message: string;
   link: string;
 };
@@ -417,7 +379,6 @@ export const CreateJobResponseScorers1$inboundSchema: z.ZodMiniType<
 > = discriminatedUnion("name", {
   agentic_session_success: AgenticSessionSuccessScorer$inboundSchema,
   agentic_workflow_success: AgenticWorkflowSuccessScorer$inboundSchema,
-  bleu: BleuScorer$inboundSchema,
   chunk_attribution_utilization:
     ChunkAttributionUtilizationScorer$inboundSchema,
   completeness: CompletenessScorer$inboundSchema,
@@ -435,11 +396,8 @@ export const CreateJobResponseScorers1$inboundSchema: z.ZodMiniType<
   output_tone: OutputToneScorer$inboundSchema,
   output_toxicity: OutputToxicityScorer$inboundSchema,
   prompt_injection: PromptInjectionScorer$inboundSchema,
-  prompt_perplexity: PromptPerplexityScorer$inboundSchema,
-  rouge: RougeScorer$inboundSchema,
   tool_error_rate: ToolErrorRateScorer$inboundSchema,
   tool_selection_quality: ToolSelectionQualityScorer$inboundSchema,
-  uncertainty: UncertaintyScorer$inboundSchema,
 });
 
 export function createJobResponseScorers1FromJSON(
@@ -461,7 +419,6 @@ export const CreateJobResponseScorers2$inboundSchema: z.ZodMiniType<
   z.array(discriminatedUnion("name", {
     agentic_session_success: AgenticSessionSuccessScorer$inboundSchema,
     agentic_workflow_success: AgenticWorkflowSuccessScorer$inboundSchema,
-    bleu: BleuScorer$inboundSchema,
     chunk_attribution_utilization:
       ChunkAttributionUtilizationScorer$inboundSchema,
     completeness: CompletenessScorer$inboundSchema,
@@ -479,11 +436,8 @@ export const CreateJobResponseScorers2$inboundSchema: z.ZodMiniType<
     output_tone: OutputToneScorer$inboundSchema,
     output_toxicity: OutputToxicityScorer$inboundSchema,
     prompt_injection: PromptInjectionScorer$inboundSchema,
-    prompt_perplexity: PromptPerplexityScorer$inboundSchema,
-    rouge: RougeScorer$inboundSchema,
     tool_error_rate: ToolErrorRateScorer$inboundSchema,
     tool_selection_quality: ToolSelectionQualityScorer$inboundSchema,
-    uncertainty: UncertaintyScorer$inboundSchema,
   })),
 ]);
 
@@ -554,7 +508,7 @@ export const CreateJobResponse$inboundSchema: z.ZodMiniType<
     project_id: types.string(),
     run_id: types.string(),
     job_id: z.optional(z.nullable(types.string())),
-    job_name: z._default(types.string(), "default"),
+    job_name: z._default(types.string(), "log_stream_scorer"),
     should_retry: z._default(types.boolean(), true),
     user_id: z.optional(z.nullable(types.string())),
     task_type: z.optional(z.nullable(TaskType$inboundSchema)),
@@ -574,7 +528,7 @@ export const CreateJobResponse$inboundSchema: z.ZodMiniType<
     prompt_template_version_id: z.optional(z.nullable(types.string())),
     monitor_batch_id: z.optional(z.nullable(types.string())),
     protect_trace_id: z.optional(z.nullable(types.string())),
-    protect_scorer_payload: z.optional(z.nullable(b64$.zodInbound)),
+    protect_scorer_payload: z.optional(z.nullable(types.string())),
     prompt_settings: z.optional(z.nullable(PromptRunSettings$inboundSchema)),
     scorers: z.optional(
       z.nullable(
@@ -584,7 +538,6 @@ export const CreateJobResponse$inboundSchema: z.ZodMiniType<
             agentic_session_success: AgenticSessionSuccessScorer$inboundSchema,
             agentic_workflow_success:
               AgenticWorkflowSuccessScorer$inboundSchema,
-            bleu: BleuScorer$inboundSchema,
             chunk_attribution_utilization:
               ChunkAttributionUtilizationScorer$inboundSchema,
             completeness: CompletenessScorer$inboundSchema,
@@ -602,11 +555,8 @@ export const CreateJobResponse$inboundSchema: z.ZodMiniType<
             output_tone: OutputToneScorer$inboundSchema,
             output_toxicity: OutputToxicityScorer$inboundSchema,
             prompt_injection: PromptInjectionScorer$inboundSchema,
-            prompt_perplexity: PromptPerplexityScorer$inboundSchema,
-            rouge: RougeScorer$inboundSchema,
             tool_error_rate: ToolErrorRateScorer$inboundSchema,
             tool_selection_quality: ToolSelectionQualityScorer$inboundSchema,
-            uncertainty: UncertaintyScorer$inboundSchema,
           })),
         ]),
       ),
@@ -662,19 +612,14 @@ export const CreateJobResponse$inboundSchema: z.ZodMiniType<
     segment_filters: z.optional(
       z.nullable(z.array(SegmentFilter$inboundSchema)),
     ),
-    prompt_optimization_configuration: z.optional(
-      z.nullable(PromptOptimizationConfiguration$inboundSchema),
-    ),
-    epoch: z._default(types.number(), 0),
-    metric_critique_configuration: z.optional(
-      z.nullable(MetricCritiqueJobConfiguration$inboundSchema),
-    ),
     is_session: z.optional(z.nullable(types.boolean())),
     validation_config: z.optional(z.nullable(z.record(z.string(), z.any()))),
     upload_data_in_separate_task: z._default(types.boolean(), true),
     log_metric_computing_records: z._default(types.boolean(), true),
     stream_metrics: z._default(types.boolean(), false),
     multijudge_average_boolean_metrics: z._default(types.boolean(), false),
+    store_metric_ids: z._default(types.boolean(), false),
+    trace_ids: types.optional(z.array(types.string())),
     message: types.string(),
     link: types.string(),
   }),
@@ -715,14 +660,14 @@ export const CreateJobResponse$inboundSchema: z.ZodMiniType<
       "sub_scorers": "subScorers",
       "luna_model": "lunaModel",
       "segment_filters": "segmentFilters",
-      "prompt_optimization_configuration": "promptOptimizationConfiguration",
-      "metric_critique_configuration": "metricCritiqueConfiguration",
       "is_session": "isSession",
       "validation_config": "validationConfig",
       "upload_data_in_separate_task": "uploadDataInSeparateTask",
       "log_metric_computing_records": "logMetricComputingRecords",
       "stream_metrics": "streamMetrics",
       "multijudge_average_boolean_metrics": "multijudgeAverageBooleanMetrics",
+      "store_metric_ids": "storeMetricIds",
+      "trace_ids": "traceIds",
     });
   }),
 );
