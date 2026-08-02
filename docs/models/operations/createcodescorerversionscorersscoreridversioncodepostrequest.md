@@ -5,7 +5,13 @@
 ```typescript
 import { CreateCodeScorerVersionScorersScorerIdVersionCodePostRequest } from "galileo-generated/models/operations";
 
-// No examples available for this model
+let value: CreateCodeScorerVersionScorersScorerIdVersionCodePostRequest = {
+  scorerId: "<value>",
+  body: {
+    file: "<value>",
+    validationResult: "<value>",
+  },
+};
 ```
 
 ## Fields
