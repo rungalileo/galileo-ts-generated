@@ -3,6 +3,7 @@
  * @generated-id: 320761608fb3
  */
 
+import * as models from "../models/index.js";
 import { HTTPClient } from "./http.js";
 import { Logger } from "./logger.js";
 import { RetryConfig } from "./retries.js";
@@ -19,7 +20,10 @@ export const ServerList = [
 ] as const;
 
 export type SDKOptions = {
-  apiKeyHeader?: string | (() => Promise<string>) | undefined;
+  oAuth2PasswordBearer?:
+    | models.OAuth2PasswordBearerInput
+    | (() => Promise<models.OAuth2PasswordBearerInput>)
+    | undefined;
 
   httpClient?: HTTPClient;
   /**
@@ -63,6 +67,6 @@ export const SDK_METADATA = {
   language: "typescript",
   openapiDocVersion: "0.1.0",
   sdkVersion: "0.2.14",
-  genVersion: "2.850.7",
-  userAgent: "speakeasy-sdk/typescript 0.2.14 2.850.7 0.1.0 galileo-generated",
+  genVersion: "2.926.2",
+  userAgent: "speakeasy-sdk/typescript 0.2.14 2.926.2 0.1.0 galileo-generated",
 } as const;
