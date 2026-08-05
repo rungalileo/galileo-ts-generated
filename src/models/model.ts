@@ -61,8 +61,6 @@ export type Model = {
   inputTokenLimit?: number | null | undefined;
   outputTokenLimit?: number | null | undefined;
   tokenLimit?: number | null | undefined;
-  outputPrice?: number | undefined;
-  inputPrice?: number | undefined;
   costBy?: ModelCostBy | undefined;
   isChat?: boolean | undefined;
   providesLogProbs?: boolean | undefined;
@@ -97,8 +95,6 @@ export const Model$inboundSchema: z.ZodMiniType<Model, unknown> = z.pipe(
     input_token_limit: z.optional(z.nullable(types.number())),
     output_token_limit: z.optional(z.nullable(types.number())),
     token_limit: z.optional(z.nullable(types.number())),
-    output_price: z._default(types.number(), 0),
-    input_price: z._default(types.number(), 0),
     cost_by: types.optional(ModelCostBy$inboundSchema),
     is_chat: z._default(types.boolean(), false),
     provides_log_probs: z._default(types.boolean(), false),
@@ -122,8 +118,6 @@ export const Model$inboundSchema: z.ZodMiniType<Model, unknown> = z.pipe(
       "input_token_limit": "inputTokenLimit",
       "output_token_limit": "outputTokenLimit",
       "token_limit": "tokenLimit",
-      "output_price": "outputPrice",
-      "input_price": "inputPrice",
       "cost_by": "costBy",
       "is_chat": "isChat",
       "provides_log_probs": "providesLogProbs",
@@ -152,8 +146,6 @@ export type Model$Outbound = {
   input_token_limit?: number | null | undefined;
   output_token_limit?: number | null | undefined;
   token_limit?: number | null | undefined;
-  output_price: number;
-  input_price: number;
   cost_by?: string | undefined;
   is_chat: boolean;
   provides_log_probs: boolean;
@@ -183,8 +175,6 @@ export const Model$outboundSchema: z.ZodMiniType<Model$Outbound, Model> = z
       inputTokenLimit: z.optional(z.nullable(z.int())),
       outputTokenLimit: z.optional(z.nullable(z.int())),
       tokenLimit: z.optional(z.nullable(z.int())),
-      outputPrice: z._default(z.number(), 0),
-      inputPrice: z._default(z.number(), 0),
       costBy: z.optional(ModelCostBy$outboundSchema),
       isChat: z._default(z.boolean(), false),
       providesLogProbs: z._default(z.boolean(), false),
@@ -208,8 +198,6 @@ export const Model$outboundSchema: z.ZodMiniType<Model$Outbound, Model> = z
         inputTokenLimit: "input_token_limit",
         outputTokenLimit: "output_token_limit",
         tokenLimit: "token_limit",
-        outputPrice: "output_price",
-        inputPrice: "input_price",
         costBy: "cost_by",
         isChat: "is_chat",
         providesLogProbs: "provides_log_probs",
