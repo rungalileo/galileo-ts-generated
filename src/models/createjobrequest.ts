@@ -4,7 +4,6 @@
  */
 
 import * as z from "zod/v4-mini";
-import * as b64$ from "../lib/base64.js";
 import { remap as remap$ } from "../lib/primitives.js";
 import { smartUnion } from "../types/smartUnion.js";
 import {
@@ -22,11 +21,6 @@ import {
   BaseScorer$Outbound,
   BaseScorer$outboundSchema,
 } from "./basescorer.js";
-import {
-  BleuScorer,
-  BleuScorer$Outbound,
-  BleuScorer$outboundSchema,
-} from "./bleuscorer.js";
 import {
   ChunkAttributionUtilizationScorer,
   ChunkAttributionUtilizationScorer$Outbound,
@@ -163,11 +157,6 @@ import {
   InstructionAdherenceScorer$outboundSchema,
 } from "./instructionadherencescorer.js";
 import {
-  MetricCritiqueJobConfiguration,
-  MetricCritiqueJobConfiguration$Outbound,
-  MetricCritiqueJobConfiguration$outboundSchema,
-} from "./metriccritiquejobconfiguration.js";
-import {
   OutputPIIScorer,
   OutputPIIScorer$Outbound,
   OutputPIIScorer$outboundSchema,
@@ -197,16 +186,6 @@ import {
   PromptInjectionScorer$outboundSchema,
 } from "./promptinjectionscorer.js";
 import {
-  PromptOptimizationConfiguration,
-  PromptOptimizationConfiguration$Outbound,
-  PromptOptimizationConfiguration$outboundSchema,
-} from "./promptoptimizationconfiguration.js";
-import {
-  PromptPerplexityScorer,
-  PromptPerplexityScorer$Outbound,
-  PromptPerplexityScorer$outboundSchema,
-} from "./promptperplexityscorer.js";
-import {
   PromptRunSettings,
   PromptRunSettings$Outbound,
   PromptRunSettings$outboundSchema,
@@ -217,15 +196,10 @@ import {
   RegisteredScorer$outboundSchema,
 } from "./registeredscorer.js";
 import {
-  RougeScorer,
-  RougeScorer$Outbound,
-  RougeScorer$outboundSchema,
-} from "./rougescorer.js";
-import {
-  ScorerConfig,
-  ScorerConfig$Outbound,
-  ScorerConfig$outboundSchema,
-} from "./scorerconfig.js";
+  RuntimeScorerConfig,
+  RuntimeScorerConfig$Outbound,
+  RuntimeScorerConfig$outboundSchema,
+} from "./runtimescorerconfig.js";
 import {
   ScorersConfiguration,
   ScorersConfiguration$Outbound,
@@ -252,18 +226,12 @@ import {
   ToolSelectionQualityScorer$Outbound,
   ToolSelectionQualityScorer$outboundSchema,
 } from "./toolselectionqualityscorer.js";
-import {
-  UncertaintyScorer,
-  UncertaintyScorer$Outbound,
-  UncertaintyScorer$outboundSchema,
-} from "./uncertaintyscorer.js";
 
 export type CreateJobRequestLabels = Array<Array<string>> | Array<string>;
 
 export type CreateJobRequestScorers1 =
   | AgenticSessionSuccessScorer
   | AgenticWorkflowSuccessScorer
-  | BleuScorer
   | ChunkAttributionUtilizationScorer
   | CompletenessScorer
   | ContextAdherenceScorer
@@ -280,21 +248,17 @@ export type CreateJobRequestScorers1 =
   | OutputToneScorer
   | OutputToxicityScorer
   | PromptInjectionScorer
-  | PromptPerplexityScorer
-  | RougeScorer
   | ToolErrorRateScorer
-  | ToolSelectionQualityScorer
-  | UncertaintyScorer;
+  | ToolSelectionQualityScorer;
 
 /**
  * For G2.0 we send all scorers as ScorerConfig, for G1.0 we send preset scorers  as GalileoScorer
  */
 export type CreateJobRequestScorers2 =
-  | Array<ScorerConfig>
+  | Array<RuntimeScorerConfig>
   | Array<
     | AgenticSessionSuccessScorer
     | AgenticWorkflowSuccessScorer
-    | BleuScorer
     | ChunkAttributionUtilizationScorer
     | CompletenessScorer
     | ContextAdherenceScorer
@@ -311,11 +275,8 @@ export type CreateJobRequestScorers2 =
     | OutputToneScorer
     | OutputToxicityScorer
     | PromptInjectionScorer
-    | PromptPerplexityScorer
-    | RougeScorer
     | ToolErrorRateScorer
     | ToolSelectionQualityScorer
-    | UncertaintyScorer
   >;
 
 export type CreateJobRequestPromptCustomizedScorersConfiguration =
@@ -358,17 +319,16 @@ export type CreateJobRequest = {
   promptTemplateVersionId?: string | null | undefined;
   monitorBatchId?: string | null | undefined;
   protectTraceId?: string | null | undefined;
-  protectScorerPayload?: Uint8Array | string | null | undefined;
+  protectScorerPayload?: string | null | undefined;
   promptSettings?: PromptRunSettings | null | undefined;
   /**
    * For G2.0 we send all scorers as ScorerConfig, for G1.0 we send preset scorers  as GalileoScorer
    */
   scorers?:
-    | Array<ScorerConfig>
+    | Array<RuntimeScorerConfig>
     | Array<
       | AgenticSessionSuccessScorer
       | AgenticWorkflowSuccessScorer
-      | BleuScorer
       | ChunkAttributionUtilizationScorer
       | CompletenessScorer
       | ContextAdherenceScorer
@@ -385,11 +345,8 @@ export type CreateJobRequest = {
       | OutputToneScorer
       | OutputToxicityScorer
       | PromptInjectionScorer
-      | PromptPerplexityScorer
-      | RougeScorer
       | ToolErrorRateScorer
       | ToolSelectionQualityScorer
-      | UncertaintyScorer
     >
     | null
     | undefined;
@@ -424,25 +381,18 @@ export type CreateJobRequest = {
     | null
     | undefined;
   promptScorerSettings?: BaseScorer | null | undefined;
-  scorerConfig?: ScorerConfig | null | undefined;
+  scorerConfig?: RuntimeScorerConfig | null | undefined;
   subScorers?: Array<PromptgalileoSchemasScorerNameScorerName> | undefined;
   lunaModel?: string | null | undefined;
   segmentFilters?: Array<SegmentFilter> | null | undefined;
-  promptOptimizationConfiguration?:
-    | PromptOptimizationConfiguration
-    | null
-    | undefined;
-  epoch?: number | undefined;
-  metricCritiqueConfiguration?:
-    | MetricCritiqueJobConfiguration
-    | null
-    | undefined;
   isSession?: boolean | null | undefined;
   validationConfig?: { [k: string]: any } | null | undefined;
   uploadDataInSeparateTask?: boolean | undefined;
   logMetricComputingRecords?: boolean | undefined;
   streamMetrics?: boolean | undefined;
   multijudgeAverageBooleanMetrics?: boolean | undefined;
+  storeMetricIds?: boolean | undefined;
+  traceIds?: Array<string> | undefined;
 };
 
 /** @internal */
@@ -468,7 +418,6 @@ export function createJobRequestLabelsToJSON(
 export type CreateJobRequestScorers1$Outbound =
   | AgenticSessionSuccessScorer$Outbound
   | AgenticWorkflowSuccessScorer$Outbound
-  | BleuScorer$Outbound
   | ChunkAttributionUtilizationScorer$Outbound
   | CompletenessScorer$Outbound
   | ContextAdherenceScorer$Outbound
@@ -485,11 +434,8 @@ export type CreateJobRequestScorers1$Outbound =
   | OutputToneScorer$Outbound
   | OutputToxicityScorer$Outbound
   | PromptInjectionScorer$Outbound
-  | PromptPerplexityScorer$Outbound
-  | RougeScorer$Outbound
   | ToolErrorRateScorer$Outbound
-  | ToolSelectionQualityScorer$Outbound
-  | UncertaintyScorer$Outbound;
+  | ToolSelectionQualityScorer$Outbound;
 
 /** @internal */
 export const CreateJobRequestScorers1$outboundSchema: z.ZodMiniType<
@@ -498,7 +444,6 @@ export const CreateJobRequestScorers1$outboundSchema: z.ZodMiniType<
 > = z.union([
   AgenticSessionSuccessScorer$outboundSchema,
   AgenticWorkflowSuccessScorer$outboundSchema,
-  BleuScorer$outboundSchema,
   ChunkAttributionUtilizationScorer$outboundSchema,
   CompletenessScorer$outboundSchema,
   ContextAdherenceScorer$outboundSchema,
@@ -515,11 +460,8 @@ export const CreateJobRequestScorers1$outboundSchema: z.ZodMiniType<
   OutputToneScorer$outboundSchema,
   OutputToxicityScorer$outboundSchema,
   PromptInjectionScorer$outboundSchema,
-  PromptPerplexityScorer$outboundSchema,
-  RougeScorer$outboundSchema,
   ToolErrorRateScorer$outboundSchema,
   ToolSelectionQualityScorer$outboundSchema,
-  UncertaintyScorer$outboundSchema,
 ]);
 
 export function createJobRequestScorers1ToJSON(
@@ -532,11 +474,10 @@ export function createJobRequestScorers1ToJSON(
 
 /** @internal */
 export type CreateJobRequestScorers2$Outbound =
-  | Array<ScorerConfig$Outbound>
+  | Array<RuntimeScorerConfig$Outbound>
   | Array<
     | AgenticSessionSuccessScorer$Outbound
     | AgenticWorkflowSuccessScorer$Outbound
-    | BleuScorer$Outbound
     | ChunkAttributionUtilizationScorer$Outbound
     | CompletenessScorer$Outbound
     | ContextAdherenceScorer$Outbound
@@ -553,11 +494,8 @@ export type CreateJobRequestScorers2$Outbound =
     | OutputToneScorer$Outbound
     | OutputToxicityScorer$Outbound
     | PromptInjectionScorer$Outbound
-    | PromptPerplexityScorer$Outbound
-    | RougeScorer$Outbound
     | ToolErrorRateScorer$Outbound
     | ToolSelectionQualityScorer$Outbound
-    | UncertaintyScorer$Outbound
   >;
 
 /** @internal */
@@ -565,12 +503,11 @@ export const CreateJobRequestScorers2$outboundSchema: z.ZodMiniType<
   CreateJobRequestScorers2$Outbound,
   CreateJobRequestScorers2
 > = smartUnion([
-  z.array(ScorerConfig$outboundSchema),
+  z.array(RuntimeScorerConfig$outboundSchema),
   z.array(
     z.union([
       AgenticSessionSuccessScorer$outboundSchema,
       AgenticWorkflowSuccessScorer$outboundSchema,
-      BleuScorer$outboundSchema,
       ChunkAttributionUtilizationScorer$outboundSchema,
       CompletenessScorer$outboundSchema,
       ContextAdherenceScorer$outboundSchema,
@@ -587,11 +524,8 @@ export const CreateJobRequestScorers2$outboundSchema: z.ZodMiniType<
       OutputToneScorer$outboundSchema,
       OutputToxicityScorer$outboundSchema,
       PromptInjectionScorer$outboundSchema,
-      PromptPerplexityScorer$outboundSchema,
-      RougeScorer$outboundSchema,
       ToolErrorRateScorer$outboundSchema,
       ToolSelectionQualityScorer$outboundSchema,
-      UncertaintyScorer$outboundSchema,
     ]),
   ),
 ]);
@@ -680,14 +614,13 @@ export type CreateJobRequest$Outbound = {
   prompt_template_version_id?: string | null | undefined;
   monitor_batch_id?: string | null | undefined;
   protect_trace_id?: string | null | undefined;
-  protect_scorer_payload?: Uint8Array | null | undefined;
+  protect_scorer_payload?: string | null | undefined;
   prompt_settings?: PromptRunSettings$Outbound | null | undefined;
   scorers?:
-    | Array<ScorerConfig$Outbound>
+    | Array<RuntimeScorerConfig$Outbound>
     | Array<
       | AgenticSessionSuccessScorer$Outbound
       | AgenticWorkflowSuccessScorer$Outbound
-      | BleuScorer$Outbound
       | ChunkAttributionUtilizationScorer$Outbound
       | CompletenessScorer$Outbound
       | ContextAdherenceScorer$Outbound
@@ -704,11 +637,8 @@ export type CreateJobRequest$Outbound = {
       | OutputToneScorer$Outbound
       | OutputToxicityScorer$Outbound
       | PromptInjectionScorer$Outbound
-      | PromptPerplexityScorer$Outbound
-      | RougeScorer$Outbound
       | ToolErrorRateScorer$Outbound
       | ToolSelectionQualityScorer$Outbound
-      | UncertaintyScorer$Outbound
     >
     | null
     | undefined;
@@ -746,25 +676,18 @@ export type CreateJobRequest$Outbound = {
     | null
     | undefined;
   prompt_scorer_settings?: BaseScorer$Outbound | null | undefined;
-  scorer_config?: ScorerConfig$Outbound | null | undefined;
+  scorer_config?: RuntimeScorerConfig$Outbound | null | undefined;
   sub_scorers?: Array<string> | undefined;
   luna_model?: string | null | undefined;
   segment_filters?: Array<SegmentFilter$Outbound> | null | undefined;
-  prompt_optimization_configuration?:
-    | PromptOptimizationConfiguration$Outbound
-    | null
-    | undefined;
-  epoch: number;
-  metric_critique_configuration?:
-    | MetricCritiqueJobConfiguration$Outbound
-    | null
-    | undefined;
   is_session?: boolean | null | undefined;
   validation_config?: { [k: string]: any } | null | undefined;
   upload_data_in_separate_task: boolean;
   log_metric_computing_records: boolean;
   stream_metrics: boolean;
   multijudge_average_boolean_metrics: boolean;
+  store_metric_ids: boolean;
+  trace_ids?: Array<string> | undefined;
 };
 
 /** @internal */
@@ -777,7 +700,7 @@ export const CreateJobRequest$outboundSchema: z.ZodMiniType<
     projectId: z.string(),
     runId: z.string(),
     jobId: z.optional(z.nullable(z.string())),
-    jobName: z._default(z.string(), "default"),
+    jobName: z._default(z.string(), "log_stream_scorer"),
     shouldRetry: z._default(z.boolean(), true),
     userId: z.optional(z.nullable(z.string())),
     taskType: z.optional(z.nullable(TaskType$outboundSchema)),
@@ -797,17 +720,16 @@ export const CreateJobRequest$outboundSchema: z.ZodMiniType<
     promptTemplateVersionId: z.optional(z.nullable(z.string())),
     monitorBatchId: z.optional(z.nullable(z.string())),
     protectTraceId: z.optional(z.nullable(z.string())),
-    protectScorerPayload: z.optional(z.nullable(b64$.zodOutbound)),
+    protectScorerPayload: z.optional(z.nullable(z.string())),
     promptSettings: z.optional(z.nullable(PromptRunSettings$outboundSchema)),
     scorers: z.optional(
       z.nullable(
         smartUnion([
-          z.array(ScorerConfig$outboundSchema),
+          z.array(RuntimeScorerConfig$outboundSchema),
           z.array(
             z.union([
               AgenticSessionSuccessScorer$outboundSchema,
               AgenticWorkflowSuccessScorer$outboundSchema,
-              BleuScorer$outboundSchema,
               ChunkAttributionUtilizationScorer$outboundSchema,
               CompletenessScorer$outboundSchema,
               ContextAdherenceScorer$outboundSchema,
@@ -824,11 +746,8 @@ export const CreateJobRequest$outboundSchema: z.ZodMiniType<
               OutputToneScorer$outboundSchema,
               OutputToxicityScorer$outboundSchema,
               PromptInjectionScorer$outboundSchema,
-              PromptPerplexityScorer$outboundSchema,
-              RougeScorer$outboundSchema,
               ToolErrorRateScorer$outboundSchema,
               ToolSelectionQualityScorer$outboundSchema,
-              UncertaintyScorer$outboundSchema,
             ]),
           ),
         ]),
@@ -870,7 +789,7 @@ export const CreateJobRequest$outboundSchema: z.ZodMiniType<
       ),
     ),
     promptScorerSettings: z.optional(z.nullable(BaseScorer$outboundSchema)),
-    scorerConfig: z.optional(z.nullable(ScorerConfig$outboundSchema)),
+    scorerConfig: z.optional(z.nullable(RuntimeScorerConfig$outboundSchema)),
     subScorers: z.optional(
       z.array(PromptgalileoSchemasScorerNameScorerName$outboundSchema),
     ),
@@ -878,19 +797,14 @@ export const CreateJobRequest$outboundSchema: z.ZodMiniType<
     segmentFilters: z.optional(
       z.nullable(z.array(SegmentFilter$outboundSchema)),
     ),
-    promptOptimizationConfiguration: z.optional(
-      z.nullable(PromptOptimizationConfiguration$outboundSchema),
-    ),
-    epoch: z._default(z.int(), 0),
-    metricCritiqueConfiguration: z.optional(
-      z.nullable(MetricCritiqueJobConfiguration$outboundSchema),
-    ),
     isSession: z.optional(z.nullable(z.boolean())),
     validationConfig: z.optional(z.nullable(z.record(z.string(), z.any()))),
     uploadDataInSeparateTask: z._default(z.boolean(), true),
     logMetricComputingRecords: z._default(z.boolean(), true),
     streamMetrics: z._default(z.boolean(), false),
     multijudgeAverageBooleanMetrics: z._default(z.boolean(), false),
+    storeMetricIds: z._default(z.boolean(), false),
+    traceIds: z.optional(z.array(z.string())),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -929,14 +843,14 @@ export const CreateJobRequest$outboundSchema: z.ZodMiniType<
       subScorers: "sub_scorers",
       lunaModel: "luna_model",
       segmentFilters: "segment_filters",
-      promptOptimizationConfiguration: "prompt_optimization_configuration",
-      metricCritiqueConfiguration: "metric_critique_configuration",
       isSession: "is_session",
       validationConfig: "validation_config",
       uploadDataInSeparateTask: "upload_data_in_separate_task",
       logMetricComputingRecords: "log_metric_computing_records",
       streamMetrics: "stream_metrics",
       multijudgeAverageBooleanMetrics: "multijudge_average_boolean_metrics",
+      storeMetricIds: "store_metric_ids",
+      traceIds: "trace_ids",
     });
   }),
 );

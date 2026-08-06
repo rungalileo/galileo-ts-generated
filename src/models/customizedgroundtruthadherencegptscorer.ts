@@ -137,6 +137,7 @@ export type CustomizedGroundTruthAdherenceGPTScorer = {
   outputType?: OutputTypeEnum | null | undefined;
   inputType?: InputTypeEnum | null | undefined;
   multimodalCapabilities?: Array<MultimodalCapability> | null | undefined;
+  requiresToolsInLlmSpan?: boolean | undefined;
   requiredScorers?: Array<string> | null | undefined;
   requiredMetricIds?: Array<string> | null | undefined;
   rollUpStrategy?: RollUpStrategy | null | undefined;
@@ -155,6 +156,7 @@ export type CustomizedGroundTruthAdherenceGPTScorer = {
     | { [k: string]: number }
     | null
     | undefined;
+  scorerPathName?: string | null | undefined;
 };
 
 /** @internal */
@@ -356,6 +358,7 @@ export const CustomizedGroundTruthAdherenceGPTScorer$inboundSchema:
       multimodal_capabilities: z.optional(
         z.nullable(z.array(MultimodalCapability$inboundSchema)),
       ),
+      requires_tools_in_llm_span: z._default(types.boolean(), false),
       required_scorers: z.optional(z.nullable(z.array(types.string()))),
       required_metric_ids: z.optional(z.nullable(z.array(types.string()))),
       roll_up_strategy: z.optional(z.nullable(RollUpStrategy$inboundSchema)),
@@ -382,6 +385,7 @@ export const CustomizedGroundTruthAdherenceGPTScorer$inboundSchema:
           ]),
         ),
       ),
+      scorer_path_name: z.optional(z.nullable(types.string())),
     }),
     z.transform((v) => {
       return remap$(v, {
@@ -405,6 +409,7 @@ export const CustomizedGroundTruthAdherenceGPTScorer$inboundSchema:
         "output_type": "outputType",
         "input_type": "inputType",
         "multimodal_capabilities": "multimodalCapabilities",
+        "requires_tools_in_llm_span": "requiresToolsInLlmSpan",
         "required_scorers": "requiredScorers",
         "required_metric_ids": "requiredMetricIds",
         "roll_up_strategy": "rollUpStrategy",
@@ -414,6 +419,7 @@ export const CustomizedGroundTruthAdherenceGPTScorer$inboundSchema:
         "luna_input_type": "lunaInputType",
         "luna_output_type": "lunaOutputType",
         "class_name_to_vocab_ix": "classNameToVocabIx",
+        "scorer_path_name": "scorerPathName",
       });
     }),
   );
@@ -453,6 +459,7 @@ export type CustomizedGroundTruthAdherenceGPTScorer$Outbound = {
   output_type?: string | null | undefined;
   input_type?: string | null | undefined;
   multimodal_capabilities?: Array<string> | null | undefined;
+  requires_tools_in_llm_span: boolean;
   required_scorers?: Array<string> | null | undefined;
   required_metric_ids?: Array<string> | null | undefined;
   roll_up_strategy?: string | null | undefined;
@@ -467,6 +474,7 @@ export type CustomizedGroundTruthAdherenceGPTScorer$Outbound = {
     | { [k: string]: number }
     | null
     | undefined;
+  scorer_path_name?: string | null | undefined;
 };
 
 /** @internal */
@@ -524,6 +532,7 @@ export const CustomizedGroundTruthAdherenceGPTScorer$outboundSchema:
       multimodalCapabilities: z.optional(
         z.nullable(z.array(MultimodalCapability$outboundSchema)),
       ),
+      requiresToolsInLlmSpan: z._default(z.boolean(), false),
       requiredScorers: z.optional(z.nullable(z.array(z.string()))),
       requiredMetricIds: z.optional(z.nullable(z.array(z.string()))),
       rollUpStrategy: z.optional(z.nullable(RollUpStrategy$outboundSchema)),
@@ -548,6 +557,7 @@ export const CustomizedGroundTruthAdherenceGPTScorer$outboundSchema:
           ]),
         ),
       ),
+      scorerPathName: z.optional(z.nullable(z.string())),
     }),
     z.transform((v) => {
       return remap$(v, {
@@ -571,6 +581,7 @@ export const CustomizedGroundTruthAdherenceGPTScorer$outboundSchema:
         outputType: "output_type",
         inputType: "input_type",
         multimodalCapabilities: "multimodal_capabilities",
+        requiresToolsInLlmSpan: "requires_tools_in_llm_span",
         requiredScorers: "required_scorers",
         requiredMetricIds: "required_metric_ids",
         rollUpStrategy: "roll_up_strategy",
@@ -580,6 +591,7 @@ export const CustomizedGroundTruthAdherenceGPTScorer$outboundSchema:
         lunaInputType: "luna_input_type",
         lunaOutputType: "luna_output_type",
         classNameToVocabIx: "class_name_to_vocab_ix",
+        scorerPathName: "scorer_path_name",
       });
     }),
   );
