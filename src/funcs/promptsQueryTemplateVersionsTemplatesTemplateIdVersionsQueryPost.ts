@@ -6,6 +6,7 @@
 import * as z from "zod/v4-mini";
 import { GalileoGeneratedCore } from "../core.js";
 import { encodeFormQuery, encodeJSON, encodeSimple } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -36,19 +37,15 @@ import { Result } from "../types/fp.js";
  *
  * Parameters
  * ----------
- * template_id : UUID4
- *     ID of the template to query versions for
  * params : ListPromptTemplateVersionParams
- *     Query parameters for filtering and sorting
+ *     Query parameters for filtering and sorting.
  * pagination : PaginationRequestMixin
- *     Pagination parameters
- * ctx : Context
- *     User context containing database session and user information
+ *     Pagination parameters.
  *
  * Returns
  * -------
  * ListPromptTemplateVersionResponse
- *     Paginated list of template version responses
+ *     Paginated list of template version responses.
  */
 export function promptsQueryTemplateVersionsTemplatesTemplateIdVersionsQueryPost(
   client: GalileoGeneratedCore,
@@ -125,7 +122,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/templates/{template_id}/versions/query")(
     pathParams,
   );
@@ -144,6 +140,13 @@ async function $do(
     [
       {
         fieldName: "Galileo-API-Key",
+        type: "apiKey:header",
+        value: security?.classicAPIKeyHeader,
+      },
+    ],
+    [
+      {
+        fieldName: "Splunk-AO-API-Key",
         type: "apiKey:header",
         value: security?.apiKeyHeader,
       },
@@ -202,7 +205,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["422", "4XX", "5XX"],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });

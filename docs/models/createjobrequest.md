@@ -42,6 +42,7 @@ let value: CreateJobRequest = {
       modelAlias: "gpt-4.1-mini",
       numJudges: 3,
       regexField: "",
+      requiresToolsInLlmSpan: false,
     },
   ],
   promptScorerSettings: {
@@ -54,6 +55,7 @@ let value: CreateJobRequest = {
     ],
   },
   scorerConfig: {
+    id: "<value>",
     filters: [
       {
         name: "node_name",
@@ -62,22 +64,15 @@ let value: CreateJobRequest = {
         caseSensitive: true,
       },
     ],
-    id: "<value>",
-    scorerType: "llm",
   },
   segmentFilters: [
     {
       filter: {
-        name: "node_name",
-        operator: "ne",
-        value: [
-          "<value 1>",
-          "<value 2>",
-          "<value 3>",
-        ],
-        caseSensitive: true,
+        name: "modality",
+        operator: "one_of",
+        value: "ENUM_VALUE",
       },
-      sampleRate: 7113.42,
+      sampleRate: 3546.17,
     },
   ],
 };
@@ -100,7 +95,6 @@ let value: CreateJobRequest = {
 | `tasks`                                                                                                    | *string*[]                                                                                                 | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `nonInferenceLogged`                                                                                       | *boolean*                                                                                                  | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `migrationName`                                                                                            | *string*                                                                                                   | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
-| `xray`                                                                                                     | *boolean*                                                                                                  | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `processExistingInferenceRuns`                                                                             | *boolean*                                                                                                  | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `featureNames`                                                                                             | *string*[]                                                                                                 | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `promptDatasetId`                                                                                          | *string*                                                                                                   | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
@@ -109,7 +103,7 @@ let value: CreateJobRequest = {
 | `promptTemplateVersionId`                                                                                  | *string*                                                                                                   | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `monitorBatchId`                                                                                           | *string*                                                                                                   | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `protectTraceId`                                                                                           | *string*                                                                                                   | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
-| `protectScorerPayload`                                                                                     | *Uint8Array*                                                                                               | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
+| `protectScorerPayload`                                                                                     | *string*                                                                                                   | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `promptSettings`                                                                                           | [models.PromptRunSettings](../models/promptrunsettings.md)                                                 | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `scorers`                                                                                                  | *models.CreateJobRequestScorers2*                                                                          | :heavy_minus_sign:                                                                                         | For G2.0 we send all scorers as ScorerConfig, for G1.0 we send preset scorers  as GalileoScorer            |
 | `promptRegisteredScorersConfiguration`                                                                     | [models.RegisteredScorer](../models/registeredscorer.md)[]                                                 | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
@@ -118,16 +112,15 @@ let value: CreateJobRequest = {
 | `promptScorersConfiguration`                                                                               | [models.ScorersConfiguration](../models/scorersconfiguration.md)                                           | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `promptCustomizedScorersConfiguration`                                                                     | *models.CreateJobRequestPromptCustomizedScorersConfiguration*[]                                            | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `promptScorerSettings`                                                                                     | [models.BaseScorer](../models/basescorer.md)                                                               | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
-| `scorerConfig`                                                                                             | [models.ScorerConfig](../models/scorerconfig.md)                                                           | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
+| `scorerConfig`                                                                                             | [models.RuntimeScorerConfig](../models/runtimescorerconfig.md)                                             | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `subScorers`                                                                                               | [models.PromptgalileoSchemasScorerNameScorerName](../models/promptgalileoschemasscorernamescorername.md)[] | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `lunaModel`                                                                                                | *string*                                                                                                   | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `segmentFilters`                                                                                           | [models.SegmentFilter](../models/segmentfilter.md)[]                                                       | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
-| `promptOptimizationConfiguration`                                                                          | [models.PromptOptimizationConfiguration](../models/promptoptimizationconfiguration.md)                     | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
-| `epoch`                                                                                                    | *number*                                                                                                   | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
-| `metricCritiqueConfiguration`                                                                              | [models.MetricCritiqueJobConfiguration](../models/metriccritiquejobconfiguration.md)                       | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `isSession`                                                                                                | *boolean*                                                                                                  | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `validationConfig`                                                                                         | Record<string, *any*>                                                                                      | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `uploadDataInSeparateTask`                                                                                 | *boolean*                                                                                                  | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `logMetricComputingRecords`                                                                                | *boolean*                                                                                                  | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `streamMetrics`                                                                                            | *boolean*                                                                                                  | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
 | `multijudgeAverageBooleanMetrics`                                                                          | *boolean*                                                                                                  | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
+| `storeMetricIds`                                                                                           | *boolean*                                                                                                  | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
+| `traceIds`                                                                                                 | *string*[]                                                                                                 | :heavy_minus_sign:                                                                                         | N/A                                                                                                        |
