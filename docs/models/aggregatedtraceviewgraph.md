@@ -15,12 +15,13 @@ let value: AggregatedTraceViewGraph = {
       hasChildren: false,
       metrics: {
         "key": {
+          aggregationType: "numeric",
           name: "<value>",
           label: "<value>",
         },
       },
-      traceCount: 870893,
-      weight: 407.2,
+      traceCount: 40720,
+      weight: 6780.99,
     },
   ],
   edges: [],

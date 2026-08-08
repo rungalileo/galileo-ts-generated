@@ -27,16 +27,6 @@ import {
   BaseRegisteredScorerDB$outboundSchema,
 } from "./baseregisteredscorerdb.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
-import {
-  InputTypeEnum,
-  InputTypeEnum$inboundSchema,
-  InputTypeEnum$outboundSchema,
-} from "./inputtypeenum.js";
-import {
-  OutputTypeEnum,
-  OutputTypeEnum$inboundSchema,
-  OutputTypeEnum$outboundSchema,
-} from "./outputtypeenum.js";
 
 /**
  * Scorer version from the scorer_versions table.
@@ -51,21 +41,9 @@ export type BaseScorerVersionDB = {
   modelName?: string | null | undefined;
   numJudges?: number | null | undefined;
   /**
-   * List of node types that can be scored by this scorer. Defaults to llm/chat.
-   */
-  scoreableNodeTypes?: Array<string> | null | undefined;
-  /**
    * Whether to enable chain of thought for this scorer. Defaults to False for llm scorers.
    */
   cotEnabled?: boolean | null | undefined;
-  /**
-   * What type of output to use for model-based scorers (sessions_normalized, trace_io_only, etc.).
-   */
-  outputType?: OutputTypeEnum | null | undefined;
-  /**
-   * What type of input to use for model-based scorers (sessions_normalized, trace_io_only, etc.).
-   */
-  inputType?: InputTypeEnum | null | undefined;
 };
 
 /** @internal */
@@ -88,10 +66,7 @@ export const BaseScorerVersionDB$inboundSchema: z.ZodMiniType<
     ),
     model_name: z.optional(z.nullable(types.string())),
     num_judges: z.optional(z.nullable(types.number())),
-    scoreable_node_types: z.optional(z.nullable(z.array(types.string()))),
     cot_enabled: z.optional(z.nullable(types.boolean())),
-    output_type: z.optional(z.nullable(OutputTypeEnum$inboundSchema)),
-    input_type: z.optional(z.nullable(InputTypeEnum$inboundSchema)),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -101,10 +76,7 @@ export const BaseScorerVersionDB$inboundSchema: z.ZodMiniType<
       "finetuned_scorer": "finetunedScorer",
       "model_name": "modelName",
       "num_judges": "numJudges",
-      "scoreable_node_types": "scoreableNodeTypes",
       "cot_enabled": "cotEnabled",
-      "output_type": "outputType",
-      "input_type": "inputType",
     });
   }),
 );
@@ -118,10 +90,7 @@ export type BaseScorerVersionDB$Outbound = {
   finetuned_scorer?: BaseFinetunedScorerDB$Outbound | null | undefined;
   model_name?: string | null | undefined;
   num_judges?: number | null | undefined;
-  scoreable_node_types?: Array<string> | null | undefined;
   cot_enabled?: boolean | null | undefined;
-  output_type?: string | null | undefined;
-  input_type?: string | null | undefined;
 };
 
 /** @internal */
@@ -144,10 +113,7 @@ export const BaseScorerVersionDB$outboundSchema: z.ZodMiniType<
     ),
     modelName: z.optional(z.nullable(z.string())),
     numJudges: z.optional(z.nullable(z.int())),
-    scoreableNodeTypes: z.optional(z.nullable(z.array(z.string()))),
     cotEnabled: z.optional(z.nullable(z.boolean())),
-    outputType: z.optional(z.nullable(OutputTypeEnum$outboundSchema)),
-    inputType: z.optional(z.nullable(InputTypeEnum$outboundSchema)),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -157,10 +123,7 @@ export const BaseScorerVersionDB$outboundSchema: z.ZodMiniType<
       finetunedScorer: "finetuned_scorer",
       modelName: "model_name",
       numJudges: "num_judges",
-      scoreableNodeTypes: "scoreable_node_types",
       cotEnabled: "cot_enabled",
-      outputType: "output_type",
-      inputType: "input_type",
     });
   }),
 );
