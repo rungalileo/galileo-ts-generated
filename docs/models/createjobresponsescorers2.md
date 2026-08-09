@@ -5,10 +5,10 @@ For G2.0 we send all scorers as ScorerConfig, for G1.0 we send preset scorers  a
 
 ## Supported Types
 
-### `models.ScorerConfig[]`
+### `models.RuntimeScorerConfig[]`
 
 ```typescript
-const value: models.ScorerConfig[] = [];
+const value: models.RuntimeScorerConfig[] = [];
 ```
 
 ### `models.CreateJobResponseScorers1[]`

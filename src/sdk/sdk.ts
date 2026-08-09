@@ -4,6 +4,8 @@
  */
 
 import { ClientSDK } from "../lib/sdks.js";
+import { AnnotationQueue } from "./annotationqueue.js";
+import { AnnotationQueueRecords } from "./annotationqueuerecords.js";
 import { Auth } from "./auth.js";
 import { CodeMetricGeneration } from "./codemetricgeneration.js";
 import { Data } from "./data.js";
@@ -44,11 +46,6 @@ export class GalileoGenerated extends ClientSDK {
     return (this._projects ??= new Projects(this._options));
   }
 
-  private _logStream?: LogStream;
-  get logStream(): LogStream {
-    return (this._logStream ??= new LogStream(this._options));
-  }
-
   private _trace?: Trace;
   get trace(): Trace {
     return (this._trace ??= new Trace(this._options));
@@ -79,16 +76,6 @@ export class GalileoGenerated extends ClientSDK {
     return (this._protect ??= new Protect(this._options));
   }
 
-  private _data?: Data;
-  get data(): Data {
-    return (this._data ??= new Data(this._options));
-  }
-
-  private _rows?: Rows;
-  get rows(): Rows {
-    return (this._rows ??= new Rows(this._options));
-  }
-
   private _stage?: Stage;
   get stage(): Stage {
     return (this._stage ??= new Stage(this._options));
@@ -109,10 +96,37 @@ export class GalileoGenerated extends ClientSDK {
     return (this._llmIntegrations ??= new LlmIntegrations(this._options));
   }
 
+  private _annotationQueue?: AnnotationQueue;
+  get annotationQueue(): AnnotationQueue {
+    return (this._annotationQueue ??= new AnnotationQueue(this._options));
+  }
+
+  private _annotationQueueRecords?: AnnotationQueueRecords;
+  get annotationQueueRecords(): AnnotationQueueRecords {
+    return (this._annotationQueueRecords ??= new AnnotationQueueRecords(
+      this._options,
+    ));
+  }
+
+  private _data?: Data;
+  get data(): Data {
+    return (this._data ??= new Data(this._options));
+  }
+
+  private _rows?: Rows;
+  get rows(): Rows {
+    return (this._rows ??= new Rows(this._options));
+  }
+
   private _codeMetricGeneration?: CodeMetricGeneration;
   get codeMetricGeneration(): CodeMetricGeneration {
     return (this._codeMetricGeneration ??= new CodeMetricGeneration(
       this._options,
     ));
+  }
+
+  private _logStream?: LogStream;
+  get logStream(): LogStream {
+    return (this._logStream ??= new LogStream(this._options));
   }
 }
