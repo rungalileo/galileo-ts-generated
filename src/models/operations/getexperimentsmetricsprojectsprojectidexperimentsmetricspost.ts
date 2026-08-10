@@ -9,6 +9,7 @@ import * as models from "../index.js";
 
 export type GetExperimentsMetricsProjectsProjectIdExperimentsMetricsPostSecurity =
   {
+    classicAPIKeyHeader?: string | undefined;
     apiKeyHeader?: string | undefined;
     oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
     httpBasic?: models.SchemeHTTPBasic | undefined;
@@ -23,6 +24,7 @@ export type GetExperimentsMetricsProjectsProjectIdExperimentsMetricsPostRequest 
 /** @internal */
 export type GetExperimentsMetricsProjectsProjectIdExperimentsMetricsPostSecurity$Outbound =
   {
+    ClassicAPIKeyHeader?: string | undefined;
     APIKeyHeader?: string | undefined;
     OAuth2PasswordBearer?:
       | models.OAuth2PasswordBearerInput$Outbound
@@ -37,6 +39,7 @@ export const GetExperimentsMetricsProjectsProjectIdExperimentsMetricsPostSecurit
     GetExperimentsMetricsProjectsProjectIdExperimentsMetricsPostSecurity
   > = z.pipe(
     z.object({
+      classicAPIKeyHeader: z.optional(z.string()),
       apiKeyHeader: z.optional(z.string()),
       oAuth2PasswordBearer: z.optional(
         models.OAuth2PasswordBearerInput$outboundSchema,
@@ -45,6 +48,7 @@ export const GetExperimentsMetricsProjectsProjectIdExperimentsMetricsPostSecurit
     }),
     z.transform((v) => {
       return remap$(v, {
+        classicAPIKeyHeader: "ClassicAPIKeyHeader",
         apiKeyHeader: "APIKeyHeader",
         oAuth2PasswordBearer: "OAuth2PasswordBearer",
         httpBasic: "HTTPBasic",

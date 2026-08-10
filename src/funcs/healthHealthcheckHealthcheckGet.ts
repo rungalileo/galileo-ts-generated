@@ -4,6 +4,7 @@
  */
 
 import { GalileoGeneratedCore } from "../core.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { RequestOptions } from "../lib/sdks.js";
@@ -73,19 +74,21 @@ async function $do(
     Accept: "application/json",
   }));
 
-  const secConfig = await extractSecurity(client._options.apiKeyHeader);
-  const securityInput = secConfig == null ? {} : { apiKeyHeader: secConfig };
+  const secConfig = await extractSecurity(client._options.oAuth2PasswordBearer);
+  const securityInput = secConfig == null
+    ? {}
+    : { oAuth2PasswordBearer: secConfig };
   const requestSecurity = resolveGlobalSecurity(securityInput);
 
   const context = {
     options: client._options,
     baseURL: options?.serverURL ?? client._baseURL ?? "",
     operationID: "healthcheck_healthcheck_get",
-    oAuth2Scopes: null,
+    oAuth2Scopes: [],
 
     resolvedSecurity: requestSecurity,
 
-    securitySource: client._options.apiKeyHeader,
+    securitySource: client._options.oAuth2PasswordBearer,
     retryConfig: options?.retries
       || client._options.retryConfig
       || { strategy: "none" },
@@ -108,7 +111,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["4XX", "5XX"],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });
