@@ -9,6 +9,7 @@ import * as models from "../index.js";
 
 export type ListProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProjectsGetSecurity =
   {
+    classicAPIKeyHeader?: string | undefined;
     apiKeyHeader?: string | undefined;
     oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
     httpBasic?: models.SchemeHTTPBasic | undefined;
@@ -17,7 +18,6 @@ export type ListProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProje
 export type ListProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProjectsGetRequest =
   {
     scorerVersionId: string;
-    scorerId: string;
     startingToken?: number | undefined;
     limit?: number | undefined;
   };
@@ -25,6 +25,7 @@ export type ListProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProje
 /** @internal */
 export type ListProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProjectsGetSecurity$Outbound =
   {
+    ClassicAPIKeyHeader?: string | undefined;
     APIKeyHeader?: string | undefined;
     OAuth2PasswordBearer?:
       | models.OAuth2PasswordBearerInput$Outbound
@@ -39,6 +40,7 @@ export const ListProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProj
     ListProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProjectsGetSecurity
   > = z.pipe(
     z.object({
+      classicAPIKeyHeader: z.optional(z.string()),
       apiKeyHeader: z.optional(z.string()),
       oAuth2PasswordBearer: z.optional(
         models.OAuth2PasswordBearerInput$outboundSchema,
@@ -47,6 +49,7 @@ export const ListProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProj
     }),
     z.transform((v) => {
       return remap$(v, {
+        classicAPIKeyHeader: "ClassicAPIKeyHeader",
         apiKeyHeader: "APIKeyHeader",
         oAuth2PasswordBearer: "OAuth2PasswordBearer",
         httpBasic: "HTTPBasic",
@@ -70,7 +73,6 @@ export function listProjectsForScorerVersionRouteScorersVersionsScorerVersionIdP
 export type ListProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProjectsGetRequest$Outbound =
   {
     scorer_version_id: string;
-    scorer_id: string;
     starting_token: number;
     limit: number;
   };
@@ -83,14 +85,12 @@ export const ListProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProj
   > = z.pipe(
     z.object({
       scorerVersionId: z.string(),
-      scorerId: z.string(),
       startingToken: z._default(z.int(), 0),
       limit: z._default(z.int(), 100),
     }),
     z.transform((v) => {
       return remap$(v, {
         scorerVersionId: "scorer_version_id",
-        scorerId: "scorer_id",
         startingToken: "starting_token",
       });
     }),
