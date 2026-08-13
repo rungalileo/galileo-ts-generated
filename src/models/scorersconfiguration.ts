@@ -23,8 +23,6 @@ export type ScorersConfiguration = {
   cost?: boolean | undefined;
   pii?: boolean | undefined;
   inputPii?: boolean | undefined;
-  bleu?: boolean | undefined;
-  rouge?: boolean | undefined;
   protectStatus?: boolean | undefined;
   contextRelevance?: boolean | undefined;
   toxicity?: boolean | undefined;
@@ -39,15 +37,14 @@ export type ScorersConfiguration = {
   contextAdherenceLuna?: boolean | undefined;
   contextRelevanceLuna?: boolean | undefined;
   chunkRelevanceLuna?: boolean | undefined;
+  completenessLuna?: boolean | undefined;
   completenessNli?: boolean | undefined;
   toolErrorRateLuna?: boolean | undefined;
   toolSelectionQualityLuna?: boolean | undefined;
   actionCompletionLuna?: boolean | undefined;
   actionAdvancementLuna?: boolean | undefined;
-  uncertainty?: boolean | undefined;
   factuality?: boolean | undefined;
   groundedness?: boolean | undefined;
-  promptPerplexity?: boolean | undefined;
   chunkAttributionUtilizationGpt?: boolean | undefined;
   completenessGpt?: boolean | undefined;
   instructionAdherence?: boolean | undefined;
@@ -73,8 +70,6 @@ export const ScorersConfiguration$inboundSchema: z.ZodMiniType<
     cost: z._default(types.boolean(), true),
     pii: z._default(types.boolean(), false),
     input_pii: z._default(types.boolean(), false),
-    bleu: z._default(types.boolean(), true),
-    rouge: z._default(types.boolean(), true),
     protect_status: z._default(types.boolean(), true),
     context_relevance: z._default(types.boolean(), false),
     toxicity: z._default(types.boolean(), false),
@@ -89,15 +84,14 @@ export const ScorersConfiguration$inboundSchema: z.ZodMiniType<
     context_adherence_luna: z._default(types.boolean(), false),
     context_relevance_luna: z._default(types.boolean(), false),
     chunk_relevance_luna: z._default(types.boolean(), false),
+    completeness_luna: z._default(types.boolean(), false),
     completeness_nli: z._default(types.boolean(), false),
     tool_error_rate_luna: z._default(types.boolean(), false),
     tool_selection_quality_luna: z._default(types.boolean(), false),
     action_completion_luna: z._default(types.boolean(), false),
     action_advancement_luna: z._default(types.boolean(), false),
-    uncertainty: z._default(types.boolean(), false),
     factuality: z._default(types.boolean(), false),
     groundedness: z._default(types.boolean(), false),
-    prompt_perplexity: z._default(types.boolean(), false),
     chunk_attribution_utilization_gpt: z._default(types.boolean(), false),
     completeness_gpt: z._default(types.boolean(), false),
     instruction_adherence: z._default(types.boolean(), false),
@@ -126,12 +120,12 @@ export const ScorersConfiguration$inboundSchema: z.ZodMiniType<
       "context_adherence_luna": "contextAdherenceLuna",
       "context_relevance_luna": "contextRelevanceLuna",
       "chunk_relevance_luna": "chunkRelevanceLuna",
+      "completeness_luna": "completenessLuna",
       "completeness_nli": "completenessNli",
       "tool_error_rate_luna": "toolErrorRateLuna",
       "tool_selection_quality_luna": "toolSelectionQualityLuna",
       "action_completion_luna": "actionCompletionLuna",
       "action_advancement_luna": "actionAdvancementLuna",
-      "prompt_perplexity": "promptPerplexity",
       "chunk_attribution_utilization_gpt": "chunkAttributionUtilizationGpt",
       "completeness_gpt": "completenessGpt",
       "instruction_adherence": "instructionAdherence",
@@ -154,8 +148,6 @@ export type ScorersConfiguration$Outbound = {
   cost: boolean;
   pii: boolean;
   input_pii: boolean;
-  bleu: boolean;
-  rouge: boolean;
   protect_status: boolean;
   context_relevance: boolean;
   toxicity: boolean;
@@ -170,15 +162,14 @@ export type ScorersConfiguration$Outbound = {
   context_adherence_luna: boolean;
   context_relevance_luna: boolean;
   chunk_relevance_luna: boolean;
+  completeness_luna: boolean;
   completeness_nli: boolean;
   tool_error_rate_luna: boolean;
   tool_selection_quality_luna: boolean;
   action_completion_luna: boolean;
   action_advancement_luna: boolean;
-  uncertainty: boolean;
   factuality: boolean;
   groundedness: boolean;
-  prompt_perplexity: boolean;
   chunk_attribution_utilization_gpt: boolean;
   completeness_gpt: boolean;
   instruction_adherence: boolean;
@@ -204,8 +195,6 @@ export const ScorersConfiguration$outboundSchema: z.ZodMiniType<
     cost: z._default(z.boolean(), true),
     pii: z._default(z.boolean(), false),
     inputPii: z._default(z.boolean(), false),
-    bleu: z._default(z.boolean(), true),
-    rouge: z._default(z.boolean(), true),
     protectStatus: z._default(z.boolean(), true),
     contextRelevance: z._default(z.boolean(), false),
     toxicity: z._default(z.boolean(), false),
@@ -220,15 +209,14 @@ export const ScorersConfiguration$outboundSchema: z.ZodMiniType<
     contextAdherenceLuna: z._default(z.boolean(), false),
     contextRelevanceLuna: z._default(z.boolean(), false),
     chunkRelevanceLuna: z._default(z.boolean(), false),
+    completenessLuna: z._default(z.boolean(), false),
     completenessNli: z._default(z.boolean(), false),
     toolErrorRateLuna: z._default(z.boolean(), false),
     toolSelectionQualityLuna: z._default(z.boolean(), false),
     actionCompletionLuna: z._default(z.boolean(), false),
     actionAdvancementLuna: z._default(z.boolean(), false),
-    uncertainty: z._default(z.boolean(), false),
     factuality: z._default(z.boolean(), false),
     groundedness: z._default(z.boolean(), false),
-    promptPerplexity: z._default(z.boolean(), false),
     chunkAttributionUtilizationGpt: z._default(z.boolean(), false),
     completenessGpt: z._default(z.boolean(), false),
     instructionAdherence: z._default(z.boolean(), false),
@@ -257,12 +245,12 @@ export const ScorersConfiguration$outboundSchema: z.ZodMiniType<
       contextAdherenceLuna: "context_adherence_luna",
       contextRelevanceLuna: "context_relevance_luna",
       chunkRelevanceLuna: "chunk_relevance_luna",
+      completenessLuna: "completeness_luna",
       completenessNli: "completeness_nli",
       toolErrorRateLuna: "tool_error_rate_luna",
       toolSelectionQualityLuna: "tool_selection_quality_luna",
       actionCompletionLuna: "action_completion_luna",
       actionAdvancementLuna: "action_advancement_luna",
-      promptPerplexity: "prompt_perplexity",
       chunkAttributionUtilizationGpt: "chunk_attribution_utilization_gpt",
       completenessGpt: "completeness_gpt",
       instructionAdherence: "instruction_adherence",

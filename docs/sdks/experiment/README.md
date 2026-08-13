@@ -33,7 +33,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.experiment.listExperimentsProjectsProjectIdExperimentsGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
   });
@@ -58,7 +58,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await experimentListExperimentsProjectsProjectIdExperimentsGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
   });
@@ -108,13 +108,14 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.experiment.createExperimentProjectsProjectIdExperimentsPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
       name: "<value>",
       scorers: [
         {
+          id: "<value>",
           filters: [
             {
               name: "modality",
@@ -122,7 +123,6 @@ async function run() {
               value: "ENUM_VALUE",
             },
           ],
-          id: "<value>",
           scorerType: "code",
         },
       ],
@@ -149,13 +149,14 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await experimentCreateExperimentProjectsProjectIdExperimentsPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
       name: "<value>",
       scorers: [
         {
+          id: "<value>",
           filters: [
             {
               name: "modality",
@@ -163,7 +164,6 @@ async function run() {
               value: "ENUM_VALUE",
             },
           ],
-          id: "<value>",
           scorerType: "code",
         },
       ],
@@ -215,7 +215,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.experiment.listExperimentsPaginatedProjectsProjectIdExperimentsPaginatedGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
   });
@@ -240,7 +240,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await experimentListExperimentsPaginatedProjectsProjectIdExperimentsPaginatedGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
   });
@@ -290,7 +290,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.experiment.searchExperimentsProjectsProjectIdExperimentsSearchPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {},
@@ -316,7 +316,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await experimentSearchExperimentsProjectsProjectIdExperimentsSearchPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {},
@@ -367,7 +367,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.experiment.getExperimentProjectsProjectIdExperimentsExperimentIdGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     experimentId: "<value>",
     projectId: "<value>",
@@ -393,7 +393,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await experimentGetExperimentProjectsProjectIdExperimentsExperimentIdGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     experimentId: "<value>",
     projectId: "<value>",
@@ -444,7 +444,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.experiment.updateExperimentProjectsProjectIdExperimentsExperimentIdPut({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     experimentId: "<value>",
     projectId: "<value>",
@@ -473,7 +473,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await experimentUpdateExperimentProjectsProjectIdExperimentsExperimentIdPut(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     experimentId: "<value>",
     projectId: "<value>",
@@ -527,7 +527,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   await galileoGenerated.experiment.deleteExperimentProjectsProjectIdExperimentsExperimentIdDelete({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     experimentId: "<value>",
     projectId: "<value>",
@@ -553,7 +553,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await experimentDeleteExperimentProjectsProjectIdExperimentsExperimentIdDelete(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     experimentId: "<value>",
     projectId: "<value>",
@@ -604,7 +604,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.experiment.experimentsAvailableColumnsProjectsProjectIdExperimentsAvailableColumnsPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
   });
@@ -631,7 +631,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await experimentExperimentsAvailableColumnsProjectsProjectIdExperimentsAvailableColumnsPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
   });
@@ -681,7 +681,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.experiment.updateMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsPatch({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     experimentId: "<value>",
@@ -725,7 +725,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await experimentUpdateMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsPatch(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     experimentId: "<value>",
@@ -792,7 +792,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.experiment.getMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     experimentId: "<value>",
     projectId: "<value>",
@@ -820,7 +820,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await experimentGetMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     experimentId: "<value>",
     projectId: "<value>",
@@ -871,7 +871,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.experiment.getExperimentMetricsProjectsProjectIdExperimentsExperimentIdMetricsPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     experimentId: "<value>",
@@ -910,7 +910,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await experimentGetExperimentMetricsProjectsProjectIdExperimentsExperimentIdMetricsPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     experimentId: "<value>",
@@ -972,7 +972,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.experiment.getExperimentsMetricsProjectsProjectIdExperimentsMetricsPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -1008,7 +1008,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await experimentGetExperimentsMetricsProjectsProjectIdExperimentsMetricsPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {

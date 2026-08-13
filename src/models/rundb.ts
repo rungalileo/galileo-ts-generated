@@ -21,6 +21,7 @@ export type RunDB = {
   winner: boolean;
   datasetHash?: string | null | undefined;
   datasetVersionId?: string | null | undefined;
+  promptTemplateVersionId?: string | null | undefined;
   id: string;
   createdAt: Date;
   updatedAt: Date;
@@ -29,8 +30,8 @@ export type RunDB = {
   runTags?: Array<RunTagDB> | undefined;
   exampleContentId?: string | null | undefined;
   creator: UserDB;
-  loggedSplits: Array<string>;
-  loggedInferenceNames: Array<string>;
+  loggedSplits?: Array<string> | undefined;
+  loggedInferenceNames?: Array<string> | undefined;
 };
 
 /** @internal */
@@ -43,6 +44,7 @@ export const RunDB$inboundSchema: z.ZodMiniType<RunDB, unknown> = z.pipe(
     winner: types.boolean(),
     dataset_hash: z.optional(z.nullable(types.string())),
     dataset_version_id: z.optional(z.nullable(types.string())),
+    prompt_template_version_id: z.optional(z.nullable(types.string())),
     id: types.string(),
     created_at: types.date(),
     updated_at: types.date(),
@@ -51,8 +53,8 @@ export const RunDB$inboundSchema: z.ZodMiniType<RunDB, unknown> = z.pipe(
     run_tags: types.optional(z.array(RunTagDB$inboundSchema)),
     example_content_id: z.optional(z.nullable(types.string())),
     creator: UserDB$inboundSchema,
-    logged_splits: z.array(types.string()),
-    logged_inference_names: z.array(types.string()),
+    logged_splits: types.optional(z.array(types.string())),
+    logged_inference_names: types.optional(z.array(types.string())),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -61,6 +63,7 @@ export const RunDB$inboundSchema: z.ZodMiniType<RunDB, unknown> = z.pipe(
       "num_samples": "numSamples",
       "dataset_hash": "datasetHash",
       "dataset_version_id": "datasetVersionId",
+      "prompt_template_version_id": "promptTemplateVersionId",
       "created_at": "createdAt",
       "updated_at": "updatedAt",
       "task_type": "taskType",

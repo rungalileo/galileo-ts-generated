@@ -20,7 +20,6 @@ import { projectsListUserProjectCollaboratorsProjectsProjectIdUsersGet } from ".
 import { projectsUpdateGroupProjectCollaboratorProjectsProjectIdGroupsGroupIdPatch } from "../funcs/projectsUpdateGroupProjectCollaboratorProjectsProjectIdGroupsGroupIdPatch.js";
 import { projectsUpdateProjectProjectsProjectIdPut } from "../funcs/projectsUpdateProjectProjectsProjectIdPut.js";
 import { projectsUpdateUserProjectCollaboratorProjectsProjectIdUsersUserIdPatch } from "../funcs/projectsUpdateUserProjectCollaboratorProjectsProjectIdUsersUserIdPatch.js";
-import { projectsUploadFileProjectsProjectIdUploadFilePost } from "../funcs/projectsUploadFileProjectsProjectIdUploadFilePost.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
 import * as models from "../models/index.js";
 import * as operations from "../models/operations/index.js";
@@ -131,22 +130,6 @@ export class Projects extends ClientSDK {
     options?: RequestOptions,
   ): Promise<models.ProjectCreateResponse> {
     return unwrapAsync(projectsCreateProjectProjectsPost(
-      this,
-      security,
-      request,
-      options,
-    ));
-  }
-
-  /**
-   * Upload File
-   */
-  async uploadFileProjectsProjectIdUploadFilePost(
-    security: operations.UploadFileProjectsProjectIdUploadFilePostSecurity,
-    request: operations.UploadFileProjectsProjectIdUploadFilePostRequest,
-    options?: RequestOptions,
-  ): Promise<any> {
-    return unwrapAsync(projectsUploadFileProjectsProjectIdUploadFilePost(
       this,
       security,
       request,
