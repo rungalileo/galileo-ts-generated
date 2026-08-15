@@ -8,6 +8,7 @@ import { remap as remap$ } from "../../lib/primitives.js";
 import * as models from "../index.js";
 
 export type CreateOrUpdateIntegrationIntegrationsAnthropicPutSecurity = {
+  classicAPIKeyHeader?: string | undefined;
   apiKeyHeader?: string | undefined;
   oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
   httpBasic?: models.SchemeHTTPBasic | undefined;
@@ -16,6 +17,7 @@ export type CreateOrUpdateIntegrationIntegrationsAnthropicPutSecurity = {
 /** @internal */
 export type CreateOrUpdateIntegrationIntegrationsAnthropicPutSecurity$Outbound =
   {
+    ClassicAPIKeyHeader?: string | undefined;
     APIKeyHeader?: string | undefined;
     OAuth2PasswordBearer?:
       | models.OAuth2PasswordBearerInput$Outbound
@@ -30,6 +32,7 @@ export const CreateOrUpdateIntegrationIntegrationsAnthropicPutSecurity$outboundS
     CreateOrUpdateIntegrationIntegrationsAnthropicPutSecurity
   > = z.pipe(
     z.object({
+      classicAPIKeyHeader: z.optional(z.string()),
       apiKeyHeader: z.optional(z.string()),
       oAuth2PasswordBearer: z.optional(
         models.OAuth2PasswordBearerInput$outboundSchema,
@@ -38,6 +41,7 @@ export const CreateOrUpdateIntegrationIntegrationsAnthropicPutSecurity$outboundS
     }),
     z.transform((v) => {
       return remap$(v, {
+        classicAPIKeyHeader: "ClassicAPIKeyHeader",
         apiKeyHeader: "APIKeyHeader",
         oAuth2PasswordBearer: "OAuth2PasswordBearer",
         httpBasic: "HTTPBasic",

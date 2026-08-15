@@ -9,11 +9,9 @@ import { safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
-import { ScorerType, ScorerType$inboundSchema } from "./scorertype.js";
 
 export type MetricComputing = {
   statusType: "computing";
-  scorerType?: ScorerType | null | undefined;
   metricKeyAlias?: string | null | undefined;
   message: string;
 };
@@ -25,14 +23,12 @@ export const MetricComputing$inboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     status_type: types.literal("computing"),
-    scorer_type: z.optional(z.nullable(ScorerType$inboundSchema)),
     metric_key_alias: z.optional(z.nullable(types.string())),
     message: z._default(types.string(), "Metric is computing."),
   }),
   z.transform((v) => {
     return remap$(v, {
       "status_type": "statusType",
-      "scorer_type": "scorerType",
       "metric_key_alias": "metricKeyAlias",
     });
   }),
