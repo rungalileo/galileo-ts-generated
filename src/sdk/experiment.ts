@@ -12,17 +12,10 @@ import {
   experimentGetExperimentMetricsProjectsProjectIdExperimentsExperimentIdMetricsPost,
 } from "../funcs/experimentGetExperimentMetricsProjectsProjectIdExperimentsExperimentIdMetricsPost.js";
 import { experimentGetExperimentProjectsProjectIdExperimentsExperimentIdGet } from "../funcs/experimentGetExperimentProjectsProjectIdExperimentsExperimentIdGet.js";
-import { experimentGetExperimentsMetricsProjectsProjectIdExperimentsMetricsPost } from "../funcs/experimentGetExperimentsMetricsProjectsProjectIdExperimentsMetricsPost.js";
-import {
-  experimentGetMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsGet,
-} from "../funcs/experimentGetMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsGet.js";
 import { experimentListExperimentsPaginatedProjectsProjectIdExperimentsPaginatedGet } from "../funcs/experimentListExperimentsPaginatedProjectsProjectIdExperimentsPaginatedGet.js";
 import { experimentListExperimentsProjectsProjectIdExperimentsGet } from "../funcs/experimentListExperimentsProjectsProjectIdExperimentsGet.js";
 import { experimentSearchExperimentsProjectsProjectIdExperimentsSearchPost } from "../funcs/experimentSearchExperimentsProjectsProjectIdExperimentsSearchPost.js";
 import { experimentUpdateExperimentProjectsProjectIdExperimentsExperimentIdPut } from "../funcs/experimentUpdateExperimentProjectsProjectIdExperimentsExperimentIdPut.js";
-import {
-  experimentUpdateMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsPatch,
-} from "../funcs/experimentUpdateMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsPatch.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
 import * as models from "../models/index.js";
 import * as operations from "../models/operations/index.js";
@@ -211,46 +204,6 @@ export class Experiment extends ClientSDK {
   }
 
   /**
-   * Update Metric Settings
-   */
-  async updateMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsPatch(
-    security:
-      operations.UpdateMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsPatchSecurity,
-    request:
-      operations.UpdateMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsPatchRequest,
-    options?: RequestOptions,
-  ): Promise<models.MetricSettingsResponse> {
-    return unwrapAsync(
-      experimentUpdateMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsPatch(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
-   * Get Metric Settings
-   */
-  async getMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsGet(
-    security:
-      operations.GetMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsGetSecurity,
-    request:
-      operations.GetMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsGetRequest,
-    options?: RequestOptions,
-  ): Promise<models.MetricSettingsResponse> {
-    return unwrapAsync(
-      experimentGetMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsGet(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
    * Get Experiment Metrics
    *
    * @remarks
@@ -265,29 +218,6 @@ export class Experiment extends ClientSDK {
   ): Promise<models.ExperimentMetricsResponse> {
     return unwrapAsync(
       experimentGetExperimentMetricsProjectsProjectIdExperimentsExperimentIdMetricsPost(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
-   * Get Experiments Metrics
-   *
-   * @remarks
-   * Retrieve metrics for all experiments in a project.
-   */
-  async getExperimentsMetricsProjectsProjectIdExperimentsMetricsPost(
-    security:
-      operations.GetExperimentsMetricsProjectsProjectIdExperimentsMetricsPostSecurity,
-    request:
-      operations.GetExperimentsMetricsProjectsProjectIdExperimentsMetricsPostRequest,
-    options?: RequestOptions,
-  ): Promise<models.ExperimentMetricsResponse> {
-    return unwrapAsync(
-      experimentGetExperimentsMetricsProjectsProjectIdExperimentsMetricsPost(
         this,
         security,
         request,
