@@ -6,7 +6,7 @@
 import { FeedbackRatingInfo } from "galileo-generated/models";
 
 let value: FeedbackRatingInfo = {
-  feedbackType: "text",
+  feedbackType: "tree_choice",
   value: true,
   explanation: "<value>",
 };
