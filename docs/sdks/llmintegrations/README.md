@@ -24,7 +24,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.llmIntegrations.getAvailableModelsLlmIntegrationsLlmIntegrationModelsGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     llmIntegration: "vertex_ai",
   });
@@ -49,7 +49,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await llmIntegrationsGetAvailableModelsLlmIntegrationsLlmIntegrationModelsGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     llmIntegration: "vertex_ai",
   });
@@ -99,7 +99,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.llmIntegrations.getAvailableScorerModelsLlmIntegrationsLlmIntegrationScorerModelsGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     llmIntegration: "databricks",
   });
@@ -126,7 +126,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await llmIntegrationsGetAvailableScorerModelsLlmIntegrationsLlmIntegrationScorerModelsGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     llmIntegration: "databricks",
   });
@@ -176,7 +176,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.llmIntegrations.getRecommendedModelsLlmIntegrationsRecommendedModelsGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   });
 
   console.log(result);
@@ -199,7 +199,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await llmIntegrationsGetRecommendedModelsLlmIntegrationsRecommendedModelsGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -245,7 +245,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.llmIntegrations.getIntegrationsAndModelInfoLlmIntegrationsGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   });
 
   console.log(result);
@@ -268,7 +268,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await llmIntegrationsGetIntegrationsAndModelInfoLlmIntegrationsGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -316,7 +316,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.llmIntegrations.getIntegrationsAndModelInfoForRunLlmIntegrationsProjectsProjectIdRunsRunIdGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     runId: "<value>",
@@ -344,7 +344,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await llmIntegrationsGetIntegrationsAndModelInfoForRunLlmIntegrationsProjectsProjectIdRunsRunIdGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     runId: "<value>",
