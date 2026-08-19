@@ -14,7 +14,7 @@ let value: LogRecordsQueryResponse = {
       input: "Who is a smart LLM?",
       output: "I am",
       name: "",
-      createdAt: new Date("2026-05-12T23:58:32.302404Z"),
+      createdAt: new Date("2026-08-13T05:02:26.053876Z"),
       userMetadata: {},
       tags: [],
       metrics: {
@@ -33,6 +33,8 @@ let value: LogRecordsQueryResponse = {
       annotationAggregates: {},
       annotationAgreement: {},
       annotationQueueIds: [],
+      progressMessage: "",
+      errorMessage: "",
       isComplete: true,
     },
     {
@@ -48,7 +50,7 @@ let value: LogRecordsQueryResponse = {
         role: "user",
       },
       name: "",
-      createdAt: new Date("2026-05-12T23:58:32.302552Z"),
+      createdAt: new Date("2026-08-13T05:02:26.054066Z"),
       userMetadata: {},
       tags: [],
       metrics: {
@@ -70,6 +72,8 @@ let value: LogRecordsQueryResponse = {
       annotationAggregates: {},
       annotationAgreement: {},
       annotationQueueIds: [],
+      progressMessage: "",
+      errorMessage: "",
       parentId: "1a0939d1-8b43-4fe3-a91c-196e2d9847e3",
       isComplete: true,
     },

@@ -20,6 +20,9 @@ export const PriorityCategory = {
 export type PriorityCategory = OpenEnum<typeof PriorityCategory>;
 
 export type InsightSummary = {
+  /**
+   * Signal ID.
+   */
   id: string;
   title: string;
   observation: string;
