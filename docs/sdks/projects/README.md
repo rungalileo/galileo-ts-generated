@@ -9,7 +9,6 @@
 * [~~getAllProjectsProjectsAllGet~~](#getallprojectsprojectsallget) - Get All Projects :warning: **Deprecated**
 * [~~getProjectsProjectsGet~~](#getprojectsprojectsget) - Get Projects :warning: **Deprecated**
 * [createProjectProjectsPost](#createprojectprojectspost) - Create Project
-* [uploadFileProjectsProjectIdUploadFilePost](#uploadfileprojectsprojectiduploadfilepost) - Upload File
 * [getCollaboratorRolesCollaboratorRolesGet](#getcollaboratorrolescollaboratorrolesget) - Get Collaborator Roles
 * [getProjectProjectsProjectIdGet](#getprojectprojectsprojectidget) - Get Project
 * [updateProjectProjectsProjectIdPut](#updateprojectprojectsprojectidput) - Update Project
@@ -39,7 +38,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.projects.getProjectsPaginatedProjectsPaginatedPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     body: {
       filters: [
@@ -72,7 +71,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await projectsGetProjectsPaginatedProjectsPaginatedPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     body: {
       filters: [
@@ -130,7 +129,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.projects.getProjectsCountProjectsCountPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     filters: [
       {
@@ -162,7 +161,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await projectsGetProjectsCountProjectsCountPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     filters: [
       {
@@ -225,7 +224,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.projects.getAllProjectsProjectsAllGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   });
 
   console.log(result);
@@ -248,7 +247,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await projectsGetAllProjectsProjectsAllGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -302,7 +301,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.projects.getProjectsProjectsGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   });
 
   console.log(result);
@@ -325,7 +324,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await projectsGetProjectsProjectsGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -373,7 +372,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.projects.createProjectProjectsPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     name: "<value>",
   });
@@ -398,7 +397,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await projectsCreateProjectProjectsPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     name: "<value>",
   });
@@ -434,91 +433,6 @@ run();
 | errors.HTTPValidationError          | 422                                 | application/json                    |
 | errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
 
-## uploadFileProjectsProjectIdUploadFilePost
-
-Upload File
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="upload_file_projects__project_id__upload_file_post" method="post" path="/projects/{project_id}/upload_file" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-import { openAsBlob } from "node:fs";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.projects.uploadFileProjectsProjectIdUploadFilePost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    projectId: "<value>",
-    body: {
-      file: await openAsBlob("example.file"),
-      uploadMetadata: "<value>",
-    },
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { projectsUploadFileProjectsProjectIdUploadFilePost } from "galileo-generated/funcs/projectsUploadFileProjectsProjectIdUploadFilePost.js";
-import { openAsBlob } from "node:fs";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await projectsUploadFileProjectsProjectIdUploadFilePost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    projectId: "<value>",
-    body: {
-      file: await openAsBlob("example.file"),
-      uploadMetadata: "<value>",
-    },
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("projectsUploadFileProjectsProjectIdUploadFilePost failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.UploadFileProjectsProjectIdUploadFilePostRequest](../../models/operations/uploadfileprojectsprojectiduploadfilepostrequest.md)                                     | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `security`                                                                                                                                                                     | [operations.UploadFileProjectsProjectIdUploadFilePostSecurity](../../models/operations/uploadfileprojectsprojectiduploadfilepostsecurity.md)                                   | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[any](../../models/.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
 ## getCollaboratorRolesCollaboratorRolesGet
 
 Get Collaborator Roles
@@ -533,7 +447,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.projects.getCollaboratorRolesCollaboratorRolesGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   });
 
   console.log(result);
@@ -556,7 +470,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await projectsGetCollaboratorRolesCollaboratorRolesGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -602,7 +516,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.projects.getProjectProjectsProjectIdGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
   });
@@ -627,7 +541,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await projectsGetProjectProjectsProjectIdGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
   });
@@ -677,7 +591,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.projects.updateProjectProjectsProjectIdPut({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {},
@@ -703,7 +617,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await projectsUpdateProjectProjectsProjectIdPut(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {},
@@ -757,7 +671,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.projects.deleteProjectProjectsProjectIdDelete({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
   });
@@ -782,7 +696,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await projectsDeleteProjectProjectsProjectIdDelete(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
   });
@@ -832,7 +746,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.projects.createUserProjectCollaboratorsProjectsProjectIdUsersPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: [],
@@ -858,7 +772,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await projectsCreateUserProjectCollaboratorsProjectsProjectIdUsersPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: [],
@@ -909,7 +823,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.projects.listUserProjectCollaboratorsProjectsProjectIdUsersGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
   });
@@ -934,7 +848,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await projectsListUserProjectCollaboratorsProjectsProjectIdUsersGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
   });
@@ -984,7 +898,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.projects.createGroupProjectCollaboratorsProjectsProjectIdGroupsPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: [],
@@ -1010,7 +924,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await projectsCreateGroupProjectCollaboratorsProjectsProjectIdGroupsPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: [],
@@ -1061,7 +975,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.projects.listGroupProjectCollaboratorsProjectsProjectIdGroupsGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
   });
@@ -1086,7 +1000,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await projectsListGroupProjectCollaboratorsProjectsProjectIdGroupsGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
   });
@@ -1136,7 +1050,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.projects.updateUserProjectCollaboratorProjectsProjectIdUsersUserIdPatch({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     userId: "<value>",
@@ -1165,7 +1079,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await projectsUpdateUserProjectCollaboratorProjectsProjectIdUsersUserIdPatch(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     userId: "<value>",
@@ -1219,7 +1133,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.projects.deleteUserProjectCollaboratorProjectsProjectIdUsersUserIdDelete({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     userId: "<value>",
@@ -1245,7 +1159,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await projectsDeleteUserProjectCollaboratorProjectsProjectIdUsersUserIdDelete(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     userId: "<value>",
@@ -1296,7 +1210,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.projects.updateGroupProjectCollaboratorProjectsProjectIdGroupsGroupIdPatch({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     groupId: "<value>",
@@ -1325,7 +1239,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await projectsUpdateGroupProjectCollaboratorProjectsProjectIdGroupsGroupIdPatch(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     groupId: "<value>",
@@ -1379,7 +1293,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.projects.deleteGroupProjectCollaboratorProjectsProjectIdGroupsGroupIdDelete({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     groupId: "<value>",
@@ -1405,7 +1319,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await projectsDeleteGroupProjectCollaboratorProjectsProjectIdGroupsGroupIdDelete(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     groupId: "<value>",
