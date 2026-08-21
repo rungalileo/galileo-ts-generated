@@ -222,6 +222,10 @@ export type AgentSpan = {
     >
     | undefined;
   agentType?: AgentType | undefined;
+  /**
+   * Name of the agent.
+   */
+  agentName?: string | null | undefined;
 };
 
 export type AgentSpanSpan =
@@ -472,6 +476,7 @@ export type AgentSpan$Outbound = {
     >
     | undefined;
   agent_type?: string | undefined;
+  agent_name?: string | null | undefined;
 };
 
 /** @internal */
@@ -565,6 +570,7 @@ export const AgentSpan$outboundSchema: z.ZodMiniType<
       ),
     ]))),
     agentType: z.optional(AgentType$outboundSchema),
+    agentName: z.optional(z.nullable(z.string())),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -582,6 +588,7 @@ export const AgentSpan$outboundSchema: z.ZodMiniType<
       stepNumber: "step_number",
       parentId: "parent_id",
       agentType: "agent_type",
+      agentName: "agent_name",
     });
   }),
 );
