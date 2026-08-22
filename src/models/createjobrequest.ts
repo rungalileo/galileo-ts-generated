@@ -4,7 +4,6 @@
  */
 
 import * as z from "zod/v4-mini";
-import * as b64$ from "../lib/base64.js";
 import { remap as remap$ } from "../lib/primitives.js";
 import { smartUnion } from "../types/smartUnion.js";
 import {
@@ -22,16 +21,6 @@ import {
   BaseScorer$Outbound,
   BaseScorer$outboundSchema,
 } from "./basescorer.js";
-import {
-  BleuScorer,
-  BleuScorer$Outbound,
-  BleuScorer$outboundSchema,
-} from "./bleuscorer.js";
-import {
-  ChunkAttributionUtilizationScorer,
-  ChunkAttributionUtilizationScorer$Outbound,
-  ChunkAttributionUtilizationScorer$outboundSchema,
-} from "./chunkattributionutilizationscorer.js";
 import {
   CompletenessScorer,
   CompletenessScorer$Outbound,
@@ -52,86 +41,6 @@ import {
   CorrectnessScorer$Outbound,
   CorrectnessScorer$outboundSchema,
 } from "./correctnessscorer.js";
-import {
-  CustomizedAgenticSessionSuccessGPTScorer,
-  CustomizedAgenticSessionSuccessGPTScorer$Outbound,
-  CustomizedAgenticSessionSuccessGPTScorer$outboundSchema,
-} from "./customizedagenticsessionsuccessgptscorer.js";
-import {
-  CustomizedAgenticWorkflowSuccessGPTScorer,
-  CustomizedAgenticWorkflowSuccessGPTScorer$Outbound,
-  CustomizedAgenticWorkflowSuccessGPTScorer$outboundSchema,
-} from "./customizedagenticworkflowsuccessgptscorer.js";
-import {
-  CustomizedChunkAttributionUtilizationGPTScorer,
-  CustomizedChunkAttributionUtilizationGPTScorer$Outbound,
-  CustomizedChunkAttributionUtilizationGPTScorer$outboundSchema,
-} from "./customizedchunkattributionutilizationgptscorer.js";
-import {
-  CustomizedCompletenessGPTScorer,
-  CustomizedCompletenessGPTScorer$Outbound,
-  CustomizedCompletenessGPTScorer$outboundSchema,
-} from "./customizedcompletenessgptscorer.js";
-import {
-  CustomizedFactualityGPTScorer,
-  CustomizedFactualityGPTScorer$Outbound,
-  CustomizedFactualityGPTScorer$outboundSchema,
-} from "./customizedfactualitygptscorer.js";
-import {
-  CustomizedGroundednessGPTScorer,
-  CustomizedGroundednessGPTScorer$Outbound,
-  CustomizedGroundednessGPTScorer$outboundSchema,
-} from "./customizedgroundednessgptscorer.js";
-import {
-  CustomizedGroundTruthAdherenceGPTScorer,
-  CustomizedGroundTruthAdherenceGPTScorer$Outbound,
-  CustomizedGroundTruthAdherenceGPTScorer$outboundSchema,
-} from "./customizedgroundtruthadherencegptscorer.js";
-import {
-  CustomizedInputSexistGPTScorer,
-  CustomizedInputSexistGPTScorer$Outbound,
-  CustomizedInputSexistGPTScorer$outboundSchema,
-} from "./customizedinputsexistgptscorer.js";
-import {
-  CustomizedInputToxicityGPTScorer,
-  CustomizedInputToxicityGPTScorer$Outbound,
-  CustomizedInputToxicityGPTScorer$outboundSchema,
-} from "./customizedinputtoxicitygptscorer.js";
-import {
-  CustomizedInstructionAdherenceGPTScorer,
-  CustomizedInstructionAdherenceGPTScorer$Outbound,
-  CustomizedInstructionAdherenceGPTScorer$outboundSchema,
-} from "./customizedinstructionadherencegptscorer.js";
-import {
-  CustomizedPromptInjectionGPTScorer,
-  CustomizedPromptInjectionGPTScorer$Outbound,
-  CustomizedPromptInjectionGPTScorer$outboundSchema,
-} from "./customizedpromptinjectiongptscorer.js";
-import {
-  CustomizedSexistGPTScorer,
-  CustomizedSexistGPTScorer$Outbound,
-  CustomizedSexistGPTScorer$outboundSchema,
-} from "./customizedsexistgptscorer.js";
-import {
-  CustomizedToolErrorRateGPTScorer,
-  CustomizedToolErrorRateGPTScorer$Outbound,
-  CustomizedToolErrorRateGPTScorer$outboundSchema,
-} from "./customizedtoolerrorrategptscorer.js";
-import {
-  CustomizedToolSelectionQualityGPTScorer,
-  CustomizedToolSelectionQualityGPTScorer$Outbound,
-  CustomizedToolSelectionQualityGPTScorer$outboundSchema,
-} from "./customizedtoolselectionqualitygptscorer.js";
-import {
-  CustomizedToxicityGPTScorer,
-  CustomizedToxicityGPTScorer$Outbound,
-  CustomizedToxicityGPTScorer$outboundSchema,
-} from "./customizedtoxicitygptscorer.js";
-import {
-  FineTunedScorer,
-  FineTunedScorer$Outbound,
-  FineTunedScorer$outboundSchema,
-} from "./finetunedscorer.js";
 import {
   GroundTruthAdherenceScorer,
   GroundTruthAdherenceScorer$Outbound,
@@ -163,11 +72,6 @@ import {
   InstructionAdherenceScorer$outboundSchema,
 } from "./instructionadherencescorer.js";
 import {
-  MetricCritiqueJobConfiguration,
-  MetricCritiqueJobConfiguration$Outbound,
-  MetricCritiqueJobConfiguration$outboundSchema,
-} from "./metriccritiquejobconfiguration.js";
-import {
   OutputPIIScorer,
   OutputPIIScorer$Outbound,
   OutputPIIScorer$outboundSchema,
@@ -188,49 +92,20 @@ import {
   OutputToxicityScorer$outboundSchema,
 } from "./outputtoxicityscorer.js";
 import {
-  PromptgalileoSchemasScorerNameScorerName,
-  PromptgalileoSchemasScorerNameScorerName$outboundSchema,
-} from "./promptgalileoschemasscorernamescorername.js";
-import {
   PromptInjectionScorer,
   PromptInjectionScorer$Outbound,
   PromptInjectionScorer$outboundSchema,
 } from "./promptinjectionscorer.js";
-import {
-  PromptOptimizationConfiguration,
-  PromptOptimizationConfiguration$Outbound,
-  PromptOptimizationConfiguration$outboundSchema,
-} from "./promptoptimizationconfiguration.js";
-import {
-  PromptPerplexityScorer,
-  PromptPerplexityScorer$Outbound,
-  PromptPerplexityScorer$outboundSchema,
-} from "./promptperplexityscorer.js";
 import {
   PromptRunSettings,
   PromptRunSettings$Outbound,
   PromptRunSettings$outboundSchema,
 } from "./promptrunsettings.js";
 import {
-  RegisteredScorer,
-  RegisteredScorer$Outbound,
-  RegisteredScorer$outboundSchema,
-} from "./registeredscorer.js";
-import {
-  RougeScorer,
-  RougeScorer$Outbound,
-  RougeScorer$outboundSchema,
-} from "./rougescorer.js";
-import {
-  ScorerConfig,
-  ScorerConfig$Outbound,
-  ScorerConfig$outboundSchema,
-} from "./scorerconfig.js";
-import {
-  ScorersConfiguration,
-  ScorersConfiguration$Outbound,
-  ScorersConfiguration$outboundSchema,
-} from "./scorersconfiguration.js";
+  RuntimeScorerConfig,
+  RuntimeScorerConfig$Outbound,
+  RuntimeScorerConfig$outboundSchema,
+} from "./runtimescorerconfig.js";
 import {
   SegmentFilter,
   SegmentFilter$Outbound,
@@ -252,19 +127,12 @@ import {
   ToolSelectionQualityScorer$Outbound,
   ToolSelectionQualityScorer$outboundSchema,
 } from "./toolselectionqualityscorer.js";
-import {
-  UncertaintyScorer,
-  UncertaintyScorer$Outbound,
-  UncertaintyScorer$outboundSchema,
-} from "./uncertaintyscorer.js";
 
 export type CreateJobRequestLabels = Array<Array<string>> | Array<string>;
 
 export type CreateJobRequestScorers1 =
   | AgenticSessionSuccessScorer
   | AgenticWorkflowSuccessScorer
-  | BleuScorer
-  | ChunkAttributionUtilizationScorer
   | CompletenessScorer
   | ContextAdherenceScorer
   | ContextRelevanceScorer
@@ -280,22 +148,17 @@ export type CreateJobRequestScorers1 =
   | OutputToneScorer
   | OutputToxicityScorer
   | PromptInjectionScorer
-  | PromptPerplexityScorer
-  | RougeScorer
   | ToolErrorRateScorer
-  | ToolSelectionQualityScorer
-  | UncertaintyScorer;
+  | ToolSelectionQualityScorer;
 
 /**
  * For G2.0 we send all scorers as ScorerConfig, for G1.0 we send preset scorers  as GalileoScorer
  */
 export type CreateJobRequestScorers2 =
-  | Array<ScorerConfig>
+  | Array<RuntimeScorerConfig>
   | Array<
     | AgenticSessionSuccessScorer
     | AgenticWorkflowSuccessScorer
-    | BleuScorer
-    | ChunkAttributionUtilizationScorer
     | CompletenessScorer
     | ContextAdherenceScorer
     | ContextRelevanceScorer
@@ -311,29 +174,9 @@ export type CreateJobRequestScorers2 =
     | OutputToneScorer
     | OutputToxicityScorer
     | PromptInjectionScorer
-    | PromptPerplexityScorer
-    | RougeScorer
     | ToolErrorRateScorer
     | ToolSelectionQualityScorer
-    | UncertaintyScorer
   >;
-
-export type CreateJobRequestPromptCustomizedScorersConfiguration =
-  | CustomizedAgenticSessionSuccessGPTScorer
-  | CustomizedAgenticWorkflowSuccessGPTScorer
-  | CustomizedChunkAttributionUtilizationGPTScorer
-  | CustomizedCompletenessGPTScorer
-  | CustomizedFactualityGPTScorer
-  | CustomizedGroundTruthAdherenceGPTScorer
-  | CustomizedGroundednessGPTScorer
-  | CustomizedInputSexistGPTScorer
-  | CustomizedInputToxicityGPTScorer
-  | CustomizedInstructionAdherenceGPTScorer
-  | CustomizedPromptInjectionGPTScorer
-  | CustomizedSexistGPTScorer
-  | CustomizedToolErrorRateGPTScorer
-  | CustomizedToolSelectionQualityGPTScorer
-  | CustomizedToxicityGPTScorer;
 
 export type CreateJobRequest = {
   resourceLimits?: TaskResourceLimits | null | undefined;
@@ -349,7 +192,6 @@ export type CreateJobRequest = {
   tasks?: Array<string> | null | undefined;
   nonInferenceLogged?: boolean | undefined;
   migrationName?: string | null | undefined;
-  xray?: boolean | undefined;
   processExistingInferenceRuns?: boolean | undefined;
   featureNames?: Array<string> | null | undefined;
   promptDatasetId?: string | null | undefined;
@@ -358,18 +200,16 @@ export type CreateJobRequest = {
   promptTemplateVersionId?: string | null | undefined;
   monitorBatchId?: string | null | undefined;
   protectTraceId?: string | null | undefined;
-  protectScorerPayload?: Uint8Array | string | null | undefined;
+  protectScorerPayload?: string | null | undefined;
   promptSettings?: PromptRunSettings | null | undefined;
   /**
    * For G2.0 we send all scorers as ScorerConfig, for G1.0 we send preset scorers  as GalileoScorer
    */
   scorers?:
-    | Array<ScorerConfig>
+    | Array<RuntimeScorerConfig>
     | Array<
       | AgenticSessionSuccessScorer
       | AgenticWorkflowSuccessScorer
-      | BleuScorer
-      | ChunkAttributionUtilizationScorer
       | CompletenessScorer
       | ContextAdherenceScorer
       | ContextRelevanceScorer
@@ -385,64 +225,23 @@ export type CreateJobRequest = {
       | OutputToneScorer
       | OutputToxicityScorer
       | PromptInjectionScorer
-      | PromptPerplexityScorer
-      | RougeScorer
       | ToolErrorRateScorer
       | ToolSelectionQualityScorer
-      | UncertaintyScorer
     >
-    | null
-    | undefined;
-  promptRegisteredScorersConfiguration?:
-    | Array<RegisteredScorer>
     | null
     | undefined;
   promptGeneratedScorersConfiguration?: Array<string> | null | undefined;
-  promptFinetunedScorersConfiguration?:
-    | Array<FineTunedScorer>
-    | null
-    | undefined;
-  promptScorersConfiguration?: ScorersConfiguration | null | undefined;
-  promptCustomizedScorersConfiguration?:
-    | Array<
-      | CustomizedAgenticSessionSuccessGPTScorer
-      | CustomizedAgenticWorkflowSuccessGPTScorer
-      | CustomizedChunkAttributionUtilizationGPTScorer
-      | CustomizedCompletenessGPTScorer
-      | CustomizedFactualityGPTScorer
-      | CustomizedGroundTruthAdherenceGPTScorer
-      | CustomizedGroundednessGPTScorer
-      | CustomizedInputSexistGPTScorer
-      | CustomizedInputToxicityGPTScorer
-      | CustomizedInstructionAdherenceGPTScorer
-      | CustomizedPromptInjectionGPTScorer
-      | CustomizedSexistGPTScorer
-      | CustomizedToolErrorRateGPTScorer
-      | CustomizedToolSelectionQualityGPTScorer
-      | CustomizedToxicityGPTScorer
-    >
-    | null
-    | undefined;
   promptScorerSettings?: BaseScorer | null | undefined;
-  scorerConfig?: ScorerConfig | null | undefined;
-  subScorers?: Array<PromptgalileoSchemasScorerNameScorerName> | undefined;
+  scorerConfig?: RuntimeScorerConfig | null | undefined;
   lunaModel?: string | null | undefined;
   segmentFilters?: Array<SegmentFilter> | null | undefined;
-  promptOptimizationConfiguration?:
-    | PromptOptimizationConfiguration
-    | null
-    | undefined;
-  epoch?: number | undefined;
-  metricCritiqueConfiguration?:
-    | MetricCritiqueJobConfiguration
-    | null
-    | undefined;
   isSession?: boolean | null | undefined;
   validationConfig?: { [k: string]: any } | null | undefined;
   uploadDataInSeparateTask?: boolean | undefined;
   logMetricComputingRecords?: boolean | undefined;
-  streamMetrics?: boolean | undefined;
   multijudgeAverageBooleanMetrics?: boolean | undefined;
+  storeMetricIds?: boolean | undefined;
+  traceIds?: Array<string> | undefined;
 };
 
 /** @internal */
@@ -468,8 +267,6 @@ export function createJobRequestLabelsToJSON(
 export type CreateJobRequestScorers1$Outbound =
   | AgenticSessionSuccessScorer$Outbound
   | AgenticWorkflowSuccessScorer$Outbound
-  | BleuScorer$Outbound
-  | ChunkAttributionUtilizationScorer$Outbound
   | CompletenessScorer$Outbound
   | ContextAdherenceScorer$Outbound
   | ContextRelevanceScorer$Outbound
@@ -485,11 +282,8 @@ export type CreateJobRequestScorers1$Outbound =
   | OutputToneScorer$Outbound
   | OutputToxicityScorer$Outbound
   | PromptInjectionScorer$Outbound
-  | PromptPerplexityScorer$Outbound
-  | RougeScorer$Outbound
   | ToolErrorRateScorer$Outbound
-  | ToolSelectionQualityScorer$Outbound
-  | UncertaintyScorer$Outbound;
+  | ToolSelectionQualityScorer$Outbound;
 
 /** @internal */
 export const CreateJobRequestScorers1$outboundSchema: z.ZodMiniType<
@@ -498,8 +292,6 @@ export const CreateJobRequestScorers1$outboundSchema: z.ZodMiniType<
 > = z.union([
   AgenticSessionSuccessScorer$outboundSchema,
   AgenticWorkflowSuccessScorer$outboundSchema,
-  BleuScorer$outboundSchema,
-  ChunkAttributionUtilizationScorer$outboundSchema,
   CompletenessScorer$outboundSchema,
   ContextAdherenceScorer$outboundSchema,
   ContextRelevanceScorer$outboundSchema,
@@ -515,11 +307,8 @@ export const CreateJobRequestScorers1$outboundSchema: z.ZodMiniType<
   OutputToneScorer$outboundSchema,
   OutputToxicityScorer$outboundSchema,
   PromptInjectionScorer$outboundSchema,
-  PromptPerplexityScorer$outboundSchema,
-  RougeScorer$outboundSchema,
   ToolErrorRateScorer$outboundSchema,
   ToolSelectionQualityScorer$outboundSchema,
-  UncertaintyScorer$outboundSchema,
 ]);
 
 export function createJobRequestScorers1ToJSON(
@@ -532,12 +321,10 @@ export function createJobRequestScorers1ToJSON(
 
 /** @internal */
 export type CreateJobRequestScorers2$Outbound =
-  | Array<ScorerConfig$Outbound>
+  | Array<RuntimeScorerConfig$Outbound>
   | Array<
     | AgenticSessionSuccessScorer$Outbound
     | AgenticWorkflowSuccessScorer$Outbound
-    | BleuScorer$Outbound
-    | ChunkAttributionUtilizationScorer$Outbound
     | CompletenessScorer$Outbound
     | ContextAdherenceScorer$Outbound
     | ContextRelevanceScorer$Outbound
@@ -553,11 +340,8 @@ export type CreateJobRequestScorers2$Outbound =
     | OutputToneScorer$Outbound
     | OutputToxicityScorer$Outbound
     | PromptInjectionScorer$Outbound
-    | PromptPerplexityScorer$Outbound
-    | RougeScorer$Outbound
     | ToolErrorRateScorer$Outbound
     | ToolSelectionQualityScorer$Outbound
-    | UncertaintyScorer$Outbound
   >;
 
 /** @internal */
@@ -565,13 +349,11 @@ export const CreateJobRequestScorers2$outboundSchema: z.ZodMiniType<
   CreateJobRequestScorers2$Outbound,
   CreateJobRequestScorers2
 > = smartUnion([
-  z.array(ScorerConfig$outboundSchema),
+  z.array(RuntimeScorerConfig$outboundSchema),
   z.array(
     z.union([
       AgenticSessionSuccessScorer$outboundSchema,
       AgenticWorkflowSuccessScorer$outboundSchema,
-      BleuScorer$outboundSchema,
-      ChunkAttributionUtilizationScorer$outboundSchema,
       CompletenessScorer$outboundSchema,
       ContextAdherenceScorer$outboundSchema,
       ContextRelevanceScorer$outboundSchema,
@@ -587,11 +369,8 @@ export const CreateJobRequestScorers2$outboundSchema: z.ZodMiniType<
       OutputToneScorer$outboundSchema,
       OutputToxicityScorer$outboundSchema,
       PromptInjectionScorer$outboundSchema,
-      PromptPerplexityScorer$outboundSchema,
-      RougeScorer$outboundSchema,
       ToolErrorRateScorer$outboundSchema,
       ToolSelectionQualityScorer$outboundSchema,
-      UncertaintyScorer$outboundSchema,
     ]),
   ),
 ]);
@@ -601,58 +380,6 @@ export function createJobRequestScorers2ToJSON(
 ): string {
   return JSON.stringify(
     CreateJobRequestScorers2$outboundSchema.parse(createJobRequestScorers2),
-  );
-}
-
-/** @internal */
-export type CreateJobRequestPromptCustomizedScorersConfiguration$Outbound =
-  | CustomizedAgenticSessionSuccessGPTScorer$Outbound
-  | CustomizedAgenticWorkflowSuccessGPTScorer$Outbound
-  | CustomizedChunkAttributionUtilizationGPTScorer$Outbound
-  | CustomizedCompletenessGPTScorer$Outbound
-  | CustomizedFactualityGPTScorer$Outbound
-  | CustomizedGroundTruthAdherenceGPTScorer$Outbound
-  | CustomizedGroundednessGPTScorer$Outbound
-  | CustomizedInputSexistGPTScorer$Outbound
-  | CustomizedInputToxicityGPTScorer$Outbound
-  | CustomizedInstructionAdherenceGPTScorer$Outbound
-  | CustomizedPromptInjectionGPTScorer$Outbound
-  | CustomizedSexistGPTScorer$Outbound
-  | CustomizedToolErrorRateGPTScorer$Outbound
-  | CustomizedToolSelectionQualityGPTScorer$Outbound
-  | CustomizedToxicityGPTScorer$Outbound;
-
-/** @internal */
-export const CreateJobRequestPromptCustomizedScorersConfiguration$outboundSchema:
-  z.ZodMiniType<
-    CreateJobRequestPromptCustomizedScorersConfiguration$Outbound,
-    CreateJobRequestPromptCustomizedScorersConfiguration
-  > = z.union([
-    CustomizedAgenticSessionSuccessGPTScorer$outboundSchema,
-    CustomizedAgenticWorkflowSuccessGPTScorer$outboundSchema,
-    CustomizedChunkAttributionUtilizationGPTScorer$outboundSchema,
-    CustomizedCompletenessGPTScorer$outboundSchema,
-    CustomizedFactualityGPTScorer$outboundSchema,
-    CustomizedGroundTruthAdherenceGPTScorer$outboundSchema,
-    CustomizedGroundednessGPTScorer$outboundSchema,
-    CustomizedInputSexistGPTScorer$outboundSchema,
-    CustomizedInputToxicityGPTScorer$outboundSchema,
-    CustomizedInstructionAdherenceGPTScorer$outboundSchema,
-    CustomizedPromptInjectionGPTScorer$outboundSchema,
-    CustomizedSexistGPTScorer$outboundSchema,
-    CustomizedToolErrorRateGPTScorer$outboundSchema,
-    CustomizedToolSelectionQualityGPTScorer$outboundSchema,
-    CustomizedToxicityGPTScorer$outboundSchema,
-  ]);
-
-export function createJobRequestPromptCustomizedScorersConfigurationToJSON(
-  createJobRequestPromptCustomizedScorersConfiguration:
-    CreateJobRequestPromptCustomizedScorersConfiguration,
-): string {
-  return JSON.stringify(
-    CreateJobRequestPromptCustomizedScorersConfiguration$outboundSchema.parse(
-      createJobRequestPromptCustomizedScorersConfiguration,
-    ),
   );
 }
 
@@ -671,7 +398,6 @@ export type CreateJobRequest$Outbound = {
   tasks?: Array<string> | null | undefined;
   non_inference_logged: boolean;
   migration_name?: string | null | undefined;
-  xray: boolean;
   process_existing_inference_runs: boolean;
   feature_names?: Array<string> | null | undefined;
   prompt_dataset_id?: string | null | undefined;
@@ -680,15 +406,13 @@ export type CreateJobRequest$Outbound = {
   prompt_template_version_id?: string | null | undefined;
   monitor_batch_id?: string | null | undefined;
   protect_trace_id?: string | null | undefined;
-  protect_scorer_payload?: Uint8Array | null | undefined;
+  protect_scorer_payload?: string | null | undefined;
   prompt_settings?: PromptRunSettings$Outbound | null | undefined;
   scorers?:
-    | Array<ScorerConfig$Outbound>
+    | Array<RuntimeScorerConfig$Outbound>
     | Array<
       | AgenticSessionSuccessScorer$Outbound
       | AgenticWorkflowSuccessScorer$Outbound
-      | BleuScorer$Outbound
-      | ChunkAttributionUtilizationScorer$Outbound
       | CompletenessScorer$Outbound
       | ContextAdherenceScorer$Outbound
       | ContextRelevanceScorer$Outbound
@@ -704,67 +428,23 @@ export type CreateJobRequest$Outbound = {
       | OutputToneScorer$Outbound
       | OutputToxicityScorer$Outbound
       | PromptInjectionScorer$Outbound
-      | PromptPerplexityScorer$Outbound
-      | RougeScorer$Outbound
       | ToolErrorRateScorer$Outbound
       | ToolSelectionQualityScorer$Outbound
-      | UncertaintyScorer$Outbound
     >
-    | null
-    | undefined;
-  prompt_registered_scorers_configuration?:
-    | Array<RegisteredScorer$Outbound>
     | null
     | undefined;
   prompt_generated_scorers_configuration?: Array<string> | null | undefined;
-  prompt_finetuned_scorers_configuration?:
-    | Array<FineTunedScorer$Outbound>
-    | null
-    | undefined;
-  prompt_scorers_configuration?:
-    | ScorersConfiguration$Outbound
-    | null
-    | undefined;
-  prompt_customized_scorers_configuration?:
-    | Array<
-      | CustomizedAgenticSessionSuccessGPTScorer$Outbound
-      | CustomizedAgenticWorkflowSuccessGPTScorer$Outbound
-      | CustomizedChunkAttributionUtilizationGPTScorer$Outbound
-      | CustomizedCompletenessGPTScorer$Outbound
-      | CustomizedFactualityGPTScorer$Outbound
-      | CustomizedGroundTruthAdherenceGPTScorer$Outbound
-      | CustomizedGroundednessGPTScorer$Outbound
-      | CustomizedInputSexistGPTScorer$Outbound
-      | CustomizedInputToxicityGPTScorer$Outbound
-      | CustomizedInstructionAdherenceGPTScorer$Outbound
-      | CustomizedPromptInjectionGPTScorer$Outbound
-      | CustomizedSexistGPTScorer$Outbound
-      | CustomizedToolErrorRateGPTScorer$Outbound
-      | CustomizedToolSelectionQualityGPTScorer$Outbound
-      | CustomizedToxicityGPTScorer$Outbound
-    >
-    | null
-    | undefined;
   prompt_scorer_settings?: BaseScorer$Outbound | null | undefined;
-  scorer_config?: ScorerConfig$Outbound | null | undefined;
-  sub_scorers?: Array<string> | undefined;
+  scorer_config?: RuntimeScorerConfig$Outbound | null | undefined;
   luna_model?: string | null | undefined;
   segment_filters?: Array<SegmentFilter$Outbound> | null | undefined;
-  prompt_optimization_configuration?:
-    | PromptOptimizationConfiguration$Outbound
-    | null
-    | undefined;
-  epoch: number;
-  metric_critique_configuration?:
-    | MetricCritiqueJobConfiguration$Outbound
-    | null
-    | undefined;
   is_session?: boolean | null | undefined;
   validation_config?: { [k: string]: any } | null | undefined;
   upload_data_in_separate_task: boolean;
   log_metric_computing_records: boolean;
-  stream_metrics: boolean;
   multijudge_average_boolean_metrics: boolean;
+  store_metric_ids: boolean;
+  trace_ids?: Array<string> | undefined;
 };
 
 /** @internal */
@@ -777,7 +457,7 @@ export const CreateJobRequest$outboundSchema: z.ZodMiniType<
     projectId: z.string(),
     runId: z.string(),
     jobId: z.optional(z.nullable(z.string())),
-    jobName: z._default(z.string(), "default"),
+    jobName: z._default(z.string(), "log_stream_scorer"),
     shouldRetry: z._default(z.boolean(), true),
     userId: z.optional(z.nullable(z.string())),
     taskType: z.optional(z.nullable(TaskType$outboundSchema)),
@@ -788,7 +468,6 @@ export const CreateJobRequest$outboundSchema: z.ZodMiniType<
     tasks: z.optional(z.nullable(z.array(z.string()))),
     nonInferenceLogged: z._default(z.boolean(), false),
     migrationName: z.optional(z.nullable(z.string())),
-    xray: z._default(z.boolean(), true),
     processExistingInferenceRuns: z._default(z.boolean(), false),
     featureNames: z.optional(z.nullable(z.array(z.string()))),
     promptDatasetId: z.optional(z.nullable(z.string())),
@@ -797,18 +476,16 @@ export const CreateJobRequest$outboundSchema: z.ZodMiniType<
     promptTemplateVersionId: z.optional(z.nullable(z.string())),
     monitorBatchId: z.optional(z.nullable(z.string())),
     protectTraceId: z.optional(z.nullable(z.string())),
-    protectScorerPayload: z.optional(z.nullable(b64$.zodOutbound)),
+    protectScorerPayload: z.optional(z.nullable(z.string())),
     promptSettings: z.optional(z.nullable(PromptRunSettings$outboundSchema)),
     scorers: z.optional(
       z.nullable(
         smartUnion([
-          z.array(ScorerConfig$outboundSchema),
+          z.array(RuntimeScorerConfig$outboundSchema),
           z.array(
             z.union([
               AgenticSessionSuccessScorer$outboundSchema,
               AgenticWorkflowSuccessScorer$outboundSchema,
-              BleuScorer$outboundSchema,
-              ChunkAttributionUtilizationScorer$outboundSchema,
               CompletenessScorer$outboundSchema,
               ContextAdherenceScorer$outboundSchema,
               ContextRelevanceScorer$outboundSchema,
@@ -824,73 +501,29 @@ export const CreateJobRequest$outboundSchema: z.ZodMiniType<
               OutputToneScorer$outboundSchema,
               OutputToxicityScorer$outboundSchema,
               PromptInjectionScorer$outboundSchema,
-              PromptPerplexityScorer$outboundSchema,
-              RougeScorer$outboundSchema,
               ToolErrorRateScorer$outboundSchema,
               ToolSelectionQualityScorer$outboundSchema,
-              UncertaintyScorer$outboundSchema,
             ]),
           ),
         ]),
       ),
     ),
-    promptRegisteredScorersConfiguration: z.optional(
-      z.nullable(z.array(RegisteredScorer$outboundSchema)),
-    ),
     promptGeneratedScorersConfiguration: z.optional(
       z.nullable(z.array(z.string())),
     ),
-    promptFinetunedScorersConfiguration: z.optional(
-      z.nullable(z.array(FineTunedScorer$outboundSchema)),
-    ),
-    promptScorersConfiguration: z.optional(
-      z.nullable(ScorersConfiguration$outboundSchema),
-    ),
-    promptCustomizedScorersConfiguration: z.optional(
-      z.nullable(
-        z.array(
-          z.union([
-            CustomizedAgenticSessionSuccessGPTScorer$outboundSchema,
-            CustomizedAgenticWorkflowSuccessGPTScorer$outboundSchema,
-            CustomizedChunkAttributionUtilizationGPTScorer$outboundSchema,
-            CustomizedCompletenessGPTScorer$outboundSchema,
-            CustomizedFactualityGPTScorer$outboundSchema,
-            CustomizedGroundTruthAdherenceGPTScorer$outboundSchema,
-            CustomizedGroundednessGPTScorer$outboundSchema,
-            CustomizedInputSexistGPTScorer$outboundSchema,
-            CustomizedInputToxicityGPTScorer$outboundSchema,
-            CustomizedInstructionAdherenceGPTScorer$outboundSchema,
-            CustomizedPromptInjectionGPTScorer$outboundSchema,
-            CustomizedSexistGPTScorer$outboundSchema,
-            CustomizedToolErrorRateGPTScorer$outboundSchema,
-            CustomizedToolSelectionQualityGPTScorer$outboundSchema,
-            CustomizedToxicityGPTScorer$outboundSchema,
-          ]),
-        ),
-      ),
-    ),
     promptScorerSettings: z.optional(z.nullable(BaseScorer$outboundSchema)),
-    scorerConfig: z.optional(z.nullable(ScorerConfig$outboundSchema)),
-    subScorers: z.optional(
-      z.array(PromptgalileoSchemasScorerNameScorerName$outboundSchema),
-    ),
+    scorerConfig: z.optional(z.nullable(RuntimeScorerConfig$outboundSchema)),
     lunaModel: z.optional(z.nullable(z.string())),
     segmentFilters: z.optional(
       z.nullable(z.array(SegmentFilter$outboundSchema)),
-    ),
-    promptOptimizationConfiguration: z.optional(
-      z.nullable(PromptOptimizationConfiguration$outboundSchema),
-    ),
-    epoch: z._default(z.int(), 0),
-    metricCritiqueConfiguration: z.optional(
-      z.nullable(MetricCritiqueJobConfiguration$outboundSchema),
     ),
     isSession: z.optional(z.nullable(z.boolean())),
     validationConfig: z.optional(z.nullable(z.record(z.string(), z.any()))),
     uploadDataInSeparateTask: z._default(z.boolean(), true),
     logMetricComputingRecords: z._default(z.boolean(), true),
-    streamMetrics: z._default(z.boolean(), false),
     multijudgeAverageBooleanMetrics: z._default(z.boolean(), false),
+    storeMetricIds: z._default(z.boolean(), false),
+    traceIds: z.optional(z.array(z.string())),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -915,28 +548,19 @@ export const CreateJobRequest$outboundSchema: z.ZodMiniType<
       protectTraceId: "protect_trace_id",
       protectScorerPayload: "protect_scorer_payload",
       promptSettings: "prompt_settings",
-      promptRegisteredScorersConfiguration:
-        "prompt_registered_scorers_configuration",
       promptGeneratedScorersConfiguration:
         "prompt_generated_scorers_configuration",
-      promptFinetunedScorersConfiguration:
-        "prompt_finetuned_scorers_configuration",
-      promptScorersConfiguration: "prompt_scorers_configuration",
-      promptCustomizedScorersConfiguration:
-        "prompt_customized_scorers_configuration",
       promptScorerSettings: "prompt_scorer_settings",
       scorerConfig: "scorer_config",
-      subScorers: "sub_scorers",
       lunaModel: "luna_model",
       segmentFilters: "segment_filters",
-      promptOptimizationConfiguration: "prompt_optimization_configuration",
-      metricCritiqueConfiguration: "metric_critique_configuration",
       isSession: "is_session",
       validationConfig: "validation_config",
       uploadDataInSeparateTask: "upload_data_in_separate_task",
       logMetricComputingRecords: "log_metric_computing_records",
-      streamMetrics: "stream_metrics",
       multijudgeAverageBooleanMetrics: "multijudge_average_boolean_metrics",
+      storeMetricIds: "store_metric_ids",
+      traceIds: "trace_ids",
     });
   }),
 );
