@@ -6,10 +6,6 @@
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
 import {
-  GalileoCoreSchemasSharedScorersScorerNameScorerName,
-  GalileoCoreSchemasSharedScorersScorerNameScorerName$outboundSchema,
-} from "./galileocoreschemassharedscorersscorernamescorername.js";
-import {
   LunaInputTypeEnum,
   LunaInputTypeEnum$outboundSchema,
 } from "./lunainputtypeenum.js";
@@ -17,6 +13,7 @@ import {
   LunaOutputTypeEnum,
   LunaOutputTypeEnum$outboundSchema,
 } from "./lunaoutputtypeenum.js";
+import { ScorerName, ScorerName$outboundSchema } from "./scorername.js";
 
 export type CreateCustomLunaScorerVersionRequest = {
   loraTaskId: number;
@@ -25,10 +22,7 @@ export type CreateCustomLunaScorerVersionRequest = {
   /**
    * Executor pipeline. Defaults to finetuned scorer pipeline but can run custom galileo score pipelines.
    */
-  executor?:
-    | GalileoCoreSchemasSharedScorersScorerNameScorerName
-    | null
-    | undefined;
+  executor?: ScorerName | null | undefined;
   lunaInputType?: LunaInputTypeEnum | null | undefined;
   lunaOutputType?: LunaOutputTypeEnum | null | undefined;
 };
@@ -52,11 +46,7 @@ export const CreateCustomLunaScorerVersionRequest$outboundSchema: z.ZodMiniType<
     loraTaskId: z.int(),
     prompt: z.string(),
     loraWeightsPath: z.optional(z.nullable(z.string())),
-    executor: z.optional(
-      z.nullable(
-        GalileoCoreSchemasSharedScorersScorerNameScorerName$outboundSchema,
-      ),
-    ),
+    executor: z.optional(z.nullable(ScorerName$outboundSchema)),
     lunaInputType: z.optional(z.nullable(LunaInputTypeEnum$outboundSchema)),
     lunaOutputType: z.optional(z.nullable(LunaOutputTypeEnum$outboundSchema)),
   }),

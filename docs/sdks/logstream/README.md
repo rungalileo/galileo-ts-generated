@@ -28,7 +28,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.logStream.createLogStreamProjectsProjectIdLogStreamsPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -56,7 +56,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await logStreamCreateLogStreamProjectsProjectIdLogStreamsPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -113,7 +113,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.logStream.listLogStreamsProjectsProjectIdLogStreamsGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
   });
@@ -138,7 +138,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await logStreamListLogStreamsProjectsProjectIdLogStreamsGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
   });
@@ -188,7 +188,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.logStream.listLogStreamsPaginatedProjectsProjectIdLogStreamsPaginatedGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
   });
@@ -213,7 +213,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await logStreamListLogStreamsPaginatedProjectsProjectIdLogStreamsPaginatedGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
   });
@@ -263,7 +263,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.logStream.searchLogStreamsProjectsProjectIdLogStreamsSearchPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {},
@@ -289,7 +289,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await logStreamSearchLogStreamsProjectsProjectIdLogStreamsSearchPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {},
@@ -340,7 +340,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.logStream.getLogStreamProjectsProjectIdLogStreamsLogStreamIdGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     logStreamId: "<value>",
     projectId: "<value>",
@@ -366,7 +366,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await logStreamGetLogStreamProjectsProjectIdLogStreamsLogStreamIdGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     logStreamId: "<value>",
     projectId: "<value>",
@@ -417,7 +417,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.logStream.updateLogStreamProjectsProjectIdLogStreamsLogStreamIdPut({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     logStreamId: "<value>",
     projectId: "<value>",
@@ -446,7 +446,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await logStreamUpdateLogStreamProjectsProjectIdLogStreamsLogStreamIdPut(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     logStreamId: "<value>",
     projectId: "<value>",
@@ -500,7 +500,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   await galileoGenerated.logStream.deleteLogStreamProjectsProjectIdLogStreamsLogStreamIdDelete({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     logStreamId: "<value>",
     projectId: "<value>",
@@ -526,7 +526,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await logStreamDeleteLogStreamProjectsProjectIdLogStreamsLogStreamIdDelete(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     logStreamId: "<value>",
     projectId: "<value>",
@@ -577,13 +577,14 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.logStream.updateMetricSettingsProjectsProjectIdLogStreamsLogStreamIdMetricSettingsPatch({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     logStreamId: "<value>",
     body: {
       scorers: [
         {
+          id: "<value>",
           filters: [
             {
               name: "modality",
@@ -591,7 +592,6 @@ async function run() {
               value: "ENUM_VALUE",
             },
           ],
-          id: "<value>",
           scorerType: "llm",
         },
       ],
@@ -630,13 +630,14 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await logStreamUpdateMetricSettingsProjectsProjectIdLogStreamsLogStreamIdMetricSettingsPatch(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     logStreamId: "<value>",
     body: {
       scorers: [
         {
+          id: "<value>",
           filters: [
             {
               name: "modality",
@@ -644,7 +645,6 @@ async function run() {
               value: "ENUM_VALUE",
             },
           ],
-          id: "<value>",
           scorerType: "llm",
         },
       ],
@@ -706,7 +706,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.logStream.getMetricSettingsProjectsProjectIdLogStreamsLogStreamIdMetricSettingsGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     logStreamId: "<value>",
     projectId: "<value>",
@@ -734,7 +734,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await logStreamGetMetricSettingsProjectsProjectIdLogStreamsLogStreamIdMetricSettingsGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     logStreamId: "<value>",
     projectId: "<value>",
