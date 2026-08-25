@@ -12,33 +12,28 @@ let value:
     body: {
       scorers: [
         {
+          id: "<value>",
           filters: [
             {
-              name: "node_name",
-              operator: "one_of",
+              name: "metadata",
+              operator: "ne",
+              key: "<key>",
               value: [
                 "<value 1>",
+                "<value 2>",
               ],
-              caseSensitive: true,
             },
           ],
-          id: "<value>",
-          scorerType: "llm",
         },
       ],
       segmentFilters: [
         {
           filter: {
-            name: "node_name",
-            operator: "ne",
-            value: [
-              "<value 1>",
-              "<value 2>",
-              "<value 3>",
-            ],
-            caseSensitive: true,
+            name: "modality",
+            operator: "eq",
+            value: "ENUM_VALUE",
           },
-          sampleRate: 7113.42,
+          sampleRate: 2746.46,
         },
       ],
       runId: "<value>",

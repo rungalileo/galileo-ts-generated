@@ -128,15 +128,6 @@ let value: ExperimentsAvailableColumnsResponse = {
       applicableTypes: [],
     },
     {
-      id: "metrics/average_bleu",
-      label: "Average Bleu",
-      category: "metric",
-      dataType: "floating_point",
-      sortable: true,
-      filterable: true,
-      applicableTypes: [],
-    },
-    {
       id: "metrics/total_responses",
       label: "Total Responses",
       category: "metric",
