@@ -166,6 +166,10 @@ export type LlmSpan = {
    */
   model?: string | null | undefined;
   /**
+   * Provider used for this span.
+   */
+  provider?: string | null | undefined;
+  /**
    * Temperature used for generation.
    */
   temperature?: number | null | undefined;
@@ -248,6 +252,7 @@ export type LlmSpan$Outbound = {
     | null
     | undefined;
   model?: string | null | undefined;
+  provider?: string | null | undefined;
   temperature?: number | null | undefined;
   finish_reason?: string | null | undefined;
 };
@@ -302,6 +307,7 @@ export const LlmSpan$outboundSchema: z.ZodMiniType<LlmSpan$Outbound, LlmSpan> =
         ),
       ),
       model: z.optional(z.nullable(z.string())),
+      provider: z.optional(z.nullable(z.string())),
       temperature: z.optional(z.nullable(z.number())),
       finishReason: z.optional(z.nullable(z.string())),
     }),

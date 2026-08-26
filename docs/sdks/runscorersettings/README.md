@@ -22,15 +22,15 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.runScorerSettings.upsertScorersConfigProjectsProjectIdRunsRunIdScorerSettingsPatch({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     runId: "<value>",
     body: {
       scorers: [
         {
-          filters: null,
           id: "<value>",
+          filters: null,
           scorerType: "preset",
         },
       ],
@@ -71,15 +71,15 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await runScorerSettingsUpsertScorersConfigProjectsProjectIdRunsRunIdScorerSettingsPatch(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     runId: "<value>",
     body: {
       scorers: [
         {
-          filters: null,
           id: "<value>",
+          filters: null,
           scorerType: "preset",
         },
       ],
@@ -143,13 +143,14 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.runScorerSettings.upsertScorersConfigProjectsProjectIdRunsRunIdScorerSettingsPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     runId: "<value>",
     body: {
       scorers: [
         {
+          id: "<value>",
           filters: [
             {
               name: "modality",
@@ -157,7 +158,6 @@ async function run() {
               value: "ENUM_VALUE",
             },
           ],
-          id: "<value>",
           scorerType: "preset",
         },
       ],
@@ -195,13 +195,14 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await runScorerSettingsUpsertScorersConfigProjectsProjectIdRunsRunIdScorerSettingsPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     runId: "<value>",
     body: {
       scorers: [
         {
+          id: "<value>",
           filters: [
             {
               name: "modality",
@@ -209,7 +210,6 @@ async function run() {
               value: "ENUM_VALUE",
             },
           ],
-          id: "<value>",
           scorerType: "preset",
         },
       ],
@@ -272,7 +272,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.runScorerSettings.getSettingsProjectsProjectIdRunsRunIdScorerSettingsGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     runId: "<value>",
     projectId: "<value>",
@@ -298,7 +298,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await runScorerSettingsGetSettingsProjectsProjectIdRunsRunIdScorerSettingsGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     runId: "<value>",
     projectId: "<value>",

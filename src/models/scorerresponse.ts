@@ -45,6 +45,7 @@ import {
   OutputTypeEnum,
   OutputTypeEnum$inboundSchema,
 } from "./outputtypeenum.js";
+import { Permission, Permission$inboundSchema } from "./permission.js";
 import {
   RollUpMethodDisplayOptions,
   RollUpMethodDisplayOptions$inboundSchema,
@@ -53,6 +54,14 @@ import {
   ScorerDefaults,
   ScorerDefaults$inboundSchema,
 } from "./scorerdefaults.js";
+import {
+  ScorerInvocationConfig,
+  ScorerInvocationConfig$inboundSchema,
+} from "./scorerinvocationconfig.js";
+import {
+  ScorerScopeProjectRef,
+  ScorerScopeProjectRef$inboundSchema,
+} from "./scorerscopeprojectref.js";
 import { ScorerTypes, ScorerTypes$inboundSchema } from "./scorertypes.js";
 
 export type ScorerResponseMetricColorPickerConfig =
@@ -64,9 +73,15 @@ export type ScorerResponseMetricColorPickerConfig =
 
 export type ScorerResponse = {
   id: string;
+  permissions?: Array<Permission> | undefined;
   name: string;
+  label?: string | null | undefined;
   scorerType: ScorerTypes;
   defaults?: ScorerDefaults | null | undefined;
+  /**
+   * Intrinsic metadata for invoking this scorer directly with query and response inputs.
+   */
+  invocation?: ScorerInvocationConfig | null | undefined;
   latestVersion?: BaseScorerVersionDB | null | undefined;
   modelType?: ModelType | null | undefined;
   groundTruth?: boolean | null | undefined;
@@ -82,7 +97,6 @@ export type ScorerResponse = {
   deprecated?: boolean | null | undefined;
   rollUpMethod?: RollUpMethodDisplayOptions | null | undefined;
   rollUpConfig?: BaseMetricRollUpConfigDB | null | undefined;
-  label?: string | null | undefined;
   tags: Array<string>;
   /**
    * Fields that can be used in the scorer to configure it. i.e. model, num_judges, etc. This enables the ui to know which fields a user can configure when they're setting a scorer
@@ -102,6 +116,9 @@ export type ScorerResponse = {
     | undefined;
   colorThresholdConfig?: MetricColorPickerNumeric | null | undefined;
   metricName?: string | null | undefined;
+  isGlobal: boolean;
+  scopeProjects?: Array<ScorerScopeProjectRef> | undefined;
+  projectsUsed?: Array<ScorerScopeProjectRef> | undefined;
 };
 
 /** @internal */
@@ -133,9 +150,12 @@ export const ScorerResponse$inboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     id: types.string(),
+    permissions: types.optional(z.array(Permission$inboundSchema)),
     name: types.string(),
+    label: z.optional(z.nullable(types.string())),
     scorer_type: ScorerTypes$inboundSchema,
     defaults: z.optional(z.nullable(ScorerDefaults$inboundSchema)),
+    invocation: z.optional(z.nullable(ScorerInvocationConfig$inboundSchema)),
     latest_version: z.optional(z.nullable(BaseScorerVersionDB$inboundSchema)),
     model_type: z.optional(z.nullable(ModelType$inboundSchema)),
     ground_truth: z.optional(z.nullable(types.boolean())),
@@ -157,7 +177,6 @@ export const ScorerResponse$inboundSchema: z.ZodMiniType<
     roll_up_config: z.optional(
       z.nullable(BaseMetricRollUpConfigDB$inboundSchema),
     ),
-    label: z.optional(z.nullable(types.string())),
     tags: z.array(types.string()),
     included_fields: types.optional(z.array(types.string())),
     description: z.optional(z.nullable(types.string())),
@@ -176,6 +195,11 @@ export const ScorerResponse$inboundSchema: z.ZodMiniType<
       z.nullable(MetricColorPickerNumeric$inboundSchema),
     ),
     metric_name: z.optional(z.nullable(types.string())),
+    is_global: z._default(types.boolean(), false),
+    scope_projects: types.optional(
+      z.array(ScorerScopeProjectRef$inboundSchema),
+    ),
+    projects_used: types.optional(z.array(ScorerScopeProjectRef$inboundSchema)),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -201,6 +225,9 @@ export const ScorerResponse$inboundSchema: z.ZodMiniType<
       "metric_color_picker_config": "metricColorPickerConfig",
       "color_threshold_config": "colorThresholdConfig",
       "metric_name": "metricName",
+      "is_global": "isGlobal",
+      "scope_projects": "scopeProjects",
+      "projects_used": "projectsUsed",
     });
   }),
 );
