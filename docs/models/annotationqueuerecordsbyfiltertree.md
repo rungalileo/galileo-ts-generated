@@ -1,0 +1,23 @@
+# AnnotationQueueRecordsByFilterTree
+
+## Example Usage
+
+```typescript
+import { AnnotationQueueRecordsByFilterTree } from "galileo-generated/models";
+
+let value: AnnotationQueueRecordsByFilterTree = {
+  type: "filter_tree",
+  filterTree: {
+    not: {
+      and: [],
+    },
+  },
+};
+```
+
+## Fields
+
+| Field                                                                                                                                                                                                                                                          | Type                                                                                                                                                                                                                                                           | Required                                                                                                                                                                                                                                                       | Description                                                                                                                                                                                                                                                    |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`                                                                                                                                                                                                                                                         | *"filter_tree"*                                                                                                                                                                                                                                                | :heavy_check_mark:                                                                                                                                                                                                                                             | N/A                                                                                                                                                                                                                                                            |
+| `filterTree`                                                                                                                                                                                                                                                   | *models.FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType* | :heavy_check_mark:                                                                                                                                                                                                                                             | N/A                                                                                                                                                                                                                                                            |

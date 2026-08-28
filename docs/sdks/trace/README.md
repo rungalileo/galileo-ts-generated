@@ -31,6 +31,7 @@
 * [countSessionsProjectsProjectIdSessionsCountPost](#countsessionsprojectsprojectidsessionscountpost) - Count Sessions
 * [getSessionProjectsProjectIdSessionsSessionIdGet](#getsessionprojectsprojectidsessionssessionidget) - Get Session
 * [exportRecordsProjectsProjectIdExportRecordsPost](#exportrecordsprojectsprojectidexportrecordspost) - Export Records
+* [exportRecordsUrlProjectsProjectIdExportRecordsUrlPost](#exportrecordsurlprojectsprojectidexportrecordsurlpost) - Export Records Url
 * [deleteTracesProjectsProjectIdTracesDeletePost](#deletetracesprojectsprojectidtracesdeletepost) - Delete Traces
 * [deleteSpansProjectsProjectIdSpansDeletePost](#deletespansprojectsprojectidspansdeletepost) - Delete Spans
 * [deleteSessionsProjectsProjectIdSessionsDeletePost](#deletesessionsprojectsprojectidsessionsdeletepost) - Delete Sessions
@@ -49,7 +50,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.trace.getAggregatedTraceViewProjectsProjectIdTracesAggregatedPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -77,7 +78,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await traceGetAggregatedTraceViewProjectsProjectIdTracesAggregatedPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -130,7 +131,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.trace.recomputeMetricsProjectsProjectIdRecomputeMetricsPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -176,7 +177,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await traceRecomputeMetricsProjectsProjectIdRecomputeMetricsPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -247,7 +248,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.trace.logTracesProjectsProjectIdTracesPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -257,7 +258,7 @@ async function run() {
         {
           input: "who is a smart LLM?",
           output: "I am!",
-          createdAt: new Date("2026-05-12T23:58:32.249464Z"),
+          createdAt: new Date("2026-08-24T20:55:30.829604Z"),
           userMetadata: {
 
           },
@@ -280,7 +281,7 @@ async function run() {
                 role: "user",
               },
               name: "",
-              createdAt: new Date("2026-05-12T23:58:32.249423Z"),
+              createdAt: new Date("2026-08-24T20:55:30.829564Z"),
               userMetadata: {
 
               },
@@ -316,7 +317,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await traceLogTracesProjectsProjectIdTracesPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -326,7 +327,7 @@ async function run() {
         {
           input: "who is a smart LLM?",
           output: "I am!",
-          createdAt: new Date("2026-05-12T23:58:32.249464Z"),
+          createdAt: new Date("2026-08-24T20:55:30.829604Z"),
           userMetadata: {
   
           },
@@ -349,7 +350,7 @@ async function run() {
                 role: "user",
               },
               name: "",
-              createdAt: new Date("2026-05-12T23:58:32.249423Z"),
+              createdAt: new Date("2026-08-24T20:55:30.829564Z"),
               userMetadata: {
   
               },
@@ -410,7 +411,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.trace.updateTraceProjectsProjectIdTracesTraceIdPatch({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     traceId: "<value>",
     projectId: "<value>",
@@ -439,7 +440,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await traceUpdateTraceProjectsProjectIdTracesTraceIdPatch(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     traceId: "<value>",
     projectId: "<value>",
@@ -493,7 +494,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.trace.getTraceProjectsProjectIdTracesTraceIdGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     traceId: "<value>",
     projectId: "<value>",
@@ -519,7 +520,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await traceGetTraceProjectsProjectIdTracesTraceIdGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     traceId: "<value>",
     projectId: "<value>",
@@ -547,7 +548,7 @@ run();
 
 ### Response
 
-**Promise\<[models.ExtendedTraceRecordWithChildren](../../models/extendedtracerecordwithchildren.md)\>**
+**Promise\<[operations.ResponseGetTraceProjectsProjectIdTracesTraceIdGet](../../models/operations/responsegettraceprojectsprojectidtracestraceidget.md)\>**
 
 ### Errors
 
@@ -570,7 +571,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.trace.updateSpanProjectsProjectIdSpansSpanIdPatch({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     spanId: "<value>",
     projectId: "<value>",
@@ -599,7 +600,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await traceUpdateSpanProjectsProjectIdSpansSpanIdPatch(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     spanId: "<value>",
     projectId: "<value>",
@@ -653,7 +654,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.trace.getSpanProjectsProjectIdSpansSpanIdGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     spanId: "<value>",
     projectId: "<value>",
@@ -679,7 +680,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await traceGetSpanProjectsProjectIdSpansSpanIdGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     spanId: "<value>",
     projectId: "<value>",
@@ -730,7 +731,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.trace.tracesAvailableColumnsProjectsProjectIdTracesAvailableColumnsPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -758,7 +759,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await traceTracesAvailableColumnsProjectsProjectIdTracesAvailableColumnsPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -811,7 +812,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.trace.metricsTestingAvailableColumnsProjectsProjectIdMetricsTestingAvailableColumnsPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -841,7 +842,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await traceMetricsTestingAvailableColumnsProjectsProjectIdMetricsTestingAvailableColumnsPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -894,7 +895,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.trace.spansAvailableColumnsProjectsProjectIdSpansAvailableColumnsPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -922,7 +923,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await traceSpansAvailableColumnsProjectsProjectIdSpansAvailableColumnsPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -975,7 +976,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.trace.sessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -1003,7 +1004,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await traceSessionsAvailableColumnsProjectsProjectIdSessionsAvailableColumnsPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -1056,7 +1057,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.trace.queryTracesProjectsProjectIdTracesSearchPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -1097,7 +1098,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await traceQueryTracesProjectsProjectIdTracesSearchPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -1163,7 +1164,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.trace.queryPartialTracesProjectsProjectIdTracesPartialSearchPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -1211,7 +1212,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await traceQueryPartialTracesProjectsProjectIdTracesPartialSearchPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -1284,7 +1285,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.trace.countTracesProjectsProjectIdTracesCountPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -1321,7 +1322,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await traceCountTracesProjectsProjectIdTracesCountPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -1383,7 +1384,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.trace.logSpansProjectsProjectIdSpansPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -1394,7 +1395,7 @@ async function run() {
           input: "who is a smart LLM?",
           output: "I am!",
           name: "",
-          createdAt: new Date("2026-05-12T23:58:32.270557Z"),
+          createdAt: new Date("2026-08-24T20:55:30.848866Z"),
           userMetadata: {
 
           },
@@ -1417,7 +1418,7 @@ async function run() {
                 role: "user",
               },
               name: "",
-              createdAt: new Date("2026-05-12T23:58:32.254617Z"),
+              createdAt: new Date("2026-08-24T20:55:30.834278Z"),
               userMetadata: {
 
               },
@@ -1456,7 +1457,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await traceLogSpansProjectsProjectIdSpansPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -1467,7 +1468,7 @@ async function run() {
           input: "who is a smart LLM?",
           output: "I am!",
           name: "",
-          createdAt: new Date("2026-05-12T23:58:32.270557Z"),
+          createdAt: new Date("2026-08-24T20:55:30.848866Z"),
           userMetadata: {
   
           },
@@ -1490,7 +1491,7 @@ async function run() {
                 role: "user",
               },
               name: "",
-              createdAt: new Date("2026-05-12T23:58:32.254617Z"),
+              createdAt: new Date("2026-08-24T20:55:30.834278Z"),
               userMetadata: {
   
               },
@@ -1554,7 +1555,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.trace.querySpansProjectsProjectIdSpansSearchPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -1595,7 +1596,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await traceQuerySpansProjectsProjectIdSpansSearchPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -1661,7 +1662,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.trace.queryPartialSpansProjectsProjectIdSpansPartialSearchPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -1709,7 +1710,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await traceQueryPartialSpansProjectsProjectIdSpansPartialSearchPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -1782,7 +1783,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.trace.countSpansProjectsProjectIdSpansCountPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -1819,7 +1820,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await traceCountSpansProjectsProjectIdSpansCountPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -1881,7 +1882,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.trace.queryMetricsProjectsProjectIdMetricsSearchPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -1921,7 +1922,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await traceQueryMetricsProjectsProjectIdMetricsSearchPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -1987,7 +1988,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.trace.queryMetricsV2ProjectsProjectIdMetricsSearchV2Post({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -2027,7 +2028,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await traceQueryMetricsV2ProjectsProjectIdMetricsSearchV2Post(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -2092,7 +2093,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.trace.queryCustomMetricsProjectsProjectIdMetricsCustomSearchPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -2141,7 +2142,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await traceQueryCustomMetricsProjectsProjectIdMetricsCustomSearchPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -2215,7 +2216,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.trace.createSessionProjectsProjectIdSessionsPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {},
@@ -2241,7 +2242,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await traceCreateSessionProjectsProjectIdSessionsPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {},
@@ -2292,7 +2293,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.trace.querySessionsProjectsProjectIdSessionsSearchPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -2333,7 +2334,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await traceQuerySessionsProjectsProjectIdSessionsSearchPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -2399,7 +2400,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.trace.queryPartialSessionsProjectsProjectIdSessionsPartialSearchPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -2447,7 +2448,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await traceQueryPartialSessionsProjectsProjectIdSessionsPartialSearchPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -2520,7 +2521,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.trace.countSessionsProjectsProjectIdSessionsCountPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -2557,7 +2558,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await traceCountSessionsProjectsProjectIdSessionsCountPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -2619,7 +2620,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.trace.getSessionProjectsProjectIdSessionsSessionIdGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     sessionId: "<value>",
     projectId: "<value>",
@@ -2645,7 +2646,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await traceGetSessionProjectsProjectIdSessionsSessionIdGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     sessionId: "<value>",
     projectId: "<value>",
@@ -2673,7 +2674,7 @@ run();
 
 ### Response
 
-**Promise\<[models.ExtendedSessionRecordWithChildren](../../models/extendedsessionrecordwithchildren.md)\>**
+**Promise\<[models.ExtendedReadSessionRecordWithChildren](../../models/extendedreadsessionrecordwithchildren.md)\>**
 
 ### Errors
 
@@ -2696,7 +2697,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.trace.exportRecordsProjectsProjectIdExportRecordsPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -2744,7 +2745,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await traceExportRecordsProjectsProjectIdExportRecordsPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -2803,6 +2804,127 @@ run();
 | errors.HTTPValidationError          | 422                                 | application/json                    |
 | errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
 
+## exportRecordsUrlProjectsProjectIdExportRecordsUrlPost
+
+Export Records Url
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="export_records_url_projects__project_id__export_records_url_post" method="post" path="/projects/{project_id}/export_records/url" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.trace.exportRecordsUrlProjectsProjectIdExportRecordsUrlPost({
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
+  }, {
+    projectId: "<value>",
+    body: {
+      columnIds: [
+        "input",
+        "output",
+        "created_at",
+      ],
+      exportFormat: "jsonl",
+      logStreamId: "00000000-0000-0000-0000-000000000000",
+      filters: [
+        {
+          columnId: "<id>",
+          operator: "eq",
+          value: "example input",
+          caseSensitive: true,
+          type: "text",
+        },
+      ],
+      sort: {
+        columnId: "<id>",
+        ascending: false,
+      },
+      rootType: "trace",
+    },
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { traceExportRecordsUrlProjectsProjectIdExportRecordsUrlPost } from "galileo-generated/funcs/traceExportRecordsUrlProjectsProjectIdExportRecordsUrlPost.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await traceExportRecordsUrlProjectsProjectIdExportRecordsUrlPost(galileoGenerated, {
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
+  }, {
+    projectId: "<value>",
+    body: {
+      columnIds: [
+        "input",
+        "output",
+        "created_at",
+      ],
+      exportFormat: "jsonl",
+      logStreamId: "00000000-0000-0000-0000-000000000000",
+      filters: [
+        {
+          columnId: "<id>",
+          operator: "eq",
+          value: "example input",
+          caseSensitive: true,
+          type: "text",
+        },
+      ],
+      sort: {
+        columnId: "<id>",
+        ascending: false,
+      },
+      rootType: "trace",
+    },
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("traceExportRecordsUrlProjectsProjectIdExportRecordsUrlPost failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.ExportRecordsUrlProjectsProjectIdExportRecordsUrlPostRequest](../../models/operations/exportrecordsurlprojectsprojectidexportrecordsurlpostrequest.md)             | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `security`                                                                                                                                                                     | [operations.ExportRecordsUrlProjectsProjectIdExportRecordsUrlPostSecurity](../../models/operations/exportrecordsurlprojectsprojectidexportrecordsurlpostsecurity.md)           | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[models.ExportPresignedUrlResponse](../../models/exportpresignedurlresponse.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
 ## deleteTracesProjectsProjectIdTracesDeletePost
 
 Delete all trace records that match the provided filters.
@@ -2817,7 +2939,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.trace.deleteTracesProjectsProjectIdTracesDeletePost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -2854,7 +2976,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await traceDeleteTracesProjectsProjectIdTracesDeletePost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -2916,7 +3038,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.trace.deleteSpansProjectsProjectIdSpansDeletePost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -2953,7 +3075,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await traceDeleteSpansProjectsProjectIdSpansDeletePost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -3015,7 +3137,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.trace.deleteSessionsProjectsProjectIdSessionsDeletePost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
@@ -3052,7 +3174,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await traceDeleteSessionsProjectsProjectIdSessionsDeletePost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     body: {
