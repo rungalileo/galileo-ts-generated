@@ -19,7 +19,7 @@ let value: InsightSummary = {
 
 | Field                                                    | Type                                                     | Required                                                 | Description                                              |
 | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
-| `id`                                                     | *string*                                                 | :heavy_check_mark:                                       | N/A                                                      |
+| `id`                                                     | *string*                                                 | :heavy_check_mark:                                       | Signal ID.                                               |
 | `title`                                                  | *string*                                                 | :heavy_check_mark:                                       | N/A                                                      |
 | `observation`                                            | *string*                                                 | :heavy_check_mark:                                       | N/A                                                      |
 | `details`                                                | *string*                                                 | :heavy_check_mark:                                       | N/A                                                      |

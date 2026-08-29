@@ -8,11 +8,14 @@ import { remap as remap$ } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
-import { ScorerConfig, ScorerConfig$inboundSchema } from "./scorerconfig.js";
+import {
+  RuntimeScorerConfig,
+  RuntimeScorerConfig$inboundSchema,
+} from "./runtimescorerconfig.js";
 import { SegmentFilter, SegmentFilter$inboundSchema } from "./segmentfilter.js";
 
 export type MetricSettingsResponse = {
-  scorers: Array<ScorerConfig>;
+  scorers: Array<RuntimeScorerConfig>;
   /**
    * List of segment filters to apply to the run.
    */
@@ -25,7 +28,7 @@ export const MetricSettingsResponse$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    scorers: z.array(ScorerConfig$inboundSchema),
+    scorers: z.array(RuntimeScorerConfig$inboundSchema),
     segment_filters: z.optional(
       z.nullable(z.array(SegmentFilter$inboundSchema)),
     ),

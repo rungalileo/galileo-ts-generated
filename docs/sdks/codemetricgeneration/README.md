@@ -26,7 +26,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.codeMetricGeneration.createCodeMetricGenerationCodeMetricGenerationsPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     userMessage: "<value>",
   });
@@ -51,7 +51,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await codeMetricGenerationCreateCodeMetricGenerationCodeMetricGenerationsPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     userMessage: "<value>",
   });
@@ -103,7 +103,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.codeMetricGeneration.getCodeMetricGenerationStatusCodeMetricGenerationsGenerationIdStatusGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     generationId: "<value>",
   });
@@ -130,7 +130,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await codeMetricGenerationGetCodeMetricGenerationStatusCodeMetricGenerationsGenerationIdStatusGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     generationId: "<value>",
   });
