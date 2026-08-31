@@ -8,8 +8,6 @@ import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
 export const ProjectType = {
-  PromptEvaluation: "prompt_evaluation",
-  LlmMonitor: "llm_monitor",
   Protect: "protect",
   GenAi: "gen_ai",
 } as const;

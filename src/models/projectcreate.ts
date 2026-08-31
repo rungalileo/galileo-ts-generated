@@ -11,7 +11,6 @@ export type ProjectCreate = {
   name: string;
   createdBy?: string | null | undefined;
   type?: ProjectType | undefined;
-  createExampleTemplates?: boolean | undefined;
 };
 
 /** @internal */
@@ -19,7 +18,6 @@ export type ProjectCreate$Outbound = {
   name: string;
   created_by?: string | null | undefined;
   type?: string | undefined;
-  create_example_templates: boolean;
 };
 
 /** @internal */
@@ -31,12 +29,10 @@ export const ProjectCreate$outboundSchema: z.ZodMiniType<
     name: z.string(),
     createdBy: z.optional(z.nullable(z.string())),
     type: z.optional(ProjectType$outboundSchema),
-    createExampleTemplates: z._default(z.boolean(), false),
   }),
   z.transform((v) => {
     return remap$(v, {
       createdBy: "created_by",
-      createExampleTemplates: "create_example_templates",
     });
   }),
 );
