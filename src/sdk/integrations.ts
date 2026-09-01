@@ -33,6 +33,8 @@ import {
   integrationsDeleteUserIntegrationCollaboratorIntegrationsIntegrationIdUsersUserIdDelete,
 } from "../funcs/integrationsDeleteUserIntegrationCollaboratorIntegrationsIntegrationIdUsersUserIdDelete.js";
 import { integrationsDisableIntegrationIntegrationsDisablePost } from "../funcs/integrationsDisableIntegrationIntegrationsDisablePost.js";
+import { integrationsExportBillingUsageBillingUsageExportGet } from "../funcs/integrationsExportBillingUsageBillingUsageExportGet.js";
+import { integrationsGetBillingUsageBillingUsageMetricGet } from "../funcs/integrationsGetBillingUsageBillingUsageMetricGet.js";
 import { integrationsGetCustomIntegrationDefinitionIntegrationsCustomDefinitionGet } from "../funcs/integrationsGetCustomIntegrationDefinitionIntegrationsCustomDefinitionGet.js";
 import { integrationsGetDatabasesForClusterIntegrationsDatabricksDatabasesGet } from "../funcs/integrationsGetDatabasesForClusterIntegrationsDatabricksDatabasesGet.js";
 import { integrationsGetDatabricksCatalogsIntegrationsDatabricksCatalogsGet } from "../funcs/integrationsGetDatabricksCatalogsIntegrationsDatabricksCatalogsGet.js";
@@ -755,6 +757,41 @@ export class Integrations extends ClientSDK {
         options,
       ),
     );
+  }
+
+  /**
+   * Export Billing Usage
+   *
+   * @remarks
+   * Export the project usage table as CSV using the same data source as /billing/usage/{metric}.
+   */
+  async exportBillingUsageBillingUsageExportGet(
+    security: operations.ExportBillingUsageBillingUsageExportGetSecurity,
+    request: operations.ExportBillingUsageBillingUsageExportGetRequest,
+    options?: RequestOptions,
+  ): Promise<void> {
+    return unwrapAsync(integrationsExportBillingUsageBillingUsageExportGet(
+      this,
+      security,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Get Billing Usage
+   */
+  async getBillingUsageBillingUsageMetricGet(
+    security: operations.GetBillingUsageBillingUsageMetricGetSecurity,
+    request: operations.GetBillingUsageBillingUsageMetricGetRequest,
+    options?: RequestOptions,
+  ): Promise<models.BillingUsageResponse> {
+    return unwrapAsync(integrationsGetBillingUsageBillingUsageMetricGet(
+      this,
+      security,
+      request,
+      options,
+    ));
   }
 
   /**
