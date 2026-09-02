@@ -24,7 +24,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.experimentTags.getExperimentTagsProjectsProjectIdExperimentsExperimentIdTagsGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     experimentId: "<value>",
@@ -50,7 +50,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await experimentTagsGetExperimentTagsProjectsProjectIdExperimentsExperimentIdTagsGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     experimentId: "<value>",
@@ -101,7 +101,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.experimentTags.setTagForExperimentProjectsProjectIdExperimentsExperimentIdTagsPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     experimentId: "<value>",
@@ -134,7 +134,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await experimentTagsSetTagForExperimentProjectsProjectIdExperimentsExperimentIdTagsPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     experimentId: "<value>",
@@ -190,7 +190,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.experimentTags.getExperimentTagProjectsProjectIdExperimentsExperimentIdTagsTagIdGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     experimentId: "<value>",
@@ -219,7 +219,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await experimentTagsGetExperimentTagProjectsProjectIdExperimentsExperimentIdTagsTagIdGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     experimentId: "<value>",
@@ -271,7 +271,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.experimentTags.updateTagForExperimentProjectsProjectIdExperimentsExperimentIdTagsTagIdPut({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     experimentId: "<value>",
@@ -305,7 +305,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await experimentTagsUpdateTagForExperimentProjectsProjectIdExperimentsExperimentIdTagsTagIdPut(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     experimentId: "<value>",
@@ -362,7 +362,7 @@ const galileoGenerated = new GalileoGenerated();
 
 async function run() {
   const result = await galileoGenerated.experimentTags.deleteExperimentTagProjectsProjectIdExperimentsExperimentIdTagsTagIdDelete({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     experimentId: "<value>",
@@ -391,7 +391,7 @@ const galileoGenerated = new GalileoGeneratedCore();
 
 async function run() {
   const res = await experimentTagsDeleteExperimentTagProjectsProjectIdExperimentsExperimentIdTagsTagIdDelete(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+    classicAPIKeyHeader: process.env["GALILEOGENERATED_CLASSIC_API_KEY_HEADER"] ?? "",
   }, {
     projectId: "<value>",
     experimentId: "<value>",
