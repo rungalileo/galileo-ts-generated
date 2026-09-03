@@ -5,6 +5,10 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import {
+  OutputTypeEnum,
+  OutputTypeEnum$outboundSchema,
+} from "./outputtypeenum.js";
 
 /**
  * Request to generate scorer code from a user message.
@@ -19,6 +23,10 @@ export type CreateCodeMetricGenerationRequest = {
    */
   nodeType?: string | null | undefined;
   /**
+   * Selected output type (boolean, percentage, count, discrete, categorical, multilabel, freeform)
+   */
+  outputType?: OutputTypeEnum | null | undefined;
+  /**
    * Model alias to use for generation. Defaults to best available.
    */
   modelName?: string | null | undefined;
@@ -28,6 +36,7 @@ export type CreateCodeMetricGenerationRequest = {
 export type CreateCodeMetricGenerationRequest$Outbound = {
   user_message: string;
   node_type?: string | null | undefined;
+  output_type?: string | null | undefined;
   model_name?: string | null | undefined;
 };
 
@@ -39,12 +48,14 @@ export const CreateCodeMetricGenerationRequest$outboundSchema: z.ZodMiniType<
   z.object({
     userMessage: z.string(),
     nodeType: z.optional(z.nullable(z.string())),
+    outputType: z.optional(z.nullable(OutputTypeEnum$outboundSchema)),
     modelName: z.optional(z.nullable(z.string())),
   }),
   z.transform((v) => {
     return remap$(v, {
       userMessage: "user_message",
       nodeType: "node_type",
+      outputType: "output_type",
       modelName: "model_name",
     });
   }),

@@ -11,11 +11,13 @@ import { smartUnion } from "../types/smartUnion.js";
 import {
   CategoricalRollUpMethod,
   CategoricalRollUpMethod$inboundSchema,
+  CategoricalRollUpMethod$outboundSchema,
 } from "./categoricalrollupmethod.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
   NumericRollUpMethod,
   NumericRollUpMethod$inboundSchema,
+  NumericRollUpMethod$outboundSchema,
 } from "./numericrollupmethod.js";
 
 /**
@@ -43,7 +45,30 @@ export const BaseMetricRollUpConfigDBRollUpMethods$inboundSchema: z.ZodMiniType<
   z.array(NumericRollUpMethod$inboundSchema),
   z.array(CategoricalRollUpMethod$inboundSchema),
 ]);
+/** @internal */
+export type BaseMetricRollUpConfigDBRollUpMethods$Outbound =
+  | Array<string>
+  | Array<string>;
 
+/** @internal */
+export const BaseMetricRollUpConfigDBRollUpMethods$outboundSchema:
+  z.ZodMiniType<
+    BaseMetricRollUpConfigDBRollUpMethods$Outbound,
+    BaseMetricRollUpConfigDBRollUpMethods
+  > = smartUnion([
+    z.array(NumericRollUpMethod$outboundSchema),
+    z.array(CategoricalRollUpMethod$outboundSchema),
+  ]);
+
+export function baseMetricRollUpConfigDBRollUpMethodsToJSON(
+  baseMetricRollUpConfigDBRollUpMethods: BaseMetricRollUpConfigDBRollUpMethods,
+): string {
+  return JSON.stringify(
+    BaseMetricRollUpConfigDBRollUpMethods$outboundSchema.parse(
+      baseMetricRollUpConfigDBRollUpMethods,
+    ),
+  );
+}
 export function baseMetricRollUpConfigDBRollUpMethodsFromJSON(
   jsonString: string,
 ): SafeParseResult<BaseMetricRollUpConfigDBRollUpMethods, SDKValidationError> {
@@ -72,7 +97,36 @@ export const BaseMetricRollUpConfigDB$inboundSchema: z.ZodMiniType<
     });
   }),
 );
+/** @internal */
+export type BaseMetricRollUpConfigDB$Outbound = {
+  roll_up_methods: Array<string> | Array<string>;
+};
 
+/** @internal */
+export const BaseMetricRollUpConfigDB$outboundSchema: z.ZodMiniType<
+  BaseMetricRollUpConfigDB$Outbound,
+  BaseMetricRollUpConfigDB
+> = z.pipe(
+  z.object({
+    rollUpMethods: smartUnion([
+      z.array(NumericRollUpMethod$outboundSchema),
+      z.array(CategoricalRollUpMethod$outboundSchema),
+    ]),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      rollUpMethods: "roll_up_methods",
+    });
+  }),
+);
+
+export function baseMetricRollUpConfigDBToJSON(
+  baseMetricRollUpConfigDB: BaseMetricRollUpConfigDB,
+): string {
+  return JSON.stringify(
+    BaseMetricRollUpConfigDB$outboundSchema.parse(baseMetricRollUpConfigDB),
+  );
+}
 export function baseMetricRollUpConfigDBFromJSON(
   jsonString: string,
 ): SafeParseResult<BaseMetricRollUpConfigDB, SDKValidationError> {

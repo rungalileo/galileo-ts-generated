@@ -8,33 +8,28 @@ import { MetricSettingsRequest } from "galileo-generated/models";
 let value: MetricSettingsRequest = {
   scorers: [
     {
+      id: "<value>",
       filters: [
         {
-          name: "node_name",
-          operator: "one_of",
+          name: "metadata",
+          operator: "ne",
+          key: "<key>",
           value: [
             "<value 1>",
+            "<value 2>",
           ],
-          caseSensitive: true,
         },
       ],
-      id: "<value>",
-      scorerType: "llm",
     },
   ],
   segmentFilters: [
     {
       filter: {
-        name: "node_name",
-        operator: "ne",
-        value: [
-          "<value 1>",
-          "<value 2>",
-          "<value 3>",
-        ],
-        caseSensitive: true,
+        name: "modality",
+        operator: "not_in",
+        value: "ENUM_VALUE",
       },
-      sampleRate: 7113.42,
+      sampleRate: 1389.08,
     },
   ],
 };
@@ -42,7 +37,7 @@ let value: MetricSettingsRequest = {
 
 ## Fields
 
-| Field                                                | Type                                                 | Required                                             | Description                                          |
-| ---------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------- |
-| `scorers`                                            | [models.ScorerConfig](../models/scorerconfig.md)[]   | :heavy_minus_sign:                                   | List of Galileo scorers to enable.                   |
-| `segmentFilters`                                     | [models.SegmentFilter](../models/segmentfilter.md)[] | :heavy_minus_sign:                                   | List of segment filters to apply to the run.         |
+| Field                                                            | Type                                                             | Required                                                         | Description                                                      |
+| ---------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- |
+| `scorers`                                                        | [models.RuntimeScorerConfig](../models/runtimescorerconfig.md)[] | :heavy_minus_sign:                                               | List of Galileo scorers to enable.                               |
+| `segmentFilters`                                                 | [models.SegmentFilter](../models/segmentfilter.md)[]             | :heavy_minus_sign:                                               | List of segment filters to apply to the run.                     |
