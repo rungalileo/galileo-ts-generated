@@ -12,10 +12,7 @@
 * [updateExperimentProjectsProjectIdExperimentsExperimentIdPut](#updateexperimentprojectsprojectidexperimentsexperimentidput) - Update Experiment
 * [deleteExperimentProjectsProjectIdExperimentsExperimentIdDelete](#deleteexperimentprojectsprojectidexperimentsexperimentiddelete) - Delete Experiment
 * [experimentsAvailableColumnsProjectsProjectIdExperimentsAvailableColumnsPost](#experimentsavailablecolumnsprojectsprojectidexperimentsavailablecolumnspost) - Experiments Available Columns
-* [updateMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsPatch](#updatemetricsettingsprojectsprojectidexperimentsexperimentidmetricsettingspatch) - Update Metric Settings
-* [getMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsGet](#getmetricsettingsprojectsprojectidexperimentsexperimentidmetricsettingsget) - Get Metric Settings
 * [getExperimentMetricsProjectsProjectIdExperimentsExperimentIdMetricsPost](#getexperimentmetricsprojectsprojectidexperimentsexperimentidmetricspost) - Get Experiment Metrics
-* [getExperimentsMetricsProjectsProjectIdExperimentsMetricsPost](#getexperimentsmetricsprojectsprojectidexperimentsmetricspost) - Get Experiments Metrics
 
 ## ~~listExperimentsProjectsProjectIdExperimentsGet~~
 
@@ -115,6 +112,7 @@ async function run() {
       name: "<value>",
       scorers: [
         {
+          id: "<value>",
           filters: [
             {
               name: "modality",
@@ -122,7 +120,6 @@ async function run() {
               value: "ENUM_VALUE",
             },
           ],
-          id: "<value>",
           scorerType: "code",
         },
       ],
@@ -156,6 +153,7 @@ async function run() {
       name: "<value>",
       scorers: [
         {
+          id: "<value>",
           filters: [
             {
               name: "modality",
@@ -163,7 +161,6 @@ async function run() {
               value: "ENUM_VALUE",
             },
           ],
-          id: "<value>",
           scorerType: "code",
         },
       ],
@@ -667,196 +664,6 @@ run();
 | errors.HTTPValidationError          | 422                                 | application/json                    |
 | errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
 
-## updateMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsPatch
-
-Update Metric Settings
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="update_metric_settings_projects__project_id__experiments__experiment_id__metric_settings_patch" method="patch" path="/projects/{project_id}/experiments/{experiment_id}/metric_settings" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.experiment.updateMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsPatch({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    projectId: "<value>",
-    experimentId: "<value>",
-    body: {
-      scorers: null,
-      segmentFilters: [
-        {
-          filter: {
-            name: "metadata",
-            operator: "eq",
-            key: "<key>",
-            value: [
-              "<value 1>",
-            ],
-          },
-          sampleRate: 6198.84,
-        },
-      ],
-    },
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import {
-  experimentUpdateMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsPatch,
-} from "galileo-generated/funcs/experimentUpdateMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsPatch.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await experimentUpdateMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsPatch(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    projectId: "<value>",
-    experimentId: "<value>",
-    body: {
-      scorers: null,
-      segmentFilters: [
-        {
-          filter: {
-            name: "metadata",
-            operator: "eq",
-            key: "<key>",
-            value: [
-              "<value 1>",
-            ],
-          },
-          sampleRate: 6198.84,
-        },
-      ],
-    },
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("experimentUpdateMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsPatch failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                                                                | Type                                                                                                                                                                                                                     | Required                                                                                                                                                                                                                 | Description                                                                                                                                                                                                              |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                                                                | [operations.UpdateMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsPatchRequest](../../models/operations/updatemetricsettingsprojectsprojectidexperimentsexperimentidmetricsettingspatchrequest.md)   | :heavy_check_mark:                                                                                                                                                                                                       | The request object to use for the request.                                                                                                                                                                               |
-| `security`                                                                                                                                                                                                               | [operations.UpdateMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsPatchSecurity](../../models/operations/updatemetricsettingsprojectsprojectidexperimentsexperimentidmetricsettingspatchsecurity.md) | :heavy_check_mark:                                                                                                                                                                                                       | The security requirements to use for the request.                                                                                                                                                                        |
-| `options`                                                                                                                                                                                                                | RequestOptions                                                                                                                                                                                                           | :heavy_minus_sign:                                                                                                                                                                                                       | Used to set various options for making HTTP requests.                                                                                                                                                                    |
-| `options.fetchOptions`                                                                                                                                                                                                   | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                                                                       | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.                                           |
-| `options.retries`                                                                                                                                                                                                        | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                                                            | :heavy_minus_sign:                                                                                                                                                                                                       | Enables retrying HTTP requests under certain failure conditions.                                                                                                                                                         |
-
-### Response
-
-**Promise\<[models.MetricSettingsResponse](../../models/metricsettingsresponse.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
-## getMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsGet
-
-Get Metric Settings
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="get_metric_settings_projects__project_id__experiments__experiment_id__metric_settings_get" method="get" path="/projects/{project_id}/experiments/{experiment_id}/metric_settings" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.experiment.getMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    experimentId: "<value>",
-    projectId: "<value>",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import {
-  experimentGetMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsGet,
-} from "galileo-generated/funcs/experimentGetMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsGet.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await experimentGetMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    experimentId: "<value>",
-    projectId: "<value>",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("experimentGetMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsGet failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                                                      | Type                                                                                                                                                                                                           | Required                                                                                                                                                                                                       | Description                                                                                                                                                                                                    |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `request`                                                                                                                                                                                                      | [operations.GetMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsGetRequest](../../models/operations/getmetricsettingsprojectsprojectidexperimentsexperimentidmetricsettingsgetrequest.md)   | :heavy_check_mark:                                                                                                                                                                                             | The request object to use for the request.                                                                                                                                                                     |
-| `security`                                                                                                                                                                                                     | [operations.GetMetricSettingsProjectsProjectIdExperimentsExperimentIdMetricSettingsGetSecurity](../../models/operations/getmetricsettingsprojectsprojectidexperimentsexperimentidmetricsettingsgetsecurity.md) | :heavy_check_mark:                                                                                                                                                                                             | The security requirements to use for the request.                                                                                                                                                              |
-| `options`                                                                                                                                                                                                      | RequestOptions                                                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                                                        | :heavy_minus_sign:                                                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.                                 |
-| `options.retries`                                                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                                                               |
-
-### Response
-
-**Promise\<[models.MetricSettingsResponse](../../models/metricsettingsresponse.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
 ## getExperimentMetricsProjectsProjectIdExperimentsExperimentIdMetricsPost
 
 Retrieve metrics for a specific experiment.
@@ -946,103 +753,6 @@ run();
 | `options`                                                                                                                                                                                                | RequestOptions                                                                                                                                                                                           | :heavy_minus_sign:                                                                                                                                                                                       | Used to set various options for making HTTP requests.                                                                                                                                                    |
 | `options.fetchOptions`                                                                                                                                                                                   | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                                                  | :heavy_minus_sign:                                                                                                                                                                                       | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.                           |
 | `options.retries`                                                                                                                                                                                        | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                                            | :heavy_minus_sign:                                                                                                                                                                                       | Enables retrying HTTP requests under certain failure conditions.                                                                                                                                         |
-
-### Response
-
-**Promise\<[models.ExperimentMetricsResponse](../../models/experimentmetricsresponse.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
-## getExperimentsMetricsProjectsProjectIdExperimentsMetricsPost
-
-Retrieve metrics for all experiments in a project.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="get_experiments_metrics_projects__project_id__experiments_metrics_post" method="post" path="/projects/{project_id}/experiments/metrics" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.experiment.getExperimentsMetricsProjectsProjectIdExperimentsMetricsPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    projectId: "<value>",
-    body: {
-      filters: [
-        {
-          columnId: "<id>",
-          operator: "eq",
-          value: "example input",
-          caseSensitive: true,
-          type: "text",
-        },
-      ],
-    },
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { experimentGetExperimentsMetricsProjectsProjectIdExperimentsMetricsPost } from "galileo-generated/funcs/experimentGetExperimentsMetricsProjectsProjectIdExperimentsMetricsPost.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await experimentGetExperimentsMetricsProjectsProjectIdExperimentsMetricsPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    projectId: "<value>",
-    body: {
-      filters: [
-        {
-          columnId: "<id>",
-          operator: "eq",
-          value: "example input",
-          caseSensitive: true,
-          type: "text",
-        },
-      ],
-    },
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("experimentGetExperimentsMetricsProjectsProjectIdExperimentsMetricsPost failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                          | Type                                                                                                                                                                               | Required                                                                                                                                                                           | Description                                                                                                                                                                        |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `request`                                                                                                                                                                          | [operations.GetExperimentsMetricsProjectsProjectIdExperimentsMetricsPostRequest](../../models/operations/getexperimentsmetricsprojectsprojectidexperimentsmetricspostrequest.md)   | :heavy_check_mark:                                                                                                                                                                 | The request object to use for the request.                                                                                                                                         |
-| `security`                                                                                                                                                                         | [operations.GetExperimentsMetricsProjectsProjectIdExperimentsMetricsPostSecurity](../../models/operations/getexperimentsmetricsprojectsprojectidexperimentsmetricspostsecurity.md) | :heavy_check_mark:                                                                                                                                                                 | The security requirements to use for the request.                                                                                                                                  |
-| `options`                                                                                                                                                                          | RequestOptions                                                                                                                                                                     | :heavy_minus_sign:                                                                                                                                                                 | Used to set various options for making HTTP requests.                                                                                                                              |
-| `options.fetchOptions`                                                                                                                                                             | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                            | :heavy_minus_sign:                                                                                                                                                                 | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.     |
-| `options.retries`                                                                                                                                                                  | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                      | :heavy_minus_sign:                                                                                                                                                                 | Enables retrying HTTP requests under certain failure conditions.                                                                                                                   |
 
 ### Response
 

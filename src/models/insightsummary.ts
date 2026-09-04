@@ -19,7 +19,22 @@ export const PriorityCategory = {
 } as const;
 export type PriorityCategory = OpenEnum<typeof PriorityCategory>;
 
+export const Label = {
+  Instruction: "Instruction",
+  Retrieval: "Retrieval",
+  Decision: "Decision",
+  Output: "Output",
+  Tool: "Tool",
+  Reliability: "Reliability",
+  Security: "Security",
+  Efficiency: "Efficiency",
+} as const;
+export type Label = OpenEnum<typeof Label>;
+
 export type InsightSummary = {
+  /**
+   * Signal ID.
+   */
   id: string;
   title: string;
   observation: string;
@@ -27,6 +42,7 @@ export type InsightSummary = {
   suggestedAction: string;
   priority: number;
   priorityCategory?: PriorityCategory | null | undefined;
+  label?: Label | null | undefined;
 };
 
 /** @internal */
@@ -34,6 +50,10 @@ export const PriorityCategory$inboundSchema: z.ZodMiniType<
   PriorityCategory,
   unknown
 > = openEnums.inboundSchema(PriorityCategory);
+
+/** @internal */
+export const Label$inboundSchema: z.ZodMiniType<Label, unknown> = openEnums
+  .inboundSchema(Label);
 
 /** @internal */
 export const InsightSummary$inboundSchema: z.ZodMiniType<
@@ -48,6 +68,7 @@ export const InsightSummary$inboundSchema: z.ZodMiniType<
     suggested_action: types.string(),
     priority: types.number(),
     priority_category: z.optional(z.nullable(PriorityCategory$inboundSchema)),
+    label: z.optional(z.nullable(Label$inboundSchema)),
   }),
   z.transform((v) => {
     return remap$(v, {

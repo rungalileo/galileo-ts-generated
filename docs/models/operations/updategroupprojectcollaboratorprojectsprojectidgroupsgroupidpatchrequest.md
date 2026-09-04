@@ -10,7 +10,7 @@ let value:
     projectId: "<value>",
     groupId: "<value>",
     body: {
-      role: "owner",
+      role: "viewer",
     },
   };
 ```

@@ -9,19 +9,21 @@ import * as models from "../index.js";
 
 export type DeleteTemplateProjectsProjectIdTemplatesTemplateIdDeleteSecurity = {
   apiKeyHeader?: string | undefined;
+  classicAPIKeyHeader?: string | undefined;
   oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
   httpBasic?: models.SchemeHTTPBasic | undefined;
 };
 
 export type DeleteTemplateProjectsProjectIdTemplatesTemplateIdDeleteRequest = {
-  templateId: string;
   projectId: string;
+  templateId: string;
 };
 
 /** @internal */
 export type DeleteTemplateProjectsProjectIdTemplatesTemplateIdDeleteSecurity$Outbound =
   {
     APIKeyHeader?: string | undefined;
+    ClassicAPIKeyHeader?: string | undefined;
     OAuth2PasswordBearer?:
       | models.OAuth2PasswordBearerInput$Outbound
       | undefined;
@@ -36,6 +38,7 @@ export const DeleteTemplateProjectsProjectIdTemplatesTemplateIdDeleteSecurity$ou
   > = z.pipe(
     z.object({
       apiKeyHeader: z.optional(z.string()),
+      classicAPIKeyHeader: z.optional(z.string()),
       oAuth2PasswordBearer: z.optional(
         models.OAuth2PasswordBearerInput$outboundSchema,
       ),
@@ -44,6 +47,7 @@ export const DeleteTemplateProjectsProjectIdTemplatesTemplateIdDeleteSecurity$ou
     z.transform((v) => {
       return remap$(v, {
         apiKeyHeader: "APIKeyHeader",
+        classicAPIKeyHeader: "ClassicAPIKeyHeader",
         oAuth2PasswordBearer: "OAuth2PasswordBearer",
         httpBasic: "HTTPBasic",
       });
@@ -63,8 +67,8 @@ export function deleteTemplateProjectsProjectIdTemplatesTemplateIdDeleteSecurity
 /** @internal */
 export type DeleteTemplateProjectsProjectIdTemplatesTemplateIdDeleteRequest$Outbound =
   {
-    template_id: string;
     project_id: string;
+    template_id: string;
   };
 
 /** @internal */
@@ -74,13 +78,13 @@ export const DeleteTemplateProjectsProjectIdTemplatesTemplateIdDeleteRequest$out
     DeleteTemplateProjectsProjectIdTemplatesTemplateIdDeleteRequest
   > = z.pipe(
     z.object({
-      templateId: z.string(),
       projectId: z.string(),
+      templateId: z.string(),
     }),
     z.transform((v) => {
       return remap$(v, {
-        templateId: "template_id",
         projectId: "project_id",
+        templateId: "template_id",
       });
     }),
   );

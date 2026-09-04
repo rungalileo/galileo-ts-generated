@@ -10,21 +10,23 @@ import * as models from "../index.js";
 export type GetTemplateVersionProjectsProjectIdTemplatesTemplateIdVersionsVersionGetSecurity =
   {
     apiKeyHeader?: string | undefined;
+    classicAPIKeyHeader?: string | undefined;
     oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
     httpBasic?: models.SchemeHTTPBasic | undefined;
   };
 
 export type GetTemplateVersionProjectsProjectIdTemplatesTemplateIdVersionsVersionGetRequest =
   {
+    projectId: string;
     templateId: string;
     version: number;
-    projectId: string;
   };
 
 /** @internal */
 export type GetTemplateVersionProjectsProjectIdTemplatesTemplateIdVersionsVersionGetSecurity$Outbound =
   {
     APIKeyHeader?: string | undefined;
+    ClassicAPIKeyHeader?: string | undefined;
     OAuth2PasswordBearer?:
       | models.OAuth2PasswordBearerInput$Outbound
       | undefined;
@@ -39,6 +41,7 @@ export const GetTemplateVersionProjectsProjectIdTemplatesTemplateIdVersionsVersi
   > = z.pipe(
     z.object({
       apiKeyHeader: z.optional(z.string()),
+      classicAPIKeyHeader: z.optional(z.string()),
       oAuth2PasswordBearer: z.optional(
         models.OAuth2PasswordBearerInput$outboundSchema,
       ),
@@ -47,6 +50,7 @@ export const GetTemplateVersionProjectsProjectIdTemplatesTemplateIdVersionsVersi
     z.transform((v) => {
       return remap$(v, {
         apiKeyHeader: "APIKeyHeader",
+        classicAPIKeyHeader: "ClassicAPIKeyHeader",
         oAuth2PasswordBearer: "OAuth2PasswordBearer",
         httpBasic: "HTTPBasic",
       });
@@ -68,9 +72,9 @@ export function getTemplateVersionProjectsProjectIdTemplatesTemplateIdVersionsVe
 /** @internal */
 export type GetTemplateVersionProjectsProjectIdTemplatesTemplateIdVersionsVersionGetRequest$Outbound =
   {
+    project_id: string;
     template_id: string;
     version: number;
-    project_id: string;
   };
 
 /** @internal */
@@ -80,14 +84,14 @@ export const GetTemplateVersionProjectsProjectIdTemplatesTemplateIdVersionsVersi
     GetTemplateVersionProjectsProjectIdTemplatesTemplateIdVersionsVersionGetRequest
   > = z.pipe(
     z.object({
+      projectId: z.string(),
       templateId: z.string(),
       version: z.int(),
-      projectId: z.string(),
     }),
     z.transform((v) => {
       return remap$(v, {
-        templateId: "template_id",
         projectId: "project_id",
+        templateId: "template_id",
       });
     }),
   );

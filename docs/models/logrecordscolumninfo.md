@@ -10,16 +10,14 @@ let value: LogRecordsColumnInfo = {
   category: "feedback",
   dataType: "string_list",
   scorerConfig: {
+    id: "<value>",
     filters: [
       {
-        name: "node_name",
+        name: "modality",
         operator: "one_of",
-        value: "<value>",
-        caseSensitive: true,
+        value: "ENUM_VALUE",
       },
     ],
-    id: "<value>",
-    scorerType: "llm",
   },
 };
 ```
@@ -44,7 +42,7 @@ let value: LogRecordsColumnInfo = {
 | `isOptional`                                                                                                                                                     | *boolean*                                                                                                                                                        | :heavy_minus_sign:                                                                                                                                               | Whether the column is optional.                                                                                                                                  |
 | `rollUpMethod`                                                                                                                                                   | *string*                                                                                                                                                         | :heavy_minus_sign:                                                                                                                                               | Default roll-up aggregation method for this metric (e.g., 'sum', 'average').                                                                                     |
 | `metricKeyAlias`                                                                                                                                                 | *string*                                                                                                                                                         | :heavy_minus_sign:                                                                                                                                               | Alternate metric key for this column. When scorer UUIDs are used as column IDs, this holds the legacy metric_name string for dual-key ClickHouse query fallback. |
-| `scorerConfig`                                                                                                                                                   | [models.ScorerConfig](../models/scorerconfig.md)                                                                                                                 | :heavy_minus_sign:                                                                                                                                               | For metric columns only: Scorer config that produced the metric.                                                                                                 |
+| `scorerConfig`                                                                                                                                                   | [models.RuntimeScorerConfig](../models/runtimescorerconfig.md)                                                                                                   | :heavy_minus_sign:                                                                                                                                               | For metric columns only: Scorer config that produced the metric.                                                                                                 |
 | `scorerId`                                                                                                                                                       | *string*                                                                                                                                                         | :heavy_minus_sign:                                                                                                                                               | For metric columns only: Scorer id that produced the metric. This is deprecated and will be removed in future versions.                                          |
 | `insightType`                                                                                                                                                    | [models.InsightType](../models/insighttype.md)                                                                                                                   | :heavy_minus_sign:                                                                                                                                               | Insight type.                                                                                                                                                    |
 | `filterType`                                                                                                                                                     | [models.LogRecordsFilterType](../models/logrecordsfiltertype.md)                                                                                                 | :heavy_minus_sign:                                                                                                                                               | Filter type.                                                                                                                                                     |
