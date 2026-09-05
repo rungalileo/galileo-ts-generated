@@ -11,6 +11,7 @@ import { traceDeleteSessionsProjectsProjectIdSessionsDeletePost } from "../funcs
 import { traceDeleteSpansProjectsProjectIdSpansDeletePost } from "../funcs/traceDeleteSpansProjectsProjectIdSpansDeletePost.js";
 import { traceDeleteTracesProjectsProjectIdTracesDeletePost } from "../funcs/traceDeleteTracesProjectsProjectIdTracesDeletePost.js";
 import { traceExportRecordsProjectsProjectIdExportRecordsPost } from "../funcs/traceExportRecordsProjectsProjectIdExportRecordsPost.js";
+import { traceExportRecordsUrlProjectsProjectIdExportRecordsUrlPost } from "../funcs/traceExportRecordsUrlProjectsProjectIdExportRecordsUrlPost.js";
 import { traceGetAggregatedTraceViewProjectsProjectIdTracesAggregatedPost } from "../funcs/traceGetAggregatedTraceViewProjectsProjectIdTracesAggregatedPost.js";
 import { traceGetSessionProjectsProjectIdSessionsSessionIdGet } from "../funcs/traceGetSessionProjectsProjectIdSessionsSessionIdGet.js";
 import { traceGetSpanProjectsProjectIdSpansSpanIdGet } from "../funcs/traceGetSpanProjectsProjectIdSpansSpanIdGet.js";
@@ -41,46 +42,6 @@ import * as operations from "../models/operations/index.js";
 import { unwrapAsync } from "../types/fp.js";
 
 export class Trace extends ClientSDK {
-  /**
-   * Get Aggregated Trace View
-   */
-  async getAggregatedTraceViewProjectsProjectIdTracesAggregatedPost(
-    security:
-      operations.GetAggregatedTraceViewProjectsProjectIdTracesAggregatedPostSecurity,
-    request:
-      operations.GetAggregatedTraceViewProjectsProjectIdTracesAggregatedPostRequest,
-    options?: RequestOptions,
-  ): Promise<models.AggregatedTraceViewResponse> {
-    return unwrapAsync(
-      traceGetAggregatedTraceViewProjectsProjectIdTracesAggregatedPost(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
-   * Recompute Metrics
-   */
-  async recomputeMetricsProjectsProjectIdRecomputeMetricsPost(
-    security:
-      operations.RecomputeMetricsProjectsProjectIdRecomputeMetricsPostSecurity,
-    request:
-      operations.RecomputeMetricsProjectsProjectIdRecomputeMetricsPostRequest,
-    options?: RequestOptions,
-  ): Promise<any> {
-    return unwrapAsync(
-      traceRecomputeMetricsProjectsProjectIdRecomputeMetricsPost(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
   /**
    * Log Traces
    */
@@ -123,7 +84,7 @@ export class Trace extends ClientSDK {
     security: operations.GetTraceProjectsProjectIdTracesTraceIdGetSecurity,
     request: operations.GetTraceProjectsProjectIdTracesTraceIdGetRequest,
     options?: RequestOptions,
-  ): Promise<models.ExtendedTraceRecordWithChildren> {
+  ): Promise<operations.ResponseGetTraceProjectsProjectIdTracesTraceIdGet> {
     return unwrapAsync(traceGetTraceProjectsProjectIdTracesTraceIdGet(
       this,
       security,
@@ -506,13 +467,33 @@ export class Trace extends ClientSDK {
       operations.GetSessionProjectsProjectIdSessionsSessionIdGetSecurity,
     request: operations.GetSessionProjectsProjectIdSessionsSessionIdGetRequest,
     options?: RequestOptions,
-  ): Promise<models.ExtendedSessionRecordWithChildren> {
+  ): Promise<models.ExtendedReadSessionRecordWithChildren> {
     return unwrapAsync(traceGetSessionProjectsProjectIdSessionsSessionIdGet(
       this,
       security,
       request,
       options,
     ));
+  }
+
+  /**
+   * Get Aggregated Trace View
+   */
+  async getAggregatedTraceViewProjectsProjectIdTracesAggregatedPost(
+    security:
+      operations.GetAggregatedTraceViewProjectsProjectIdTracesAggregatedPostSecurity,
+    request:
+      operations.GetAggregatedTraceViewProjectsProjectIdTracesAggregatedPostRequest,
+    options?: RequestOptions,
+  ): Promise<models.AggregatedTraceViewResponse> {
+    return unwrapAsync(
+      traceGetAggregatedTraceViewProjectsProjectIdTracesAggregatedPost(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
   }
 
   /**
@@ -530,6 +511,46 @@ export class Trace extends ClientSDK {
       request,
       options,
     ));
+  }
+
+  /**
+   * Export Records Url
+   */
+  async exportRecordsUrlProjectsProjectIdExportRecordsUrlPost(
+    security:
+      operations.ExportRecordsUrlProjectsProjectIdExportRecordsUrlPostSecurity,
+    request:
+      operations.ExportRecordsUrlProjectsProjectIdExportRecordsUrlPostRequest,
+    options?: RequestOptions,
+  ): Promise<models.ExportPresignedUrlResponse> {
+    return unwrapAsync(
+      traceExportRecordsUrlProjectsProjectIdExportRecordsUrlPost(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Recompute Metrics
+   */
+  async recomputeMetricsProjectsProjectIdRecomputeMetricsPost(
+    security:
+      operations.RecomputeMetricsProjectsProjectIdRecomputeMetricsPostSecurity,
+    request:
+      operations.RecomputeMetricsProjectsProjectIdRecomputeMetricsPostRequest,
+    options?: RequestOptions,
+  ): Promise<any> {
+    return unwrapAsync(
+      traceRecomputeMetricsProjectsProjectIdRecomputeMetricsPost(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
   }
 
   /**

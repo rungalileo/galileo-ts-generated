@@ -29,8 +29,8 @@ async function run() {
     body: {
       scorers: [
         {
-          filters: null,
           id: "<value>",
+          filters: null,
           scorerType: "preset",
         },
       ],
@@ -78,8 +78,8 @@ async function run() {
     body: {
       scorers: [
         {
-          filters: null,
           id: "<value>",
+          filters: null,
           scorerType: "preset",
         },
       ],
@@ -150,6 +150,7 @@ async function run() {
     body: {
       scorers: [
         {
+          id: "<value>",
           filters: [
             {
               name: "modality",
@@ -157,7 +158,6 @@ async function run() {
               value: "ENUM_VALUE",
             },
           ],
-          id: "<value>",
           scorerType: "preset",
         },
       ],
@@ -202,6 +202,7 @@ async function run() {
     body: {
       scorers: [
         {
+          id: "<value>",
           filters: [
             {
               name: "modality",
@@ -209,7 +210,6 @@ async function run() {
               value: "ENUM_VALUE",
             },
           ],
-          id: "<value>",
           scorerType: "preset",
         },
       ],

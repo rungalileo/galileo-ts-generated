@@ -19,6 +19,14 @@ const value: models.ControlSpan = {
 };
 ```
 
+### `models.HttpSpan`
+
+```typescript
+const value: models.HttpSpan = {
+  type: "http",
+};
+```
+
 ### `models.LlmSpan`
 
 ```typescript

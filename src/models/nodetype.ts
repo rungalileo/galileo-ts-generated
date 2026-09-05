@@ -10,6 +10,7 @@ import { OpenEnum } from "../types/enums.js";
 export const NodeType = {
   Chain: "chain",
   Chat: "chat",
+  Http: "http",
   Llm: "llm",
   Retriever: "retriever",
   Tool: "tool",

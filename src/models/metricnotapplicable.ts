@@ -9,12 +9,10 @@ import { safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
-import { ScorerType, ScorerType$inboundSchema } from "./scorertype.js";
 import { StandardError, StandardError$inboundSchema } from "./standarderror.js";
 
 export type MetricNotApplicable = {
   statusType: "not_applicable";
-  scorerType?: ScorerType | null | undefined;
   metricKeyAlias?: string | null | undefined;
   message: string;
   /**
@@ -34,7 +32,6 @@ export const MetricNotApplicable$inboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     status_type: types.literal("not_applicable"),
-    scorer_type: z.optional(z.nullable(ScorerType$inboundSchema)),
     metric_key_alias: z.optional(z.nullable(types.string())),
     message: z._default(types.string(), "Metric not applicable."),
     ems_error_code: z.optional(z.nullable(types.number())),
@@ -43,7 +40,6 @@ export const MetricNotApplicable$inboundSchema: z.ZodMiniType<
   z.transform((v) => {
     return remap$(v, {
       "status_type": "statusType",
-      "scorer_type": "scorerType",
       "metric_key_alias": "metricKeyAlias",
       "ems_error_code": "emsErrorCode",
       "standard_error": "standardError",

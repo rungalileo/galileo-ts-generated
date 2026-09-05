@@ -83,3 +83,16 @@ const value: models.ExtendedControlSpanRecord = {
 };
 ```
 
+### `models.ExtendedHttpSpanRecordWithChildren`
+
+```typescript
+const value: models.ExtendedHttpSpanRecordWithChildren = {
+  type: "http",
+  id: "<value>",
+  sessionId: "<value>",
+  projectId: "<value>",
+  runId: "<value>",
+  parentId: "<value>",
+};
+```
+

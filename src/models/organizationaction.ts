@@ -13,6 +13,10 @@ export const OrganizationAction = {
   DeleteLogData: "delete_log_data",
   ReadSettings: "read_settings",
   UpdateSettings: "update_settings",
+  ReadCostSettings: "read_cost_settings",
+  ReadAiUsage: "read_ai_usage",
+  ReadAiUsageOrganization: "read_ai_usage_organization",
+  ReadUnredactedData: "read_unredacted_data",
 } as const;
 export type OrganizationAction = OpenEnum<typeof OrganizationAction>;
 

@@ -6,6 +6,7 @@
 import * as z from "zod/v4-mini";
 import { GalileoGeneratedCore } from "../core.js";
 import { encodeJSON } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -35,23 +36,18 @@ import { Result } from "../types/fp.js";
  * Delete multiple global prompt templates in bulk.
  *
  * This endpoint allows efficient deletion of multiple global prompt templates at once.
- * It validates permissions for each template in the service and provides detailed feedback about
- * successful and failed deletions for each template.
+ * It validates permissions for each template in the service and provides detailed
+ * feedback about successful and failed deletions for each template.
  *
  * Parameters
  * ----------
  * delete_request : BulkDeletePromptTemplatesRequest
- *     Request containing list of template IDs to delete (max 100)
- * ctx : Context
- *     Request context including authentication information
+ *     Request containing list of template IDs to delete (max 100).
  *
  * Returns
  * -------
  * BulkDeletePromptTemplatesResponse
- *     Details about the bulk deletion operation including:
- *     - Number of successfully deleted templates
- *     - List of failed deletions with reasons
- *     - Summary message
+ *     Details about the bulk deletion operation including deleted count and failures.
  */
 export function promptsBulkDeleteGlobalTemplatesTemplatesBulkDeleteDelete(
   client: GalileoGeneratedCore,
@@ -126,9 +122,16 @@ async function $do(
   const requestSecurity = resolveSecurity(
     [
       {
-        fieldName: "Galileo-API-Key",
+        fieldName: "Splunk-AO-API-Key",
         type: "apiKey:header",
         value: security?.apiKeyHeader,
+      },
+    ],
+    [
+      {
+        fieldName: "Galileo-API-Key",
+        type: "apiKey:header",
+        value: security?.classicAPIKeyHeader,
       },
     ],
     [
@@ -183,7 +186,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["422", "4XX", "5XX"],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });
