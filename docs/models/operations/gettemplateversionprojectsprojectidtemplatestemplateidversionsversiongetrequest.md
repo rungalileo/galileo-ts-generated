@@ -8,9 +8,9 @@ import { GetTemplateVersionProjectsProjectIdTemplatesTemplateIdVersionsVersionGe
 let value:
   GetTemplateVersionProjectsProjectIdTemplatesTemplateIdVersionsVersionGetRequest =
     {
+      projectId: "<value>",
       templateId: "<value>",
       version: 450031,
-      projectId: "<value>",
     };
 ```
 
@@ -18,6 +18,6 @@ let value:
 
 | Field              | Type               | Required           | Description        |
 | ------------------ | ------------------ | ------------------ | ------------------ |
+| `projectId`        | *string*           | :heavy_check_mark: | N/A                |
 | `templateId`       | *string*           | :heavy_check_mark: | N/A                |
 | `version`          | *number*           | :heavy_check_mark: | N/A                |
-| `projectId`        | *string*           | :heavy_check_mark: | N/A                |

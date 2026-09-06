@@ -11,18 +11,15 @@ let value: CreateExperimentProjectsProjectIdExperimentsPostRequest = {
     name: "<value>",
     scorers: [
       {
+        id: "<value>",
         filters: [
           {
             name: "node_name",
-            operator: "one_of",
-            value: [
-              "<value 1>",
-            ],
+            operator: "eq",
+            value: [],
             caseSensitive: true,
           },
         ],
-        id: "<value>",
-        scorerType: "llm",
       },
     ],
   },

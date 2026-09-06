@@ -5,7 +5,7 @@
 ```typescript
 import { NodeType } from "galileo-generated/models";
 
-let value: NodeType = "tool";
+let value: NodeType = "retriever";
 
 // Open enum: unrecognized values are captured as Unrecognized<string>
 ```
@@ -13,5 +13,5 @@ let value: NodeType = "tool";
 ## Values
 
 ```typescript
-"chain" | "chat" | "llm" | "retriever" | "tool" | "agent" | "workflow" | "trace" | "session" | Unrecognized<string>
+"chain" | "chat" | "http" | "llm" | "retriever" | "tool" | "agent" | "workflow" | "trace" | "session" | Unrecognized<string>
 ```

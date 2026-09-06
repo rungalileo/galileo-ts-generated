@@ -5,7 +5,7 @@
 ```typescript
 import { IntegrationAction } from "galileo-generated/models";
 
-let value: IntegrationAction = "share";
+let value: IntegrationAction = "read_secrets";
 
 // Open enum: unrecognized values are captured as Unrecognized<string>
 ```
@@ -13,5 +13,5 @@ let value: IntegrationAction = "share";
 ## Values
 
 ```typescript
-"update" | "delete" | "share" | Unrecognized<string>
+"update" | "delete" | "share" | "read_secrets" | Unrecognized<string>
 ```

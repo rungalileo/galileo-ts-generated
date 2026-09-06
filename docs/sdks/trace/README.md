@@ -4,8 +4,6 @@
 
 ### Available Operations
 
-* [getAggregatedTraceViewProjectsProjectIdTracesAggregatedPost](#getaggregatedtraceviewprojectsprojectidtracesaggregatedpost) - Get Aggregated Trace View
-* [recomputeMetricsProjectsProjectIdRecomputeMetricsPost](#recomputemetricsprojectsprojectidrecomputemetricspost) - Recompute Metrics
 * [logTracesProjectsProjectIdTracesPost](#logtracesprojectsprojectidtracespost) - Log Traces
 * [updateTraceProjectsProjectIdTracesTraceIdPatch](#updatetraceprojectsprojectidtracestraceidpatch) - Update Trace
 * [getTraceProjectsProjectIdTracesTraceIdGet](#gettraceprojectsprojectidtracestraceidget) - Get Trace
@@ -30,208 +28,13 @@
 * [queryPartialSessionsProjectsProjectIdSessionsPartialSearchPost](#querypartialsessionsprojectsprojectidsessionspartialsearchpost) - Query Partial Sessions
 * [countSessionsProjectsProjectIdSessionsCountPost](#countsessionsprojectsprojectidsessionscountpost) - Count Sessions
 * [getSessionProjectsProjectIdSessionsSessionIdGet](#getsessionprojectsprojectidsessionssessionidget) - Get Session
+* [getAggregatedTraceViewProjectsProjectIdTracesAggregatedPost](#getaggregatedtraceviewprojectsprojectidtracesaggregatedpost) - Get Aggregated Trace View
 * [exportRecordsProjectsProjectIdExportRecordsPost](#exportrecordsprojectsprojectidexportrecordspost) - Export Records
+* [exportRecordsUrlProjectsProjectIdExportRecordsUrlPost](#exportrecordsurlprojectsprojectidexportrecordsurlpost) - Export Records Url
+* [recomputeMetricsProjectsProjectIdRecomputeMetricsPost](#recomputemetricsprojectsprojectidrecomputemetricspost) - Recompute Metrics
 * [deleteTracesProjectsProjectIdTracesDeletePost](#deletetracesprojectsprojectidtracesdeletepost) - Delete Traces
 * [deleteSpansProjectsProjectIdSpansDeletePost](#deletespansprojectsprojectidspansdeletepost) - Delete Spans
 * [deleteSessionsProjectsProjectIdSessionsDeletePost](#deletesessionsprojectsprojectidsessionsdeletepost) - Delete Sessions
-
-## getAggregatedTraceViewProjectsProjectIdTracesAggregatedPost
-
-Get Aggregated Trace View
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="get_aggregated_trace_view_projects__project_id__traces_aggregated_post" method="post" path="/projects/{project_id}/traces/aggregated" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.trace.getAggregatedTraceViewProjectsProjectIdTracesAggregatedPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    projectId: "<value>",
-    body: {
-      logStreamId: "<value>",
-    },
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { traceGetAggregatedTraceViewProjectsProjectIdTracesAggregatedPost } from "galileo-generated/funcs/traceGetAggregatedTraceViewProjectsProjectIdTracesAggregatedPost.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await traceGetAggregatedTraceViewProjectsProjectIdTracesAggregatedPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    projectId: "<value>",
-    body: {
-      logStreamId: "<value>",
-    },
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("traceGetAggregatedTraceViewProjectsProjectIdTracesAggregatedPost failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                        | Type                                                                                                                                                                             | Required                                                                                                                                                                         | Description                                                                                                                                                                      |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `request`                                                                                                                                                                        | [operations.GetAggregatedTraceViewProjectsProjectIdTracesAggregatedPostRequest](../../models/operations/getaggregatedtraceviewprojectsprojectidtracesaggregatedpostrequest.md)   | :heavy_check_mark:                                                                                                                                                               | The request object to use for the request.                                                                                                                                       |
-| `security`                                                                                                                                                                       | [operations.GetAggregatedTraceViewProjectsProjectIdTracesAggregatedPostSecurity](../../models/operations/getaggregatedtraceviewprojectsprojectidtracesaggregatedpostsecurity.md) | :heavy_check_mark:                                                                                                                                                               | The security requirements to use for the request.                                                                                                                                |
-| `options`                                                                                                                                                                        | RequestOptions                                                                                                                                                                   | :heavy_minus_sign:                                                                                                                                                               | Used to set various options for making HTTP requests.                                                                                                                            |
-| `options.fetchOptions`                                                                                                                                                           | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                          | :heavy_minus_sign:                                                                                                                                                               | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.   |
-| `options.retries`                                                                                                                                                                | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                               | Enables retrying HTTP requests under certain failure conditions.                                                                                                                 |
-
-### Response
-
-**Promise\<[models.AggregatedTraceViewResponse](../../models/aggregatedtraceviewresponse.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
-## recomputeMetricsProjectsProjectIdRecomputeMetricsPost
-
-Recompute Metrics
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="recompute_metrics_projects__project_id__recompute_metrics_post" method="post" path="/projects/{project_id}/recompute-metrics" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.trace.recomputeMetricsProjectsProjectIdRecomputeMetricsPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    projectId: "<value>",
-    body: {
-      logStreamId: "00000000-0000-0000-0000-000000000000",
-      filters: [
-        {
-          columnId: "<id>",
-          operator: "eq",
-          value: "example input",
-          caseSensitive: true,
-          type: "text",
-        },
-      ],
-      sort: {
-        columnId: "<id>",
-        ascending: false,
-      },
-      scorerIds: [
-        "<value 1>",
-        "<value 2>",
-        "<value 3>",
-      ],
-    },
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { traceRecomputeMetricsProjectsProjectIdRecomputeMetricsPost } from "galileo-generated/funcs/traceRecomputeMetricsProjectsProjectIdRecomputeMetricsPost.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await traceRecomputeMetricsProjectsProjectIdRecomputeMetricsPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    projectId: "<value>",
-    body: {
-      logStreamId: "00000000-0000-0000-0000-000000000000",
-      filters: [
-        {
-          columnId: "<id>",
-          operator: "eq",
-          value: "example input",
-          caseSensitive: true,
-          type: "text",
-        },
-      ],
-      sort: {
-        columnId: "<id>",
-        ascending: false,
-      },
-      scorerIds: [
-        "<value 1>",
-        "<value 2>",
-        "<value 3>",
-      ],
-    },
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("traceRecomputeMetricsProjectsProjectIdRecomputeMetricsPost failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.RecomputeMetricsProjectsProjectIdRecomputeMetricsPostRequest](../../models/operations/recomputemetricsprojectsprojectidrecomputemetricspostrequest.md)             | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `security`                                                                                                                                                                     | [operations.RecomputeMetricsProjectsProjectIdRecomputeMetricsPostSecurity](../../models/operations/recomputemetricsprojectsprojectidrecomputemetricspostsecurity.md)           | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[any](../../models/.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
 
 ## logTracesProjectsProjectIdTracesPost
 
@@ -257,7 +60,7 @@ async function run() {
         {
           input: "who is a smart LLM?",
           output: "I am!",
-          createdAt: new Date("2026-05-12T23:58:32.249464Z"),
+          createdAt: new Date("2026-09-06T00:13:45.047176Z"),
           userMetadata: {
 
           },
@@ -280,7 +83,7 @@ async function run() {
                 role: "user",
               },
               name: "",
-              createdAt: new Date("2026-05-12T23:58:32.249423Z"),
+              createdAt: new Date("2026-09-06T00:13:45.047128Z"),
               userMetadata: {
 
               },
@@ -326,7 +129,7 @@ async function run() {
         {
           input: "who is a smart LLM?",
           output: "I am!",
-          createdAt: new Date("2026-05-12T23:58:32.249464Z"),
+          createdAt: new Date("2026-09-06T00:13:45.047176Z"),
           userMetadata: {
   
           },
@@ -349,7 +152,7 @@ async function run() {
                 role: "user",
               },
               name: "",
-              createdAt: new Date("2026-05-12T23:58:32.249423Z"),
+              createdAt: new Date("2026-09-06T00:13:45.047128Z"),
               userMetadata: {
   
               },
@@ -547,7 +350,7 @@ run();
 
 ### Response
 
-**Promise\<[models.ExtendedTraceRecordWithChildren](../../models/extendedtracerecordwithchildren.md)\>**
+**Promise\<[operations.ResponseGetTraceProjectsProjectIdTracesTraceIdGet](../../models/operations/responsegettraceprojectsprojectidtracestraceidget.md)\>**
 
 ### Errors
 
@@ -1394,7 +1197,7 @@ async function run() {
           input: "who is a smart LLM?",
           output: "I am!",
           name: "",
-          createdAt: new Date("2026-05-12T23:58:32.270557Z"),
+          createdAt: new Date("2026-09-06T00:13:45.070597Z"),
           userMetadata: {
 
           },
@@ -1417,7 +1220,7 @@ async function run() {
                 role: "user",
               },
               name: "",
-              createdAt: new Date("2026-05-12T23:58:32.254617Z"),
+              createdAt: new Date("2026-09-06T00:13:45.055171Z"),
               userMetadata: {
 
               },
@@ -1467,7 +1270,7 @@ async function run() {
           input: "who is a smart LLM?",
           output: "I am!",
           name: "",
-          createdAt: new Date("2026-05-12T23:58:32.270557Z"),
+          createdAt: new Date("2026-09-06T00:13:45.070597Z"),
           userMetadata: {
   
           },
@@ -1490,7 +1293,7 @@ async function run() {
                 role: "user",
               },
               name: "",
-              createdAt: new Date("2026-05-12T23:58:32.254617Z"),
+              createdAt: new Date("2026-09-06T00:13:45.055171Z"),
               userMetadata: {
   
               },
@@ -2673,7 +2476,88 @@ run();
 
 ### Response
 
-**Promise\<[models.ExtendedSessionRecordWithChildren](../../models/extendedsessionrecordwithchildren.md)\>**
+**Promise\<[models.ExtendedReadSessionRecordWithChildren](../../models/extendedreadsessionrecordwithchildren.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
+## getAggregatedTraceViewProjectsProjectIdTracesAggregatedPost
+
+Get Aggregated Trace View
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="get_aggregated_trace_view_projects__project_id__traces_aggregated_post" method="post" path="/projects/{project_id}/traces/aggregated" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.trace.getAggregatedTraceViewProjectsProjectIdTracesAggregatedPost({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    projectId: "<value>",
+    body: {
+      logStreamId: "<value>",
+    },
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { traceGetAggregatedTraceViewProjectsProjectIdTracesAggregatedPost } from "galileo-generated/funcs/traceGetAggregatedTraceViewProjectsProjectIdTracesAggregatedPost.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await traceGetAggregatedTraceViewProjectsProjectIdTracesAggregatedPost(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    projectId: "<value>",
+    body: {
+      logStreamId: "<value>",
+    },
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("traceGetAggregatedTraceViewProjectsProjectIdTracesAggregatedPost failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                        | Type                                                                                                                                                                             | Required                                                                                                                                                                         | Description                                                                                                                                                                      |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `request`                                                                                                                                                                        | [operations.GetAggregatedTraceViewProjectsProjectIdTracesAggregatedPostRequest](../../models/operations/getaggregatedtraceviewprojectsprojectidtracesaggregatedpostrequest.md)   | :heavy_check_mark:                                                                                                                                                               | The request object to use for the request.                                                                                                                                       |
+| `security`                                                                                                                                                                       | [operations.GetAggregatedTraceViewProjectsProjectIdTracesAggregatedPostSecurity](../../models/operations/getaggregatedtraceviewprojectsprojectidtracesaggregatedpostsecurity.md) | :heavy_check_mark:                                                                                                                                                               | The security requirements to use for the request.                                                                                                                                |
+| `options`                                                                                                                                                                        | RequestOptions                                                                                                                                                                   | :heavy_minus_sign:                                                                                                                                                               | Used to set various options for making HTTP requests.                                                                                                                            |
+| `options.fetchOptions`                                                                                                                                                           | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                          | :heavy_minus_sign:                                                                                                                                                               | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.   |
+| `options.retries`                                                                                                                                                                | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                               | Enables retrying HTTP requests under certain failure conditions.                                                                                                                 |
+
+### Response
+
+**Promise\<[models.AggregatedTraceViewResponse](../../models/aggregatedtraceviewresponse.md)\>**
 
 ### Errors
 
@@ -2788,6 +2672,244 @@ run();
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `request`                                                                                                                                                                      | [operations.ExportRecordsProjectsProjectIdExportRecordsPostRequest](../../models/operations/exportrecordsprojectsprojectidexportrecordspostrequest.md)                         | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `security`                                                                                                                                                                     | [operations.ExportRecordsProjectsProjectIdExportRecordsPostSecurity](../../models/operations/exportrecordsprojectsprojectidexportrecordspostsecurity.md)                       | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[any](../../models/.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
+## exportRecordsUrlProjectsProjectIdExportRecordsUrlPost
+
+Export Records Url
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="export_records_url_projects__project_id__export_records_url_post" method="post" path="/projects/{project_id}/export_records/url" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.trace.exportRecordsUrlProjectsProjectIdExportRecordsUrlPost({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    projectId: "<value>",
+    body: {
+      columnIds: [
+        "input",
+        "output",
+        "created_at",
+      ],
+      exportFormat: "jsonl",
+      logStreamId: "00000000-0000-0000-0000-000000000000",
+      filters: [
+        {
+          columnId: "<id>",
+          operator: "eq",
+          value: "example input",
+          caseSensitive: true,
+          type: "text",
+        },
+      ],
+      sort: {
+        columnId: "<id>",
+        ascending: false,
+      },
+      rootType: "trace",
+    },
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { traceExportRecordsUrlProjectsProjectIdExportRecordsUrlPost } from "galileo-generated/funcs/traceExportRecordsUrlProjectsProjectIdExportRecordsUrlPost.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await traceExportRecordsUrlProjectsProjectIdExportRecordsUrlPost(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    projectId: "<value>",
+    body: {
+      columnIds: [
+        "input",
+        "output",
+        "created_at",
+      ],
+      exportFormat: "jsonl",
+      logStreamId: "00000000-0000-0000-0000-000000000000",
+      filters: [
+        {
+          columnId: "<id>",
+          operator: "eq",
+          value: "example input",
+          caseSensitive: true,
+          type: "text",
+        },
+      ],
+      sort: {
+        columnId: "<id>",
+        ascending: false,
+      },
+      rootType: "trace",
+    },
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("traceExportRecordsUrlProjectsProjectIdExportRecordsUrlPost failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.ExportRecordsUrlProjectsProjectIdExportRecordsUrlPostRequest](../../models/operations/exportrecordsurlprojectsprojectidexportrecordsurlpostrequest.md)             | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `security`                                                                                                                                                                     | [operations.ExportRecordsUrlProjectsProjectIdExportRecordsUrlPostSecurity](../../models/operations/exportrecordsurlprojectsprojectidexportrecordsurlpostsecurity.md)           | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[models.ExportPresignedUrlResponse](../../models/exportpresignedurlresponse.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
+## recomputeMetricsProjectsProjectIdRecomputeMetricsPost
+
+Recompute Metrics
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="recompute_metrics_projects__project_id__recompute_metrics_post" method="post" path="/projects/{project_id}/recompute-metrics" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.trace.recomputeMetricsProjectsProjectIdRecomputeMetricsPost({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    projectId: "<value>",
+    body: {
+      logStreamId: "00000000-0000-0000-0000-000000000000",
+      filters: [
+        {
+          columnId: "<id>",
+          operator: "eq",
+          value: "example input",
+          caseSensitive: true,
+          type: "text",
+        },
+      ],
+      sort: {
+        columnId: "<id>",
+        ascending: false,
+      },
+      scorerIds: [
+        "<value 1>",
+        "<value 2>",
+        "<value 3>",
+      ],
+    },
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { traceRecomputeMetricsProjectsProjectIdRecomputeMetricsPost } from "galileo-generated/funcs/traceRecomputeMetricsProjectsProjectIdRecomputeMetricsPost.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await traceRecomputeMetricsProjectsProjectIdRecomputeMetricsPost(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    projectId: "<value>",
+    body: {
+      logStreamId: "00000000-0000-0000-0000-000000000000",
+      filters: [
+        {
+          columnId: "<id>",
+          operator: "eq",
+          value: "example input",
+          caseSensitive: true,
+          type: "text",
+        },
+      ],
+      sort: {
+        columnId: "<id>",
+        ascending: false,
+      },
+      scorerIds: [
+        "<value 1>",
+        "<value 2>",
+        "<value 3>",
+      ],
+    },
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("traceRecomputeMetricsProjectsProjectIdRecomputeMetricsPost failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.RecomputeMetricsProjectsProjectIdRecomputeMetricsPostRequest](../../models/operations/recomputemetricsprojectsprojectidrecomputemetricspostrequest.md)             | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `security`                                                                                                                                                                     | [operations.RecomputeMetricsProjectsProjectIdRecomputeMetricsPostSecurity](../../models/operations/recomputemetricsprojectsprojectidrecomputemetricspostsecurity.md)           | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |

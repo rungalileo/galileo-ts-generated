@@ -26,18 +26,22 @@ let value: BasePromptTemplateResponse = {
     updatedAt: new Date("2026-12-03T00:56:38.478Z"),
     createdByUser: {
       id: "<value>",
-      email: "Jeanie.Bradtke34@yahoo.com",
+      email: "Garland.Barton@gmail.com",
     },
   },
   selectedVersionId: "<value>",
-  allAvailableVersions: [],
-  totalVersions: 374218,
-  maxVersion: 320745,
-  createdAt: new Date("2024-02-08T19:45:20.488Z"),
-  updatedAt: new Date("2024-02-16T17:06:53.069Z"),
+  allAvailableVersions: [
+    218802,
+    51139,
+    406884,
+  ],
+  totalVersions: 233191,
+  maxVersion: 648567,
+  createdAt: new Date("2026-05-28T20:13:14.192Z"),
+  updatedAt: new Date("2024-03-27T16:14:03.165Z"),
   createdByUser: {
     id: "<value>",
-    email: "Jeanie.Bradtke34@yahoo.com",
+    email: "Garland.Barton@gmail.com",
   },
 };
 ```

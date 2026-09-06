@@ -10,7 +10,7 @@ let value: ProjectDB = {
   createdBy: "<value>",
   createdByUser: {
     id: "<value>",
-    email: "Jeanie.Bradtke34@yahoo.com",
+    email: "Garland.Barton@gmail.com",
   },
   runs: [
     {
@@ -29,13 +29,6 @@ let value: ProjectDB = {
         createdAt: new Date("2026-12-16T08:21:29.962Z"),
         updatedAt: new Date("2024-01-30T09:49:31.375Z"),
       },
-      loggedSplits: [
-        "<value 1>",
-      ],
-      loggedInferenceNames: [
-        "<value 1>",
-        "<value 2>",
-      ],
     },
   ],
   createdAt: new Date("2024-10-17T06:37:43.576Z"),

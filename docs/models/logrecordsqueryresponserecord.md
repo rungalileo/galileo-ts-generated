@@ -29,6 +29,19 @@ const value: models.ExtendedControlSpanRecord = {
 };
 ```
 
+### `models.ExtendedHttpSpanRecord`
+
+```typescript
+const value: models.ExtendedHttpSpanRecord = {
+  type: "http",
+  id: "<value>",
+  sessionId: "<value>",
+  projectId: "<value>",
+  runId: "<value>",
+  parentId: "<value>",
+};
+```
+
 ### `models.ExtendedLlmSpanRecord`
 
 ```typescript

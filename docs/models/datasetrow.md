@@ -19,7 +19,7 @@ let value: DatasetRow = {
     createdAt: new Date("2025-11-12T08:14:12.299Z"),
     createdByUser: {
       id: "<value>",
-      email: "Jeanie.Bradtke34@yahoo.com",
+      email: "Garland.Barton@gmail.com",
     },
     updatedInVersion: 158822,
     updatedAt: new Date("2026-01-25T18:06:49.680Z"),
