@@ -37,6 +37,8 @@
 * [createOrUpdateIntegrationIntegrationsWriterPut](#createorupdateintegrationintegrationswriterput) - Create or update Writer integration
 * [listIntegrationsIntegrationsGet](#listintegrationsintegrationsget) - List Integrations
 * [getIntegrationCostsIntegrationsCostsSummaryGet](#getintegrationcostsintegrationscostssummaryget) - Get Integration Costs
+* [exportBillingUsageBillingUsageExportGet](#exportbillingusagebillingusageexportget) - Export Billing Usage
+* [getBillingUsageBillingUsageMetricGet](#getbillingusagebillingusagemetricget) - Get Billing Usage
 * [selectIntegrationIntegrationsSelectPost](#selectintegrationintegrationsselectpost) - Select Integration
 * [disableIntegrationIntegrationsDisablePost](#disableintegrationintegrationsdisablepost) - Disable Integration
 * [getCustomIntegrationDefinitionIntegrationsCustomDefinitionGet](#getcustomintegrationdefinitionintegrationscustomdefinitionget) - Get custom integration definition
@@ -2576,6 +2578,164 @@ run();
 | errors.HTTPValidationError          | 422                                 | application/json                    |
 | errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
 
+## exportBillingUsageBillingUsageExportGet
+
+Export the project usage table as CSV using the same data source as /billing/usage/{metric}.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="export_billing_usage_billing_usage_export_get" method="get" path="/billing/usage/export" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  await galileoGenerated.integrations.exportBillingUsageBillingUsageExportGet({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    startTime: new Date("2025-01-03T03:42:06.206Z"),
+    endTime: new Date("2025-12-25T19:20:44.049Z"),
+  });
+
+
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { integrationsExportBillingUsageBillingUsageExportGet } from "galileo-generated/funcs/integrationsExportBillingUsageBillingUsageExportGet.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await integrationsExportBillingUsageBillingUsageExportGet(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    startTime: new Date("2025-01-03T03:42:06.206Z"),
+    endTime: new Date("2025-12-25T19:20:44.049Z"),
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    
+  } else {
+    console.log("integrationsExportBillingUsageBillingUsageExportGet failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.ExportBillingUsageBillingUsageExportGetRequest](../../models/operations/exportbillingusagebillingusageexportgetrequest.md)                                         | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `security`                                                                                                                                                                     | [operations.ExportBillingUsageBillingUsageExportGetSecurity](../../models/operations/exportbillingusagebillingusageexportgetsecurity.md)                                       | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<void\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
+## getBillingUsageBillingUsageMetricGet
+
+Get Billing Usage
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="get_billing_usage_billing_usage__metric__get" method="get" path="/billing/usage/{metric}" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.integrations.getBillingUsageBillingUsageMetricGet({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    metric: "luna_fine_tuning_runs",
+    startTime: new Date("2026-08-05T16:42:55.738Z"),
+    endTime: new Date("2026-10-24T18:37:15.889Z"),
+    interval: "hourly",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { integrationsGetBillingUsageBillingUsageMetricGet } from "galileo-generated/funcs/integrationsGetBillingUsageBillingUsageMetricGet.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await integrationsGetBillingUsageBillingUsageMetricGet(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    metric: "luna_fine_tuning_runs",
+    startTime: new Date("2026-08-05T16:42:55.738Z"),
+    endTime: new Date("2026-10-24T18:37:15.889Z"),
+    interval: "hourly",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("integrationsGetBillingUsageBillingUsageMetricGet failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.GetBillingUsageBillingUsageMetricGetRequest](../../models/operations/getbillingusagebillingusagemetricgetrequest.md)                                               | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `security`                                                                                                                                                                     | [operations.GetBillingUsageBillingUsageMetricGetSecurity](../../models/operations/getbillingusagebillingusagemetricgetsecurity.md)                                             | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[models.BillingUsageResponse](../../models/billingusageresponse.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
 ## selectIntegrationIntegrationsSelectPost
 
 Select an integration for this user.
@@ -2734,8 +2894,7 @@ run();
 
 Return the full JSON definition of the custom integration, including decrypted secrets.
 
-Only users with edit permission on the integration (its creator and admins)
-are authorized to call this endpoint.
+Access is controlled by the integration read-secrets policy.
 
 ### Example Usage
 
