@@ -10,7 +10,7 @@ let value: DatasetRowMetadata = {
   createdAt: new Date("2026-12-23T00:34:14.922Z"),
   createdByUser: {
     id: "<value>",
-    email: "Jeanie.Bradtke34@yahoo.com",
+    email: "Garland.Barton@gmail.com",
   },
   updatedInVersion: 99007,
   updatedAt: new Date("2025-02-22T05:25:47.165Z"),

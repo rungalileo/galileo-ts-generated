@@ -31,6 +31,11 @@ import {
   ModelCostBy$outboundSchema,
 } from "./modelcostby.js";
 import {
+  ModelLifecycleState,
+  ModelLifecycleState$inboundSchema,
+  ModelLifecycleState$outboundSchema,
+} from "./modellifecyclestate.js";
+import {
   OutputMap,
   OutputMap$inboundSchema,
   OutputMap$Outbound,
@@ -47,6 +52,10 @@ export type Model = {
   name: string;
   alias: string;
   integration?: LLMIntegration | undefined;
+  lifecycleState?: ModelLifecycleState | undefined;
+  replacementAlias?: string | null | undefined;
+  deprecationDate?: Date | null | undefined;
+  retirementDate?: Date | null | undefined;
   userRole?: string | null | undefined;
   assistantRole?: string | null | undefined;
   systemSupported?: boolean | undefined;
@@ -61,8 +70,6 @@ export type Model = {
   inputTokenLimit?: number | null | undefined;
   outputTokenLimit?: number | null | undefined;
   tokenLimit?: number | null | undefined;
-  outputPrice?: number | undefined;
-  inputPrice?: number | undefined;
   costBy?: ModelCostBy | undefined;
   isChat?: boolean | undefined;
   providesLogProbs?: boolean | undefined;
@@ -89,6 +96,10 @@ export const Model$inboundSchema: z.ZodMiniType<Model, unknown> = z.pipe(
     name: types.string(),
     alias: types.string(),
     integration: types.optional(LLMIntegration$inboundSchema),
+    lifecycle_state: types.optional(ModelLifecycleState$inboundSchema),
+    replacement_alias: z.optional(z.nullable(types.string())),
+    deprecation_date: z.optional(z.nullable(types.date())),
+    retirement_date: z.optional(z.nullable(types.date())),
     user_role: z.optional(z.nullable(types.string())),
     assistant_role: z.optional(z.nullable(types.string())),
     system_supported: z._default(types.boolean(), false),
@@ -97,8 +108,6 @@ export const Model$inboundSchema: z.ZodMiniType<Model, unknown> = z.pipe(
     input_token_limit: z.optional(z.nullable(types.number())),
     output_token_limit: z.optional(z.nullable(types.number())),
     token_limit: z.optional(z.nullable(types.number())),
-    output_price: z._default(types.number(), 0),
-    input_price: z._default(types.number(), 0),
     cost_by: types.optional(ModelCostBy$inboundSchema),
     is_chat: z._default(types.boolean(), false),
     provides_log_probs: z._default(types.boolean(), false),
@@ -114,6 +123,10 @@ export const Model$inboundSchema: z.ZodMiniType<Model, unknown> = z.pipe(
   }),
   z.transform((v) => {
     return remap$(v, {
+      "lifecycle_state": "lifecycleState",
+      "replacement_alias": "replacementAlias",
+      "deprecation_date": "deprecationDate",
+      "retirement_date": "retirementDate",
       "user_role": "userRole",
       "assistant_role": "assistantRole",
       "system_supported": "systemSupported",
@@ -122,8 +135,6 @@ export const Model$inboundSchema: z.ZodMiniType<Model, unknown> = z.pipe(
       "input_token_limit": "inputTokenLimit",
       "output_token_limit": "outputTokenLimit",
       "token_limit": "tokenLimit",
-      "output_price": "outputPrice",
-      "input_price": "inputPrice",
       "cost_by": "costBy",
       "is_chat": "isChat",
       "provides_log_probs": "providesLogProbs",
@@ -144,6 +155,10 @@ export type Model$Outbound = {
   name: string;
   alias: string;
   integration?: string | undefined;
+  lifecycle_state?: string | undefined;
+  replacement_alias?: string | null | undefined;
+  deprecation_date?: string | null | undefined;
+  retirement_date?: string | null | undefined;
   user_role?: string | null | undefined;
   assistant_role?: string | null | undefined;
   system_supported: boolean;
@@ -152,8 +167,6 @@ export type Model$Outbound = {
   input_token_limit?: number | null | undefined;
   output_token_limit?: number | null | undefined;
   token_limit?: number | null | undefined;
-  output_price: number;
-  input_price: number;
   cost_by?: string | undefined;
   is_chat: boolean;
   provides_log_probs: boolean;
@@ -175,6 +188,16 @@ export const Model$outboundSchema: z.ZodMiniType<Model$Outbound, Model> = z
       name: z.string(),
       alias: z.string(),
       integration: z.optional(LLMIntegration$outboundSchema),
+      lifecycleState: z.optional(ModelLifecycleState$outboundSchema),
+      replacementAlias: z.optional(z.nullable(z.string())),
+      deprecationDate: z.optional(z.nullable(z.pipe(
+        z.date(),
+        z.transform(v => v.toISOString().slice(0, "YYYY-MM-DD".length)),
+      ))),
+      retirementDate: z.optional(z.nullable(z.pipe(
+        z.date(),
+        z.transform(v => v.toISOString().slice(0, "YYYY-MM-DD".length)),
+      ))),
       userRole: z.optional(z.nullable(z.string())),
       assistantRole: z.optional(z.nullable(z.string())),
       systemSupported: z._default(z.boolean(), false),
@@ -183,8 +206,6 @@ export const Model$outboundSchema: z.ZodMiniType<Model$Outbound, Model> = z
       inputTokenLimit: z.optional(z.nullable(z.int())),
       outputTokenLimit: z.optional(z.nullable(z.int())),
       tokenLimit: z.optional(z.nullable(z.int())),
-      outputPrice: z._default(z.number(), 0),
-      inputPrice: z._default(z.number(), 0),
       costBy: z.optional(ModelCostBy$outboundSchema),
       isChat: z._default(z.boolean(), false),
       providesLogProbs: z._default(z.boolean(), false),
@@ -200,6 +221,10 @@ export const Model$outboundSchema: z.ZodMiniType<Model$Outbound, Model> = z
     }),
     z.transform((v) => {
       return remap$(v, {
+        lifecycleState: "lifecycle_state",
+        replacementAlias: "replacement_alias",
+        deprecationDate: "deprecation_date",
+        retirementDate: "retirement_date",
         userRole: "user_role",
         assistantRole: "assistant_role",
         systemSupported: "system_supported",
@@ -208,8 +233,6 @@ export const Model$outboundSchema: z.ZodMiniType<Model$Outbound, Model> = z
         inputTokenLimit: "input_token_limit",
         outputTokenLimit: "output_token_limit",
         tokenLimit: "token_limit",
-        outputPrice: "output_price",
-        inputPrice: "input_price",
         costBy: "cost_by",
         isChat: "is_chat",
         providesLogProbs: "provides_log_probs",

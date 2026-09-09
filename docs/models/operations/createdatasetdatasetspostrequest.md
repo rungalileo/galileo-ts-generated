@@ -5,7 +5,7 @@
 ```typescript
 import { CreateDatasetDatasetsPostRequest } from "galileo-generated/models/operations";
 
-// No examples available for this model
+let value: CreateDatasetDatasetsPostRequest = {};
 ```
 
 ## Fields
