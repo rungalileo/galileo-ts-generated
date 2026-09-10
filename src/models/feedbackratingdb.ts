@@ -12,52 +12,82 @@ import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
-  LikeDislikeRating,
-  LikeDislikeRating$inboundSchema,
-} from "./likedislikerating.js";
-import { ScoreRating, ScoreRating$inboundSchema } from "./scorerating.js";
-import { StarRating, StarRating$inboundSchema } from "./starrating.js";
-import { TagsRating, TagsRating$inboundSchema } from "./tagsrating.js";
-import { TextRating, TextRating$inboundSchema } from "./textrating.js";
+  LibsPythonSchemasLogRecordsFeedbackChoiceRating,
+  LibsPythonSchemasLogRecordsFeedbackChoiceRating$inboundSchema,
+} from "./libspythonschemaslogrecordsfeedbackchoicerating.js";
+import {
+  LibsPythonSchemasLogRecordsFeedbackLikeDislikeRating,
+  LibsPythonSchemasLogRecordsFeedbackLikeDislikeRating$inboundSchema,
+} from "./libspythonschemaslogrecordsfeedbacklikedislikerating.js";
+import {
+  LibsPythonSchemasLogRecordsFeedbackScoreRating,
+  LibsPythonSchemasLogRecordsFeedbackScoreRating$inboundSchema,
+} from "./libspythonschemaslogrecordsfeedbackscorerating.js";
+import {
+  LibsPythonSchemasLogRecordsFeedbackStarRating,
+  LibsPythonSchemasLogRecordsFeedbackStarRating$inboundSchema,
+} from "./libspythonschemaslogrecordsfeedbackstarrating.js";
+import {
+  LibsPythonSchemasLogRecordsFeedbackTagsRating,
+  LibsPythonSchemasLogRecordsFeedbackTagsRating$inboundSchema,
+} from "./libspythonschemaslogrecordsfeedbacktagsrating.js";
+import {
+  LibsPythonSchemasLogRecordsFeedbackTextRating,
+  LibsPythonSchemasLogRecordsFeedbackTextRating$inboundSchema,
+} from "./libspythonschemaslogrecordsfeedbacktextrating.js";
+import {
+  LibsPythonSchemasLogRecordsFeedbackTreeChoiceRating,
+  LibsPythonSchemasLogRecordsFeedbackTreeChoiceRating$inboundSchema,
+} from "./libspythonschemaslogrecordsfeedbacktreechoicerating.js";
 
-export type Rating =
-  | LikeDislikeRating
-  | ScoreRating
-  | StarRating
-  | TagsRating
-  | TextRating
+export type FeedbackRatingDBRating =
+  | LibsPythonSchemasLogRecordsFeedbackChoiceRating
+  | LibsPythonSchemasLogRecordsFeedbackLikeDislikeRating
+  | LibsPythonSchemasLogRecordsFeedbackScoreRating
+  | LibsPythonSchemasLogRecordsFeedbackStarRating
+  | LibsPythonSchemasLogRecordsFeedbackTagsRating
+  | LibsPythonSchemasLogRecordsFeedbackTextRating
+  | LibsPythonSchemasLogRecordsFeedbackTreeChoiceRating
   | discriminatedUnionTypes.Unknown<"feedbackType">;
 
 export type FeedbackRatingDB = {
   explanation?: string | null | undefined;
   rating:
-    | LikeDislikeRating
-    | ScoreRating
-    | StarRating
-    | TagsRating
-    | TextRating
+    | LibsPythonSchemasLogRecordsFeedbackChoiceRating
+    | LibsPythonSchemasLogRecordsFeedbackLikeDislikeRating
+    | LibsPythonSchemasLogRecordsFeedbackScoreRating
+    | LibsPythonSchemasLogRecordsFeedbackStarRating
+    | LibsPythonSchemasLogRecordsFeedbackTagsRating
+    | LibsPythonSchemasLogRecordsFeedbackTextRating
+    | LibsPythonSchemasLogRecordsFeedbackTreeChoiceRating
     | discriminatedUnionTypes.Unknown<"feedbackType">;
   createdAt: Date;
   createdBy: string | null;
 };
 
 /** @internal */
-export const Rating$inboundSchema: z.ZodMiniType<Rating, unknown> =
-  discriminatedUnion("feedback_type", {
-    like_dislike: LikeDislikeRating$inboundSchema,
-    score: ScoreRating$inboundSchema,
-    star: StarRating$inboundSchema,
-    tags: TagsRating$inboundSchema,
-    text: TextRating$inboundSchema,
-  }, { outputPropertyName: "feedbackType" });
+export const FeedbackRatingDBRating$inboundSchema: z.ZodMiniType<
+  FeedbackRatingDBRating,
+  unknown
+> = discriminatedUnion("feedback_type", {
+  choice: LibsPythonSchemasLogRecordsFeedbackChoiceRating$inboundSchema,
+  like_dislike:
+    LibsPythonSchemasLogRecordsFeedbackLikeDislikeRating$inboundSchema,
+  score: LibsPythonSchemasLogRecordsFeedbackScoreRating$inboundSchema,
+  star: LibsPythonSchemasLogRecordsFeedbackStarRating$inboundSchema,
+  tags: LibsPythonSchemasLogRecordsFeedbackTagsRating$inboundSchema,
+  text: LibsPythonSchemasLogRecordsFeedbackTextRating$inboundSchema,
+  tree_choice:
+    LibsPythonSchemasLogRecordsFeedbackTreeChoiceRating$inboundSchema,
+}, { outputPropertyName: "feedbackType" });
 
-export function ratingFromJSON(
+export function feedbackRatingDBRatingFromJSON(
   jsonString: string,
-): SafeParseResult<Rating, SDKValidationError> {
+): SafeParseResult<FeedbackRatingDBRating, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => Rating$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'Rating' from JSON`,
+    (x) => FeedbackRatingDBRating$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'FeedbackRatingDBRating' from JSON`,
   );
 }
 
@@ -69,11 +99,15 @@ export const FeedbackRatingDB$inboundSchema: z.ZodMiniType<
   z.object({
     explanation: z.optional(z.nullable(types.string())),
     rating: discriminatedUnion("feedback_type", {
-      like_dislike: LikeDislikeRating$inboundSchema,
-      score: ScoreRating$inboundSchema,
-      star: StarRating$inboundSchema,
-      tags: TagsRating$inboundSchema,
-      text: TextRating$inboundSchema,
+      choice: LibsPythonSchemasLogRecordsFeedbackChoiceRating$inboundSchema,
+      like_dislike:
+        LibsPythonSchemasLogRecordsFeedbackLikeDislikeRating$inboundSchema,
+      score: LibsPythonSchemasLogRecordsFeedbackScoreRating$inboundSchema,
+      star: LibsPythonSchemasLogRecordsFeedbackStarRating$inboundSchema,
+      tags: LibsPythonSchemasLogRecordsFeedbackTagsRating$inboundSchema,
+      text: LibsPythonSchemasLogRecordsFeedbackTextRating$inboundSchema,
+      tree_choice:
+        LibsPythonSchemasLogRecordsFeedbackTreeChoiceRating$inboundSchema,
     }, { outputPropertyName: "feedbackType" }),
     created_at: types.date(),
     created_by: types.nullable(types.string()),
