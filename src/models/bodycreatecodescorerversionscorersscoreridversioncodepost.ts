@@ -5,60 +5,20 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { blobLikeSchema } from "../types/blobs.js";
-
-export type BodyCreateCodeScorerVersionScorersScorerIdVersionCodePostFile = {
-  fileName: string;
-  content: ReadableStream<Uint8Array> | Blob | ArrayBuffer | Uint8Array;
-};
 
 export type BodyCreateCodeScorerVersionScorersScorerIdVersionCodePost = {
-  file: BodyCreateCodeScorerVersionScorersScorerIdVersionCodePostFile | Blob;
+  file: string;
   /**
-   * Pre-validated result as JSON string to skip validation
+   * Pre-validated result as JSON string from the validate endpoint
    */
-  validationResult?: string | null | undefined;
+  validationResult: string;
 };
-
-/** @internal */
-export type BodyCreateCodeScorerVersionScorersScorerIdVersionCodePostFile$Outbound =
-  {
-    fileName: string;
-    content: ReadableStream<Uint8Array> | Blob | ArrayBuffer | Uint8Array;
-  };
-
-/** @internal */
-export const BodyCreateCodeScorerVersionScorersScorerIdVersionCodePostFile$outboundSchema:
-  z.ZodMiniType<
-    BodyCreateCodeScorerVersionScorersScorerIdVersionCodePostFile$Outbound,
-    BodyCreateCodeScorerVersionScorersScorerIdVersionCodePostFile
-  > = z.object({
-    fileName: z.string(),
-    content: z.union([
-      z.custom<ReadableStream<Uint8Array>>(x => x instanceof ReadableStream),
-      z.custom<Blob>(x => x instanceof Blob),
-      z.custom<ArrayBuffer>(x => x instanceof ArrayBuffer),
-      z.custom<Uint8Array>(x => x instanceof Uint8Array),
-    ]),
-  });
-
-export function bodyCreateCodeScorerVersionScorersScorerIdVersionCodePostFileToJSON(
-  bodyCreateCodeScorerVersionScorersScorerIdVersionCodePostFile:
-    BodyCreateCodeScorerVersionScorersScorerIdVersionCodePostFile,
-): string {
-  return JSON.stringify(
-    BodyCreateCodeScorerVersionScorersScorerIdVersionCodePostFile$outboundSchema
-      .parse(bodyCreateCodeScorerVersionScorersScorerIdVersionCodePostFile),
-  );
-}
 
 /** @internal */
 export type BodyCreateCodeScorerVersionScorersScorerIdVersionCodePost$Outbound =
   {
-    file:
-      | BodyCreateCodeScorerVersionScorersScorerIdVersionCodePostFile$Outbound
-      | Blob;
-    validation_result?: string | null | undefined;
+    file: string;
+    validation_result: string;
   };
 
 /** @internal */
@@ -68,13 +28,8 @@ export const BodyCreateCodeScorerVersionScorersScorerIdVersionCodePost$outboundS
     BodyCreateCodeScorerVersionScorersScorerIdVersionCodePost
   > = z.pipe(
     z.object({
-      file: z.union([
-        z.lazy(() =>
-          BodyCreateCodeScorerVersionScorersScorerIdVersionCodePostFile$outboundSchema
-        ),
-        blobLikeSchema,
-      ]),
-      validationResult: z.optional(z.nullable(z.string())),
+      file: z.string(),
+      validationResult: z.string(),
     }),
     z.transform((v) => {
       return remap$(v, {

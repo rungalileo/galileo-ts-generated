@@ -14,6 +14,10 @@ import {
 } from "./contentmodality.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
+  ModelLifecycleState,
+  ModelLifecycleState$inboundSchema,
+} from "./modellifecyclestate.js";
+import {
   MultimodalCapability,
   MultimodalCapability$inboundSchema,
 } from "./multimodalcapability.js";
@@ -22,6 +26,10 @@ export type ApiSchemasIntegrationLlmIntegrationModelProperties = {
   alias: string;
   name: string;
   inputModalities: Array<ContentModality>;
+  lifecycleState?: ModelLifecycleState | undefined;
+  replacementAlias?: string | null | undefined;
+  deprecationDate?: Date | null | undefined;
+  retirementDate?: Date | null | undefined;
   multimodalCapabilities?: Array<MultimodalCapability> | undefined;
 };
 
@@ -33,6 +41,10 @@ export const ApiSchemasIntegrationLlmIntegrationModelProperties$inboundSchema:
         alias: types.string(),
         name: types.string(),
         input_modalities: z.array(ContentModality$inboundSchema),
+        lifecycle_state: types.optional(ModelLifecycleState$inboundSchema),
+        replacement_alias: z.optional(z.nullable(types.string())),
+        deprecation_date: z.optional(z.nullable(types.date())),
+        retirement_date: z.optional(z.nullable(types.date())),
         multimodal_capabilities: types.optional(
           z.array(MultimodalCapability$inboundSchema),
         ),
@@ -40,6 +52,10 @@ export const ApiSchemasIntegrationLlmIntegrationModelProperties$inboundSchema:
       z.transform((v) => {
         return remap$(v, {
           "input_modalities": "inputModalities",
+          "lifecycle_state": "lifecycleState",
+          "replacement_alias": "replacementAlias",
+          "deprecation_date": "deprecationDate",
+          "retirement_date": "retirementDate",
           "multimodal_capabilities": "multimodalCapabilities",
         });
       }),

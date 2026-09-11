@@ -22,6 +22,11 @@ import {
   FileContentPart$outboundSchema,
 } from "./filecontentpart.js";
 import {
+  HttpSpan,
+  HttpSpan$Outbound,
+  HttpSpan$outboundSchema,
+} from "./httpspan.js";
+import {
   LlmSpan,
   LlmSpan$Outbound,
   LlmSpan$outboundSchema,
@@ -87,6 +92,7 @@ export type TraceRedactedOutput2 =
 export type TraceSpan =
   | AgentSpan
   | ControlSpan
+  | HttpSpan
   | LlmSpan
   | RetrieverSpan
   | ToolSpan
@@ -185,6 +191,7 @@ export type Trace = {
     | Array<
       | AgentSpan
       | ControlSpan
+      | HttpSpan
       | LlmSpan
       | RetrieverSpan
       | ToolSpan
@@ -353,6 +360,7 @@ export function traceRedactedOutput2ToJSON(
 export type TraceSpan$Outbound =
   | AgentSpan$Outbound
   | ControlSpan$Outbound
+  | HttpSpan$Outbound
   | LlmSpan$Outbound
   | RetrieverSpan$Outbound
   | ToolSpan$Outbound
@@ -365,6 +373,7 @@ export const TraceSpan$outboundSchema: z.ZodMiniType<
 > = z.union([
   AgentSpan$outboundSchema,
   ControlSpan$outboundSchema,
+  HttpSpan$outboundSchema,
   LlmSpan$outboundSchema,
   RetrieverSpan$outboundSchema,
   ToolSpan$outboundSchema,
@@ -416,6 +425,7 @@ export type Trace$Outbound = {
     | Array<
       | AgentSpan$Outbound
       | ControlSpan$Outbound
+      | HttpSpan$Outbound
       | LlmSpan$Outbound
       | RetrieverSpan$Outbound
       | ToolSpan$Outbound
@@ -501,6 +511,7 @@ export const Trace$outboundSchema: z.ZodMiniType<Trace$Outbound, Trace> = z
           z.union([
             AgentSpan$outboundSchema,
             ControlSpan$outboundSchema,
+            HttpSpan$outboundSchema,
             LlmSpan$outboundSchema,
             RetrieverSpan$outboundSchema,
             ToolSpan$outboundSchema,
