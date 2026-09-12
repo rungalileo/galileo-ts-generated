@@ -12,10 +12,14 @@ import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 
 export type Loc = string | number;
 
+export type Context = {};
+
 export type ValidationError = {
   loc: Array<string | number>;
   msg: string;
   type: string;
+  input?: any | undefined;
+  ctx?: Context | undefined;
 };
 
 /** @internal */
@@ -35,6 +39,21 @@ export function locFromJSON(
 }
 
 /** @internal */
+export const Context$inboundSchema: z.ZodMiniType<Context, unknown> = z.object(
+  {},
+);
+
+export function contextFromJSON(
+  jsonString: string,
+): SafeParseResult<Context, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => Context$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'Context' from JSON`,
+  );
+}
+
+/** @internal */
 export const ValidationError$inboundSchema: z.ZodMiniType<
   ValidationError,
   unknown
@@ -42,6 +61,8 @@ export const ValidationError$inboundSchema: z.ZodMiniType<
   loc: z.array(smartUnion([types.string(), types.number()])),
   msg: types.string(),
   type: types.string(),
+  input: types.optional(z.any()),
+  ctx: types.optional(z.lazy(() => Context$inboundSchema)),
 });
 
 export function validationErrorFromJSON(
