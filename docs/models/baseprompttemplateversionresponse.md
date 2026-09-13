@@ -19,7 +19,7 @@ let value: BasePromptTemplateVersionResponse = {
   updatedAt: new Date("2024-06-15T16:06:06.640Z"),
   createdByUser: {
     id: "<value>",
-    email: "Jeanie.Bradtke34@yahoo.com",
+    email: "Garland.Barton@gmail.com",
   },
 };
 ```

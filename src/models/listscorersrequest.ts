@@ -40,6 +40,11 @@ import {
   ScorerIDFilter$outboundSchema,
 } from "./scoreridfilter.js";
 import {
+  ScorerIsGlobalFilter,
+  ScorerIsGlobalFilter$Outbound,
+  ScorerIsGlobalFilter$outboundSchema,
+} from "./scorerisglobalfilter.js";
+import {
   ScorerLabelFilter,
   ScorerLabelFilter$Outbound,
   ScorerLabelFilter$outboundSchema,
@@ -50,6 +55,11 @@ import {
   ScorerModelTypeFilter$outboundSchema,
 } from "./scorermodeltypefilter.js";
 import {
+  ScorerMultimodalCapabilitiesFilter,
+  ScorerMultimodalCapabilitiesFilter$Outbound,
+  ScorerMultimodalCapabilitiesFilter$outboundSchema,
+} from "./scorermultimodalcapabilitiesfilter.js";
+import {
   ScorerNameFilter,
   ScorerNameFilter$Outbound,
   ScorerNameFilter$outboundSchema,
@@ -59,6 +69,11 @@ import {
   ScorerNameSort$Outbound,
   ScorerNameSort$outboundSchema,
 } from "./scorernamesort.js";
+import {
+  ScorerScopeProjectsFilter,
+  ScorerScopeProjectsFilter$Outbound,
+  ScorerScopeProjectsFilter$outboundSchema,
+} from "./scorerscopeprojectsfilter.js";
 import {
   ScorerScoreableNodeTypesFilter,
   ScorerScoreableNodeTypesFilter$Outbound,
@@ -91,9 +106,12 @@ export type ListScorersRequestFilter =
   | ScorerExcludeMultimodalScorersFilter
   | ScorerExcludeSlmScorersFilter
   | ScorerIDFilter
+  | ScorerIsGlobalFilter
   | ScorerLabelFilter
   | ScorerModelTypeFilter
+  | ScorerMultimodalCapabilitiesFilter
   | ScorerNameFilter
+  | ScorerScopeProjectsFilter
   | ScorerScoreableNodeTypesFilter
   | ScorerTypeFilter
   | ScorerTagsFilter
@@ -113,9 +131,12 @@ export type ListScorersRequest = {
       | ScorerExcludeMultimodalScorersFilter
       | ScorerExcludeSlmScorersFilter
       | ScorerIDFilter
+      | ScorerIsGlobalFilter
       | ScorerLabelFilter
       | ScorerModelTypeFilter
+      | ScorerMultimodalCapabilitiesFilter
       | ScorerNameFilter
+      | ScorerScopeProjectsFilter
       | ScorerScoreableNodeTypesFilter
       | ScorerTypeFilter
       | ScorerTagsFilter
@@ -138,9 +159,12 @@ export type ListScorersRequestFilter$Outbound =
   | ScorerExcludeMultimodalScorersFilter$Outbound
   | ScorerExcludeSlmScorersFilter$Outbound
   | ScorerIDFilter$Outbound
+  | ScorerIsGlobalFilter$Outbound
   | ScorerLabelFilter$Outbound
   | ScorerModelTypeFilter$Outbound
+  | ScorerMultimodalCapabilitiesFilter$Outbound
   | ScorerNameFilter$Outbound
+  | ScorerScopeProjectsFilter$Outbound
   | ScorerScoreableNodeTypesFilter$Outbound
   | ScorerTypeFilter$Outbound
   | ScorerTagsFilter$Outbound
@@ -156,9 +180,12 @@ export const ListScorersRequestFilter$outboundSchema: z.ZodMiniType<
   ScorerExcludeMultimodalScorersFilter$outboundSchema,
   ScorerExcludeSlmScorersFilter$outboundSchema,
   ScorerIDFilter$outboundSchema,
+  ScorerIsGlobalFilter$outboundSchema,
   ScorerLabelFilter$outboundSchema,
   ScorerModelTypeFilter$outboundSchema,
+  ScorerMultimodalCapabilitiesFilter$outboundSchema,
   ScorerNameFilter$outboundSchema,
+  ScorerScopeProjectsFilter$outboundSchema,
   ScorerScoreableNodeTypesFilter$outboundSchema,
   ScorerTypeFilter$outboundSchema,
   ScorerTagsFilter$outboundSchema,
@@ -208,9 +235,12 @@ export type ListScorersRequest$Outbound = {
       | ScorerExcludeMultimodalScorersFilter$Outbound
       | ScorerExcludeSlmScorersFilter$Outbound
       | ScorerIDFilter$Outbound
+      | ScorerIsGlobalFilter$Outbound
       | ScorerLabelFilter$Outbound
       | ScorerModelTypeFilter$Outbound
+      | ScorerMultimodalCapabilitiesFilter$Outbound
       | ScorerNameFilter$Outbound
+      | ScorerScopeProjectsFilter$Outbound
       | ScorerScoreableNodeTypesFilter$Outbound
       | ScorerTypeFilter$Outbound
       | ScorerTagsFilter$Outbound
@@ -239,9 +269,12 @@ export const ListScorersRequest$outboundSchema: z.ZodMiniType<
         ScorerExcludeMultimodalScorersFilter$outboundSchema,
         ScorerExcludeSlmScorersFilter$outboundSchema,
         ScorerIDFilter$outboundSchema,
+        ScorerIsGlobalFilter$outboundSchema,
         ScorerLabelFilter$outboundSchema,
         ScorerModelTypeFilter$outboundSchema,
+        ScorerMultimodalCapabilitiesFilter$outboundSchema,
         ScorerNameFilter$outboundSchema,
+        ScorerScopeProjectsFilter$outboundSchema,
         ScorerScoreableNodeTypesFilter$outboundSchema,
         ScorerTypeFilter$outboundSchema,
         ScorerTagsFilter$outboundSchema,
