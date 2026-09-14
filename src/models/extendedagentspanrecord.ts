@@ -310,6 +310,14 @@ export type ExtendedAgentSpanRecord = {
    */
   fullyAnnotated?: boolean | null | undefined;
   /**
+   * Runner progress text written directly to CH span
+   */
+  progressMessage: string;
+  /**
+   * Runner error text written directly to CH span
+   */
+  errorMessage: string;
+  /**
    * Detailed information about the metrics associated with this trace or span
    */
   metricInfo?:
@@ -344,6 +352,10 @@ export type ExtendedAgentSpanRecord = {
    */
   stepNumber?: number | null | undefined;
   agentType?: AgentType | undefined;
+  /**
+   * Name of the agent.
+   */
+  agentName?: string | null | undefined;
 };
 
 /** @internal */
@@ -654,6 +666,8 @@ export const ExtendedAgentSpanRecord$inboundSchema: z.ZodMiniType<
     overall_annotation_agreement: z.optional(z.nullable(types.number())),
     annotation_queue_ids: types.optional(z.array(types.string())),
     fully_annotated: z.optional(z.nullable(types.boolean())),
+    progress_message: z._default(types.string(), ""),
+    error_message: z._default(types.string(), ""),
     metric_info: z.optional(
       z.nullable(z.record(
         z.string(),
@@ -676,6 +690,7 @@ export const ExtendedAgentSpanRecord$inboundSchema: z.ZodMiniType<
     is_complete: z._default(types.boolean(), true),
     step_number: z.optional(z.nullable(types.number())),
     agent_type: types.optional(AgentType$inboundSchema),
+    agent_name: z.optional(z.nullable(types.string())),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -704,11 +719,14 @@ export const ExtendedAgentSpanRecord$inboundSchema: z.ZodMiniType<
       "overall_annotation_agreement": "overallAnnotationAgreement",
       "annotation_queue_ids": "annotationQueueIds",
       "fully_annotated": "fullyAnnotated",
+      "progress_message": "progressMessage",
+      "error_message": "errorMessage",
       "metric_info": "metricInfo",
       "parent_id": "parentId",
       "is_complete": "isComplete",
       "step_number": "stepNumber",
       "agent_type": "agentType",
+      "agent_name": "agentName",
     });
   }),
 );
