@@ -303,6 +303,14 @@ export type PartialExtendedSessionRecord = {
    */
   fullyAnnotated?: boolean | null | undefined;
   /**
+   * Runner progress text written directly to CH span
+   */
+  progressMessage: string;
+  /**
+   * Runner error text written directly to CH span
+   */
+  errorMessage: string;
+  /**
    * Detailed information about the metrics associated with this trace or span
    */
   metricInfo?:
@@ -325,6 +333,7 @@ export type PartialExtendedSessionRecord = {
    */
   files?: { [k: string]: FileMetadata } | null | undefined;
   previousSessionId?: string | null | undefined;
+  numTraces?: number | null | undefined;
 };
 
 /** @internal */
@@ -658,6 +667,8 @@ export const PartialExtendedSessionRecord$inboundSchema: z.ZodMiniType<
     overall_annotation_agreement: z.optional(z.nullable(types.number())),
     annotation_queue_ids: types.optional(z.array(types.string())),
     fully_annotated: z.optional(z.nullable(types.boolean())),
+    progress_message: z._default(types.string(), ""),
+    error_message: z._default(types.string(), ""),
     metric_info: z.optional(
       z.nullable(z.record(
         z.string(),
@@ -677,6 +688,7 @@ export const PartialExtendedSessionRecord$inboundSchema: z.ZodMiniType<
       z.nullable(z.record(z.string(), FileMetadata$inboundSchema)),
     ),
     previous_session_id: z.optional(z.nullable(types.string())),
+    num_traces: z.optional(z.nullable(types.number())),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -705,8 +717,11 @@ export const PartialExtendedSessionRecord$inboundSchema: z.ZodMiniType<
       "overall_annotation_agreement": "overallAnnotationAgreement",
       "annotation_queue_ids": "annotationQueueIds",
       "fully_annotated": "fullyAnnotated",
+      "progress_message": "progressMessage",
+      "error_message": "errorMessage",
       "metric_info": "metricInfo",
       "previous_session_id": "previousSessionId",
+      "num_traces": "numTraces",
     });
   }),
 );
