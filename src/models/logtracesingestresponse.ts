@@ -44,6 +44,10 @@ export type LogTracesIngestResponse = {
    */
   tracesCount: number;
   /**
+   * total number of spans ingested
+   */
+  spansCount: number;
+  /**
    * List of trace IDs that were ingested. Only included if include_trace_ids=True in request.
    */
   traceIds?: Array<string> | null | undefined;
@@ -63,6 +67,7 @@ export const LogTracesIngestResponse$inboundSchema: z.ZodMiniType<
     session_id: z.optional(z.nullable(types.string())),
     records_count: types.number(),
     traces_count: types.number(),
+    spans_count: types.number(),
     trace_ids: z.optional(z.nullable(z.array(types.string()))),
   }),
   z.transform((v) => {
@@ -75,6 +80,7 @@ export const LogTracesIngestResponse$inboundSchema: z.ZodMiniType<
       "session_id": "sessionId",
       "records_count": "recordsCount",
       "traces_count": "tracesCount",
+      "spans_count": "spansCount",
       "trace_ids": "traceIds",
     });
   }),
