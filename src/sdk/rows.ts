@@ -13,6 +13,7 @@ import { promptsCreateLunaScorerVersionScorersScorerIdVersionLunaPost } from "..
 import { promptsCreatePresetScorerVersionScorersScorerIdVersionPresetPost } from "../funcs/promptsCreatePresetScorerVersionScorersScorerIdVersionPresetPost.js";
 import { promptsCreateScorersPost } from "../funcs/promptsCreateScorersPost.js";
 import { promptsDeleteScorerScorersScorerIdDelete } from "../funcs/promptsDeleteScorerScorersScorerIdDelete.js";
+import { promptsGetScorerHealthScoresScorersScorerIdHealthScoresGet } from "../funcs/promptsGetScorerHealthScoresScorersScorerIdHealthScoresGet.js";
 import { promptsGetScorerScorersScorerIdGet } from "../funcs/promptsGetScorerScorersScorerIdGet.js";
 import { promptsGetScorerVersionCodeScorersScorerIdVersionCodeGet } from "../funcs/promptsGetScorerVersionCodeScorersScorerIdVersionCodeGet.js";
 import { promptsGetScorerVersionOrLatestScorersScorerIdVersionGet } from "../funcs/promptsGetScorerVersionOrLatestScorersScorerIdVersionGet.js";
@@ -24,20 +25,57 @@ import {
 } from "../funcs/promptsListProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProjectsGet.js";
 import { promptsListScorersWithFiltersScorersListPost } from "../funcs/promptsListScorersWithFiltersScorersListPost.js";
 import { promptsListTagsScorersTagsGet } from "../funcs/promptsListTagsScorersTagsGet.js";
+import { promptsManualLlmValidateMultipartScorersLlmValidateMultipartPost } from "../funcs/promptsManualLlmValidateMultipartScorersLlmValidateMultipartPost.js";
 import { promptsManualLlmValidateScorersLlmValidatePost } from "../funcs/promptsManualLlmValidateScorersLlmValidatePost.js";
 import { promptsRestoreScorerVersionScorersScorerIdVersionsVersionNumberRestorePost } from "../funcs/promptsRestoreScorerVersionScorersScorerIdVersionsVersionNumberRestorePost.js";
+import { promptsSetScorerScopeScorersScorerIdScopePut } from "../funcs/promptsSetScorerScopeScorersScorerIdScopePut.js";
 import { promptsUpdateScorersScorerIdPatch } from "../funcs/promptsUpdateScorersScorerIdPatch.js";
 import { promptsValidateCodeScorerDatasetScorersCodeValidateDatasetPost } from "../funcs/promptsValidateCodeScorerDatasetScorersCodeValidateDatasetPost.js";
 import { promptsValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost } from "../funcs/promptsValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost.js";
 import { promptsValidateCodeScorerScorersCodeValidatePost } from "../funcs/promptsValidateCodeScorerScorersCodeValidatePost.js";
 import { promptsValidateLlmScorerDatasetScorersLlmValidateDatasetPost } from "../funcs/promptsValidateLlmScorerDatasetScorersLlmValidateDatasetPost.js";
 import { promptsValidateLlmScorerLogRecordScorersLlmValidateLogRecordPost } from "../funcs/promptsValidateLlmScorerLogRecordScorersLlmValidateLogRecordPost.js";
+import {
+  promptsWriteScorerVersionHealthScoreScorersScorerIdVersionsVersionNumberHealthScoresPost,
+} from "../funcs/promptsWriteScorerVersionHealthScoreScorersScorerIdVersionsVersionNumberHealthScoresPost.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
 import * as models from "../models/index.js";
 import * as operations from "../models/operations/index.js";
 import { unwrapAsync } from "../types/fp.js";
 
 export class Rows extends ClientSDK {
+  /**
+   * Create
+   */
+  async createScorersPost(
+    security: operations.CreateScorersPostSecurity,
+    request: models.CreateScorerRequest,
+    options?: RequestOptions,
+  ): Promise<models.ScorerResponse> {
+    return unwrapAsync(promptsCreateScorersPost(
+      this,
+      security,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Update
+   */
+  async updateScorersScorerIdPatch(
+    security: operations.UpdateScorersScorerIdPatchSecurity,
+    request: operations.UpdateScorersScorerIdPatchRequest,
+    options?: RequestOptions,
+  ): Promise<models.ScorerResponse> {
+    return unwrapAsync(promptsUpdateScorersScorerIdPatch(
+      this,
+      security,
+      request,
+      options,
+    ));
+  }
+
   /**
    * Delete Scorer
    */
@@ -71,19 +109,23 @@ export class Rows extends ClientSDK {
   }
 
   /**
-   * Update
+   * Create Llm Scorer Version
    */
-  async updateScorersScorerIdPatch(
-    security: operations.UpdateScorersScorerIdPatchSecurity,
-    request: operations.UpdateScorersScorerIdPatchRequest,
+  async createLlmScorerVersionScorersScorerIdVersionLlmPost(
+    security:
+      operations.CreateLlmScorerVersionScorersScorerIdVersionLlmPostSecurity,
+    request:
+      operations.CreateLlmScorerVersionScorersScorerIdVersionLlmPostRequest,
     options?: RequestOptions,
-  ): Promise<models.ScorerResponse> {
-    return unwrapAsync(promptsUpdateScorersScorerIdPatch(
-      this,
-      security,
-      request,
-      options,
-    ));
+  ): Promise<models.BaseScorerVersionResponse> {
+    return unwrapAsync(
+      promptsCreateLlmScorerVersionScorersScorerIdVersionLlmPost(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
   }
 
   /**
@@ -103,6 +145,29 @@ export class Rows extends ClientSDK {
       request,
       options,
     ));
+  }
+
+  /**
+   * Validate Code Scorer Log Record
+   *
+   * @remarks
+   * Validate a code scorer using actual log records.
+   */
+  async validateCodeScorerLogRecordScorersCodeValidateLogRecordPost(
+    security:
+      operations.ValidateCodeScorerLogRecordScorersCodeValidateLogRecordPostSecurity,
+    request:
+      models.BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost,
+    options?: RequestOptions,
+  ): Promise<models.ValidateScorerLogRecordResponse> {
+    return unwrapAsync(
+      promptsValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
   }
 
   /**
@@ -195,6 +260,17 @@ export class Rows extends ClientSDK {
 
   /**
    * Create Luna Scorer Version
+   *
+   * @remarks
+   * Create a new custom Luna scorer version for the given scorer.
+   *
+   * Args:
+   *     create_luna_scorer_version_request: LoRA/fine-tuning parameters for the new version.
+   *     scorer: The Luna scorer to create a new version for.
+   *     ctx: Async request context with the authenticated user and read session.
+   *
+   * Returns:
+   *     The newly created scorer version.
    */
   async createLunaScorerVersionScorersScorerIdVersionLunaPost(
     security:
@@ -279,6 +355,25 @@ export class Rows extends ClientSDK {
         options,
       ),
     );
+  }
+
+  /**
+   * Set Scorer Scope
+   *
+   * @remarks
+   * Full-replace a scorer's access scope (Share / manage visibility). metrics_rbac only.
+   */
+  async setScorerScopeScorersScorerIdScopePut(
+    security: operations.SetScorerScopeScorersScorerIdScopePutSecurity,
+    request: operations.SetScorerScopeScorersScorerIdScopePutRequest,
+    options?: RequestOptions,
+  ): Promise<models.ScorerResponse> {
+    return unwrapAsync(promptsSetScorerScopeScorersScorerIdScopePut(
+      this,
+      security,
+      request,
+      options,
+    ));
   }
 
   /**
@@ -373,71 +468,52 @@ export class Rows extends ClientSDK {
 
   /**
    * Manual Llm Validate
+   *
+   * @remarks
+   * Validate an LLM scorer manually, with query/response passed inline (no file uploads).
+   *
+   * Args:
+   *     request: Raw request; body is parsed into a GeneratedScorerValidationRequest.
+   *     ctx: Async request context with the authenticated user and read session.
+   *
+   * Returns:
+   *     A pending task result the caller can poll for validation results.
    */
   async manualLlmValidateScorersLlmValidatePost(
     security: operations.ManualLlmValidateScorersLlmValidatePostSecurity,
-    request: { [k: string]: any },
     options?: RequestOptions,
   ): Promise<models.GeneratedScorerValidationResponse> {
     return unwrapAsync(promptsManualLlmValidateScorersLlmValidatePost(
       this,
       security,
-      request,
       options,
     ));
   }
 
   /**
-   * Create
-   */
-  async createScorersPost(
-    security: operations.CreateScorersPostSecurity,
-    request: models.CreateScorerRequest,
-    options?: RequestOptions,
-  ): Promise<models.ScorerResponse> {
-    return unwrapAsync(promptsCreateScorersPost(
-      this,
-      security,
-      request,
-      options,
-    ));
-  }
-
-  /**
-   * Create Llm Scorer Version
-   */
-  async createLlmScorerVersionScorersScorerIdVersionLlmPost(
-    security:
-      operations.CreateLlmScorerVersionScorersScorerIdVersionLlmPostSecurity,
-    request:
-      operations.CreateLlmScorerVersionScorersScorerIdVersionLlmPostRequest,
-    options?: RequestOptions,
-  ): Promise<models.BaseScorerVersionResponse> {
-    return unwrapAsync(
-      promptsCreateLlmScorerVersionScorersScorerIdVersionLlmPost(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
-   * Validate Code Scorer Log Record
+   * Manual Llm Validate Multipart
    *
    * @remarks
-   * Validate a code scorer using actual log records.
+   * Validate an LLM scorer manually, with optional query/response file uploads.
+   *
+   * Args:
+   *     body: JSON-encoded GeneratedScorerValidationRequest.
+   *     query_files: Optional files attached to the query side of the validation.
+   *     response_files: Optional files attached to the response side of the validation.
+   *     ctx: Async request context with the authenticated user and read session.
+   *
+   * Returns:
+   *     A pending task result the caller can poll for validation results.
    */
-  async validateCodeScorerLogRecordScorersCodeValidateLogRecordPost(
+  async manualLlmValidateMultipartScorersLlmValidateMultipartPost(
     security:
-      operations.ValidateCodeScorerLogRecordScorersCodeValidateLogRecordPostSecurity,
+      operations.ManualLlmValidateMultipartScorersLlmValidateMultipartPostSecurity,
     request:
-      models.BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost,
+      models.BodyManualLlmValidateMultipartScorersLlmValidateMultipartPost,
     options?: RequestOptions,
-  ): Promise<models.ValidateScorerLogRecordResponse> {
+  ): Promise<models.GeneratedScorerValidationResponse> {
     return unwrapAsync(
-      promptsValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost(
+      promptsManualLlmValidateMultipartScorersLlmValidateMultipartPost(
         this,
         security,
         request,
@@ -521,6 +597,56 @@ export class Rows extends ClientSDK {
   ): Promise<models.HealthScoreResult> {
     return unwrapAsync(
       promptsComputeHealthScoreEndpointProjectsProjectIdMetricsTestingRunIdHealthScorePost(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Get Scorer Health Scores
+   *
+   * @remarks
+   * Return all persisted health scores for a scorer against a dataset, ordered by version ASC.
+   *
+   * scores[0] is the baseline (first recorded), scores[-1] is the latest.
+   */
+  async getScorerHealthScoresScorersScorerIdHealthScoresGet(
+    security:
+      operations.GetScorerHealthScoresScorersScorerIdHealthScoresGetSecurity,
+    request:
+      operations.GetScorerHealthScoresScorersScorerIdHealthScoresGetRequest,
+    options?: RequestOptions,
+  ): Promise<models.ScorerHealthScoresResponse> {
+    return unwrapAsync(
+      promptsGetScorerHealthScoresScorersScorerIdHealthScoresGet(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Write Scorer Version Health Score
+   *
+   * @remarks
+   * Persist the health score for a scorer version against a dataset.
+   *
+   * Called by the UI after saving a metric version, passing the score from the last compute.
+   */
+  async writeScorerVersionHealthScoreScorersScorerIdVersionsVersionNumberHealthScoresPost(
+    security:
+      operations.WriteScorerVersionHealthScoreScorersScorerIdVersionsVersionNumberHealthScoresPostSecurity,
+    request:
+      operations.WriteScorerVersionHealthScoreScorersScorerIdVersionsVersionNumberHealthScoresPostRequest,
+    options?: RequestOptions,
+  ): Promise<models.ScorerVersionHealthScoreEntry> {
+    return unwrapAsync(
+      promptsWriteScorerVersionHealthScoreScorersScorerIdVersionsVersionNumberHealthScoresPost(
         this,
         security,
         request,

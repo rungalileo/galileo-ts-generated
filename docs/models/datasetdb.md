@@ -18,9 +18,9 @@ let value: DatasetDB = {
   ],
   createdByUser: {
     id: "<value>",
-    email: "Jeanie.Bradtke34@yahoo.com",
+    email: "Brendan83@hotmail.com",
   },
-  currentVersionIndex: 15912,
+  currentVersionIndex: 533524,
   draft: true,
 };
 ```
