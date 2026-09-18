@@ -1,11 +1,11 @@
 # Standalone Functions
 
 > [!NOTE]
-> This section is useful if you are using a bundler and targetting browsers and
+> This section is useful if you are using a bundler and targeting browsers and
 > runtimes where the size of an application affects performance and load times. 
 
 Every method in this SDK is also available as a standalone function. This
-alternative API is suitable when targetting the browser or serverless runtimes
+alternative API is suitable when targeting the browser or serverless runtimes
 and using a bundler to build your application since all unused functionality
 will be tree-shaken away. This includes code for unused methods, Zod schemas,
 encoding helpers and response handlers. The result is dramatically smaller
@@ -25,7 +25,7 @@ import { healthHealthcheckHealthcheckGet } from "galileo-generated/funcs/healthH
 // Use `GalileoGeneratedCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const galileoGenerated = new GalileoGeneratedCore({
-  apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  oAuth2PasswordBearer: process.env["GALILEOGENERATED_O_AUTH2_PASSWORD_BEARER"] ?? "",
 });
 
 async function run() {
