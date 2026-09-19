@@ -26,7 +26,7 @@ let value: BasePromptTemplateResponse = {
     updatedAt: new Date("2026-12-03T00:56:38.478Z"),
     createdByUser: {
       id: "<value>",
-      email: "Jeanie.Bradtke34@yahoo.com",
+      email: "Brendan83@hotmail.com",
     },
   },
   selectedVersionId: "<value>",
@@ -37,7 +37,7 @@ let value: BasePromptTemplateResponse = {
   updatedAt: new Date("2024-02-16T17:06:53.069Z"),
   createdByUser: {
     id: "<value>",
-    email: "Jeanie.Bradtke34@yahoo.com",
+    email: "Brendan83@hotmail.com",
   },
 };
 ```
