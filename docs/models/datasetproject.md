@@ -12,7 +12,7 @@ let value: DatasetProject = {
   name: "<value>",
   createdByUser: {
     id: "<value>",
-    email: "Jeanie.Bradtke34@yahoo.com",
+    email: "Brendan83@hotmail.com",
   },
 };
 ```
