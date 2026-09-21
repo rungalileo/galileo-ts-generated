@@ -7,10 +7,9 @@ import { FeedbackAggregate } from "galileo-generated/models";
 
 let value: FeedbackAggregate = {
   aggregate: {
-    feedbackType: "like_dislike",
-    likeCount: 44937,
-    dislikeCount: 12076,
-    unratedCount: 963539,
+    feedbackType: "choice",
+    counts: {},
+    unratedCount: 12076,
   },
 };
 ```

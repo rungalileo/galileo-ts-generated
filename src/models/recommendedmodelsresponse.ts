@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { remap as remap$ } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
@@ -12,22 +13,34 @@ import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 export type RecommendedModelsResponse = {
   supported: { [k: string]: { [k: string]: Array<string> } };
   available: { [k: string]: { [k: string]: Array<string> } };
+  /**
+   * UI labels keyed by the model aliases returned in supported and available.
+   */
+  modelDisplayNames?: { [k: string]: string } | undefined;
 };
 
 /** @internal */
 export const RecommendedModelsResponse$inboundSchema: z.ZodMiniType<
   RecommendedModelsResponse,
   unknown
-> = z.object({
-  supported: z.record(
-    z.string(),
-    z.record(z.string(), z.array(types.string())),
-  ),
-  available: z.record(
-    z.string(),
-    z.record(z.string(), z.array(types.string())),
-  ),
-});
+> = z.pipe(
+  z.object({
+    supported: z.record(
+      z.string(),
+      z.record(z.string(), z.array(types.string())),
+    ),
+    available: z.record(
+      z.string(),
+      z.record(z.string(), z.array(types.string())),
+    ),
+    model_display_names: types.optional(z.record(z.string(), types.string())),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "model_display_names": "modelDisplayNames",
+    });
+  }),
+);
 
 export function recommendedModelsResponseFromJSON(
   jsonString: string,
