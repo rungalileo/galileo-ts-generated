@@ -32,6 +32,20 @@ export class Protect extends ClientSDK {
 
   /**
    * Create Stage
+   *
+   * @remarks
+   * Create a stage for a project, optionally seeding a first version.
+   *
+   * Args:
+   *     stage_request: The stage to create, including its type and (for central stages) rulesets.
+   *     ctx: Async request context.
+   *     project: The project to create the stage in, resolved from the URL.
+   *
+   * Returns:
+   *     The created stage, with its current version set if it's a central stage.
+   *
+   * Raises:
+   *     HTTPException: 422 if the project isn't a protect or gen_ai project.
    */
   async createStageProjectsProjectIdStagesPost(
     security: operations.CreateStageProjectsProjectIdStagesPostSecurity,
@@ -48,6 +62,22 @@ export class Protect extends ClientSDK {
 
   /**
    * Get Stage
+   *
+   * @remarks
+   * Get a stage by ID or by (project ID and name).
+   *
+   * Args:
+   *     project_id: Project the stage belongs to, resolved from the URL.
+   *     stage_name: Stage name to look up (used with project_id when stage_id is omitted).
+   *     stage_id: Stage ID to look up directly.
+   *     ctx: Async request context.
+   *
+   * Returns:
+   *     The matching stage.
+   *
+   * Raises:
+   *     HTTPException: 422 if neither stage_id nor stage_name is provided.
+   *     GalileoServerException: 404 if the stage exists but belongs to a different project.
    */
   async getStageProjectsProjectIdStagesGet(
     security: operations.GetStageProjectsProjectIdStagesGetSecurity,
@@ -64,6 +94,22 @@ export class Protect extends ClientSDK {
 
   /**
    * Update Stage
+   *
+   * @remarks
+   * Create a new centralized-ruleset version for a central stage and set it as current.
+   *
+   * Args:
+   *     project_id: Project the stage belongs to, resolved from the URL.
+   *     stage_id: Stage to update.
+   *     stage_version_rulesets: The new rulesets for the version.
+   *     ctx: Async request context.
+   *
+   * Returns:
+   *     The updated stage, defaulted to the new version.
+   *
+   * Raises:
+   *     GalileoServerException: 404 if the stage belongs to a different project.
+   *     HTTPException: 422 if the stage isn't a central stage.
    */
   async updateStageProjectsProjectIdStagesStageIdPost(
     security: operations.UpdateStageProjectsProjectIdStagesStageIdPostSecurity,
@@ -80,6 +126,21 @@ export class Protect extends ClientSDK {
 
   /**
    * Pause Stage
+   *
+   * @remarks
+   * Pause or unpause a stage.
+   *
+   * Args:
+   *     project_id: Project the stage belongs to, resolved from the URL.
+   *     stage_id: Stage to update.
+   *     pause: New paused state.
+   *     ctx: Async request context.
+   *
+   * Returns:
+   *     The updated stage.
+   *
+   * Raises:
+   *     GalileoServerException: 404 if the stage belongs to a different project.
    */
   async pauseStageProjectsProjectIdStagesStageIdPut(
     security: operations.PauseStageProjectsProjectIdStagesStageIdPutSecurity,

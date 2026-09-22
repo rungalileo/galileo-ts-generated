@@ -9,6 +9,7 @@ import * as models from "../index.js";
 
 export type DeleteProjectProjectsProjectIdDeleteSecurity = {
   apiKeyHeader?: string | undefined;
+  classicAPIKeyHeader?: string | undefined;
   oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
   httpBasic?: models.SchemeHTTPBasic | undefined;
 };
@@ -20,6 +21,7 @@ export type DeleteProjectProjectsProjectIdDeleteRequest = {
 /** @internal */
 export type DeleteProjectProjectsProjectIdDeleteSecurity$Outbound = {
   APIKeyHeader?: string | undefined;
+  ClassicAPIKeyHeader?: string | undefined;
   OAuth2PasswordBearer?: models.OAuth2PasswordBearerInput$Outbound | undefined;
   HTTPBasic?: models.SchemeHTTPBasic$Outbound | undefined;
 };
@@ -32,6 +34,7 @@ export const DeleteProjectProjectsProjectIdDeleteSecurity$outboundSchema:
   > = z.pipe(
     z.object({
       apiKeyHeader: z.optional(z.string()),
+      classicAPIKeyHeader: z.optional(z.string()),
       oAuth2PasswordBearer: z.optional(
         models.OAuth2PasswordBearerInput$outboundSchema,
       ),
@@ -40,6 +43,7 @@ export const DeleteProjectProjectsProjectIdDeleteSecurity$outboundSchema:
     z.transform((v) => {
       return remap$(v, {
         apiKeyHeader: "APIKeyHeader",
+        classicAPIKeyHeader: "ClassicAPIKeyHeader",
         oAuth2PasswordBearer: "OAuth2PasswordBearer",
         httpBasic: "HTTPBasic",
       });

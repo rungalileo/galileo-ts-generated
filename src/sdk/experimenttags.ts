@@ -26,7 +26,14 @@ export class ExperimentTags extends ClientSDK {
    * Get Experiment Tags
    *
    * @remarks
-   * Gets tags for a given project_id/experiment_id.
+   * Get all tags for an experiment.
+   *
+   * Args:
+   *     run: The experiment to list tags for, resolved from the URL.
+   *     ctx: Async request context.
+   *
+   * Returns:
+   *     The experiment's tags, ordered by key.
    */
   async getExperimentTagsProjectsProjectIdExperimentsExperimentIdTagsGet(
     security:
@@ -49,7 +56,19 @@ export class ExperimentTags extends ClientSDK {
    * Set Tag For Experiment
    *
    * @remarks
-   * Sets a tag for an experiment.
+   * Set a tag for an experiment.
+   *
+   * Args:
+   *     project_id: Project the experiment belongs to, resolved from the URL.
+   *     run: The experiment to tag, resolved from the URL.
+   *     tag_create: The tag's key, value, and type.
+   *     ctx: Async request context.
+   *
+   * Returns:
+   *     The created tag.
+   *
+   * Raises:
+   *     HTTPException: 400 if a tag with this key already exists on the experiment.
    */
   async setTagForExperimentProjectsProjectIdExperimentsExperimentIdTagsPost(
     security:
@@ -72,7 +91,13 @@ export class ExperimentTags extends ClientSDK {
    * Get Experiment Tag
    *
    * @remarks
-   * Gets a tag for a given project_id/experiment_id.
+   * Get a tag by ID for an experiment.
+   *
+   * Args:
+   *     tag: The tag to return, resolved from the URL.
+   *
+   * Returns:
+   *     The tag.
    */
   async getExperimentTagProjectsProjectIdExperimentsExperimentIdTagsTagIdGet(
     security:
@@ -95,7 +120,16 @@ export class ExperimentTags extends ClientSDK {
    * Update Tag For Experiment
    *
    * @remarks
-   * Sets or updates a tag for an experiment.
+   * Set or update a tag for an experiment.
+   *
+   * Args:
+   *     project_id: Project the experiment belongs to, resolved from the URL.
+   *     run: The experiment to tag, resolved from the URL.
+   *     tag_create: The tag's key, value, and type.
+   *     ctx: Async request context.
+   *
+   * Returns:
+   *     The created or updated tag.
    */
   async updateTagForExperimentProjectsProjectIdExperimentsExperimentIdTagsTagIdPut(
     security:
@@ -116,6 +150,16 @@ export class ExperimentTags extends ClientSDK {
 
   /**
    * Delete Experiment Tag
+   *
+   * @remarks
+   * Delete a tag from an experiment.
+   *
+   * Args:
+   *     tag: The tag to delete, resolved from the URL.
+   *     run: The experiment the tag belongs to, resolved from the URL.
+   *
+   * Returns:
+   *     A confirmation message.
    */
   async deleteExperimentTagProjectsProjectIdExperimentsExperimentIdTagsTagIdDelete(
     security:
