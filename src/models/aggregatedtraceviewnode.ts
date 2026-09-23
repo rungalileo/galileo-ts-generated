@@ -6,8 +6,14 @@
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
+import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
+import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
+import {
+  CategoricalMetricInfo,
+  CategoricalMetricInfo$inboundSchema,
+} from "./categoricalmetricinfo.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
   InsightSummary,
@@ -19,18 +25,51 @@ import {
   SystemMetricInfo$inboundSchema,
 } from "./systemmetricinfo.js";
 
+export type MetricsUnion =
+  | CategoricalMetricInfo
+  | SystemMetricInfo
+  | discriminatedUnionTypes.Unknown<"aggregationType">;
+
 export type AggregatedTraceViewNode = {
+  /**
+   * Identifier for this grouped graph node within the current response.
+   */
   id: string;
   name: string | null;
   type: StepType;
   occurrences: number;
   parentId?: string | null | undefined;
   hasChildren: boolean;
-  metrics: { [k: string]: SystemMetricInfo };
+  metrics: {
+    [k: string]:
+      | CategoricalMetricInfo
+      | SystemMetricInfo
+      | discriminatedUnionTypes.Unknown<"aggregationType">;
+  };
   traceCount: number;
   weight: number;
+  /**
+   * Signals attached to spans represented by this node.
+   */
   insights?: Array<InsightSummary> | undefined;
 };
+
+/** @internal */
+export const MetricsUnion$inboundSchema: z.ZodMiniType<MetricsUnion, unknown> =
+  discriminatedUnion("aggregation_type", {
+    categorical: CategoricalMetricInfo$inboundSchema,
+    numeric: SystemMetricInfo$inboundSchema,
+  }, { outputPropertyName: "aggregationType" });
+
+export function metricsUnionFromJSON(
+  jsonString: string,
+): SafeParseResult<MetricsUnion, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => MetricsUnion$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'MetricsUnion' from JSON`,
+  );
+}
 
 /** @internal */
 export const AggregatedTraceViewNode$inboundSchema: z.ZodMiniType<
@@ -44,7 +83,13 @@ export const AggregatedTraceViewNode$inboundSchema: z.ZodMiniType<
     occurrences: types.number(),
     parent_id: z.optional(z.nullable(types.string())),
     has_children: types.boolean(),
-    metrics: z.record(z.string(), SystemMetricInfo$inboundSchema),
+    metrics: z.record(
+      z.string(),
+      discriminatedUnion("aggregation_type", {
+        categorical: CategoricalMetricInfo$inboundSchema,
+        numeric: SystemMetricInfo$inboundSchema,
+      }, { outputPropertyName: "aggregationType" }),
+    ),
     trace_count: types.number(),
     weight: types.number(),
     insights: types.optional(z.array(InsightSummary$inboundSchema)),
