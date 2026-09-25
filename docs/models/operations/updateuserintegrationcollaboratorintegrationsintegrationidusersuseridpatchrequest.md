@@ -13,7 +13,7 @@ let value:
       integrationId: "<value>",
       userId: "<value>",
       body: {
-        role: "owner",
+        role: "viewer",
       },
     };
 ```

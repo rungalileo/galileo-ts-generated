@@ -11,11 +11,6 @@ import * as types from "../types/primitives.js";
 import { smartUnion } from "../types/smartUnion.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
-  GalileoCoreSchemasSharedScorersScorerNameScorerName,
-  GalileoCoreSchemasSharedScorersScorerNameScorerName$inboundSchema,
-  GalileoCoreSchemasSharedScorersScorerNameScorerName$outboundSchema,
-} from "./galileocoreschemassharedscorersscorernamescorername.js";
-import {
   LunaInputTypeEnum,
   LunaInputTypeEnum$inboundSchema,
   LunaInputTypeEnum$outboundSchema,
@@ -25,6 +20,11 @@ import {
   LunaOutputTypeEnum$inboundSchema,
   LunaOutputTypeEnum$outboundSchema,
 } from "./lunaoutputtypeenum.js";
+import {
+  ScorerName,
+  ScorerName$inboundSchema,
+  ScorerName$outboundSchema,
+} from "./scorername.js";
 
 export type BaseFinetunedScorerDBClassNameToVocabIx = {
   [k: string]: Array<number>;
@@ -46,10 +46,7 @@ export type BaseFinetunedScorerDB = {
   /**
    * Executor pipeline. Defaults to finetuned scorer pipeline but can run custom galileo score pipelines.
    */
-  executor?:
-    | GalileoCoreSchemasSharedScorersScorerNameScorerName
-    | null
-    | undefined;
+  executor?: ScorerName | null | undefined;
 };
 
 /** @internal */
@@ -120,11 +117,7 @@ export const BaseFinetunedScorerDB$inboundSchema: z.ZodMiniType<
         ]),
       ),
     ),
-    executor: z.optional(
-      z.nullable(
-        GalileoCoreSchemasSharedScorersScorerNameScorerName$inboundSchema,
-      ),
-    ),
+    executor: z.optional(z.nullable(ScorerName$inboundSchema)),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -174,11 +167,7 @@ export const BaseFinetunedScorerDB$outboundSchema: z.ZodMiniType<
         ]),
       ),
     ),
-    executor: z.optional(
-      z.nullable(
-        GalileoCoreSchemasSharedScorersScorerNameScorerName$outboundSchema,
-      ),
-    ),
+    executor: z.optional(z.nullable(ScorerName$outboundSchema)),
   }),
   z.transform((v) => {
     return remap$(v, {

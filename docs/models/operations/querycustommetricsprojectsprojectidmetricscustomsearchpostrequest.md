@@ -11,13 +11,7 @@ let value: QueryCustomMetricsProjectsProjectIdMetricsCustomSearchPostRequest = {
     logStreamId: "c5fef527-51f6-49d0-800a-1859b678a098",
     filterTree: {
       not: {
-        not: {
-          or: [
-            {
-              and: [],
-            },
-          ],
-        },
+        and: [],
       },
     },
     startTime: new Date("2024-01-01T00:00:00Z"),
