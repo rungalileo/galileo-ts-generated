@@ -21,15 +21,6 @@ let value: RunDB = {
     createdAt: new Date("2026-12-16T08:21:29.962Z"),
     updatedAt: new Date("2024-01-30T09:49:31.375Z"),
   },
-  loggedSplits: [
-    "<value 1>",
-    "<value 2>",
-    "<value 3>",
-  ],
-  loggedInferenceNames: [
-    "<value 1>",
-    "<value 2>",
-  ],
 };
 ```
 
@@ -44,6 +35,7 @@ let value: RunDB = {
 | `winner`                                                                                      | *boolean*                                                                                     | :heavy_check_mark:                                                                            | N/A                                                                                           |
 | `datasetHash`                                                                                 | *string*                                                                                      | :heavy_minus_sign:                                                                            | N/A                                                                                           |
 | `datasetVersionId`                                                                            | *string*                                                                                      | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `promptTemplateVersionId`                                                                     | *string*                                                                                      | :heavy_minus_sign:                                                                            | N/A                                                                                           |
 | `id`                                                                                          | *string*                                                                                      | :heavy_check_mark:                                                                            | N/A                                                                                           |
 | `createdAt`                                                                                   | [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) | :heavy_check_mark:                                                                            | N/A                                                                                           |
 | `updatedAt`                                                                                   | [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) | :heavy_check_mark:                                                                            | N/A                                                                                           |
@@ -52,5 +44,5 @@ let value: RunDB = {
 | `runTags`                                                                                     | [models.RunTagDB](../models/runtagdb.md)[]                                                    | :heavy_minus_sign:                                                                            | N/A                                                                                           |
 | `exampleContentId`                                                                            | *string*                                                                                      | :heavy_minus_sign:                                                                            | N/A                                                                                           |
 | `creator`                                                                                     | [models.UserDB](../models/userdb.md)                                                          | :heavy_check_mark:                                                                            | N/A                                                                                           |
-| `loggedSplits`                                                                                | *string*[]                                                                                    | :heavy_check_mark:                                                                            | N/A                                                                                           |
-| `loggedInferenceNames`                                                                        | *string*[]                                                                                    | :heavy_check_mark:                                                                            | N/A                                                                                           |
+| `loggedSplits`                                                                                | *string*[]                                                                                    | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `loggedInferenceNames`                                                                        | *string*[]                                                                                    | :heavy_minus_sign:                                                                            | N/A                                                                                           |
