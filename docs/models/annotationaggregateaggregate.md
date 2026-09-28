@@ -3,6 +3,19 @@
 
 ## Supported Types
 
+### `models.AnnotationChoiceAggregate`
+
+```typescript
+const value: models.AnnotationChoiceAggregate = {
+  annotationType: "choice",
+  counts: {
+    "key": 88702,
+    "key1": 959252,
+  },
+  unratedCount: 293555,
+};
+```
+
 ### `models.AnnotationLikeDislikeAggregate`
 
 ```typescript
@@ -57,6 +70,20 @@ const value: models.AnnotationTextAggregate = {
   annotationType: "text",
   count: 553119,
   unratedCount: 144365,
+};
+```
+
+### `models.AnnotationTreeChoiceAggregate`
+
+```typescript
+const value: models.AnnotationTreeChoiceAggregate = {
+  annotationType: "tree_choice",
+  counts: {
+    "key": 889893,
+    "key1": 444064,
+    "key2": 859189,
+  },
+  unratedCount: 954786,
 };
 ```
 

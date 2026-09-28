@@ -8,6 +8,10 @@ import { safeParse } from "../lib/schemas.js";
 import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
 import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import { Result as SafeParseResult } from "../types/fp.js";
+import {
+  ChoiceAggregate,
+  ChoiceAggregate$inboundSchema,
+} from "./choiceaggregate.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
   LikeDislikeAggregate,
@@ -20,22 +24,30 @@ import {
 import { StarAggregate, StarAggregate$inboundSchema } from "./staraggregate.js";
 import { TagsAggregate, TagsAggregate$inboundSchema } from "./tagsaggregate.js";
 import { TextAggregate, TextAggregate$inboundSchema } from "./textaggregate.js";
+import {
+  TreeChoiceAggregate,
+  TreeChoiceAggregate$inboundSchema,
+} from "./treechoiceaggregate.js";
 
 export type FeedbackAggregateAggregate =
+  | ChoiceAggregate
   | LikeDislikeAggregate
   | ScoreAggregate
   | StarAggregate
   | TagsAggregate
   | TextAggregate
+  | TreeChoiceAggregate
   | discriminatedUnionTypes.Unknown<"feedbackType">;
 
 export type FeedbackAggregate = {
   aggregate:
+    | ChoiceAggregate
     | LikeDislikeAggregate
     | ScoreAggregate
     | StarAggregate
     | TagsAggregate
     | TextAggregate
+    | TreeChoiceAggregate
     | discriminatedUnionTypes.Unknown<"feedbackType">;
 };
 
@@ -44,11 +56,13 @@ export const FeedbackAggregateAggregate$inboundSchema: z.ZodMiniType<
   FeedbackAggregateAggregate,
   unknown
 > = discriminatedUnion("feedback_type", {
+  choice: ChoiceAggregate$inboundSchema,
   like_dislike: LikeDislikeAggregate$inboundSchema,
   score: ScoreAggregate$inboundSchema,
   star: StarAggregate$inboundSchema,
   tags: TagsAggregate$inboundSchema,
   text: TextAggregate$inboundSchema,
+  tree_choice: TreeChoiceAggregate$inboundSchema,
 }, { outputPropertyName: "feedbackType" });
 
 export function feedbackAggregateAggregateFromJSON(
@@ -67,11 +81,13 @@ export const FeedbackAggregate$inboundSchema: z.ZodMiniType<
   unknown
 > = z.object({
   aggregate: discriminatedUnion("feedback_type", {
+    choice: ChoiceAggregate$inboundSchema,
     like_dislike: LikeDislikeAggregate$inboundSchema,
     score: ScoreAggregate$inboundSchema,
     star: StarAggregate$inboundSchema,
     tags: TagsAggregate$inboundSchema,
     text: TextAggregate$inboundSchema,
+    tree_choice: TreeChoiceAggregate$inboundSchema,
   }, { outputPropertyName: "feedbackType" }),
 });
 
