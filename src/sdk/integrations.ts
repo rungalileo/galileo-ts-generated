@@ -33,6 +33,8 @@ import {
   integrationsDeleteUserIntegrationCollaboratorIntegrationsIntegrationIdUsersUserIdDelete,
 } from "../funcs/integrationsDeleteUserIntegrationCollaboratorIntegrationsIntegrationIdUsersUserIdDelete.js";
 import { integrationsDisableIntegrationIntegrationsDisablePost } from "../funcs/integrationsDisableIntegrationIntegrationsDisablePost.js";
+import { integrationsExportBillingUsageBillingUsageExportGet } from "../funcs/integrationsExportBillingUsageBillingUsageExportGet.js";
+import { integrationsGetBillingUsageBillingUsageMetricGet } from "../funcs/integrationsGetBillingUsageBillingUsageMetricGet.js";
 import { integrationsGetCustomIntegrationDefinitionIntegrationsCustomDefinitionGet } from "../funcs/integrationsGetCustomIntegrationDefinitionIntegrationsCustomDefinitionGet.js";
 import { integrationsGetDatabasesForClusterIntegrationsDatabricksDatabasesGet } from "../funcs/integrationsGetDatabasesForClusterIntegrationsDatabricksDatabasesGet.js";
 import { integrationsGetDatabricksCatalogsIntegrationsDatabricksCatalogsGet } from "../funcs/integrationsGetDatabricksCatalogsIntegrationsDatabricksCatalogsGet.js";
@@ -62,10 +64,83 @@ import { unwrapAsync } from "../types/fp.js";
 
 export class Integrations extends ClientSDK {
   /**
+   * List Integrations
+   *
+   * @remarks
+   * List the created integrations for the requesting user.
+   */
+  async listIntegrationsIntegrationsGet(
+    security: operations.ListIntegrationsIntegrationsGetSecurity,
+    options?: RequestOptions,
+  ): Promise<Array<models.IntegrationDB>> {
+    return unwrapAsync(integrationsListIntegrationsIntegrationsGet(
+      this,
+      security,
+      options,
+    ));
+  }
+
+  /**
+   * Get Integration Costs
+   */
+  async getIntegrationCostsIntegrationsCostsSummaryGet(
+    security: operations.GetIntegrationCostsIntegrationsCostsSummaryGetSecurity,
+    request: operations.GetIntegrationCostsIntegrationsCostsSummaryGetRequest,
+    options?: RequestOptions,
+  ): Promise<models.IntegrationCostsResponse> {
+    return unwrapAsync(
+      integrationsGetIntegrationCostsIntegrationsCostsSummaryGet(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Export Billing Usage
+   *
+   * @remarks
+   * Export the project usage table as CSV using the same data source as /billing/usage/{metric}.
+   */
+  async exportBillingUsageBillingUsageExportGet(
+    security: operations.ExportBillingUsageBillingUsageExportGetSecurity,
+    request: operations.ExportBillingUsageBillingUsageExportGetRequest,
+    options?: RequestOptions,
+  ): Promise<void> {
+    return unwrapAsync(integrationsExportBillingUsageBillingUsageExportGet(
+      this,
+      security,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Get Billing Usage
+   */
+  async getBillingUsageBillingUsageMetricGet(
+    security: operations.GetBillingUsageBillingUsageMetricGetSecurity,
+    request: operations.GetBillingUsageBillingUsageMetricGetRequest,
+    options?: RequestOptions,
+  ): Promise<models.BillingUsageResponse> {
+    return unwrapAsync(integrationsGetBillingUsageBillingUsageMetricGet(
+      this,
+      security,
+      request,
+      options,
+    ));
+  }
+
+  /**
    * List Available Integrations
    *
    * @remarks
-   * List all of the available integrations to be created in Galileo.
+   * List the integration providers that can be created in Galileo.
+   *
+   * Returns:
+   *     Every supported provider name.
    */
   async listAvailableIntegrationsIntegrationsAvailableGet(
     security:
@@ -79,25 +154,6 @@ export class Integrations extends ClientSDK {
         options,
       ),
     );
-  }
-
-  /**
-   * Get Integration
-   *
-   * @remarks
-   * Gets the integration data formatted for the specified integration.
-   */
-  async getIntegrationIntegrationsNameGet(
-    security: operations.GetIntegrationIntegrationsNameGetSecurity,
-    request: operations.GetIntegrationIntegrationsNameGetRequest,
-    options?: RequestOptions,
-  ): Promise<operations.ResponseGetIntegrationIntegrationsNameGet> {
-    return unwrapAsync(integrationsGetIntegrationIntegrationsNameGet(
-      this,
-      security,
-      request,
-      options,
-    ));
   }
 
   /**
@@ -120,10 +176,46 @@ export class Integrations extends ClientSDK {
   }
 
   /**
+   * Get Integration
+   *
+   * @remarks
+   * Get the caller's integration for a provider, in that provider's own shape.
+   *
+   * Args:
+   *     name: Provider name from the URL.
+   *     integration: Integration resolved from the URL, read access already checked.
+   *
+   * Returns:
+   *     The provider-specific view of the integration.
+   */
+  async getIntegrationIntegrationsNameGet(
+    security: operations.GetIntegrationIntegrationsNameGetSecurity,
+    request: operations.GetIntegrationIntegrationsNameGetRequest,
+    options?: RequestOptions,
+  ): Promise<operations.ResponseGetIntegrationIntegrationsNameGet> {
+    return unwrapAsync(integrationsGetIntegrationIntegrationsNameGet(
+      this,
+      security,
+      request,
+      options,
+    ));
+  }
+
+  /**
    * Get Integration Status
    *
    * @remarks
-   * Checks if the integration status is active or not.
+   * Check that the caller's integration for a provider still authenticates.
+   *
+   * Args:
+   *     name: Provider name from the URL.
+   *     integration: Integration resolved from the URL, read access already checked.
+   *
+   * Returns:
+   *     ``{200: "OK"}`` when the provider accepts the stored credentials.
+   *
+   * Raises:
+   *     GalileoServerException: When the provider rejects them.
    */
   async getIntegrationStatusIntegrationsNameStatusGet(
     security: operations.GetIntegrationStatusIntegrationsNameStatusGetSecurity,
@@ -144,7 +236,16 @@ export class Integrations extends ClientSDK {
    * List User Integration Collaborators
    *
    * @remarks
-   * List the users with which the integration has been shared.
+   * List the users the integration has been shared with.
+   *
+   * Args:
+   *     integration: Integration resolved from the URL.
+   *     pagination: Page window to return.
+   *     principal: Caller the collaborator permissions are evaluated for.
+   *     ctx: Async request context supplying the read session and current user.
+   *
+   * Returns:
+   *     The requested page of user collaborators.
    */
   async listUserIntegrationCollaboratorsIntegrationsIntegrationIdUsersGet(
     security:
@@ -165,6 +266,21 @@ export class Integrations extends ClientSDK {
 
   /**
    * Create User Integration Collaborators
+   *
+   * @remarks
+   * Share an integration with users.
+   *
+   * Args:
+   *     body: Users to share with, each of which must request the viewer role.
+   *     integration: Integration resolved from the URL.
+   *     ctx: Async request context supplying the read session and current user.
+   *     principal: Caller the collaborator permissions are evaluated for.
+   *
+   * Returns:
+   *     The created collaborators.
+   *
+   * Raises:
+   *     HTTPException: 422 when a user already has access or asks for a non-viewer role.
    */
   async createUserIntegrationCollaboratorsIntegrationsIntegrationIdUsersPost(
     security:
@@ -187,7 +303,20 @@ export class Integrations extends ClientSDK {
    * Update User Integration Collaborator
    *
    * @remarks
-   * Update the sharing permissions of a user on an integration.
+   * Change a user's role on a shared integration.
+   *
+   * Args:
+   *     collaborator_update: New role, which must be viewer.
+   *     integration: Integration resolved from the URL.
+   *     user_integration: Existing share resolved from the URL.
+   *     principal: Caller the collaborator permissions are evaluated for.
+   *     ctx: Async request context supplying the read session and current user.
+   *
+   * Returns:
+   *     The updated collaborator.
+   *
+   * Raises:
+   *     HTTPException: 422 when the requested role is not viewer.
    */
   async updateUserIntegrationCollaboratorIntegrationsIntegrationIdUsersUserIdPatch(
     security:
@@ -211,6 +340,14 @@ export class Integrations extends ClientSDK {
    *
    * @remarks
    * Remove a user's access to an integration.
+   *
+   * Args:
+   *     integration: Integration resolved from the URL, which names it for the audit log.
+   *     user_integration: Existing share resolved from the URL.
+   *     ctx: Async request context supplying the current user.
+   *
+   * Returns:
+   *     A confirmation message naming the user and integration.
    */
   async deleteUserIntegrationCollaboratorIntegrationsIntegrationIdUsersUserIdDelete(
     security:
@@ -234,6 +371,18 @@ export class Integrations extends ClientSDK {
    *
    * @remarks
    * Share an integration with groups.
+   *
+   * Args:
+   *     body: Groups to share with.
+   *     integration: Integration resolved from the URL.
+   *     ctx: Async request context supplying the read session and current user.
+   *     principal: Caller the collaborator permissions are evaluated for.
+   *
+   * Returns:
+   *     The created collaborators.
+   *
+   * Raises:
+   *     HTTPException: 404 when a group does not exist, 422 when it already has access.
    */
   async createGroupIntegrationCollaboratorsIntegrationsIntegrationIdGroupsPost(
     security:
@@ -256,7 +405,16 @@ export class Integrations extends ClientSDK {
    * List Group Integration Collaborators
    *
    * @remarks
-   * List the groups with which the integration has been shared.
+   * List the groups the integration has been shared with.
+   *
+   * Args:
+   *     integration: Integration resolved from the URL.
+   *     pagination: Page window to return.
+   *     principal: Caller the collaborator permissions are evaluated for.
+   *     ctx: Async request context supplying the read session and current user.
+   *
+   * Returns:
+   *     The requested page of group collaborators.
    */
   async listGroupIntegrationCollaboratorsIntegrationsIntegrationIdGroupsGet(
     security:
@@ -279,7 +437,17 @@ export class Integrations extends ClientSDK {
    * Update Group Integration Collaborator
    *
    * @remarks
-   * Update the sharing permissions of a group on an integration.
+   * Change a group's role on a shared integration.
+   *
+   * Args:
+   *     collaborator_update: New role for the group.
+   *     integration: Integration resolved from the URL.
+   *     group_integration: Existing share resolved from the URL.
+   *     principal: Caller the collaborator permissions are evaluated for.
+   *     ctx: Async request context supplying the read session and current user.
+   *
+   * Returns:
+   *     The updated collaborator.
    */
   async updateGroupIntegrationCollaboratorIntegrationsIntegrationIdGroupsGroupIdPatch(
     security:
@@ -303,6 +471,14 @@ export class Integrations extends ClientSDK {
    *
    * @remarks
    * Remove a group's access to an integration.
+   *
+   * Args:
+   *     integration: Integration resolved from the URL, which names it for the audit log.
+   *     group_integration: Existing share resolved from the URL.
+   *     ctx: Async request context supplying the current user.
+   *
+   * Returns:
+   *     A confirmation message naming the group and integration.
    */
   async deleteGroupIntegrationCollaboratorIntegrationsIntegrationIdGroupsGroupIdDelete(
     security:
@@ -325,7 +501,15 @@ export class Integrations extends ClientSDK {
    * Create Or Update Integration Selection
    *
    * @remarks
-   * Create or update an integration selection for this user from Galileo.
+   * Make an integration the caller's selection for its provider.
+   *
+   * Args:
+   *     integration: Integration resolved from the URL.
+   *     ctx: Async request context supplying the read session and current user.
+   *     principal: Caller the selection is recorded for.
+   *
+   * Returns:
+   *     The selected integration, marked as selected and carrying the caller's permissions.
    */
   async createOrUpdateIntegrationSelectionIntegrationsIntegrationIdSelectPut(
     security:
@@ -345,10 +529,57 @@ export class Integrations extends ClientSDK {
   }
 
   /**
+   * Select Integration
+   *
+   * @remarks
+   * Select an integration for this user.
+   */
+  async selectIntegrationIntegrationsSelectPost(
+    security: operations.SelectIntegrationIntegrationsSelectPostSecurity,
+    request: models.IntegrationSelectRequest,
+    options?: RequestOptions,
+  ): Promise<models.IntegrationDB> {
+    return unwrapAsync(integrationsSelectIntegrationIntegrationsSelectPost(
+      this,
+      security,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Disable Integration
+   *
+   * @remarks
+   * Disable an integration type for this user.
+   *
+   * Creates an opt-out record so no shared integration of this type is used.
+   */
+  async disableIntegrationIntegrationsDisablePost(
+    security: operations.DisableIntegrationIntegrationsDisablePostSecurity,
+    request: models.IntegrationDisableRequest,
+    options?: RequestOptions,
+  ): Promise<any> {
+    return unwrapAsync(integrationsDisableIntegrationIntegrationsDisablePost(
+      this,
+      security,
+      request,
+      options,
+    ));
+  }
+
+  /**
    * Create or update Anthropic integration
    *
    * @remarks
-   * Create or update an Anthropic integration for this user from Galileo.
+   * Create or update an Anthropic integration for the caller.
+   *
+   * Args:
+   *     ctx: Async request context supplying the read session and current user.
+   *     integration: Provider credentials and provider-specific configuration.
+   *
+   * Returns:
+   *     The stored integration, without its secret columns.
    */
   async createOrUpdateIntegrationIntegrationsAnthropicPut(
     security:
@@ -370,7 +601,14 @@ export class Integrations extends ClientSDK {
    * Create or update AWS Bedrock integration
    *
    * @remarks
-   * Create or update an AWS integration for this user from Galileo.
+   * Create or update an AWS Bedrock integration for the caller.
+   *
+   * Args:
+   *     ctx: Async request context supplying the read session and current user.
+   *     integration: Provider credentials and provider-specific configuration.
+   *
+   * Returns:
+   *     The stored integration, without its secret columns.
    */
   async createOrUpdateIntegrationIntegrationsAwsBedrockPut(
     security:
@@ -392,7 +630,14 @@ export class Integrations extends ClientSDK {
    * Create or update AWS SageMaker integration
    *
    * @remarks
-   * Create or update an AWS integration for this user from Galileo.
+   * Create or update an AWS SageMaker integration for the caller.
+   *
+   * Args:
+   *     ctx: Async request context supplying the read session and current user.
+   *     integration: Provider credentials and provider-specific configuration.
+   *
+   * Returns:
+   *     The stored integration, without its secret columns.
    */
   async createOrUpdateIntegrationIntegrationsAwsSagemakerPut(
     security:
@@ -414,7 +659,14 @@ export class Integrations extends ClientSDK {
    * Create or update Azure integration
    *
    * @remarks
-   * Create or update an Azure integration for this user from Galileo.
+   * Create or update an Azure integration for the caller.
+   *
+   * Args:
+   *     ctx: Async request context supplying the read session and current user.
+   *     integration: Provider credentials and provider-specific configuration.
+   *
+   * Returns:
+   *     The stored integration, without its secret columns.
    */
   async createOrUpdateIntegrationIntegrationsAzurePut(
     security: operations.CreateOrUpdateIntegrationIntegrationsAzurePutSecurity,
@@ -433,6 +685,16 @@ export class Integrations extends ClientSDK {
 
   /**
    * Create or update custom integration
+   *
+   * @remarks
+   * Create or update the caller's unnamed custom integration.
+   *
+   * Args:
+   *     ctx: Async request context supplying the read session and current user.
+   *     integration: Custom-provider credentials, headers and model list.
+   *
+   * Returns:
+   *     The stored integration, without its secret columns.
    */
   async createOrUpdateIntegrationIntegrationsCustomPut(
     security: operations.CreateOrUpdateIntegrationIntegrationsCustomPutSecurity,
@@ -450,7 +712,40 @@ export class Integrations extends ClientSDK {
   }
 
   /**
+   * Get custom integration definition
+   *
+   * @remarks
+   * Return the full JSON definition of the custom integration, including decrypted secrets.
+   *
+   * Access is controlled by the integration read-secrets policy.
+   */
+  async getCustomIntegrationDefinitionIntegrationsCustomDefinitionGet(
+    security:
+      operations.GetCustomIntegrationDefinitionIntegrationsCustomDefinitionGetSecurity,
+    options?: RequestOptions,
+  ): Promise<models.CustomIntegrationDefinition> {
+    return unwrapAsync(
+      integrationsGetCustomIntegrationDefinitionIntegrationsCustomDefinitionGet(
+        this,
+        security,
+        options,
+      ),
+    );
+  }
+
+  /**
    * Create or update a named custom integration
+   *
+   * @remarks
+   * Create or update one of the caller's named custom integrations.
+   *
+   * Args:
+   *     name: Slug identifying the named custom integration.
+   *     ctx: Async request context supplying the read session and current user.
+   *     integration: Custom-provider credentials, headers and model list.
+   *
+   * Returns:
+   *     The stored integration, without its secret columns.
    */
   async createOrUpdateNamedCustomIntegrationIntegrationsCustomNamePut(
     security:
@@ -510,317 +805,6 @@ export class Integrations extends ClientSDK {
   }
 
   /**
-   * Create or update Databricks integration (legacy)
-   *
-   * @remarks
-   * Create or update a databricks integration for this user from Galileo.
-   *
-   * @deprecated method: This will be removed in a future release, please migrate away from it as soon as possible.
-   */
-  async createOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPut(
-    security:
-      operations.CreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPutSecurity,
-    request: models.DatabricksIntegrationCreate,
-    options?: RequestOptions,
-  ): Promise<models.IntegrationDB> {
-    return unwrapAsync(
-      integrationsCreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPut(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
-   * Create or update Databricks integration
-   *
-   * @remarks
-   * Create or update a databricks integration for this user from Galileo.
-   */
-  async createOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPut(
-    security:
-      operations.CreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPutSecurity,
-    request: models.DatabricksIntegrationCreate,
-    options?: RequestOptions,
-  ): Promise<models.IntegrationDB> {
-    return unwrapAsync(
-      integrationsCreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPut(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
-   * Get Databricks Catalogs
-   */
-  async getDatabricksCatalogsIntegrationsDatabricksCatalogsGet(
-    security:
-      operations.GetDatabricksCatalogsIntegrationsDatabricksCatalogsGetSecurity,
-    options?: RequestOptions,
-  ): Promise<Array<string>> {
-    return unwrapAsync(
-      integrationsGetDatabricksCatalogsIntegrationsDatabricksCatalogsGet(
-        this,
-        security,
-        options,
-      ),
-    );
-  }
-
-  /**
-   * Get Databases For Cluster
-   */
-  async getDatabasesForClusterIntegrationsDatabricksDatabasesGet(
-    security:
-      operations.GetDatabasesForClusterIntegrationsDatabricksDatabasesGetSecurity,
-    request?:
-      | operations.GetDatabasesForClusterIntegrationsDatabricksDatabasesGetRequest
-      | undefined,
-    options?: RequestOptions,
-  ): Promise<Array<string>> {
-    return unwrapAsync(
-      integrationsGetDatabasesForClusterIntegrationsDatabricksDatabasesGet(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
-   * Create or update Mistral integration
-   *
-   * @remarks
-   * Create or update an Mistral integration for this user from Galileo.
-   */
-  async createOrUpdateIntegrationIntegrationsMistralPut(
-    security:
-      operations.CreateOrUpdateIntegrationIntegrationsMistralPutSecurity,
-    request: models.MistralIntegrationCreate,
-    options?: RequestOptions,
-  ): Promise<models.IntegrationDB> {
-    return unwrapAsync(
-      integrationsCreateOrUpdateIntegrationIntegrationsMistralPut(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
-   * Create or update NVIDIA integration
-   *
-   * @remarks
-   * Create or update an NVIDIA integration for this user from Galileo.
-   */
-  async createOrUpdateIntegrationIntegrationsNvidiaPut(
-    security: operations.CreateOrUpdateIntegrationIntegrationsNvidiaPutSecurity,
-    request: models.NvidiaIntegrationCreate,
-    options?: RequestOptions,
-  ): Promise<models.IntegrationDB> {
-    return unwrapAsync(
-      integrationsCreateOrUpdateIntegrationIntegrationsNvidiaPut(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
-   * Create or update OpenAI integration
-   *
-   * @remarks
-   * Create or update an OpenAI integration for this user from Galileo.
-   */
-  async createOrUpdateIntegrationIntegrationsOpenaiPut(
-    security: operations.CreateOrUpdateIntegrationIntegrationsOpenaiPutSecurity,
-    request: models.OpenAIIntegrationCreate,
-    options?: RequestOptions,
-  ): Promise<models.IntegrationDB> {
-    return unwrapAsync(
-      integrationsCreateOrUpdateIntegrationIntegrationsOpenaiPut(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
-   * Create or update Vegas Gateway integration
-   *
-   * @remarks
-   * Create or update a Vegas Gateway integration for this user from Galileo.
-   */
-  async createOrUpdateIntegrationIntegrationsVegasGatewayPut(
-    security:
-      operations.CreateOrUpdateIntegrationIntegrationsVegasGatewayPutSecurity,
-    request: models.VegasGatewayIntegrationCreate,
-    options?: RequestOptions,
-  ): Promise<models.IntegrationDB> {
-    return unwrapAsync(
-      integrationsCreateOrUpdateIntegrationIntegrationsVegasGatewayPut(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
-   * Create or update Vertex AI integration
-   *
-   * @remarks
-   * Create or update a Google Vertex AI integration for a user.
-   */
-  async createOrUpdateIntegrationIntegrationsVertexAiPut(
-    security:
-      operations.CreateOrUpdateIntegrationIntegrationsVertexAiPutSecurity,
-    request: models.VertexAIIntegrationCreate,
-    options?: RequestOptions,
-  ): Promise<models.IntegrationDB> {
-    return unwrapAsync(
-      integrationsCreateOrUpdateIntegrationIntegrationsVertexAiPut(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
-   * Create or update Writer integration
-   *
-   * @remarks
-   * Create or update a Writer integration for a user.
-   */
-  async createOrUpdateIntegrationIntegrationsWriterPut(
-    security: operations.CreateOrUpdateIntegrationIntegrationsWriterPutSecurity,
-    request: models.WriterIntegrationCreate,
-    options?: RequestOptions,
-  ): Promise<models.IntegrationDB> {
-    return unwrapAsync(
-      integrationsCreateOrUpdateIntegrationIntegrationsWriterPut(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
-   * List Integrations
-   *
-   * @remarks
-   * List the created integrations for the requesting user.
-   */
-  async listIntegrationsIntegrationsGet(
-    security: operations.ListIntegrationsIntegrationsGetSecurity,
-    options?: RequestOptions,
-  ): Promise<Array<models.IntegrationDB>> {
-    return unwrapAsync(integrationsListIntegrationsIntegrationsGet(
-      this,
-      security,
-      options,
-    ));
-  }
-
-  /**
-   * Get Integration Costs
-   */
-  async getIntegrationCostsIntegrationsCostsSummaryGet(
-    security: operations.GetIntegrationCostsIntegrationsCostsSummaryGetSecurity,
-    request: operations.GetIntegrationCostsIntegrationsCostsSummaryGetRequest,
-    options?: RequestOptions,
-  ): Promise<models.IntegrationCostsResponse> {
-    return unwrapAsync(
-      integrationsGetIntegrationCostsIntegrationsCostsSummaryGet(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
-   * Select Integration
-   *
-   * @remarks
-   * Select an integration for this user.
-   */
-  async selectIntegrationIntegrationsSelectPost(
-    security: operations.SelectIntegrationIntegrationsSelectPostSecurity,
-    request: models.IntegrationSelectRequest,
-    options?: RequestOptions,
-  ): Promise<models.IntegrationDB> {
-    return unwrapAsync(integrationsSelectIntegrationIntegrationsSelectPost(
-      this,
-      security,
-      request,
-      options,
-    ));
-  }
-
-  /**
-   * Disable Integration
-   *
-   * @remarks
-   * Disable an integration type for this user.
-   *
-   * Creates an opt-out record so no shared integration of this type is used.
-   */
-  async disableIntegrationIntegrationsDisablePost(
-    security: operations.DisableIntegrationIntegrationsDisablePostSecurity,
-    request: models.IntegrationDisableRequest,
-    options?: RequestOptions,
-  ): Promise<any> {
-    return unwrapAsync(integrationsDisableIntegrationIntegrationsDisablePost(
-      this,
-      security,
-      request,
-      options,
-    ));
-  }
-
-  /**
-   * Get custom integration definition
-   *
-   * @remarks
-   * Return the full JSON definition of the custom integration, including decrypted secrets.
-   *
-   * Only users with edit permission on the integration (its creator and admins)
-   * are authorized to call this endpoint.
-   */
-  async getCustomIntegrationDefinitionIntegrationsCustomDefinitionGet(
-    security:
-      operations.GetCustomIntegrationDefinitionIntegrationsCustomDefinitionGetSecurity,
-    options?: RequestOptions,
-  ): Promise<models.CustomIntegrationDefinition> {
-    return unwrapAsync(
-      integrationsGetCustomIntegrationDefinitionIntegrationsCustomDefinitionGet(
-        this,
-        security,
-        options,
-      ),
-    );
-  }
-
-  /**
    * Check status of a named custom integration
    */
   async getNamedCustomIntegrationStatusIntegrationsCustomNameStatusGet(
@@ -855,6 +839,294 @@ export class Integrations extends ClientSDK {
   ): Promise<models.CustomIntegrationDefinition> {
     return unwrapAsync(
       integrationsGetNamedCustomIntegrationDefinitionIntegrationsCustomNameDefinitionGet(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Create or update Databricks integration (legacy)
+   *
+   * @remarks
+   * Create or update the caller's Databricks integration.
+   *
+   * Args:
+   *     ctx: Async request context supplying the read session and current user.
+   *     integration: Databricks host, warehouse path and token.
+   *
+   * Returns:
+   *     The stored integration, without its secret columns.
+   *
+   * @deprecated method: This will be removed in a future release, please migrate away from it as soon as possible.
+   */
+  async createOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPut(
+    security:
+      operations.CreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPutSecurity,
+    request: models.DatabricksIntegrationCreate,
+    options?: RequestOptions,
+  ): Promise<models.IntegrationDB> {
+    return unwrapAsync(
+      integrationsCreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPut(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Create or update Databricks integration
+   *
+   * @remarks
+   * Create or update the caller's Databricks integration.
+   *
+   * Args:
+   *     ctx: Async request context supplying the read session and current user.
+   *     integration: Databricks host, warehouse path and token.
+   *
+   * Returns:
+   *     The stored integration, without its secret columns.
+   */
+  async createOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPut(
+    security:
+      operations.CreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPutSecurity,
+    request: models.DatabricksIntegrationCreate,
+    options?: RequestOptions,
+  ): Promise<models.IntegrationDB> {
+    return unwrapAsync(
+      integrationsCreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPut(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Get Databricks Catalogs
+   *
+   * @remarks
+   * List the catalogs reachable through the caller's Databricks integration.
+   *
+   * Args:
+   *     databricks: Databricks service resolved from the URL, credentials already validated.
+   *
+   * Returns:
+   *     The catalog names.
+   */
+  async getDatabricksCatalogsIntegrationsDatabricksCatalogsGet(
+    security:
+      operations.GetDatabricksCatalogsIntegrationsDatabricksCatalogsGetSecurity,
+    options?: RequestOptions,
+  ): Promise<Array<string>> {
+    return unwrapAsync(
+      integrationsGetDatabricksCatalogsIntegrationsDatabricksCatalogsGet(
+        this,
+        security,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Get Databases For Cluster
+   *
+   * @remarks
+   * List the databases in a catalog of the caller's Databricks integration.
+   *
+   * Args:
+   *     catalog: Catalog to list, defaulting to the integration's configured catalog.
+   *     databricks: Databricks service resolved from the URL, credentials already validated.
+   *
+   * Returns:
+   *     The database names.
+   */
+  async getDatabasesForClusterIntegrationsDatabricksDatabasesGet(
+    security:
+      operations.GetDatabasesForClusterIntegrationsDatabricksDatabasesGetSecurity,
+    request?:
+      | operations.GetDatabasesForClusterIntegrationsDatabricksDatabasesGetRequest
+      | undefined,
+    options?: RequestOptions,
+  ): Promise<Array<string>> {
+    return unwrapAsync(
+      integrationsGetDatabasesForClusterIntegrationsDatabricksDatabasesGet(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Create or update Mistral integration
+   *
+   * @remarks
+   * Create or update a Mistral integration for the caller.
+   *
+   * Args:
+   *     ctx: Async request context supplying the read session and current user.
+   *     integration: Provider credentials and provider-specific configuration.
+   *
+   * Returns:
+   *     The stored integration, without its secret columns.
+   */
+  async createOrUpdateIntegrationIntegrationsMistralPut(
+    security:
+      operations.CreateOrUpdateIntegrationIntegrationsMistralPutSecurity,
+    request: models.MistralIntegrationCreate,
+    options?: RequestOptions,
+  ): Promise<models.IntegrationDB> {
+    return unwrapAsync(
+      integrationsCreateOrUpdateIntegrationIntegrationsMistralPut(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Create or update NVIDIA integration
+   *
+   * @remarks
+   * Create or update an Nvidia integration for the caller.
+   *
+   * Args:
+   *     ctx: Async request context supplying the read session and current user.
+   *     integration: Provider credentials and provider-specific configuration.
+   *
+   * Returns:
+   *     The stored integration, without its secret columns.
+   */
+  async createOrUpdateIntegrationIntegrationsNvidiaPut(
+    security: operations.CreateOrUpdateIntegrationIntegrationsNvidiaPutSecurity,
+    request: models.NvidiaIntegrationCreate,
+    options?: RequestOptions,
+  ): Promise<models.IntegrationDB> {
+    return unwrapAsync(
+      integrationsCreateOrUpdateIntegrationIntegrationsNvidiaPut(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Create or update OpenAI integration
+   *
+   * @remarks
+   * Create or update an OpenAI integration for the caller.
+   *
+   * Args:
+   *     ctx: Async request context supplying the read session and current user.
+   *     integration: Provider credentials and provider-specific configuration.
+   *
+   * Returns:
+   *     The stored integration, without its secret columns.
+   */
+  async createOrUpdateIntegrationIntegrationsOpenaiPut(
+    security: operations.CreateOrUpdateIntegrationIntegrationsOpenaiPutSecurity,
+    request: models.OpenAIIntegrationCreate,
+    options?: RequestOptions,
+  ): Promise<models.IntegrationDB> {
+    return unwrapAsync(
+      integrationsCreateOrUpdateIntegrationIntegrationsOpenaiPut(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Create or update Vegas Gateway integration
+   *
+   * @remarks
+   * Create or update a Vegas Gateway integration for the caller.
+   *
+   * Args:
+   *     ctx: Async request context supplying the read session and current user.
+   *     integration: Provider credentials and provider-specific configuration.
+   *
+   * Returns:
+   *     The stored integration, without its secret columns.
+   */
+  async createOrUpdateIntegrationIntegrationsVegasGatewayPut(
+    security:
+      operations.CreateOrUpdateIntegrationIntegrationsVegasGatewayPutSecurity,
+    request: models.VegasGatewayIntegrationCreate,
+    options?: RequestOptions,
+  ): Promise<models.IntegrationDB> {
+    return unwrapAsync(
+      integrationsCreateOrUpdateIntegrationIntegrationsVegasGatewayPut(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Create or update Vertex AI integration
+   *
+   * @remarks
+   * Create or update a Google Vertex AI integration for the caller.
+   *
+   * Args:
+   *     ctx: Async request context supplying the read session and current user.
+   *     integration: Provider credentials and provider-specific configuration.
+   *
+   * Returns:
+   *     The stored integration, without its secret columns.
+   */
+  async createOrUpdateIntegrationIntegrationsVertexAiPut(
+    security:
+      operations.CreateOrUpdateIntegrationIntegrationsVertexAiPutSecurity,
+    request: models.VertexAIIntegrationCreate,
+    options?: RequestOptions,
+  ): Promise<models.IntegrationDB> {
+    return unwrapAsync(
+      integrationsCreateOrUpdateIntegrationIntegrationsVertexAiPut(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Create or update Writer integration
+   *
+   * @remarks
+   * Create or update a Writer integration for the caller.
+   *
+   * Args:
+   *     ctx: Async request context supplying the read session and current user.
+   *     integration: Provider credentials and provider-specific configuration.
+   *
+   * Returns:
+   *     The stored integration, without its secret columns.
+   */
+  async createOrUpdateIntegrationIntegrationsWriterPut(
+    security: operations.CreateOrUpdateIntegrationIntegrationsWriterPutSecurity,
+    request: models.WriterIntegrationCreate,
+    options?: RequestOptions,
+  ): Promise<models.IntegrationDB> {
+    return unwrapAsync(
+      integrationsCreateOrUpdateIntegrationIntegrationsWriterPut(
         this,
         security,
         request,
