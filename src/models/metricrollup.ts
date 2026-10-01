@@ -10,27 +10,21 @@ import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { smartUnion } from "../types/smartUnion.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
-import {
-  MetricCritiqueColumnar,
-  MetricCritiqueColumnar$inboundSchema,
-} from "./metriccritiquecolumnar.js";
-import { ScorerType, ScorerType$inboundSchema } from "./scorertype.js";
 
 export type RollUpMetrics = number | { [k: string]: number };
 
 export type MetricRollUp = {
   statusType: "roll_up";
-  scorerType?: ScorerType | null | undefined;
   metricKeyAlias?: string | null | undefined;
   value: any | null;
   explanation?: string | null | undefined;
   cost?: number | null | undefined;
   modelAlias?: string | null | undefined;
   numJudges?: number | null | undefined;
+  multijudgeAverage?: number | null | undefined;
   inputTokens?: number | null | undefined;
   outputTokens?: number | null | undefined;
   totalTokens?: number | null | undefined;
-  critique?: MetricCritiqueColumnar | null | undefined;
   /**
    * Optional per-row context returned alongside the score by code-based scorers that return a (score, metadata) tuple. Sourced from the {metric_name}_metadata auxiliary key, which is stored as a JSON string in ClickHouse.
    */
@@ -62,17 +56,16 @@ export const MetricRollUp$inboundSchema: z.ZodMiniType<MetricRollUp, unknown> =
   z.pipe(
     z.object({
       status_type: types.literal("roll_up"),
-      scorer_type: z.optional(z.nullable(ScorerType$inboundSchema)),
       metric_key_alias: z.optional(z.nullable(types.string())),
       value: types.nullable(z.any()),
       explanation: z.optional(z.nullable(types.string())),
       cost: z.optional(z.nullable(types.number())),
       model_alias: z.optional(z.nullable(types.string())),
       num_judges: z.optional(z.nullable(types.number())),
+      multijudge_average: z.optional(z.nullable(types.number())),
       input_tokens: z.optional(z.nullable(types.number())),
       output_tokens: z.optional(z.nullable(types.number())),
       total_tokens: z.optional(z.nullable(types.number())),
-      critique: z.optional(z.nullable(MetricCritiqueColumnar$inboundSchema)),
       metadata: z.optional(z.nullable(z.record(z.string(), z.any()))),
       roll_up_metrics: types.optional(
         z.record(
@@ -84,10 +77,10 @@ export const MetricRollUp$inboundSchema: z.ZodMiniType<MetricRollUp, unknown> =
     z.transform((v) => {
       return remap$(v, {
         "status_type": "statusType",
-        "scorer_type": "scorerType",
         "metric_key_alias": "metricKeyAlias",
         "model_alias": "modelAlias",
         "num_judges": "numJudges",
+        "multijudge_average": "multijudgeAverage",
         "input_tokens": "inputTokens",
         "output_tokens": "outputTokens",
         "total_tokens": "totalTokens",
