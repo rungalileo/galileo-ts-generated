@@ -10,7 +10,7 @@ let value:
     datasetId: "<value>",
     groupId: "<value>",
     body: {
-      role: "owner",
+      role: "viewer",
     },
   };
 ```

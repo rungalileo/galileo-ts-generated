@@ -25,7 +25,10 @@ import {
   GeneratedScorerResponse,
   GeneratedScorerResponse$inboundSchema,
 } from "./generatedscorerresponse.js";
-import { InputTypeEnum, InputTypeEnum$inboundSchema } from "./inputtypeenum.js";
+import {
+  Luna3ScorerResponse,
+  Luna3ScorerResponse$inboundSchema,
+} from "./luna3scorerresponse.js";
 import {
   OutputTypeEnum,
   OutputTypeEnum$inboundSchema,
@@ -38,19 +41,17 @@ export type BaseScorerVersionResponse = {
   generatedScorer?: GeneratedScorerResponse | null | undefined;
   registeredScorer?: CreateUpdateRegisteredScorerResponse | null | undefined;
   finetunedScorer?: FineTunedScorerResponse | null | undefined;
+  luna3Scorer?: Luna3ScorerResponse | null | undefined;
   modelName?: string | null | undefined;
   numJudges?: number | null | undefined;
-  scoreableNodeTypes?: Array<string> | null | undefined;
   cotEnabled?: boolean | null | undefined;
-  outputType?: OutputTypeEnum | null | undefined;
-  /**
-   * What type of input to use for model-based scorers (sessions_normalized, trace_io_only, etc.).
-   */
-  inputType?: InputTypeEnum | null | undefined;
   createdAt: Date;
   updatedAt: Date;
   chainPollTemplate?: ChainPollTemplate | null | undefined;
+  scoreableNodeTypes?: Array<string> | null | undefined;
+  outputType?: OutputTypeEnum | null | undefined;
   allowedModel?: boolean | null | undefined;
+  createdBy?: string | null | undefined;
 };
 
 /** @internal */
@@ -71,18 +72,19 @@ export const BaseScorerVersionResponse$inboundSchema: z.ZodMiniType<
     finetuned_scorer: z.optional(
       z.nullable(FineTunedScorerResponse$inboundSchema),
     ),
+    luna3_scorer: z.optional(z.nullable(Luna3ScorerResponse$inboundSchema)),
     model_name: z.optional(z.nullable(types.string())),
     num_judges: z.optional(z.nullable(types.number())),
-    scoreable_node_types: z.optional(z.nullable(z.array(types.string()))),
     cot_enabled: z.optional(z.nullable(types.boolean())),
-    output_type: z.optional(z.nullable(OutputTypeEnum$inboundSchema)),
-    input_type: z.optional(z.nullable(InputTypeEnum$inboundSchema)),
     created_at: types.date(),
     updated_at: types.date(),
     chain_poll_template: z.optional(
       z.nullable(ChainPollTemplate$inboundSchema),
     ),
+    scoreable_node_types: z.optional(z.nullable(z.array(types.string()))),
+    output_type: z.optional(z.nullable(OutputTypeEnum$inboundSchema)),
     allowed_model: z.optional(z.nullable(types.boolean())),
+    created_by: z.optional(z.nullable(types.string())),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -90,16 +92,17 @@ export const BaseScorerVersionResponse$inboundSchema: z.ZodMiniType<
       "generated_scorer": "generatedScorer",
       "registered_scorer": "registeredScorer",
       "finetuned_scorer": "finetunedScorer",
+      "luna3_scorer": "luna3Scorer",
       "model_name": "modelName",
       "num_judges": "numJudges",
-      "scoreable_node_types": "scoreableNodeTypes",
       "cot_enabled": "cotEnabled",
-      "output_type": "outputType",
-      "input_type": "inputType",
       "created_at": "createdAt",
       "updated_at": "updatedAt",
       "chain_poll_template": "chainPollTemplate",
+      "scoreable_node_types": "scoreableNodeTypes",
+      "output_type": "outputType",
       "allowed_model": "allowedModel",
+      "created_by": "createdBy",
     });
   }),
 );
