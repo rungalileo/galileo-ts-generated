@@ -229,6 +229,14 @@ export type ExtendedLlmSpanRecord = {
    */
   fullyAnnotated?: boolean | null | undefined;
   /**
+   * Runner progress text written directly to CH span
+   */
+  progressMessage: string;
+  /**
+   * Runner error text written directly to CH span
+   */
+  errorMessage: string;
+  /**
    * Detailed information about the metrics associated with this trace or span
    */
   metricInfo?:
@@ -287,6 +295,10 @@ export type ExtendedLlmSpanRecord = {
    * Model used for this span.
    */
   model?: string | null | undefined;
+  /**
+   * Provider used for this span.
+   */
+  provider?: string | null | undefined;
   /**
    * Temperature used for generation.
    */
@@ -401,6 +413,8 @@ export const ExtendedLlmSpanRecord$inboundSchema: z.ZodMiniType<
     overall_annotation_agreement: z.optional(z.nullable(types.number())),
     annotation_queue_ids: types.optional(z.array(types.string())),
     fully_annotated: z.optional(z.nullable(types.boolean())),
+    progress_message: z._default(types.string(), ""),
+    error_message: z._default(types.string(), ""),
     metric_info: z.optional(
       z.nullable(z.record(
         z.string(),
@@ -434,6 +448,7 @@ export const ExtendedLlmSpanRecord$inboundSchema: z.ZodMiniType<
       web_search_call: WebSearchCallEvent$inboundSchema,
     })))),
     model: z.optional(z.nullable(types.string())),
+    provider: z.optional(z.nullable(types.string())),
     temperature: z.optional(z.nullable(types.number())),
     finish_reason: z.optional(z.nullable(types.string())),
   }),
@@ -464,6 +479,8 @@ export const ExtendedLlmSpanRecord$inboundSchema: z.ZodMiniType<
       "overall_annotation_agreement": "overallAnnotationAgreement",
       "annotation_queue_ids": "annotationQueueIds",
       "fully_annotated": "fullyAnnotated",
+      "progress_message": "progressMessage",
+      "error_message": "errorMessage",
       "metric_info": "metricInfo",
       "parent_id": "parentId",
       "is_complete": "isComplete",

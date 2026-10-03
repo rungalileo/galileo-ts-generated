@@ -4,6 +4,7 @@
  */
 
 import { GalileoGeneratedCore } from "../core.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { RequestOptions } from "../lib/sdks.js";
@@ -30,8 +31,7 @@ import { Result } from "../types/fp.js";
  * @remarks
  * Return the full JSON definition of the custom integration, including decrypted secrets.
  *
- * Only users with edit permission on the integration (its creator and admins)
- * are authorized to call this endpoint.
+ * Access is controlled by the integration read-secrets policy.
  */
 export function integrationsGetCustomIntegrationDefinitionIntegrationsCustomDefinitionGet(
   client: GalileoGeneratedCore,
@@ -88,9 +88,16 @@ async function $do(
   const requestSecurity = resolveSecurity(
     [
       {
-        fieldName: "Galileo-API-Key",
+        fieldName: "Splunk-AO-API-Key",
         type: "apiKey:header",
         value: security?.apiKeyHeader,
+      },
+    ],
+    [
+      {
+        fieldName: "Galileo-API-Key",
+        type: "apiKey:header",
+        value: security?.classicAPIKeyHeader,
       },
     ],
     [
@@ -100,6 +107,15 @@ async function $do(
         value: resolveOAuth2Password(security?.oAuth2PasswordBearer, {
           defaults: { tokenURL: "https://api.galileo.ai/login" },
         }),
+      },
+    ],
+    [
+      {
+        type: "http:basic",
+        value: {
+          username: security?.httpBasic?.username,
+          password: security?.httpBasic?.password,
+        },
       },
     ],
   );
@@ -136,7 +152,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["4XX", "5XX"],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });
