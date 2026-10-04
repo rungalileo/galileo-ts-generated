@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { ClosedEnum } from "../types/enums.js";
 import {
   ExperimentDatasetRequest,
   ExperimentDatasetRequest$Outbound,
@@ -16,35 +17,48 @@ import {
   PromptRunSettings$outboundSchema,
 } from "./promptrunsettings.js";
 import {
-  ScorerConfig,
-  ScorerConfig$Outbound,
-  ScorerConfig$outboundSchema,
-} from "./scorerconfig.js";
+  RuntimeScorerConfig,
+  RuntimeScorerConfig$Outbound,
+  RuntimeScorerConfig$outboundSchema,
+} from "./runtimescorerconfig.js";
+
+export const ExperimentCreateRequestTaskType = {
+  Sixteen: 16,
+  Seventeen: 17,
+} as const;
+export type ExperimentCreateRequestTaskType = ClosedEnum<
+  typeof ExperimentCreateRequestTaskType
+>;
 
 export type ExperimentCreateRequest = {
   name: string;
-  taskType?: 16 | undefined;
+  taskType?: ExperimentCreateRequestTaskType | undefined;
   playgroundId?: string | null | undefined;
   promptTemplateVersionId?: string | null | undefined;
   dataset?: ExperimentDatasetRequest | null | undefined;
   playgroundPromptId?: string | null | undefined;
   promptSettings?: PromptRunSettings | null | undefined;
-  scorers?: Array<ScorerConfig> | undefined;
+  scorers?: Array<RuntimeScorerConfig> | undefined;
   trigger?: boolean | undefined;
   experimentGroupId?: string | null | undefined;
   experimentGroupName?: string | null | undefined;
 };
 
 /** @internal */
+export const ExperimentCreateRequestTaskType$outboundSchema: z.ZodMiniEnum<
+  typeof ExperimentCreateRequestTaskType
+> = z.enum(ExperimentCreateRequestTaskType);
+
+/** @internal */
 export type ExperimentCreateRequest$Outbound = {
   name: string;
-  task_type?: 16 | undefined;
+  task_type?: number | undefined;
   playground_id?: string | null | undefined;
   prompt_template_version_id?: string | null | undefined;
   dataset?: ExperimentDatasetRequest$Outbound | null | undefined;
   playground_prompt_id?: string | null | undefined;
   prompt_settings?: PromptRunSettings$Outbound | null | undefined;
-  scorers?: Array<ScorerConfig$Outbound> | undefined;
+  scorers?: Array<RuntimeScorerConfig$Outbound> | undefined;
   trigger: boolean;
   experiment_group_id?: string | null | undefined;
   experiment_group_name?: string | null | undefined;
@@ -57,13 +71,13 @@ export const ExperimentCreateRequest$outboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     name: z.string(),
-    taskType: z.optional(z.literal(16)),
+    taskType: z.optional(ExperimentCreateRequestTaskType$outboundSchema),
     playgroundId: z.optional(z.nullable(z.string())),
     promptTemplateVersionId: z.optional(z.nullable(z.string())),
     dataset: z.optional(z.nullable(ExperimentDatasetRequest$outboundSchema)),
     playgroundPromptId: z.optional(z.nullable(z.string())),
     promptSettings: z.optional(z.nullable(PromptRunSettings$outboundSchema)),
-    scorers: z.optional(z.array(ScorerConfig$outboundSchema)),
+    scorers: z.optional(z.array(RuntimeScorerConfig$outboundSchema)),
     trigger: z._default(z.boolean(), false),
     experimentGroupId: z.optional(z.nullable(z.string())),
     experimentGroupName: z.optional(z.nullable(z.string())),

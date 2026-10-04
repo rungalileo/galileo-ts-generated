@@ -19,6 +19,14 @@ const value: models.PartialExtendedControlSpanRecord = {
 };
 ```
 
+### `models.PartialExtendedHttpSpanRecord`
+
+```typescript
+const value: models.PartialExtendedHttpSpanRecord = {
+  type: "http",
+};
+```
+
 ### `models.PartialExtendedLlmSpanRecord`
 
 ```typescript
