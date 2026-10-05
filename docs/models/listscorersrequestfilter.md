@@ -30,6 +30,14 @@ const value: models.ScorerExcludeMultimodalScorersFilter = {
 };
 ```
 
+### `models.ScorerExcludeNonO11ySlmScorersFilter`
+
+```typescript
+const value: models.ScorerExcludeNonO11ySlmScorersFilter = {
+  name: "exclude_non_o11y_slm_scorers",
+};
+```
+
 ### `models.ScorerExcludeSlmScorersFilter`
 
 ```typescript
@@ -44,6 +52,15 @@ const value: models.ScorerExcludeSlmScorersFilter = {
 const value: models.ScorerIDFilter = {
   name: "id",
   value: [],
+};
+```
+
+### `models.ScorerIsGlobalFilter`
+
+```typescript
+const value: models.ScorerIsGlobalFilter = {
+  name: "is_global",
+  value: true,
 };
 ```
 
@@ -67,6 +84,16 @@ const value: models.ScorerModelTypeFilter = {
 };
 ```
 
+### `models.ScorerMultimodalCapabilitiesFilter`
+
+```typescript
+const value: models.ScorerMultimodalCapabilitiesFilter = {
+  name: "multimodal_capabilities",
+  operator: "contains",
+  value: "<value>",
+};
+```
+
 ### `models.ScorerNameFilter`
 
 ```typescript
@@ -74,6 +101,19 @@ const value: models.ScorerNameFilter = {
   name: "name",
   operator: "contains",
   value: "<value>",
+};
+```
+
+### `models.ScorerScopeProjectsFilter`
+
+```typescript
+const value: models.ScorerScopeProjectsFilter = {
+  name: "scope_projects",
+  projectIds: [
+    "<value 1>",
+    "<value 2>",
+    "<value 3>",
+  ],
 };
 ```
 

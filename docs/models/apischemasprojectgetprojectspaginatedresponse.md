@@ -12,7 +12,7 @@ let value: ApiSchemasProjectGetProjectsPaginatedResponse = {
       createdBy: "<value>",
       createdByUser: {
         id: "<value>",
-        email: "Jeanie.Bradtke34@yahoo.com",
+        email: "Garland.Barton@gmail.com",
       },
       runs: [
         {
@@ -31,17 +31,10 @@ let value: ApiSchemasProjectGetProjectsPaginatedResponse = {
             createdAt: new Date("2026-12-16T08:21:29.962Z"),
             updatedAt: new Date("2024-01-30T09:49:31.375Z"),
           },
-          loggedSplits: [
-            "<value 1>",
-          ],
-          loggedInferenceNames: [
-            "<value 1>",
-            "<value 2>",
-          ],
         },
       ],
-      createdAt: new Date("2025-04-05T14:37:17.577Z"),
-      updatedAt: new Date("2026-09-01T10:55:27.959Z"),
+      createdAt: new Date("2025-05-25T16:30:58.906Z"),
+      updatedAt: new Date("2025-07-26T04:19:39.268Z"),
     },
   ],
 };
