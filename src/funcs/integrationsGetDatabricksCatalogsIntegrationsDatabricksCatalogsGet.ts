@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { GalileoGeneratedCore } from "../core.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { RequestOptions } from "../lib/sdks.js";
@@ -27,6 +28,15 @@ import * as types$ from "../types/primitives.js";
 
 /**
  * Get Databricks Catalogs
+ *
+ * @remarks
+ * List the catalogs reachable through the caller's Databricks integration.
+ *
+ * Args:
+ *     databricks: Databricks service resolved from the URL, credentials already validated.
+ *
+ * Returns:
+ *     The catalog names.
  */
 export function integrationsGetDatabricksCatalogsIntegrationsDatabricksCatalogsGet(
   client: GalileoGeneratedCore,
@@ -83,9 +93,16 @@ async function $do(
   const requestSecurity = resolveSecurity(
     [
       {
-        fieldName: "Galileo-API-Key",
+        fieldName: "Splunk-AO-API-Key",
         type: "apiKey:header",
         value: security?.apiKeyHeader,
+      },
+    ],
+    [
+      {
+        fieldName: "Galileo-API-Key",
+        type: "apiKey:header",
+        value: security?.classicAPIKeyHeader,
       },
     ],
     [
@@ -139,7 +156,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["4XX", "5XX"],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });
