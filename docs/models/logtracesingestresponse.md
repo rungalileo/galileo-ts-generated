@@ -10,6 +10,7 @@ let value: LogTracesIngestResponse = {
   projectName: "<value>",
   recordsCount: 465506,
   tracesCount: 377307,
+  spansCount: 654096,
 };
 ```
 
@@ -25,4 +26,5 @@ let value: LogTracesIngestResponse = {
 | `sessionId`                                                                               | *string*                                                                                  | :heavy_minus_sign:                                                                        | Session id associated with the traces.                                                    |
 | `recordsCount`                                                                            | *number*                                                                                  | :heavy_check_mark:                                                                        | Total number of records ingested                                                          |
 | `tracesCount`                                                                             | *number*                                                                                  | :heavy_check_mark:                                                                        | total number of traces ingested                                                           |
+| `spansCount`                                                                              | *number*                                                                                  | :heavy_check_mark:                                                                        | total number of spans ingested                                                            |
 | `traceIds`                                                                                | *string*[]                                                                                | :heavy_minus_sign:                                                                        | List of trace IDs that were ingested. Only included if include_trace_ids=True in request. |

@@ -4,9 +4,13 @@
 
 ### Available Operations
 
+* [listIntegrationsIntegrationsGet](#listintegrationsintegrationsget) - List Integrations
+* [getIntegrationCostsIntegrationsCostsSummaryGet](#getintegrationcostsintegrationscostssummaryget) - Get Integration Costs
+* [exportBillingUsageBillingUsageExportGet](#exportbillingusagebillingusageexportget) - Export Billing Usage
+* [getBillingUsageBillingUsageMetricGet](#getbillingusagebillingusagemetricget) - Get Billing Usage
 * [listAvailableIntegrationsIntegrationsAvailableGet](#listavailableintegrationsintegrationsavailableget) - List Available Integrations
-* [getIntegrationIntegrationsNameGet](#getintegrationintegrationsnameget) - Get Integration
 * [deleteIntegrationIntegrationsNameDelete](#deleteintegrationintegrationsnamedelete) - Delete Integration
+* [getIntegrationIntegrationsNameGet](#getintegrationintegrationsnameget) - Get Integration
 * [getIntegrationStatusIntegrationsNameStatusGet](#getintegrationstatusintegrationsnamestatusget) - Get Integration Status
 * [listUserIntegrationCollaboratorsIntegrationsIntegrationIdUsersGet](#listuserintegrationcollaboratorsintegrationsintegrationidusersget) - List User Integration Collaborators
 * [createUserIntegrationCollaboratorsIntegrationsIntegrationIdUsersPost](#createuserintegrationcollaboratorsintegrationsintegrationiduserspost) - Create User Integration Collaborators
@@ -17,14 +21,19 @@
 * [updateGroupIntegrationCollaboratorIntegrationsIntegrationIdGroupsGroupIdPatch](#updategroupintegrationcollaboratorintegrationsintegrationidgroupsgroupidpatch) - Update Group Integration Collaborator
 * [deleteGroupIntegrationCollaboratorIntegrationsIntegrationIdGroupsGroupIdDelete](#deletegroupintegrationcollaboratorintegrationsintegrationidgroupsgroupiddelete) - Delete Group Integration Collaborator
 * [createOrUpdateIntegrationSelectionIntegrationsIntegrationIdSelectPut](#createorupdateintegrationselectionintegrationsintegrationidselectput) - Create Or Update Integration Selection
+* [selectIntegrationIntegrationsSelectPost](#selectintegrationintegrationsselectpost) - Select Integration
+* [disableIntegrationIntegrationsDisablePost](#disableintegrationintegrationsdisablepost) - Disable Integration
 * [createOrUpdateIntegrationIntegrationsAnthropicPut](#createorupdateintegrationintegrationsanthropicput) - Create or update Anthropic integration
 * [createOrUpdateIntegrationIntegrationsAwsBedrockPut](#createorupdateintegrationintegrationsawsbedrockput) - Create or update AWS Bedrock integration
 * [createOrUpdateIntegrationIntegrationsAwsSagemakerPut](#createorupdateintegrationintegrationsawssagemakerput) - Create or update AWS SageMaker integration
 * [createOrUpdateIntegrationIntegrationsAzurePut](#createorupdateintegrationintegrationsazureput) - Create or update Azure integration
 * [createOrUpdateIntegrationIntegrationsCustomPut](#createorupdateintegrationintegrationscustomput) - Create or update custom integration
+* [getCustomIntegrationDefinitionIntegrationsCustomDefinitionGet](#getcustomintegrationdefinitionintegrationscustomdefinitionget) - Get custom integration definition
 * [createOrUpdateNamedCustomIntegrationIntegrationsCustomNamePut](#createorupdatenamedcustomintegrationintegrationscustomnameput) - Create or update a named custom integration
 * [getNamedCustomIntegrationIntegrationsCustomNameGet](#getnamedcustomintegrationintegrationscustomnameget) - Get a named custom integration
 * [deleteNamedCustomIntegrationIntegrationsCustomNameDelete](#deletenamedcustomintegrationintegrationscustomnamedelete) - Delete a named custom integration
+* [getNamedCustomIntegrationStatusIntegrationsCustomNameStatusGet](#getnamedcustomintegrationstatusintegrationscustomnamestatusget) - Check status of a named custom integration
+* [getNamedCustomIntegrationDefinitionIntegrationsCustomNameDefinitionGet](#getnamedcustomintegrationdefinitionintegrationscustomnamedefinitionget) - Get definition of a named custom integration
 * [~~createOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPut~~](#createorupdateunitycatalogintegrationintegrationsdatabricksunitycatalogsqlput) - Create or update Databricks integration (legacy) :warning: **Deprecated**
 * [createOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPut](#createorupdateunitycatalogintegrationintegrationsdatabricksput) - Create or update Databricks integration
 * [getDatabricksCatalogsIntegrationsDatabricksCatalogsGet](#getdatabrickscatalogsintegrationsdatabrickscatalogsget) - Get Databricks Catalogs
@@ -35,17 +44,319 @@
 * [createOrUpdateIntegrationIntegrationsVegasGatewayPut](#createorupdateintegrationintegrationsvegasgatewayput) - Create or update Vegas Gateway integration
 * [createOrUpdateIntegrationIntegrationsVertexAiPut](#createorupdateintegrationintegrationsvertexaiput) - Create or update Vertex AI integration
 * [createOrUpdateIntegrationIntegrationsWriterPut](#createorupdateintegrationintegrationswriterput) - Create or update Writer integration
-* [listIntegrationsIntegrationsGet](#listintegrationsintegrationsget) - List Integrations
-* [getIntegrationCostsIntegrationsCostsSummaryGet](#getintegrationcostsintegrationscostssummaryget) - Get Integration Costs
-* [selectIntegrationIntegrationsSelectPost](#selectintegrationintegrationsselectpost) - Select Integration
-* [disableIntegrationIntegrationsDisablePost](#disableintegrationintegrationsdisablepost) - Disable Integration
-* [getCustomIntegrationDefinitionIntegrationsCustomDefinitionGet](#getcustomintegrationdefinitionintegrationscustomdefinitionget) - Get custom integration definition
-* [getNamedCustomIntegrationStatusIntegrationsCustomNameStatusGet](#getnamedcustomintegrationstatusintegrationscustomnamestatusget) - Check status of a named custom integration
-* [getNamedCustomIntegrationDefinitionIntegrationsCustomNameDefinitionGet](#getnamedcustomintegrationdefinitionintegrationscustomnamedefinitionget) - Get definition of a named custom integration
+
+## listIntegrationsIntegrationsGet
+
+List the created integrations for the requesting user.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="list_integrations_integrations_get" method="get" path="/integrations" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.integrations.listIntegrationsIntegrationsGet({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { integrationsListIntegrationsIntegrationsGet } from "galileo-generated/funcs/integrationsListIntegrationsIntegrationsGet.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await integrationsListIntegrationsIntegrationsGet(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("integrationsListIntegrationsIntegrationsGet failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `security`                                                                                                                                                                     | [operations.ListIntegrationsIntegrationsGetSecurity](../../models/operations/listintegrationsintegrationsgetsecurity.md)                                                       | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[models.IntegrationDB[]](../../models/.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
+## getIntegrationCostsIntegrationsCostsSummaryGet
+
+Get Integration Costs
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="get_integration_costs_integrations_costs_summary_get" method="get" path="/integrations/costs/summary" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.integrations.getIntegrationCostsIntegrationsCostsSummaryGet({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    startTime: new Date("2026-03-25T04:25:47.231Z"),
+    endTime: new Date("2026-12-02T19:10:59.980Z"),
+    interval: "monthly",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { integrationsGetIntegrationCostsIntegrationsCostsSummaryGet } from "galileo-generated/funcs/integrationsGetIntegrationCostsIntegrationsCostsSummaryGet.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await integrationsGetIntegrationCostsIntegrationsCostsSummaryGet(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    startTime: new Date("2026-03-25T04:25:47.231Z"),
+    endTime: new Date("2026-12-02T19:10:59.980Z"),
+    interval: "monthly",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("integrationsGetIntegrationCostsIntegrationsCostsSummaryGet failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.GetIntegrationCostsIntegrationsCostsSummaryGetRequest](../../models/operations/getintegrationcostsintegrationscostssummarygetrequest.md)                           | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `security`                                                                                                                                                                     | [operations.GetIntegrationCostsIntegrationsCostsSummaryGetSecurity](../../models/operations/getintegrationcostsintegrationscostssummarygetsecurity.md)                         | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[models.IntegrationCostsResponse](../../models/integrationcostsresponse.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
+## exportBillingUsageBillingUsageExportGet
+
+Export the project usage table as CSV using the same data source as /billing/usage/{metric}.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="export_billing_usage_billing_usage_export_get" method="get" path="/billing/usage/export" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  await galileoGenerated.integrations.exportBillingUsageBillingUsageExportGet({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    startTime: new Date("2025-01-03T03:42:06.206Z"),
+    endTime: new Date("2025-12-25T19:20:44.049Z"),
+  });
+
+
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { integrationsExportBillingUsageBillingUsageExportGet } from "galileo-generated/funcs/integrationsExportBillingUsageBillingUsageExportGet.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await integrationsExportBillingUsageBillingUsageExportGet(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    startTime: new Date("2025-01-03T03:42:06.206Z"),
+    endTime: new Date("2025-12-25T19:20:44.049Z"),
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    
+  } else {
+    console.log("integrationsExportBillingUsageBillingUsageExportGet failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.ExportBillingUsageBillingUsageExportGetRequest](../../models/operations/exportbillingusagebillingusageexportgetrequest.md)                                         | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `security`                                                                                                                                                                     | [operations.ExportBillingUsageBillingUsageExportGetSecurity](../../models/operations/exportbillingusagebillingusageexportgetsecurity.md)                                       | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<void\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
+## getBillingUsageBillingUsageMetricGet
+
+Get Billing Usage
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="get_billing_usage_billing_usage__metric__get" method="get" path="/billing/usage/{metric}" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.integrations.getBillingUsageBillingUsageMetricGet({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    metric: "luna_fine_tuning_runs",
+    startTime: new Date("2026-08-05T16:42:55.738Z"),
+    endTime: new Date("2026-10-24T18:37:15.889Z"),
+    interval: "hourly",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { integrationsGetBillingUsageBillingUsageMetricGet } from "galileo-generated/funcs/integrationsGetBillingUsageBillingUsageMetricGet.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await integrationsGetBillingUsageBillingUsageMetricGet(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    metric: "luna_fine_tuning_runs",
+    startTime: new Date("2026-08-05T16:42:55.738Z"),
+    endTime: new Date("2026-10-24T18:37:15.889Z"),
+    interval: "hourly",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("integrationsGetBillingUsageBillingUsageMetricGet failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.GetBillingUsageBillingUsageMetricGetRequest](../../models/operations/getbillingusagebillingusagemetricgetrequest.md)                                               | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `security`                                                                                                                                                                     | [operations.GetBillingUsageBillingUsageMetricGetSecurity](../../models/operations/getbillingusagebillingusagemetricgetsecurity.md)                                             | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[models.BillingUsageResponse](../../models/billingusageresponse.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
 
 ## listAvailableIntegrationsIntegrationsAvailableGet
 
-List all of the available integrations to be created in Galileo.
+List the integration providers that can be created in Galileo.
+
+Returns:
+    Every supported provider name.
 
 ### Example Usage
 
@@ -110,81 +421,6 @@ run();
 
 | Error Type                          | Status Code                         | Content Type                        |
 | ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
-## getIntegrationIntegrationsNameGet
-
-Gets the integration data formatted for the specified integration.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="get_integration_integrations__name__get" method="get" path="/integrations/{name}" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.integrations.getIntegrationIntegrationsNameGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    name: "aws_bedrock",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { integrationsGetIntegrationIntegrationsNameGet } from "galileo-generated/funcs/integrationsGetIntegrationIntegrationsNameGet.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await integrationsGetIntegrationIntegrationsNameGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    name: "aws_bedrock",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("integrationsGetIntegrationIntegrationsNameGet failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.GetIntegrationIntegrationsNameGetRequest](../../models/operations/getintegrationintegrationsnamegetrequest.md)                                                     | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `security`                                                                                                                                                                     | [operations.GetIntegrationIntegrationsNameGetSecurity](../../models/operations/getintegrationintegrationsnamegetsecurity.md)                                                   | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[operations.ResponseGetIntegrationIntegrationsNameGet](../../models/operations/responsegetintegrationintegrationsnameget.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
 | errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
 
 ## deleteIntegrationIntegrationsNameDelete
@@ -262,9 +498,101 @@ run();
 | errors.HTTPValidationError          | 422                                 | application/json                    |
 | errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
 
+## getIntegrationIntegrationsNameGet
+
+Get the caller's integration for a provider, in that provider's own shape.
+
+Args:
+    name: Provider name from the URL.
+    integration: Integration resolved from the URL, read access already checked.
+
+Returns:
+    The provider-specific view of the integration.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="get_integration_integrations__name__get" method="get" path="/integrations/{name}" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.integrations.getIntegrationIntegrationsNameGet({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    name: "aws_bedrock",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { integrationsGetIntegrationIntegrationsNameGet } from "galileo-generated/funcs/integrationsGetIntegrationIntegrationsNameGet.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await integrationsGetIntegrationIntegrationsNameGet(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    name: "aws_bedrock",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("integrationsGetIntegrationIntegrationsNameGet failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.GetIntegrationIntegrationsNameGetRequest](../../models/operations/getintegrationintegrationsnamegetrequest.md)                                                     | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `security`                                                                                                                                                                     | [operations.GetIntegrationIntegrationsNameGetSecurity](../../models/operations/getintegrationintegrationsnamegetsecurity.md)                                                   | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.ResponseGetIntegrationIntegrationsNameGet](../../models/operations/responsegetintegrationintegrationsnameget.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
 ## getIntegrationStatusIntegrationsNameStatusGet
 
-Checks if the integration status is active or not.
+Check that the caller's integration for a provider still authenticates.
+
+Args:
+    name: Provider name from the URL.
+    integration: Integration resolved from the URL, read access already checked.
+
+Returns:
+    ``{200: "OK"}`` when the provider accepts the stored credentials.
+
+Raises:
+    GalileoServerException: When the provider rejects them.
 
 ### Example Usage
 
@@ -339,7 +667,16 @@ run();
 
 ## listUserIntegrationCollaboratorsIntegrationsIntegrationIdUsersGet
 
-List the users with which the integration has been shared.
+List the users the integration has been shared with.
+
+Args:
+    integration: Integration resolved from the URL.
+    pagination: Page window to return.
+    principal: Caller the collaborator permissions are evaluated for.
+    ctx: Async request context supplying the read session and current user.
+
+Returns:
+    The requested page of user collaborators.
 
 ### Example Usage
 
@@ -414,7 +751,19 @@ run();
 
 ## createUserIntegrationCollaboratorsIntegrationsIntegrationIdUsersPost
 
-Create User Integration Collaborators
+Share an integration with users.
+
+Args:
+    body: Users to share with, each of which must request the viewer role.
+    integration: Integration resolved from the URL.
+    ctx: Async request context supplying the read session and current user.
+    principal: Caller the collaborator permissions are evaluated for.
+
+Returns:
+    The created collaborators.
+
+Raises:
+    HTTPException: 422 when a user already has access or asks for a non-viewer role.
 
 ### Example Usage
 
@@ -491,7 +840,20 @@ run();
 
 ## updateUserIntegrationCollaboratorIntegrationsIntegrationIdUsersUserIdPatch
 
-Update the sharing permissions of a user on an integration.
+Change a user's role on a shared integration.
+
+Args:
+    collaborator_update: New role, which must be viewer.
+    integration: Integration resolved from the URL.
+    user_integration: Existing share resolved from the URL.
+    principal: Caller the collaborator permissions are evaluated for.
+    ctx: Async request context supplying the read session and current user.
+
+Returns:
+    The updated collaborator.
+
+Raises:
+    HTTPException: 422 when the requested role is not viewer.
 
 ### Example Usage
 
@@ -578,6 +940,14 @@ run();
 
 Remove a user's access to an integration.
 
+Args:
+    integration: Integration resolved from the URL, which names it for the audit log.
+    user_integration: Existing share resolved from the URL.
+    ctx: Async request context supplying the current user.
+
+Returns:
+    A confirmation message naming the user and integration.
+
 ### Example Usage
 
 <!-- UsageSnippet language="typescript" operationID="delete_user_integration_collaborator_integrations__integration_id__users__user_id__delete" method="delete" path="/integrations/{integration_id}/users/{user_id}" -->
@@ -656,6 +1026,18 @@ run();
 ## createGroupIntegrationCollaboratorsIntegrationsIntegrationIdGroupsPost
 
 Share an integration with groups.
+
+Args:
+    body: Groups to share with.
+    integration: Integration resolved from the URL.
+    ctx: Async request context supplying the read session and current user.
+    principal: Caller the collaborator permissions are evaluated for.
+
+Returns:
+    The created collaborators.
+
+Raises:
+    HTTPException: 404 when a group does not exist, 422 when it already has access.
 
 ### Example Usage
 
@@ -742,7 +1124,16 @@ run();
 
 ## listGroupIntegrationCollaboratorsIntegrationsIntegrationIdGroupsGet
 
-List the groups with which the integration has been shared.
+List the groups the integration has been shared with.
+
+Args:
+    integration: Integration resolved from the URL.
+    pagination: Page window to return.
+    principal: Caller the collaborator permissions are evaluated for.
+    ctx: Async request context supplying the read session and current user.
+
+Returns:
+    The requested page of group collaborators.
 
 ### Example Usage
 
@@ -817,7 +1208,17 @@ run();
 
 ## updateGroupIntegrationCollaboratorIntegrationsIntegrationIdGroupsGroupIdPatch
 
-Update the sharing permissions of a group on an integration.
+Change a group's role on a shared integration.
+
+Args:
+    collaborator_update: New role for the group.
+    integration: Integration resolved from the URL.
+    group_integration: Existing share resolved from the URL.
+    principal: Caller the collaborator permissions are evaluated for.
+    ctx: Async request context supplying the read session and current user.
+
+Returns:
+    The updated collaborator.
 
 ### Example Usage
 
@@ -904,6 +1305,14 @@ run();
 
 Remove a group's access to an integration.
 
+Args:
+    integration: Integration resolved from the URL, which names it for the audit log.
+    group_integration: Existing share resolved from the URL.
+    ctx: Async request context supplying the current user.
+
+Returns:
+    A confirmation message naming the group and integration.
+
 ### Example Usage
 
 <!-- UsageSnippet language="typescript" operationID="delete_group_integration_collaborator_integrations__integration_id__groups__group_id__delete" method="delete" path="/integrations/{integration_id}/groups/{group_id}" -->
@@ -981,7 +1390,15 @@ run();
 
 ## createOrUpdateIntegrationSelectionIntegrationsIntegrationIdSelectPut
 
-Create or update an integration selection for this user from Galileo.
+Make an integration the caller's selection for its provider.
+
+Args:
+    integration: Integration resolved from the URL.
+    ctx: Async request context supplying the read session and current user.
+    principal: Caller the selection is recorded for.
+
+Returns:
+    The selected integration, marked as selected and carrying the caller's permissions.
 
 ### Example Usage
 
@@ -1054,9 +1471,170 @@ run();
 | errors.HTTPValidationError          | 422                                 | application/json                    |
 | errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
 
+## selectIntegrationIntegrationsSelectPost
+
+Select an integration for this user.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="select_integration_integrations_select_post" method="post" path="/integrations/select" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.integrations.selectIntegrationIntegrationsSelectPost({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    integrationName: "<value>",
+    integrationId: "<value>",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { integrationsSelectIntegrationIntegrationsSelectPost } from "galileo-generated/funcs/integrationsSelectIntegrationIntegrationsSelectPost.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await integrationsSelectIntegrationIntegrationsSelectPost(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    integrationName: "<value>",
+    integrationId: "<value>",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("integrationsSelectIntegrationIntegrationsSelectPost failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [models.IntegrationSelectRequest](../../models/integrationselectrequest.md)                                                                                                    | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `security`                                                                                                                                                                     | [operations.SelectIntegrationIntegrationsSelectPostSecurity](../../models/operations/selectintegrationintegrationsselectpostsecurity.md)                                       | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[models.IntegrationDB](../../models/integrationdb.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
+## disableIntegrationIntegrationsDisablePost
+
+Disable an integration type for this user.
+
+Creates an opt-out record so no shared integration of this type is used.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="disable_integration_integrations_disable_post" method="post" path="/integrations/disable" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.integrations.disableIntegrationIntegrationsDisablePost({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    integrationName: "<value>",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { integrationsDisableIntegrationIntegrationsDisablePost } from "galileo-generated/funcs/integrationsDisableIntegrationIntegrationsDisablePost.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await integrationsDisableIntegrationIntegrationsDisablePost(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    integrationName: "<value>",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("integrationsDisableIntegrationIntegrationsDisablePost failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [models.IntegrationDisableRequest](../../models/integrationdisablerequest.md)                                                                                                  | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `security`                                                                                                                                                                     | [operations.DisableIntegrationIntegrationsDisablePostSecurity](../../models/operations/disableintegrationintegrationsdisablepostsecurity.md)                                   | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[any](../../models/.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
 ## createOrUpdateIntegrationIntegrationsAnthropicPut
 
-Create or update an Anthropic integration for this user from Galileo.
+Create or update an Anthropic integration for the caller.
+
+Args:
+    ctx: Async request context supplying the read session and current user.
+    integration: Provider credentials and provider-specific configuration.
+
+Returns:
+    The stored integration, without its secret columns.
 
 ### Example Usage
 
@@ -1131,7 +1709,14 @@ run();
 
 ## createOrUpdateIntegrationIntegrationsAwsBedrockPut
 
-Create or update an AWS integration for this user from Galileo.
+Create or update an AWS Bedrock integration for the caller.
+
+Args:
+    ctx: Async request context supplying the read session and current user.
+    integration: Provider credentials and provider-specific configuration.
+
+Returns:
+    The stored integration, without its secret columns.
 
 ### Example Usage
 
@@ -1210,7 +1795,14 @@ run();
 
 ## createOrUpdateIntegrationIntegrationsAwsSagemakerPut
 
-Create or update an AWS integration for this user from Galileo.
+Create or update an AWS SageMaker integration for the caller.
+
+Args:
+    ctx: Async request context supplying the read session and current user.
+    integration: Provider credentials and provider-specific configuration.
+
+Returns:
+    The stored integration, without its secret columns.
 
 ### Example Usage
 
@@ -1291,7 +1883,14 @@ run();
 
 ## createOrUpdateIntegrationIntegrationsAzurePut
 
-Create or update an Azure integration for this user from Galileo.
+Create or update an Azure integration for the caller.
+
+Args:
+    ctx: Async request context supplying the read session and current user.
+    integration: Provider credentials and provider-specific configuration.
+
+Returns:
+    The stored integration, without its secret columns.
 
 ### Example Usage
 
@@ -1368,7 +1967,14 @@ run();
 
 ## createOrUpdateIntegrationIntegrationsCustomPut
 
-Create or update custom integration
+Create or update the caller's unnamed custom integration.
+
+Args:
+    ctx: Async request context supplying the read session and current user.
+    integration: Custom-provider credentials, headers and model list.
+
+Returns:
+    The stored integration, without its secret columns.
 
 ### Example Usage
 
@@ -1441,9 +2047,88 @@ run();
 | errors.HTTPValidationError          | 422                                 | application/json                    |
 | errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
 
+## getCustomIntegrationDefinitionIntegrationsCustomDefinitionGet
+
+Return the full JSON definition of the custom integration, including decrypted secrets.
+
+Access is controlled by the integration read-secrets policy.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="get_custom_integration_definition_integrations_custom_definition_get" method="get" path="/integrations/custom/definition" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.integrations.getCustomIntegrationDefinitionIntegrationsCustomDefinitionGet({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { integrationsGetCustomIntegrationDefinitionIntegrationsCustomDefinitionGet } from "galileo-generated/funcs/integrationsGetCustomIntegrationDefinitionIntegrationsCustomDefinitionGet.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await integrationsGetCustomIntegrationDefinitionIntegrationsCustomDefinitionGet(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("integrationsGetCustomIntegrationDefinitionIntegrationsCustomDefinitionGet failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                            | Type                                                                                                                                                                                 | Required                                                                                                                                                                             | Description                                                                                                                                                                          |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `security`                                                                                                                                                                           | [operations.GetCustomIntegrationDefinitionIntegrationsCustomDefinitionGetSecurity](../../models/operations/getcustomintegrationdefinitionintegrationscustomdefinitiongetsecurity.md) | :heavy_check_mark:                                                                                                                                                                   | The security requirements to use for the request.                                                                                                                                    |
+| `options`                                                                                                                                                                            | RequestOptions                                                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                   | Used to set various options for making HTTP requests.                                                                                                                                |
+| `options.fetchOptions`                                                                                                                                                               | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                              | :heavy_minus_sign:                                                                                                                                                                   | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.       |
+| `options.retries`                                                                                                                                                                    | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                        | :heavy_minus_sign:                                                                                                                                                                   | Enables retrying HTTP requests under certain failure conditions.                                                                                                                     |
+
+### Response
+
+**Promise\<[models.CustomIntegrationDefinition](../../models/customintegrationdefinition.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
 ## createOrUpdateNamedCustomIntegrationIntegrationsCustomNamePut
 
-Create or update a named custom integration
+Create or update one of the caller's named custom integrations.
+
+Args:
+    name: Slug identifying the named custom integration.
+    ctx: Async request context supplying the read session and current user.
+    integration: Custom-provider credentials, headers and model list.
+
+Returns:
+    The stored integration, without its secret columns.
 
 ### Example Usage
 
@@ -1672,1136 +2357,6 @@ run();
 | errors.HTTPValidationError          | 422                                 | application/json                    |
 | errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
 
-## ~~createOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPut~~
-
-Create or update a databricks integration for this user from Galileo.
-
-> :warning: **DEPRECATED**: This will be removed in a future release, please migrate away from it as soon as possible.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="create_or_update_unity_catalog_integration_integrations_databricks_unity_catalog_sql_put" method="put" path="/integrations/databricks/unity-catalog/sql" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.integrations.createOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPut({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    token: "<value>",
-    hostname: "https://dependent-relative.biz",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import {
-  integrationsCreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPut,
-} from "galileo-generated/funcs/integrationsCreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPut.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await integrationsCreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPut(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    token: "<value>",
-    hostname: "https://dependent-relative.biz",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("integrationsCreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPut failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                                                            | Type                                                                                                                                                                                                                 | Required                                                                                                                                                                                                             | Description                                                                                                                                                                                                          |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `request`                                                                                                                                                                                                            | [models.DatabricksIntegrationCreate](../../models/databricksintegrationcreate.md)                                                                                                                                    | :heavy_check_mark:                                                                                                                                                                                                   | The request object to use for the request.                                                                                                                                                                           |
-| `security`                                                                                                                                                                                                           | [operations.CreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPutSecurity](../../models/operations/createorupdateunitycatalogintegrationintegrationsdatabricksunitycatalogsqlputsecurity.md) | :heavy_check_mark:                                                                                                                                                                                                   | The security requirements to use for the request.                                                                                                                                                                    |
-| `options`                                                                                                                                                                                                            | RequestOptions                                                                                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                   | Used to set various options for making HTTP requests.                                                                                                                                                                |
-| `options.fetchOptions`                                                                                                                                                                                               | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                                                              | :heavy_minus_sign:                                                                                                                                                                                                   | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.                                       |
-| `options.retries`                                                                                                                                                                                                    | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                                                        | :heavy_minus_sign:                                                                                                                                                                                                   | Enables retrying HTTP requests under certain failure conditions.                                                                                                                                                     |
-
-### Response
-
-**Promise\<[models.IntegrationDB](../../models/integrationdb.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
-## createOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPut
-
-Create or update a databricks integration for this user from Galileo.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="create_or_update_unity_catalog_integration_integrations_databricks_put" method="put" path="/integrations/databricks" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.integrations.createOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPut({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    token: "<value>",
-    hostname: "https://worthwhile-term.biz",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { integrationsCreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPut } from "galileo-generated/funcs/integrationsCreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPut.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await integrationsCreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPut(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    token: "<value>",
-    hostname: "https://worthwhile-term.biz",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("integrationsCreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPut failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                              | Type                                                                                                                                                                                   | Required                                                                                                                                                                               | Description                                                                                                                                                                            |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `request`                                                                                                                                                                              | [models.DatabricksIntegrationCreate](../../models/databricksintegrationcreate.md)                                                                                                      | :heavy_check_mark:                                                                                                                                                                     | The request object to use for the request.                                                                                                                                             |
-| `security`                                                                                                                                                                             | [operations.CreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPutSecurity](../../models/operations/createorupdateunitycatalogintegrationintegrationsdatabricksputsecurity.md) | :heavy_check_mark:                                                                                                                                                                     | The security requirements to use for the request.                                                                                                                                      |
-| `options`                                                                                                                                                                              | RequestOptions                                                                                                                                                                         | :heavy_minus_sign:                                                                                                                                                                     | Used to set various options for making HTTP requests.                                                                                                                                  |
-| `options.fetchOptions`                                                                                                                                                                 | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                                | :heavy_minus_sign:                                                                                                                                                                     | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.         |
-| `options.retries`                                                                                                                                                                      | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                          | :heavy_minus_sign:                                                                                                                                                                     | Enables retrying HTTP requests under certain failure conditions.                                                                                                                       |
-
-### Response
-
-**Promise\<[models.IntegrationDB](../../models/integrationdb.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
-## getDatabricksCatalogsIntegrationsDatabricksCatalogsGet
-
-Get Databricks Catalogs
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="get_databricks_catalogs_integrations_databricks_catalogs_get" method="get" path="/integrations/databricks/catalogs" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.integrations.getDatabricksCatalogsIntegrationsDatabricksCatalogsGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { integrationsGetDatabricksCatalogsIntegrationsDatabricksCatalogsGet } from "galileo-generated/funcs/integrationsGetDatabricksCatalogsIntegrationsDatabricksCatalogsGet.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await integrationsGetDatabricksCatalogsIntegrationsDatabricksCatalogsGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("integrationsGetDatabricksCatalogsIntegrationsDatabricksCatalogsGet failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `security`                                                                                                                                                                     | [operations.GetDatabricksCatalogsIntegrationsDatabricksCatalogsGetSecurity](../../models/operations/getdatabrickscatalogsintegrationsdatabrickscatalogsgetsecurity.md)         | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[string[]](../../models/.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
-## getDatabasesForClusterIntegrationsDatabricksDatabasesGet
-
-Get Databases For Cluster
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="get_databases_for_cluster_integrations_databricks_databases_get" method="get" path="/integrations/databricks/databases" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.integrations.getDatabasesForClusterIntegrationsDatabricksDatabasesGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { integrationsGetDatabasesForClusterIntegrationsDatabricksDatabasesGet } from "galileo-generated/funcs/integrationsGetDatabasesForClusterIntegrationsDatabricksDatabasesGet.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await integrationsGetDatabasesForClusterIntegrationsDatabricksDatabasesGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("integrationsGetDatabasesForClusterIntegrationsDatabricksDatabasesGet failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.GetDatabasesForClusterIntegrationsDatabricksDatabasesGetRequest](../../models/operations/getdatabasesforclusterintegrationsdatabricksdatabasesgetrequest.md)       | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `security`                                                                                                                                                                     | [operations.GetDatabasesForClusterIntegrationsDatabricksDatabasesGetSecurity](../../models/operations/getdatabasesforclusterintegrationsdatabricksdatabasesgetsecurity.md)     | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[string[]](../../models/.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
-## createOrUpdateIntegrationIntegrationsMistralPut
-
-Create or update an Mistral integration for this user from Galileo.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="create_or_update_integration_integrations_mistral_put" method="put" path="/integrations/mistral" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.integrations.createOrUpdateIntegrationIntegrationsMistralPut({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    token: "<value>",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { integrationsCreateOrUpdateIntegrationIntegrationsMistralPut } from "galileo-generated/funcs/integrationsCreateOrUpdateIntegrationIntegrationsMistralPut.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await integrationsCreateOrUpdateIntegrationIntegrationsMistralPut(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    token: "<value>",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("integrationsCreateOrUpdateIntegrationIntegrationsMistralPut failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [models.MistralIntegrationCreate](../../models/mistralintegrationcreate.md)                                                                                                    | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `security`                                                                                                                                                                     | [operations.CreateOrUpdateIntegrationIntegrationsMistralPutSecurity](../../models/operations/createorupdateintegrationintegrationsmistralputsecurity.md)                       | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[models.IntegrationDB](../../models/integrationdb.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
-## createOrUpdateIntegrationIntegrationsNvidiaPut
-
-Create or update an NVIDIA integration for this user from Galileo.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="create_or_update_integration_integrations_nvidia_put" method="put" path="/integrations/nvidia" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.integrations.createOrUpdateIntegrationIntegrationsNvidiaPut({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    token: "<value>",
-    hostname: "https://common-breastplate.info",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { integrationsCreateOrUpdateIntegrationIntegrationsNvidiaPut } from "galileo-generated/funcs/integrationsCreateOrUpdateIntegrationIntegrationsNvidiaPut.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await integrationsCreateOrUpdateIntegrationIntegrationsNvidiaPut(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    token: "<value>",
-    hostname: "https://common-breastplate.info",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("integrationsCreateOrUpdateIntegrationIntegrationsNvidiaPut failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [models.NvidiaIntegrationCreate](../../models/nvidiaintegrationcreate.md)                                                                                                      | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `security`                                                                                                                                                                     | [operations.CreateOrUpdateIntegrationIntegrationsNvidiaPutSecurity](../../models/operations/createorupdateintegrationintegrationsnvidiaputsecurity.md)                         | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[models.IntegrationDB](../../models/integrationdb.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
-## createOrUpdateIntegrationIntegrationsOpenaiPut
-
-Create or update an OpenAI integration for this user from Galileo.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="create_or_update_integration_integrations_openai_put" method="put" path="/integrations/openai" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.integrations.createOrUpdateIntegrationIntegrationsOpenaiPut({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    token: "<value>",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { integrationsCreateOrUpdateIntegrationIntegrationsOpenaiPut } from "galileo-generated/funcs/integrationsCreateOrUpdateIntegrationIntegrationsOpenaiPut.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await integrationsCreateOrUpdateIntegrationIntegrationsOpenaiPut(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    token: "<value>",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("integrationsCreateOrUpdateIntegrationIntegrationsOpenaiPut failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [models.OpenAIIntegrationCreate](../../models/openaiintegrationcreate.md)                                                                                                      | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `security`                                                                                                                                                                     | [operations.CreateOrUpdateIntegrationIntegrationsOpenaiPutSecurity](../../models/operations/createorupdateintegrationintegrationsopenaiputsecurity.md)                         | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[models.IntegrationDB](../../models/integrationdb.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
-## createOrUpdateIntegrationIntegrationsVegasGatewayPut
-
-Create or update a Vegas Gateway integration for this user from Galileo.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="create_or_update_integration_integrations_vegas_gateway_put" method="put" path="/integrations/vegas_gateway" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.integrations.createOrUpdateIntegrationIntegrationsVegasGatewayPut({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    endpoint: "https://rich-caption.name/",
-    useCase: "<value>",
-    token: "<value>",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { integrationsCreateOrUpdateIntegrationIntegrationsVegasGatewayPut } from "galileo-generated/funcs/integrationsCreateOrUpdateIntegrationIntegrationsVegasGatewayPut.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await integrationsCreateOrUpdateIntegrationIntegrationsVegasGatewayPut(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    endpoint: "https://rich-caption.name/",
-    useCase: "<value>",
-    token: "<value>",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("integrationsCreateOrUpdateIntegrationIntegrationsVegasGatewayPut failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [models.VegasGatewayIntegrationCreate](../../models/vegasgatewayintegrationcreate.md)                                                                                          | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `security`                                                                                                                                                                     | [operations.CreateOrUpdateIntegrationIntegrationsVegasGatewayPutSecurity](../../models/operations/createorupdateintegrationintegrationsvegasgatewayputsecurity.md)             | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[models.IntegrationDB](../../models/integrationdb.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
-## createOrUpdateIntegrationIntegrationsVertexAiPut
-
-Create or update a Google Vertex AI integration for a user.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="create_or_update_integration_integrations_vertex_ai_put" method="put" path="/integrations/vertex_ai" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.integrations.createOrUpdateIntegrationIntegrationsVertexAiPut({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    token: "<value>",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { integrationsCreateOrUpdateIntegrationIntegrationsVertexAiPut } from "galileo-generated/funcs/integrationsCreateOrUpdateIntegrationIntegrationsVertexAiPut.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await integrationsCreateOrUpdateIntegrationIntegrationsVertexAiPut(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    token: "<value>",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("integrationsCreateOrUpdateIntegrationIntegrationsVertexAiPut failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [models.VertexAIIntegrationCreate](../../models/vertexaiintegrationcreate.md)                                                                                                  | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `security`                                                                                                                                                                     | [operations.CreateOrUpdateIntegrationIntegrationsVertexAiPutSecurity](../../models/operations/createorupdateintegrationintegrationsvertexaiputsecurity.md)                     | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[models.IntegrationDB](../../models/integrationdb.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
-## createOrUpdateIntegrationIntegrationsWriterPut
-
-Create or update a Writer integration for a user.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="create_or_update_integration_integrations_writer_put" method="put" path="/integrations/writer" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.integrations.createOrUpdateIntegrationIntegrationsWriterPut({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    organizationId: "<id>",
-    token: "<value>",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { integrationsCreateOrUpdateIntegrationIntegrationsWriterPut } from "galileo-generated/funcs/integrationsCreateOrUpdateIntegrationIntegrationsWriterPut.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await integrationsCreateOrUpdateIntegrationIntegrationsWriterPut(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    organizationId: "<id>",
-    token: "<value>",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("integrationsCreateOrUpdateIntegrationIntegrationsWriterPut failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [models.WriterIntegrationCreate](../../models/writerintegrationcreate.md)                                                                                                      | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `security`                                                                                                                                                                     | [operations.CreateOrUpdateIntegrationIntegrationsWriterPutSecurity](../../models/operations/createorupdateintegrationintegrationswriterputsecurity.md)                         | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[models.IntegrationDB](../../models/integrationdb.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
-## listIntegrationsIntegrationsGet
-
-List the created integrations for the requesting user.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="list_integrations_integrations_get" method="get" path="/integrations" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.integrations.listIntegrationsIntegrationsGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { integrationsListIntegrationsIntegrationsGet } from "galileo-generated/funcs/integrationsListIntegrationsIntegrationsGet.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await integrationsListIntegrationsIntegrationsGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("integrationsListIntegrationsIntegrationsGet failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `security`                                                                                                                                                                     | [operations.ListIntegrationsIntegrationsGetSecurity](../../models/operations/listintegrationsintegrationsgetsecurity.md)                                                       | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[models.IntegrationDB[]](../../models/.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
-## getIntegrationCostsIntegrationsCostsSummaryGet
-
-Get Integration Costs
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="get_integration_costs_integrations_costs_summary_get" method="get" path="/integrations/costs/summary" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.integrations.getIntegrationCostsIntegrationsCostsSummaryGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    startTime: new Date("2026-03-25T04:25:47.231Z"),
-    endTime: new Date("2026-12-02T19:10:59.980Z"),
-    interval: "monthly",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { integrationsGetIntegrationCostsIntegrationsCostsSummaryGet } from "galileo-generated/funcs/integrationsGetIntegrationCostsIntegrationsCostsSummaryGet.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await integrationsGetIntegrationCostsIntegrationsCostsSummaryGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    startTime: new Date("2026-03-25T04:25:47.231Z"),
-    endTime: new Date("2026-12-02T19:10:59.980Z"),
-    interval: "monthly",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("integrationsGetIntegrationCostsIntegrationsCostsSummaryGet failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.GetIntegrationCostsIntegrationsCostsSummaryGetRequest](../../models/operations/getintegrationcostsintegrationscostssummarygetrequest.md)                           | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `security`                                                                                                                                                                     | [operations.GetIntegrationCostsIntegrationsCostsSummaryGetSecurity](../../models/operations/getintegrationcostsintegrationscostssummarygetsecurity.md)                         | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[models.IntegrationCostsResponse](../../models/integrationcostsresponse.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
-## selectIntegrationIntegrationsSelectPost
-
-Select an integration for this user.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="select_integration_integrations_select_post" method="post" path="/integrations/select" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.integrations.selectIntegrationIntegrationsSelectPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    integrationName: "<value>",
-    integrationId: "<value>",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { integrationsSelectIntegrationIntegrationsSelectPost } from "galileo-generated/funcs/integrationsSelectIntegrationIntegrationsSelectPost.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await integrationsSelectIntegrationIntegrationsSelectPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    integrationName: "<value>",
-    integrationId: "<value>",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("integrationsSelectIntegrationIntegrationsSelectPost failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [models.IntegrationSelectRequest](../../models/integrationselectrequest.md)                                                                                                    | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `security`                                                                                                                                                                     | [operations.SelectIntegrationIntegrationsSelectPostSecurity](../../models/operations/selectintegrationintegrationsselectpostsecurity.md)                                       | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[models.IntegrationDB](../../models/integrationdb.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
-## disableIntegrationIntegrationsDisablePost
-
-Disable an integration type for this user.
-
-Creates an opt-out record so no shared integration of this type is used.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="disable_integration_integrations_disable_post" method="post" path="/integrations/disable" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.integrations.disableIntegrationIntegrationsDisablePost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    integrationName: "<value>",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { integrationsDisableIntegrationIntegrationsDisablePost } from "galileo-generated/funcs/integrationsDisableIntegrationIntegrationsDisablePost.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await integrationsDisableIntegrationIntegrationsDisablePost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    integrationName: "<value>",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("integrationsDisableIntegrationIntegrationsDisablePost failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [models.IntegrationDisableRequest](../../models/integrationdisablerequest.md)                                                                                                  | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `security`                                                                                                                                                                     | [operations.DisableIntegrationIntegrationsDisablePostSecurity](../../models/operations/disableintegrationintegrationsdisablepostsecurity.md)                                   | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[any](../../models/.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
-## getCustomIntegrationDefinitionIntegrationsCustomDefinitionGet
-
-Return the full JSON definition of the custom integration, including decrypted secrets.
-
-Only users with edit permission on the integration (its creator and admins)
-are authorized to call this endpoint.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="get_custom_integration_definition_integrations_custom_definition_get" method="get" path="/integrations/custom/definition" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.integrations.getCustomIntegrationDefinitionIntegrationsCustomDefinitionGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { integrationsGetCustomIntegrationDefinitionIntegrationsCustomDefinitionGet } from "galileo-generated/funcs/integrationsGetCustomIntegrationDefinitionIntegrationsCustomDefinitionGet.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await integrationsGetCustomIntegrationDefinitionIntegrationsCustomDefinitionGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("integrationsGetCustomIntegrationDefinitionIntegrationsCustomDefinitionGet failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                            | Type                                                                                                                                                                                 | Required                                                                                                                                                                             | Description                                                                                                                                                                          |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `security`                                                                                                                                                                           | [operations.GetCustomIntegrationDefinitionIntegrationsCustomDefinitionGetSecurity](../../models/operations/getcustomintegrationdefinitionintegrationscustomdefinitiongetsecurity.md) | :heavy_check_mark:                                                                                                                                                                   | The security requirements to use for the request.                                                                                                                                    |
-| `options`                                                                                                                                                                            | RequestOptions                                                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                   | Used to set various options for making HTTP requests.                                                                                                                                |
-| `options.fetchOptions`                                                                                                                                                               | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                              | :heavy_minus_sign:                                                                                                                                                                   | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.       |
-| `options.retries`                                                                                                                                                                    | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                        | :heavy_minus_sign:                                                                                                                                                                   | Enables retrying HTTP requests under certain failure conditions.                                                                                                                     |
-
-### Response
-
-**Promise\<[models.CustomIntegrationDefinition](../../models/customintegrationdefinition.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
 ## getNamedCustomIntegrationStatusIntegrationsCustomNameStatusGet
 
 Check status of a named custom integration
@@ -2946,6 +2501,831 @@ run();
 ### Response
 
 **Promise\<[models.CustomIntegrationDefinition](../../models/customintegrationdefinition.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
+## ~~createOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPut~~
+
+Create or update the caller's Databricks integration.
+
+Args:
+    ctx: Async request context supplying the read session and current user.
+    integration: Databricks host, warehouse path and token.
+
+Returns:
+    The stored integration, without its secret columns.
+
+> :warning: **DEPRECATED**: This will be removed in a future release, please migrate away from it as soon as possible.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="create_or_update_unity_catalog_integration_integrations_databricks_unity_catalog_sql_put" method="put" path="/integrations/databricks/unity-catalog/sql" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.integrations.createOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPut({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    token: "<value>",
+    hostname: "https://dependent-relative.biz",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import {
+  integrationsCreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPut,
+} from "galileo-generated/funcs/integrationsCreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPut.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await integrationsCreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPut(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    token: "<value>",
+    hostname: "https://dependent-relative.biz",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("integrationsCreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPut failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                            | Type                                                                                                                                                                                                                 | Required                                                                                                                                                                                                             | Description                                                                                                                                                                                                          |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `request`                                                                                                                                                                                                            | [models.DatabricksIntegrationCreate](../../models/databricksintegrationcreate.md)                                                                                                                                    | :heavy_check_mark:                                                                                                                                                                                                   | The request object to use for the request.                                                                                                                                                                           |
+| `security`                                                                                                                                                                                                           | [operations.CreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksUnityCatalogSqlPutSecurity](../../models/operations/createorupdateunitycatalogintegrationintegrationsdatabricksunitycatalogsqlputsecurity.md) | :heavy_check_mark:                                                                                                                                                                                                   | The security requirements to use for the request.                                                                                                                                                                    |
+| `options`                                                                                                                                                                                                            | RequestOptions                                                                                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                   | Used to set various options for making HTTP requests.                                                                                                                                                                |
+| `options.fetchOptions`                                                                                                                                                                                               | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                                                              | :heavy_minus_sign:                                                                                                                                                                                                   | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.                                       |
+| `options.retries`                                                                                                                                                                                                    | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                                                        | :heavy_minus_sign:                                                                                                                                                                                                   | Enables retrying HTTP requests under certain failure conditions.                                                                                                                                                     |
+
+### Response
+
+**Promise\<[models.IntegrationDB](../../models/integrationdb.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
+## createOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPut
+
+Create or update the caller's Databricks integration.
+
+Args:
+    ctx: Async request context supplying the read session and current user.
+    integration: Databricks host, warehouse path and token.
+
+Returns:
+    The stored integration, without its secret columns.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="create_or_update_unity_catalog_integration_integrations_databricks_put" method="put" path="/integrations/databricks" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.integrations.createOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPut({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    token: "<value>",
+    hostname: "https://worthwhile-term.biz",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { integrationsCreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPut } from "galileo-generated/funcs/integrationsCreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPut.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await integrationsCreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPut(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    token: "<value>",
+    hostname: "https://worthwhile-term.biz",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("integrationsCreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPut failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                              | Type                                                                                                                                                                                   | Required                                                                                                                                                                               | Description                                                                                                                                                                            |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `request`                                                                                                                                                                              | [models.DatabricksIntegrationCreate](../../models/databricksintegrationcreate.md)                                                                                                      | :heavy_check_mark:                                                                                                                                                                     | The request object to use for the request.                                                                                                                                             |
+| `security`                                                                                                                                                                             | [operations.CreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPutSecurity](../../models/operations/createorupdateunitycatalogintegrationintegrationsdatabricksputsecurity.md) | :heavy_check_mark:                                                                                                                                                                     | The security requirements to use for the request.                                                                                                                                      |
+| `options`                                                                                                                                                                              | RequestOptions                                                                                                                                                                         | :heavy_minus_sign:                                                                                                                                                                     | Used to set various options for making HTTP requests.                                                                                                                                  |
+| `options.fetchOptions`                                                                                                                                                                 | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                                | :heavy_minus_sign:                                                                                                                                                                     | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.         |
+| `options.retries`                                                                                                                                                                      | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                          | :heavy_minus_sign:                                                                                                                                                                     | Enables retrying HTTP requests under certain failure conditions.                                                                                                                       |
+
+### Response
+
+**Promise\<[models.IntegrationDB](../../models/integrationdb.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
+## getDatabricksCatalogsIntegrationsDatabricksCatalogsGet
+
+List the catalogs reachable through the caller's Databricks integration.
+
+Args:
+    databricks: Databricks service resolved from the URL, credentials already validated.
+
+Returns:
+    The catalog names.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="get_databricks_catalogs_integrations_databricks_catalogs_get" method="get" path="/integrations/databricks/catalogs" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.integrations.getDatabricksCatalogsIntegrationsDatabricksCatalogsGet({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { integrationsGetDatabricksCatalogsIntegrationsDatabricksCatalogsGet } from "galileo-generated/funcs/integrationsGetDatabricksCatalogsIntegrationsDatabricksCatalogsGet.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await integrationsGetDatabricksCatalogsIntegrationsDatabricksCatalogsGet(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("integrationsGetDatabricksCatalogsIntegrationsDatabricksCatalogsGet failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `security`                                                                                                                                                                     | [operations.GetDatabricksCatalogsIntegrationsDatabricksCatalogsGetSecurity](../../models/operations/getdatabrickscatalogsintegrationsdatabrickscatalogsgetsecurity.md)         | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[string[]](../../models/.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
+## getDatabasesForClusterIntegrationsDatabricksDatabasesGet
+
+List the databases in a catalog of the caller's Databricks integration.
+
+Args:
+    catalog: Catalog to list, defaulting to the integration's configured catalog.
+    databricks: Databricks service resolved from the URL, credentials already validated.
+
+Returns:
+    The database names.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="get_databases_for_cluster_integrations_databricks_databases_get" method="get" path="/integrations/databricks/databases" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.integrations.getDatabasesForClusterIntegrationsDatabricksDatabasesGet({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { integrationsGetDatabasesForClusterIntegrationsDatabricksDatabasesGet } from "galileo-generated/funcs/integrationsGetDatabasesForClusterIntegrationsDatabricksDatabasesGet.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await integrationsGetDatabasesForClusterIntegrationsDatabricksDatabasesGet(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("integrationsGetDatabasesForClusterIntegrationsDatabricksDatabasesGet failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.GetDatabasesForClusterIntegrationsDatabricksDatabasesGetRequest](../../models/operations/getdatabasesforclusterintegrationsdatabricksdatabasesgetrequest.md)       | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `security`                                                                                                                                                                     | [operations.GetDatabasesForClusterIntegrationsDatabricksDatabasesGetSecurity](../../models/operations/getdatabasesforclusterintegrationsdatabricksdatabasesgetsecurity.md)     | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[string[]](../../models/.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
+## createOrUpdateIntegrationIntegrationsMistralPut
+
+Create or update a Mistral integration for the caller.
+
+Args:
+    ctx: Async request context supplying the read session and current user.
+    integration: Provider credentials and provider-specific configuration.
+
+Returns:
+    The stored integration, without its secret columns.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="create_or_update_integration_integrations_mistral_put" method="put" path="/integrations/mistral" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.integrations.createOrUpdateIntegrationIntegrationsMistralPut({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    token: "<value>",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { integrationsCreateOrUpdateIntegrationIntegrationsMistralPut } from "galileo-generated/funcs/integrationsCreateOrUpdateIntegrationIntegrationsMistralPut.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await integrationsCreateOrUpdateIntegrationIntegrationsMistralPut(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    token: "<value>",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("integrationsCreateOrUpdateIntegrationIntegrationsMistralPut failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [models.MistralIntegrationCreate](../../models/mistralintegrationcreate.md)                                                                                                    | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `security`                                                                                                                                                                     | [operations.CreateOrUpdateIntegrationIntegrationsMistralPutSecurity](../../models/operations/createorupdateintegrationintegrationsmistralputsecurity.md)                       | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[models.IntegrationDB](../../models/integrationdb.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
+## createOrUpdateIntegrationIntegrationsNvidiaPut
+
+Create or update an Nvidia integration for the caller.
+
+Args:
+    ctx: Async request context supplying the read session and current user.
+    integration: Provider credentials and provider-specific configuration.
+
+Returns:
+    The stored integration, without its secret columns.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="create_or_update_integration_integrations_nvidia_put" method="put" path="/integrations/nvidia" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.integrations.createOrUpdateIntegrationIntegrationsNvidiaPut({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    token: "<value>",
+    hostname: "https://common-breastplate.info",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { integrationsCreateOrUpdateIntegrationIntegrationsNvidiaPut } from "galileo-generated/funcs/integrationsCreateOrUpdateIntegrationIntegrationsNvidiaPut.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await integrationsCreateOrUpdateIntegrationIntegrationsNvidiaPut(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    token: "<value>",
+    hostname: "https://common-breastplate.info",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("integrationsCreateOrUpdateIntegrationIntegrationsNvidiaPut failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [models.NvidiaIntegrationCreate](../../models/nvidiaintegrationcreate.md)                                                                                                      | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `security`                                                                                                                                                                     | [operations.CreateOrUpdateIntegrationIntegrationsNvidiaPutSecurity](../../models/operations/createorupdateintegrationintegrationsnvidiaputsecurity.md)                         | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[models.IntegrationDB](../../models/integrationdb.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
+## createOrUpdateIntegrationIntegrationsOpenaiPut
+
+Create or update an OpenAI integration for the caller.
+
+Args:
+    ctx: Async request context supplying the read session and current user.
+    integration: Provider credentials and provider-specific configuration.
+
+Returns:
+    The stored integration, without its secret columns.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="create_or_update_integration_integrations_openai_put" method="put" path="/integrations/openai" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.integrations.createOrUpdateIntegrationIntegrationsOpenaiPut({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    token: "<value>",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { integrationsCreateOrUpdateIntegrationIntegrationsOpenaiPut } from "galileo-generated/funcs/integrationsCreateOrUpdateIntegrationIntegrationsOpenaiPut.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await integrationsCreateOrUpdateIntegrationIntegrationsOpenaiPut(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    token: "<value>",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("integrationsCreateOrUpdateIntegrationIntegrationsOpenaiPut failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [models.OpenAIIntegrationCreate](../../models/openaiintegrationcreate.md)                                                                                                      | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `security`                                                                                                                                                                     | [operations.CreateOrUpdateIntegrationIntegrationsOpenaiPutSecurity](../../models/operations/createorupdateintegrationintegrationsopenaiputsecurity.md)                         | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[models.IntegrationDB](../../models/integrationdb.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
+## createOrUpdateIntegrationIntegrationsVegasGatewayPut
+
+Create or update a Vegas Gateway integration for the caller.
+
+Args:
+    ctx: Async request context supplying the read session and current user.
+    integration: Provider credentials and provider-specific configuration.
+
+Returns:
+    The stored integration, without its secret columns.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="create_or_update_integration_integrations_vegas_gateway_put" method="put" path="/integrations/vegas_gateway" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.integrations.createOrUpdateIntegrationIntegrationsVegasGatewayPut({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    endpoint: "https://rich-caption.name/",
+    useCase: "<value>",
+    token: "<value>",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { integrationsCreateOrUpdateIntegrationIntegrationsVegasGatewayPut } from "galileo-generated/funcs/integrationsCreateOrUpdateIntegrationIntegrationsVegasGatewayPut.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await integrationsCreateOrUpdateIntegrationIntegrationsVegasGatewayPut(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    endpoint: "https://rich-caption.name/",
+    useCase: "<value>",
+    token: "<value>",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("integrationsCreateOrUpdateIntegrationIntegrationsVegasGatewayPut failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [models.VegasGatewayIntegrationCreate](../../models/vegasgatewayintegrationcreate.md)                                                                                          | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `security`                                                                                                                                                                     | [operations.CreateOrUpdateIntegrationIntegrationsVegasGatewayPutSecurity](../../models/operations/createorupdateintegrationintegrationsvegasgatewayputsecurity.md)             | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[models.IntegrationDB](../../models/integrationdb.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
+## createOrUpdateIntegrationIntegrationsVertexAiPut
+
+Create or update a Google Vertex AI integration for the caller.
+
+Args:
+    ctx: Async request context supplying the read session and current user.
+    integration: Provider credentials and provider-specific configuration.
+
+Returns:
+    The stored integration, without its secret columns.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="create_or_update_integration_integrations_vertex_ai_put" method="put" path="/integrations/vertex_ai" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.integrations.createOrUpdateIntegrationIntegrationsVertexAiPut({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    token: "<value>",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { integrationsCreateOrUpdateIntegrationIntegrationsVertexAiPut } from "galileo-generated/funcs/integrationsCreateOrUpdateIntegrationIntegrationsVertexAiPut.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await integrationsCreateOrUpdateIntegrationIntegrationsVertexAiPut(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    token: "<value>",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("integrationsCreateOrUpdateIntegrationIntegrationsVertexAiPut failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [models.VertexAIIntegrationCreate](../../models/vertexaiintegrationcreate.md)                                                                                                  | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `security`                                                                                                                                                                     | [operations.CreateOrUpdateIntegrationIntegrationsVertexAiPutSecurity](../../models/operations/createorupdateintegrationintegrationsvertexaiputsecurity.md)                     | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[models.IntegrationDB](../../models/integrationdb.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
+## createOrUpdateIntegrationIntegrationsWriterPut
+
+Create or update a Writer integration for the caller.
+
+Args:
+    ctx: Async request context supplying the read session and current user.
+    integration: Provider credentials and provider-specific configuration.
+
+Returns:
+    The stored integration, without its secret columns.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="create_or_update_integration_integrations_writer_put" method="put" path="/integrations/writer" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.integrations.createOrUpdateIntegrationIntegrationsWriterPut({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    organizationId: "<id>",
+    token: "<value>",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { integrationsCreateOrUpdateIntegrationIntegrationsWriterPut } from "galileo-generated/funcs/integrationsCreateOrUpdateIntegrationIntegrationsWriterPut.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await integrationsCreateOrUpdateIntegrationIntegrationsWriterPut(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    organizationId: "<id>",
+    token: "<value>",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("integrationsCreateOrUpdateIntegrationIntegrationsWriterPut failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [models.WriterIntegrationCreate](../../models/writerintegrationcreate.md)                                                                                                      | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `security`                                                                                                                                                                     | [operations.CreateOrUpdateIntegrationIntegrationsWriterPutSecurity](../../models/operations/createorupdateintegrationintegrationswriterputsecurity.md)                         | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[models.IntegrationDB](../../models/integrationdb.md)\>**
 
 ### Errors
 
