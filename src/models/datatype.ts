@@ -21,6 +21,7 @@ export const DataType = {
   Playground: "playground",
   Rank: "rank",
   CategoryCount: "category_count",
+  RetrievedChunkListBoolean: "retrieved_chunk_list_boolean",
   ScoreRatingAggregate: "score_rating_aggregate",
   StarRatingAggregate: "star_rating_aggregate",
   ThumbRatingAggregate: "thumb_rating_aggregate",
