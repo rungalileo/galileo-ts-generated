@@ -37,6 +37,11 @@ import {
   GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
 } from "./galileocoreschemasloggingllmmessage.js";
 import {
+  HttpSpan,
+  HttpSpan$Outbound,
+  HttpSpan$outboundSchema,
+} from "./httpspan.js";
+import {
   LlmSpan,
   LlmSpan$Outbound,
   LlmSpan$outboundSchema,
@@ -214,6 +219,7 @@ export type WorkflowSpan = {
     | Array<
       | AgentSpan
       | ControlSpan
+      | HttpSpan
       | LlmSpan
       | RetrieverSpan
       | ToolSpan
@@ -225,6 +231,7 @@ export type WorkflowSpan = {
 export type WorkflowSpanSpan =
   | AgentSpan
   | ControlSpan
+  | HttpSpan
   | LlmSpan
   | RetrieverSpan
   | ToolSpan
@@ -471,6 +478,7 @@ export type WorkflowSpan$Outbound = {
     | Array<
       | AgentSpan$Outbound
       | ControlSpan$Outbound
+      | HttpSpan$Outbound
       | LlmSpan$Outbound
       | RetrieverSpan$Outbound
       | ToolSpan$Outbound
@@ -562,12 +570,13 @@ export const WorkflowSpan$outboundSchema: z.ZodMiniType<
     spans: z.optional(z.array(z.union([
       z.lazy(() => AgentSpan$outboundSchema),
       ControlSpan$outboundSchema,
+      z.lazy(() => HttpSpan$outboundSchema),
       LlmSpan$outboundSchema,
       z.lazy(() => RetrieverSpan$outboundSchema),
-      z.lazy(() => ToolSpan$outboundSchema),
       z.lazy(() =>
-        WorkflowSpan$outboundSchema
+        ToolSpan$outboundSchema
       ),
+      z.lazy(() => WorkflowSpan$outboundSchema),
     ]))),
   }),
   z.transform((v) => {
@@ -597,6 +606,7 @@ export function workflowSpanToJSON(workflowSpan: WorkflowSpan): string {
 export type WorkflowSpanSpan$Outbound =
   | AgentSpan$Outbound
   | ControlSpan$Outbound
+  | HttpSpan$Outbound
   | LlmSpan$Outbound
   | RetrieverSpan$Outbound
   | ToolSpan$Outbound
@@ -609,6 +619,7 @@ export const WorkflowSpanSpan$outboundSchema: z.ZodMiniType<
 > = z.union([
   z.lazy(() => AgentSpan$outboundSchema),
   ControlSpan$outboundSchema,
+  z.lazy(() => HttpSpan$outboundSchema),
   LlmSpan$outboundSchema,
   z.lazy(() => RetrieverSpan$outboundSchema),
   z.lazy(() => ToolSpan$outboundSchema),

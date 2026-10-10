@@ -13,5 +13,5 @@ let value: ScorerTypes = "llm";
 ## Values
 
 ```typescript
-"llm" | "code" | "luna" | "preset" | Unrecognized<string>
+"llm" | "code" | "luna" | "decision" | "preset" | Unrecognized<string>
 ```

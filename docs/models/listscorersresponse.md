@@ -10,7 +10,7 @@ let value: ListScorersResponse = {
     {
       id: "<value>",
       name: "<value>",
-      scorerType: "luna",
+      scorerType: "decision",
       defaults: {
         filters: [
           {
