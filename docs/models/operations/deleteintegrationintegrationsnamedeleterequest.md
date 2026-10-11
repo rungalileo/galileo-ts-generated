@@ -6,7 +6,7 @@
 import { DeleteIntegrationIntegrationsNameDeleteRequest } from "galileo-generated/models/operations";
 
 let value: DeleteIntegrationIntegrationsNameDeleteRequest = {
-  name: "nvidia",
+  name: "openai",
 };
 ```
 
