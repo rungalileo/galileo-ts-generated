@@ -26,7 +26,10 @@ import {
   MetricThreshold,
   MetricThreshold$inboundSchema,
 } from "./metricthreshold.js";
-import { ScorerConfig, ScorerConfig$inboundSchema } from "./scorerconfig.js";
+import {
+  RuntimeScorerConfig,
+  RuntimeScorerConfig$inboundSchema,
+} from "./runtimescorerconfig.js";
 import { StepType, StepType$inboundSchema } from "./steptype.js";
 
 export const LabelColor = {
@@ -98,9 +101,13 @@ export type LogRecordsColumnInfo = {
    */
   metricKeyAlias?: string | null | undefined;
   /**
+   * Thresholds for the column, if this is a metrics column.
+   */
+  threshold?: MetricThreshold | null | undefined;
+  /**
    * For metric columns only: Scorer config that produced the metric.
    */
-  scorerConfig?: ScorerConfig | null | undefined;
+  scorerConfig?: RuntimeScorerConfig | null | undefined;
   /**
    * For metric columns only: Scorer id that produced the metric. This is deprecated and will be removed in future versions.
    */
@@ -113,10 +120,6 @@ export type LogRecordsColumnInfo = {
    * Filter type.
    */
   filterType?: LogRecordsFilterType | null | undefined;
-  /**
-   * Thresholds for the column, if this is a metrics column.
-   */
-  threshold?: MetricThreshold | null | undefined;
   /**
    * Type of label color for the column, if this is a multilabel metric column.
    */
@@ -149,11 +152,11 @@ export const LogRecordsColumnInfo$inboundSchema: z.ZodMiniType<
     is_optional: z._default(types.boolean(), false),
     roll_up_method: z.optional(z.nullable(types.string())),
     metric_key_alias: z.optional(z.nullable(types.string())),
-    scorer_config: z.optional(z.nullable(ScorerConfig$inboundSchema)),
+    threshold: z.optional(z.nullable(MetricThreshold$inboundSchema)),
+    scorer_config: z.optional(z.nullable(RuntimeScorerConfig$inboundSchema)),
     scorer_id: z.optional(z.nullable(types.string())),
     insight_type: z.optional(z.nullable(InsightType$inboundSchema)),
     filter_type: z.optional(z.nullable(LogRecordsFilterType$inboundSchema)),
-    threshold: z.optional(z.nullable(MetricThreshold$inboundSchema)),
     label_color: z.optional(z.nullable(LabelColor$inboundSchema)),
   }),
   z.transform((v) => {

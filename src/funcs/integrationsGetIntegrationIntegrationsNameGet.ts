@@ -6,6 +6,7 @@
 import * as z from "zod/v4-mini";
 import { GalileoGeneratedCore } from "../core.js";
 import { encodeSimple } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -31,7 +32,14 @@ import { Result } from "../types/fp.js";
  * Get Integration
  *
  * @remarks
- * Gets the integration data formatted for the specified integration.
+ * Get the caller's integration for a provider, in that provider's own shape.
+ *
+ * Args:
+ *     name: Provider name from the URL.
+ *     integration: Integration resolved from the URL, read access already checked.
+ *
+ * Returns:
+ *     The provider-specific view of the integration.
  */
 export function integrationsGetIntegrationIntegrationsNameGet(
   client: GalileoGeneratedCore,
@@ -103,7 +111,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/integrations/{name}")(pathParams);
 
   const headers = new Headers(compactMap({
@@ -113,9 +120,16 @@ async function $do(
   const requestSecurity = resolveSecurity(
     [
       {
-        fieldName: "Galileo-API-Key",
+        fieldName: "Splunk-AO-API-Key",
         type: "apiKey:header",
         value: security?.apiKeyHeader,
+      },
+    ],
+    [
+      {
+        fieldName: "Galileo-API-Key",
+        type: "apiKey:header",
+        value: security?.classicAPIKeyHeader,
       },
     ],
     [
@@ -170,7 +184,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["422", "4XX", "5XX"],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });
