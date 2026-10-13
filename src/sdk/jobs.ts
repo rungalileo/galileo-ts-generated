@@ -4,9 +4,6 @@
  */
 
 import { jobsCreateJobJobsPost } from "../funcs/jobsCreateJobJobsPost.js";
-import { jobsGetJobJobsJobIdGet } from "../funcs/jobsGetJobJobsJobIdGet.js";
-import { jobsGetJobsForProjectRunProjectsProjectIdRunsRunIdJobsGet } from "../funcs/jobsGetJobsForProjectRunProjectsProjectIdRunsRunIdJobsGet.js";
-import { jobsGetLatestJobForProjectRunProjectsProjectIdRunsRunIdJobsLatestGet } from "../funcs/jobsGetLatestJobForProjectRunProjectsProjectIdRunsRunIdJobsLatestGet.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
 import * as models from "../models/index.js";
 import * as operations from "../models/operations/index.js";
@@ -15,6 +12,9 @@ import { unwrapAsync } from "../types/fp.js";
 export class Jobs extends ClientSDK {
   /**
    * Create Job
+   *
+   * @remarks
+   * Create a job for a project run and enqueue it for processing.
    */
   async createJobJobsPost(
     security: operations.CreateJobJobsPostSecurity,
@@ -27,72 +27,5 @@ export class Jobs extends ClientSDK {
       request,
       options,
     ));
-  }
-
-  /**
-   * Get Job
-   *
-   * @remarks
-   * Get a job by id.
-   */
-  async getJobJobsJobIdGet(
-    security: operations.GetJobJobsJobIdGetSecurity,
-    request: operations.GetJobJobsJobIdGetRequest,
-    options?: RequestOptions,
-  ): Promise<models.JobDB> {
-    return unwrapAsync(jobsGetJobJobsJobIdGet(
-      this,
-      security,
-      request,
-      options,
-    ));
-  }
-
-  /**
-   * Get Jobs For Project Run
-   *
-   * @remarks
-   * Get all jobs by for a project and run.
-   *
-   * Returns them in order of creation from newest to oldest.
-   */
-  async getJobsForProjectRunProjectsProjectIdRunsRunIdJobsGet(
-    security:
-      operations.GetJobsForProjectRunProjectsProjectIdRunsRunIdJobsGetSecurity,
-    request:
-      operations.GetJobsForProjectRunProjectsProjectIdRunsRunIdJobsGetRequest,
-    options?: RequestOptions,
-  ): Promise<Array<models.JobDB>> {
-    return unwrapAsync(
-      jobsGetJobsForProjectRunProjectsProjectIdRunsRunIdJobsGet(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
-   * Get Latest Job For Project Run
-   *
-   * @remarks
-   * Returns the most recently updated job for a run.
-   */
-  async getLatestJobForProjectRunProjectsProjectIdRunsRunIdJobsLatestGet(
-    security:
-      operations.GetLatestJobForProjectRunProjectsProjectIdRunsRunIdJobsLatestGetSecurity,
-    request:
-      operations.GetLatestJobForProjectRunProjectsProjectIdRunsRunIdJobsLatestGetRequest,
-    options?: RequestOptions,
-  ): Promise<models.JobDB> {
-    return unwrapAsync(
-      jobsGetLatestJobForProjectRunProjectsProjectIdRunsRunIdJobsLatestGet(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
   }
 }

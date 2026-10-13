@@ -9,6 +9,7 @@ import * as models from "../index.js";
 
 export type GetSessionProjectsProjectIdSessionsSessionIdGetSecurity = {
   apiKeyHeader?: string | undefined;
+  classicAPIKeyHeader?: string | undefined;
   oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
   httpBasic?: models.SchemeHTTPBasic | undefined;
 };
@@ -17,11 +18,16 @@ export type GetSessionProjectsProjectIdSessionsSessionIdGetRequest = {
   sessionId: string;
   projectId: string;
   includePresignedUrls?: boolean | undefined;
+  /**
+   * If False, omit the `redacted_input` and `redacted_output` fields from the response. When redaction is active these hold the same text already returned in `input`/`output`, so clients that do not read them can halve the payload. This does not change whether redaction is applied.
+   */
+  includeRedactedIo?: boolean | undefined;
 };
 
 /** @internal */
 export type GetSessionProjectsProjectIdSessionsSessionIdGetSecurity$Outbound = {
   APIKeyHeader?: string | undefined;
+  ClassicAPIKeyHeader?: string | undefined;
   OAuth2PasswordBearer?: models.OAuth2PasswordBearerInput$Outbound | undefined;
   HTTPBasic?: models.SchemeHTTPBasic$Outbound | undefined;
 };
@@ -34,6 +40,7 @@ export const GetSessionProjectsProjectIdSessionsSessionIdGetSecurity$outboundSch
   > = z.pipe(
     z.object({
       apiKeyHeader: z.optional(z.string()),
+      classicAPIKeyHeader: z.optional(z.string()),
       oAuth2PasswordBearer: z.optional(
         models.OAuth2PasswordBearerInput$outboundSchema,
       ),
@@ -42,6 +49,7 @@ export const GetSessionProjectsProjectIdSessionsSessionIdGetSecurity$outboundSch
     z.transform((v) => {
       return remap$(v, {
         apiKeyHeader: "APIKeyHeader",
+        classicAPIKeyHeader: "ClassicAPIKeyHeader",
         oAuth2PasswordBearer: "OAuth2PasswordBearer",
         httpBasic: "HTTPBasic",
       });
@@ -63,6 +71,7 @@ export type GetSessionProjectsProjectIdSessionsSessionIdGetRequest$Outbound = {
   session_id: string;
   project_id: string;
   include_presigned_urls: boolean;
+  include_redacted_io: boolean;
 };
 
 /** @internal */
@@ -75,12 +84,14 @@ export const GetSessionProjectsProjectIdSessionsSessionIdGetRequest$outboundSche
       sessionId: z.string(),
       projectId: z.string(),
       includePresignedUrls: z._default(z.boolean(), false),
+      includeRedactedIo: z._default(z.boolean(), true),
     }),
     z.transform((v) => {
       return remap$(v, {
         sessionId: "session_id",
         projectId: "project_id",
         includePresignedUrls: "include_presigned_urls",
+        includeRedactedIo: "include_redacted_io",
       });
     }),
   );

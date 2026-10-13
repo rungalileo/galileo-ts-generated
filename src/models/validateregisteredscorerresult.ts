@@ -4,8 +4,10 @@
  */
 
 import * as z from "zod/v4-mini";
+import { remap as remap$ } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
+import * as types from "../types/primitives.js";
 import { smartUnion } from "../types/smartUnion.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import { InvalidResult, InvalidResult$inboundSchema } from "./invalidresult.js";
@@ -15,6 +17,8 @@ export type ValidateRegisteredScorerResultResult = ValidResult | InvalidResult;
 
 export type ValidateRegisteredScorerResult = {
   result: ValidResult | InvalidResult;
+  taskId?: string | null | undefined;
+  scorerSha256?: string | null | undefined;
 };
 
 /** @internal */
@@ -38,9 +42,22 @@ export function validateRegisteredScorerResultResultFromJSON(
 export const ValidateRegisteredScorerResult$inboundSchema: z.ZodMiniType<
   ValidateRegisteredScorerResult,
   unknown
-> = z.object({
-  result: smartUnion([ValidResult$inboundSchema, InvalidResult$inboundSchema]),
-});
+> = z.pipe(
+  z.object({
+    result: smartUnion([
+      ValidResult$inboundSchema,
+      InvalidResult$inboundSchema,
+    ]),
+    task_id: z.optional(z.nullable(types.string())),
+    scorer_sha256: z.optional(z.nullable(types.string())),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "task_id": "taskId",
+      "scorer_sha256": "scorerSha256",
+    });
+  }),
+);
 
 export function validateRegisteredScorerResultFromJSON(
   jsonString: string,

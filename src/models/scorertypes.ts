@@ -11,6 +11,7 @@ export const ScorerTypes = {
   Llm: "llm",
   Code: "code",
   Luna: "luna",
+  Decision: "decision",
   Preset: "preset",
 } as const;
 export type ScorerTypes = OpenEnum<typeof ScorerTypes>;
