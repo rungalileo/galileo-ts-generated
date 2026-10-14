@@ -5,7 +5,13 @@
 ```typescript
 import { CreateCodeScorerVersionScorersScorerIdVersionCodePostRequest } from "galileo-generated/models/operations";
 
-// No examples available for this model
+let value: CreateCodeScorerVersionScorersScorerIdVersionCodePostRequest = {
+  scorerId: "<value>",
+  body: {
+    file: "<value>",
+    validationResult: "<value>",
+  },
+};
 ```
 
 ## Fields
@@ -13,4 +19,5 @@ import { CreateCodeScorerVersionScorersScorerIdVersionCodePostRequest } from "ga
 | Field                                                                                                                                         | Type                                                                                                                                          | Required                                                                                                                                      | Description                                                                                                                                   |
 | --------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
 | `scorerId`                                                                                                                                    | *string*                                                                                                                                      | :heavy_check_mark:                                                                                                                            | N/A                                                                                                                                           |
+| `organizationId`                                                                                                                              | *string*                                                                                                                                      | :heavy_minus_sign:                                                                                                                            | N/A                                                                                                                                           |
 | `body`                                                                                                                                        | [models.BodyCreateCodeScorerVersionScorersScorerIdVersionCodePost](../../models/bodycreatecodescorerversionscorersscoreridversioncodepost.md) | :heavy_check_mark:                                                                                                                            | N/A                                                                                                                                           |

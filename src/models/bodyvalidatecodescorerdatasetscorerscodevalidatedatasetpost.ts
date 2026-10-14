@@ -5,13 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { blobLikeSchema } from "../types/blobs.js";
 import { smartUnion } from "../types/smartUnion.js";
-
-export type BodyValidateCodeScorerDatasetScorersCodeValidateDatasetPostFile = {
-  fileName: string;
-  content: ReadableStream<Uint8Array> | Blob | ArrayBuffer | Uint8Array;
-};
 
 export type BodyValidateCodeScorerDatasetScorersCodeValidateDatasetPostRequiredScorers =
   | string
@@ -22,7 +16,7 @@ export type BodyValidateCodeScorerDatasetScorersCodeValidateDatasetPostScoreable
   | Array<string>;
 
 export type BodyValidateCodeScorerDatasetScorersCodeValidateDatasetPost = {
-  file: BodyValidateCodeScorerDatasetScorersCodeValidateDatasetPostFile | Blob;
+  file: string;
   datasetId: string;
   datasetVersionIndex?: number | null | undefined;
   limit?: number | undefined;
@@ -31,38 +25,6 @@ export type BodyValidateCodeScorerDatasetScorersCodeValidateDatasetPost = {
   scoreableNodeTypes?: string | Array<string> | null | undefined;
   scoreType?: string | null | undefined;
 };
-
-/** @internal */
-export type BodyValidateCodeScorerDatasetScorersCodeValidateDatasetPostFile$Outbound =
-  {
-    fileName: string;
-    content: ReadableStream<Uint8Array> | Blob | ArrayBuffer | Uint8Array;
-  };
-
-/** @internal */
-export const BodyValidateCodeScorerDatasetScorersCodeValidateDatasetPostFile$outboundSchema:
-  z.ZodMiniType<
-    BodyValidateCodeScorerDatasetScorersCodeValidateDatasetPostFile$Outbound,
-    BodyValidateCodeScorerDatasetScorersCodeValidateDatasetPostFile
-  > = z.object({
-    fileName: z.string(),
-    content: z.union([
-      z.custom<ReadableStream<Uint8Array>>(x => x instanceof ReadableStream),
-      z.custom<Blob>(x => x instanceof Blob),
-      z.custom<ArrayBuffer>(x => x instanceof ArrayBuffer),
-      z.custom<Uint8Array>(x => x instanceof Uint8Array),
-    ]),
-  });
-
-export function bodyValidateCodeScorerDatasetScorersCodeValidateDatasetPostFileToJSON(
-  bodyValidateCodeScorerDatasetScorersCodeValidateDatasetPostFile:
-    BodyValidateCodeScorerDatasetScorersCodeValidateDatasetPostFile,
-): string {
-  return JSON.stringify(
-    BodyValidateCodeScorerDatasetScorersCodeValidateDatasetPostFile$outboundSchema
-      .parse(bodyValidateCodeScorerDatasetScorersCodeValidateDatasetPostFile),
-  );
-}
 
 /** @internal */
 export type BodyValidateCodeScorerDatasetScorersCodeValidateDatasetPostRequiredScorers$Outbound =
@@ -115,9 +77,7 @@ export function bodyValidateCodeScorerDatasetScorersCodeValidateDatasetPostScore
 /** @internal */
 export type BodyValidateCodeScorerDatasetScorersCodeValidateDatasetPost$Outbound =
   {
-    file:
-      | BodyValidateCodeScorerDatasetScorersCodeValidateDatasetPostFile$Outbound
-      | Blob;
+    file: string;
     dataset_id: string;
     dataset_version_index?: number | null | undefined;
     limit: number;
@@ -134,12 +94,7 @@ export const BodyValidateCodeScorerDatasetScorersCodeValidateDatasetPost$outboun
     BodyValidateCodeScorerDatasetScorersCodeValidateDatasetPost
   > = z.pipe(
     z.object({
-      file: z.union([
-        z.lazy(() =>
-          BodyValidateCodeScorerDatasetScorersCodeValidateDatasetPostFile$outboundSchema
-        ),
-        blobLikeSchema,
-      ]),
+      file: z.string(),
       datasetId: z.string(),
       datasetVersionIndex: z.optional(z.nullable(z.int())),
       limit: z._default(z.int(), 100),

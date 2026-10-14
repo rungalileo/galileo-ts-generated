@@ -55,6 +55,10 @@ export type SegmentFilter = {
    * Whether to sample only on LLM scorers.
    */
   llmScorers?: boolean | undefined;
+  /**
+   * Whether to sample only on multimodal scorers.
+   */
+  multimodalScorers?: boolean | undefined;
 };
 
 /** @internal */
@@ -116,11 +120,13 @@ export const SegmentFilter$inboundSchema: z.ZodMiniType<
     ),
     sample_rate: types.number(),
     llm_scorers: z._default(types.boolean(), false),
+    multimodal_scorers: z._default(types.boolean(), false),
   }),
   z.transform((v) => {
     return remap$(v, {
       "sample_rate": "sampleRate",
       "llm_scorers": "llmScorers",
+      "multimodal_scorers": "multimodalScorers",
     });
   }),
 );
@@ -134,6 +140,7 @@ export type SegmentFilter$Outbound = {
     | undefined;
   sample_rate: number;
   llm_scorers: boolean;
+  multimodal_scorers: boolean;
 };
 
 /** @internal */
@@ -153,11 +160,13 @@ export const SegmentFilter$outboundSchema: z.ZodMiniType<
     ),
     sampleRate: z.number(),
     llmScorers: z._default(z.boolean(), false),
+    multimodalScorers: z._default(z.boolean(), false),
   }),
   z.transform((v) => {
     return remap$(v, {
       sampleRate: "sample_rate",
       llmScorers: "llm_scorers",
+      multimodalScorers: "multimodal_scorers",
     });
   }),
 );

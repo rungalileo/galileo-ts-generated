@@ -6,6 +6,7 @@
 import * as z from "zod/v4-mini";
 import { GalileoGeneratedCore } from "../core.js";
 import { encodeJSON, encodeSimple } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -30,6 +31,20 @@ import { Result } from "../types/fp.js";
 
 /**
  * Create Stage
+ *
+ * @remarks
+ * Create a stage for a project, optionally seeding a first version.
+ *
+ * Args:
+ *     stage_request: The stage to create, including its type and (for central stages) rulesets.
+ *     ctx: Async request context.
+ *     project: The project to create the stage in, resolved from the URL.
+ *
+ * Returns:
+ *     The created stage, with its current version set if it's a central stage.
+ *
+ * Raises:
+ *     HTTPException: 422 if the project isn't a protect or gen_ai project.
  */
 export function protectCreateStageProjectsProjectIdStagesPost(
   client: GalileoGeneratedCore,
@@ -101,7 +116,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/projects/{project_id}/stages")(pathParams);
 
   const headers = new Headers(compactMap({
@@ -112,9 +126,16 @@ async function $do(
   const requestSecurity = resolveSecurity(
     [
       {
-        fieldName: "Galileo-API-Key",
+        fieldName: "Splunk-AO-API-Key",
         type: "apiKey:header",
         value: security?.apiKeyHeader,
+      },
+    ],
+    [
+      {
+        fieldName: "Galileo-API-Key",
+        type: "apiKey:header",
+        value: security?.classicAPIKeyHeader,
       },
     ],
     [
@@ -169,7 +190,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["422", "4XX", "5XX"],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });
