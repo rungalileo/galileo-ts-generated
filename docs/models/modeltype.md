@@ -5,7 +5,7 @@
 ```typescript
 import { ModelType } from "galileo-generated/models";
 
-let value: ModelType = "slm";
+let value: ModelType = "llm";
 
 // Open enum: unrecognized values are captured as Unrecognized<string>
 ```
@@ -13,5 +13,5 @@ let value: ModelType = "slm";
 ## Values
 
 ```typescript
-"slm" | "llm" | "code" | Unrecognized<string>
+"slm" | "llm" | "code" | "decision" | Unrecognized<string>
 ```

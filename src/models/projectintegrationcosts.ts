@@ -17,6 +17,7 @@ import {
 export type ProjectIntegrationCosts = {
   projectId: string;
   projectName: string;
+  runId?: string | null | undefined;
   totalCost: number;
   dataPoints?: Array<IntegrationCostsDataPoint> | undefined;
 };
@@ -29,6 +30,7 @@ export const ProjectIntegrationCosts$inboundSchema: z.ZodMiniType<
   z.object({
     project_id: types.string(),
     project_name: types.string(),
+    run_id: z.optional(z.nullable(types.string())),
     total_cost: z._default(types.number(), 0),
     data_points: types.optional(
       z.array(IntegrationCostsDataPoint$inboundSchema),
@@ -38,6 +40,7 @@ export const ProjectIntegrationCosts$inboundSchema: z.ZodMiniType<
     return remap$(v, {
       "project_id": "projectId",
       "project_name": "projectName",
+      "run_id": "runId",
       "total_cost": "totalCost",
       "data_points": "dataPoints",
     });

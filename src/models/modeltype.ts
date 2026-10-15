@@ -11,6 +11,7 @@ export const ModelType = {
   Slm: "slm",
   Llm: "llm",
   Code: "code",
+  Decision: "decision",
 } as const;
 export type ModelType = OpenEnum<typeof ModelType>;
 

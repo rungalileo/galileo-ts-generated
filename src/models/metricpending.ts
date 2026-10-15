@@ -9,11 +9,9 @@ import { safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
-import { ScorerType, ScorerType$inboundSchema } from "./scorertype.js";
 
 export type MetricPending = {
   statusType: "pending";
-  scorerType?: ScorerType | null | undefined;
   metricKeyAlias?: string | null | undefined;
 };
 
@@ -24,13 +22,11 @@ export const MetricPending$inboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     status_type: types.literal("pending"),
-    scorer_type: z.optional(z.nullable(ScorerType$inboundSchema)),
     metric_key_alias: z.optional(z.nullable(types.string())),
   }),
   z.transform((v) => {
     return remap$(v, {
       "status_type": "statusType",
-      "scorer_type": "scorerType",
       "metric_key_alias": "metricKeyAlias",
     });
   }),

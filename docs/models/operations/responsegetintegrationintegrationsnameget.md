@@ -79,6 +79,14 @@ const value: models.OpenAIIntegration = {
 };
 ```
 
+### `models.TypeSafeIntegration`
+
+```typescript
+const value: models.TypeSafeIntegration = {
+  provider: "typesafe",
+};
+```
+
 ### `models.VegasGatewayIntegration`
 
 ```typescript

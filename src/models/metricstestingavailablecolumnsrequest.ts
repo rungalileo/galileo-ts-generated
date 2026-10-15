@@ -31,15 +31,15 @@ export type MetricsTestingAvailableColumnsRequest = {
    */
   name: string;
   /**
-   * Enumeration of output types.
+   * Output type of the scorer. Required when metric_key is REGISTERED_SCORER_VALIDATION or DECISION_SCORER_VALIDATION; used to determine the data_type for validation columns.
    */
-  outputType?: OutputTypeEnum | undefined;
+  outputType?: OutputTypeEnum | null | undefined;
   /**
    * Whether the metrics testing table is using chain of thought (CoT) enabled scorers. If True, the columns will be generated for CoT enabled scorers.
    */
   cotEnabled?: boolean | undefined;
   /**
-   * The metric key to use for column generation (e.g., 'generated_scorer_validation' or 'registered_scorer_validation').
+   * The metric key to use for column generation (e.g., 'generated_scorer_validation', 'registered_scorer_validation' or 'decision_scorer_validation').
    */
   metricKey?: string | undefined;
   /**
@@ -58,7 +58,7 @@ export type MetricsTestingAvailableColumnsRequest$Outbound = {
   experiment_id?: string | null | undefined;
   metrics_testing_id?: string | null | undefined;
   name: string;
-  output_type?: string | undefined;
+  output_type?: string | null | undefined;
   cot_enabled: boolean;
   metric_key: string;
   required_scorers?: Array<string> | null | undefined;
@@ -76,7 +76,7 @@ export const MetricsTestingAvailableColumnsRequest$outboundSchema:
       experimentId: z.optional(z.nullable(z.string())),
       metricsTestingId: z.optional(z.nullable(z.string())),
       name: z.string(),
-      outputType: z.optional(OutputTypeEnum$outboundSchema),
+      outputType: z.optional(z.nullable(OutputTypeEnum$outboundSchema)),
       cotEnabled: z._default(z.boolean(), false),
       metricKey: z._default(z.string(), "generated_scorer_validation"),
       requiredScorers: z.optional(z.nullable(z.array(z.string()))),
