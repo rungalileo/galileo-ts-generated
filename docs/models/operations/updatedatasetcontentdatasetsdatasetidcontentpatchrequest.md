@@ -11,8 +11,8 @@ let value: UpdateDatasetContentDatasetsDatasetIdContentPatchRequest = {
   body: {
     edits: [
       {
-        editType: "filter_rows",
-        rowIds: [],
+        editType: "prepend_row",
+        values: {},
       },
     ],
   },

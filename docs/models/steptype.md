@@ -5,7 +5,7 @@
 ```typescript
 import { StepType } from "galileo-generated/models";
 
-let value: StepType = "llm";
+let value: StepType = "http";
 
 // Open enum: unrecognized values are captured as Unrecognized<string>
 ```
@@ -13,5 +13,5 @@ let value: StepType = "llm";
 ## Values
 
 ```typescript
-"llm" | "retriever" | "tool" | "workflow" | "agent" | "control" | "trace" | "session" | Unrecognized<string>
+"http" | "llm" | "retriever" | "tool" | "workflow" | "agent" | "control" | "trace" | "session" | Unrecognized<string>
 ```

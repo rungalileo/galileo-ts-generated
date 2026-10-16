@@ -31,6 +31,11 @@ import {
   ModelCostBy$outboundSchema,
 } from "./modelcostby.js";
 import {
+  ModelLifecycleState,
+  ModelLifecycleState$inboundSchema,
+  ModelLifecycleState$outboundSchema,
+} from "./modellifecyclestate.js";
+import {
   OutputMap,
   OutputMap$inboundSchema,
   OutputMap$Outbound,
@@ -44,8 +49,22 @@ import {
 } from "./runparamsmap.js";
 
 export type Model = {
+  lifecycleState?: ModelLifecycleState | undefined;
+  replacementAlias?: string | null | undefined;
+  deprecationDate?: Date | null | undefined;
+  retirementDate?: Date | null | undefined;
+  /**
+   * Provider model identifier used to match the model to its configured provider deployment or profile.
+   */
   name: string;
+  /**
+   * Galileo model identifier used in settings and API requests to select this model.
+   */
   alias: string;
+  /**
+   * Human-readable model name shown in the UI. Defaults to the alias for legacy registrations.
+   */
+  displayName?: string | undefined;
   integration?: LLMIntegration | undefined;
   userRole?: string | null | undefined;
   assistantRole?: string | null | undefined;
@@ -61,8 +80,6 @@ export type Model = {
   inputTokenLimit?: number | null | undefined;
   outputTokenLimit?: number | null | undefined;
   tokenLimit?: number | null | undefined;
-  outputPrice?: number | undefined;
-  inputPrice?: number | undefined;
   costBy?: ModelCostBy | undefined;
   isChat?: boolean | undefined;
   providesLogProbs?: boolean | undefined;
@@ -71,6 +88,7 @@ export type Model = {
   apiVersion?: string | null | undefined;
   legacyMistralPromptFormat?: boolean | undefined;
   requiresMaxTokens?: boolean | undefined;
+  supportsStructuredOutput?: boolean | undefined;
   maxTopP?: number | null | undefined;
   /**
    * Maps the internal settings parameters (left) to the serialized parameters (right) we want to send in the API
@@ -86,8 +104,13 @@ export type Model = {
 /** @internal */
 export const Model$inboundSchema: z.ZodMiniType<Model, unknown> = z.pipe(
   z.object({
+    lifecycle_state: types.optional(ModelLifecycleState$inboundSchema),
+    replacement_alias: z.optional(z.nullable(types.string())),
+    deprecation_date: z.optional(z.nullable(types.date())),
+    retirement_date: z.optional(z.nullable(types.date())),
     name: types.string(),
     alias: types.string(),
+    display_name: z._default(types.string(), ""),
     integration: types.optional(LLMIntegration$inboundSchema),
     user_role: z.optional(z.nullable(types.string())),
     assistant_role: z.optional(z.nullable(types.string())),
@@ -97,8 +120,6 @@ export const Model$inboundSchema: z.ZodMiniType<Model, unknown> = z.pipe(
     input_token_limit: z.optional(z.nullable(types.number())),
     output_token_limit: z.optional(z.nullable(types.number())),
     token_limit: z.optional(z.nullable(types.number())),
-    output_price: z._default(types.number(), 0),
-    input_price: z._default(types.number(), 0),
     cost_by: types.optional(ModelCostBy$inboundSchema),
     is_chat: z._default(types.boolean(), false),
     provides_log_probs: z._default(types.boolean(), false),
@@ -107,6 +128,7 @@ export const Model$inboundSchema: z.ZodMiniType<Model, unknown> = z.pipe(
     api_version: z.optional(z.nullable(types.string())),
     legacy_mistral_prompt_format: z._default(types.boolean(), false),
     requires_max_tokens: z._default(types.boolean(), false),
+    supports_structured_output: z._default(types.boolean(), false),
     max_top_p: z.optional(z.nullable(types.number())),
     params_map: types.optional(RunParamsMap$inboundSchema),
     output_map: z.optional(z.nullable(OutputMap$inboundSchema)),
@@ -114,6 +136,11 @@ export const Model$inboundSchema: z.ZodMiniType<Model, unknown> = z.pipe(
   }),
   z.transform((v) => {
     return remap$(v, {
+      "lifecycle_state": "lifecycleState",
+      "replacement_alias": "replacementAlias",
+      "deprecation_date": "deprecationDate",
+      "retirement_date": "retirementDate",
+      "display_name": "displayName",
       "user_role": "userRole",
       "assistant_role": "assistantRole",
       "system_supported": "systemSupported",
@@ -122,8 +149,6 @@ export const Model$inboundSchema: z.ZodMiniType<Model, unknown> = z.pipe(
       "input_token_limit": "inputTokenLimit",
       "output_token_limit": "outputTokenLimit",
       "token_limit": "tokenLimit",
-      "output_price": "outputPrice",
-      "input_price": "inputPrice",
       "cost_by": "costBy",
       "is_chat": "isChat",
       "provides_log_probs": "providesLogProbs",
@@ -132,6 +157,7 @@ export const Model$inboundSchema: z.ZodMiniType<Model, unknown> = z.pipe(
       "api_version": "apiVersion",
       "legacy_mistral_prompt_format": "legacyMistralPromptFormat",
       "requires_max_tokens": "requiresMaxTokens",
+      "supports_structured_output": "supportsStructuredOutput",
       "max_top_p": "maxTopP",
       "params_map": "paramsMap",
       "output_map": "outputMap",
@@ -141,8 +167,13 @@ export const Model$inboundSchema: z.ZodMiniType<Model, unknown> = z.pipe(
 );
 /** @internal */
 export type Model$Outbound = {
+  lifecycle_state?: string | undefined;
+  replacement_alias?: string | null | undefined;
+  deprecation_date?: string | null | undefined;
+  retirement_date?: string | null | undefined;
   name: string;
   alias: string;
+  display_name: string;
   integration?: string | undefined;
   user_role?: string | null | undefined;
   assistant_role?: string | null | undefined;
@@ -152,8 +183,6 @@ export type Model$Outbound = {
   input_token_limit?: number | null | undefined;
   output_token_limit?: number | null | undefined;
   token_limit?: number | null | undefined;
-  output_price: number;
-  input_price: number;
   cost_by?: string | undefined;
   is_chat: boolean;
   provides_log_probs: boolean;
@@ -162,6 +191,7 @@ export type Model$Outbound = {
   api_version?: string | null | undefined;
   legacy_mistral_prompt_format: boolean;
   requires_max_tokens: boolean;
+  supports_structured_output: boolean;
   max_top_p?: number | null | undefined;
   params_map?: RunParamsMap$Outbound | undefined;
   output_map?: OutputMap$Outbound | null | undefined;
@@ -172,8 +202,19 @@ export type Model$Outbound = {
 export const Model$outboundSchema: z.ZodMiniType<Model$Outbound, Model> = z
   .pipe(
     z.object({
+      lifecycleState: z.optional(ModelLifecycleState$outboundSchema),
+      replacementAlias: z.optional(z.nullable(z.string())),
+      deprecationDate: z.optional(z.nullable(z.pipe(
+        z.date(),
+        z.transform(v => v.toISOString().slice(0, "YYYY-MM-DD".length)),
+      ))),
+      retirementDate: z.optional(z.nullable(z.pipe(
+        z.date(),
+        z.transform(v => v.toISOString().slice(0, "YYYY-MM-DD".length)),
+      ))),
       name: z.string(),
       alias: z.string(),
+      displayName: z._default(z.string(), ""),
       integration: z.optional(LLMIntegration$outboundSchema),
       userRole: z.optional(z.nullable(z.string())),
       assistantRole: z.optional(z.nullable(z.string())),
@@ -183,8 +224,6 @@ export const Model$outboundSchema: z.ZodMiniType<Model$Outbound, Model> = z
       inputTokenLimit: z.optional(z.nullable(z.int())),
       outputTokenLimit: z.optional(z.nullable(z.int())),
       tokenLimit: z.optional(z.nullable(z.int())),
-      outputPrice: z._default(z.number(), 0),
-      inputPrice: z._default(z.number(), 0),
       costBy: z.optional(ModelCostBy$outboundSchema),
       isChat: z._default(z.boolean(), false),
       providesLogProbs: z._default(z.boolean(), false),
@@ -193,6 +232,7 @@ export const Model$outboundSchema: z.ZodMiniType<Model$Outbound, Model> = z
       apiVersion: z.optional(z.nullable(z.string())),
       legacyMistralPromptFormat: z._default(z.boolean(), false),
       requiresMaxTokens: z._default(z.boolean(), false),
+      supportsStructuredOutput: z._default(z.boolean(), false),
       maxTopP: z.optional(z.nullable(z.number())),
       paramsMap: z.optional(RunParamsMap$outboundSchema),
       outputMap: z.optional(z.nullable(OutputMap$outboundSchema)),
@@ -200,6 +240,11 @@ export const Model$outboundSchema: z.ZodMiniType<Model$Outbound, Model> = z
     }),
     z.transform((v) => {
       return remap$(v, {
+        lifecycleState: "lifecycle_state",
+        replacementAlias: "replacement_alias",
+        deprecationDate: "deprecation_date",
+        retirementDate: "retirement_date",
+        displayName: "display_name",
         userRole: "user_role",
         assistantRole: "assistant_role",
         systemSupported: "system_supported",
@@ -208,8 +253,6 @@ export const Model$outboundSchema: z.ZodMiniType<Model$Outbound, Model> = z
         inputTokenLimit: "input_token_limit",
         outputTokenLimit: "output_token_limit",
         tokenLimit: "token_limit",
-        outputPrice: "output_price",
-        inputPrice: "input_price",
         costBy: "cost_by",
         isChat: "is_chat",
         providesLogProbs: "provides_log_probs",
@@ -218,6 +261,7 @@ export const Model$outboundSchema: z.ZodMiniType<Model$Outbound, Model> = z
         apiVersion: "api_version",
         legacyMistralPromptFormat: "legacy_mistral_prompt_format",
         requiresMaxTokens: "requires_max_tokens",
+        supportsStructuredOutput: "supports_structured_output",
         maxTopP: "max_top_p",
         paramsMap: "params_map",
         outputMap: "output_map",

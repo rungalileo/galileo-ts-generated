@@ -6,6 +6,7 @@
 import * as z from "zod/v4-mini";
 import { GalileoGeneratedCore } from "../core.js";
 import { encodeJSON, encodeSimple } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -43,7 +44,7 @@ export function projectsCreateUserProjectCollaboratorsProjectsProjectIdUsersPost
   options?: RequestOptions,
 ): APIPromise<
   Result<
-    Array<models.UserCollaborator>,
+    Array<models.ProjectUserCollaborator>,
     | errors.HTTPValidationError
     | GalileoGeneratedError
     | ResponseValidationError
@@ -73,7 +74,7 @@ async function $do(
 ): Promise<
   [
     Result<
-      Array<models.UserCollaborator>,
+      Array<models.ProjectUserCollaborator>,
       | errors.HTTPValidationError
       | GalileoGeneratedError
       | ResponseValidationError
@@ -109,7 +110,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/projects/{project_id}/users")(pathParams);
 
   const headers = new Headers(compactMap({
@@ -120,9 +120,16 @@ async function $do(
   const requestSecurity = resolveSecurity(
     [
       {
-        fieldName: "Galileo-API-Key",
+        fieldName: "Splunk-AO-API-Key",
         type: "apiKey:header",
         value: security?.apiKeyHeader,
+      },
+    ],
+    [
+      {
+        fieldName: "Galileo-API-Key",
+        type: "apiKey:header",
+        value: security?.classicAPIKeyHeader,
       },
     ],
     [
@@ -178,7 +185,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["422", "4XX", "5XX"],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });
@@ -192,7 +200,7 @@ async function $do(
   };
 
   const [result] = await M.match<
-    Array<models.UserCollaborator>,
+    Array<models.ProjectUserCollaborator>,
     | errors.HTTPValidationError
     | GalileoGeneratedError
     | ResponseValidationError
@@ -203,7 +211,7 @@ async function $do(
     | UnexpectedClientError
     | SDKValidationError
   >(
-    M.json(200, z.array(models.UserCollaborator$inboundSchema)),
+    M.json(200, z.array(models.ProjectUserCollaborator$inboundSchema)),
     M.jsonErr(422, errors.HTTPValidationError$inboundSchema),
     M.fail("4XX"),
     M.fail("5XX"),

@@ -10,6 +10,7 @@ import * as models from "../index.js";
 export type CreateGroupProjectCollaboratorsProjectsProjectIdGroupsPostSecurity =
   {
     apiKeyHeader?: string | undefined;
+    classicAPIKeyHeader?: string | undefined;
     oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
     httpBasic?: models.SchemeHTTPBasic | undefined;
   };
@@ -17,13 +18,14 @@ export type CreateGroupProjectCollaboratorsProjectsProjectIdGroupsPostSecurity =
 export type CreateGroupProjectCollaboratorsProjectsProjectIdGroupsPostRequest =
   {
     projectId: string;
-    body: Array<models.GroupCollaboratorCreate>;
+    body: Array<models.ProjectGroupCollaboratorCreate>;
   };
 
 /** @internal */
 export type CreateGroupProjectCollaboratorsProjectsProjectIdGroupsPostSecurity$Outbound =
   {
     APIKeyHeader?: string | undefined;
+    ClassicAPIKeyHeader?: string | undefined;
     OAuth2PasswordBearer?:
       | models.OAuth2PasswordBearerInput$Outbound
       | undefined;
@@ -38,6 +40,7 @@ export const CreateGroupProjectCollaboratorsProjectsProjectIdGroupsPostSecurity$
   > = z.pipe(
     z.object({
       apiKeyHeader: z.optional(z.string()),
+      classicAPIKeyHeader: z.optional(z.string()),
       oAuth2PasswordBearer: z.optional(
         models.OAuth2PasswordBearerInput$outboundSchema,
       ),
@@ -46,6 +49,7 @@ export const CreateGroupProjectCollaboratorsProjectsProjectIdGroupsPostSecurity$
     z.transform((v) => {
       return remap$(v, {
         apiKeyHeader: "APIKeyHeader",
+        classicAPIKeyHeader: "ClassicAPIKeyHeader",
         oAuth2PasswordBearer: "OAuth2PasswordBearer",
         httpBasic: "HTTPBasic",
       });
@@ -68,7 +72,7 @@ export function createGroupProjectCollaboratorsProjectsProjectIdGroupsPostSecuri
 export type CreateGroupProjectCollaboratorsProjectsProjectIdGroupsPostRequest$Outbound =
   {
     project_id: string;
-    body: Array<models.GroupCollaboratorCreate$Outbound>;
+    body: Array<models.ProjectGroupCollaboratorCreate$Outbound>;
   };
 
 /** @internal */
@@ -79,7 +83,7 @@ export const CreateGroupProjectCollaboratorsProjectsProjectIdGroupsPostRequest$o
   > = z.pipe(
     z.object({
       projectId: z.string(),
-      body: z.array(models.GroupCollaboratorCreate$outboundSchema),
+      body: z.array(models.ProjectGroupCollaboratorCreate$outboundSchema),
     }),
     z.transform((v) => {
       return remap$(v, {

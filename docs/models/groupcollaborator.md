@@ -7,7 +7,7 @@ import { GroupCollaborator } from "galileo-generated/models";
 
 let value: GroupCollaborator = {
   id: "<value>",
-  role: "viewer",
+  role: "custom",
   createdAt: new Date("2024-04-17T20:13:43.911Z"),
   groupId: "<value>",
   groupName: "<value>",
