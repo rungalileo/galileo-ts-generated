@@ -19,6 +19,10 @@ import {
   AnnotationRatingInfo$inboundSchema,
 } from "./annotationratinginfo.js";
 import {
+  AnnotationStatus,
+  AnnotationStatus$inboundSchema,
+} from "./annotationstatus.js";
+import {
   ContentModality,
   ContentModality$inboundSchema,
 } from "./contentmodality.js";
@@ -32,6 +36,10 @@ import {
   ExtendedControlSpanRecord,
   ExtendedControlSpanRecord$inboundSchema,
 } from "./extendedcontrolspanrecord.js";
+import {
+  ExtendedHttpSpanRecordWithChildren,
+  ExtendedHttpSpanRecordWithChildren$inboundSchema,
+} from "./extendedhttpspanrecordwithchildren.js";
 import {
   ExtendedLlmSpanRecord,
   ExtendedLlmSpanRecord$inboundSchema,
@@ -84,6 +92,7 @@ export type ExtendedRetrieverSpanRecordWithChildren = {
     | Array<
       | ExtendedAgentSpanRecordWithChildren
       | ExtendedControlSpanRecord
+      | ExtendedHttpSpanRecordWithChildren
       | ExtendedLlmSpanRecord
       | ExtendedRetrieverSpanRecordWithChildren
       | ExtendedToolSpanRecordWithChildren
@@ -223,6 +232,22 @@ export type ExtendedRetrieverSpanRecordWithChildren = {
    */
   fullyAnnotated?: boolean | null | undefined;
   /**
+   * Annotation review status of the record
+   */
+  annotationStatus?: AnnotationStatus | null | undefined;
+  /**
+   * Emails of tracked queue members who rated the record
+   */
+  annotatedMembers?: Array<string> | null | undefined;
+  /**
+   * Runner progress text written directly to CH span
+   */
+  progressMessage: string;
+  /**
+   * Runner error text written directly to CH span
+   */
+  errorMessage: string;
+  /**
    * Detailed information about the metrics associated with this trace or span
    */
   metricInfo?:
@@ -261,6 +286,7 @@ export type ExtendedRetrieverSpanRecordWithChildren = {
 export type ExtendedRetrieverSpanRecordWithChildrenSpan =
   | ExtendedAgentSpanRecordWithChildren
   | ExtendedControlSpanRecord
+  | ExtendedHttpSpanRecordWithChildren
   | ExtendedLlmSpanRecord
   | ExtendedRetrieverSpanRecordWithChildren
   | ExtendedToolSpanRecordWithChildren
@@ -304,6 +330,7 @@ export const ExtendedRetrieverSpanRecordWithChildren$inboundSchema:
       spans: types.optional(z.array(discriminatedUnion("type", {
         agent: z.lazy(() => ExtendedAgentSpanRecordWithChildren$inboundSchema),
         control: ExtendedControlSpanRecord$inboundSchema,
+        http: z.lazy(() => ExtendedHttpSpanRecordWithChildren$inboundSchema),
         llm: ExtendedLlmSpanRecord$inboundSchema,
         retriever: z.lazy(() =>
           ExtendedRetrieverSpanRecordWithChildren$inboundSchema
@@ -357,6 +384,10 @@ export const ExtendedRetrieverSpanRecordWithChildren$inboundSchema:
       overall_annotation_agreement: z.optional(z.nullable(types.number())),
       annotation_queue_ids: types.optional(z.array(types.string())),
       fully_annotated: z.optional(z.nullable(types.boolean())),
+      annotation_status: z.optional(z.nullable(AnnotationStatus$inboundSchema)),
+      annotated_members: z.optional(z.nullable(z.array(types.string()))),
+      progress_message: z._default(types.string(), ""),
+      error_message: z._default(types.string(), ""),
       metric_info: z.optional(
         z.nullable(z.record(
           z.string(),
@@ -406,6 +437,10 @@ export const ExtendedRetrieverSpanRecordWithChildren$inboundSchema:
         "overall_annotation_agreement": "overallAnnotationAgreement",
         "annotation_queue_ids": "annotationQueueIds",
         "fully_annotated": "fullyAnnotated",
+        "annotation_status": "annotationStatus",
+        "annotated_members": "annotatedMembers",
+        "progress_message": "progressMessage",
+        "error_message": "errorMessage",
         "metric_info": "metricInfo",
         "parent_id": "parentId",
         "is_complete": "isComplete",
@@ -436,6 +471,7 @@ export const ExtendedRetrieverSpanRecordWithChildrenSpan$inboundSchema:
     discriminatedUnion("type", {
       agent: z.lazy(() => ExtendedAgentSpanRecordWithChildren$inboundSchema),
       control: ExtendedControlSpanRecord$inboundSchema,
+      http: z.lazy(() => ExtendedHttpSpanRecordWithChildren$inboundSchema),
       llm: ExtendedLlmSpanRecord$inboundSchema,
       retriever: z.lazy(() =>
         ExtendedRetrieverSpanRecordWithChildren$inboundSchema

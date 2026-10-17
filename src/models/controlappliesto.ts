@@ -10,6 +10,9 @@ import { OpenEnum } from "../types/enums.js";
 export const ControlAppliesTo = {
   LlmCall: "llm_call",
   ToolCall: "tool_call",
+  RetrieverCall: "retriever_call",
+  TraceCall: "trace_call",
+  SessionCall: "session_call",
 } as const;
 export type ControlAppliesTo = OpenEnum<typeof ControlAppliesTo>;
 

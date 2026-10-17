@@ -7,7 +7,7 @@ import { UserCollaborator } from "galileo-generated/models";
 
 let value: UserCollaborator = {
   id: "<value>",
-  role: "annotator",
+  role: "viewer",
   createdAt: new Date("2026-07-06T21:31:14.401Z"),
   userId: "<value>",
   firstName: "Marion",

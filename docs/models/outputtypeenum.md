@@ -15,5 +15,5 @@ let value: OutputTypeEnum = "categorical";
 ## Values
 
 ```typescript
-"boolean" | "categorical" | "count" | "discrete" | "freeform" | "percentage" | "multilabel" | "retrieved_chunk_list_boolean" | "boolean_multilabel" | Unrecognized<string>
+"boolean" | "categorical" | "count" | "discrete" | "freeform" | "percentage" | "multilabel" | "retrieved_chunk_list_boolean" | "boolean_multilabel" | "boolean_probability" | Unrecognized<string>
 ```

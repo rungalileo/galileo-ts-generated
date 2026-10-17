@@ -12,6 +12,7 @@ export const CollaboratorRole = {
   Editor: "editor",
   Annotator: "annotator",
   Viewer: "viewer",
+  Custom: "custom",
 } as const;
 export type CollaboratorRole = OpenEnum<typeof CollaboratorRole>;
 
