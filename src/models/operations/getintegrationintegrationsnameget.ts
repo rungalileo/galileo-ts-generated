@@ -14,6 +14,7 @@ import * as models from "../index.js";
 
 export type GetIntegrationIntegrationsNameGetSecurity = {
   apiKeyHeader?: string | undefined;
+  classicAPIKeyHeader?: string | undefined;
   oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
   httpBasic?: models.SchemeHTTPBasic | undefined;
 };
@@ -35,6 +36,7 @@ export type ResponseGetIntegrationIntegrationsNameGet =
   | models.MistralIntegration
   | models.NvidiaIntegration
   | models.OpenAIIntegration
+  | models.TypeSafeIntegration
   | models.VegasGatewayIntegration
   | models.VertexAIIntegration
   | models.WriterIntegration
@@ -43,6 +45,7 @@ export type ResponseGetIntegrationIntegrationsNameGet =
 /** @internal */
 export type GetIntegrationIntegrationsNameGetSecurity$Outbound = {
   APIKeyHeader?: string | undefined;
+  ClassicAPIKeyHeader?: string | undefined;
   OAuth2PasswordBearer?: models.OAuth2PasswordBearerInput$Outbound | undefined;
   HTTPBasic?: models.SchemeHTTPBasic$Outbound | undefined;
 };
@@ -55,6 +58,7 @@ export const GetIntegrationIntegrationsNameGetSecurity$outboundSchema:
   > = z.pipe(
     z.object({
       apiKeyHeader: z.optional(z.string()),
+      classicAPIKeyHeader: z.optional(z.string()),
       oAuth2PasswordBearer: z.optional(
         models.OAuth2PasswordBearerInput$outboundSchema,
       ),
@@ -63,6 +67,7 @@ export const GetIntegrationIntegrationsNameGetSecurity$outboundSchema:
     z.transform((v) => {
       return remap$(v, {
         apiKeyHeader: "APIKeyHeader",
+        classicAPIKeyHeader: "ClassicAPIKeyHeader",
         oAuth2PasswordBearer: "OAuth2PasswordBearer",
         httpBasic: "HTTPBasic",
       });
@@ -118,6 +123,7 @@ export const ResponseGetIntegrationIntegrationsNameGet$inboundSchema:
       mistral: models.MistralIntegration$inboundSchema,
       nvidia: models.NvidiaIntegration$inboundSchema,
       openai: models.OpenAIIntegration$inboundSchema,
+      typesafe: models.TypeSafeIntegration$inboundSchema,
       vegas_gateway: models.VegasGatewayIntegration$inboundSchema,
       vertex_ai: models.VertexAIIntegration$inboundSchema,
       writer: models.WriterIntegration$inboundSchema,

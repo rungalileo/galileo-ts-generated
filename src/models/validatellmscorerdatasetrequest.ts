@@ -11,10 +11,24 @@ import {
   ChainPollTemplate$outboundSchema,
 } from "./chainpolltemplate.js";
 import {
+  FileContentPart,
+  FileContentPart$Outbound,
+  FileContentPart$outboundSchema,
+} from "./filecontentpart.js";
+import {
   GeneratedScorerConfiguration,
   GeneratedScorerConfiguration$Outbound,
   GeneratedScorerConfiguration$outboundSchema,
 } from "./generatedscorerconfiguration.js";
+import {
+  TextContentPart,
+  TextContentPart$Outbound,
+  TextContentPart$outboundSchema,
+} from "./textcontentpart.js";
+
+export type ValidateLLMScorerDatasetRequestNormalizedInput =
+  | FileContentPart
+  | TextContentPart;
 
 /**
  * Request to validate a new LLM scorer against a dataset.
@@ -30,6 +44,10 @@ export type ValidateLLMScorerDatasetRequest = {
    */
   chainPollTemplate: ChainPollTemplate;
   scorerConfiguration: GeneratedScorerConfiguration;
+  /**
+   * Optional multimodal content parts. When set, replaces the text-only query/response formatting in the validation job so that file content is passed through to the LLM.
+   */
+  normalizedInput?: Array<FileContentPart | TextContentPart> | null | undefined;
   userPrompt: string;
   datasetId: string;
   datasetVersionIndex?: number | null | undefined;
@@ -48,11 +66,38 @@ export type ValidateLLMScorerDatasetRequest = {
 };
 
 /** @internal */
+export type ValidateLLMScorerDatasetRequestNormalizedInput$Outbound =
+  | FileContentPart$Outbound
+  | TextContentPart$Outbound;
+
+/** @internal */
+export const ValidateLLMScorerDatasetRequestNormalizedInput$outboundSchema:
+  z.ZodMiniType<
+    ValidateLLMScorerDatasetRequestNormalizedInput$Outbound,
+    ValidateLLMScorerDatasetRequestNormalizedInput
+  > = z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]);
+
+export function validateLLMScorerDatasetRequestNormalizedInputToJSON(
+  validateLLMScorerDatasetRequestNormalizedInput:
+    ValidateLLMScorerDatasetRequestNormalizedInput,
+): string {
+  return JSON.stringify(
+    ValidateLLMScorerDatasetRequestNormalizedInput$outboundSchema.parse(
+      validateLLMScorerDatasetRequestNormalizedInput,
+    ),
+  );
+}
+
+/** @internal */
 export type ValidateLLMScorerDatasetRequest$Outbound = {
   query: string;
   response: string;
   chain_poll_template: ChainPollTemplate$Outbound;
   scorer_configuration: GeneratedScorerConfiguration$Outbound;
+  normalized_input?:
+    | Array<FileContentPart$Outbound | TextContentPart$Outbound>
+    | null
+    | undefined;
   user_prompt: string;
   dataset_id: string;
   dataset_version_index?: number | null | undefined;
@@ -71,6 +116,16 @@ export const ValidateLLMScorerDatasetRequest$outboundSchema: z.ZodMiniType<
     response: z.string(),
     chainPollTemplate: ChainPollTemplate$outboundSchema,
     scorerConfiguration: GeneratedScorerConfiguration$outboundSchema,
+    normalizedInput: z.optional(
+      z.nullable(
+        z.array(
+          z.union([
+            FileContentPart$outboundSchema,
+            TextContentPart$outboundSchema,
+          ]),
+        ),
+      ),
+    ),
     userPrompt: z.string(),
     datasetId: z.string(),
     datasetVersionIndex: z.optional(z.nullable(z.int())),
@@ -82,6 +137,7 @@ export const ValidateLLMScorerDatasetRequest$outboundSchema: z.ZodMiniType<
     return remap$(v, {
       chainPollTemplate: "chain_poll_template",
       scorerConfiguration: "scorer_configuration",
+      normalizedInput: "normalized_input",
       userPrompt: "user_prompt",
       datasetId: "dataset_id",
       datasetVersionIndex: "dataset_version_index",

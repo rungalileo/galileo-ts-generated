@@ -5,7 +5,7 @@
 ```typescript
 import { FeedbackType } from "galileo-generated/models";
 
-let value: FeedbackType = "tags";
+let value: FeedbackType = "text";
 
 // Open enum: unrecognized values are captured as Unrecognized<string>
 ```
@@ -13,5 +13,5 @@ let value: FeedbackType = "tags";
 ## Values
 
 ```typescript
-"like_dislike" | "star" | "score" | "tags" | "text" | Unrecognized<string>
+"like_dislike" | "star" | "score" | "tags" | "text" | "choice" | "tree_choice" | Unrecognized<string>
 ```

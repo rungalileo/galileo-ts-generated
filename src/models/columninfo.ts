@@ -15,6 +15,10 @@ import {
 import { DataType, DataType$inboundSchema } from "./datatype.js";
 import { DataUnit, DataUnit$inboundSchema } from "./dataunit.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
+import {
+  MetricThreshold,
+  MetricThreshold$inboundSchema,
+} from "./metricthreshold.js";
 import { StepType, StepType$inboundSchema } from "./steptype.js";
 
 export type ColumnInfo = {
@@ -79,6 +83,10 @@ export type ColumnInfo = {
    * Alternate metric key for this column. When scorer UUIDs are used as column IDs, this holds the legacy metric_name string for dual-key ClickHouse query fallback.
    */
   metricKeyAlias?: string | null | undefined;
+  /**
+   * Thresholds for the column, if this is a metrics column.
+   */
+  threshold?: MetricThreshold | null | undefined;
 };
 
 /** @internal */
@@ -101,6 +109,7 @@ export const ColumnInfo$inboundSchema: z.ZodMiniType<ColumnInfo, unknown> = z
       is_optional: z._default(types.boolean(), false),
       roll_up_method: z.optional(z.nullable(types.string())),
       metric_key_alias: z.optional(z.nullable(types.string())),
+      threshold: z.optional(z.nullable(MetricThreshold$inboundSchema)),
     }),
     z.transform((v) => {
       return remap$(v, {

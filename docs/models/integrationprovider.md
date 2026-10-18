@@ -13,5 +13,5 @@ let value: IntegrationProvider = "vegas_gateway";
 ## Values
 
 ```typescript
-"anthropic" | "aws_bedrock" | "aws_sagemaker" | "azure" | "custom" | "databricks" | "mistral" | "nvidia" | "openai" | "vegas_gateway" | "vertex_ai" | "writer" | Unrecognized<string>
+"anthropic" | "aws_bedrock" | "aws_sagemaker" | "azure" | "custom" | "databricks" | "mistral" | "nvidia" | "openai" | "vegas_gateway" | "vertex_ai" | "writer" | "typesafe" | Unrecognized<string>
 ```

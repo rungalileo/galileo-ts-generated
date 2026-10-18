@@ -24,7 +24,13 @@ const value: models.GroupMemberAction = "update_role";
 ### `models.ProjectAction`
 
 ```typescript
-const value: models.ProjectAction = "rename_run";
+const value: models.ProjectAction = "move_run";
+```
+
+### `models.ScorerAction`
+
+```typescript
+const value: models.ScorerAction = "create_shared";
 ```
 
 ### `models.RegisteredScorerAction`
@@ -66,7 +72,7 @@ const value: models.IntegrationAction = "delete";
 ### `models.OrganizationAction`
 
 ```typescript
-const value: models.OrganizationAction = "delete_log_data";
+const value: models.OrganizationAction = "read_settings";
 ```
 
 ### `models.AnnotationQueueAction`

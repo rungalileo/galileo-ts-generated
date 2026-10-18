@@ -6,7 +6,7 @@
 import { GetIntegrationStatusIntegrationsNameStatusGetRequest } from "galileo-generated/models/operations";
 
 let value: GetIntegrationStatusIntegrationsNameStatusGetRequest = {
-  name: "openai",
+  name: "vegas_gateway",
 };
 ```
 
