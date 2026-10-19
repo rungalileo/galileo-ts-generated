@@ -8,7 +8,6 @@ import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
 export const ProjectAction = {
-  Update: "update",
   Delete: "delete",
   Rename: "rename",
   Share: "share",
@@ -25,6 +24,7 @@ export const ProjectAction = {
   CreateStage: "create_stage",
   EditStage: "edit_stage",
   ConfigureCrownLogic: "configure_crown_logic",
+  ConfigureRateLimit: "configure_rate_limit",
   DeleteData: "delete_data",
   SetMetric: "set_metric",
   EditRunTags: "edit_run_tags",
