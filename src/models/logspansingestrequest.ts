@@ -16,6 +16,11 @@ import {
   ControlSpan$outboundSchema,
 } from "./controlspan.js";
 import {
+  HttpSpan,
+  HttpSpan$Outbound,
+  HttpSpan$outboundSchema,
+} from "./httpspan.js";
+import {
   LlmSpan,
   LlmSpan$Outbound,
   LlmSpan$outboundSchema,
@@ -43,6 +48,7 @@ import {
 export type LogSpansIngestRequestSpan =
   | AgentSpan
   | ControlSpan
+  | HttpSpan
   | LlmSpan
   | RetrieverSpan
   | ToolSpan
@@ -74,7 +80,13 @@ export type LogSpansIngestRequest = {
    * List of spans to log.
    */
   spans: Array<
-    AgentSpan | ControlSpan | LlmSpan | RetrieverSpan | ToolSpan | WorkflowSpan
+    | AgentSpan
+    | ControlSpan
+    | HttpSpan
+    | LlmSpan
+    | RetrieverSpan
+    | ToolSpan
+    | WorkflowSpan
   >;
   /**
    * Trace id associated with the spans.
@@ -90,6 +102,7 @@ export type LogSpansIngestRequest = {
 export type LogSpansIngestRequestSpan$Outbound =
   | AgentSpan$Outbound
   | ControlSpan$Outbound
+  | HttpSpan$Outbound
   | LlmSpan$Outbound
   | RetrieverSpan$Outbound
   | ToolSpan$Outbound
@@ -102,6 +115,7 @@ export const LogSpansIngestRequestSpan$outboundSchema: z.ZodMiniType<
 > = z.union([
   AgentSpan$outboundSchema,
   ControlSpan$outboundSchema,
+  HttpSpan$outboundSchema,
   LlmSpan$outboundSchema,
   RetrieverSpan$outboundSchema,
   ToolSpan$outboundSchema,
@@ -127,6 +141,7 @@ export type LogSpansIngestRequest$Outbound = {
   spans: Array<
     | AgentSpan$Outbound
     | ControlSpan$Outbound
+    | HttpSpan$Outbound
     | LlmSpan$Outbound
     | RetrieverSpan$Outbound
     | ToolSpan$Outbound
@@ -152,6 +167,7 @@ export const LogSpansIngestRequest$outboundSchema: z.ZodMiniType<
       z.union([
         AgentSpan$outboundSchema,
         ControlSpan$outboundSchema,
+        HttpSpan$outboundSchema,
         LlmSpan$outboundSchema,
         RetrieverSpan$outboundSchema,
         ToolSpan$outboundSchema,

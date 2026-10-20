@@ -30,6 +30,16 @@ import {
   DatasetPrependRow$outboundSchema,
 } from "./datasetprependrow.js";
 import {
+  DatasetRemoveColumn,
+  DatasetRemoveColumn$Outbound,
+  DatasetRemoveColumn$outboundSchema,
+} from "./datasetremovecolumn.js";
+import {
+  DatasetRenameColumn,
+  DatasetRenameColumn$Outbound,
+  DatasetRenameColumn$outboundSchema,
+} from "./datasetrenamecolumn.js";
+import {
   DatasetUpdateRow,
   DatasetUpdateRow$Outbound,
   DatasetUpdateRow$outboundSchema,
@@ -41,6 +51,8 @@ export type Edit =
   | DatasetDeleteRow
   | DatasetFilterRows
   | DatasetPrependRow
+  | DatasetRemoveColumn
+  | DatasetRenameColumn
   | DatasetUpdateRow;
 
 /**
@@ -61,6 +73,8 @@ export type UpdateDatasetContentRequest = {
     | DatasetDeleteRow
     | DatasetFilterRows
     | DatasetPrependRow
+    | DatasetRemoveColumn
+    | DatasetRenameColumn
     | DatasetUpdateRow
   >;
 };
@@ -72,6 +86,8 @@ export type Edit$Outbound =
   | DatasetDeleteRow$Outbound
   | DatasetFilterRows$Outbound
   | DatasetPrependRow$Outbound
+  | DatasetRemoveColumn$Outbound
+  | DatasetRenameColumn$Outbound
   | DatasetUpdateRow$Outbound;
 
 /** @internal */
@@ -81,6 +97,8 @@ export const Edit$outboundSchema: z.ZodMiniType<Edit$Outbound, Edit> = z.union([
   DatasetDeleteRow$outboundSchema,
   DatasetFilterRows$outboundSchema,
   DatasetPrependRow$outboundSchema,
+  DatasetRemoveColumn$outboundSchema,
+  DatasetRenameColumn$outboundSchema,
   DatasetUpdateRow$outboundSchema,
 ]);
 
@@ -96,6 +114,8 @@ export type UpdateDatasetContentRequest$Outbound = {
     | DatasetDeleteRow$Outbound
     | DatasetFilterRows$Outbound
     | DatasetPrependRow$Outbound
+    | DatasetRemoveColumn$Outbound
+    | DatasetRenameColumn$Outbound
     | DatasetUpdateRow$Outbound
   >;
 };
@@ -112,6 +132,8 @@ export const UpdateDatasetContentRequest$outboundSchema: z.ZodMiniType<
       DatasetDeleteRow$outboundSchema,
       DatasetFilterRows$outboundSchema,
       DatasetPrependRow$outboundSchema,
+      DatasetRemoveColumn$outboundSchema,
+      DatasetRenameColumn$outboundSchema,
       DatasetUpdateRow$outboundSchema,
     ]),
   ),
