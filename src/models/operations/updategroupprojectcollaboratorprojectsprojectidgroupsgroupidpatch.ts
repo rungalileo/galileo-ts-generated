@@ -10,6 +10,7 @@ import * as models from "../index.js";
 export type UpdateGroupProjectCollaboratorProjectsProjectIdGroupsGroupIdPatchSecurity =
   {
     apiKeyHeader?: string | undefined;
+    classicAPIKeyHeader?: string | undefined;
     oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
     httpBasic?: models.SchemeHTTPBasic | undefined;
   };
@@ -18,13 +19,14 @@ export type UpdateGroupProjectCollaboratorProjectsProjectIdGroupsGroupIdPatchReq
   {
     projectId: string;
     groupId: string;
-    body: models.CollaboratorUpdate;
+    body: models.ProjectCollaboratorUpdate;
   };
 
 /** @internal */
 export type UpdateGroupProjectCollaboratorProjectsProjectIdGroupsGroupIdPatchSecurity$Outbound =
   {
     APIKeyHeader?: string | undefined;
+    ClassicAPIKeyHeader?: string | undefined;
     OAuth2PasswordBearer?:
       | models.OAuth2PasswordBearerInput$Outbound
       | undefined;
@@ -39,6 +41,7 @@ export const UpdateGroupProjectCollaboratorProjectsProjectIdGroupsGroupIdPatchSe
   > = z.pipe(
     z.object({
       apiKeyHeader: z.optional(z.string()),
+      classicAPIKeyHeader: z.optional(z.string()),
       oAuth2PasswordBearer: z.optional(
         models.OAuth2PasswordBearerInput$outboundSchema,
       ),
@@ -47,6 +50,7 @@ export const UpdateGroupProjectCollaboratorProjectsProjectIdGroupsGroupIdPatchSe
     z.transform((v) => {
       return remap$(v, {
         apiKeyHeader: "APIKeyHeader",
+        classicAPIKeyHeader: "ClassicAPIKeyHeader",
         oAuth2PasswordBearer: "OAuth2PasswordBearer",
         httpBasic: "HTTPBasic",
       });
@@ -70,7 +74,7 @@ export type UpdateGroupProjectCollaboratorProjectsProjectIdGroupsGroupIdPatchReq
   {
     project_id: string;
     group_id: string;
-    body: models.CollaboratorUpdate$Outbound;
+    body: models.ProjectCollaboratorUpdate$Outbound;
   };
 
 /** @internal */
@@ -82,7 +86,7 @@ export const UpdateGroupProjectCollaboratorProjectsProjectIdGroupsGroupIdPatchRe
     z.object({
       projectId: z.string(),
       groupId: z.string(),
-      body: models.CollaboratorUpdate$outboundSchema,
+      body: models.ProjectCollaboratorUpdate$outboundSchema,
     }),
     z.transform((v) => {
       return remap$(v, {
