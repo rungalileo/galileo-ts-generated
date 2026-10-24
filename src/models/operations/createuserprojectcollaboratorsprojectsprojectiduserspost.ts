@@ -9,19 +9,21 @@ import * as models from "../index.js";
 
 export type CreateUserProjectCollaboratorsProjectsProjectIdUsersPostSecurity = {
   apiKeyHeader?: string | undefined;
+  classicAPIKeyHeader?: string | undefined;
   oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
   httpBasic?: models.SchemeHTTPBasic | undefined;
 };
 
 export type CreateUserProjectCollaboratorsProjectsProjectIdUsersPostRequest = {
   projectId: string;
-  body: Array<models.UserCollaboratorCreate>;
+  body: Array<models.ProjectUserCollaboratorCreate>;
 };
 
 /** @internal */
 export type CreateUserProjectCollaboratorsProjectsProjectIdUsersPostSecurity$Outbound =
   {
     APIKeyHeader?: string | undefined;
+    ClassicAPIKeyHeader?: string | undefined;
     OAuth2PasswordBearer?:
       | models.OAuth2PasswordBearerInput$Outbound
       | undefined;
@@ -36,6 +38,7 @@ export const CreateUserProjectCollaboratorsProjectsProjectIdUsersPostSecurity$ou
   > = z.pipe(
     z.object({
       apiKeyHeader: z.optional(z.string()),
+      classicAPIKeyHeader: z.optional(z.string()),
       oAuth2PasswordBearer: z.optional(
         models.OAuth2PasswordBearerInput$outboundSchema,
       ),
@@ -44,6 +47,7 @@ export const CreateUserProjectCollaboratorsProjectsProjectIdUsersPostSecurity$ou
     z.transform((v) => {
       return remap$(v, {
         apiKeyHeader: "APIKeyHeader",
+        classicAPIKeyHeader: "ClassicAPIKeyHeader",
         oAuth2PasswordBearer: "OAuth2PasswordBearer",
         httpBasic: "HTTPBasic",
       });
@@ -64,7 +68,7 @@ export function createUserProjectCollaboratorsProjectsProjectIdUsersPostSecurity
 export type CreateUserProjectCollaboratorsProjectsProjectIdUsersPostRequest$Outbound =
   {
     project_id: string;
-    body: Array<models.UserCollaboratorCreate$Outbound>;
+    body: Array<models.ProjectUserCollaboratorCreate$Outbound>;
   };
 
 /** @internal */
@@ -75,7 +79,7 @@ export const CreateUserProjectCollaboratorsProjectsProjectIdUsersPostRequest$out
   > = z.pipe(
     z.object({
       projectId: z.string(),
-      body: z.array(models.UserCollaboratorCreate$outboundSchema),
+      body: z.array(models.ProjectUserCollaboratorCreate$outboundSchema),
     }),
     z.transform((v) => {
       return remap$(v, {

@@ -14,6 +14,10 @@ import {
 } from "./chainaggregationstrategy.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import { NodeType, NodeType$inboundSchema } from "./nodetype.js";
+import {
+  ScorerEnvironment,
+  ScorerEnvironment$inboundSchema,
+} from "./scorerenvironment.js";
 import { TestScore, TestScore$inboundSchema } from "./testscore.js";
 
 export type ValidResult = {
@@ -23,6 +27,7 @@ export type ValidResult = {
   includeLlmCredentials: boolean;
   chainAggregation?: ChainAggregationStrategy | null | undefined;
   testScores: Array<TestScore>;
+  environment?: ScorerEnvironment | null | undefined;
 };
 
 /** @internal */
@@ -37,6 +42,7 @@ export const ValidResult$inboundSchema: z.ZodMiniType<ValidResult, unknown> = z
         z.nullable(ChainAggregationStrategy$inboundSchema),
       ),
       test_scores: z.array(TestScore$inboundSchema),
+      environment: z.optional(z.nullable(ScorerEnvironment$inboundSchema)),
     }),
     z.transform((v) => {
       return remap$(v, {
