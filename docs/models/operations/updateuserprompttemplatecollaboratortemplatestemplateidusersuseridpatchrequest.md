@@ -11,7 +11,7 @@ let value:
       templateId: "<value>",
       userId: "<value>",
       body: {
-        role: "owner",
+        role: "viewer",
       },
     };
 ```

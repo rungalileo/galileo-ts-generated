@@ -17,7 +17,6 @@ export const LLMIntegration = {
   Mistral: "mistral",
   Nvidia: "nvidia",
   Openai: "openai",
-  VegasGateway: "vegas_gateway",
   VertexAi: "vertex_ai",
   Writer: "writer",
 } as const;
