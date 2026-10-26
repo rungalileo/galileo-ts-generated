@@ -11,6 +11,7 @@ export const IntegrationAction = {
   Update: "update",
   Delete: "delete",
   Share: "share",
+  ReadSecrets: "read_secrets",
 } as const;
 export type IntegrationAction = OpenEnum<typeof IntegrationAction>;
 
