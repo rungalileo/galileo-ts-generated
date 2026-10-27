@@ -16,6 +16,11 @@ import {
   ControlSpan$outboundSchema,
 } from "./controlspan.js";
 import {
+  HttpSpan,
+  HttpSpan$Outbound,
+  HttpSpan$outboundSchema,
+} from "./httpspan.js";
+import {
   LlmSpan,
   LlmSpan$Outbound,
   LlmSpan$outboundSchema,
@@ -121,6 +126,7 @@ export type ToolSpan = {
     | Array<
       | AgentSpan
       | ControlSpan
+      | HttpSpan
       | LlmSpan
       | RetrieverSpan
       | ToolSpan
@@ -136,6 +142,7 @@ export type ToolSpan = {
 export type ToolSpanSpan =
   | AgentSpan
   | ControlSpan
+  | HttpSpan
   | LlmSpan
   | RetrieverSpan
   | ToolSpan
@@ -167,6 +174,7 @@ export type ToolSpan$Outbound = {
     | Array<
       | AgentSpan$Outbound
       | ControlSpan$Outbound
+      | HttpSpan$Outbound
       | LlmSpan$Outbound
       | RetrieverSpan$Outbound
       | ToolSpan$Outbound
@@ -205,12 +213,13 @@ export const ToolSpan$outboundSchema: z.ZodMiniType<
     spans: z.optional(z.array(z.union([
       z.lazy(() => AgentSpan$outboundSchema),
       ControlSpan$outboundSchema,
+      z.lazy(() => HttpSpan$outboundSchema),
       LlmSpan$outboundSchema,
       z.lazy(() => RetrieverSpan$outboundSchema),
-      z.lazy(() => ToolSpan$outboundSchema),
       z.lazy(() =>
-        WorkflowSpan$outboundSchema
+        ToolSpan$outboundSchema
       ),
+      z.lazy(() => WorkflowSpan$outboundSchema),
     ]))),
     toolCallId: z.optional(z.nullable(z.string())),
   }),
@@ -242,6 +251,7 @@ export function toolSpanToJSON(toolSpan: ToolSpan): string {
 export type ToolSpanSpan$Outbound =
   | AgentSpan$Outbound
   | ControlSpan$Outbound
+  | HttpSpan$Outbound
   | LlmSpan$Outbound
   | RetrieverSpan$Outbound
   | ToolSpan$Outbound
@@ -254,6 +264,7 @@ export const ToolSpanSpan$outboundSchema: z.ZodMiniType<
 > = z.union([
   z.lazy(() => AgentSpan$outboundSchema),
   ControlSpan$outboundSchema,
+  z.lazy(() => HttpSpan$outboundSchema),
   LlmSpan$outboundSchema,
   z.lazy(() => RetrieverSpan$outboundSchema),
   z.lazy(() => ToolSpan$outboundSchema),

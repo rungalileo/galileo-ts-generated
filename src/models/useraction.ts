@@ -15,6 +15,7 @@ export const UserAction = {
   ChangeRoleToManager: "change_role_to_manager",
   ChangeRoleToUser: "change_role_to_user",
   ChangeRoleToReadOnly: "change_role_to_read_only",
+  ChangeRoleToCapabilityBased: "change_role_to_capability_based",
 } as const;
 export type UserAction = OpenEnum<typeof UserAction>;
 
