@@ -4,22 +4,38 @@
  */
 
 import * as z from "zod/v4-mini";
+import { safeParse } from "../lib/schemas.js";
+import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
+import { discriminatedUnion } from "../types/discriminatedUnion.js";
+import { Result as SafeParseResult } from "../types/fp.js";
+import * as types from "../types/primitives.js";
+import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
   OverrideAction,
+  OverrideAction$inboundSchema,
   OverrideAction$Outbound,
   OverrideAction$outboundSchema,
 } from "./overrideaction.js";
 import {
   PassthroughAction,
+  PassthroughAction$inboundSchema,
   PassthroughAction$Outbound,
   PassthroughAction$outboundSchema,
 } from "./passthroughaction.js";
-import { Rule, Rule$Outbound, Rule$outboundSchema } from "./rule.js";
+import {
+  Rule,
+  Rule$inboundSchema,
+  Rule$Outbound,
+  Rule$outboundSchema,
+} from "./rule.js";
 
 /**
  * Action to take if all the rules are met.
  */
-export type RulesetAction = OverrideAction | PassthroughAction;
+export type RulesetAction =
+  | OverrideAction
+  | PassthroughAction
+  | discriminatedUnionTypes.Unknown<"type">;
 
 export type Ruleset = {
   /**
@@ -29,13 +45,25 @@ export type Ruleset = {
   /**
    * Action to take if all the rules are met.
    */
-  action?: OverrideAction | PassthroughAction | undefined;
+  action?:
+    | OverrideAction
+    | PassthroughAction
+    | discriminatedUnionTypes.Unknown<"type">
+    | undefined;
   /**
    * Description of the ruleset.
    */
   description?: string | null | undefined;
 };
 
+/** @internal */
+export const RulesetAction$inboundSchema: z.ZodMiniType<
+  RulesetAction,
+  unknown
+> = discriminatedUnion("type", {
+  OVERRIDE: OverrideAction$inboundSchema,
+  PASSTHROUGH: PassthroughAction$inboundSchema,
+});
 /** @internal */
 export type RulesetAction$Outbound =
   | OverrideAction$Outbound
@@ -50,7 +78,27 @@ export const RulesetAction$outboundSchema: z.ZodMiniType<
 export function rulesetActionToJSON(rulesetAction: RulesetAction): string {
   return JSON.stringify(RulesetAction$outboundSchema.parse(rulesetAction));
 }
+export function rulesetActionFromJSON(
+  jsonString: string,
+): SafeParseResult<RulesetAction, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => RulesetAction$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'RulesetAction' from JSON`,
+  );
+}
 
+/** @internal */
+export const Ruleset$inboundSchema: z.ZodMiniType<Ruleset, unknown> = z.object({
+  rules: types.optional(z.array(Rule$inboundSchema)),
+  action: types.optional(
+    discriminatedUnion("type", {
+      OVERRIDE: OverrideAction$inboundSchema,
+      PASSTHROUGH: PassthroughAction$inboundSchema,
+    }),
+  ),
+  description: z.optional(z.nullable(types.string())),
+});
 /** @internal */
 export type Ruleset$Outbound = {
   rules?: Array<Rule$Outbound> | undefined;
@@ -73,4 +121,13 @@ export const Ruleset$outboundSchema: z.ZodMiniType<Ruleset$Outbound, Ruleset> =
 
 export function rulesetToJSON(ruleset: Ruleset): string {
   return JSON.stringify(Ruleset$outboundSchema.parse(ruleset));
+}
+export function rulesetFromJSON(
+  jsonString: string,
+): SafeParseResult<Ruleset, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => Ruleset$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'Ruleset' from JSON`,
+  );
 }

@@ -20,6 +20,10 @@ import {
   AnnotationRatingInfo$inboundSchema,
 } from "./annotationratinginfo.js";
 import {
+  AnnotationStatus,
+  AnnotationStatus$inboundSchema,
+} from "./annotationstatus.js";
+import {
   ContentModality,
   ContentModality$inboundSchema,
 } from "./contentmodality.js";
@@ -32,6 +36,10 @@ import {
   ExtendedControlSpanRecord,
   ExtendedControlSpanRecord$inboundSchema,
 } from "./extendedcontrolspanrecord.js";
+import {
+  ExtendedHttpSpanRecordWithChildren,
+  ExtendedHttpSpanRecordWithChildren$inboundSchema,
+} from "./extendedhttpspanrecordwithchildren.js";
 import {
   ExtendedLlmSpanRecord,
   ExtendedLlmSpanRecord$inboundSchema,
@@ -83,6 +91,7 @@ import {
 export type ExtendedTraceRecordWithChildrenSpan =
   | ExtendedAgentSpanRecordWithChildren
   | ExtendedControlSpanRecord
+  | ExtendedHttpSpanRecordWithChildren
   | ExtendedLlmSpanRecord
   | ExtendedRetrieverSpanRecordWithChildren
   | ExtendedToolSpanRecordWithChildren
@@ -161,6 +170,7 @@ export type ExtendedTraceRecordWithChildren = {
     | Array<
       | ExtendedAgentSpanRecordWithChildren
       | ExtendedControlSpanRecord
+      | ExtendedHttpSpanRecordWithChildren
       | ExtendedLlmSpanRecord
       | ExtendedRetrieverSpanRecordWithChildren
       | ExtendedToolSpanRecordWithChildren
@@ -331,6 +341,22 @@ export type ExtendedTraceRecordWithChildren = {
    */
   fullyAnnotated?: boolean | null | undefined;
   /**
+   * Annotation review status of the record
+   */
+  annotationStatus?: AnnotationStatus | null | undefined;
+  /**
+   * Emails of tracked queue members who rated the record
+   */
+  annotatedMembers?: Array<string> | null | undefined;
+  /**
+   * Runner progress text written directly to CH span
+   */
+  progressMessage: string;
+  /**
+   * Runner error text written directly to CH span
+   */
+  errorMessage: string;
+  /**
    * Detailed information about the metrics associated with this trace or span
    */
   metricInfo?:
@@ -353,6 +379,10 @@ export type ExtendedTraceRecordWithChildren = {
    */
   files?: { [k: string]: FileMetadata } | null | undefined;
   /**
+   * Generated output from the dataset associated with this trace
+   */
+  datasetGeneratedOutput?: string | null | undefined;
+  /**
    * Whether the trace is complete or not
    */
   isComplete: boolean;
@@ -366,6 +396,7 @@ export const ExtendedTraceRecordWithChildrenSpan$inboundSchema: z.ZodMiniType<
 > = discriminatedUnion("type", {
   agent: ExtendedAgentSpanRecordWithChildren$inboundSchema,
   control: ExtendedControlSpanRecord$inboundSchema,
+  http: ExtendedHttpSpanRecordWithChildren$inboundSchema,
   llm: ExtendedLlmSpanRecord$inboundSchema,
   retriever: ExtendedRetrieverSpanRecordWithChildren$inboundSchema,
   tool: ExtendedToolSpanRecordWithChildren$inboundSchema,
@@ -615,12 +646,13 @@ export const ExtendedTraceRecordWithChildren$inboundSchema: z.ZodMiniType<
     spans: types.optional(z.array(discriminatedUnion("type", {
       agent: ExtendedAgentSpanRecordWithChildren$inboundSchema,
       control: ExtendedControlSpanRecord$inboundSchema,
+      http: ExtendedHttpSpanRecordWithChildren$inboundSchema,
       llm: ExtendedLlmSpanRecord$inboundSchema,
       retriever: ExtendedRetrieverSpanRecordWithChildren$inboundSchema,
       tool: ExtendedToolSpanRecordWithChildren$inboundSchema,
       workflow: ExtendedWorkflowSpanRecordWithChildren$inboundSchema,
     }))),
-    type: z._default(types.literal("trace"), "trace"),
+    type: types.literal("trace"),
     input: types.optional(
       smartUnion([
         types.string(),
@@ -708,6 +740,10 @@ export const ExtendedTraceRecordWithChildren$inboundSchema: z.ZodMiniType<
     overall_annotation_agreement: z.optional(z.nullable(types.number())),
     annotation_queue_ids: types.optional(z.array(types.string())),
     fully_annotated: z.optional(z.nullable(types.boolean())),
+    annotation_status: z.optional(z.nullable(AnnotationStatus$inboundSchema)),
+    annotated_members: z.optional(z.nullable(z.array(types.string()))),
+    progress_message: z._default(types.string(), ""),
+    error_message: z._default(types.string(), ""),
     metric_info: z.optional(
       z.nullable(z.record(
         z.string(),
@@ -726,6 +762,7 @@ export const ExtendedTraceRecordWithChildren$inboundSchema: z.ZodMiniType<
     files: z.optional(
       z.nullable(z.record(z.string(), FileMetadata$inboundSchema)),
     ),
+    dataset_generated_output: z.optional(z.nullable(types.string())),
     is_complete: z._default(types.boolean(), true),
     num_spans: z.optional(z.nullable(types.number())),
   }),
@@ -756,7 +793,12 @@ export const ExtendedTraceRecordWithChildren$inboundSchema: z.ZodMiniType<
       "overall_annotation_agreement": "overallAnnotationAgreement",
       "annotation_queue_ids": "annotationQueueIds",
       "fully_annotated": "fullyAnnotated",
+      "annotation_status": "annotationStatus",
+      "annotated_members": "annotatedMembers",
+      "progress_message": "progressMessage",
+      "error_message": "errorMessage",
       "metric_info": "metricInfo",
+      "dataset_generated_output": "datasetGeneratedOutput",
       "is_complete": "isComplete",
       "num_spans": "numSpans",
     });

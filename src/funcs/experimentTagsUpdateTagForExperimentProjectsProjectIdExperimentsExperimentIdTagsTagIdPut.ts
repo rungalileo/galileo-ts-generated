@@ -6,6 +6,7 @@
 import * as z from "zod/v4-mini";
 import { GalileoGeneratedCore } from "../core.js";
 import { encodeJSON, encodeSimple } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -32,7 +33,16 @@ import { Result } from "../types/fp.js";
  * Update Tag For Experiment
  *
  * @remarks
- * Sets or updates a tag for an experiment.
+ * Set or update a tag for an experiment.
+ *
+ * Args:
+ *     project_id: Project the experiment belongs to, resolved from the URL.
+ *     run: The experiment to tag, resolved from the URL.
+ *     tag_create: The tag's key, value, and type.
+ *     ctx: Async request context.
+ *
+ * Returns:
+ *     The created or updated tag.
  */
 export function experimentTagsUpdateTagForExperimentProjectsProjectIdExperimentsExperimentIdTagsTagIdPut(
   client: GalileoGeneratedCore,
@@ -117,7 +127,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc(
     "/projects/{project_id}/experiments/{experiment_id}/tags/{tag_id}",
   )(pathParams);
@@ -130,9 +139,16 @@ async function $do(
   const requestSecurity = resolveSecurity(
     [
       {
-        fieldName: "Galileo-API-Key",
+        fieldName: "Splunk-AO-API-Key",
         type: "apiKey:header",
         value: security?.apiKeyHeader,
+      },
+    ],
+    [
+      {
+        fieldName: "Galileo-API-Key",
+        type: "apiKey:header",
+        value: security?.classicAPIKeyHeader,
       },
     ],
     [
@@ -188,7 +204,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["422", "4XX", "5XX"],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });
