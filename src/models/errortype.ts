@@ -15,7 +15,9 @@ export const ErrorType = {
   PermissionError: "permission_error",
   NotFoundError: "not_found_error",
   WorkflowError: "workflow_error",
+  RateLimitError: "rate_limit_error",
   SystemError: "system_error",
+  TimeoutError: "timeout_error",
   NotApplicableReason: "not_applicable_reason",
   UncatalogedError: "uncataloged_error",
 } as const;
