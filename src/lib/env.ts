@@ -4,16 +4,28 @@
  */
 
 import * as z from "zod/v4-mini";
-import { dlv } from "./dlv.js";
 
 export interface Env {
-  GALILEOGENERATED_API_KEY_HEADER?: string | undefined;
+  GALILEOGENERATED_USERNAME?: string | undefined;
+  GALILEOGENERATED_PASSWORD?: string | undefined;
+  GALILEOGENERATED_CLIENT_ID?: string | undefined;
+  GALILEOGENERATED_CLIENT_SECRET?: string | undefined;
+  GALILEOGENERATED_TOKEN_URL: string;
+  GALILEOGENERATED_TOKEN?: string | undefined;
 
   GALILEOGENERATED_DEBUG?: boolean | undefined;
 }
 
 export const envSchema: z.ZodMiniType<Env, unknown> = z.object({
-  GALILEOGENERATED_API_KEY_HEADER: z.optional(z.string()),
+  GALILEOGENERATED_USERNAME: z.optional(z.string()),
+  GALILEOGENERATED_PASSWORD: z.optional(z.string()),
+  GALILEOGENERATED_CLIENT_ID: z.optional(z.string()),
+  GALILEOGENERATED_CLIENT_SECRET: z.optional(z.string()),
+  GALILEOGENERATED_TOKEN_URL: z._default(
+    z.string(),
+    "https://api.galileo.ai/login",
+  ),
+  GALILEOGENERATED_TOKEN: z.optional(z.string()),
 
   GALILEOGENERATED_DEBUG: z.optional(z.coerce.boolean()),
 });
@@ -39,11 +51,16 @@ export function env(): Env {
     return envMemo;
   }
 
+  const globals = globalThis as {
+    Deno?: { env?: { toObject?: () => Record<string, string | undefined> } };
+    process?: { env?: Record<string, string | undefined> };
+  };
+
   let envObject: Record<string, unknown> = {};
   if (isDeno()) {
-    envObject = (globalThis as any).Deno?.env?.toObject?.() ?? {};
+    envObject = globals.Deno?.env?.toObject?.() ?? {};
   } else {
-    envObject = dlv(globalThis, "process.env") ?? {};
+    envObject = globals.process?.env ?? {};
   }
 
   envMemo = envSchema.parse(envObject);

@@ -70,6 +70,9 @@ export type LogRecordsPartialQueryRequestFilter =
  */
 export type LogRecordsPartialQueryRequest = {
   startingToken?: number | undefined;
+  /**
+   * Records per page, at most 1000. Page through larger result sets with starting_token or previous_last_row_id.
+   */
   limit?: number | undefined;
   previousLastRowId?: string | null | undefined;
   /**

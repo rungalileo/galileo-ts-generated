@@ -16,28 +16,20 @@ let value: AggregatedTraceViewResponse = {
         hasChildren: false,
         metrics: {
           "key": {
+            aggregationType: "numeric",
             name: "<value>",
             label: "<value>",
           },
         },
-        traceCount: 870893,
-        weight: 407.2,
+        traceCount: 40720,
+        weight: 6780.99,
       },
     ],
-    edges: [
-      {
-        source: "<value>",
-        target: "<value>",
-        weight: 1839.51,
-        occurrences: 165589,
-        traceCount: 360800,
-        traceIds: [],
-      },
-    ],
+    edges: [],
   },
-  numTraces: 558078,
-  numSessions: 813511,
-  hasAllTraces: false,
+  numTraces: 165589,
+  numSessions: 360800,
+  hasAllTraces: true,
 };
 ```
 
