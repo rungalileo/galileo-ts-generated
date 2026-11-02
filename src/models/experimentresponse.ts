@@ -66,6 +66,7 @@ export type ExperimentResponse = {
   createdByUser?: UserInfo | null | undefined;
   numSpans?: number | null | undefined;
   numTraces?: number | null | undefined;
+  numSessions?: number | null | undefined;
   /**
    * Valid task types for modeling.
    *
@@ -125,6 +126,7 @@ export const ExperimentResponse$inboundSchema: z.ZodMiniType<
     created_by_user: z.optional(z.nullable(UserInfo$inboundSchema)),
     num_spans: z.optional(z.nullable(types.number())),
     num_traces: z.optional(z.nullable(types.number())),
+    num_sessions: z.optional(z.nullable(types.number())),
     task_type: TaskType$inboundSchema,
     dataset: z.optional(z.nullable(ExperimentDataset$inboundSchema)),
     aggregate_metrics: types.optional(z.record(z.string(), z.any())),
@@ -165,6 +167,7 @@ export const ExperimentResponse$inboundSchema: z.ZodMiniType<
       "created_by_user": "createdByUser",
       "num_spans": "numSpans",
       "num_traces": "numTraces",
+      "num_sessions": "numSessions",
       "task_type": "taskType",
       "aggregate_metrics": "aggregateMetrics",
       "structured_aggregate_metrics": "structuredAggregateMetrics",
