@@ -39,6 +39,12 @@ import {
   OutputTypeEnum$inboundSchema,
   OutputTypeEnum$outboundSchema,
 } from "./outputtypeenum.js";
+import {
+  ScorerInvocationConfig,
+  ScorerInvocationConfig$inboundSchema,
+  ScorerInvocationConfig$Outbound,
+  ScorerInvocationConfig$outboundSchema,
+} from "./scorerinvocationconfig.js";
 
 export type ScorerDefaultsFilter =
   | MetadataFilter
@@ -77,6 +83,10 @@ export type ScorerDefaults = {
    * What type of input to use for model-based scorers (sessions_normalized, trace_io_only, etc..).
    */
   inputType?: InputTypeEnum | null | undefined;
+  /**
+   * Deprecated compatibility location for direct-invocation metadata. Use ScorerInfo.invocation or BaseScorerDB.invocation instead.
+   */
+  invocation?: ScorerInvocationConfig | null | undefined;
 };
 
 /** @internal */
@@ -144,6 +154,7 @@ export const ScorerDefaults$inboundSchema: z.ZodMiniType<
     cot_enabled: z.optional(z.nullable(types.boolean())),
     output_type: z.optional(z.nullable(OutputTypeEnum$inboundSchema)),
     input_type: z.optional(z.nullable(InputTypeEnum$inboundSchema)),
+    invocation: z.optional(z.nullable(ScorerInvocationConfig$inboundSchema)),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -172,6 +183,7 @@ export type ScorerDefaults$Outbound = {
   cot_enabled?: boolean | null | undefined;
   output_type?: string | null | undefined;
   input_type?: string | null | undefined;
+  invocation?: ScorerInvocationConfig$Outbound | null | undefined;
 };
 
 /** @internal */
@@ -197,6 +209,7 @@ export const ScorerDefaults$outboundSchema: z.ZodMiniType<
     cotEnabled: z.optional(z.nullable(z.boolean())),
     outputType: z.optional(z.nullable(OutputTypeEnum$outboundSchema)),
     inputType: z.optional(z.nullable(InputTypeEnum$outboundSchema)),
+    invocation: z.optional(z.nullable(ScorerInvocationConfig$outboundSchema)),
   }),
   z.transform((v) => {
     return remap$(v, {
