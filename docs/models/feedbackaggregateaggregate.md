@@ -3,6 +3,20 @@
 
 ## Supported Types
 
+### `models.ChoiceAggregate`
+
+```typescript
+const value: models.ChoiceAggregate = {
+  feedbackType: "choice",
+  counts: {
+    "key": 525240,
+    "key1": 656819,
+    "key2": 410116,
+  },
+  unratedCount: 488982,
+};
+```
+
 ### `models.LikeDislikeAggregate`
 
 ```typescript
@@ -57,6 +71,18 @@ const value: models.TextAggregate = {
   feedbackType: "text",
   count: 196132,
   unratedCount: 238431,
+};
+```
+
+### `models.TreeChoiceAggregate`
+
+```typescript
+const value: models.TreeChoiceAggregate = {
+  feedbackType: "tree_choice",
+  counts: {
+    "key": 201355,
+  },
+  unratedCount: 600646,
 };
 ```
 
