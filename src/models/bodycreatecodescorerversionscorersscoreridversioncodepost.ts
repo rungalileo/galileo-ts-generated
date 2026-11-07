@@ -5,60 +5,20 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { blobLikeSchema } from "../types/blobs.js";
-
-export type BodyCreateCodeScorerVersionScorersScorerIdVersionCodePostFile = {
-  fileName: string;
-  content: ReadableStream<Uint8Array> | Blob | ArrayBuffer | Uint8Array;
-};
 
 export type BodyCreateCodeScorerVersionScorersScorerIdVersionCodePost = {
-  file: BodyCreateCodeScorerVersionScorersScorerIdVersionCodePostFile | Blob;
   /**
-   * Pre-validated result as JSON string to skip validation
+   * The result from the validate endpoint, as a JSON string. Only its task_id is read: the version is built from the result stored for that validation task.
    */
-  validationResult?: string | null | undefined;
+  validationResult: string;
+  file: string;
 };
-
-/** @internal */
-export type BodyCreateCodeScorerVersionScorersScorerIdVersionCodePostFile$Outbound =
-  {
-    fileName: string;
-    content: ReadableStream<Uint8Array> | Blob | ArrayBuffer | Uint8Array;
-  };
-
-/** @internal */
-export const BodyCreateCodeScorerVersionScorersScorerIdVersionCodePostFile$outboundSchema:
-  z.ZodMiniType<
-    BodyCreateCodeScorerVersionScorersScorerIdVersionCodePostFile$Outbound,
-    BodyCreateCodeScorerVersionScorersScorerIdVersionCodePostFile
-  > = z.object({
-    fileName: z.string(),
-    content: z.union([
-      z.custom<ReadableStream<Uint8Array>>(x => x instanceof ReadableStream),
-      z.custom<Blob>(x => x instanceof Blob),
-      z.custom<ArrayBuffer>(x => x instanceof ArrayBuffer),
-      z.custom<Uint8Array>(x => x instanceof Uint8Array),
-    ]),
-  });
-
-export function bodyCreateCodeScorerVersionScorersScorerIdVersionCodePostFileToJSON(
-  bodyCreateCodeScorerVersionScorersScorerIdVersionCodePostFile:
-    BodyCreateCodeScorerVersionScorersScorerIdVersionCodePostFile,
-): string {
-  return JSON.stringify(
-    BodyCreateCodeScorerVersionScorersScorerIdVersionCodePostFile$outboundSchema
-      .parse(bodyCreateCodeScorerVersionScorersScorerIdVersionCodePostFile),
-  );
-}
 
 /** @internal */
 export type BodyCreateCodeScorerVersionScorersScorerIdVersionCodePost$Outbound =
   {
-    file:
-      | BodyCreateCodeScorerVersionScorersScorerIdVersionCodePostFile$Outbound
-      | Blob;
-    validation_result?: string | null | undefined;
+    validation_result: string;
+    file: string;
   };
 
 /** @internal */
@@ -68,13 +28,8 @@ export const BodyCreateCodeScorerVersionScorersScorerIdVersionCodePost$outboundS
     BodyCreateCodeScorerVersionScorersScorerIdVersionCodePost
   > = z.pipe(
     z.object({
-      file: z.union([
-        z.lazy(() =>
-          BodyCreateCodeScorerVersionScorersScorerIdVersionCodePostFile$outboundSchema
-        ),
-        blobLikeSchema,
-      ]),
-      validationResult: z.optional(z.nullable(z.string())),
+      validationResult: z.string(),
+      file: z.string(),
     }),
     z.transform((v) => {
       return remap$(v, {

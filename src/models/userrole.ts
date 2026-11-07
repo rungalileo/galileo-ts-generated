@@ -12,6 +12,8 @@ export const UserRole = {
   Manager: "manager",
   User: "user",
   ReadOnly: "read_only",
+  OrgAnnotator: "org_annotator",
+  CapabilityBased: "capability_based",
 } as const;
 export type UserRole = OpenEnum<typeof UserRole>;
 

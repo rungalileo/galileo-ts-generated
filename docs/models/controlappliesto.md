@@ -5,7 +5,7 @@
 ```typescript
 import { ControlAppliesTo } from "galileo-generated/models";
 
-let value: ControlAppliesTo = "llm_call";
+let value: ControlAppliesTo = "retriever_call";
 
 // Open enum: unrecognized values are captured as Unrecognized<string>
 ```
@@ -13,5 +13,5 @@ let value: ControlAppliesTo = "llm_call";
 ## Values
 
 ```typescript
-"llm_call" | "tool_call" | Unrecognized<string>
+"llm_call" | "tool_call" | "retriever_call" | "trace_call" | "session_call" | Unrecognized<string>
 ```

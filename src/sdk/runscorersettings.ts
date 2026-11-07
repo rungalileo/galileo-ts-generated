@@ -16,6 +16,18 @@ import { unwrapAsync } from "../types/fp.js";
 export class RunScorerSettings extends ClientSDK {
   /**
    * Upsert Scorers Config
+   *
+   * @remarks
+   * Enable or disable a run's scorers, recomputing metrics for any newly enabled ones.
+   *
+   * Args:
+   *     run_scorer_settings: Scorer settings to apply to the run.
+   *     run: Run resolved from the URL, verified to belong to the URL project.
+   *     a_ctx: Async request context supplying the read session and current user.
+   *     capabilities: Scorer types the client can decode; decision scorers are left out of the response otherwise.
+   *
+   * Returns:
+   *     The run's settings after the update.
    */
   async upsertScorersConfigProjectsProjectIdRunsRunIdScorerSettingsPatch(
     security:
@@ -36,6 +48,18 @@ export class RunScorerSettings extends ClientSDK {
 
   /**
    * Upsert Scorers Config
+   *
+   * @remarks
+   * Enable or disable a run's scorers, recomputing metrics for any newly enabled ones.
+   *
+   * Args:
+   *     run_scorer_settings: Scorer settings to apply to the run.
+   *     run: Run resolved from the URL, verified to belong to the URL project.
+   *     a_ctx: Async request context supplying the read session and current user.
+   *     capabilities: Scorer types the client can decode; decision scorers are left out of the response otherwise.
+   *
+   * Returns:
+   *     The run's settings after the update.
    */
   async upsertScorersConfigProjectsProjectIdRunsRunIdScorerSettingsPost(
     security:
@@ -56,6 +80,20 @@ export class RunScorerSettings extends ClientSDK {
 
   /**
    * Get Settings
+   *
+   * @remarks
+   * Return a run's scorer settings.
+   *
+   * Args:
+   *     run_id: Run whose settings are requested, used for the not-found message.
+   *     run_scorer_settings: Hydrated settings resolved by the route dependency.
+   *     capabilities: Scorer types the client can decode; decision scorers are left out of the response otherwise.
+   *
+   * Returns:
+   *     The run's scorer settings.
+   *
+   * Raises:
+   *     HTTPException: 404 when the run has no scorer settings recorded.
    */
   async getSettingsProjectsProjectIdRunsRunIdScorerSettingsGet(
     security:
