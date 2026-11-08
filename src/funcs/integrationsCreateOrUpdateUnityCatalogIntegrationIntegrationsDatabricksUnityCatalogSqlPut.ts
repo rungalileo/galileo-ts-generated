@@ -6,6 +6,7 @@
 import * as z from "zod/v4-mini";
 import { GalileoGeneratedCore } from "../core.js";
 import { encodeJSON } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -32,7 +33,14 @@ import { Result } from "../types/fp.js";
  * Create or update Databricks integration (legacy)
  *
  * @remarks
- * Create or update a databricks integration for this user from Galileo.
+ * Create or update the caller's Databricks integration.
+ *
+ * Args:
+ *     ctx: Async request context supplying the read session and current user.
+ *     integration: Databricks host, warehouse path and token.
+ *
+ * Returns:
+ *     The stored integration, without its secret columns.
  *
  * @deprecated method: This will be removed in a future release, please migrate away from it as soon as possible.
  */
@@ -109,9 +117,16 @@ async function $do(
   const requestSecurity = resolveSecurity(
     [
       {
-        fieldName: "Galileo-API-Key",
+        fieldName: "Splunk-AO-API-Key",
         type: "apiKey:header",
         value: security?.apiKeyHeader,
+      },
+    ],
+    [
+      {
+        fieldName: "Galileo-API-Key",
+        type: "apiKey:header",
+        value: security?.classicAPIKeyHeader,
       },
     ],
     [
@@ -167,7 +182,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["422", "4XX", "5XX"],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });

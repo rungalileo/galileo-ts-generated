@@ -9,12 +9,14 @@ import * as models from "../index.js";
 
 export type CreateLlmScorerVersionScorersScorerIdVersionLlmPostSecurity = {
   apiKeyHeader?: string | undefined;
+  classicAPIKeyHeader?: string | undefined;
   oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
   httpBasic?: models.SchemeHTTPBasic | undefined;
 };
 
 export type CreateLlmScorerVersionScorersScorerIdVersionLlmPostRequest = {
   scorerId: string;
+  organizationId?: string | null | undefined;
   body: models.CreateLLMScorerVersionRequest;
 };
 
@@ -22,6 +24,7 @@ export type CreateLlmScorerVersionScorersScorerIdVersionLlmPostRequest = {
 export type CreateLlmScorerVersionScorersScorerIdVersionLlmPostSecurity$Outbound =
   {
     APIKeyHeader?: string | undefined;
+    ClassicAPIKeyHeader?: string | undefined;
     OAuth2PasswordBearer?:
       | models.OAuth2PasswordBearerInput$Outbound
       | undefined;
@@ -36,6 +39,7 @@ export const CreateLlmScorerVersionScorersScorerIdVersionLlmPostSecurity$outboun
   > = z.pipe(
     z.object({
       apiKeyHeader: z.optional(z.string()),
+      classicAPIKeyHeader: z.optional(z.string()),
       oAuth2PasswordBearer: z.optional(
         models.OAuth2PasswordBearerInput$outboundSchema,
       ),
@@ -44,6 +48,7 @@ export const CreateLlmScorerVersionScorersScorerIdVersionLlmPostSecurity$outboun
     z.transform((v) => {
       return remap$(v, {
         apiKeyHeader: "APIKeyHeader",
+        classicAPIKeyHeader: "ClassicAPIKeyHeader",
         oAuth2PasswordBearer: "OAuth2PasswordBearer",
         httpBasic: "HTTPBasic",
       });
@@ -64,6 +69,7 @@ export function createLlmScorerVersionScorersScorerIdVersionLlmPostSecurityToJSO
 export type CreateLlmScorerVersionScorersScorerIdVersionLlmPostRequest$Outbound =
   {
     scorer_id: string;
+    organization_id?: string | null | undefined;
     body: models.CreateLLMScorerVersionRequest$Outbound;
   };
 
@@ -75,11 +81,13 @@ export const CreateLlmScorerVersionScorersScorerIdVersionLlmPostRequest$outbound
   > = z.pipe(
     z.object({
       scorerId: z.string(),
+      organizationId: z.optional(z.nullable(z.string())),
       body: models.CreateLLMScorerVersionRequest$outboundSchema,
     }),
     z.transform((v) => {
       return remap$(v, {
         scorerId: "scorer_id",
+        organizationId: "organization_id",
       });
     }),
   );
