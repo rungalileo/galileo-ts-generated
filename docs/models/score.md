@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `number`
+### `string`
 
 ```typescript
-const value: number = 1284.03;
+const value: string = "<value>";
 ```
 
 ### `number`
@@ -15,10 +15,10 @@ const value: number = 1284.03;
 const value: number = 128403;
 ```
 
-### `string`
+### `number`
 
 ```typescript
-const value: string = "<value>";
+const value: number = 1284.03;
 ```
 
 ### `boolean`

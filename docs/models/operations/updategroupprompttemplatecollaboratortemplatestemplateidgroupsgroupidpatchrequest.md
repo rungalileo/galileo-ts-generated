@@ -13,7 +13,7 @@ let value:
       templateId: "<value>",
       groupId: "<value>",
       body: {
-        role: "owner",
+        role: "viewer",
       },
     };
 ```

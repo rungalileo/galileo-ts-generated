@@ -7,13 +7,13 @@
 
 ```typescript
 const value: models.ValidResult = {
-  scoreType: "<value>",
+  scoreType: "float",
   scoreableNodeTypes: [
-    "session",
+    "agent",
   ],
   testScores: [
     {
-      nodeType: "session",
+      nodeType: "retriever",
     },
   ],
 };
