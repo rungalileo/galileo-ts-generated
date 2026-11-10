@@ -20,6 +20,7 @@ export const OutputTypeEnum = {
   Multilabel: "multilabel",
   RetrievedChunkListBoolean: "retrieved_chunk_list_boolean",
   BooleanMultilabel: "boolean_multilabel",
+  BooleanProbability: "boolean_probability",
 } as const;
 /**
  * Enumeration of output types.

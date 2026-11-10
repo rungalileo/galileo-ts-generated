@@ -11,7 +11,6 @@ let value:
   ListProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProjectsGetRequest =
     {
       scorerVersionId: "<value>",
-      scorerId: "<value>",
     };
 ```
 
@@ -20,6 +19,5 @@ let value:
 | Field              | Type               | Required           | Description        |
 | ------------------ | ------------------ | ------------------ | ------------------ |
 | `scorerVersionId`  | *string*           | :heavy_check_mark: | N/A                |
-| `scorerId`         | *string*           | :heavy_check_mark: | N/A                |
 | `startingToken`    | *number*           | :heavy_minus_sign: | N/A                |
 | `limit`            | *number*           | :heavy_minus_sign: | N/A                |

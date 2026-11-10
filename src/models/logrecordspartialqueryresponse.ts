@@ -20,6 +20,10 @@ import {
   PartialExtendedControlSpanRecord$inboundSchema,
 } from "./partialextendedcontrolspanrecord.js";
 import {
+  PartialExtendedHttpSpanRecord,
+  PartialExtendedHttpSpanRecord$inboundSchema,
+} from "./partialextendedhttpspanrecord.js";
+import {
   PartialExtendedLlmSpanRecord,
   PartialExtendedLlmSpanRecord$inboundSchema,
 } from "./partialextendedllmspanrecord.js";
@@ -47,6 +51,7 @@ import {
 export type LogRecordsPartialQueryResponseRecord =
   | PartialExtendedAgentSpanRecord
   | PartialExtendedControlSpanRecord
+  | PartialExtendedHttpSpanRecord
   | PartialExtendedLlmSpanRecord
   | PartialExtendedRetrieverSpanRecord
   | PartialExtendedSessionRecord
@@ -68,6 +73,7 @@ export type LogRecordsPartialQueryResponse = {
     | Array<
       | PartialExtendedAgentSpanRecord
       | PartialExtendedControlSpanRecord
+      | PartialExtendedHttpSpanRecord
       | PartialExtendedLlmSpanRecord
       | PartialExtendedRetrieverSpanRecord
       | PartialExtendedSessionRecord
@@ -86,6 +92,7 @@ export const LogRecordsPartialQueryResponseRecord$inboundSchema: z.ZodMiniType<
 > = discriminatedUnion("type", {
   agent: PartialExtendedAgentSpanRecord$inboundSchema,
   control: PartialExtendedControlSpanRecord$inboundSchema,
+  http: PartialExtendedHttpSpanRecord$inboundSchema,
   llm: PartialExtendedLlmSpanRecord$inboundSchema,
   retriever: PartialExtendedRetrieverSpanRecord$inboundSchema,
   session: PartialExtendedSessionRecord$inboundSchema,
@@ -119,6 +126,7 @@ export const LogRecordsPartialQueryResponse$inboundSchema: z.ZodMiniType<
     records: types.optional(z.array(discriminatedUnion("type", {
       agent: PartialExtendedAgentSpanRecord$inboundSchema,
       control: PartialExtendedControlSpanRecord$inboundSchema,
+      http: PartialExtendedHttpSpanRecord$inboundSchema,
       llm: PartialExtendedLlmSpanRecord$inboundSchema,
       retriever: PartialExtendedRetrieverSpanRecord$inboundSchema,
       session: PartialExtendedSessionRecord$inboundSchema,
