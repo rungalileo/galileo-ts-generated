@@ -5,14 +5,8 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { blobLikeSchema } from "../types/blobs.js";
+import { ClosedEnum } from "../types/enums.js";
 import { smartUnion } from "../types/smartUnion.js";
-
-export type BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPostFile =
-  {
-    fileName: string;
-    content: ReadableStream<Uint8Array> | Blob | ArrayBuffer | Uint8Array;
-  };
 
 export type BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPostRequiredScorers =
   | string
@@ -22,10 +16,19 @@ export type BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPostScore
   | string
   | Array<string>;
 
+export const BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPostScoreType =
+  {
+    Bool: "bool",
+    Int: "int",
+    Float: "float",
+    Str: "str",
+  } as const;
+export type BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPostScoreType =
+  ClosedEnum<
+    typeof BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPostScoreType
+  >;
+
 export type BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost = {
-  file:
-    | BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPostFile
-    | Blob;
   logStreamId?: string | null | undefined;
   experimentId?: string | null | undefined;
   limit?: number | undefined;
@@ -40,41 +43,12 @@ export type BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost = {
   sort?: string | null | undefined;
   requiredScorers?: string | Array<string> | null | undefined;
   scoreableNodeTypes?: string | Array<string> | null | undefined;
+  scoreType?:
+    | BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPostScoreType
+    | null
+    | undefined;
+  file: string;
 };
-
-/** @internal */
-export type BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPostFile$Outbound =
-  {
-    fileName: string;
-    content: ReadableStream<Uint8Array> | Blob | ArrayBuffer | Uint8Array;
-  };
-
-/** @internal */
-export const BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPostFile$outboundSchema:
-  z.ZodMiniType<
-    BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPostFile$Outbound,
-    BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPostFile
-  > = z.object({
-    fileName: z.string(),
-    content: z.union([
-      z.custom<ReadableStream<Uint8Array>>(x => x instanceof ReadableStream),
-      z.custom<Blob>(x => x instanceof Blob),
-      z.custom<ArrayBuffer>(x => x instanceof ArrayBuffer),
-      z.custom<Uint8Array>(x => x instanceof Uint8Array),
-    ]),
-  });
-
-export function bodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPostFileToJSON(
-  bodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPostFile:
-    BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPostFile,
-): string {
-  return JSON.stringify(
-    BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPostFile$outboundSchema
-      .parse(
-        bodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPostFile,
-      ),
-  );
-}
 
 /** @internal */
 export type BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPostRequiredScorers$Outbound =
@@ -125,11 +99,16 @@ export function bodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPostS
 }
 
 /** @internal */
+export const BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPostScoreType$outboundSchema:
+  z.ZodMiniEnum<
+    typeof BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPostScoreType
+  > = z.enum(
+    BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPostScoreType,
+  );
+
+/** @internal */
 export type BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost$Outbound =
   {
-    file:
-      | BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPostFile$Outbound
-      | Blob;
     log_stream_id?: string | null | undefined;
     experiment_id?: string | null | undefined;
     limit: number;
@@ -138,6 +117,8 @@ export type BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost$Outb
     sort?: string | null | undefined;
     required_scorers?: string | Array<string> | null | undefined;
     scoreable_node_types?: string | Array<string> | null | undefined;
+    score_type?: string | null | undefined;
+    file: string;
   };
 
 /** @internal */
@@ -147,12 +128,6 @@ export const BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost$out
     BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost
   > = z.pipe(
     z.object({
-      file: z.union([
-        z.lazy(() =>
-          BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPostFile$outboundSchema
-        ),
-        blobLikeSchema,
-      ]),
       logStreamId: z.optional(z.nullable(z.string())),
       experimentId: z.optional(z.nullable(z.string())),
       limit: z._default(z.int(), 100),
@@ -165,6 +140,12 @@ export const BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost$out
       scoreableNodeTypes: z.optional(
         z.nullable(smartUnion([z.string(), z.array(z.string())])),
       ),
+      scoreType: z.optional(
+        z.nullable(
+          BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPostScoreType$outboundSchema,
+        ),
+      ),
+      file: z.string(),
     }),
     z.transform((v) => {
       return remap$(v, {
@@ -173,6 +154,7 @@ export const BodyValidateCodeScorerLogRecordScorersCodeValidateLogRecordPost$out
         startingToken: "starting_token",
         requiredScorers: "required_scorers",
         scoreableNodeTypes: "scoreable_node_types",
+        scoreType: "score_type",
       });
     }),
   );

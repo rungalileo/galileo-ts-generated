@@ -33,6 +33,11 @@ import {
   GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
 } from "./galileocoreschemasloggingllmmessage.js";
 import {
+  HttpSpan,
+  HttpSpan$Outbound,
+  HttpSpan$outboundSchema,
+} from "./httpspan.js";
+import {
   LlmSpan,
   LlmSpan$Outbound,
   LlmSpan$outboundSchema,
@@ -215,6 +220,7 @@ export type AgentSpan = {
     | Array<
       | AgentSpan
       | ControlSpan
+      | HttpSpan
       | LlmSpan
       | RetrieverSpan
       | ToolSpan
@@ -222,11 +228,16 @@ export type AgentSpan = {
     >
     | undefined;
   agentType?: AgentType | undefined;
+  /**
+   * Name of the agent.
+   */
+  agentName?: string | null | undefined;
 };
 
 export type AgentSpanSpan =
   | AgentSpan
   | ControlSpan
+  | HttpSpan
   | LlmSpan
   | RetrieverSpan
   | ToolSpan
@@ -465,6 +476,7 @@ export type AgentSpan$Outbound = {
     | Array<
       | AgentSpan$Outbound
       | ControlSpan$Outbound
+      | HttpSpan$Outbound
       | LlmSpan$Outbound
       | RetrieverSpan$Outbound
       | ToolSpan$Outbound
@@ -472,6 +484,7 @@ export type AgentSpan$Outbound = {
     >
     | undefined;
   agent_type?: string | undefined;
+  agent_name?: string | null | undefined;
 };
 
 /** @internal */
@@ -557,14 +570,16 @@ export const AgentSpan$outboundSchema: z.ZodMiniType<
     spans: z.optional(z.array(z.union([
       z.lazy(() => AgentSpan$outboundSchema),
       ControlSpan$outboundSchema,
+      z.lazy(() => HttpSpan$outboundSchema),
       LlmSpan$outboundSchema,
       z.lazy(() => RetrieverSpan$outboundSchema),
-      z.lazy(() => ToolSpan$outboundSchema),
       z.lazy(() =>
-        WorkflowSpan$outboundSchema
+        ToolSpan$outboundSchema
       ),
+      z.lazy(() => WorkflowSpan$outboundSchema),
     ]))),
     agentType: z.optional(AgentType$outboundSchema),
+    agentName: z.optional(z.nullable(z.string())),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -582,6 +597,7 @@ export const AgentSpan$outboundSchema: z.ZodMiniType<
       stepNumber: "step_number",
       parentId: "parent_id",
       agentType: "agent_type",
+      agentName: "agent_name",
     });
   }),
 );
@@ -594,6 +610,7 @@ export function agentSpanToJSON(agentSpan: AgentSpan): string {
 export type AgentSpanSpan$Outbound =
   | AgentSpan$Outbound
   | ControlSpan$Outbound
+  | HttpSpan$Outbound
   | LlmSpan$Outbound
   | RetrieverSpan$Outbound
   | ToolSpan$Outbound
@@ -606,6 +623,7 @@ export const AgentSpanSpan$outboundSchema: z.ZodMiniType<
 > = z.union([
   z.lazy(() => AgentSpan$outboundSchema),
   ControlSpan$outboundSchema,
+  z.lazy(() => HttpSpan$outboundSchema),
   LlmSpan$outboundSchema,
   z.lazy(() => RetrieverSpan$outboundSchema),
   z.lazy(() => ToolSpan$outboundSchema),

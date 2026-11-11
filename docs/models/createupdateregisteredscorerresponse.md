@@ -12,7 +12,7 @@ let value: CreateUpdateRegisteredScorerResponse = {
   createdAt: new Date("2026-10-13T00:22:46.607Z"),
   updatedAt: new Date("2024-12-22T06:08:26.614Z"),
   createdBy: "<value>",
-  dataType: "thumb_rating_percentage",
+  dataType: "user_id",
   scoreableNodeTypes: [],
 };
 ```

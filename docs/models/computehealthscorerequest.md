@@ -7,7 +7,7 @@ import { ComputeHealthScoreRequest } from "galileo-generated/models";
 
 let value: ComputeHealthScoreRequest = {
   scorerId: "<value>",
-  outputType: "discrete",
+  outputType: "freeform",
 };
 ```
 

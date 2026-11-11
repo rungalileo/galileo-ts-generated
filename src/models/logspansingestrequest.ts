@@ -16,6 +16,11 @@ import {
   ControlSpan$outboundSchema,
 } from "./controlspan.js";
 import {
+  HttpSpan,
+  HttpSpan$Outbound,
+  HttpSpan$outboundSchema,
+} from "./httpspan.js";
+import {
   LlmSpan,
   LlmSpan$Outbound,
   LlmSpan$outboundSchema,
@@ -43,6 +48,7 @@ import {
 export type LogSpansIngestRequestSpan =
   | AgentSpan
   | ControlSpan
+  | HttpSpan
   | LlmSpan
   | RetrieverSpan
   | ToolSpan
@@ -67,14 +73,20 @@ export type LogSpansIngestRequest = {
   loggingMethod?: LoggingMethod | undefined;
   clientVersion?: string | null | undefined;
   /**
-   * Whether or not to use reliable logging.  If set to False, the method will respond immediately before verifying that the traces have been successfully ingested, and no error message will be returned if ingestion fails.  If set to True, the method will wait for the traces to be successfully ingested or return an error message if there is an ingestion failure.
+   * Whether or not to use reliable logging.  If set to False, the method will respond immediately before verifying that the traces have been successfully ingested, and no error message will be returned if ingestion fails.  If set to True, the method will wait for the traces to be durably accepted or return an error message if there is an ingestion failure. On the streaming write path (kafka_metrics_pipeline) accepted means acknowledged by Kafka; the records become readable after the data-writer flush, about GALILEO_STREAMING_EXPECTED_LAG_SECONDS (default 2.5 s) later, so a read issued immediately after the response can miss them.
    */
   reliable?: boolean | undefined;
   /**
    * List of spans to log.
    */
   spans: Array<
-    AgentSpan | ControlSpan | LlmSpan | RetrieverSpan | ToolSpan | WorkflowSpan
+    | AgentSpan
+    | ControlSpan
+    | HttpSpan
+    | LlmSpan
+    | RetrieverSpan
+    | ToolSpan
+    | WorkflowSpan
   >;
   /**
    * Trace id associated with the spans.
@@ -90,6 +102,7 @@ export type LogSpansIngestRequest = {
 export type LogSpansIngestRequestSpan$Outbound =
   | AgentSpan$Outbound
   | ControlSpan$Outbound
+  | HttpSpan$Outbound
   | LlmSpan$Outbound
   | RetrieverSpan$Outbound
   | ToolSpan$Outbound
@@ -102,6 +115,7 @@ export const LogSpansIngestRequestSpan$outboundSchema: z.ZodMiniType<
 > = z.union([
   AgentSpan$outboundSchema,
   ControlSpan$outboundSchema,
+  HttpSpan$outboundSchema,
   LlmSpan$outboundSchema,
   RetrieverSpan$outboundSchema,
   ToolSpan$outboundSchema,
@@ -127,6 +141,7 @@ export type LogSpansIngestRequest$Outbound = {
   spans: Array<
     | AgentSpan$Outbound
     | ControlSpan$Outbound
+    | HttpSpan$Outbound
     | LlmSpan$Outbound
     | RetrieverSpan$Outbound
     | ToolSpan$Outbound
@@ -152,6 +167,7 @@ export const LogSpansIngestRequest$outboundSchema: z.ZodMiniType<
       z.union([
         AgentSpan$outboundSchema,
         ControlSpan$outboundSchema,
+        HttpSpan$outboundSchema,
         LlmSpan$outboundSchema,
         RetrieverSpan$outboundSchema,
         ToolSpan$outboundSchema,

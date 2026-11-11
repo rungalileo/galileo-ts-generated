@@ -68,6 +68,10 @@ export type LogRecordsQueryCountRequest = {
    * Metrics testing id associated with the traces.
    */
   metricsTestingId?: string | null | undefined;
+  /**
+   * Assigned log view for restricted access.
+   */
+  accessViewId?: string | null | undefined;
   filters?:
     | Array<
       | LogRecordsBooleanFilter
@@ -124,6 +128,7 @@ export type LogRecordsQueryCountRequest$Outbound = {
   log_stream_id?: string | null | undefined;
   experiment_id?: string | null | undefined;
   metrics_testing_id?: string | null | undefined;
+  access_view_id?: string | null | undefined;
   filters?:
     | Array<
       | LogRecordsBooleanFilter$Outbound
@@ -150,6 +155,7 @@ export const LogRecordsQueryCountRequest$outboundSchema: z.ZodMiniType<
     logStreamId: z.optional(z.nullable(z.string())),
     experimentId: z.optional(z.nullable(z.string())),
     metricsTestingId: z.optional(z.nullable(z.string())),
+    accessViewId: z.optional(z.nullable(z.string())),
     filters: z.optional(
       z.array(
         z.union([
@@ -174,6 +180,7 @@ export const LogRecordsQueryCountRequest$outboundSchema: z.ZodMiniType<
       logStreamId: "log_stream_id",
       experimentId: "experiment_id",
       metricsTestingId: "metrics_testing_id",
+      accessViewId: "access_view_id",
       filterTree: "filter_tree",
     });
   }),
