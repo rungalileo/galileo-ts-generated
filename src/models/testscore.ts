@@ -12,18 +12,18 @@ import { smartUnion } from "../types/smartUnion.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import { NodeType, NodeType$inboundSchema } from "./nodetype.js";
 
-export type Score = number | number | string | boolean;
+export type Score = string | number | number | boolean;
 
 export type TestScore = {
   nodeType: NodeType;
-  score?: number | number | string | boolean | null | undefined;
+  score?: string | number | number | boolean | null | undefined;
 };
 
 /** @internal */
 export const Score$inboundSchema: z.ZodMiniType<Score, unknown> = smartUnion([
-  types.number(),
-  types.number(),
   types.string(),
+  types.number(),
+  types.number(),
   types.boolean(),
 ]);
 
@@ -45,9 +45,9 @@ export const TestScore$inboundSchema: z.ZodMiniType<TestScore, unknown> = z
       score: z.optional(
         z.nullable(
           smartUnion([
-            types.number(),
-            types.number(),
             types.string(),
+            types.number(),
+            types.number(),
             types.boolean(),
           ]),
         ),

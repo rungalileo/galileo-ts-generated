@@ -10,6 +10,7 @@ import * as models from "../index.js";
 export type CreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPutSecurity =
   {
     apiKeyHeader?: string | undefined;
+    classicAPIKeyHeader?: string | undefined;
     oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
     httpBasic?: models.SchemeHTTPBasic | undefined;
   };
@@ -18,6 +19,7 @@ export type CreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPutSecuri
 export type CreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPutSecurity$Outbound =
   {
     APIKeyHeader?: string | undefined;
+    ClassicAPIKeyHeader?: string | undefined;
     OAuth2PasswordBearer?:
       | models.OAuth2PasswordBearerInput$Outbound
       | undefined;
@@ -32,6 +34,7 @@ export const CreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPutSecur
   > = z.pipe(
     z.object({
       apiKeyHeader: z.optional(z.string()),
+      classicAPIKeyHeader: z.optional(z.string()),
       oAuth2PasswordBearer: z.optional(
         models.OAuth2PasswordBearerInput$outboundSchema,
       ),
@@ -40,6 +43,7 @@ export const CreateOrUpdateUnityCatalogIntegrationIntegrationsDatabricksPutSecur
     z.transform((v) => {
       return remap$(v, {
         apiKeyHeader: "APIKeyHeader",
+        classicAPIKeyHeader: "ClassicAPIKeyHeader",
         oAuth2PasswordBearer: "OAuth2PasswordBearer",
         httpBasic: "HTTPBasic",
       });

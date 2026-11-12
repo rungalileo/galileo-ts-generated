@@ -9,6 +9,10 @@ import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
 import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import {
+  AnnotationChoiceAggregate,
+  AnnotationChoiceAggregate$inboundSchema,
+} from "./annotationchoiceaggregate.js";
+import {
   AnnotationLikeDislikeAggregate,
   AnnotationLikeDislikeAggregate$inboundSchema,
 } from "./annotationlikedislikeaggregate.js";
@@ -28,23 +32,31 @@ import {
   AnnotationTextAggregate,
   AnnotationTextAggregate$inboundSchema,
 } from "./annotationtextaggregate.js";
+import {
+  AnnotationTreeChoiceAggregate,
+  AnnotationTreeChoiceAggregate$inboundSchema,
+} from "./annotationtreechoiceaggregate.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 
 export type AnnotationAggregateAggregate =
+  | AnnotationChoiceAggregate
   | AnnotationLikeDislikeAggregate
   | AnnotationScoreAggregate
   | AnnotationStarAggregate
   | AnnotationTagsAggregate
   | AnnotationTextAggregate
+  | AnnotationTreeChoiceAggregate
   | discriminatedUnionTypes.Unknown<"annotationType">;
 
 export type AnnotationAggregate = {
   aggregate:
+    | AnnotationChoiceAggregate
     | AnnotationLikeDislikeAggregate
     | AnnotationScoreAggregate
     | AnnotationStarAggregate
     | AnnotationTagsAggregate
     | AnnotationTextAggregate
+    | AnnotationTreeChoiceAggregate
     | discriminatedUnionTypes.Unknown<"annotationType">;
 };
 
@@ -53,11 +65,13 @@ export const AnnotationAggregateAggregate$inboundSchema: z.ZodMiniType<
   AnnotationAggregateAggregate,
   unknown
 > = discriminatedUnion("annotation_type", {
+  choice: AnnotationChoiceAggregate$inboundSchema,
   like_dislike: AnnotationLikeDislikeAggregate$inboundSchema,
   score: AnnotationScoreAggregate$inboundSchema,
   star: AnnotationStarAggregate$inboundSchema,
   tags: AnnotationTagsAggregate$inboundSchema,
   text: AnnotationTextAggregate$inboundSchema,
+  tree_choice: AnnotationTreeChoiceAggregate$inboundSchema,
 }, { outputPropertyName: "annotationType" });
 
 export function annotationAggregateAggregateFromJSON(
@@ -76,11 +90,13 @@ export const AnnotationAggregate$inboundSchema: z.ZodMiniType<
   unknown
 > = z.object({
   aggregate: discriminatedUnion("annotation_type", {
+    choice: AnnotationChoiceAggregate$inboundSchema,
     like_dislike: AnnotationLikeDislikeAggregate$inboundSchema,
     score: AnnotationScoreAggregate$inboundSchema,
     star: AnnotationStarAggregate$inboundSchema,
     tags: AnnotationTagsAggregate$inboundSchema,
     text: AnnotationTextAggregate$inboundSchema,
+    tree_choice: AnnotationTreeChoiceAggregate$inboundSchema,
   }, { outputPropertyName: "annotationType" }),
 });
 

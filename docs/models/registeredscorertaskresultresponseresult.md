@@ -8,7 +8,7 @@
 ```typescript
 const value: models.ValidateRegisteredScorerResult = {
   result: {
-    scoreType: "<value>",
+    scoreType: "bool",
     scoreableNodeTypes: [],
     includeLlmCredentials: false,
     testScores: [],

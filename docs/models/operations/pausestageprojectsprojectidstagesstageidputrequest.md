@@ -6,8 +6,8 @@
 import { PauseStageProjectsProjectIdStagesStageIdPutRequest } from "galileo-generated/models/operations";
 
 let value: PauseStageProjectsProjectIdStagesStageIdPutRequest = {
-  stageId: "<value>",
   projectId: "<value>",
+  stageId: "<value>",
 };
 ```
 
@@ -15,6 +15,6 @@ let value: PauseStageProjectsProjectIdStagesStageIdPutRequest = {
 
 | Field              | Type               | Required           | Description        |
 | ------------------ | ------------------ | ------------------ | ------------------ |
-| `stageId`          | *string*           | :heavy_check_mark: | N/A                |
 | `projectId`        | *string*           | :heavy_check_mark: | N/A                |
+| `stageId`          | *string*           | :heavy_check_mark: | N/A                |
 | `pause`            | *boolean*          | :heavy_minus_sign: | N/A                |

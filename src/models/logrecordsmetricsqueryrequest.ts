@@ -52,6 +52,14 @@ export type LogRecordsMetricsQueryRequestFilter =
 
 export type LogRecordsMetricsQueryRequest = {
   /**
+   * Include traces from this time onward.
+   */
+  startTime: Date;
+  /**
+   * Include traces up to this time.
+   */
+  endTime: Date;
+  /**
    * Log stream id associated with the traces.
    */
   logStreamId?: string | null | undefined;
@@ -63,6 +71,10 @@ export type LogRecordsMetricsQueryRequest = {
    * Metrics testing id associated with the traces.
    */
   metricsTestingId?: string | null | undefined;
+  /**
+   * Assigned log view for restricted access.
+   */
+  accessViewId?: string | null | undefined;
   filters?:
     | Array<
       | LogRecordsBooleanFilter
@@ -74,14 +86,6 @@ export type LogRecordsMetricsQueryRequest = {
       | LogRecordsTextFilter
     >
     | undefined;
-  /**
-   * Include traces from this time onward.
-   */
-  startTime: Date;
-  /**
-   * Include traces up to this time.
-   */
-  endTime: Date;
   interval?: number | undefined;
   groupBy?: string | null | undefined;
 };
@@ -122,9 +126,12 @@ export function logRecordsMetricsQueryRequestFilterToJSON(
 
 /** @internal */
 export type LogRecordsMetricsQueryRequest$Outbound = {
+  start_time: string;
+  end_time: string;
   log_stream_id?: string | null | undefined;
   experiment_id?: string | null | undefined;
   metrics_testing_id?: string | null | undefined;
+  access_view_id?: string | null | undefined;
   filters?:
     | Array<
       | LogRecordsBooleanFilter$Outbound
@@ -136,8 +143,6 @@ export type LogRecordsMetricsQueryRequest$Outbound = {
       | LogRecordsTextFilter$Outbound
     >
     | undefined;
-  start_time: string;
-  end_time: string;
   interval: number;
   group_by?: string | null | undefined;
 };
@@ -148,9 +153,12 @@ export const LogRecordsMetricsQueryRequest$outboundSchema: z.ZodMiniType<
   LogRecordsMetricsQueryRequest
 > = z.pipe(
   z.object({
+    startTime: z.pipe(z.date(), z.transform(v => v.toISOString())),
+    endTime: z.pipe(z.date(), z.transform(v => v.toISOString())),
     logStreamId: z.optional(z.nullable(z.string())),
     experimentId: z.optional(z.nullable(z.string())),
     metricsTestingId: z.optional(z.nullable(z.string())),
+    accessViewId: z.optional(z.nullable(z.string())),
     filters: z.optional(
       z.array(
         z.union([
@@ -164,18 +172,17 @@ export const LogRecordsMetricsQueryRequest$outboundSchema: z.ZodMiniType<
         ]),
       ),
     ),
-    startTime: z.pipe(z.date(), z.transform(v => v.toISOString())),
-    endTime: z.pipe(z.date(), z.transform(v => v.toISOString())),
     interval: z._default(z.int(), 5),
     groupBy: z.optional(z.nullable(z.string())),
   }),
   z.transform((v) => {
     return remap$(v, {
+      startTime: "start_time",
+      endTime: "end_time",
       logStreamId: "log_stream_id",
       experimentId: "experiment_id",
       metricsTestingId: "metrics_testing_id",
-      startTime: "start_time",
-      endTime: "end_time",
+      accessViewId: "access_view_id",
       groupBy: "group_by",
     });
   }),
