@@ -9,11 +9,14 @@ import { safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
-import { ScorerConfig, ScorerConfig$inboundSchema } from "./scorerconfig.js";
+import {
+  RuntimeScorerConfig,
+  RuntimeScorerConfig$inboundSchema,
+} from "./runtimescorerconfig.js";
 import { SegmentFilter, SegmentFilter$inboundSchema } from "./segmentfilter.js";
 
 export type RunScorerSettingsResponse = {
-  scorers: Array<ScorerConfig>;
+  scorers: Array<RuntimeScorerConfig>;
   /**
    * List of segment filters to apply to the run.
    */
@@ -30,7 +33,7 @@ export const RunScorerSettingsResponse$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    scorers: z.array(ScorerConfig$inboundSchema),
+    scorers: z.array(RuntimeScorerConfig$inboundSchema),
     segment_filters: z.optional(
       z.nullable(z.array(SegmentFilter$inboundSchema)),
     ),

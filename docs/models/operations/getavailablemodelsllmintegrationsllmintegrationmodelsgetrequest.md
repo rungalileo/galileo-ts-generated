@@ -6,7 +6,7 @@
 import { GetAvailableModelsLlmIntegrationsLlmIntegrationModelsGetRequest } from "galileo-generated/models/operations";
 
 let value: GetAvailableModelsLlmIntegrationsLlmIntegrationModelsGetRequest = {
-  llmIntegration: "mistral",
+  llmIntegration: "databricks",
 };
 ```
 

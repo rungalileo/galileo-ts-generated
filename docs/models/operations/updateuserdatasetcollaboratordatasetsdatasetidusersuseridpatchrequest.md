@@ -10,7 +10,7 @@ let value:
     datasetId: "<value>",
     userId: "<value>",
     body: {
-      role: "owner",
+      role: "viewer",
     },
   };
 ```

@@ -9,7 +9,7 @@ let value: ListUserCollaboratorsResponse = {
   collaborators: [
     {
       id: "<value>",
-      role: "viewer",
+      role: "custom",
       createdAt: new Date("2024-05-18T04:13:26.628Z"),
       userId: "<value>",
       firstName: "Dayne",

@@ -8,20 +8,14 @@ import { QueryCustomMetricsProjectsProjectIdMetricsCustomSearchPostRequest } fro
 let value: QueryCustomMetricsProjectsProjectIdMetricsCustomSearchPostRequest = {
   projectId: "<value>",
   body: {
+    startTime: new Date("2024-01-01T00:00:00Z"),
+    endTime: new Date("2024-01-07T23:59:59Z"),
     logStreamId: "c5fef527-51f6-49d0-800a-1859b678a098",
     filterTree: {
       not: {
-        not: {
-          or: [
-            {
-              and: [],
-            },
-          ],
-        },
+        and: [],
       },
     },
-    startTime: new Date("2024-01-01T00:00:00Z"),
-    endTime: new Date("2024-01-07T23:59:59Z"),
     intervalMinutes: 1440,
     metricDetails: [
       {

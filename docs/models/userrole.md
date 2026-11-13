@@ -5,7 +5,7 @@
 ```typescript
 import { UserRole } from "galileo-generated/models";
 
-let value: UserRole = "admin";
+let value: UserRole = "manager";
 
 // Open enum: unrecognized values are captured as Unrecognized<string>
 ```
@@ -13,5 +13,5 @@ let value: UserRole = "admin";
 ## Values
 
 ```typescript
-"admin" | "manager" | "user" | "read_only" | Unrecognized<string>
+"admin" | "manager" | "user" | "read_only" | "org_annotator" | "capability_based" | Unrecognized<string>
 ```
