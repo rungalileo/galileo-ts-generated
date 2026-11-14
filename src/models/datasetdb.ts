@@ -24,6 +24,7 @@ export type DatasetDB = {
   createdByUser: UserInfo | null;
   currentVersionIndex: number;
   draft: boolean;
+  draftRevision?: string | null | undefined;
 };
 
 /** @internal */
@@ -41,6 +42,7 @@ export const DatasetDB$inboundSchema: z.ZodMiniType<DatasetDB, unknown> = z
       created_by_user: types.nullable(UserInfo$inboundSchema),
       current_version_index: types.number(),
       draft: types.boolean(),
+      draft_revision: z.optional(z.nullable(types.string())),
     }),
     z.transform((v) => {
       return remap$(v, {
@@ -51,6 +53,7 @@ export const DatasetDB$inboundSchema: z.ZodMiniType<DatasetDB, unknown> = z
         "column_names": "columnNames",
         "created_by_user": "createdByUser",
         "current_version_index": "currentVersionIndex",
+        "draft_revision": "draftRevision",
       });
     }),
   );

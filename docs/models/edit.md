@@ -58,6 +58,25 @@ const value: models.DatasetPrependRow = {
 };
 ```
 
+### `models.DatasetRemoveColumn`
+
+```typescript
+const value: models.DatasetRemoveColumn = {
+  editType: "remove_column",
+  columnName: "<value>",
+};
+```
+
+### `models.DatasetRenameColumn`
+
+```typescript
+const value: models.DatasetRenameColumn = {
+  editType: "rename_column",
+  columnName: "<value>",
+  newColumnName: "<value>",
+};
+```
+
 ### `models.DatasetUpdateRow`
 
 ```typescript

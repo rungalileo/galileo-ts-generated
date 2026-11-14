@@ -31,6 +31,22 @@ export type LlmMetrics = {
    * Time until the first token was generated in nanoseconds.
    */
   timeToFirstTokenNs?: number | null | undefined;
+  /**
+   * Number of image input tokens.
+   */
+  numImageInputTokens?: number | null | undefined;
+  /**
+   * Number of audio input tokens.
+   */
+  numAudioInputTokens?: number | null | undefined;
+  /**
+   * Number of audio output tokens.
+   */
+  numAudioOutputTokens?: number | null | undefined;
+  /**
+   * Number of image output tokens.
+   */
+  numImageOutputTokens?: number | null | undefined;
   [additionalProperties: string]: unknown;
 };
 
@@ -44,6 +60,10 @@ export const LlmMetrics$inboundSchema: z.ZodMiniType<LlmMetrics, unknown> = z
         num_output_tokens: z.optional(z.nullable(types.number())),
         num_total_tokens: z.optional(z.nullable(types.number())),
         time_to_first_token_ns: z.optional(z.nullable(types.number())),
+        num_image_input_tokens: z.optional(z.nullable(types.number())),
+        num_audio_input_tokens: z.optional(z.nullable(types.number())),
+        num_audio_output_tokens: z.optional(z.nullable(types.number())),
+        num_image_output_tokens: z.optional(z.nullable(types.number())),
       }),
       z.any(),
     ),
@@ -54,6 +74,10 @@ export const LlmMetrics$inboundSchema: z.ZodMiniType<LlmMetrics, unknown> = z
         "num_output_tokens": "numOutputTokens",
         "num_total_tokens": "numTotalTokens",
         "time_to_first_token_ns": "timeToFirstTokenNs",
+        "num_image_input_tokens": "numImageInputTokens",
+        "num_audio_input_tokens": "numAudioInputTokens",
+        "num_audio_output_tokens": "numAudioOutputTokens",
+        "num_image_output_tokens": "numImageOutputTokens",
       });
     }),
   );
@@ -64,6 +88,10 @@ export type LlmMetrics$Outbound = {
   num_output_tokens?: number | null | undefined;
   num_total_tokens?: number | null | undefined;
   time_to_first_token_ns?: number | null | undefined;
+  num_image_input_tokens?: number | null | undefined;
+  num_audio_input_tokens?: number | null | undefined;
+  num_audio_output_tokens?: number | null | undefined;
+  num_image_output_tokens?: number | null | undefined;
   [additionalProperties: string]: unknown;
 };
 
@@ -79,6 +107,10 @@ export const LlmMetrics$outboundSchema: z.ZodMiniType<
       numOutputTokens: z.optional(z.nullable(z.int())),
       numTotalTokens: z.optional(z.nullable(z.int())),
       timeToFirstTokenNs: z.optional(z.nullable(z.int())),
+      numImageInputTokens: z.optional(z.nullable(z.int())),
+      numAudioInputTokens: z.optional(z.nullable(z.int())),
+      numAudioOutputTokens: z.optional(z.nullable(z.int())),
+      numImageOutputTokens: z.optional(z.nullable(z.int())),
     }),
     z.any(),
   ),
@@ -90,6 +122,10 @@ export const LlmMetrics$outboundSchema: z.ZodMiniType<
         numOutputTokens: "num_output_tokens",
         numTotalTokens: "num_total_tokens",
         timeToFirstTokenNs: "time_to_first_token_ns",
+        numImageInputTokens: "num_image_input_tokens",
+        numAudioInputTokens: "num_audio_input_tokens",
+        numAudioOutputTokens: "num_audio_output_tokens",
+        numImageOutputTokens: "num_image_output_tokens",
       }),
     };
   }),

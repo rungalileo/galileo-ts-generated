@@ -33,41 +33,6 @@ const value: models.AgenticWorkflowSuccessScorer = {
 };
 ```
 
-### `models.BleuScorer`
-
-```typescript
-const value: models.BleuScorer = {
-  name: "bleu",
-  filters: [
-    {
-      name: "metadata",
-      operator: "ne",
-      key: "<key>",
-      value: [
-        "<value 1>",
-        "<value 2>",
-      ],
-    },
-  ],
-};
-```
-
-### `models.ChunkAttributionUtilizationScorer`
-
-```typescript
-const value: models.ChunkAttributionUtilizationScorer = {
-  name: "chunk_attribution_utilization",
-  filters: [
-    {
-      name: "metadata",
-      operator: "ne",
-      key: "<key>",
-      value: [],
-    },
-  ],
-};
-```
-
 ### `models.CompletenessScorer`
 
 ```typescript
@@ -303,38 +268,6 @@ const value: models.PromptInjectionScorer = {
 };
 ```
 
-### `models.PromptPerplexityScorer`
-
-```typescript
-const value: models.PromptPerplexityScorer = {
-  name: "prompt_perplexity",
-  filters: [
-    {
-      name: "metadata",
-      operator: "not_in",
-      key: "<key>",
-      value: "<value>",
-    },
-  ],
-};
-```
-
-### `models.RougeScorer`
-
-```typescript
-const value: models.RougeScorer = {
-  name: "rouge",
-  filters: [
-    {
-      name: "metadata",
-      operator: "one_of",
-      key: "<key>",
-      value: [],
-    },
-  ],
-};
-```
-
 ### `models.ToolErrorRateScorer`
 
 ```typescript
@@ -357,21 +290,6 @@ const value: models.ToolErrorRateScorer = {
 const value: models.ToolSelectionQualityScorer = {
   name: "tool_selection_quality",
   filters: null,
-};
-```
-
-### `models.UncertaintyScorer`
-
-```typescript
-const value: models.UncertaintyScorer = {
-  name: "uncertainty",
-  filters: [
-    {
-      name: "modality",
-      operator: "ne",
-      value: "ENUM_VALUE",
-    },
-  ],
 };
 ```
 
