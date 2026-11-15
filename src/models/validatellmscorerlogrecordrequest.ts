@@ -11,6 +11,11 @@ import {
   ChainPollTemplate$outboundSchema,
 } from "./chainpolltemplate.js";
 import {
+  FileContentPart,
+  FileContentPart$Outbound,
+  FileContentPart$outboundSchema,
+} from "./filecontentpart.js";
+import {
   FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType,
   FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$Outbound,
   FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$outboundSchema,
@@ -60,6 +65,11 @@ import {
   LogRecordsTextFilter$Outbound,
   LogRecordsTextFilter$outboundSchema,
 } from "./logrecordstextfilter.js";
+import {
+  TextContentPart,
+  TextContentPart$Outbound,
+  TextContentPart$outboundSchema,
+} from "./textcontentpart.js";
 
 export type ValidateLLMScorerLogRecordRequestFilter =
   | LogRecordsBooleanFilter
@@ -70,6 +80,10 @@ export type ValidateLLMScorerLogRecordRequestFilter =
   | LogRecordsNumberFilter
   | LogRecordsTextFilter;
 
+export type ValidateLLMScorerLogRecordRequestNormalizedInput =
+  | FileContentPart
+  | TextContentPart;
+
 /**
  * Request to validate a new LLM scorer based on a log record.
  *
@@ -78,6 +92,9 @@ export type ValidateLLMScorerLogRecordRequestFilter =
  */
 export type ValidateLLMScorerLogRecordRequest = {
   startingToken?: number | undefined;
+  /**
+   * Records per page, at most 1000. Page through larger result sets with starting_token or previous_last_row_id.
+   */
   limit?: number | undefined;
   previousLastRowId?: string | null | undefined;
   /**
@@ -92,6 +109,10 @@ export type ValidateLLMScorerLogRecordRequest = {
    * Metrics testing id associated with the traces.
    */
   metricsTestingId?: string | null | undefined;
+  /**
+   * Assigned log view for restricted access.
+   */
+  accessViewId?: string | null | undefined;
   filters?:
     | Array<
       | LogRecordsBooleanFilter
@@ -130,6 +151,10 @@ export type ValidateLLMScorerLogRecordRequest = {
    */
   chainPollTemplate: ChainPollTemplate;
   scorerConfiguration: GeneratedScorerConfiguration;
+  /**
+   * Optional multimodal content parts. When set, replaces the text-only query/response formatting in the validation job so that file content is passed through to the LLM.
+   */
+  normalizedInput?: Array<FileContentPart | TextContentPart> | null | undefined;
   userPrompt: string;
 };
 
@@ -170,6 +195,29 @@ export function validateLLMScorerLogRecordRequestFilterToJSON(
 }
 
 /** @internal */
+export type ValidateLLMScorerLogRecordRequestNormalizedInput$Outbound =
+  | FileContentPart$Outbound
+  | TextContentPart$Outbound;
+
+/** @internal */
+export const ValidateLLMScorerLogRecordRequestNormalizedInput$outboundSchema:
+  z.ZodMiniType<
+    ValidateLLMScorerLogRecordRequestNormalizedInput$Outbound,
+    ValidateLLMScorerLogRecordRequestNormalizedInput
+  > = z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]);
+
+export function validateLLMScorerLogRecordRequestNormalizedInputToJSON(
+  validateLLMScorerLogRecordRequestNormalizedInput:
+    ValidateLLMScorerLogRecordRequestNormalizedInput,
+): string {
+  return JSON.stringify(
+    ValidateLLMScorerLogRecordRequestNormalizedInput$outboundSchema.parse(
+      validateLLMScorerLogRecordRequestNormalizedInput,
+    ),
+  );
+}
+
+/** @internal */
 export type ValidateLLMScorerLogRecordRequest$Outbound = {
   starting_token: number;
   limit: number;
@@ -177,6 +225,7 @@ export type ValidateLLMScorerLogRecordRequest$Outbound = {
   log_stream_id?: string | null | undefined;
   experiment_id?: string | null | undefined;
   metrics_testing_id?: string | null | undefined;
+  access_view_id?: string | null | undefined;
   filters?:
     | Array<
       | LogRecordsBooleanFilter$Outbound
@@ -200,6 +249,10 @@ export type ValidateLLMScorerLogRecordRequest$Outbound = {
   response: string;
   chain_poll_template: ChainPollTemplate$Outbound;
   scorer_configuration: GeneratedScorerConfiguration$Outbound;
+  normalized_input?:
+    | Array<FileContentPart$Outbound | TextContentPart$Outbound>
+    | null
+    | undefined;
   user_prompt: string;
 };
 
@@ -215,6 +268,7 @@ export const ValidateLLMScorerLogRecordRequest$outboundSchema: z.ZodMiniType<
     logStreamId: z.optional(z.nullable(z.string())),
     experimentId: z.optional(z.nullable(z.string())),
     metricsTestingId: z.optional(z.nullable(z.string())),
+    accessViewId: z.optional(z.nullable(z.string())),
     filters: z.optional(
       z.array(
         z.union([
@@ -241,6 +295,16 @@ export const ValidateLLMScorerLogRecordRequest$outboundSchema: z.ZodMiniType<
     response: z.string(),
     chainPollTemplate: ChainPollTemplate$outboundSchema,
     scorerConfiguration: GeneratedScorerConfiguration$outboundSchema,
+    normalizedInput: z.optional(
+      z.nullable(
+        z.array(
+          z.union([
+            FileContentPart$outboundSchema,
+            TextContentPart$outboundSchema,
+          ]),
+        ),
+      ),
+    ),
     userPrompt: z.string(),
   }),
   z.transform((v) => {
@@ -250,12 +314,14 @@ export const ValidateLLMScorerLogRecordRequest$outboundSchema: z.ZodMiniType<
       logStreamId: "log_stream_id",
       experimentId: "experiment_id",
       metricsTestingId: "metrics_testing_id",
+      accessViewId: "access_view_id",
       filterTree: "filter_tree",
       truncateFields: "truncate_fields",
       includeCounts: "include_counts",
       includeCodeMetricMetadata: "include_code_metric_metadata",
       chainPollTemplate: "chain_poll_template",
       scorerConfiguration: "scorer_configuration",
+      normalizedInput: "normalized_input",
       userPrompt: "user_prompt",
     });
   }),

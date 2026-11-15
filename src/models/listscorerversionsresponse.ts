@@ -8,18 +8,18 @@ import { remap as remap$ } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
-import {
-  BaseScorerVersionResponse,
-  BaseScorerVersionResponse$inboundSchema,
-} from "./basescorerversionresponse.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
+import {
+  ScorerVersionListItem,
+  ScorerVersionListItem$inboundSchema,
+} from "./scorerversionlistitem.js";
 
 export type ListScorerVersionsResponse = {
   startingToken: number;
   limit: number;
   paginated: boolean;
   nextStartingToken?: number | null | undefined;
-  versions?: Array<BaseScorerVersionResponse> | undefined;
+  versions?: Array<ScorerVersionListItem> | undefined;
 };
 
 /** @internal */
@@ -32,7 +32,7 @@ export const ListScorerVersionsResponse$inboundSchema: z.ZodMiniType<
     limit: z._default(types.number(), 100),
     paginated: z._default(types.boolean(), false),
     next_starting_token: z.optional(z.nullable(types.number())),
-    versions: types.optional(z.array(BaseScorerVersionResponse$inboundSchema)),
+    versions: types.optional(z.array(ScorerVersionListItem$inboundSchema)),
   }),
   z.transform((v) => {
     return remap$(v, {

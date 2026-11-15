@@ -18,9 +18,9 @@ let value: DatasetDB = {
   ],
   createdByUser: {
     id: "<value>",
-    email: "Jeanie.Bradtke34@yahoo.com",
+    email: "Garland.Barton@gmail.com",
   },
-  currentVersionIndex: 15912,
+  currentVersionIndex: 533524,
   draft: true,
 };
 ```
@@ -40,3 +40,4 @@ let value: DatasetDB = {
 | `createdByUser`                                                                               | [models.UserInfo](../models/userinfo.md)                                                      | :heavy_check_mark:                                                                            | N/A                                                                                           |
 | `currentVersionIndex`                                                                         | *number*                                                                                      | :heavy_check_mark:                                                                            | N/A                                                                                           |
 | `draft`                                                                                       | *boolean*                                                                                     | :heavy_check_mark:                                                                            | N/A                                                                                           |
+| `draftRevision`                                                                               | *string*                                                                                      | :heavy_minus_sign:                                                                            | N/A                                                                                           |

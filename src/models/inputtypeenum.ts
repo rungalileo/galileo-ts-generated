@@ -23,6 +23,7 @@ export const InputTypeEnum = {
   TraceOutputOnly: "trace_output_only",
   AgentSpans: "agent_spans",
   WorkflowSpans: "workflow_spans",
+  TraceSelectedSpans: "trace_selected_spans",
 } as const;
 /**
  * Enumeration of input types.
