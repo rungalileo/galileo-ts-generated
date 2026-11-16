@@ -10,27 +10,46 @@ import * as types from "../types/primitives.js";
 import { smartUnion } from "../types/smartUnion.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 
-export type Loc = string | number;
+export type ValidationErrorLoc = string | number;
+
+export type Context = {};
 
 export type ValidationError = {
   loc: Array<string | number>;
   msg: string;
   type: string;
+  input?: any | undefined;
+  ctx?: Context | undefined;
 };
 
 /** @internal */
-export const Loc$inboundSchema: z.ZodMiniType<Loc, unknown> = smartUnion([
-  types.string(),
-  types.number(),
-]);
+export const ValidationErrorLoc$inboundSchema: z.ZodMiniType<
+  ValidationErrorLoc,
+  unknown
+> = smartUnion([types.string(), types.number()]);
 
-export function locFromJSON(
+export function validationErrorLocFromJSON(
   jsonString: string,
-): SafeParseResult<Loc, SDKValidationError> {
+): SafeParseResult<ValidationErrorLoc, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => Loc$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'Loc' from JSON`,
+    (x) => ValidationErrorLoc$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ValidationErrorLoc' from JSON`,
+  );
+}
+
+/** @internal */
+export const Context$inboundSchema: z.ZodMiniType<Context, unknown> = z.object(
+  {},
+);
+
+export function contextFromJSON(
+  jsonString: string,
+): SafeParseResult<Context, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => Context$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'Context' from JSON`,
   );
 }
 
@@ -42,6 +61,8 @@ export const ValidationError$inboundSchema: z.ZodMiniType<
   loc: z.array(smartUnion([types.string(), types.number()])),
   msg: types.string(),
   type: types.string(),
+  input: types.optional(z.any()),
+  ctx: types.optional(z.lazy(() => Context$inboundSchema)),
 });
 
 export function validationErrorFromJSON(

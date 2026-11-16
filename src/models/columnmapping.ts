@@ -20,11 +20,23 @@ export type GeneratedOutput = ColumnMappingConfig | Array<string>;
 
 export type ColumnMappingMetadata = ColumnMappingConfig | Array<string>;
 
+export type Label = ColumnMappingConfig | Array<string>;
+
+export type EvaluatorGroundTruth = ColumnMappingConfig | Array<string>;
+
+export type Tools = ColumnMappingConfig | Array<string>;
+
+export type Documents = ColumnMappingConfig | Array<string>;
+
 export type ColumnMapping = {
   input?: ColumnMappingConfig | Array<string> | null | undefined;
   output?: ColumnMappingConfig | Array<string> | null | undefined;
   generatedOutput?: ColumnMappingConfig | Array<string> | null | undefined;
   metadata?: ColumnMappingConfig | Array<string> | null | undefined;
+  label?: ColumnMappingConfig | Array<string> | null | undefined;
+  evaluatorGroundTruth?: ColumnMappingConfig | Array<string> | null | undefined;
+  tools?: ColumnMappingConfig | Array<string> | null | undefined;
+  documents?: ColumnMappingConfig | Array<string> | null | undefined;
   mgt?: { [k: string]: ColumnMappingConfig } | null | undefined;
   [additionalProperties: string]: unknown;
 };
@@ -104,6 +116,60 @@ export function columnMappingMetadataToJSON(
 }
 
 /** @internal */
+export type Label$Outbound = ColumnMappingConfig$Outbound | Array<string>;
+
+/** @internal */
+export const Label$outboundSchema: z.ZodMiniType<Label$Outbound, Label> =
+  smartUnion([ColumnMappingConfig$outboundSchema, z.array(z.string())]);
+
+export function labelToJSON(label: Label): string {
+  return JSON.stringify(Label$outboundSchema.parse(label));
+}
+
+/** @internal */
+export type EvaluatorGroundTruth$Outbound =
+  | ColumnMappingConfig$Outbound
+  | Array<string>;
+
+/** @internal */
+export const EvaluatorGroundTruth$outboundSchema: z.ZodMiniType<
+  EvaluatorGroundTruth$Outbound,
+  EvaluatorGroundTruth
+> = smartUnion([ColumnMappingConfig$outboundSchema, z.array(z.string())]);
+
+export function evaluatorGroundTruthToJSON(
+  evaluatorGroundTruth: EvaluatorGroundTruth,
+): string {
+  return JSON.stringify(
+    EvaluatorGroundTruth$outboundSchema.parse(evaluatorGroundTruth),
+  );
+}
+
+/** @internal */
+export type Tools$Outbound = ColumnMappingConfig$Outbound | Array<string>;
+
+/** @internal */
+export const Tools$outboundSchema: z.ZodMiniType<Tools$Outbound, Tools> =
+  smartUnion([ColumnMappingConfig$outboundSchema, z.array(z.string())]);
+
+export function toolsToJSON(tools: Tools): string {
+  return JSON.stringify(Tools$outboundSchema.parse(tools));
+}
+
+/** @internal */
+export type Documents$Outbound = ColumnMappingConfig$Outbound | Array<string>;
+
+/** @internal */
+export const Documents$outboundSchema: z.ZodMiniType<
+  Documents$Outbound,
+  Documents
+> = smartUnion([ColumnMappingConfig$outboundSchema, z.array(z.string())]);
+
+export function documentsToJSON(documents: Documents): string {
+  return JSON.stringify(Documents$outboundSchema.parse(documents));
+}
+
+/** @internal */
 export type ColumnMapping$Outbound = {
   input?: ColumnMappingConfig$Outbound | Array<string> | null | undefined;
   output?: ColumnMappingConfig$Outbound | Array<string> | null | undefined;
@@ -113,6 +179,14 @@ export type ColumnMapping$Outbound = {
     | null
     | undefined;
   metadata?: ColumnMappingConfig$Outbound | Array<string> | null | undefined;
+  label?: ColumnMappingConfig$Outbound | Array<string> | null | undefined;
+  evaluator_ground_truth?:
+    | ColumnMappingConfig$Outbound
+    | Array<string>
+    | null
+    | undefined;
+  tools?: ColumnMappingConfig$Outbound | Array<string> | null | undefined;
+  documents?: ColumnMappingConfig$Outbound | Array<string> | null | undefined;
   mgt?: { [k: string]: ColumnMappingConfig$Outbound } | null | undefined;
   [additionalProperties: string]: unknown;
 };
@@ -144,6 +218,26 @@ export const ColumnMapping$outboundSchema: z.ZodMiniType<
           smartUnion([ColumnMappingConfig$outboundSchema, z.array(z.string())]),
         ),
       ),
+      label: z.optional(
+        z.nullable(
+          smartUnion([ColumnMappingConfig$outboundSchema, z.array(z.string())]),
+        ),
+      ),
+      evaluatorGroundTruth: z.optional(
+        z.nullable(
+          smartUnion([ColumnMappingConfig$outboundSchema, z.array(z.string())]),
+        ),
+      ),
+      tools: z.optional(
+        z.nullable(
+          smartUnion([ColumnMappingConfig$outboundSchema, z.array(z.string())]),
+        ),
+      ),
+      documents: z.optional(
+        z.nullable(
+          smartUnion([ColumnMappingConfig$outboundSchema, z.array(z.string())]),
+        ),
+      ),
       mgt: z.optional(
         z.nullable(z.record(z.string(), ColumnMappingConfig$outboundSchema)),
       ),
@@ -154,6 +248,7 @@ export const ColumnMapping$outboundSchema: z.ZodMiniType<
     return {
       ...remap$(v, {
         generatedOutput: "generated_output",
+        evaluatorGroundTruth: "evaluator_ground_truth",
       }),
     };
   }),

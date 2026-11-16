@@ -6,6 +6,8 @@
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
+import * as openEnums from "../types/enums.js";
+import { OpenEnum } from "../types/enums.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import {
@@ -14,29 +16,49 @@ import {
 } from "./chainaggregationstrategy.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import { NodeType, NodeType$inboundSchema } from "./nodetype.js";
+import {
+  ScorerEnvironment,
+  ScorerEnvironment$inboundSchema,
+} from "./scorerenvironment.js";
 import { TestScore, TestScore$inboundSchema } from "./testscore.js";
+
+export const ValidResultScoreType = {
+  Bool: "bool",
+  Int: "int",
+  Float: "float",
+  Str: "str",
+} as const;
+export type ValidResultScoreType = OpenEnum<typeof ValidResultScoreType>;
 
 export type ValidResult = {
   resultType: "valid";
-  scoreType: string;
+  scoreType: ValidResultScoreType;
   scoreableNodeTypes: Array<NodeType>;
   includeLlmCredentials: boolean;
   chainAggregation?: ChainAggregationStrategy | null | undefined;
   testScores: Array<TestScore>;
+  environment?: ScorerEnvironment | null | undefined;
 };
+
+/** @internal */
+export const ValidResultScoreType$inboundSchema: z.ZodMiniType<
+  ValidResultScoreType,
+  unknown
+> = openEnums.inboundSchema(ValidResultScoreType);
 
 /** @internal */
 export const ValidResult$inboundSchema: z.ZodMiniType<ValidResult, unknown> = z
   .pipe(
     z.object({
       result_type: z._default(types.literal("valid"), "valid"),
-      score_type: types.string(),
+      score_type: ValidResultScoreType$inboundSchema,
       scoreable_node_types: z.array(NodeType$inboundSchema),
       include_llm_credentials: z._default(types.boolean(), false),
       chain_aggregation: z.optional(
         z.nullable(ChainAggregationStrategy$inboundSchema),
       ),
       test_scores: z.array(TestScore$inboundSchema),
+      environment: z.optional(z.nullable(ScorerEnvironment$inboundSchema)),
     }),
     z.transform((v) => {
       return remap$(v, {

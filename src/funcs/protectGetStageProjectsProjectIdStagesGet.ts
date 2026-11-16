@@ -6,6 +6,7 @@
 import * as z from "zod/v4-mini";
 import { GalileoGeneratedCore } from "../core.js";
 import { encodeFormQuery, encodeSimple } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -30,6 +31,22 @@ import { Result } from "../types/fp.js";
 
 /**
  * Get Stage
+ *
+ * @remarks
+ * Get a stage by ID or by (project ID and name).
+ *
+ * Args:
+ *     project_id: Project the stage belongs to, resolved from the URL.
+ *     stage_name: Stage name to look up (used with project_id when stage_id is omitted).
+ *     stage_id: Stage ID to look up directly.
+ *     ctx: Async request context.
+ *
+ * Returns:
+ *     The matching stage.
+ *
+ * Raises:
+ *     HTTPException: 422 if neither stage_id nor stage_name is provided.
+ *     GalileoServerException: 404 if the stage exists but belongs to a different project.
  */
 export function protectGetStageProjectsProjectIdStagesGet(
   client: GalileoGeneratedCore,
@@ -101,7 +118,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/projects/{project_id}/stages")(pathParams);
 
   const query = encodeFormQuery({
@@ -116,9 +132,16 @@ async function $do(
   const requestSecurity = resolveSecurity(
     [
       {
-        fieldName: "Galileo-API-Key",
+        fieldName: "Splunk-AO-API-Key",
         type: "apiKey:header",
         value: security?.apiKeyHeader,
+      },
+    ],
+    [
+      {
+        fieldName: "Galileo-API-Key",
+        type: "apiKey:header",
+        value: security?.classicAPIKeyHeader,
       },
     ],
     [
@@ -174,7 +197,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["422", "4XX", "5XX"],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });

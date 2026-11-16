@@ -45,6 +45,7 @@ import {
   RegisteredScorerAction,
   RegisteredScorerAction$inboundSchema,
 } from "./registeredscoreraction.js";
+import { ScorerAction, ScorerAction$inboundSchema } from "./scoreraction.js";
 import { UserAction, UserAction$inboundSchema } from "./useraction.js";
 
 export type PermissionAction =
@@ -52,6 +53,7 @@ export type PermissionAction =
   | GroupAction
   | GroupMemberAction
   | ProjectAction
+  | ScorerAction
   | RegisteredScorerAction
   | ApiKeyAction
   | GeneratedScorerAction
@@ -68,6 +70,7 @@ export type Permission = {
     | GroupAction
     | GroupMemberAction
     | ProjectAction
+    | ScorerAction
     | RegisteredScorerAction
     | ApiKeyAction
     | GeneratedScorerAction
@@ -90,6 +93,7 @@ export const PermissionAction$inboundSchema: z.ZodMiniType<
   GroupAction$inboundSchema,
   GroupMemberAction$inboundSchema,
   ProjectAction$inboundSchema,
+  ScorerAction$inboundSchema,
   RegisteredScorerAction$inboundSchema,
   ApiKeyAction$inboundSchema,
   GeneratedScorerAction$inboundSchema,
@@ -119,6 +123,7 @@ export const Permission$inboundSchema: z.ZodMiniType<Permission, unknown> = z
       GroupAction$inboundSchema,
       GroupMemberAction$inboundSchema,
       ProjectAction$inboundSchema,
+      ScorerAction$inboundSchema,
       RegisteredScorerAction$inboundSchema,
       ApiKeyAction$inboundSchema,
       GeneratedScorerAction$inboundSchema,

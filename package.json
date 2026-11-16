@@ -27,9 +27,9 @@
     "lint": "eslint --cache --max-warnings=0 src",
     "build": "tshy",
     "prepublishOnly": "npm run build",
+    "test:watch": "vitest",
     "code-generation": "speakeasy run",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "test": "vitest run"
   },
   "peerDependencies": {},
   "devDependencies": {
@@ -44,7 +44,7 @@
     "vitest": "^2.1.0"
   },
   "dependencies": {
-    "zod": "^3.25.65 || ^4.0.0"
+    "zod": "^3.25.65 || ^4.6.6"
   },
   "exports": {
     ".": {

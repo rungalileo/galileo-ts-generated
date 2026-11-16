@@ -9,6 +9,7 @@ import { ClosedEnum } from "../types/enums.js";
 export const LLMExportFormat = {
   Csv: "csv",
   Jsonl: "jsonl",
+  JsonlFlat: "jsonl_flat",
 } as const;
 export type LLMExportFormat = ClosedEnum<typeof LLMExportFormat>;
 
