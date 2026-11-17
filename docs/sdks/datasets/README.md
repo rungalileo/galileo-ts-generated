@@ -4,23 +4,22 @@
 
 ### Available Operations
 
-* [~~uploadPromptEvaluationDatasetProjectsProjectIdPromptDatasetsPost~~](#uploadpromptevaluationdatasetprojectsprojectidpromptdatasetspost) - Upload Prompt Evaluation Dataset :warning: **Deprecated**
-* [~~listPromptDatasetsProjectsProjectIdPromptDatasetsGet~~](#listpromptdatasetsprojectsprojectidpromptdatasetsget) - List Prompt Datasets :warning: **Deprecated**
 * [createDatasetDatasetsPost](#createdatasetdatasetspost) - Create Dataset
 * [listDatasetsDatasetsGet](#listdatasetsdatasetsget) - List Datasets
 * [bulkDeleteDatasetsDatasetsBulkDeleteDelete](#bulkdeletedatasetsdatasetsbulkdeletedelete) - Bulk Delete Datasets
+* [countDatasetsDatasetsQueryCountPost](#countdatasetsdatasetsquerycountpost) - Count Datasets
 * [getDatasetDatasetsDatasetIdGet](#getdatasetdatasetsdatasetidget) - Get Dataset
 * [updateDatasetDatasetsDatasetIdPatch](#updatedatasetdatasetsdatasetidpatch) - Update Dataset
 * [deleteDatasetDatasetsDatasetIdDelete](#deletedatasetdatasetsdatasetiddelete) - Delete Dataset
 * [queryDatasetsDatasetsQueryPost](#querydatasetsdatasetsquerypost) - Query Datasets
-* [~~updatePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdPut~~](#updatepromptdatasetprojectsprojectidpromptdatasetsdatasetidput) - Update Prompt Dataset :warning: **Deprecated**
-* [~~deletePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdDelete~~](#deletepromptdatasetprojectsprojectidpromptdatasetsdatasetiddelete) - Delete Prompt Dataset :warning: **Deprecated**
-* [~~downloadPromptDatasetProjectsProjectIdPromptDatasetsDatasetIdGet~~](#downloadpromptdatasetprojectsprojectidpromptdatasetsdatasetidget) - Download Prompt Dataset :warning: **Deprecated**
 * [updateDatasetContentDatasetsDatasetIdContentPatch](#updatedatasetcontentdatasetsdatasetidcontentpatch) - Update Dataset Content
+* [headDatasetContentDatasetsDatasetIdContentHead](#headdatasetcontentdatasetsdatasetidcontenthead) - Head Dataset Content
 * [getDatasetContentDatasetsDatasetIdContentGet](#getdatasetcontentdatasetsdatasetidcontentget) - Get Dataset Content
 * [upsertDatasetContentDatasetsDatasetIdContentPut](#upsertdatasetcontentdatasetsdatasetidcontentput) - Upsert Dataset Content
 * [downloadDatasetDatasetsDatasetIdDownloadGet](#downloaddatasetdatasetsdatasetiddownloadget) - Download Dataset
 * [previewDatasetDatasetsDatasetIdPreviewPost](#previewdatasetdatasetsdatasetidpreviewpost) - Preview Dataset
+* [previewDatasetVersionDatasetsDatasetIdVersionsVersionIndexPreviewPost](#previewdatasetversiondatasetsdatasetidversionsversionindexpreviewpost) - Preview Dataset Version
+* [getDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet](#getdatasetvariablepreviewdatasetsdatasetidvariablepreviewget) - Get Dataset Variable Preview
 * [queryDatasetContentDatasetsDatasetIdContentQueryPost](#querydatasetcontentdatasetsdatasetidcontentquerypost) - Query Dataset Content
 * [createUserDatasetCollaboratorsDatasetsDatasetIdUsersPost](#createuserdatasetcollaboratorsdatasetsdatasetiduserspost) - Create User Dataset Collaborators
 * [listUserDatasetCollaboratorsDatasetsDatasetIdUsersGet](#listuserdatasetcollaboratorsdatasetsdatasetidusersget) - List User Dataset Collaborators
@@ -36,169 +35,6 @@
 * [listDatasetProjectsDatasetsDatasetIdProjectsGet](#listdatasetprojectsdatasetsdatasetidprojectsget) - List Dataset Projects
 * [extendDatasetContentDatasetsExtendPost](#extenddatasetcontentdatasetsextendpost) - Extend Dataset Content
 * [getDatasetSyntheticExtendStatusDatasetsExtendDatasetIdGet](#getdatasetsyntheticextendstatusdatasetsextenddatasetidget) - Get Dataset Synthetic Extend Status
-* [getDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet](#getdatasetvariablepreviewdatasetsdatasetidvariablepreviewget) - Get Dataset Variable Preview
-
-## ~~uploadPromptEvaluationDatasetProjectsProjectIdPromptDatasetsPost~~
-
-Upload Prompt Evaluation Dataset
-
-> :warning: **DEPRECATED**: This will be removed in a future release, please migrate away from it as soon as possible.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="upload_prompt_evaluation_dataset_projects__project_id__prompt_datasets_post" method="post" path="/projects/{project_id}/prompt_datasets" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-import { openAsBlob } from "node:fs";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.datasets.uploadPromptEvaluationDatasetProjectsProjectIdPromptDatasetsPost({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    projectId: "<value>",
-    body: {
-      file: await openAsBlob("example.file"),
-    },
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { datasetsUploadPromptEvaluationDatasetProjectsProjectIdPromptDatasetsPost } from "galileo-generated/funcs/datasetsUploadPromptEvaluationDatasetProjectsProjectIdPromptDatasetsPost.js";
-import { openAsBlob } from "node:fs";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await datasetsUploadPromptEvaluationDatasetProjectsProjectIdPromptDatasetsPost(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    projectId: "<value>",
-    body: {
-      file: await openAsBlob("example.file"),
-    },
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("datasetsUploadPromptEvaluationDatasetProjectsProjectIdPromptDatasetsPost failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                                  | Type                                                                                                                                                                                       | Required                                                                                                                                                                                   | Description                                                                                                                                                                                |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                                  | [operations.UploadPromptEvaluationDatasetProjectsProjectIdPromptDatasetsPostRequest](../../models/operations/uploadpromptevaluationdatasetprojectsprojectidpromptdatasetspostrequest.md)   | :heavy_check_mark:                                                                                                                                                                         | The request object to use for the request.                                                                                                                                                 |
-| `security`                                                                                                                                                                                 | [operations.UploadPromptEvaluationDatasetProjectsProjectIdPromptDatasetsPostSecurity](../../models/operations/uploadpromptevaluationdatasetprojectsprojectidpromptdatasetspostsecurity.md) | :heavy_check_mark:                                                                                                                                                                         | The security requirements to use for the request.                                                                                                                                          |
-| `options`                                                                                                                                                                                  | RequestOptions                                                                                                                                                                             | :heavy_minus_sign:                                                                                                                                                                         | Used to set various options for making HTTP requests.                                                                                                                                      |
-| `options.fetchOptions`                                                                                                                                                                     | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                                    | :heavy_minus_sign:                                                                                                                                                                         | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.             |
-| `options.retries`                                                                                                                                                                          | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                              | :heavy_minus_sign:                                                                                                                                                                         | Enables retrying HTTP requests under certain failure conditions.                                                                                                                           |
-
-### Response
-
-**Promise\<[models.PromptDatasetDB](../../models/promptdatasetdb.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
-## ~~listPromptDatasetsProjectsProjectIdPromptDatasetsGet~~
-
-List Prompt Datasets
-
-> :warning: **DEPRECATED**: This will be removed in a future release, please migrate away from it as soon as possible.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="list_prompt_datasets_projects__project_id__prompt_datasets_get" method="get" path="/projects/{project_id}/prompt_datasets" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.datasets.listPromptDatasetsProjectsProjectIdPromptDatasetsGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    projectId: "<value>",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { datasetsListPromptDatasetsProjectsProjectIdPromptDatasetsGet } from "galileo-generated/funcs/datasetsListPromptDatasetsProjectsProjectIdPromptDatasetsGet.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await datasetsListPromptDatasetsProjectsProjectIdPromptDatasetsGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    projectId: "<value>",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("datasetsListPromptDatasetsProjectsProjectIdPromptDatasetsGet failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.ListPromptDatasetsProjectsProjectIdPromptDatasetsGetRequest](../../models/operations/listpromptdatasetsprojectsprojectidpromptdatasetsgetrequest.md)               | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `security`                                                                                                                                                                     | [operations.ListPromptDatasetsProjectsProjectIdPromptDatasetsGetSecurity](../../models/operations/listpromptdatasetsprojectsprojectidpromptdatasetsgetsecurity.md)             | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[models.ListPromptDatasetResponse](../../models/listpromptdatasetresponse.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
 
 ## createDatasetDatasetsPost
 
@@ -354,7 +190,7 @@ Parameters
 ----------
 delete_request : BulkDeleteDatasetsRequest
     Request containing list of dataset IDs to delete (max 100)
-ctx : Context
+ctx : AsyncContext
     Request context including authentication information
 
 Returns
@@ -434,6 +270,77 @@ run();
 ### Response
 
 **Promise\<[models.BulkDeleteDatasetsResponse](../../models/bulkdeletedatasetsresponse.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
+## countDatasetsDatasetsQueryCountPost
+
+Count datasets visible to the current user with filtering.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="count_datasets_datasets_query_count_post" method="post" path="/datasets/query/count" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.datasets.countDatasetsDatasetsQueryCountPost({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { datasetsCountDatasetsDatasetsQueryCountPost } from "galileo-generated/funcs/datasetsCountDatasetsDatasetsQueryCountPost.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await datasetsCountDatasetsDatasetsQueryCountPost(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("datasetsCountDatasetsDatasetsQueryCountPost failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [models.ListDatasetParams](../../models/listdatasetparams.md)                                                                                                                  | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `security`                                                                                                                                                                     | [operations.CountDatasetsDatasetsQueryCountPostSecurity](../../models/operations/countdatasetsdatasetsquerycountpostsecurity.md)                                               | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[number](../../models/responsecountdatasetsdatasetsquerycountpost.md)\>**
 
 ### Errors
 
@@ -740,243 +647,6 @@ run();
 | errors.HTTPValidationError          | 422                                 | application/json                    |
 | errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
 
-## ~~updatePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdPut~~
-
-Update Prompt Dataset
-
-> :warning: **DEPRECATED**: This will be removed in a future release, please migrate away from it as soon as possible.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="update_prompt_dataset_projects__project_id__prompt_datasets__dataset_id__put" method="put" path="/projects/{project_id}/prompt_datasets/{dataset_id}" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.datasets.updatePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdPut({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    projectId: "<value>",
-    datasetId: "<value>",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { datasetsUpdatePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdPut } from "galileo-generated/funcs/datasetsUpdatePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdPut.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await datasetsUpdatePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdPut(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    projectId: "<value>",
-    datasetId: "<value>",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("datasetsUpdatePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdPut failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                              | Type                                                                                                                                                                                   | Required                                                                                                                                                                               | Description                                                                                                                                                                            |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `request`                                                                                                                                                                              | [operations.UpdatePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdPutRequest](../../models/operations/updatepromptdatasetprojectsprojectidpromptdatasetsdatasetidputrequest.md)   | :heavy_check_mark:                                                                                                                                                                     | The request object to use for the request.                                                                                                                                             |
-| `security`                                                                                                                                                                             | [operations.UpdatePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdPutSecurity](../../models/operations/updatepromptdatasetprojectsprojectidpromptdatasetsdatasetidputsecurity.md) | :heavy_check_mark:                                                                                                                                                                     | The security requirements to use for the request.                                                                                                                                      |
-| `options`                                                                                                                                                                              | RequestOptions                                                                                                                                                                         | :heavy_minus_sign:                                                                                                                                                                     | Used to set various options for making HTTP requests.                                                                                                                                  |
-| `options.fetchOptions`                                                                                                                                                                 | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                                | :heavy_minus_sign:                                                                                                                                                                     | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.         |
-| `options.retries`                                                                                                                                                                      | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                          | :heavy_minus_sign:                                                                                                                                                                     | Enables retrying HTTP requests under certain failure conditions.                                                                                                                       |
-
-### Response
-
-**Promise\<[models.PromptDatasetDB](../../models/promptdatasetdb.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
-## ~~deletePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdDelete~~
-
-Delete Prompt Dataset
-
-> :warning: **DEPRECATED**: This will be removed in a future release, please migrate away from it as soon as possible.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="delete_prompt_dataset_projects__project_id__prompt_datasets__dataset_id__delete" method="delete" path="/projects/{project_id}/prompt_datasets/{dataset_id}" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.datasets.deletePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdDelete({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    projectId: "<value>",
-    datasetId: "<value>",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { datasetsDeletePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdDelete } from "galileo-generated/funcs/datasetsDeletePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdDelete.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await datasetsDeletePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdDelete(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    projectId: "<value>",
-    datasetId: "<value>",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("datasetsDeletePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdDelete failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                                    | Type                                                                                                                                                                                         | Required                                                                                                                                                                                     | Description                                                                                                                                                                                  |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `request`                                                                                                                                                                                    | [operations.DeletePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdDeleteRequest](../../models/operations/deletepromptdatasetprojectsprojectidpromptdatasetsdatasetiddeleterequest.md)   | :heavy_check_mark:                                                                                                                                                                           | The request object to use for the request.                                                                                                                                                   |
-| `security`                                                                                                                                                                                   | [operations.DeletePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdDeleteSecurity](../../models/operations/deletepromptdatasetprojectsprojectidpromptdatasetsdatasetiddeletesecurity.md) | :heavy_check_mark:                                                                                                                                                                           | The security requirements to use for the request.                                                                                                                                            |
-| `options`                                                                                                                                                                                    | RequestOptions                                                                                                                                                                               | :heavy_minus_sign:                                                                                                                                                                           | Used to set various options for making HTTP requests.                                                                                                                                        |
-| `options.fetchOptions`                                                                                                                                                                       | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                                      | :heavy_minus_sign:                                                                                                                                                                           | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.               |
-| `options.retries`                                                                                                                                                                            | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                                | :heavy_minus_sign:                                                                                                                                                                           | Enables retrying HTTP requests under certain failure conditions.                                                                                                                             |
-
-### Response
-
-**Promise\<[any](../../models/.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
-## ~~downloadPromptDatasetProjectsProjectIdPromptDatasetsDatasetIdGet~~
-
-Download Prompt Dataset
-
-> :warning: **DEPRECATED**: This will be removed in a future release, please migrate away from it as soon as possible.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="download_prompt_dataset_projects__project_id__prompt_datasets__dataset_id__get" method="get" path="/projects/{project_id}/prompt_datasets/{dataset_id}" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  await galileoGenerated.datasets.downloadPromptDatasetProjectsProjectIdPromptDatasetsDatasetIdGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    projectId: "<value>",
-    datasetId: "<value>",
-  });
-
-
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { datasetsDownloadPromptDatasetProjectsProjectIdPromptDatasetsDatasetIdGet } from "galileo-generated/funcs/datasetsDownloadPromptDatasetProjectsProjectIdPromptDatasetsDatasetIdGet.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await datasetsDownloadPromptDatasetProjectsProjectIdPromptDatasetsDatasetIdGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    projectId: "<value>",
-    datasetId: "<value>",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    
-  } else {
-    console.log("datasetsDownloadPromptDatasetProjectsProjectIdPromptDatasetsDatasetIdGet failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                                  | Type                                                                                                                                                                                       | Required                                                                                                                                                                                   | Description                                                                                                                                                                                |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                                  | [operations.DownloadPromptDatasetProjectsProjectIdPromptDatasetsDatasetIdGetRequest](../../models/operations/downloadpromptdatasetprojectsprojectidpromptdatasetsdatasetidgetrequest.md)   | :heavy_check_mark:                                                                                                                                                                         | The request object to use for the request.                                                                                                                                                 |
-| `security`                                                                                                                                                                                 | [operations.DownloadPromptDatasetProjectsProjectIdPromptDatasetsDatasetIdGetSecurity](../../models/operations/downloadpromptdatasetprojectsprojectidpromptdatasetsdatasetidgetsecurity.md) | :heavy_check_mark:                                                                                                                                                                         | The security requirements to use for the request.                                                                                                                                          |
-| `options`                                                                                                                                                                                  | RequestOptions                                                                                                                                                                             | :heavy_minus_sign:                                                                                                                                                                         | Used to set various options for making HTTP requests.                                                                                                                                      |
-| `options.fetchOptions`                                                                                                                                                                     | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                                    | :heavy_minus_sign:                                                                                                                                                                         | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.             |
-| `options.retries`                                                                                                                                                                          | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                              | :heavy_minus_sign:                                                                                                                                                                         | Enables retrying HTTP requests under certain failure conditions.                                                                                                                           |
-
-### Response
-
-**Promise\<void\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
 ## updateDatasetContentDatasetsDatasetIdContentPatch
 
 Update the content of a dataset.
@@ -984,8 +654,9 @@ Update the content of a dataset.
 The `index` and `column_name` fields are treated as keys tied to a specific version of the dataset.
 As such, these values are considered immutable identifiers for the dataset's structure.
 
-For example, if an edit operation changes the name of a column, subsequent edit operations in
-the same request should reference the column using its original name.
+Edits are applied sequentially in list order, and each edit sees the table state left by the
+previous one. For example, after a `rename_column` edit renames `col_a` to `col_b`, any
+subsequent `update_row` in the same request must reference the column as `col_b`, not `col_a`.
 
 The `If-Match` header is used to ensure that updates are only applied if the client's version of the dataset
 matches the server's version. This prevents conflicts from simultaneous updates. The `ETag` header in the response
@@ -1086,6 +757,81 @@ run();
 | errors.HTTPValidationError          | 422                                 | application/json                    |
 | errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
 
+## headDatasetContentDatasetsDatasetIdContentHead
+
+Return the authoritative content revision without transferring dataset rows.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="head_dataset_content_datasets__dataset_id__content_head" method="head" path="/datasets/{dataset_id}/content" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.datasets.headDatasetContentDatasetsDatasetIdContentHead({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    datasetId: "<value>",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { datasetsHeadDatasetContentDatasetsDatasetIdContentHead } from "galileo-generated/funcs/datasetsHeadDatasetContentDatasetsDatasetIdContentHead.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await datasetsHeadDatasetContentDatasetsDatasetIdContentHead(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    datasetId: "<value>",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("datasetsHeadDatasetContentDatasetsDatasetIdContentHead failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.HeadDatasetContentDatasetsDatasetIdContentHeadRequest](../../models/operations/headdatasetcontentdatasetsdatasetidcontentheadrequest.md)                           | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `security`                                                                                                                                                                     | [operations.HeadDatasetContentDatasetsDatasetIdContentHeadSecurity](../../models/operations/headdatasetcontentdatasetsdatasetidcontentheadsecurity.md)                         | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.HeadDatasetContentDatasetsDatasetIdContentHeadResponse](../../models/operations/headdatasetcontentdatasetsdatasetidcontentheadresponse.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
 ## getDatasetContentDatasetsDatasetIdContentGet
 
 Get Dataset Content
@@ -1152,7 +898,7 @@ run();
 
 ### Response
 
-**Promise\<[models.DatasetContent](../../models/datasetcontent.md)\>**
+**Promise\<[operations.GetDatasetContentDatasetsDatasetIdContentGetResponse](../../models/operations/getdatasetcontentdatasetsdatasetidcontentgetresponse.md)\>**
 
 ### Errors
 
@@ -1174,7 +920,7 @@ import { GalileoGenerated } from "galileo-generated";
 const galileoGenerated = new GalileoGenerated();
 
 async function run() {
-  await galileoGenerated.datasets.upsertDatasetContentDatasetsDatasetIdContentPut({
+  const result = await galileoGenerated.datasets.upsertDatasetContentDatasetsDatasetIdContentPut({
     apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
   }, {
     datasetId: "<value>",
@@ -1183,7 +929,7 @@ async function run() {
     },
   });
 
-
+  console.log(result);
 }
 
 run();
@@ -1212,7 +958,7 @@ async function run() {
   });
   if (res.ok) {
     const { value: result } = res;
-    
+    console.log(result);
   } else {
     console.log("datasetsUpsertDatasetContentDatasetsDatasetIdContentPut failed:", res.error);
   }
@@ -1233,7 +979,7 @@ run();
 
 ### Response
 
-**Promise\<void\>**
+**Promise\<[operations.UpsertDatasetContentDatasetsDatasetIdContentPutResponse](../../models/operations/upsertdatasetcontentdatasetsdatasetidcontentputresponse.md)\>**
 
 ### Errors
 
@@ -1334,6 +1080,7 @@ async function run() {
     apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
   }, {
     datasetId: "<value>",
+    limit: 100,
     body: {},
   });
 
@@ -1360,6 +1107,7 @@ async function run() {
     apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
   }, {
     datasetId: "<value>",
+    limit: 100,
     body: {},
   });
   if (res.ok) {
@@ -1385,7 +1133,167 @@ run();
 
 ### Response
 
-**Promise\<[models.DatasetContent](../../models/datasetcontent.md)\>**
+**Promise\<[operations.PreviewDatasetDatasetsDatasetIdPreviewPostResponse](../../models/operations/previewdatasetdatasetsdatasetidpreviewpostresponse.md)\>**
+
+### Errors
+
+| Error Type                             | Status Code                            | Content Type                           |
+| -------------------------------------- | -------------------------------------- | -------------------------------------- |
+| errors.LunaDatasetPreviewErrorResponse | 404, 412, 422, 428                     | application/json                       |
+| errors.LunaDatasetPreviewErrorResponse | 503                                    | application/json                       |
+| errors.GalileoGeneratedDefaultError    | 4XX, 5XX                               | \*/\*                                  |
+
+## previewDatasetVersionDatasetsDatasetIdVersionsVersionIndexPreviewPost
+
+Preview Dataset Version
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="preview_dataset_version_datasets__dataset_id__versions__version_index__preview_post" method="post" path="/datasets/{dataset_id}/versions/{version_index}/preview" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.datasets.previewDatasetVersionDatasetsDatasetIdVersionsVersionIndexPreviewPost({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    datasetId: "<value>",
+    versionIndex: 521269,
+    body: {
+      mappings: {},
+    },
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { datasetsPreviewDatasetVersionDatasetsDatasetIdVersionsVersionIndexPreviewPost } from "galileo-generated/funcs/datasetsPreviewDatasetVersionDatasetsDatasetIdVersionsVersionIndexPreviewPost.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await datasetsPreviewDatasetVersionDatasetsDatasetIdVersionsVersionIndexPreviewPost(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    datasetId: "<value>",
+    versionIndex: 521269,
+    body: {
+      mappings: {},
+    },
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("datasetsPreviewDatasetVersionDatasetsDatasetIdVersionsVersionIndexPreviewPost failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                            | Type                                                                                                                                                                                                 | Required                                                                                                                                                                                             | Description                                                                                                                                                                                          |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `request`                                                                                                                                                                                            | [operations.PreviewDatasetVersionDatasetsDatasetIdVersionsVersionIndexPreviewPostRequest](../../models/operations/previewdatasetversiondatasetsdatasetidversionsversionindexpreviewpostrequest.md)   | :heavy_check_mark:                                                                                                                                                                                   | The request object to use for the request.                                                                                                                                                           |
+| `security`                                                                                                                                                                                           | [operations.PreviewDatasetVersionDatasetsDatasetIdVersionsVersionIndexPreviewPostSecurity](../../models/operations/previewdatasetversiondatasetsdatasetidversionsversionindexpreviewpostsecurity.md) | :heavy_check_mark:                                                                                                                                                                                   | The security requirements to use for the request.                                                                                                                                                    |
+| `options`                                                                                                                                                                                            | RequestOptions                                                                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                   | Used to set various options for making HTTP requests.                                                                                                                                                |
+| `options.fetchOptions`                                                                                                                                                                               | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                                              | :heavy_minus_sign:                                                                                                                                                                                   | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.                       |
+| `options.retries`                                                                                                                                                                                    | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                                        | :heavy_minus_sign:                                                                                                                                                                                   | Enables retrying HTTP requests under certain failure conditions.                                                                                                                                     |
+
+### Response
+
+**Promise\<[models.LunaDatasetPreview](../../models/lunadatasetpreview.md)\>**
+
+### Errors
+
+| Error Type                             | Status Code                            | Content Type                           |
+| -------------------------------------- | -------------------------------------- | -------------------------------------- |
+| errors.LunaDatasetPreviewErrorResponse | 404, 412, 422, 428                     | application/json                       |
+| errors.LunaDatasetPreviewErrorResponse | 503                                    | application/json                       |
+| errors.GalileoGeneratedDefaultError    | 4XX, 5XX                               | \*/\*                                  |
+
+## getDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet
+
+Return a variable preview derived from the sampled dataset input rows.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="get_dataset_variable_preview_datasets__dataset_id__variable_preview_get" method="get" path="/datasets/{dataset_id}/variable_preview" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.datasets.getDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    datasetId: "<value>",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { datasetsGetDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet } from "galileo-generated/funcs/datasetsGetDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await datasetsGetDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    datasetId: "<value>",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("datasetsGetDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                          | Type                                                                                                                                                                               | Required                                                                                                                                                                           | Description                                                                                                                                                                        |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `request`                                                                                                                                                                          | [operations.GetDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGetRequest](../../models/operations/getdatasetvariablepreviewdatasetsdatasetidvariablepreviewgetrequest.md)   | :heavy_check_mark:                                                                                                                                                                 | The request object to use for the request.                                                                                                                                         |
+| `security`                                                                                                                                                                         | [operations.GetDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGetSecurity](../../models/operations/getdatasetvariablepreviewdatasetsdatasetidvariablepreviewgetsecurity.md) | :heavy_check_mark:                                                                                                                                                                 | The security requirements to use for the request.                                                                                                                                  |
+| `options`                                                                                                                                                                          | RequestOptions                                                                                                                                                                     | :heavy_minus_sign:                                                                                                                                                                 | Used to set various options for making HTTP requests.                                                                                                                              |
+| `options.fetchOptions`                                                                                                                                                             | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                            | :heavy_minus_sign:                                                                                                                                                                 | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.     |
+| `options.retries`                                                                                                                                                                  | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                      | :heavy_minus_sign:                                                                                                                                                                 | Enables retrying HTTP requests under certain failure conditions.                                                                                                                   |
+
+### Response
+
+**Promise\<[models.DatasetInputJsonField[]](../../models/.md)\>**
 
 ### Errors
 
@@ -1460,7 +1368,7 @@ run();
 
 ### Response
 
-**Promise\<[models.DatasetContent](../../models/datasetcontent.md)\>**
+**Promise\<[operations.QueryDatasetContentDatasetsDatasetIdContentQueryPostResponse](../../models/operations/querydatasetcontentdatasetsdatasetidcontentquerypostresponse.md)\>**
 
 ### Errors
 
@@ -2236,7 +2144,7 @@ run();
 
 ### Response
 
-**Promise\<[models.DatasetContent](../../models/datasetcontent.md)\>**
+**Promise\<[operations.GetDatasetVersionContentDatasetsDatasetIdVersionsVersionIndexContentGetResponse](../../models/operations/getdatasetversioncontentdatasetsdatasetidversionsversionindexcontentgetresponse.md)\>**
 
 ### Errors
 
@@ -2537,81 +2445,6 @@ run();
 ### Response
 
 **Promise\<[models.JobProgress](../../models/jobprogress.md)\>**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.HTTPValidationError          | 422                                 | application/json                    |
-| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
-
-## getDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet
-
-Return a variable preview derived from the sampled dataset input rows.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="get_dataset_variable_preview_datasets__dataset_id__variable_preview_get" method="get" path="/datasets/{dataset_id}/variable_preview" -->
-```typescript
-import { GalileoGenerated } from "galileo-generated";
-
-const galileoGenerated = new GalileoGenerated();
-
-async function run() {
-  const result = await galileoGenerated.datasets.getDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet({
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    datasetId: "<value>",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { GalileoGeneratedCore } from "galileo-generated/core.js";
-import { datasetsGetDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet } from "galileo-generated/funcs/datasetsGetDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet.js";
-
-// Use `GalileoGeneratedCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const galileoGenerated = new GalileoGeneratedCore();
-
-async function run() {
-  const res = await datasetsGetDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet(galileoGenerated, {
-    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
-  }, {
-    datasetId: "<value>",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("datasetsGetDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                          | Type                                                                                                                                                                               | Required                                                                                                                                                                           | Description                                                                                                                                                                        |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `request`                                                                                                                                                                          | [operations.GetDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGetRequest](../../models/operations/getdatasetvariablepreviewdatasetsdatasetidvariablepreviewgetrequest.md)   | :heavy_check_mark:                                                                                                                                                                 | The request object to use for the request.                                                                                                                                         |
-| `security`                                                                                                                                                                         | [operations.GetDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGetSecurity](../../models/operations/getdatasetvariablepreviewdatasetsdatasetidvariablepreviewgetsecurity.md) | :heavy_check_mark:                                                                                                                                                                 | The security requirements to use for the request.                                                                                                                                  |
-| `options`                                                                                                                                                                          | RequestOptions                                                                                                                                                                     | :heavy_minus_sign:                                                                                                                                                                 | Used to set various options for making HTTP requests.                                                                                                                              |
-| `options.fetchOptions`                                                                                                                                                             | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                            | :heavy_minus_sign:                                                                                                                                                                 | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.     |
-| `options.retries`                                                                                                                                                                  | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                      | :heavy_minus_sign:                                                                                                                                                                 | Enables retrying HTTP requests under certain failure conditions.                                                                                                                   |
-
-### Response
-
-**Promise\<[models.DatasetInputJsonField[]](../../models/.md)\>**
 
 ### Errors
 

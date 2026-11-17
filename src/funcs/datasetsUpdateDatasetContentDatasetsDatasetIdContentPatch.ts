@@ -6,6 +6,7 @@
 import * as z from "zod/v4-mini";
 import { GalileoGeneratedCore } from "../core.js";
 import { encodeJSON, encodeSimple } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -37,8 +38,9 @@ import * as types$ from "../types/primitives.js";
  * The `index` and `column_name` fields are treated as keys tied to a specific version of the dataset.
  * As such, these values are considered immutable identifiers for the dataset's structure.
  *
- * For example, if an edit operation changes the name of a column, subsequent edit operations in
- * the same request should reference the column using its original name.
+ * Edits are applied sequentially in list order, and each edit sees the table state left by the
+ * previous one. For example, after a `rename_column` edit renames `col_a` to `col_b`, any
+ * subsequent `update_row` in the same request must reference the column as `col_b`, not `col_a`.
  *
  * The `If-Match` header is used to ensure that updates are only applied if the client's version of the dataset
  * matches the server's version. This prevents conflicts from simultaneous updates. The `ETag` header in the response
@@ -119,7 +121,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/datasets/{dataset_id}/content")(pathParams);
 
   const headers = new Headers(compactMap({
@@ -134,9 +135,16 @@ async function $do(
   const requestSecurity = resolveSecurity(
     [
       {
-        fieldName: "Galileo-API-Key",
+        fieldName: "Splunk-AO-API-Key",
         type: "apiKey:header",
         value: security?.apiKeyHeader,
+      },
+    ],
+    [
+      {
+        fieldName: "Galileo-API-Key",
+        type: "apiKey:header",
+        value: security?.classicAPIKeyHeader,
       },
     ],
     [
@@ -191,7 +199,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["404", "412", "422", "423", "4XX", "5XX"],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });

@@ -5,11 +5,15 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
+import { safeParse } from "../../lib/schemas.js";
+import { Result as SafeParseResult } from "../../types/fp.js";
+import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
 
 export type GetDatasetVersionContentDatasetsDatasetIdVersionsVersionIndexContentGetSecurity =
   {
     apiKeyHeader?: string | undefined;
+    classicAPIKeyHeader?: string | undefined;
     oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
     httpBasic?: models.SchemeHTTPBasic | undefined;
   };
@@ -22,10 +26,17 @@ export type GetDatasetVersionContentDatasetsDatasetIdVersionsVersionIndexContent
     limit?: number | undefined;
   };
 
+export type GetDatasetVersionContentDatasetsDatasetIdVersionsVersionIndexContentGetResponse =
+  {
+    headers: { [k: string]: Array<string> };
+    result: models.DatasetContent;
+  };
+
 /** @internal */
 export type GetDatasetVersionContentDatasetsDatasetIdVersionsVersionIndexContentGetSecurity$Outbound =
   {
     APIKeyHeader?: string | undefined;
+    ClassicAPIKeyHeader?: string | undefined;
     OAuth2PasswordBearer?:
       | models.OAuth2PasswordBearerInput$Outbound
       | undefined;
@@ -40,6 +51,7 @@ export const GetDatasetVersionContentDatasetsDatasetIdVersionsVersionIndexConten
   > = z.pipe(
     z.object({
       apiKeyHeader: z.optional(z.string()),
+      classicAPIKeyHeader: z.optional(z.string()),
       oAuth2PasswordBearer: z.optional(
         models.OAuth2PasswordBearerInput$outboundSchema,
       ),
@@ -48,6 +60,7 @@ export const GetDatasetVersionContentDatasetsDatasetIdVersionsVersionIndexConten
     z.transform((v) => {
       return remap$(v, {
         apiKeyHeader: "APIKeyHeader",
+        classicAPIKeyHeader: "ClassicAPIKeyHeader",
         oAuth2PasswordBearer: "OAuth2PasswordBearer",
         httpBasic: "HTTPBasic",
       });
@@ -105,5 +118,38 @@ export function getDatasetVersionContentDatasetsDatasetIdVersionsVersionIndexCon
       .parse(
         getDatasetVersionContentDatasetsDatasetIdVersionsVersionIndexContentGetRequest,
       ),
+  );
+}
+
+/** @internal */
+export const GetDatasetVersionContentDatasetsDatasetIdVersionsVersionIndexContentGetResponse$inboundSchema:
+  z.ZodMiniType<
+    GetDatasetVersionContentDatasetsDatasetIdVersionsVersionIndexContentGetResponse,
+    unknown
+  > = z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: models.DatasetContent$inboundSchema,
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  );
+
+export function getDatasetVersionContentDatasetsDatasetIdVersionsVersionIndexContentGetResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  GetDatasetVersionContentDatasetsDatasetIdVersionsVersionIndexContentGetResponse,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      GetDatasetVersionContentDatasetsDatasetIdVersionsVersionIndexContentGetResponse$inboundSchema
+        .parse(JSON.parse(x)),
+    `Failed to parse 'GetDatasetVersionContentDatasetsDatasetIdVersionsVersionIndexContentGetResponse' from JSON`,
   );
 }

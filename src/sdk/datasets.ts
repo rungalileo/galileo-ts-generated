@@ -4,27 +4,27 @@
  */
 
 import { datasetsBulkDeleteDatasetsDatasetsBulkDeleteDelete } from "../funcs/datasetsBulkDeleteDatasetsDatasetsBulkDeleteDelete.js";
+import { datasetsCountDatasetsDatasetsQueryCountPost } from "../funcs/datasetsCountDatasetsDatasetsQueryCountPost.js";
 import { datasetsCreateDatasetDatasetsPost } from "../funcs/datasetsCreateDatasetDatasetsPost.js";
 import { datasetsCreateGroupDatasetCollaboratorsDatasetsDatasetIdGroupsPost } from "../funcs/datasetsCreateGroupDatasetCollaboratorsDatasetsDatasetIdGroupsPost.js";
 import { datasetsCreateUserDatasetCollaboratorsDatasetsDatasetIdUsersPost } from "../funcs/datasetsCreateUserDatasetCollaboratorsDatasetsDatasetIdUsersPost.js";
 import { datasetsDeleteDatasetDatasetsDatasetIdDelete } from "../funcs/datasetsDeleteDatasetDatasetsDatasetIdDelete.js";
 import { datasetsDeleteGroupDatasetCollaboratorDatasetsDatasetIdGroupsGroupIdDelete } from "../funcs/datasetsDeleteGroupDatasetCollaboratorDatasetsDatasetIdGroupsGroupIdDelete.js";
-import { datasetsDeletePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdDelete } from "../funcs/datasetsDeletePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdDelete.js";
 import { datasetsDeleteUserDatasetCollaboratorDatasetsDatasetIdUsersUserIdDelete } from "../funcs/datasetsDeleteUserDatasetCollaboratorDatasetsDatasetIdUsersUserIdDelete.js";
 import { datasetsDownloadDatasetDatasetsDatasetIdDownloadGet } from "../funcs/datasetsDownloadDatasetDatasetsDatasetIdDownloadGet.js";
-import { datasetsDownloadPromptDatasetProjectsProjectIdPromptDatasetsDatasetIdGet } from "../funcs/datasetsDownloadPromptDatasetProjectsProjectIdPromptDatasetsDatasetIdGet.js";
 import { datasetsExtendDatasetContentDatasetsExtendPost } from "../funcs/datasetsExtendDatasetContentDatasetsExtendPost.js";
 import { datasetsGetDatasetContentDatasetsDatasetIdContentGet } from "../funcs/datasetsGetDatasetContentDatasetsDatasetIdContentGet.js";
 import { datasetsGetDatasetDatasetsDatasetIdGet } from "../funcs/datasetsGetDatasetDatasetsDatasetIdGet.js";
 import { datasetsGetDatasetSyntheticExtendStatusDatasetsExtendDatasetIdGet } from "../funcs/datasetsGetDatasetSyntheticExtendStatusDatasetsExtendDatasetIdGet.js";
 import { datasetsGetDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet } from "../funcs/datasetsGetDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet.js";
 import { datasetsGetDatasetVersionContentDatasetsDatasetIdVersionsVersionIndexContentGet } from "../funcs/datasetsGetDatasetVersionContentDatasetsDatasetIdVersionsVersionIndexContentGet.js";
+import { datasetsHeadDatasetContentDatasetsDatasetIdContentHead } from "../funcs/datasetsHeadDatasetContentDatasetsDatasetIdContentHead.js";
 import { datasetsListDatasetProjectsDatasetsDatasetIdProjectsGet } from "../funcs/datasetsListDatasetProjectsDatasetsDatasetIdProjectsGet.js";
 import { datasetsListDatasetsDatasetsGet } from "../funcs/datasetsListDatasetsDatasetsGet.js";
 import { datasetsListGroupDatasetCollaboratorsDatasetsDatasetIdGroupsGet } from "../funcs/datasetsListGroupDatasetCollaboratorsDatasetsDatasetIdGroupsGet.js";
-import { datasetsListPromptDatasetsProjectsProjectIdPromptDatasetsGet } from "../funcs/datasetsListPromptDatasetsProjectsProjectIdPromptDatasetsGet.js";
 import { datasetsListUserDatasetCollaboratorsDatasetsDatasetIdUsersGet } from "../funcs/datasetsListUserDatasetCollaboratorsDatasetsDatasetIdUsersGet.js";
 import { datasetsPreviewDatasetDatasetsDatasetIdPreviewPost } from "../funcs/datasetsPreviewDatasetDatasetsDatasetIdPreviewPost.js";
+import { datasetsPreviewDatasetVersionDatasetsDatasetIdVersionsVersionIndexPreviewPost } from "../funcs/datasetsPreviewDatasetVersionDatasetsDatasetIdVersionsVersionIndexPreviewPost.js";
 import { datasetsQueryDatasetContentDatasetsDatasetIdContentQueryPost } from "../funcs/datasetsQueryDatasetContentDatasetsDatasetIdContentQueryPost.js";
 import { datasetsQueryDatasetsDatasetsQueryPost } from "../funcs/datasetsQueryDatasetsDatasetsQueryPost.js";
 import { datasetsQueryDatasetVersionsDatasetsDatasetIdVersionsQueryPost } from "../funcs/datasetsQueryDatasetVersionsDatasetsDatasetIdVersionsQueryPost.js";
@@ -32,9 +32,7 @@ import { datasetsUpdateDatasetContentDatasetsDatasetIdContentPatch } from "../fu
 import { datasetsUpdateDatasetDatasetsDatasetIdPatch } from "../funcs/datasetsUpdateDatasetDatasetsDatasetIdPatch.js";
 import { datasetsUpdateDatasetVersionDatasetsDatasetIdVersionsVersionIndexPatch } from "../funcs/datasetsUpdateDatasetVersionDatasetsDatasetIdVersionsVersionIndexPatch.js";
 import { datasetsUpdateGroupDatasetCollaboratorDatasetsDatasetIdGroupsGroupIdPatch } from "../funcs/datasetsUpdateGroupDatasetCollaboratorDatasetsDatasetIdGroupsGroupIdPatch.js";
-import { datasetsUpdatePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdPut } from "../funcs/datasetsUpdatePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdPut.js";
 import { datasetsUpdateUserDatasetCollaboratorDatasetsDatasetIdUsersUserIdPatch } from "../funcs/datasetsUpdateUserDatasetCollaboratorDatasetsDatasetIdUsersUserIdPatch.js";
-import { datasetsUploadPromptEvaluationDatasetProjectsProjectIdPromptDatasetsPost } from "../funcs/datasetsUploadPromptEvaluationDatasetProjectsProjectIdPromptDatasetsPost.js";
 import { datasetsUpsertDatasetContentDatasetsDatasetIdContentPut } from "../funcs/datasetsUpsertDatasetContentDatasetsDatasetIdContentPut.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
 import * as models from "../models/index.js";
@@ -42,50 +40,6 @@ import * as operations from "../models/operations/index.js";
 import { unwrapAsync } from "../types/fp.js";
 
 export class Datasets extends ClientSDK {
-  /**
-   * Upload Prompt Evaluation Dataset
-   *
-   * @deprecated method: This will be removed in a future release, please migrate away from it as soon as possible.
-   */
-  async uploadPromptEvaluationDatasetProjectsProjectIdPromptDatasetsPost(
-    security:
-      operations.UploadPromptEvaluationDatasetProjectsProjectIdPromptDatasetsPostSecurity,
-    request:
-      operations.UploadPromptEvaluationDatasetProjectsProjectIdPromptDatasetsPostRequest,
-    options?: RequestOptions,
-  ): Promise<models.PromptDatasetDB> {
-    return unwrapAsync(
-      datasetsUploadPromptEvaluationDatasetProjectsProjectIdPromptDatasetsPost(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
-   * List Prompt Datasets
-   *
-   * @deprecated method: This will be removed in a future release, please migrate away from it as soon as possible.
-   */
-  async listPromptDatasetsProjectsProjectIdPromptDatasetsGet(
-    security:
-      operations.ListPromptDatasetsProjectsProjectIdPromptDatasetsGetSecurity,
-    request:
-      operations.ListPromptDatasetsProjectsProjectIdPromptDatasetsGetRequest,
-    options?: RequestOptions,
-  ): Promise<models.ListPromptDatasetResponse> {
-    return unwrapAsync(
-      datasetsListPromptDatasetsProjectsProjectIdPromptDatasetsGet(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
   /**
    * Create Dataset
    *
@@ -135,7 +89,7 @@ export class Datasets extends ClientSDK {
    * ----------
    * delete_request : BulkDeleteDatasetsRequest
    *     Request containing list of dataset IDs to delete (max 100)
-   * ctx : Context
+   * ctx : AsyncContext
    *     Request context including authentication information
    *
    * Returns
@@ -152,6 +106,25 @@ export class Datasets extends ClientSDK {
     options?: RequestOptions,
   ): Promise<models.BulkDeleteDatasetsResponse> {
     return unwrapAsync(datasetsBulkDeleteDatasetsDatasetsBulkDeleteDelete(
+      this,
+      security,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Count Datasets
+   *
+   * @remarks
+   * Count datasets visible to the current user with filtering.
+   */
+  async countDatasetsDatasetsQueryCountPost(
+    security: operations.CountDatasetsDatasetsQueryCountPostSecurity,
+    request?: models.ListDatasetParams | undefined,
+    options?: RequestOptions,
+  ): Promise<number> {
+    return unwrapAsync(datasetsCountDatasetsDatasetsQueryCountPost(
       this,
       security,
       request,
@@ -224,72 +197,6 @@ export class Datasets extends ClientSDK {
   }
 
   /**
-   * Update Prompt Dataset
-   *
-   * @deprecated method: This will be removed in a future release, please migrate away from it as soon as possible.
-   */
-  async updatePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdPut(
-    security:
-      operations.UpdatePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdPutSecurity,
-    request:
-      operations.UpdatePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdPutRequest,
-    options?: RequestOptions,
-  ): Promise<models.PromptDatasetDB> {
-    return unwrapAsync(
-      datasetsUpdatePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdPut(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
-   * Delete Prompt Dataset
-   *
-   * @deprecated method: This will be removed in a future release, please migrate away from it as soon as possible.
-   */
-  async deletePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdDelete(
-    security:
-      operations.DeletePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdDeleteSecurity,
-    request:
-      operations.DeletePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdDeleteRequest,
-    options?: RequestOptions,
-  ): Promise<any> {
-    return unwrapAsync(
-      datasetsDeletePromptDatasetProjectsProjectIdPromptDatasetsDatasetIdDelete(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
-   * Download Prompt Dataset
-   *
-   * @deprecated method: This will be removed in a future release, please migrate away from it as soon as possible.
-   */
-  async downloadPromptDatasetProjectsProjectIdPromptDatasetsDatasetIdGet(
-    security:
-      operations.DownloadPromptDatasetProjectsProjectIdPromptDatasetsDatasetIdGetSecurity,
-    request:
-      operations.DownloadPromptDatasetProjectsProjectIdPromptDatasetsDatasetIdGetRequest,
-    options?: RequestOptions,
-  ): Promise<void> {
-    return unwrapAsync(
-      datasetsDownloadPromptDatasetProjectsProjectIdPromptDatasetsDatasetIdGet(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
    * Update Dataset Content
    *
    * @remarks
@@ -298,8 +205,9 @@ export class Datasets extends ClientSDK {
    * The `index` and `column_name` fields are treated as keys tied to a specific version of the dataset.
    * As such, these values are considered immutable identifiers for the dataset's structure.
    *
-   * For example, if an edit operation changes the name of a column, subsequent edit operations in
-   * the same request should reference the column using its original name.
+   * Edits are applied sequentially in list order, and each edit sees the table state left by the
+   * previous one. For example, after a `rename_column` edit renames `col_a` to `col_b`, any
+   * subsequent `update_row` in the same request must reference the column as `col_b`, not `col_a`.
    *
    * The `If-Match` header is used to ensure that updates are only applied if the client's version of the dataset
    * matches the server's version. This prevents conflicts from simultaneous updates. The `ETag` header in the response
@@ -326,13 +234,34 @@ export class Datasets extends ClientSDK {
   }
 
   /**
+   * Head Dataset Content
+   *
+   * @remarks
+   * Return the authoritative content revision without transferring dataset rows.
+   */
+  async headDatasetContentDatasetsDatasetIdContentHead(
+    security: operations.HeadDatasetContentDatasetsDatasetIdContentHeadSecurity,
+    request: operations.HeadDatasetContentDatasetsDatasetIdContentHeadRequest,
+    options?: RequestOptions,
+  ): Promise<
+    operations.HeadDatasetContentDatasetsDatasetIdContentHeadResponse
+  > {
+    return unwrapAsync(datasetsHeadDatasetContentDatasetsDatasetIdContentHead(
+      this,
+      security,
+      request,
+      options,
+    ));
+  }
+
+  /**
    * Get Dataset Content
    */
   async getDatasetContentDatasetsDatasetIdContentGet(
     security: operations.GetDatasetContentDatasetsDatasetIdContentGetSecurity,
     request: operations.GetDatasetContentDatasetsDatasetIdContentGetRequest,
     options?: RequestOptions,
-  ): Promise<models.DatasetContent> {
+  ): Promise<operations.GetDatasetContentDatasetsDatasetIdContentGetResponse> {
     return unwrapAsync(datasetsGetDatasetContentDatasetsDatasetIdContentGet(
       this,
       security,
@@ -352,7 +281,10 @@ export class Datasets extends ClientSDK {
       operations.UpsertDatasetContentDatasetsDatasetIdContentPutSecurity,
     request: operations.UpsertDatasetContentDatasetsDatasetIdContentPutRequest,
     options?: RequestOptions,
-  ): Promise<void> {
+  ): Promise<
+    | operations.UpsertDatasetContentDatasetsDatasetIdContentPutResponse
+    | undefined
+  > {
     return unwrapAsync(datasetsUpsertDatasetContentDatasetsDatasetIdContentPut(
       this,
       security,
@@ -384,13 +316,56 @@ export class Datasets extends ClientSDK {
     security: operations.PreviewDatasetDatasetsDatasetIdPreviewPostSecurity,
     request: operations.PreviewDatasetDatasetsDatasetIdPreviewPostRequest,
     options?: RequestOptions,
-  ): Promise<models.DatasetContent> {
+  ): Promise<operations.PreviewDatasetDatasetsDatasetIdPreviewPostResponse> {
     return unwrapAsync(datasetsPreviewDatasetDatasetsDatasetIdPreviewPost(
       this,
       security,
       request,
       options,
     ));
+  }
+
+  /**
+   * Preview Dataset Version
+   */
+  async previewDatasetVersionDatasetsDatasetIdVersionsVersionIndexPreviewPost(
+    security:
+      operations.PreviewDatasetVersionDatasetsDatasetIdVersionsVersionIndexPreviewPostSecurity,
+    request:
+      operations.PreviewDatasetVersionDatasetsDatasetIdVersionsVersionIndexPreviewPostRequest,
+    options?: RequestOptions,
+  ): Promise<models.LunaDatasetPreview> {
+    return unwrapAsync(
+      datasetsPreviewDatasetVersionDatasetsDatasetIdVersionsVersionIndexPreviewPost(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Get Dataset Variable Preview
+   *
+   * @remarks
+   * Return a variable preview derived from the sampled dataset input rows.
+   */
+  async getDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet(
+    security:
+      operations.GetDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGetSecurity,
+    request:
+      operations.GetDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGetRequest,
+    options?: RequestOptions,
+  ): Promise<Array<models.DatasetInputJsonField>> {
+    return unwrapAsync(
+      datasetsGetDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
   }
 
   /**
@@ -402,7 +377,9 @@ export class Datasets extends ClientSDK {
     request:
       operations.QueryDatasetContentDatasetsDatasetIdContentQueryPostRequest,
     options?: RequestOptions,
-  ): Promise<models.DatasetContent> {
+  ): Promise<
+    operations.QueryDatasetContentDatasetsDatasetIdContentQueryPostResponse
+  > {
     return unwrapAsync(
       datasetsQueryDatasetContentDatasetsDatasetIdContentQueryPost(
         this,
@@ -623,7 +600,9 @@ export class Datasets extends ClientSDK {
     request:
       operations.GetDatasetVersionContentDatasetsDatasetIdVersionsVersionIndexContentGetRequest,
     options?: RequestOptions,
-  ): Promise<models.DatasetContent> {
+  ): Promise<
+    operations.GetDatasetVersionContentDatasetsDatasetIdVersionsVersionIndexContentGetResponse
+  > {
     return unwrapAsync(
       datasetsGetDatasetVersionContentDatasetsDatasetIdVersionsVersionIndexContentGet(
         this,
@@ -702,29 +681,6 @@ export class Datasets extends ClientSDK {
   ): Promise<models.JobProgress> {
     return unwrapAsync(
       datasetsGetDatasetSyntheticExtendStatusDatasetsExtendDatasetIdGet(
-        this,
-        security,
-        request,
-        options,
-      ),
-    );
-  }
-
-  /**
-   * Get Dataset Variable Preview
-   *
-   * @remarks
-   * Return a variable preview derived from the sampled dataset input rows.
-   */
-  async getDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet(
-    security:
-      operations.GetDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGetSecurity,
-    request:
-      operations.GetDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGetRequest,
-    options?: RequestOptions,
-  ): Promise<Array<models.DatasetInputJsonField>> {
-    return unwrapAsync(
-      datasetsGetDatasetVariablePreviewDatasetsDatasetIdVariablePreviewGet(
         this,
         security,
         request,

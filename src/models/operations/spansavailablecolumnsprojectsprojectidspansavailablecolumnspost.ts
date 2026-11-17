@@ -10,7 +10,9 @@ import * as models from "../index.js";
 export type SpansAvailableColumnsProjectsProjectIdSpansAvailableColumnsPostSecurity =
   {
     apiKeyHeader?: string | undefined;
+    classicAPIKeyHeader?: string | undefined;
     oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
+    httpBasic?: models.SchemeHTTPBasic | undefined;
   };
 
 export type SpansAvailableColumnsProjectsProjectIdSpansAvailableColumnsPostRequest =
@@ -23,9 +25,11 @@ export type SpansAvailableColumnsProjectsProjectIdSpansAvailableColumnsPostReque
 export type SpansAvailableColumnsProjectsProjectIdSpansAvailableColumnsPostSecurity$Outbound =
   {
     APIKeyHeader?: string | undefined;
+    ClassicAPIKeyHeader?: string | undefined;
     OAuth2PasswordBearer?:
       | models.OAuth2PasswordBearerInput$Outbound
       | undefined;
+    HTTPBasic?: models.SchemeHTTPBasic$Outbound | undefined;
   };
 
 /** @internal */
@@ -36,14 +40,18 @@ export const SpansAvailableColumnsProjectsProjectIdSpansAvailableColumnsPostSecu
   > = z.pipe(
     z.object({
       apiKeyHeader: z.optional(z.string()),
+      classicAPIKeyHeader: z.optional(z.string()),
       oAuth2PasswordBearer: z.optional(
         models.OAuth2PasswordBearerInput$outboundSchema,
       ),
+      httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
     }),
     z.transform((v) => {
       return remap$(v, {
         apiKeyHeader: "APIKeyHeader",
+        classicAPIKeyHeader: "ClassicAPIKeyHeader",
         oAuth2PasswordBearer: "OAuth2PasswordBearer",
+        httpBasic: "HTTPBasic",
       });
     }),
   );
