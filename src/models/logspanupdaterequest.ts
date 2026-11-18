@@ -12,10 +12,10 @@ import {
   ControlResult$outboundSchema,
 } from "./controlresult.js";
 import {
-  Document,
-  Document$Outbound,
-  Document$outboundSchema,
-} from "./document.js";
+  DocumentInput,
+  DocumentInput$Outbound,
+  DocumentInput$outboundSchema,
+} from "./documentinput.js";
 import {
   FileContentPart,
   FileContentPart$Outbound,
@@ -55,7 +55,7 @@ export type LogSpanUpdateRequestOutput2 =
   | GalileoCoreSchemasLoggingLlmMessage
   | ControlResult
   | string
-  | Array<Document>
+  | Array<DocumentInput>
   | Array<FileContentPart | TextContentPart>;
 
 /**
@@ -77,7 +77,7 @@ export type LogSpanUpdateRequest = {
   loggingMethod?: LoggingMethod | undefined;
   clientVersion?: string | null | undefined;
   /**
-   * Whether or not to use reliable logging.  If set to False, the method will respond immediately before verifying that the traces have been successfully ingested, and no error message will be returned if ingestion fails.  If set to True, the method will wait for the traces to be successfully ingested or return an error message if there is an ingestion failure.
+   * Whether or not to use reliable logging.  If set to False, the method will respond immediately before verifying that the traces have been successfully ingested, and no error message will be returned if ingestion fails.  If set to True, the method will wait for the traces to be durably accepted or return an error message if there is an ingestion failure. On the streaming write path (kafka_metrics_pipeline) accepted means acknowledged by Kafka; the records become readable after the data-writer flush, about GALILEO_STREAMING_EXPECTED_LAG_SECONDS (default 2.5 s) later, so a read issued immediately after the response can miss them.
    */
   reliable?: boolean | undefined;
   /**
@@ -100,7 +100,7 @@ export type LogSpanUpdateRequest = {
     | GalileoCoreSchemasLoggingLlmMessage
     | ControlResult
     | string
-    | Array<Document>
+    | Array<DocumentInput>
     | Array<FileContentPart | TextContentPart>
     | null
     | undefined;
@@ -189,7 +189,7 @@ export type LogSpanUpdateRequestOutput2$Outbound =
   | GalileoCoreSchemasLoggingLlmMessage$Outbound
   | ControlResult$Outbound
   | string
-  | Array<Document$Outbound>
+  | Array<DocumentInput$Outbound>
   | Array<FileContentPart$Outbound | TextContentPart$Outbound>;
 
 /** @internal */
@@ -200,7 +200,7 @@ export const LogSpanUpdateRequestOutput2$outboundSchema: z.ZodMiniType<
   GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
   ControlResult$outboundSchema,
   z.string(),
-  z.array(Document$outboundSchema),
+  z.array(DocumentInput$outboundSchema),
   z.array(
     z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
   ),
@@ -235,7 +235,7 @@ export type LogSpanUpdateRequest$Outbound = {
     | GalileoCoreSchemasLoggingLlmMessage$Outbound
     | ControlResult$Outbound
     | string
-    | Array<Document$Outbound>
+    | Array<DocumentInput$Outbound>
     | Array<FileContentPart$Outbound | TextContentPart$Outbound>
     | null
     | undefined;
@@ -277,7 +277,7 @@ export const LogSpanUpdateRequest$outboundSchema: z.ZodMiniType<
           GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
           ControlResult$outboundSchema,
           z.string(),
-          z.array(Document$outboundSchema),
+          z.array(DocumentInput$outboundSchema),
           z.array(
             z.union([
               FileContentPart$outboundSchema,

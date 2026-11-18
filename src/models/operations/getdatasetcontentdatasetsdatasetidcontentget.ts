@@ -5,10 +5,14 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
+import { safeParse } from "../../lib/schemas.js";
+import { Result as SafeParseResult } from "../../types/fp.js";
+import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
 
 export type GetDatasetContentDatasetsDatasetIdContentGetSecurity = {
   apiKeyHeader?: string | undefined;
+  classicAPIKeyHeader?: string | undefined;
   oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
   httpBasic?: models.SchemeHTTPBasic | undefined;
 };
@@ -19,9 +23,15 @@ export type GetDatasetContentDatasetsDatasetIdContentGetRequest = {
   limit?: number | undefined;
 };
 
+export type GetDatasetContentDatasetsDatasetIdContentGetResponse = {
+  headers: { [k: string]: Array<string> };
+  result: models.DatasetContent;
+};
+
 /** @internal */
 export type GetDatasetContentDatasetsDatasetIdContentGetSecurity$Outbound = {
   APIKeyHeader?: string | undefined;
+  ClassicAPIKeyHeader?: string | undefined;
   OAuth2PasswordBearer?: models.OAuth2PasswordBearerInput$Outbound | undefined;
   HTTPBasic?: models.SchemeHTTPBasic$Outbound | undefined;
 };
@@ -34,6 +44,7 @@ export const GetDatasetContentDatasetsDatasetIdContentGetSecurity$outboundSchema
   > = z.pipe(
     z.object({
       apiKeyHeader: z.optional(z.string()),
+      classicAPIKeyHeader: z.optional(z.string()),
       oAuth2PasswordBearer: z.optional(
         models.OAuth2PasswordBearerInput$outboundSchema,
       ),
@@ -42,6 +53,7 @@ export const GetDatasetContentDatasetsDatasetIdContentGetSecurity$outboundSchema
     z.transform((v) => {
       return remap$(v, {
         apiKeyHeader: "APIKeyHeader",
+        classicAPIKeyHeader: "ClassicAPIKeyHeader",
         oAuth2PasswordBearer: "OAuth2PasswordBearer",
         httpBasic: "HTTPBasic",
       });
@@ -93,5 +105,37 @@ export function getDatasetContentDatasetsDatasetIdContentGetRequestToJSON(
     GetDatasetContentDatasetsDatasetIdContentGetRequest$outboundSchema.parse(
       getDatasetContentDatasetsDatasetIdContentGetRequest,
     ),
+  );
+}
+
+/** @internal */
+export const GetDatasetContentDatasetsDatasetIdContentGetResponse$inboundSchema:
+  z.ZodMiniType<GetDatasetContentDatasetsDatasetIdContentGetResponse, unknown> =
+    z.pipe(
+      z.object({
+        Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+        Result: models.DatasetContent$inboundSchema,
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "Headers": "headers",
+          "Result": "result",
+        });
+      }),
+    );
+
+export function getDatasetContentDatasetsDatasetIdContentGetResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  GetDatasetContentDatasetsDatasetIdContentGetResponse,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      GetDatasetContentDatasetsDatasetIdContentGetResponse$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'GetDatasetContentDatasetsDatasetIdContentGetResponse' from JSON`,
   );
 }

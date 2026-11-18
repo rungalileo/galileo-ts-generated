@@ -20,10 +20,10 @@ const value: models.GalileoCoreSchemasLoggingLlmMessage = {
 };
 ```
 
-### `models.Document[]`
+### `models.DocumentInput[]`
 
 ```typescript
-const value: models.Document[] = [];
+const value: models.DocumentInput[] = [];
 ```
 
 ### `models.ExtendedAgentSpanRecordWithChildrenRedactedOutput1[]`

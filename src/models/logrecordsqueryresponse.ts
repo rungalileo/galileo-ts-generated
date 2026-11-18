@@ -12,47 +12,52 @@ import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
-  ExtendedAgentSpanRecord,
-  ExtendedAgentSpanRecord$inboundSchema,
-} from "./extendedagentspanrecord.js";
+  ExtendedAgentSpanRecordOutput,
+  ExtendedAgentSpanRecordOutput$inboundSchema,
+} from "./extendedagentspanrecordoutput.js";
 import {
-  ExtendedControlSpanRecord,
-  ExtendedControlSpanRecord$inboundSchema,
-} from "./extendedcontrolspanrecord.js";
+  ExtendedControlSpanRecordOutput,
+  ExtendedControlSpanRecordOutput$inboundSchema,
+} from "./extendedcontrolspanrecordoutput.js";
 import {
-  ExtendedLlmSpanRecord,
-  ExtendedLlmSpanRecord$inboundSchema,
-} from "./extendedllmspanrecord.js";
+  ExtendedHttpSpanRecordOutput,
+  ExtendedHttpSpanRecordOutput$inboundSchema,
+} from "./extendedhttpspanrecordoutput.js";
 import {
-  ExtendedRetrieverSpanRecord,
-  ExtendedRetrieverSpanRecord$inboundSchema,
-} from "./extendedretrieverspanrecord.js";
+  ExtendedLlmSpanRecordOutput,
+  ExtendedLlmSpanRecordOutput$inboundSchema,
+} from "./extendedllmspanrecordoutput.js";
 import {
-  ExtendedSessionRecord,
-  ExtendedSessionRecord$inboundSchema,
-} from "./extendedsessionrecord.js";
+  ExtendedRetrieverSpanRecordOutput,
+  ExtendedRetrieverSpanRecordOutput$inboundSchema,
+} from "./extendedretrieverspanrecordoutput.js";
 import {
-  ExtendedToolSpanRecord,
-  ExtendedToolSpanRecord$inboundSchema,
-} from "./extendedtoolspanrecord.js";
+  ExtendedSessionRecordOutput,
+  ExtendedSessionRecordOutput$inboundSchema,
+} from "./extendedsessionrecordoutput.js";
 import {
-  ExtendedTraceRecord,
-  ExtendedTraceRecord$inboundSchema,
-} from "./extendedtracerecord.js";
+  ExtendedToolSpanRecordOutput,
+  ExtendedToolSpanRecordOutput$inboundSchema,
+} from "./extendedtoolspanrecordoutput.js";
 import {
-  ExtendedWorkflowSpanRecord,
-  ExtendedWorkflowSpanRecord$inboundSchema,
-} from "./extendedworkflowspanrecord.js";
+  ExtendedTraceRecordOutput,
+  ExtendedTraceRecordOutput$inboundSchema,
+} from "./extendedtracerecordoutput.js";
+import {
+  ExtendedWorkflowSpanRecordOutput,
+  ExtendedWorkflowSpanRecordOutput$inboundSchema,
+} from "./extendedworkflowspanrecordoutput.js";
 
 export type LogRecordsQueryResponseRecord =
-  | ExtendedAgentSpanRecord
-  | ExtendedControlSpanRecord
-  | ExtendedLlmSpanRecord
-  | ExtendedRetrieverSpanRecord
-  | ExtendedSessionRecord
-  | ExtendedToolSpanRecord
-  | ExtendedTraceRecord
-  | ExtendedWorkflowSpanRecord
+  | ExtendedAgentSpanRecordOutput
+  | ExtendedControlSpanRecordOutput
+  | ExtendedHttpSpanRecordOutput
+  | ExtendedLlmSpanRecordOutput
+  | ExtendedRetrieverSpanRecordOutput
+  | ExtendedSessionRecordOutput
+  | ExtendedToolSpanRecordOutput
+  | ExtendedTraceRecordOutput
+  | ExtendedWorkflowSpanRecordOutput
   | discriminatedUnionTypes.Unknown<"type">;
 
 export type LogRecordsQueryResponse = {
@@ -66,17 +71,22 @@ export type LogRecordsQueryResponse = {
    */
   records?:
     | Array<
-      | ExtendedAgentSpanRecord
-      | ExtendedControlSpanRecord
-      | ExtendedLlmSpanRecord
-      | ExtendedRetrieverSpanRecord
-      | ExtendedSessionRecord
-      | ExtendedToolSpanRecord
-      | ExtendedTraceRecord
-      | ExtendedWorkflowSpanRecord
+      | ExtendedAgentSpanRecordOutput
+      | ExtendedControlSpanRecordOutput
+      | ExtendedHttpSpanRecordOutput
+      | ExtendedLlmSpanRecordOutput
+      | ExtendedRetrieverSpanRecordOutput
+      | ExtendedSessionRecordOutput
+      | ExtendedToolSpanRecordOutput
+      | ExtendedTraceRecordOutput
+      | ExtendedWorkflowSpanRecordOutput
       | discriminatedUnionTypes.Unknown<"type">
     >
     | undefined;
+  /**
+   * number of records
+   */
+  numRecords: number;
 };
 
 /** @internal */
@@ -84,14 +94,15 @@ export const LogRecordsQueryResponseRecord$inboundSchema: z.ZodMiniType<
   LogRecordsQueryResponseRecord,
   unknown
 > = discriminatedUnion("type", {
-  agent: ExtendedAgentSpanRecord$inboundSchema,
-  control: ExtendedControlSpanRecord$inboundSchema,
-  llm: ExtendedLlmSpanRecord$inboundSchema,
-  retriever: ExtendedRetrieverSpanRecord$inboundSchema,
-  session: ExtendedSessionRecord$inboundSchema,
-  tool: ExtendedToolSpanRecord$inboundSchema,
-  trace: ExtendedTraceRecord$inboundSchema,
-  workflow: ExtendedWorkflowSpanRecord$inboundSchema,
+  agent: ExtendedAgentSpanRecordOutput$inboundSchema,
+  control: ExtendedControlSpanRecordOutput$inboundSchema,
+  http: ExtendedHttpSpanRecordOutput$inboundSchema,
+  llm: ExtendedLlmSpanRecordOutput$inboundSchema,
+  retriever: ExtendedRetrieverSpanRecordOutput$inboundSchema,
+  session: ExtendedSessionRecordOutput$inboundSchema,
+  tool: ExtendedToolSpanRecordOutput$inboundSchema,
+  trace: ExtendedTraceRecordOutput$inboundSchema,
+  workflow: ExtendedWorkflowSpanRecordOutput$inboundSchema,
 });
 
 export function logRecordsQueryResponseRecordFromJSON(
@@ -116,21 +127,24 @@ export const LogRecordsQueryResponse$inboundSchema: z.ZodMiniType<
     next_starting_token: z.optional(z.nullable(types.number())),
     last_row_id: z.optional(z.nullable(types.string())),
     records: types.optional(z.array(discriminatedUnion("type", {
-      agent: ExtendedAgentSpanRecord$inboundSchema,
-      control: ExtendedControlSpanRecord$inboundSchema,
-      llm: ExtendedLlmSpanRecord$inboundSchema,
-      retriever: ExtendedRetrieverSpanRecord$inboundSchema,
-      session: ExtendedSessionRecord$inboundSchema,
-      tool: ExtendedToolSpanRecord$inboundSchema,
-      trace: ExtendedTraceRecord$inboundSchema,
-      workflow: ExtendedWorkflowSpanRecord$inboundSchema,
+      agent: ExtendedAgentSpanRecordOutput$inboundSchema,
+      control: ExtendedControlSpanRecordOutput$inboundSchema,
+      http: ExtendedHttpSpanRecordOutput$inboundSchema,
+      llm: ExtendedLlmSpanRecordOutput$inboundSchema,
+      retriever: ExtendedRetrieverSpanRecordOutput$inboundSchema,
+      session: ExtendedSessionRecordOutput$inboundSchema,
+      tool: ExtendedToolSpanRecordOutput$inboundSchema,
+      trace: ExtendedTraceRecordOutput$inboundSchema,
+      workflow: ExtendedWorkflowSpanRecordOutput$inboundSchema,
     }))),
+    num_records: types.number(),
   }),
   z.transform((v) => {
     return remap$(v, {
       "starting_token": "startingToken",
       "next_starting_token": "nextStartingToken",
       "last_row_id": "lastRowId",
+      "num_records": "numRecords",
     });
   }),
 );

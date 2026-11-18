@@ -17,9 +17,10 @@ export const IntegrationProvider = {
   Mistral: "mistral",
   Nvidia: "nvidia",
   Openai: "openai",
-  VegasGateway: "vegas_gateway",
   VertexAi: "vertex_ai",
   Writer: "writer",
+  Typesafe: "typesafe",
+  Luna: "luna",
 } as const;
 export type IntegrationProvider = OpenEnum<typeof IntegrationProvider>;
 

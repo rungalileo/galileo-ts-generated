@@ -5,11 +5,11 @@
 ```typescript
 import { LogStreamNameFilterOperator } from "galileo-generated/models";
 
-let value: LogStreamNameFilterOperator = "ne";
+let value: LogStreamNameFilterOperator = "contains";
 ```
 
 ## Values
 
 ```typescript
-"eq" | "ne" | "contains" | "one_of" | "not_in"
+"eq" | "ne" | "contains" | "regex" | "one_of" | "not_in"
 ```

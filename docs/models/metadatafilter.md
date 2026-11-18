@@ -9,7 +9,7 @@ import { MetadataFilter } from "galileo-generated/models";
 
 let value: MetadataFilter = {
   name: "metadata",
-  operator: "ne",
+  operator: "regex",
   key: "<key>",
   value: [
     "<value 1>",
@@ -26,3 +26,4 @@ let value: MetadataFilter = {
 | `operator`                                                           | [models.MetadataFilterOperator](../models/metadatafilteroperator.md) | :heavy_check_mark:                                                   | N/A                                                                  |
 | `key`                                                                | *string*                                                             | :heavy_check_mark:                                                   | N/A                                                                  |
 | `value`                                                              | *models.MetadataFilterValue*                                         | :heavy_check_mark:                                                   | N/A                                                                  |
+| `caseSensitive`                                                      | *boolean*                                                            | :heavy_minus_sign:                                                   | N/A                                                                  |
