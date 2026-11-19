@@ -12,6 +12,7 @@ export const ScorerNameFilterOperator = {
   Eq: "eq",
   Ne: "ne",
   Contains: "contains",
+  Regex: "regex",
   OneOf: "one_of",
   NotIn: "not_in",
 } as const;

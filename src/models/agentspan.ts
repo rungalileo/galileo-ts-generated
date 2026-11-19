@@ -18,10 +18,10 @@ import {
   ControlSpan$outboundSchema,
 } from "./controlspan.js";
 import {
-  Document,
-  Document$Outbound,
-  Document$outboundSchema,
-} from "./document.js";
+  DocumentInput,
+  DocumentInput$Outbound,
+  DocumentInput$outboundSchema,
+} from "./documentinput.js";
 import {
   FileContentPart,
   FileContentPart$Outbound,
@@ -32,6 +32,11 @@ import {
   GalileoCoreSchemasLoggingLlmMessage$Outbound,
   GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
 } from "./galileocoreschemasloggingllmmessage.js";
+import {
+  HttpSpan,
+  HttpSpan$Outbound,
+  HttpSpan$outboundSchema,
+} from "./httpspan.js";
 import {
   LlmSpan,
   LlmSpan$Outbound,
@@ -92,7 +97,7 @@ export type AgentSpanOutput2 =
   | GalileoCoreSchemasLoggingLlmMessage
   | ControlResult
   | string
-  | Array<Document>
+  | Array<DocumentInput>
   | Array<FileContentPart | TextContentPart>;
 
 export type AgentSpanRedactedOutput1 = FileContentPart | TextContentPart;
@@ -104,7 +109,7 @@ export type AgentSpanRedactedOutput2 =
   | GalileoCoreSchemasLoggingLlmMessage
   | ControlResult
   | string
-  | Array<Document>
+  | Array<DocumentInput>
   | Array<FileContentPart | TextContentPart>;
 
 export type AgentSpan = {
@@ -136,7 +141,7 @@ export type AgentSpan = {
     | GalileoCoreSchemasLoggingLlmMessage
     | ControlResult
     | string
-    | Array<Document>
+    | Array<DocumentInput>
     | Array<FileContentPart | TextContentPart>
     | null
     | undefined;
@@ -147,7 +152,7 @@ export type AgentSpan = {
     | GalileoCoreSchemasLoggingLlmMessage
     | ControlResult
     | string
-    | Array<Document>
+    | Array<DocumentInput>
     | Array<FileContentPart | TextContentPart>
     | null
     | undefined;
@@ -215,6 +220,7 @@ export type AgentSpan = {
     | Array<
       | AgentSpan
       | ControlSpan
+      | HttpSpan
       | LlmSpan
       | RetrieverSpan
       | ToolSpan
@@ -222,11 +228,16 @@ export type AgentSpan = {
     >
     | undefined;
   agentType?: AgentType | undefined;
+  /**
+   * Name of the agent.
+   */
+  agentName?: string | null | undefined;
 };
 
 export type AgentSpanSpan =
   | AgentSpan
   | ControlSpan
+  | HttpSpan
   | LlmSpan
   | RetrieverSpan
   | ToolSpan
@@ -342,7 +353,7 @@ export type AgentSpanOutput2$Outbound =
   | GalileoCoreSchemasLoggingLlmMessage$Outbound
   | ControlResult$Outbound
   | string
-  | Array<Document$Outbound>
+  | Array<DocumentInput$Outbound>
   | Array<FileContentPart$Outbound | TextContentPart$Outbound>;
 
 /** @internal */
@@ -353,7 +364,7 @@ export const AgentSpanOutput2$outboundSchema: z.ZodMiniType<
   GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
   ControlResult$outboundSchema,
   z.string(),
-  z.array(Document$outboundSchema),
+  z.array(DocumentInput$outboundSchema),
   z.array(
     z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
   ),
@@ -391,7 +402,7 @@ export type AgentSpanRedactedOutput2$Outbound =
   | GalileoCoreSchemasLoggingLlmMessage$Outbound
   | ControlResult$Outbound
   | string
-  | Array<Document$Outbound>
+  | Array<DocumentInput$Outbound>
   | Array<FileContentPart$Outbound | TextContentPart$Outbound>;
 
 /** @internal */
@@ -402,7 +413,7 @@ export const AgentSpanRedactedOutput2$outboundSchema: z.ZodMiniType<
   GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
   ControlResult$outboundSchema,
   z.string(),
-  z.array(Document$outboundSchema),
+  z.array(DocumentInput$outboundSchema),
   z.array(
     z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
   ),
@@ -434,7 +445,7 @@ export type AgentSpan$Outbound = {
     | GalileoCoreSchemasLoggingLlmMessage$Outbound
     | ControlResult$Outbound
     | string
-    | Array<Document$Outbound>
+    | Array<DocumentInput$Outbound>
     | Array<FileContentPart$Outbound | TextContentPart$Outbound>
     | null
     | undefined;
@@ -442,7 +453,7 @@ export type AgentSpan$Outbound = {
     | GalileoCoreSchemasLoggingLlmMessage$Outbound
     | ControlResult$Outbound
     | string
-    | Array<Document$Outbound>
+    | Array<DocumentInput$Outbound>
     | Array<FileContentPart$Outbound | TextContentPart$Outbound>
     | null
     | undefined;
@@ -465,6 +476,7 @@ export type AgentSpan$Outbound = {
     | Array<
       | AgentSpan$Outbound
       | ControlSpan$Outbound
+      | HttpSpan$Outbound
       | LlmSpan$Outbound
       | RetrieverSpan$Outbound
       | ToolSpan$Outbound
@@ -472,6 +484,7 @@ export type AgentSpan$Outbound = {
     >
     | undefined;
   agent_type?: string | undefined;
+  agent_name?: string | null | undefined;
 };
 
 /** @internal */
@@ -513,7 +526,7 @@ export const AgentSpan$outboundSchema: z.ZodMiniType<
           GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
           ControlResult$outboundSchema,
           z.string(),
-          z.array(Document$outboundSchema),
+          z.array(DocumentInput$outboundSchema),
           z.array(
             z.union([
               FileContentPart$outboundSchema,
@@ -529,7 +542,7 @@ export const AgentSpan$outboundSchema: z.ZodMiniType<
           GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
           ControlResult$outboundSchema,
           z.string(),
-          z.array(Document$outboundSchema),
+          z.array(DocumentInput$outboundSchema),
           z.array(
             z.union([
               FileContentPart$outboundSchema,
@@ -557,14 +570,16 @@ export const AgentSpan$outboundSchema: z.ZodMiniType<
     spans: z.optional(z.array(z.union([
       z.lazy(() => AgentSpan$outboundSchema),
       ControlSpan$outboundSchema,
+      z.lazy(() => HttpSpan$outboundSchema),
       LlmSpan$outboundSchema,
       z.lazy(() => RetrieverSpan$outboundSchema),
-      z.lazy(() => ToolSpan$outboundSchema),
       z.lazy(() =>
-        WorkflowSpan$outboundSchema
+        ToolSpan$outboundSchema
       ),
+      z.lazy(() => WorkflowSpan$outboundSchema),
     ]))),
     agentType: z.optional(AgentType$outboundSchema),
+    agentName: z.optional(z.nullable(z.string())),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -582,6 +597,7 @@ export const AgentSpan$outboundSchema: z.ZodMiniType<
       stepNumber: "step_number",
       parentId: "parent_id",
       agentType: "agent_type",
+      agentName: "agent_name",
     });
   }),
 );
@@ -594,6 +610,7 @@ export function agentSpanToJSON(agentSpan: AgentSpan): string {
 export type AgentSpanSpan$Outbound =
   | AgentSpan$Outbound
   | ControlSpan$Outbound
+  | HttpSpan$Outbound
   | LlmSpan$Outbound
   | RetrieverSpan$Outbound
   | ToolSpan$Outbound
@@ -606,6 +623,7 @@ export const AgentSpanSpan$outboundSchema: z.ZodMiniType<
 > = z.union([
   z.lazy(() => AgentSpan$outboundSchema),
   ControlSpan$outboundSchema,
+  z.lazy(() => HttpSpan$outboundSchema),
   LlmSpan$outboundSchema,
   z.lazy(() => RetrieverSpan$outboundSchema),
   z.lazy(() => ToolSpan$outboundSchema),

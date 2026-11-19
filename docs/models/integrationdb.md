@@ -8,7 +8,7 @@ import { IntegrationDB } from "galileo-generated/models";
 let value: IntegrationDB = {
   id: "<value>",
   name: "<value>",
-  provider: "custom",
+  provider: "databricks",
   createdAt: new Date("2026-09-15T14:28:18.727Z"),
   updatedAt: new Date("2026-07-26T08:14:44.703Z"),
   createdBy: "<value>",

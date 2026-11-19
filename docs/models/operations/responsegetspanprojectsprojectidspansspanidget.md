@@ -31,10 +31,10 @@ const value: models.ExtendedWorkflowSpanRecordWithChildren = {
 };
 ```
 
-### `models.ExtendedLlmSpanRecord`
+### `models.ExtendedLlmSpanRecordInput`
 
 ```typescript
-const value: models.ExtendedLlmSpanRecord = {
+const value: models.ExtendedLlmSpanRecordInput = {
   type: "llm",
   id: "<value>",
   sessionId: "<value>",
@@ -70,11 +70,24 @@ const value: models.ExtendedRetrieverSpanRecordWithChildren = {
 };
 ```
 
-### `models.ExtendedControlSpanRecord`
+### `models.ExtendedControlSpanRecordInput`
 
 ```typescript
-const value: models.ExtendedControlSpanRecord = {
+const value: models.ExtendedControlSpanRecordInput = {
   type: "control",
+  id: "<value>",
+  sessionId: "<value>",
+  projectId: "<value>",
+  runId: "<value>",
+  parentId: "<value>",
+};
+```
+
+### `models.ExtendedHttpSpanRecordWithChildren`
+
+```typescript
+const value: models.ExtendedHttpSpanRecordWithChildren = {
+  type: "http",
   id: "<value>",
   sessionId: "<value>",
   projectId: "<value>",

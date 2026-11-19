@@ -22,6 +22,11 @@ import {
   FileContentPart$outboundSchema,
 } from "./filecontentpart.js";
 import {
+  HttpSpan,
+  HttpSpan$Outbound,
+  HttpSpan$outboundSchema,
+} from "./httpspan.js";
+import {
   LlmSpan,
   LlmSpan$Outbound,
   LlmSpan$outboundSchema,
@@ -87,6 +92,7 @@ export type TraceRedactedOutput2 =
 export type TraceSpan =
   | AgentSpan
   | ControlSpan
+  | HttpSpan
   | LlmSpan
   | RetrieverSpan
   | ToolSpan
@@ -185,12 +191,17 @@ export type Trace = {
     | Array<
       | AgentSpan
       | ControlSpan
+      | HttpSpan
       | LlmSpan
       | RetrieverSpan
       | ToolSpan
       | WorkflowSpan
     >
     | undefined;
+  /**
+   * Generated output from the dataset associated with this trace
+   */
+  datasetGeneratedOutput?: string | null | undefined;
 };
 
 /** @internal */
@@ -353,6 +364,7 @@ export function traceRedactedOutput2ToJSON(
 export type TraceSpan$Outbound =
   | AgentSpan$Outbound
   | ControlSpan$Outbound
+  | HttpSpan$Outbound
   | LlmSpan$Outbound
   | RetrieverSpan$Outbound
   | ToolSpan$Outbound
@@ -365,6 +377,7 @@ export const TraceSpan$outboundSchema: z.ZodMiniType<
 > = z.union([
   AgentSpan$outboundSchema,
   ControlSpan$outboundSchema,
+  HttpSpan$outboundSchema,
   LlmSpan$outboundSchema,
   RetrieverSpan$outboundSchema,
   ToolSpan$outboundSchema,
@@ -416,12 +429,14 @@ export type Trace$Outbound = {
     | Array<
       | AgentSpan$Outbound
       | ControlSpan$Outbound
+      | HttpSpan$Outbound
       | LlmSpan$Outbound
       | RetrieverSpan$Outbound
       | ToolSpan$Outbound
       | WorkflowSpan$Outbound
     >
     | undefined;
+  dataset_generated_output?: string | null | undefined;
 };
 
 /** @internal */
@@ -501,6 +516,7 @@ export const Trace$outboundSchema: z.ZodMiniType<Trace$Outbound, Trace> = z
           z.union([
             AgentSpan$outboundSchema,
             ControlSpan$outboundSchema,
+            HttpSpan$outboundSchema,
             LlmSpan$outboundSchema,
             RetrieverSpan$outboundSchema,
             ToolSpan$outboundSchema,
@@ -508,6 +524,7 @@ export const Trace$outboundSchema: z.ZodMiniType<Trace$Outbound, Trace> = z
           ]),
         ),
       ),
+      datasetGeneratedOutput: z.optional(z.nullable(z.string())),
     }),
     z.transform((v) => {
       return remap$(v, {
@@ -524,6 +541,7 @@ export const Trace$outboundSchema: z.ZodMiniType<Trace$Outbound, Trace> = z
         traceId: "trace_id",
         stepNumber: "step_number",
         parentId: "parent_id",
+        datasetGeneratedOutput: "dataset_generated_output",
       });
     }),
   );

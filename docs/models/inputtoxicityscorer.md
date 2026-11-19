@@ -10,7 +10,7 @@ let value: InputToxicityScorer = {
   filters: [
     {
       name: "node_name",
-      operator: "one_of",
+      operator: "regex",
       value: "<value>",
       caseSensitive: true,
     },

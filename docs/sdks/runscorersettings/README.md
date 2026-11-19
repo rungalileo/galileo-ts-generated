@@ -10,7 +10,16 @@
 
 ## upsertScorersConfigProjectsProjectIdRunsRunIdScorerSettingsPatch
 
-Upsert Scorers Config
+Enable or disable a run's scorers, recomputing metrics for any newly enabled ones.
+
+Args:
+    run_scorer_settings: Scorer settings to apply to the run.
+    run: Run resolved from the URL, verified to belong to the URL project.
+    a_ctx: Async request context supplying the read session and current user.
+    capabilities: Scorer types the client can decode; decision scorers are left out of the response otherwise.
+
+Returns:
+    The run's settings after the update.
 
 ### Example Usage
 
@@ -29,8 +38,8 @@ async function run() {
     body: {
       scorers: [
         {
-          filters: null,
           id: "<value>",
+          filters: null,
           scorerType: "preset",
         },
       ],
@@ -41,6 +50,7 @@ async function run() {
             operator: "eq",
             key: "<key>",
             value: "<value>",
+            caseSensitive: true,
           },
           sampleRate: 9527.61,
         },
@@ -78,8 +88,8 @@ async function run() {
     body: {
       scorers: [
         {
-          filters: null,
           id: "<value>",
+          filters: null,
           scorerType: "preset",
         },
       ],
@@ -90,6 +100,7 @@ async function run() {
             operator: "eq",
             key: "<key>",
             value: "<value>",
+            caseSensitive: true,
           },
           sampleRate: 9527.61,
         },
@@ -131,7 +142,16 @@ run();
 
 ## upsertScorersConfigProjectsProjectIdRunsRunIdScorerSettingsPost
 
-Upsert Scorers Config
+Enable or disable a run's scorers, recomputing metrics for any newly enabled ones.
+
+Args:
+    run_scorer_settings: Scorer settings to apply to the run.
+    run: Run resolved from the URL, verified to belong to the URL project.
+    a_ctx: Async request context supplying the read session and current user.
+    capabilities: Scorer types the client can decode; decision scorers are left out of the response otherwise.
+
+Returns:
+    The run's settings after the update.
 
 ### Example Usage
 
@@ -150,6 +170,7 @@ async function run() {
     body: {
       scorers: [
         {
+          id: "<value>",
           filters: [
             {
               name: "modality",
@@ -157,7 +178,6 @@ async function run() {
               value: "ENUM_VALUE",
             },
           ],
-          id: "<value>",
           scorerType: "preset",
         },
       ],
@@ -202,6 +222,7 @@ async function run() {
     body: {
       scorers: [
         {
+          id: "<value>",
           filters: [
             {
               name: "modality",
@@ -209,7 +230,6 @@ async function run() {
               value: "ENUM_VALUE",
             },
           ],
-          id: "<value>",
           scorerType: "preset",
         },
       ],
@@ -260,7 +280,18 @@ run();
 
 ## getSettingsProjectsProjectIdRunsRunIdScorerSettingsGet
 
-Get Settings
+Return a run's scorer settings.
+
+Args:
+    run_id: Run whose settings are requested, used for the not-found message.
+    run_scorer_settings: Hydrated settings resolved by the route dependency.
+    capabilities: Scorer types the client can decode; decision scorers are left out of the response otherwise.
+
+Returns:
+    The run's scorer settings.
+
+Raises:
+    HTTPException: 404 when the run has no scorer settings recorded.
 
 ### Example Usage
 

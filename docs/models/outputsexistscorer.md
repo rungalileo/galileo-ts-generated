@@ -10,11 +10,12 @@ let value: OutputSexistScorer = {
   filters: [
     {
       name: "metadata",
-      operator: "eq",
+      operator: "ne",
       key: "<key>",
       value: [
         "<value 1>",
       ],
+      caseSensitive: true,
     },
   ],
 };

@@ -10,9 +10,10 @@ let value: UpdateScorerRequest = {
     filters: [
       {
         name: "metadata",
-        operator: "ne",
+        operator: "regex",
         key: "<key>",
         value: "<value>",
+        caseSensitive: true,
       },
     ],
   },

@@ -45,7 +45,7 @@ const value: models.ProjectIDFilter = {
 ```typescript
 const value: models.ProjectNameFilter = {
   name: "name",
-  operator: "eq",
+  operator: "ne",
   value: "<value>",
 };
 ```

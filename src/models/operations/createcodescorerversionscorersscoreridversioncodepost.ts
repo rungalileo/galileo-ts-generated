@@ -9,12 +9,14 @@ import * as models from "../index.js";
 
 export type CreateCodeScorerVersionScorersScorerIdVersionCodePostSecurity = {
   apiKeyHeader?: string | undefined;
+  classicAPIKeyHeader?: string | undefined;
   oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
   httpBasic?: models.SchemeHTTPBasic | undefined;
 };
 
 export type CreateCodeScorerVersionScorersScorerIdVersionCodePostRequest = {
   scorerId: string;
+  organizationId?: string | null | undefined;
   body: models.BodyCreateCodeScorerVersionScorersScorerIdVersionCodePost;
 };
 
@@ -22,6 +24,7 @@ export type CreateCodeScorerVersionScorersScorerIdVersionCodePostRequest = {
 export type CreateCodeScorerVersionScorersScorerIdVersionCodePostSecurity$Outbound =
   {
     APIKeyHeader?: string | undefined;
+    ClassicAPIKeyHeader?: string | undefined;
     OAuth2PasswordBearer?:
       | models.OAuth2PasswordBearerInput$Outbound
       | undefined;
@@ -36,6 +39,7 @@ export const CreateCodeScorerVersionScorersScorerIdVersionCodePostSecurity$outbo
   > = z.pipe(
     z.object({
       apiKeyHeader: z.optional(z.string()),
+      classicAPIKeyHeader: z.optional(z.string()),
       oAuth2PasswordBearer: z.optional(
         models.OAuth2PasswordBearerInput$outboundSchema,
       ),
@@ -44,6 +48,7 @@ export const CreateCodeScorerVersionScorersScorerIdVersionCodePostSecurity$outbo
     z.transform((v) => {
       return remap$(v, {
         apiKeyHeader: "APIKeyHeader",
+        classicAPIKeyHeader: "ClassicAPIKeyHeader",
         oAuth2PasswordBearer: "OAuth2PasswordBearer",
         httpBasic: "HTTPBasic",
       });
@@ -64,6 +69,7 @@ export function createCodeScorerVersionScorersScorerIdVersionCodePostSecurityToJ
 export type CreateCodeScorerVersionScorersScorerIdVersionCodePostRequest$Outbound =
   {
     scorer_id: string;
+    organization_id?: string | null | undefined;
     body:
       models.BodyCreateCodeScorerVersionScorersScorerIdVersionCodePost$Outbound;
   };
@@ -76,6 +82,7 @@ export const CreateCodeScorerVersionScorersScorerIdVersionCodePostRequest$outbou
   > = z.pipe(
     z.object({
       scorerId: z.string(),
+      organizationId: z.optional(z.nullable(z.string())),
       body:
         models
           .BodyCreateCodeScorerVersionScorersScorerIdVersionCodePost$outboundSchema,
@@ -83,6 +90,7 @@ export const CreateCodeScorerVersionScorersScorerIdVersionCodePostRequest$outbou
     z.transform((v) => {
       return remap$(v, {
         scorerId: "scorer_id",
+        organizationId: "organization_id",
       });
     }),
   );

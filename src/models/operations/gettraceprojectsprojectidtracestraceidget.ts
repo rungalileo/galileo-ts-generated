@@ -5,10 +5,16 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
+import { safeParse } from "../../lib/schemas.js";
+import * as discriminatedUnionTypes from "../../types/discriminatedUnion.js";
+import { discriminatedUnion } from "../../types/discriminatedUnion.js";
+import { Result as SafeParseResult } from "../../types/fp.js";
+import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
 
 export type GetTraceProjectsProjectIdTracesTraceIdGetSecurity = {
   apiKeyHeader?: string | undefined;
+  classicAPIKeyHeader?: string | undefined;
   oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
   httpBasic?: models.SchemeHTTPBasic | undefined;
 };
@@ -17,11 +23,22 @@ export type GetTraceProjectsProjectIdTracesTraceIdGetRequest = {
   traceId: string;
   projectId: string;
   includePresignedUrls?: boolean | undefined;
+  accessViewId?: string | null | undefined;
+  runId?: string | null | undefined;
 };
+
+/**
+ * Successful Response
+ */
+export type ResponseGetTraceProjectsProjectIdTracesTraceIdGet =
+  | models.ExtendedTraceRecordWithChildren
+  | models.StubTraceRecord
+  | discriminatedUnionTypes.Unknown<"type">;
 
 /** @internal */
 export type GetTraceProjectsProjectIdTracesTraceIdGetSecurity$Outbound = {
   APIKeyHeader?: string | undefined;
+  ClassicAPIKeyHeader?: string | undefined;
   OAuth2PasswordBearer?: models.OAuth2PasswordBearerInput$Outbound | undefined;
   HTTPBasic?: models.SchemeHTTPBasic$Outbound | undefined;
 };
@@ -34,6 +51,7 @@ export const GetTraceProjectsProjectIdTracesTraceIdGetSecurity$outboundSchema:
   > = z.pipe(
     z.object({
       apiKeyHeader: z.optional(z.string()),
+      classicAPIKeyHeader: z.optional(z.string()),
       oAuth2PasswordBearer: z.optional(
         models.OAuth2PasswordBearerInput$outboundSchema,
       ),
@@ -42,6 +60,7 @@ export const GetTraceProjectsProjectIdTracesTraceIdGetSecurity$outboundSchema:
     z.transform((v) => {
       return remap$(v, {
         apiKeyHeader: "APIKeyHeader",
+        classicAPIKeyHeader: "ClassicAPIKeyHeader",
         oAuth2PasswordBearer: "OAuth2PasswordBearer",
         httpBasic: "HTTPBasic",
       });
@@ -64,6 +83,8 @@ export type GetTraceProjectsProjectIdTracesTraceIdGetRequest$Outbound = {
   trace_id: string;
   project_id: string;
   include_presigned_urls: boolean;
+  access_view_id?: string | null | undefined;
+  run_id?: string | null | undefined;
 };
 
 /** @internal */
@@ -76,12 +97,16 @@ export const GetTraceProjectsProjectIdTracesTraceIdGetRequest$outboundSchema:
       traceId: z.string(),
       projectId: z.string(),
       includePresignedUrls: z._default(z.boolean(), false),
+      accessViewId: z.optional(z.nullable(z.string())),
+      runId: z.optional(z.nullable(z.string())),
     }),
     z.transform((v) => {
       return remap$(v, {
         traceId: "trace_id",
         projectId: "project_id",
         includePresignedUrls: "include_presigned_urls",
+        accessViewId: "access_view_id",
+        runId: "run_id",
       });
     }),
   );
@@ -94,5 +119,29 @@ export function getTraceProjectsProjectIdTracesTraceIdGetRequestToJSON(
     GetTraceProjectsProjectIdTracesTraceIdGetRequest$outboundSchema.parse(
       getTraceProjectsProjectIdTracesTraceIdGetRequest,
     ),
+  );
+}
+
+/** @internal */
+export const ResponseGetTraceProjectsProjectIdTracesTraceIdGet$inboundSchema:
+  z.ZodMiniType<ResponseGetTraceProjectsProjectIdTracesTraceIdGet, unknown> =
+    discriminatedUnion("type", {
+      trace: models.ExtendedTraceRecordWithChildren$inboundSchema,
+      stub_trace: models.StubTraceRecord$inboundSchema,
+    });
+
+export function responseGetTraceProjectsProjectIdTracesTraceIdGetFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  ResponseGetTraceProjectsProjectIdTracesTraceIdGet,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      ResponseGetTraceProjectsProjectIdTracesTraceIdGet$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'ResponseGetTraceProjectsProjectIdTracesTraceIdGet' from JSON`,
   );
 }

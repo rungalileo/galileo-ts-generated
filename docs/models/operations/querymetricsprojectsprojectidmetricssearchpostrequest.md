@@ -8,6 +8,8 @@ import { QueryMetricsProjectsProjectIdMetricsSearchPostRequest } from "galileo-g
 let value: QueryMetricsProjectsProjectIdMetricsSearchPostRequest = {
   projectId: "<value>",
   body: {
+    startTime: new Date("2023-10-01T00:00:00Z"),
+    endTime: new Date("2023-10-01T01:00:00Z"),
     logStreamId: "00000000-0000-0000-0000-000000000000",
     filters: [
       {
@@ -18,8 +20,6 @@ let value: QueryMetricsProjectsProjectIdMetricsSearchPostRequest = {
         type: "text",
       },
     ],
-    startTime: new Date("2023-10-01T00:00:00Z"),
-    endTime: new Date("2023-10-01T01:00:00Z"),
     groupBy: "model",
   },
 };

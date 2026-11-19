@@ -11,7 +11,7 @@ let value: DatasetVersionDB = {
   createdAt: new Date("2025-08-02T13:19:33.347Z"),
   createdByUser: {
     id: "<value>",
-    email: "Jeanie.Bradtke34@yahoo.com",
+    email: "Garland.Barton@gmail.com",
   },
   numRows: 43122,
   columnNames: [

@@ -16,10 +16,15 @@ import {
   ControlSpan$outboundSchema,
 } from "./controlspan.js";
 import {
-  Document,
-  Document$Outbound,
-  Document$outboundSchema,
-} from "./document.js";
+  DocumentInput,
+  DocumentInput$Outbound,
+  DocumentInput$outboundSchema,
+} from "./documentinput.js";
+import {
+  HttpSpan,
+  HttpSpan$Outbound,
+  HttpSpan$outboundSchema,
+} from "./httpspan.js";
 import {
   LlmSpan,
   LlmSpan$Outbound,
@@ -57,11 +62,11 @@ export type RetrieverSpan = {
   /**
    * Output of the trace or span.
    */
-  output?: Array<Document> | undefined;
+  output?: Array<DocumentInput> | undefined;
   /**
    * Redacted output of the trace or span.
    */
-  redactedOutput?: Array<Document> | null | undefined;
+  redactedOutput?: Array<DocumentInput> | null | undefined;
   /**
    * Name of the trace, span or session.
    */
@@ -126,6 +131,7 @@ export type RetrieverSpan = {
     | Array<
       | AgentSpan
       | ControlSpan
+      | HttpSpan
       | LlmSpan
       | RetrieverSpan
       | ToolSpan
@@ -137,6 +143,7 @@ export type RetrieverSpan = {
 export type RetrieverSpanSpan =
   | AgentSpan
   | ControlSpan
+  | HttpSpan
   | LlmSpan
   | RetrieverSpan
   | ToolSpan
@@ -147,8 +154,8 @@ export type RetrieverSpan$Outbound = {
   type: "retriever";
   input: string;
   redacted_input?: string | null | undefined;
-  output?: Array<Document$Outbound> | undefined;
-  redacted_output?: Array<Document$Outbound> | null | undefined;
+  output?: Array<DocumentInput$Outbound> | undefined;
+  redacted_output?: Array<DocumentInput$Outbound> | null | undefined;
   name: string;
   created_at?: string | undefined;
   user_metadata?: { [k: string]: string } | undefined;
@@ -168,6 +175,7 @@ export type RetrieverSpan$Outbound = {
     | Array<
       | AgentSpan$Outbound
       | ControlSpan$Outbound
+      | HttpSpan$Outbound
       | LlmSpan$Outbound
       | RetrieverSpan$Outbound
       | ToolSpan$Outbound
@@ -185,8 +193,10 @@ export const RetrieverSpan$outboundSchema: z.ZodMiniType<
     type: z.literal("retriever"),
     input: z._default(z.string(), ""),
     redactedInput: z.optional(z.nullable(z.string())),
-    output: z.optional(z.array(Document$outboundSchema)),
-    redactedOutput: z.optional(z.nullable(z.array(Document$outboundSchema))),
+    output: z.optional(z.array(DocumentInput$outboundSchema)),
+    redactedOutput: z.optional(
+      z.nullable(z.array(DocumentInput$outboundSchema)),
+    ),
     name: z._default(z.string(), ""),
     createdAt: z.optional(z.pipe(z.date(), z.transform(v => v.toISOString()))),
     userMetadata: z.optional(z.record(z.string(), z.string())),
@@ -202,16 +212,19 @@ export const RetrieverSpan$outboundSchema: z.ZodMiniType<
     traceId: z.optional(z.nullable(z.string())),
     stepNumber: z.optional(z.nullable(z.int())),
     parentId: z.optional(z.nullable(z.string())),
-    spans: z.optional(z.array(z.union([
-      z.lazy(() => AgentSpan$outboundSchema),
-      ControlSpan$outboundSchema,
-      LlmSpan$outboundSchema,
-      z.lazy(() => RetrieverSpan$outboundSchema),
-      z.lazy(() => ToolSpan$outboundSchema),
-      z.lazy(() =>
-        WorkflowSpan$outboundSchema
-      ),
-    ]))),
+    spans: z.optional(
+      z.array(z.union([
+        z.lazy(() => AgentSpan$outboundSchema),
+        ControlSpan$outboundSchema,
+        z.lazy(() => HttpSpan$outboundSchema),
+        LlmSpan$outboundSchema,
+        z.lazy(() => RetrieverSpan$outboundSchema),
+        z.lazy(() =>
+          ToolSpan$outboundSchema
+        ),
+        z.lazy(() => WorkflowSpan$outboundSchema),
+      ])),
+    ),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -240,6 +253,7 @@ export function retrieverSpanToJSON(retrieverSpan: RetrieverSpan): string {
 export type RetrieverSpanSpan$Outbound =
   | AgentSpan$Outbound
   | ControlSpan$Outbound
+  | HttpSpan$Outbound
   | LlmSpan$Outbound
   | RetrieverSpan$Outbound
   | ToolSpan$Outbound
@@ -252,6 +266,7 @@ export const RetrieverSpanSpan$outboundSchema: z.ZodMiniType<
 > = z.union([
   z.lazy(() => AgentSpan$outboundSchema),
   ControlSpan$outboundSchema,
+  z.lazy(() => HttpSpan$outboundSchema),
   LlmSpan$outboundSchema,
   z.lazy(() => RetrieverSpan$outboundSchema),
   z.lazy(() => ToolSpan$outboundSchema),

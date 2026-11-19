@@ -12,7 +12,8 @@ let value: InvalidResult = {
 
 ## Fields
 
-| Field              | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `resultType`       | *"invalid"*        | :heavy_minus_sign: | N/A                |
-| `errorMessage`     | *string*           | :heavy_check_mark: | N/A                |
+| Field                     | Type                      | Required                  | Description               |
+| ------------------------- | ------------------------- | ------------------------- | ------------------------- |
+| `resultType`              | *"invalid"*               | :heavy_minus_sign:        | N/A                       |
+| `errorMessage`            | *string*                  | :heavy_check_mark:        | N/A                       |
+| `errorCode`               | *"environment_preparing"* | :heavy_minus_sign:        | N/A                       |

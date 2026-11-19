@@ -52,6 +52,10 @@ export type AggregatedTraceViewRequestFilter =
 
 export type AggregatedTraceViewRequest = {
   /**
+   * Assigned log view for restricted access.
+   */
+  accessViewId?: string | null | undefined;
+  /**
    * Log stream id associated with the traces.
    */
   logStreamId: string;
@@ -107,6 +111,7 @@ export function aggregatedTraceViewRequestFilterToJSON(
 
 /** @internal */
 export type AggregatedTraceViewRequest$Outbound = {
+  access_view_id?: string | null | undefined;
   log_stream_id: string;
   filters?:
     | Array<
@@ -127,6 +132,7 @@ export const AggregatedTraceViewRequest$outboundSchema: z.ZodMiniType<
   AggregatedTraceViewRequest
 > = z.pipe(
   z.object({
+    accessViewId: z.optional(z.nullable(z.string())),
     logStreamId: z.string(),
     filters: z.optional(
       z.array(
@@ -144,6 +150,7 @@ export const AggregatedTraceViewRequest$outboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return remap$(v, {
+      accessViewId: "access_view_id",
       logStreamId: "log_stream_id",
     });
   }),

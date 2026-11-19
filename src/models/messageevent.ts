@@ -15,10 +15,10 @@ import {
   EventStatus$outboundSchema,
 } from "./eventstatus.js";
 import {
-  GalileoCoreSchemasLoggingLlmMessageRole,
-  GalileoCoreSchemasLoggingLlmMessageRole$inboundSchema,
-  GalileoCoreSchemasLoggingLlmMessageRole$outboundSchema,
-} from "./galileocoreschemasloggingllmmessagerole.js";
+  MessageRoleOutput,
+  MessageRoleOutput$inboundSchema,
+  MessageRoleOutput$outboundSchema,
+} from "./messageroleoutput.js";
 
 /**
  * An output message from the model.
@@ -41,7 +41,7 @@ export type MessageEvent = {
    * Error message if the event failed
    */
   errorMessage?: string | null | undefined;
-  role: GalileoCoreSchemasLoggingLlmMessageRole;
+  role: MessageRoleOutput;
   /**
    * Text content of the message
    */
@@ -61,7 +61,7 @@ export const MessageEvent$inboundSchema: z.ZodMiniType<MessageEvent, unknown> =
       status: z.optional(z.nullable(EventStatus$inboundSchema)),
       metadata: z.optional(z.nullable(z.record(z.string(), z.any()))),
       error_message: z.optional(z.nullable(types.string())),
-      role: GalileoCoreSchemasLoggingLlmMessageRole$inboundSchema,
+      role: MessageRoleOutput$inboundSchema,
       content: z.optional(z.nullable(types.string())),
       content_parts: z.optional(
         z.nullable(z.array(z.record(z.string(), z.any()))),
@@ -97,7 +97,7 @@ export const MessageEvent$outboundSchema: z.ZodMiniType<
     status: z.optional(z.nullable(EventStatus$outboundSchema)),
     metadata: z.optional(z.nullable(z.record(z.string(), z.any()))),
     errorMessage: z.optional(z.nullable(z.string())),
-    role: GalileoCoreSchemasLoggingLlmMessageRole$outboundSchema,
+    role: MessageRoleOutput$outboundSchema,
     content: z.optional(z.nullable(z.string())),
     contentParts: z.optional(
       z.nullable(z.array(z.record(z.string(), z.any()))),

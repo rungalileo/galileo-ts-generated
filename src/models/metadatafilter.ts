@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { remap as remap$ } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
@@ -17,6 +18,7 @@ export const MetadataFilterOperator = {
   NotIn: "not_in",
   Eq: "eq",
   Ne: "ne",
+  Regex: "regex",
 } as const;
 export type MetadataFilterOperator = OpenEnum<typeof MetadataFilterOperator>;
 
@@ -30,6 +32,7 @@ export type MetadataFilter = {
   operator: MetadataFilterOperator;
   key: string;
   value: string | Array<string>;
+  caseSensitive?: boolean | undefined;
 };
 
 /** @internal */
@@ -78,30 +81,47 @@ export function metadataFilterValueFromJSON(
 export const MetadataFilter$inboundSchema: z.ZodMiniType<
   MetadataFilter,
   unknown
-> = z.object({
-  name: types.literal("metadata"),
-  operator: MetadataFilterOperator$inboundSchema,
-  key: types.string(),
-  value: smartUnion([types.string(), z.array(types.string())]),
-});
+> = z.pipe(
+  z.object({
+    name: types.literal("metadata"),
+    operator: MetadataFilterOperator$inboundSchema,
+    key: types.string(),
+    value: smartUnion([types.string(), z.array(types.string())]),
+    case_sensitive: z._default(types.boolean(), true),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "case_sensitive": "caseSensitive",
+    });
+  }),
+);
 /** @internal */
 export type MetadataFilter$Outbound = {
   name: "metadata";
   operator: string;
   key: string;
   value: string | Array<string>;
+  case_sensitive: boolean;
 };
 
 /** @internal */
 export const MetadataFilter$outboundSchema: z.ZodMiniType<
   MetadataFilter$Outbound,
   MetadataFilter
-> = z.object({
-  name: z.literal("metadata"),
-  operator: MetadataFilterOperator$outboundSchema,
-  key: z.string(),
-  value: smartUnion([z.string(), z.array(z.string())]),
-});
+> = z.pipe(
+  z.object({
+    name: z.literal("metadata"),
+    operator: MetadataFilterOperator$outboundSchema,
+    key: z.string(),
+    value: smartUnion([z.string(), z.array(z.string())]),
+    caseSensitive: z._default(z.boolean(), true),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      caseSensitive: "case_sensitive",
+    });
+  }),
+);
 
 export function metadataFilterToJSON(metadataFilter: MetadataFilter): string {
   return JSON.stringify(MetadataFilter$outboundSchema.parse(metadataFilter));

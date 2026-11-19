@@ -31,7 +31,7 @@ export type GeneratedScorerResponse = {
    */
   chainPollTemplate: ChainPollTemplate;
   userPrompt?: string | null | undefined;
-  createdBy: string;
+  createdBy: string | null;
   createdAt: Date;
   updatedAt: Date;
   scoreableNodeTypes: Array<NodeType> | null;
@@ -49,7 +49,7 @@ export const GeneratedScorerResponse$inboundSchema: z.ZodMiniType<
     instructions: z.optional(z.nullable(types.string())),
     chain_poll_template: ChainPollTemplate$inboundSchema,
     user_prompt: z.optional(z.nullable(types.string())),
-    created_by: types.string(),
+    created_by: types.nullable(types.string()),
     created_at: types.date(),
     updated_at: types.date(),
     scoreable_node_types: types.nullable(z.array(NodeType$inboundSchema)),

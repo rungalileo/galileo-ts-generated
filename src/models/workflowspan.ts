@@ -22,10 +22,10 @@ import {
   ControlSpan$outboundSchema,
 } from "./controlspan.js";
 import {
-  Document,
-  Document$Outbound,
-  Document$outboundSchema,
-} from "./document.js";
+  DocumentInput,
+  DocumentInput$Outbound,
+  DocumentInput$outboundSchema,
+} from "./documentinput.js";
 import {
   FileContentPart,
   FileContentPart$Outbound,
@@ -36,6 +36,11 @@ import {
   GalileoCoreSchemasLoggingLlmMessage$Outbound,
   GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
 } from "./galileocoreschemasloggingllmmessage.js";
+import {
+  HttpSpan,
+  HttpSpan$Outbound,
+  HttpSpan$outboundSchema,
+} from "./httpspan.js";
 import {
   LlmSpan,
   LlmSpan$Outbound,
@@ -91,7 +96,7 @@ export type WorkflowSpanOutput2 =
   | GalileoCoreSchemasLoggingLlmMessage
   | ControlResult
   | string
-  | Array<Document>
+  | Array<DocumentInput>
   | Array<FileContentPart | TextContentPart>;
 
 export type WorkflowSpanRedactedOutput1 = FileContentPart | TextContentPart;
@@ -103,7 +108,7 @@ export type WorkflowSpanRedactedOutput2 =
   | GalileoCoreSchemasLoggingLlmMessage
   | ControlResult
   | string
-  | Array<Document>
+  | Array<DocumentInput>
   | Array<FileContentPart | TextContentPart>;
 
 export type WorkflowSpan = {
@@ -135,7 +140,7 @@ export type WorkflowSpan = {
     | GalileoCoreSchemasLoggingLlmMessage
     | ControlResult
     | string
-    | Array<Document>
+    | Array<DocumentInput>
     | Array<FileContentPart | TextContentPart>
     | null
     | undefined;
@@ -146,7 +151,7 @@ export type WorkflowSpan = {
     | GalileoCoreSchemasLoggingLlmMessage
     | ControlResult
     | string
-    | Array<Document>
+    | Array<DocumentInput>
     | Array<FileContentPart | TextContentPart>
     | null
     | undefined;
@@ -214,6 +219,7 @@ export type WorkflowSpan = {
     | Array<
       | AgentSpan
       | ControlSpan
+      | HttpSpan
       | LlmSpan
       | RetrieverSpan
       | ToolSpan
@@ -225,6 +231,7 @@ export type WorkflowSpan = {
 export type WorkflowSpanSpan =
   | AgentSpan
   | ControlSpan
+  | HttpSpan
   | LlmSpan
   | RetrieverSpan
   | ToolSpan
@@ -344,7 +351,7 @@ export type WorkflowSpanOutput2$Outbound =
   | GalileoCoreSchemasLoggingLlmMessage$Outbound
   | ControlResult$Outbound
   | string
-  | Array<Document$Outbound>
+  | Array<DocumentInput$Outbound>
   | Array<FileContentPart$Outbound | TextContentPart$Outbound>;
 
 /** @internal */
@@ -355,7 +362,7 @@ export const WorkflowSpanOutput2$outboundSchema: z.ZodMiniType<
   GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
   ControlResult$outboundSchema,
   z.string(),
-  z.array(Document$outboundSchema),
+  z.array(DocumentInput$outboundSchema),
   z.array(
     z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
   ),
@@ -395,7 +402,7 @@ export type WorkflowSpanRedactedOutput2$Outbound =
   | GalileoCoreSchemasLoggingLlmMessage$Outbound
   | ControlResult$Outbound
   | string
-  | Array<Document$Outbound>
+  | Array<DocumentInput$Outbound>
   | Array<FileContentPart$Outbound | TextContentPart$Outbound>;
 
 /** @internal */
@@ -406,7 +413,7 @@ export const WorkflowSpanRedactedOutput2$outboundSchema: z.ZodMiniType<
   GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
   ControlResult$outboundSchema,
   z.string(),
-  z.array(Document$outboundSchema),
+  z.array(DocumentInput$outboundSchema),
   z.array(
     z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
   ),
@@ -440,7 +447,7 @@ export type WorkflowSpan$Outbound = {
     | GalileoCoreSchemasLoggingLlmMessage$Outbound
     | ControlResult$Outbound
     | string
-    | Array<Document$Outbound>
+    | Array<DocumentInput$Outbound>
     | Array<FileContentPart$Outbound | TextContentPart$Outbound>
     | null
     | undefined;
@@ -448,7 +455,7 @@ export type WorkflowSpan$Outbound = {
     | GalileoCoreSchemasLoggingLlmMessage$Outbound
     | ControlResult$Outbound
     | string
-    | Array<Document$Outbound>
+    | Array<DocumentInput$Outbound>
     | Array<FileContentPart$Outbound | TextContentPart$Outbound>
     | null
     | undefined;
@@ -471,6 +478,7 @@ export type WorkflowSpan$Outbound = {
     | Array<
       | AgentSpan$Outbound
       | ControlSpan$Outbound
+      | HttpSpan$Outbound
       | LlmSpan$Outbound
       | RetrieverSpan$Outbound
       | ToolSpan$Outbound
@@ -518,7 +526,7 @@ export const WorkflowSpan$outboundSchema: z.ZodMiniType<
           GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
           ControlResult$outboundSchema,
           z.string(),
-          z.array(Document$outboundSchema),
+          z.array(DocumentInput$outboundSchema),
           z.array(
             z.union([
               FileContentPart$outboundSchema,
@@ -534,7 +542,7 @@ export const WorkflowSpan$outboundSchema: z.ZodMiniType<
           GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
           ControlResult$outboundSchema,
           z.string(),
-          z.array(Document$outboundSchema),
+          z.array(DocumentInput$outboundSchema),
           z.array(
             z.union([
               FileContentPart$outboundSchema,
@@ -562,12 +570,13 @@ export const WorkflowSpan$outboundSchema: z.ZodMiniType<
     spans: z.optional(z.array(z.union([
       z.lazy(() => AgentSpan$outboundSchema),
       ControlSpan$outboundSchema,
+      z.lazy(() => HttpSpan$outboundSchema),
       LlmSpan$outboundSchema,
       z.lazy(() => RetrieverSpan$outboundSchema),
-      z.lazy(() => ToolSpan$outboundSchema),
       z.lazy(() =>
-        WorkflowSpan$outboundSchema
+        ToolSpan$outboundSchema
       ),
+      z.lazy(() => WorkflowSpan$outboundSchema),
     ]))),
   }),
   z.transform((v) => {
@@ -597,6 +606,7 @@ export function workflowSpanToJSON(workflowSpan: WorkflowSpan): string {
 export type WorkflowSpanSpan$Outbound =
   | AgentSpan$Outbound
   | ControlSpan$Outbound
+  | HttpSpan$Outbound
   | LlmSpan$Outbound
   | RetrieverSpan$Outbound
   | ToolSpan$Outbound
@@ -609,6 +619,7 @@ export const WorkflowSpanSpan$outboundSchema: z.ZodMiniType<
 > = z.union([
   z.lazy(() => AgentSpan$outboundSchema),
   ControlSpan$outboundSchema,
+  z.lazy(() => HttpSpan$outboundSchema),
   LlmSpan$outboundSchema,
   z.lazy(() => RetrieverSpan$outboundSchema),
   z.lazy(() => ToolSpan$outboundSchema),
