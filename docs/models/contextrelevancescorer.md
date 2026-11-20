@@ -10,7 +10,7 @@ let value: ContextRelevanceScorer = {
   filters: [
     {
       name: "node_name",
-      operator: "one_of",
+      operator: "regex",
       value: [
         "<value 1>",
         "<value 2>",

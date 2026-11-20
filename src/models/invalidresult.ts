@@ -13,6 +13,7 @@ import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 export type InvalidResult = {
   resultType: "invalid";
   errorMessage: string;
+  errorCode?: "environment_preparing" | null | undefined;
 };
 
 /** @internal */
@@ -23,11 +24,13 @@ export const InvalidResult$inboundSchema: z.ZodMiniType<
   z.object({
     result_type: z._default(types.literal("invalid"), "invalid"),
     error_message: types.string(),
+    error_code: z.optional(z.nullable(types.literal("environment_preparing"))),
   }),
   z.transform((v) => {
     return remap$(v, {
       "result_type": "resultType",
       "error_message": "errorMessage",
+      "error_code": "errorCode",
     });
   }),
 );

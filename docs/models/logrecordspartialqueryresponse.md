@@ -13,7 +13,7 @@ let value: LogRecordsPartialQueryResponse = {
       type: "trace",
       input: "Who is a smart LLM?",
       name: "",
-      createdAt: new Date("2026-05-12T23:58:32.308040Z"),
+      createdAt: new Date("2026-11-19T09:04:08.077168Z"),
       userMetadata: {},
       tags: [],
       metrics: {},
@@ -26,6 +26,8 @@ let value: LogRecordsPartialQueryResponse = {
       annotationAggregates: {},
       annotationAgreement: {},
       annotationQueueIds: [],
+      progressMessage: "",
+      errorMessage: "",
       isComplete: true,
     },
     {
@@ -41,7 +43,7 @@ let value: LogRecordsPartialQueryResponse = {
         role: "assistant",
       },
       name: "",
-      createdAt: new Date("2026-05-12T23:58:32.308167Z"),
+      createdAt: new Date("2026-11-19T09:04:08.077293Z"),
       userMetadata: {},
       tags: [],
       metrics: {},
@@ -54,9 +56,12 @@ let value: LogRecordsPartialQueryResponse = {
       annotationAggregates: {},
       annotationAgreement: {},
       annotationQueueIds: [],
+      progressMessage: "",
+      errorMessage: "",
       isComplete: true,
     },
   ],
+  numRecords: 593694,
 };
 ```
 
@@ -70,3 +75,4 @@ let value: LogRecordsPartialQueryResponse = {
 | `nextStartingToken`                             | *number*                                        | :heavy_minus_sign:                              | N/A                                             |
 | `lastRowId`                                     | *string*                                        | :heavy_minus_sign:                              | N/A                                             |
 | `records`                                       | *models.LogRecordsPartialQueryResponseRecord*[] | :heavy_minus_sign:                              | records matching the query                      |
+| `numRecords`                                    | *number*                                        | :heavy_check_mark:                              | number of records                               |

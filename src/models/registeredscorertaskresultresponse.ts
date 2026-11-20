@@ -11,6 +11,10 @@ import * as types from "../types/primitives.js";
 import { smartUnion } from "../types/smartUnion.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
+  RegisteredScorerValidationStage,
+  RegisteredScorerValidationStage$inboundSchema,
+} from "./registeredscorervalidationstage.js";
+import {
   TaskResultStatus,
   TaskResultStatus$inboundSchema,
 } from "./taskresultstatus.js";
@@ -29,6 +33,8 @@ export type RegisteredScorerTaskResultResponse = {
   updatedAt: Date;
   status: TaskResultStatus;
   result?: ValidateRegisteredScorerResult | string | null | undefined;
+  stage?: RegisteredScorerValidationStage | null | undefined;
+  stageStartedAt?: Date | null | undefined;
 };
 
 /** @internal */
@@ -71,11 +77,16 @@ export const RegisteredScorerTaskResultResponse$inboundSchema: z.ZodMiniType<
         ]),
       ),
     ),
+    stage: z.optional(
+      z.nullable(RegisteredScorerValidationStage$inboundSchema),
+    ),
+    stage_started_at: z.optional(z.nullable(types.date())),
   }),
   z.transform((v) => {
     return remap$(v, {
       "created_at": "createdAt",
       "updated_at": "updatedAt",
+      "stage_started_at": "stageStartedAt",
     });
   }),
 );

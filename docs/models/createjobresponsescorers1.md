@@ -33,41 +33,6 @@ const value: models.AgenticWorkflowSuccessScorer = {
 };
 ```
 
-### `models.BleuScorer`
-
-```typescript
-const value: models.BleuScorer = {
-  name: "bleu",
-  filters: [
-    {
-      name: "metadata",
-      operator: "ne",
-      key: "<key>",
-      value: [
-        "<value 1>",
-        "<value 2>",
-      ],
-    },
-  ],
-};
-```
-
-### `models.ChunkAttributionUtilizationScorer`
-
-```typescript
-const value: models.ChunkAttributionUtilizationScorer = {
-  name: "chunk_attribution_utilization",
-  filters: [
-    {
-      name: "metadata",
-      operator: "ne",
-      key: "<key>",
-      value: [],
-    },
-  ],
-};
-```
-
 ### `models.CompletenessScorer`
 
 ```typescript
@@ -76,9 +41,10 @@ const value: models.CompletenessScorer = {
   filters: [
     {
       name: "metadata",
-      operator: "one_of",
+      operator: "not_in",
       key: "<key>",
       value: "<value>",
+      caseSensitive: true,
     },
   ],
 };
@@ -107,7 +73,7 @@ const value: models.ContextRelevanceScorer = {
   filters: [
     {
       name: "node_name",
-      operator: "one_of",
+      operator: "regex",
       value: [
         "<value 1>",
         "<value 2>",
@@ -127,9 +93,10 @@ const value: models.CorrectnessScorer = {
   filters: [
     {
       name: "metadata",
-      operator: "ne",
+      operator: "regex",
       key: "<key>",
       value: "<value>",
+      caseSensitive: true,
     },
   ],
 };
@@ -182,7 +149,7 @@ const value: models.InputToneScorer = {
   filters: [
     {
       name: "node_name",
-      operator: "ne",
+      operator: "contains",
       value: "<value>",
       caseSensitive: true,
     },
@@ -198,7 +165,7 @@ const value: models.InputToxicityScorer = {
   filters: [
     {
       name: "node_name",
-      operator: "one_of",
+      operator: "regex",
       value: "<value>",
       caseSensitive: true,
     },
@@ -229,7 +196,7 @@ const value: models.OutputPIIScorer = {
   filters: [
     {
       name: "node_name",
-      operator: "contains",
+      operator: "regex",
       value: "<value>",
       caseSensitive: true,
     },
@@ -245,11 +212,12 @@ const value: models.OutputSexistScorer = {
   filters: [
     {
       name: "metadata",
-      operator: "eq",
+      operator: "ne",
       key: "<key>",
       value: [
         "<value 1>",
       ],
+      caseSensitive: true,
     },
   ],
 };
@@ -263,9 +231,10 @@ const value: models.OutputToneScorer = {
   filters: [
     {
       name: "metadata",
-      operator: "ne",
+      operator: "regex",
       key: "<key>",
       value: [],
+      caseSensitive: true,
     },
   ],
 };
@@ -282,6 +251,7 @@ const value: models.OutputToxicityScorer = {
       operator: "eq",
       key: "<key>",
       value: [],
+      caseSensitive: true,
     },
   ],
 };
@@ -303,38 +273,6 @@ const value: models.PromptInjectionScorer = {
 };
 ```
 
-### `models.PromptPerplexityScorer`
-
-```typescript
-const value: models.PromptPerplexityScorer = {
-  name: "prompt_perplexity",
-  filters: [
-    {
-      name: "metadata",
-      operator: "not_in",
-      key: "<key>",
-      value: "<value>",
-    },
-  ],
-};
-```
-
-### `models.RougeScorer`
-
-```typescript
-const value: models.RougeScorer = {
-  name: "rouge",
-  filters: [
-    {
-      name: "metadata",
-      operator: "one_of",
-      key: "<key>",
-      value: [],
-    },
-  ],
-};
-```
-
 ### `models.ToolErrorRateScorer`
 
 ```typescript
@@ -343,7 +281,7 @@ const value: models.ToolErrorRateScorer = {
   filters: [
     {
       name: "node_name",
-      operator: "ne",
+      operator: "contains",
       value: "<value>",
       caseSensitive: true,
     },
@@ -357,21 +295,6 @@ const value: models.ToolErrorRateScorer = {
 const value: models.ToolSelectionQualityScorer = {
   name: "tool_selection_quality",
   filters: null,
-};
-```
-
-### `models.UncertaintyScorer`
-
-```typescript
-const value: models.UncertaintyScorer = {
-  name: "uncertainty",
-  filters: [
-    {
-      name: "modality",
-      operator: "ne",
-      value: "ENUM_VALUE",
-    },
-  ],
 };
 ```
 

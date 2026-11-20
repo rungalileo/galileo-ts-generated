@@ -5,13 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { blobLikeSchema } from "../types/blobs.js";
 import { smartUnion } from "../types/smartUnion.js";
-
-export type BodyValidateCodeScorerScorersCodeValidatePostFile = {
-  fileName: string;
-  content: ReadableStream<Uint8Array> | Blob | ArrayBuffer | Uint8Array;
-};
 
 export type BodyValidateCodeScorerScorersCodeValidatePostRequiredScorers =
   | string
@@ -22,44 +16,12 @@ export type BodyValidateCodeScorerScorersCodeValidatePostScoreableNodeTypes =
   | Array<string>;
 
 export type BodyValidateCodeScorerScorersCodeValidatePost = {
-  file: BodyValidateCodeScorerScorersCodeValidatePostFile | Blob;
   testInput?: string | null | undefined;
   testOutput?: string | null | undefined;
   requiredScorers?: string | Array<string> | null | undefined;
   scoreableNodeTypes?: string | Array<string> | null | undefined;
+  file: string;
 };
-
-/** @internal */
-export type BodyValidateCodeScorerScorersCodeValidatePostFile$Outbound = {
-  fileName: string;
-  content: ReadableStream<Uint8Array> | Blob | ArrayBuffer | Uint8Array;
-};
-
-/** @internal */
-export const BodyValidateCodeScorerScorersCodeValidatePostFile$outboundSchema:
-  z.ZodMiniType<
-    BodyValidateCodeScorerScorersCodeValidatePostFile$Outbound,
-    BodyValidateCodeScorerScorersCodeValidatePostFile
-  > = z.object({
-    fileName: z.string(),
-    content: z.union([
-      z.custom<ReadableStream<Uint8Array>>(x => x instanceof ReadableStream),
-      z.custom<Blob>(x => x instanceof Blob),
-      z.custom<ArrayBuffer>(x => x instanceof ArrayBuffer),
-      z.custom<Uint8Array>(x => x instanceof Uint8Array),
-    ]),
-  });
-
-export function bodyValidateCodeScorerScorersCodeValidatePostFileToJSON(
-  bodyValidateCodeScorerScorersCodeValidatePostFile:
-    BodyValidateCodeScorerScorersCodeValidatePostFile,
-): string {
-  return JSON.stringify(
-    BodyValidateCodeScorerScorersCodeValidatePostFile$outboundSchema.parse(
-      bodyValidateCodeScorerScorersCodeValidatePostFile,
-    ),
-  );
-}
 
 /** @internal */
 export type BodyValidateCodeScorerScorersCodeValidatePostRequiredScorers$Outbound =
@@ -107,11 +69,11 @@ export function bodyValidateCodeScorerScorersCodeValidatePostScoreableNodeTypesT
 
 /** @internal */
 export type BodyValidateCodeScorerScorersCodeValidatePost$Outbound = {
-  file: BodyValidateCodeScorerScorersCodeValidatePostFile$Outbound | Blob;
   test_input?: string | null | undefined;
   test_output?: string | null | undefined;
   required_scorers?: string | Array<string> | null | undefined;
   scoreable_node_types?: string | Array<string> | null | undefined;
+  file: string;
 };
 
 /** @internal */
@@ -121,12 +83,6 @@ export const BodyValidateCodeScorerScorersCodeValidatePost$outboundSchema:
     BodyValidateCodeScorerScorersCodeValidatePost
   > = z.pipe(
     z.object({
-      file: z.union([
-        z.lazy(() =>
-          BodyValidateCodeScorerScorersCodeValidatePostFile$outboundSchema
-        ),
-        blobLikeSchema,
-      ]),
       testInput: z.optional(z.nullable(z.string())),
       testOutput: z.optional(z.nullable(z.string())),
       requiredScorers: z.optional(
@@ -135,6 +91,7 @@ export const BodyValidateCodeScorerScorersCodeValidatePost$outboundSchema:
       scoreableNodeTypes: z.optional(
         z.nullable(smartUnion([z.string(), z.array(z.string())])),
       ),
+      file: z.string(),
     }),
     z.transform((v) => {
       return remap$(v, {

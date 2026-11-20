@@ -7,5 +7,6 @@ export * from "./galileogenerateddefaulterror.js";
 export * from "./galileogeneratederror.js";
 export * from "./httpclienterrors.js";
 export * from "./httpvalidationerror.js";
+export * from "./lunadatasetpreviewerrorresponse.js";
 export * from "./responsevalidationerror.js";
 export * from "./sdkvalidationerror.js";

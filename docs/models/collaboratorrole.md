@@ -13,5 +13,5 @@ let value: CollaboratorRole = "owner";
 ## Values
 
 ```typescript
-"owner" | "editor" | "annotator" | "viewer" | Unrecognized<string>
+"owner" | "editor" | "annotator" | "viewer" | "custom" | Unrecognized<string>
 ```

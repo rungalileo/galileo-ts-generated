@@ -7,12 +7,15 @@ import * as z from "zod/v4-mini";
 import { safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
+import {
+  ApiSchemasContentDatasetJsonValue,
+  ApiSchemasContentDatasetJsonValue$inboundSchema,
+} from "./apischemascontentdatasetjsonvalue.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
-import { JsonValue, JsonValue$inboundSchema } from "./jsonvalue.js";
 
 export type DatasetInputJsonField = {
   key: string;
-  values: Array<JsonValue>;
+  values: Array<ApiSchemasContentDatasetJsonValue>;
 };
 
 /** @internal */
@@ -21,7 +24,7 @@ export const DatasetInputJsonField$inboundSchema: z.ZodMiniType<
   unknown
 > = z.object({
   key: types.string(),
-  values: z.array(JsonValue$inboundSchema),
+  values: z.array(ApiSchemasContentDatasetJsonValue$inboundSchema),
 });
 
 export function datasetInputJsonFieldFromJSON(
