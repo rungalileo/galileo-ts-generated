@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
 import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import { Result as SafeParseResult } from "../types/fp.js";
@@ -55,17 +55,23 @@ export type SegmentFilter = {
    * Whether to sample only on LLM scorers.
    */
   llmScorers?: boolean | undefined;
+  /**
+   * Whether to sample only on multimodal scorers.
+   */
+  multimodalScorers?: boolean | undefined;
 };
 
 /** @internal */
 export const SegmentFilterFilter$inboundSchema: z.ZodMiniType<
   SegmentFilterFilter,
   unknown
-> = discriminatedUnion("name", {
-  metadata: MetadataFilter$inboundSchema,
-  modality: ModalityFilter$inboundSchema,
-  node_name: NodeNameFilter$inboundSchema,
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  discriminatedUnion("name", {
+    metadata: MetadataFilter$inboundSchema,
+    modality: ModalityFilter$inboundSchema,
+    node_name: NodeNameFilter$inboundSchema,
+  })
+);
 /** @internal */
 export type SegmentFilterFilter$Outbound =
   | MetadataFilter$Outbound
@@ -76,11 +82,13 @@ export type SegmentFilterFilter$Outbound =
 export const SegmentFilterFilter$outboundSchema: z.ZodMiniType<
   SegmentFilterFilter$Outbound,
   SegmentFilterFilter
-> = z.union([
-  MetadataFilter$outboundSchema,
-  ModalityFilter$outboundSchema,
-  NodeNameFilter$outboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    MetadataFilter$outboundSchema,
+    ModalityFilter$outboundSchema,
+    NodeNameFilter$outboundSchema,
+  ])
+);
 
 export function segmentFilterFilterToJSON(
   segmentFilterFilter: SegmentFilterFilter,
@@ -103,26 +111,30 @@ export function segmentFilterFilterFromJSON(
 export const SegmentFilter$inboundSchema: z.ZodMiniType<
   SegmentFilter,
   unknown
-> = z.pipe(
-  z.object({
-    filter: z.optional(
-      z.nullable(
-        discriminatedUnion("name", {
-          metadata: MetadataFilter$inboundSchema,
-          modality: ModalityFilter$inboundSchema,
-          node_name: NodeNameFilter$inboundSchema,
-        }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      filter: z.optional(
+        z.nullable(
+          discriminatedUnion("name", {
+            metadata: MetadataFilter$inboundSchema,
+            modality: ModalityFilter$inboundSchema,
+            node_name: NodeNameFilter$inboundSchema,
+          }),
+        ),
       ),
-    ),
-    sample_rate: types.number(),
-    llm_scorers: z._default(types.boolean(), false),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "sample_rate": "sampleRate",
-      "llm_scorers": "llmScorers",
-    });
-  }),
+      sample_rate: types.number(),
+      llm_scorers: z._default(types.boolean(), false),
+      multimodal_scorers: z._default(types.boolean(), false),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "sample_rate": "sampleRate",
+        "llm_scorers": "llmScorers",
+        "multimodal_scorers": "multimodalScorers",
+      });
+    }),
+  )
 );
 /** @internal */
 export type SegmentFilter$Outbound = {
@@ -134,32 +146,37 @@ export type SegmentFilter$Outbound = {
     | undefined;
   sample_rate: number;
   llm_scorers: boolean;
+  multimodal_scorers: boolean;
 };
 
 /** @internal */
 export const SegmentFilter$outboundSchema: z.ZodMiniType<
   SegmentFilter$Outbound,
   SegmentFilter
-> = z.pipe(
-  z.object({
-    filter: z.optional(
-      z.nullable(
-        z.union([
-          MetadataFilter$outboundSchema,
-          ModalityFilter$outboundSchema,
-          NodeNameFilter$outboundSchema,
-        ]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      filter: z.optional(
+        z.nullable(
+          z.union([
+            MetadataFilter$outboundSchema,
+            ModalityFilter$outboundSchema,
+            NodeNameFilter$outboundSchema,
+          ]),
+        ),
       ),
-    ),
-    sampleRate: z.number(),
-    llmScorers: z._default(z.boolean(), false),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      sampleRate: "sample_rate",
-      llmScorers: "llm_scorers",
-    });
-  }),
+      sampleRate: z.number(),
+      llmScorers: z._default(z.boolean(), false),
+      multimodalScorers: z._default(z.boolean(), false),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        sampleRate: "sample_rate",
+        llmScorers: "llm_scorers",
+        multimodalScorers: "multimodal_scorers",
+      });
+    }),
+  )
 );
 
 export function segmentFilterToJSON(segmentFilter: SegmentFilter): string {

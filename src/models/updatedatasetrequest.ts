@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { smartUnion } from "../types/smartUnion.js";
 import {
   ColumnMapping,
@@ -28,7 +29,9 @@ export type UpdateDatasetRequestName$Outbound = Name$Outbound | string;
 export const UpdateDatasetRequestName$outboundSchema: z.ZodMiniType<
   UpdateDatasetRequestName$Outbound,
   UpdateDatasetRequestName
-> = smartUnion([Name$outboundSchema, z.string()]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([Name$outboundSchema, z.string()])
+);
 
 export function updateDatasetRequestNameToJSON(
   updateDatasetRequestName: UpdateDatasetRequestName,
@@ -49,17 +52,21 @@ export type UpdateDatasetRequest$Outbound = {
 export const UpdateDatasetRequest$outboundSchema: z.ZodMiniType<
   UpdateDatasetRequest$Outbound,
   UpdateDatasetRequest
-> = z.pipe(
-  z.object({
-    name: z.optional(z.nullable(smartUnion([Name$outboundSchema, z.string()]))),
-    columnMapping: z.optional(z.nullable(ColumnMapping$outboundSchema)),
-    draft: z.optional(z.nullable(z.literal(false))),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      columnMapping: "column_mapping",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: z.optional(
+        z.nullable(smartUnion([Name$outboundSchema, z.string()])),
+      ),
+      columnMapping: z.optional(z.nullable(ColumnMapping$outboundSchema)),
+      draft: z.optional(z.nullable(z.literal(false))),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        columnMapping: "column_mapping",
+      });
+    }),
+  )
 );
 
 export function updateDatasetRequestToJSON(

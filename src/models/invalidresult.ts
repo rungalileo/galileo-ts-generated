@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -13,23 +13,30 @@ import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 export type InvalidResult = {
   resultType: "invalid";
   errorMessage: string;
+  errorCode?: "environment_preparing" | null | undefined;
 };
 
 /** @internal */
 export const InvalidResult$inboundSchema: z.ZodMiniType<
   InvalidResult,
   unknown
-> = z.pipe(
-  z.object({
-    result_type: z._default(types.literal("invalid"), "invalid"),
-    error_message: types.string(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "result_type": "resultType",
-      "error_message": "errorMessage",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      result_type: z._default(types.literal("invalid"), "invalid"),
+      error_message: types.string(),
+      error_code: z.optional(
+        z.nullable(types.literal("environment_preparing")),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "result_type": "resultType",
+        "error_message": "errorMessage",
+        "error_code": "errorCode",
+      });
+    }),
+  )
 );
 
 export function invalidResultFromJSON(

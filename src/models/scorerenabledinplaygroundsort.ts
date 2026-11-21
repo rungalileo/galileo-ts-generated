@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type ScorerEnabledInPlaygroundSort = {
   name: "enabled_in_playground";
@@ -25,18 +26,20 @@ export type ScorerEnabledInPlaygroundSort$Outbound = {
 export const ScorerEnabledInPlaygroundSort$outboundSchema: z.ZodMiniType<
   ScorerEnabledInPlaygroundSort$Outbound,
   ScorerEnabledInPlaygroundSort
-> = z.pipe(
-  z.object({
-    name: z.literal("enabled_in_playground"),
-    ascending: z._default(z.boolean(), true),
-    sortType: z._default(z.literal("custom_uuid"), "custom_uuid" as const),
-    value: z.string(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      sortType: "sort_type",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: z.literal("enabled_in_playground"),
+      ascending: z._default(z.boolean(), true),
+      sortType: z._default(z.literal("custom_uuid"), "custom_uuid" as const),
+      value: z.string(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        sortType: "sort_type",
+      });
+    }),
+  )
 );
 
 export function scorerEnabledInPlaygroundSortToJSON(

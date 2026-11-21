@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { smartUnion } from "../types/smartUnion.js";
 import {
   GalileoCoreSchemasSharedMessageMessage,
@@ -41,10 +42,12 @@ export type BasePromptTemplateVersionTemplate$Outbound =
 export const BasePromptTemplateVersionTemplate$outboundSchema: z.ZodMiniType<
   BasePromptTemplateVersionTemplate$Outbound,
   BasePromptTemplateVersionTemplate
-> = smartUnion([
-  z.string(),
-  z.array(GalileoCoreSchemasSharedMessageMessage$outboundSchema),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    z.string(),
+    z.array(GalileoCoreSchemasSharedMessageMessage$outboundSchema),
+  ])
+);
 
 export function basePromptTemplateVersionTemplateToJSON(
   basePromptTemplateVersionTemplate: BasePromptTemplateVersionTemplate,
@@ -69,22 +72,24 @@ export type BasePromptTemplateVersion$Outbound = {
 export const BasePromptTemplateVersion$outboundSchema: z.ZodMiniType<
   BasePromptTemplateVersion$Outbound,
   BasePromptTemplateVersion
-> = z.pipe(
-  z.object({
-    template: smartUnion([
-      z.string(),
-      z.array(GalileoCoreSchemasSharedMessageMessage$outboundSchema),
-    ]),
-    raw: z._default(z.boolean(), false),
-    version: z.optional(z.nullable(z.int())),
-    settings: z.optional(PromptRunSettings$outboundSchema),
-    outputType: z.optional(z.nullable(z.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      outputType: "output_type",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      template: smartUnion([
+        z.string(),
+        z.array(GalileoCoreSchemasSharedMessageMessage$outboundSchema),
+      ]),
+      raw: z._default(z.boolean(), false),
+      version: z.optional(z.nullable(z.int())),
+      settings: z.optional(PromptRunSettings$outboundSchema),
+      outputType: z.optional(z.nullable(z.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        outputType: "output_type",
+      });
+    }),
+  )
 );
 
 export function basePromptTemplateVersionToJSON(

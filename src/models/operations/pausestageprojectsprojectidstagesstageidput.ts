@@ -5,23 +5,26 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../../lib/schemas.js";
 import * as models from "../index.js";
 
 export type PauseStageProjectsProjectIdStagesStageIdPutSecurity = {
   apiKeyHeader?: string | undefined;
+  classicAPIKeyHeader?: string | undefined;
   oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
   httpBasic?: models.SchemeHTTPBasic | undefined;
 };
 
 export type PauseStageProjectsProjectIdStagesStageIdPutRequest = {
-  stageId: string;
   projectId: string;
+  stageId: string;
   pause?: boolean | undefined;
 };
 
 /** @internal */
 export type PauseStageProjectsProjectIdStagesStageIdPutSecurity$Outbound = {
   APIKeyHeader?: string | undefined;
+  ClassicAPIKeyHeader?: string | undefined;
   OAuth2PasswordBearer?: models.OAuth2PasswordBearerInput$Outbound | undefined;
   HTTPBasic?: models.SchemeHTTPBasic$Outbound | undefined;
 };
@@ -31,21 +34,25 @@ export const PauseStageProjectsProjectIdStagesStageIdPutSecurity$outboundSchema:
   z.ZodMiniType<
     PauseStageProjectsProjectIdStagesStageIdPutSecurity$Outbound,
     PauseStageProjectsProjectIdStagesStageIdPutSecurity
-  > = z.pipe(
-    z.object({
-      apiKeyHeader: z.optional(z.string()),
-      oAuth2PasswordBearer: z.optional(
-        models.OAuth2PasswordBearerInput$outboundSchema,
-      ),
-      httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        apiKeyHeader: "APIKeyHeader",
-        oAuth2PasswordBearer: "OAuth2PasswordBearer",
-        httpBasic: "HTTPBasic",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        apiKeyHeader: z.optional(z.string()),
+        classicAPIKeyHeader: z.optional(z.string()),
+        oAuth2PasswordBearer: z.optional(
+          models.OAuth2PasswordBearerInput$outboundSchema,
+        ),
+        httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          apiKeyHeader: "APIKeyHeader",
+          classicAPIKeyHeader: "ClassicAPIKeyHeader",
+          oAuth2PasswordBearer: "OAuth2PasswordBearer",
+          httpBasic: "HTTPBasic",
+        });
+      }),
+    )
   );
 
 export function pauseStageProjectsProjectIdStagesStageIdPutSecurityToJSON(
@@ -61,8 +68,8 @@ export function pauseStageProjectsProjectIdStagesStageIdPutSecurityToJSON(
 
 /** @internal */
 export type PauseStageProjectsProjectIdStagesStageIdPutRequest$Outbound = {
-  stage_id: string;
   project_id: string;
+  stage_id: string;
   pause: boolean;
 };
 
@@ -71,18 +78,20 @@ export const PauseStageProjectsProjectIdStagesStageIdPutRequest$outboundSchema:
   z.ZodMiniType<
     PauseStageProjectsProjectIdStagesStageIdPutRequest$Outbound,
     PauseStageProjectsProjectIdStagesStageIdPutRequest
-  > = z.pipe(
-    z.object({
-      stageId: z.string(),
-      projectId: z.string(),
-      pause: z._default(z.boolean(), false),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        stageId: "stage_id",
-        projectId: "project_id",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        projectId: z.string(),
+        stageId: z.string(),
+        pause: z._default(z.boolean(), false),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          projectId: "project_id",
+          stageId: "stage_id",
+        });
+      }),
+    )
   );
 
 export function pauseStageProjectsProjectIdStagesStageIdPutRequestToJSON(

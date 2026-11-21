@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -49,29 +49,31 @@ export type LogTraceUpdateResponse = {
 export const LogTraceUpdateResponse$inboundSchema: z.ZodMiniType<
   LogTraceUpdateResponse,
   unknown
-> = z.pipe(
-  z.object({
-    log_stream_id: z.optional(z.nullable(types.string())),
-    experiment_id: z.optional(z.nullable(types.string())),
-    metrics_testing_id: z.optional(z.nullable(types.string())),
-    project_id: types.string(),
-    project_name: types.string(),
-    session_id: z.optional(z.nullable(types.string())),
-    records_count: types.number(),
-    trace_id: types.string(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "log_stream_id": "logStreamId",
-      "experiment_id": "experimentId",
-      "metrics_testing_id": "metricsTestingId",
-      "project_id": "projectId",
-      "project_name": "projectName",
-      "session_id": "sessionId",
-      "records_count": "recordsCount",
-      "trace_id": "traceId",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      log_stream_id: z.optional(z.nullable(types.string())),
+      experiment_id: z.optional(z.nullable(types.string())),
+      metrics_testing_id: z.optional(z.nullable(types.string())),
+      project_id: types.string(),
+      project_name: types.string(),
+      session_id: z.optional(z.nullable(types.string())),
+      records_count: types.number(),
+      trace_id: types.string(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "log_stream_id": "logStreamId",
+        "experiment_id": "experimentId",
+        "metrics_testing_id": "metricsTestingId",
+        "project_id": "projectId",
+        "project_name": "projectName",
+        "session_id": "sessionId",
+        "records_count": "recordsCount",
+        "trace_id": "traceId",
+      });
+    }),
+  )
 );
 
 export function logTraceUpdateResponseFromJSON(

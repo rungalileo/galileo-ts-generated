@@ -4,7 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -24,10 +24,12 @@ export type AzureModelDeployment = {
 export const AzureModelDeployment$inboundSchema: z.ZodMiniType<
   AzureModelDeployment,
   unknown
-> = z.object({
-  model: types.string(),
-  id: types.string(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    model: types.string(),
+    id: types.string(),
+  })
+);
 /** @internal */
 export type AzureModelDeployment$Outbound = {
   model: string;
@@ -38,10 +40,12 @@ export type AzureModelDeployment$Outbound = {
 export const AzureModelDeployment$outboundSchema: z.ZodMiniType<
   AzureModelDeployment$Outbound,
   AzureModelDeployment
-> = z.object({
-  model: z.string(),
-  id: z.string(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    model: z.string(),
+    id: z.string(),
+  })
+);
 
 export function azureModelDeploymentToJSON(
   azureModelDeployment: AzureModelDeployment,

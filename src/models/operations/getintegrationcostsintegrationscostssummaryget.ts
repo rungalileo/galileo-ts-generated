@@ -5,11 +5,14 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../../lib/schemas.js";
 import * as models from "../index.js";
 
 export type GetIntegrationCostsIntegrationsCostsSummaryGetSecurity = {
   apiKeyHeader?: string | undefined;
+  classicAPIKeyHeader?: string | undefined;
   oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
+  httpBasic?: models.SchemeHTTPBasic | undefined;
 };
 
 export type GetIntegrationCostsIntegrationsCostsSummaryGetRequest = {
@@ -25,12 +28,22 @@ export type GetIntegrationCostsIntegrationsCostsSummaryGetRequest = {
    * Aggregation interval
    */
   interval: models.CostInterval;
+  /**
+   * Optional project filter
+   */
+  projectId?: string | null | undefined;
+  /**
+   * Optional run / agent stream filter
+   */
+  runId?: string | null | undefined;
 };
 
 /** @internal */
 export type GetIntegrationCostsIntegrationsCostsSummaryGetSecurity$Outbound = {
   APIKeyHeader?: string | undefined;
+  ClassicAPIKeyHeader?: string | undefined;
   OAuth2PasswordBearer?: models.OAuth2PasswordBearerInput$Outbound | undefined;
+  HTTPBasic?: models.SchemeHTTPBasic$Outbound | undefined;
 };
 
 /** @internal */
@@ -38,19 +51,25 @@ export const GetIntegrationCostsIntegrationsCostsSummaryGetSecurity$outboundSche
   z.ZodMiniType<
     GetIntegrationCostsIntegrationsCostsSummaryGetSecurity$Outbound,
     GetIntegrationCostsIntegrationsCostsSummaryGetSecurity
-  > = z.pipe(
-    z.object({
-      apiKeyHeader: z.optional(z.string()),
-      oAuth2PasswordBearer: z.optional(
-        models.OAuth2PasswordBearerInput$outboundSchema,
-      ),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        apiKeyHeader: "APIKeyHeader",
-        oAuth2PasswordBearer: "OAuth2PasswordBearer",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        apiKeyHeader: z.optional(z.string()),
+        classicAPIKeyHeader: z.optional(z.string()),
+        oAuth2PasswordBearer: z.optional(
+          models.OAuth2PasswordBearerInput$outboundSchema,
+        ),
+        httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          apiKeyHeader: "APIKeyHeader",
+          classicAPIKeyHeader: "ClassicAPIKeyHeader",
+          oAuth2PasswordBearer: "OAuth2PasswordBearer",
+          httpBasic: "HTTPBasic",
+        });
+      }),
+    )
   );
 
 export function getIntegrationCostsIntegrationsCostsSummaryGetSecurityToJSON(
@@ -69,6 +88,8 @@ export type GetIntegrationCostsIntegrationsCostsSummaryGetRequest$Outbound = {
   start_time: string;
   end_time: string;
   interval: string;
+  project_id?: string | null | undefined;
+  run_id?: string | null | undefined;
 };
 
 /** @internal */
@@ -76,18 +97,24 @@ export const GetIntegrationCostsIntegrationsCostsSummaryGetRequest$outboundSchem
   z.ZodMiniType<
     GetIntegrationCostsIntegrationsCostsSummaryGetRequest$Outbound,
     GetIntegrationCostsIntegrationsCostsSummaryGetRequest
-  > = z.pipe(
-    z.object({
-      startTime: z.pipe(z.date(), z.transform(v => v.toISOString())),
-      endTime: z.pipe(z.date(), z.transform(v => v.toISOString())),
-      interval: models.CostInterval$outboundSchema,
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        startTime: "start_time",
-        endTime: "end_time",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        startTime: z.pipe(z.date(), z.transform(v => v.toISOString())),
+        endTime: z.pipe(z.date(), z.transform(v => v.toISOString())),
+        interval: models.CostInterval$outboundSchema,
+        projectId: z.optional(z.nullable(z.string())),
+        runId: z.optional(z.nullable(z.string())),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          startTime: "start_time",
+          endTime: "end_time",
+          projectId: "project_id",
+          runId: "run_id",
+        });
+      }),
+    )
   );
 
 export function getIntegrationCostsIntegrationsCostsSummaryGetRequestToJSON(

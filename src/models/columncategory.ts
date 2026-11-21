@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
@@ -23,4 +24,4 @@ export type ColumnCategory = OpenEnum<typeof ColumnCategory>;
 export const ColumnCategory$inboundSchema: z.ZodMiniType<
   ColumnCategory,
   unknown
-> = openEnums.inboundSchema(ColumnCategory);
+> = /* @__PURE__ */ lazySchema$(() => openEnums.inboundSchema(ColumnCategory));

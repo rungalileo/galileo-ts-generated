@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
 import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import { Result as SafeParseResult } from "../types/fp.js";
@@ -65,11 +65,13 @@ export type InstructionAdherenceScorer = {
 export const InstructionAdherenceScorerFilter$inboundSchema: z.ZodMiniType<
   InstructionAdherenceScorerFilter,
   unknown
-> = discriminatedUnion("name", {
-  metadata: MetadataFilter$inboundSchema,
-  modality: ModalityFilter$inboundSchema,
-  node_name: NodeNameFilter$inboundSchema,
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  discriminatedUnion("name", {
+    metadata: MetadataFilter$inboundSchema,
+    modality: ModalityFilter$inboundSchema,
+    node_name: NodeNameFilter$inboundSchema,
+  })
+);
 /** @internal */
 export type InstructionAdherenceScorerFilter$Outbound =
   | MetadataFilter$Outbound
@@ -80,11 +82,13 @@ export type InstructionAdherenceScorerFilter$Outbound =
 export const InstructionAdherenceScorerFilter$outboundSchema: z.ZodMiniType<
   InstructionAdherenceScorerFilter$Outbound,
   InstructionAdherenceScorerFilter
-> = z.union([
-  MetadataFilter$outboundSchema,
-  ModalityFilter$outboundSchema,
-  NodeNameFilter$outboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    MetadataFilter$outboundSchema,
+    ModalityFilter$outboundSchema,
+    NodeNameFilter$outboundSchema,
+  ])
+);
 
 export function instructionAdherenceScorerFilterToJSON(
   instructionAdherenceScorerFilter: InstructionAdherenceScorerFilter,
@@ -109,30 +113,32 @@ export function instructionAdherenceScorerFilterFromJSON(
 export const InstructionAdherenceScorer$inboundSchema: z.ZodMiniType<
   InstructionAdherenceScorer,
   unknown
-> = z.pipe(
-  z.object({
-    name: types.literal("instruction_adherence"),
-    filters: z.optional(
-      z.nullable(
-        z.array(
-          discriminatedUnion("name", {
-            metadata: MetadataFilter$inboundSchema,
-            modality: ModalityFilter$inboundSchema,
-            node_name: NodeNameFilter$inboundSchema,
-          }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: types.literal("instruction_adherence"),
+      filters: z.optional(
+        z.nullable(
+          z.array(
+            discriminatedUnion("name", {
+              metadata: MetadataFilter$inboundSchema,
+              modality: ModalityFilter$inboundSchema,
+              node_name: NodeNameFilter$inboundSchema,
+            }),
+          ),
         ),
       ),
-    ),
-    type: z._default(types.literal("plus"), "plus"),
-    model_name: z.optional(z.nullable(types.string())),
-    num_judges: z.optional(z.nullable(types.number())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "model_name": "modelName",
-      "num_judges": "numJudges",
-    });
-  }),
+      type: z._default(types.literal("plus"), "plus"),
+      model_name: z.optional(z.nullable(types.string())),
+      num_judges: z.optional(z.nullable(types.number())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "model_name": "modelName",
+        "num_judges": "numJudges",
+      });
+    }),
+  )
 );
 /** @internal */
 export type InstructionAdherenceScorer$Outbound = {
@@ -154,30 +160,32 @@ export type InstructionAdherenceScorer$Outbound = {
 export const InstructionAdherenceScorer$outboundSchema: z.ZodMiniType<
   InstructionAdherenceScorer$Outbound,
   InstructionAdherenceScorer
-> = z.pipe(
-  z.object({
-    name: z.literal("instruction_adherence"),
-    filters: z.optional(
-      z.nullable(
-        z.array(
-          z.union([
-            MetadataFilter$outboundSchema,
-            ModalityFilter$outboundSchema,
-            NodeNameFilter$outboundSchema,
-          ]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: z.literal("instruction_adherence"),
+      filters: z.optional(
+        z.nullable(
+          z.array(
+            z.union([
+              MetadataFilter$outboundSchema,
+              ModalityFilter$outboundSchema,
+              NodeNameFilter$outboundSchema,
+            ]),
+          ),
         ),
       ),
-    ),
-    type: z._default(z.literal("plus"), "plus" as const),
-    modelName: z.optional(z.nullable(z.string())),
-    numJudges: z.optional(z.nullable(z.int())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      modelName: "model_name",
-      numJudges: "num_judges",
-    });
-  }),
+      type: z._default(z.literal("plus"), "plus" as const),
+      modelName: z.optional(z.nullable(z.string())),
+      numJudges: z.optional(z.nullable(z.int())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        modelName: "model_name",
+        numJudges: "num_judges",
+      });
+    }),
+  )
 );
 
 export function instructionAdherenceScorerToJSON(

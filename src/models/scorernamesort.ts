@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type ScorerNameSort = {
   name: "name";
@@ -23,17 +24,19 @@ export type ScorerNameSort$Outbound = {
 export const ScorerNameSort$outboundSchema: z.ZodMiniType<
   ScorerNameSort$Outbound,
   ScorerNameSort
-> = z.pipe(
-  z.object({
-    name: z.literal("name"),
-    ascending: z._default(z.boolean(), true),
-    sortType: z._default(z.literal("column"), "column" as const),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      sortType: "sort_type",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: z.literal("name"),
+      ascending: z._default(z.boolean(), true),
+      sortType: z._default(z.literal("column"), "column" as const),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        sortType: "sort_type",
+      });
+    }),
+  )
 );
 
 export function scorerNameSortToJSON(scorerNameSort: ScorerNameSort): string {

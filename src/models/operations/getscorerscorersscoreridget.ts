@@ -5,21 +5,28 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../../lib/schemas.js";
 import * as models from "../index.js";
 
 export type GetScorerScorersScorerIdGetSecurity = {
   apiKeyHeader?: string | undefined;
+  classicAPIKeyHeader?: string | undefined;
   oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
   httpBasic?: models.SchemeHTTPBasic | undefined;
 };
 
 export type GetScorerScorersScorerIdGetRequest = {
   scorerId: string;
+  /**
+   * Actions to include in the 'permissions' field of the scorer.
+   */
+  actions?: Array<models.ScorerAction> | undefined;
 };
 
 /** @internal */
 export type GetScorerScorersScorerIdGetSecurity$Outbound = {
   APIKeyHeader?: string | undefined;
+  ClassicAPIKeyHeader?: string | undefined;
   OAuth2PasswordBearer?: models.OAuth2PasswordBearerInput$Outbound | undefined;
   HTTPBasic?: models.SchemeHTTPBasic$Outbound | undefined;
 };
@@ -28,21 +35,25 @@ export type GetScorerScorersScorerIdGetSecurity$Outbound = {
 export const GetScorerScorersScorerIdGetSecurity$outboundSchema: z.ZodMiniType<
   GetScorerScorersScorerIdGetSecurity$Outbound,
   GetScorerScorersScorerIdGetSecurity
-> = z.pipe(
-  z.object({
-    apiKeyHeader: z.optional(z.string()),
-    oAuth2PasswordBearer: z.optional(
-      models.OAuth2PasswordBearerInput$outboundSchema,
-    ),
-    httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      apiKeyHeader: "APIKeyHeader",
-      oAuth2PasswordBearer: "OAuth2PasswordBearer",
-      httpBasic: "HTTPBasic",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      apiKeyHeader: z.optional(z.string()),
+      classicAPIKeyHeader: z.optional(z.string()),
+      oAuth2PasswordBearer: z.optional(
+        models.OAuth2PasswordBearerInput$outboundSchema,
+      ),
+      httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        apiKeyHeader: "APIKeyHeader",
+        classicAPIKeyHeader: "ClassicAPIKeyHeader",
+        oAuth2PasswordBearer: "OAuth2PasswordBearer",
+        httpBasic: "HTTPBasic",
+      });
+    }),
+  )
 );
 
 export function getScorerScorersScorerIdGetSecurityToJSON(
@@ -58,21 +69,25 @@ export function getScorerScorersScorerIdGetSecurityToJSON(
 /** @internal */
 export type GetScorerScorersScorerIdGetRequest$Outbound = {
   scorer_id: string;
+  actions?: Array<string> | undefined;
 };
 
 /** @internal */
 export const GetScorerScorersScorerIdGetRequest$outboundSchema: z.ZodMiniType<
   GetScorerScorersScorerIdGetRequest$Outbound,
   GetScorerScorersScorerIdGetRequest
-> = z.pipe(
-  z.object({
-    scorerId: z.string(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      scorerId: "scorer_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      scorerId: z.string(),
+      actions: z.optional(z.array(models.ScorerAction$outboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        scorerId: "scorer_id",
+      });
+    }),
+  )
 );
 
 export function getScorerScorersScorerIdGetRequestToJSON(

@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type StringData = {
   inputStrings: Array<string>;
@@ -19,15 +20,17 @@ export type StringData$Outbound = {
 export const StringData$outboundSchema: z.ZodMiniType<
   StringData$Outbound,
   StringData
-> = z.pipe(
-  z.object({
-    inputStrings: z.array(z.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      inputStrings: "input_strings",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      inputStrings: z.array(z.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        inputStrings: "input_strings",
+      });
+    }),
+  )
 );
 
 export function stringDataToJSON(stringData: StringData): string {

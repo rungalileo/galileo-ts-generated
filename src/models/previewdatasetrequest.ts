@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   ColumnMapping,
   ColumnMapping$Outbound,
@@ -24,15 +25,17 @@ export type PreviewDatasetRequest$Outbound = {
 export const PreviewDatasetRequest$outboundSchema: z.ZodMiniType<
   PreviewDatasetRequest$Outbound,
   PreviewDatasetRequest
-> = z.pipe(
-  z.object({
-    columnMapping: z.optional(z.nullable(ColumnMapping$outboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      columnMapping: "column_mapping",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      columnMapping: z.optional(z.nullable(ColumnMapping$outboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        columnMapping: "column_mapping",
+      });
+    }),
+  )
 );
 
 export function previewDatasetRequestToJSON(

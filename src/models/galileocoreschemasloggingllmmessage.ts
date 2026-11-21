@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
 import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import { Result as SafeParseResult } from "../types/fp.js";
@@ -63,10 +63,12 @@ export type GalileoCoreSchemasLoggingLlmMessage = {
 /** @internal */
 export const GalileoCoreSchemasLoggingLlmMessageContent1$inboundSchema:
   z.ZodMiniType<GalileoCoreSchemasLoggingLlmMessageContent1, unknown> =
-    discriminatedUnion("type", {
-      file: FileContentPart$inboundSchema,
-      text: TextContentPart$inboundSchema,
-    });
+    /* @__PURE__ */ lazySchema$(() =>
+      discriminatedUnion("type", {
+        file: FileContentPart$inboundSchema,
+        text: TextContentPart$inboundSchema,
+      })
+    );
 /** @internal */
 export type GalileoCoreSchemasLoggingLlmMessageContent1$Outbound =
   | FileContentPart$Outbound
@@ -77,7 +79,9 @@ export const GalileoCoreSchemasLoggingLlmMessageContent1$outboundSchema:
   z.ZodMiniType<
     GalileoCoreSchemasLoggingLlmMessageContent1$Outbound,
     GalileoCoreSchemasLoggingLlmMessageContent1
-  > = z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]);
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema])
+  );
 
 export function galileoCoreSchemasLoggingLlmMessageContent1ToJSON(
   galileoCoreSchemasLoggingLlmMessageContent1:
@@ -108,15 +112,17 @@ export function galileoCoreSchemasLoggingLlmMessageContent1FromJSON(
 /** @internal */
 export const GalileoCoreSchemasLoggingLlmMessageContent2$inboundSchema:
   z.ZodMiniType<GalileoCoreSchemasLoggingLlmMessageContent2, unknown> =
-    smartUnion([
-      types.string(),
-      z.array(
-        discriminatedUnion("type", {
-          file: FileContentPart$inboundSchema,
-          text: TextContentPart$inboundSchema,
-        }),
-      ),
-    ]);
+    /* @__PURE__ */ lazySchema$(() =>
+      smartUnion([
+        types.string(),
+        z.array(
+          discriminatedUnion("type", {
+            file: FileContentPart$inboundSchema,
+            text: TextContentPart$inboundSchema,
+          }),
+        ),
+      ])
+    );
 /** @internal */
 export type GalileoCoreSchemasLoggingLlmMessageContent2$Outbound =
   | string
@@ -127,12 +133,17 @@ export const GalileoCoreSchemasLoggingLlmMessageContent2$outboundSchema:
   z.ZodMiniType<
     GalileoCoreSchemasLoggingLlmMessageContent2$Outbound,
     GalileoCoreSchemasLoggingLlmMessageContent2
-  > = smartUnion([
-    z.string(),
-    z.array(
-      z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
-    ),
-  ]);
+  > = /* @__PURE__ */ lazySchema$(() =>
+    smartUnion([
+      z.string(),
+      z.array(
+        z.union([
+          FileContentPart$outboundSchema,
+          TextContentPart$outboundSchema,
+        ]),
+      ),
+    ])
+  );
 
 export function galileoCoreSchemasLoggingLlmMessageContent2ToJSON(
   galileoCoreSchemasLoggingLlmMessageContent2:
@@ -164,27 +175,29 @@ export function galileoCoreSchemasLoggingLlmMessageContent2FromJSON(
 export const GalileoCoreSchemasLoggingLlmMessage$inboundSchema: z.ZodMiniType<
   GalileoCoreSchemasLoggingLlmMessage,
   unknown
-> = z.pipe(
-  z.object({
-    content: smartUnion([
-      types.string(),
-      z.array(
-        discriminatedUnion("type", {
-          file: FileContentPart$inboundSchema,
-          text: TextContentPart$inboundSchema,
-        }),
-      ),
-    ]),
-    role: GalileoCoreSchemasLoggingLlmMessageRole$inboundSchema,
-    tool_call_id: z.optional(z.nullable(types.string())),
-    tool_calls: z.optional(z.nullable(z.array(ToolCall$inboundSchema))),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "tool_call_id": "toolCallId",
-      "tool_calls": "toolCalls",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      content: smartUnion([
+        types.string(),
+        z.array(
+          discriminatedUnion("type", {
+            file: FileContentPart$inboundSchema,
+            text: TextContentPart$inboundSchema,
+          }),
+        ),
+      ]),
+      role: GalileoCoreSchemasLoggingLlmMessageRole$inboundSchema,
+      tool_call_id: z.optional(z.nullable(types.string())),
+      tool_calls: z.optional(z.nullable(z.array(ToolCall$inboundSchema))),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "tool_call_id": "toolCallId",
+        "tool_calls": "toolCalls",
+      });
+    }),
+  )
 );
 /** @internal */
 export type GalileoCoreSchemasLoggingLlmMessage$Outbound = {
@@ -198,27 +211,29 @@ export type GalileoCoreSchemasLoggingLlmMessage$Outbound = {
 export const GalileoCoreSchemasLoggingLlmMessage$outboundSchema: z.ZodMiniType<
   GalileoCoreSchemasLoggingLlmMessage$Outbound,
   GalileoCoreSchemasLoggingLlmMessage
-> = z.pipe(
-  z.object({
-    content: smartUnion([
-      z.string(),
-      z.array(
-        z.union([
-          FileContentPart$outboundSchema,
-          TextContentPart$outboundSchema,
-        ]),
-      ),
-    ]),
-    role: GalileoCoreSchemasLoggingLlmMessageRole$outboundSchema,
-    toolCallId: z.optional(z.nullable(z.string())),
-    toolCalls: z.optional(z.nullable(z.array(ToolCall$outboundSchema))),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      toolCallId: "tool_call_id",
-      toolCalls: "tool_calls",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      content: smartUnion([
+        z.string(),
+        z.array(
+          z.union([
+            FileContentPart$outboundSchema,
+            TextContentPart$outboundSchema,
+          ]),
+        ),
+      ]),
+      role: GalileoCoreSchemasLoggingLlmMessageRole$outboundSchema,
+      toolCallId: z.optional(z.nullable(z.string())),
+      toolCalls: z.optional(z.nullable(z.array(ToolCall$outboundSchema))),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        toolCallId: "tool_call_id",
+        toolCalls: "tool_calls",
+      });
+    }),
+  )
 );
 
 export function galileoCoreSchemasLoggingLlmMessageToJSON(

@@ -4,7 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -29,10 +29,12 @@ export type SubscriptionConfig = {
 export const SubscriptionConfig$inboundSchema: z.ZodMiniType<
   SubscriptionConfig,
   unknown
-> = z.object({
-  statuses: types.optional(z.array(ExecutionStatus$inboundSchema)),
-  url: types.string(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    statuses: types.optional(z.array(ExecutionStatus$inboundSchema)),
+    url: types.string(),
+  })
+);
 /** @internal */
 export type SubscriptionConfig$Outbound = {
   statuses?: Array<string> | undefined;
@@ -43,10 +45,12 @@ export type SubscriptionConfig$Outbound = {
 export const SubscriptionConfig$outboundSchema: z.ZodMiniType<
   SubscriptionConfig$Outbound,
   SubscriptionConfig
-> = z.object({
-  statuses: z.optional(z.array(ExecutionStatus$outboundSchema)),
-  url: z.string(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    statuses: z.optional(z.array(ExecutionStatus$outboundSchema)),
+    url: z.string(),
+  })
+);
 
 export function subscriptionConfigToJSON(
   subscriptionConfig: SubscriptionConfig,

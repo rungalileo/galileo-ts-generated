@@ -4,7 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import {
@@ -41,10 +41,12 @@ export type MetricColorPickerCategorical = {
 export const MetricColorPickerCategorical$inboundSchema: z.ZodMiniType<
   MetricColorPickerCategorical,
   unknown
-> = z.object({
-  type: types.literal("categorical"),
-  constraints: z.array(CategoricalColorConstraint$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    type: types.literal("categorical"),
+    constraints: z.array(CategoricalColorConstraint$inboundSchema),
+  })
+);
 /** @internal */
 export type MetricColorPickerCategorical$Outbound = {
   type: "categorical";
@@ -55,10 +57,12 @@ export type MetricColorPickerCategorical$Outbound = {
 export const MetricColorPickerCategorical$outboundSchema: z.ZodMiniType<
   MetricColorPickerCategorical$Outbound,
   MetricColorPickerCategorical
-> = z.object({
-  type: z.literal("categorical"),
-  constraints: z.array(CategoricalColorConstraint$outboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    type: z.literal("categorical"),
+    constraints: z.array(CategoricalColorConstraint$outboundSchema),
+  })
+);
 
 export function metricColorPickerCategoricalToJSON(
   metricColorPickerCategorical: MetricColorPickerCategorical,

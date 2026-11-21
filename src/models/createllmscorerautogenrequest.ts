@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   OutputTypeEnum,
   OutputTypeEnum$outboundSchema,
@@ -34,22 +35,24 @@ export type CreateLLMScorerAutogenRequest$Outbound = {
 export const CreateLLMScorerAutogenRequest$outboundSchema: z.ZodMiniType<
   CreateLLMScorerAutogenRequest$Outbound,
   CreateLLMScorerAutogenRequest
-> = z.pipe(
-  z.object({
-    instructions: z.string(),
-    modelName: z.string(),
-    outputType: OutputTypeEnum$outboundSchema,
-    cotEnabled: z.boolean(),
-    scoreableNodeTypes: z.array(z.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      modelName: "model_name",
-      outputType: "output_type",
-      cotEnabled: "cot_enabled",
-      scoreableNodeTypes: "scoreable_node_types",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      instructions: z.string(),
+      modelName: z.string(),
+      outputType: OutputTypeEnum$outboundSchema,
+      cotEnabled: z.boolean(),
+      scoreableNodeTypes: z.array(z.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        modelName: "model_name",
+        outputType: "output_type",
+        cotEnabled: "cot_enabled",
+        scoreableNodeTypes: "scoreable_node_types",
+      });
+    }),
+  )
 );
 
 export function createLLMScorerAutogenRequestToJSON(

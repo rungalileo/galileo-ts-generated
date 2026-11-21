@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -17,20 +17,22 @@ export type JobProgress = {
 };
 
 /** @internal */
-export const JobProgress$inboundSchema: z.ZodMiniType<JobProgress, unknown> = z
-  .pipe(
-    z.object({
-      progress_message: z.optional(z.nullable(types.string())),
-      steps_completed: z.optional(z.nullable(types.number())),
-      steps_total: z.optional(z.nullable(types.number())),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "progress_message": "progressMessage",
-        "steps_completed": "stepsCompleted",
-        "steps_total": "stepsTotal",
-      });
-    }),
+export const JobProgress$inboundSchema: z.ZodMiniType<JobProgress, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        progress_message: z.optional(z.nullable(types.string())),
+        steps_completed: z.optional(z.nullable(types.number())),
+        steps_total: z.optional(z.nullable(types.number())),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "progress_message": "progressMessage",
+          "steps_completed": "stepsCompleted",
+          "steps_total": "stepsTotal",
+        });
+      }),
+    )
   );
 
 export function jobProgressFromJSON(

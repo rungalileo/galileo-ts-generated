@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { smartUnion } from "../types/smartUnion.js";
@@ -37,10 +37,10 @@ export type MetricThreshold = {
 };
 
 /** @internal */
-export const Bucket$inboundSchema: z.ZodMiniType<Bucket, unknown> = smartUnion([
-  types.number(),
-  types.number(),
-]);
+export const Bucket$inboundSchema: z.ZodMiniType<Bucket, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    smartUnion([types.number(), types.number()])
+  );
 
 export function bucketFromJSON(
   jsonString: string,
@@ -56,19 +56,21 @@ export function bucketFromJSON(
 export const MetricThreshold$inboundSchema: z.ZodMiniType<
   MetricThreshold,
   unknown
-> = z.pipe(
-  z.object({
-    inverted: z._default(types.boolean(), false),
-    buckets: types.optional(
-      z.array(smartUnion([types.number(), types.number()])),
-    ),
-    display_value_levels: types.optional(z.array(types.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "display_value_levels": "displayValueLevels",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      inverted: z._default(types.boolean(), false),
+      buckets: types.optional(
+        z.array(smartUnion([types.number(), types.number()])),
+      ),
+      display_value_levels: types.optional(z.array(types.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "display_value_levels": "displayValueLevels",
+      });
+    }),
+  )
 );
 
 export function metricThresholdFromJSON(

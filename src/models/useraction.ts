@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
@@ -15,9 +16,11 @@ export const UserAction = {
   ChangeRoleToManager: "change_role_to_manager",
   ChangeRoleToUser: "change_role_to_user",
   ChangeRoleToReadOnly: "change_role_to_read_only",
+  ChangeRoleToOrgAnnotator: "change_role_to_org_annotator",
+  ChangeRoleToCapabilityBased: "change_role_to_capability_based",
 } as const;
 export type UserAction = OpenEnum<typeof UserAction>;
 
 /** @internal */
 export const UserAction$inboundSchema: z.ZodMiniType<UserAction, unknown> =
-  openEnums.inboundSchema(UserAction);
+  /* @__PURE__ */ lazySchema$(() => openEnums.inboundSchema(UserAction));

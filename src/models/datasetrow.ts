@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { smartUnion } from "../types/smartUnion.js";
@@ -49,7 +49,9 @@ export type DatasetRow = {
 export const DatasetRowValue1$inboundSchema: z.ZodMiniType<
   DatasetRowValue1,
   unknown
-> = smartUnion([types.string(), types.number(), types.number()]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([types.string(), types.number(), types.number()])
+);
 
 export function datasetRowValue1FromJSON(
   jsonString: string,
@@ -65,17 +67,19 @@ export function datasetRowValue1FromJSON(
 export const DatasetRowValue2$inboundSchema: z.ZodMiniType<
   DatasetRowValue2,
   unknown
-> = smartUnion([
-  types.string(),
-  types.number(),
-  types.number(),
-  z.record(
-    z.string(),
-    types.nullable(
-      smartUnion([types.string(), types.number(), types.number()]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    types.string(),
+    types.number(),
+    types.number(),
+    z.record(
+      z.string(),
+      types.nullable(
+        smartUnion([types.string(), types.number(), types.number()]),
+      ),
     ),
-  ),
-]);
+  ])
+);
 
 export function datasetRowValue2FromJSON(
   jsonString: string,
@@ -89,7 +93,9 @@ export function datasetRowValue2FromJSON(
 
 /** @internal */
 export const ValuesDict1$inboundSchema: z.ZodMiniType<ValuesDict1, unknown> =
-  smartUnion([types.string(), types.number(), types.number()]);
+  /* @__PURE__ */ lazySchema$(() =>
+    smartUnion([types.string(), types.number(), types.number()])
+  );
 
 export function valuesDict1FromJSON(
   jsonString: string,
@@ -103,17 +109,19 @@ export function valuesDict1FromJSON(
 
 /** @internal */
 export const ValuesDict2$inboundSchema: z.ZodMiniType<ValuesDict2, unknown> =
-  smartUnion([
-    types.string(),
-    types.number(),
-    types.number(),
-    z.record(
-      z.string(),
-      types.nullable(
-        smartUnion([types.string(), types.number(), types.number()]),
+  /* @__PURE__ */ lazySchema$(() =>
+    smartUnion([
+      types.string(),
+      types.number(),
+      types.number(),
+      z.record(
+        z.string(),
+        types.nullable(
+          smartUnion([types.string(), types.number(), types.number()]),
+        ),
       ),
-    ),
-  ]);
+    ])
+  );
 
 export function valuesDict2FromJSON(
   jsonString: string,
@@ -126,50 +134,52 @@ export function valuesDict2FromJSON(
 }
 
 /** @internal */
-export const DatasetRow$inboundSchema: z.ZodMiniType<DatasetRow, unknown> = z
-  .pipe(
-    z.object({
-      row_id: types.string(),
-      index: types.number(),
-      values: z.array(
-        types.nullable(
-          smartUnion([
-            types.string(),
-            types.number(),
-            types.number(),
-            z.record(
-              z.string(),
-              types.nullable(
-                smartUnion([types.string(), types.number(), types.number()]),
+export const DatasetRow$inboundSchema: z.ZodMiniType<DatasetRow, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        row_id: types.string(),
+        index: types.number(),
+        values: z.array(
+          types.nullable(
+            smartUnion([
+              types.string(),
+              types.number(),
+              types.number(),
+              z.record(
+                z.string(),
+                types.nullable(
+                  smartUnion([types.string(), types.number(), types.number()]),
+                ),
               ),
-            ),
-          ]),
+            ]),
+          ),
         ),
-      ),
-      values_dict: z.record(
-        z.string(),
-        types.nullable(
-          smartUnion([
-            types.string(),
-            types.number(),
-            types.number(),
-            z.record(
-              z.string(),
-              types.nullable(
-                smartUnion([types.string(), types.number(), types.number()]),
+        values_dict: z.record(
+          z.string(),
+          types.nullable(
+            smartUnion([
+              types.string(),
+              types.number(),
+              types.number(),
+              z.record(
+                z.string(),
+                types.nullable(
+                  smartUnion([types.string(), types.number(), types.number()]),
+                ),
               ),
-            ),
-          ]),
+            ]),
+          ),
         ),
-      ),
-      metadata: types.nullable(DatasetRowMetadata$inboundSchema),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "row_id": "rowId",
-        "values_dict": "valuesDict",
-      });
-    }),
+        metadata: types.nullable(DatasetRowMetadata$inboundSchema),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "row_id": "rowId",
+          "values_dict": "valuesDict",
+        });
+      }),
+    )
   );
 
 export function datasetRowFromJSON(

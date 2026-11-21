@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   MetricAggregation,
   MetricAggregation$outboundSchema,
@@ -33,17 +34,19 @@ export type MetricAggregationDetail$Outbound = {
 export const MetricAggregationDetail$outboundSchema: z.ZodMiniType<
   MetricAggregationDetail$Outbound,
   MetricAggregationDetail
-> = z.pipe(
-  z.object({
-    id: z.string(),
-    metricName: z.string(),
-    aggregation: MetricAggregation$outboundSchema,
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      metricName: "metric_name",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: z.string(),
+      metricName: z.string(),
+      aggregation: MetricAggregation$outboundSchema,
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        metricName: "metric_name",
+      });
+    }),
+  )
 );
 
 export function metricAggregationDetailToJSON(

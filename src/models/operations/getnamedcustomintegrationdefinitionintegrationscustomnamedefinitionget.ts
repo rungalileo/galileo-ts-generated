@@ -5,12 +5,15 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../../lib/schemas.js";
 import * as models from "../index.js";
 
 export type GetNamedCustomIntegrationDefinitionIntegrationsCustomNameDefinitionGetSecurity =
   {
     apiKeyHeader?: string | undefined;
+    classicAPIKeyHeader?: string | undefined;
     oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
+    httpBasic?: models.SchemeHTTPBasic | undefined;
   };
 
 export type GetNamedCustomIntegrationDefinitionIntegrationsCustomNameDefinitionGetRequest =
@@ -25,9 +28,11 @@ export type GetNamedCustomIntegrationDefinitionIntegrationsCustomNameDefinitionG
 export type GetNamedCustomIntegrationDefinitionIntegrationsCustomNameDefinitionGetSecurity$Outbound =
   {
     APIKeyHeader?: string | undefined;
+    ClassicAPIKeyHeader?: string | undefined;
     OAuth2PasswordBearer?:
       | models.OAuth2PasswordBearerInput$Outbound
       | undefined;
+    HTTPBasic?: models.SchemeHTTPBasic$Outbound | undefined;
   };
 
 /** @internal */
@@ -35,19 +40,25 @@ export const GetNamedCustomIntegrationDefinitionIntegrationsCustomNameDefinition
   z.ZodMiniType<
     GetNamedCustomIntegrationDefinitionIntegrationsCustomNameDefinitionGetSecurity$Outbound,
     GetNamedCustomIntegrationDefinitionIntegrationsCustomNameDefinitionGetSecurity
-  > = z.pipe(
-    z.object({
-      apiKeyHeader: z.optional(z.string()),
-      oAuth2PasswordBearer: z.optional(
-        models.OAuth2PasswordBearerInput$outboundSchema,
-      ),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        apiKeyHeader: "APIKeyHeader",
-        oAuth2PasswordBearer: "OAuth2PasswordBearer",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        apiKeyHeader: z.optional(z.string()),
+        classicAPIKeyHeader: z.optional(z.string()),
+        oAuth2PasswordBearer: z.optional(
+          models.OAuth2PasswordBearerInput$outboundSchema,
+        ),
+        httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          apiKeyHeader: "APIKeyHeader",
+          classicAPIKeyHeader: "ClassicAPIKeyHeader",
+          oAuth2PasswordBearer: "OAuth2PasswordBearer",
+          httpBasic: "HTTPBasic",
+        });
+      }),
+    )
   );
 
 export function getNamedCustomIntegrationDefinitionIntegrationsCustomNameDefinitionGetSecurityToJSON(
@@ -73,9 +84,11 @@ export const GetNamedCustomIntegrationDefinitionIntegrationsCustomNameDefinition
   z.ZodMiniType<
     GetNamedCustomIntegrationDefinitionIntegrationsCustomNameDefinitionGetRequest$Outbound,
     GetNamedCustomIntegrationDefinitionIntegrationsCustomNameDefinitionGetRequest
-  > = z.object({
-    name: z.string(),
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      name: z.string(),
+    })
+  );
 
 export function getNamedCustomIntegrationDefinitionIntegrationsCustomNameDefinitionGetRequestToJSON(
   getNamedCustomIntegrationDefinitionIntegrationsCustomNameDefinitionGetRequest:

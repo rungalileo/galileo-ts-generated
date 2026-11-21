@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { smartUnion } from "../types/smartUnion.js";
 import {
   AndNodeAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType,
@@ -51,20 +52,22 @@ export const NotNodeAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecor
   z.ZodMiniType<
     NotNodeAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$Outbound,
     NotNodeAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType
-  > = z.object({
-    not: smartUnion([
-      FilterLeafAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$outboundSchema,
-      z.lazy(() =>
-        AndNodeAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$outboundSchema
-      ),
-      z.lazy(() =>
-        OrNodeAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$outboundSchema
-      ),
-      z.lazy(() =>
-        NotNodeAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$outboundSchema
-      ),
-    ]),
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      not: smartUnion([
+        FilterLeafAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$outboundSchema,
+        z.lazy(() =>
+          AndNodeAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$outboundSchema
+        ),
+        z.lazy(() =>
+          OrNodeAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$outboundSchema
+        ),
+        z.lazy(() =>
+          NotNodeAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$outboundSchema
+        ),
+      ]),
+    })
+  );
 
 export function notNodeAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorTypeToJSON(
   notNodeAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType:
@@ -86,18 +89,21 @@ export type Not$Outbound =
   | NotNodeAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$Outbound;
 
 /** @internal */
-export const Not$outboundSchema: z.ZodMiniType<Not$Outbound, Not> = smartUnion([
-  FilterLeafAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$outboundSchema,
-  z.lazy(() =>
-    AndNodeAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$outboundSchema
-  ),
-  z.lazy(() =>
-    OrNodeAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$outboundSchema
-  ),
-  z.lazy(() =>
-    NotNodeAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$outboundSchema
-  ),
-]);
+export const Not$outboundSchema: z.ZodMiniType<Not$Outbound, Not> =
+  /* @__PURE__ */ lazySchema$(() =>
+    smartUnion([
+      FilterLeafAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$outboundSchema,
+      z.lazy(() =>
+        AndNodeAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$outboundSchema
+      ),
+      z.lazy(() =>
+        OrNodeAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$outboundSchema
+      ),
+      z.lazy(() =>
+        NotNodeAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$outboundSchema
+      ),
+    ])
+  );
 
 export function notToJSON(not: Not): string {
   return JSON.stringify(Not$outboundSchema.parse(not));

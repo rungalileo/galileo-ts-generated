@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type IntegrationDisableRequest = {
   integrationName: string;
@@ -19,15 +20,17 @@ export type IntegrationDisableRequest$Outbound = {
 export const IntegrationDisableRequest$outboundSchema: z.ZodMiniType<
   IntegrationDisableRequest$Outbound,
   IntegrationDisableRequest
-> = z.pipe(
-  z.object({
-    integrationName: z.string(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      integrationName: "integration_name",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      integrationName: z.string(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        integrationName: "integration_name",
+      });
+    }),
+  )
 );
 
 export function integrationDisableRequestToJSON(

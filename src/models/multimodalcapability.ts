@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
@@ -17,9 +18,13 @@ export type MultimodalCapability = OpenEnum<typeof MultimodalCapability>;
 export const MultimodalCapability$inboundSchema: z.ZodMiniType<
   MultimodalCapability,
   unknown
-> = openEnums.inboundSchema(MultimodalCapability);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(MultimodalCapability)
+);
 /** @internal */
 export const MultimodalCapability$outboundSchema: z.ZodMiniType<
   string,
   MultimodalCapability
-> = openEnums.outboundSchema(MultimodalCapability);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.outboundSchema(MultimodalCapability)
+);

@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { smartUnion } from "../types/smartUnion.js";
 import {
   GalileoCoreSchemasSharedMessageMessage,
@@ -54,10 +55,12 @@ export const CreatePromptTemplateWithVersionRequestBodyTemplate$outboundSchema:
   z.ZodMiniType<
     CreatePromptTemplateWithVersionRequestBodyTemplate$Outbound,
     CreatePromptTemplateWithVersionRequestBodyTemplate
-  > = smartUnion([
-    z.string(),
-    z.array(GalileoCoreSchemasSharedMessageMessage$outboundSchema),
-  ]);
+  > = /* @__PURE__ */ lazySchema$(() =>
+    smartUnion([
+      z.string(),
+      z.array(GalileoCoreSchemasSharedMessageMessage$outboundSchema),
+    ])
+  );
 
 export function createPromptTemplateWithVersionRequestBodyTemplateToJSON(
   createPromptTemplateWithVersionRequestBodyTemplate:
@@ -80,7 +83,9 @@ export const CreatePromptTemplateWithVersionRequestBodyName$outboundSchema:
   z.ZodMiniType<
     CreatePromptTemplateWithVersionRequestBodyName$Outbound,
     CreatePromptTemplateWithVersionRequestBodyName
-  > = smartUnion([Name$outboundSchema, z.string()]);
+  > = /* @__PURE__ */ lazySchema$(() =>
+    smartUnion([Name$outboundSchema, z.string()])
+  );
 
 export function createPromptTemplateWithVersionRequestBodyNameToJSON(
   createPromptTemplateWithVersionRequestBodyName:
@@ -109,24 +114,26 @@ export const CreatePromptTemplateWithVersionRequestBody$outboundSchema:
   z.ZodMiniType<
     CreatePromptTemplateWithVersionRequestBody$Outbound,
     CreatePromptTemplateWithVersionRequestBody
-  > = z.pipe(
-    z.object({
-      template: smartUnion([
-        z.string(),
-        z.array(GalileoCoreSchemasSharedMessageMessage$outboundSchema),
-      ]),
-      raw: z._default(z.boolean(), false),
-      version: z.optional(z.nullable(z.int())),
-      settings: z.optional(PromptRunSettings$outboundSchema),
-      outputType: z.optional(z.nullable(z.string())),
-      name: smartUnion([Name$outboundSchema, z.string()]),
-      hidden: z._default(z.boolean(), false),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        outputType: "output_type",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        template: smartUnion([
+          z.string(),
+          z.array(GalileoCoreSchemasSharedMessageMessage$outboundSchema),
+        ]),
+        raw: z._default(z.boolean(), false),
+        version: z.optional(z.nullable(z.int())),
+        settings: z.optional(PromptRunSettings$outboundSchema),
+        outputType: z.optional(z.nullable(z.string())),
+        name: smartUnion([Name$outboundSchema, z.string()]),
+        hidden: z._default(z.boolean(), false),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          outputType: "output_type",
+        });
+      }),
+    )
   );
 
 export function createPromptTemplateWithVersionRequestBodyToJSON(

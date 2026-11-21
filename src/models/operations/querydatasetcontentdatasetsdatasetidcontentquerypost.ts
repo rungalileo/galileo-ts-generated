@@ -5,10 +5,14 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
+import { Result as SafeParseResult } from "../../types/fp.js";
+import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
 
 export type QueryDatasetContentDatasetsDatasetIdContentQueryPostSecurity = {
   apiKeyHeader?: string | undefined;
+  classicAPIKeyHeader?: string | undefined;
   oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
   httpBasic?: models.SchemeHTTPBasic | undefined;
 };
@@ -20,10 +24,16 @@ export type QueryDatasetContentDatasetsDatasetIdContentQueryPostRequest = {
   body?: models.QueryDatasetParams | undefined;
 };
 
+export type QueryDatasetContentDatasetsDatasetIdContentQueryPostResponse = {
+  headers: { [k: string]: Array<string> };
+  result: models.DatasetContent;
+};
+
 /** @internal */
 export type QueryDatasetContentDatasetsDatasetIdContentQueryPostSecurity$Outbound =
   {
     APIKeyHeader?: string | undefined;
+    ClassicAPIKeyHeader?: string | undefined;
     OAuth2PasswordBearer?:
       | models.OAuth2PasswordBearerInput$Outbound
       | undefined;
@@ -35,21 +45,25 @@ export const QueryDatasetContentDatasetsDatasetIdContentQueryPostSecurity$outbou
   z.ZodMiniType<
     QueryDatasetContentDatasetsDatasetIdContentQueryPostSecurity$Outbound,
     QueryDatasetContentDatasetsDatasetIdContentQueryPostSecurity
-  > = z.pipe(
-    z.object({
-      apiKeyHeader: z.optional(z.string()),
-      oAuth2PasswordBearer: z.optional(
-        models.OAuth2PasswordBearerInput$outboundSchema,
-      ),
-      httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        apiKeyHeader: "APIKeyHeader",
-        oAuth2PasswordBearer: "OAuth2PasswordBearer",
-        httpBasic: "HTTPBasic",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        apiKeyHeader: z.optional(z.string()),
+        classicAPIKeyHeader: z.optional(z.string()),
+        oAuth2PasswordBearer: z.optional(
+          models.OAuth2PasswordBearerInput$outboundSchema,
+        ),
+        httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          apiKeyHeader: "APIKeyHeader",
+          classicAPIKeyHeader: "ClassicAPIKeyHeader",
+          oAuth2PasswordBearer: "OAuth2PasswordBearer",
+          httpBasic: "HTTPBasic",
+        });
+      }),
+    )
   );
 
 export function queryDatasetContentDatasetsDatasetIdContentQueryPostSecurityToJSON(
@@ -76,19 +90,21 @@ export const QueryDatasetContentDatasetsDatasetIdContentQueryPostRequest$outboun
   z.ZodMiniType<
     QueryDatasetContentDatasetsDatasetIdContentQueryPostRequest$Outbound,
     QueryDatasetContentDatasetsDatasetIdContentQueryPostRequest
-  > = z.pipe(
-    z.object({
-      datasetId: z.string(),
-      startingToken: z._default(z.int(), 0),
-      limit: z._default(z.int(), 100),
-      body: z.optional(models.QueryDatasetParams$outboundSchema),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        datasetId: "dataset_id",
-        startingToken: "starting_token",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        datasetId: z.string(),
+        startingToken: z._default(z.int(), 0),
+        limit: z._default(z.int(), 100),
+        body: z.optional(models.QueryDatasetParams$outboundSchema),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          datasetId: "dataset_id",
+          startingToken: "starting_token",
+        });
+      }),
+    )
   );
 
 export function queryDatasetContentDatasetsDatasetIdContentQueryPostRequestToJSON(
@@ -98,5 +114,40 @@ export function queryDatasetContentDatasetsDatasetIdContentQueryPostRequestToJSO
   return JSON.stringify(
     QueryDatasetContentDatasetsDatasetIdContentQueryPostRequest$outboundSchema
       .parse(queryDatasetContentDatasetsDatasetIdContentQueryPostRequest),
+  );
+}
+
+/** @internal */
+export const QueryDatasetContentDatasetsDatasetIdContentQueryPostResponse$inboundSchema:
+  z.ZodMiniType<
+    QueryDatasetContentDatasetsDatasetIdContentQueryPostResponse,
+    unknown
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+        Result: models.DatasetContent$inboundSchema,
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "Headers": "headers",
+          "Result": "result",
+        });
+      }),
+    )
+  );
+
+export function queryDatasetContentDatasetsDatasetIdContentQueryPostResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  QueryDatasetContentDatasetsDatasetIdContentQueryPostResponse,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      QueryDatasetContentDatasetsDatasetIdContentQueryPostResponse$inboundSchema
+        .parse(JSON.parse(x)),
+    `Failed to parse 'QueryDatasetContentDatasetsDatasetIdContentQueryPostResponse' from JSON`,
   );
 }

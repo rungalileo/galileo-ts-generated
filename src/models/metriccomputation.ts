@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { smartUnion } from "../types/smartUnion.js";
@@ -44,7 +44,9 @@ export type MetricComputation = {
 export const MetricComputationValue2$inboundSchema: z.ZodMiniType<
   MetricComputationValue2,
   unknown
-> = smartUnion([types.number(), types.number(), types.string()]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([types.number(), types.number(), types.string()])
+);
 
 export function metricComputationValue2FromJSON(
   jsonString: string,
@@ -60,7 +62,9 @@ export function metricComputationValue2FromJSON(
 export const MetricComputationValue1$inboundSchema: z.ZodMiniType<
   MetricComputationValue1,
   unknown
-> = smartUnion([types.number(), types.number(), types.string()]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([types.number(), types.number(), types.string()])
+);
 
 export function metricComputationValue1FromJSON(
   jsonString: string,
@@ -76,22 +80,24 @@ export function metricComputationValue1FromJSON(
 export const MetricComputationValue3$inboundSchema: z.ZodMiniType<
   MetricComputationValue3,
   unknown
-> = smartUnion([
-  types.number(),
-  types.number(),
-  types.string(),
-  z.array(
-    types.nullable(
-      smartUnion([types.number(), types.number(), types.string()]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    types.number(),
+    types.number(),
+    types.string(),
+    z.array(
+      types.nullable(
+        smartUnion([types.number(), types.number(), types.string()]),
+      ),
     ),
-  ),
-  z.record(
-    z.string(),
-    types.nullable(
-      smartUnion([types.number(), types.number(), types.string()]),
+    z.record(
+      z.string(),
+      types.nullable(
+        smartUnion([types.number(), types.number(), types.string()]),
+      ),
     ),
-  ),
-]);
+  ])
+);
 
 export function metricComputationValue3FromJSON(
   jsonString: string,
@@ -107,38 +113,40 @@ export function metricComputationValue3FromJSON(
 export const MetricComputation$inboundSchema: z.ZodMiniType<
   MetricComputation,
   unknown
-> = z.pipe(
-  z.object({
-    value: z.optional(
-      z.nullable(
-        smartUnion([
-          types.number(),
-          types.number(),
-          types.string(),
-          z.array(
-            types.nullable(
-              smartUnion([types.number(), types.number(), types.string()]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      value: z.optional(
+        z.nullable(
+          smartUnion([
+            types.number(),
+            types.number(),
+            types.string(),
+            z.array(
+              types.nullable(
+                smartUnion([types.number(), types.number(), types.string()]),
+              ),
             ),
-          ),
-          z.record(
-            z.string(),
-            types.nullable(
-              smartUnion([types.number(), types.number(), types.string()]),
+            z.record(
+              z.string(),
+              types.nullable(
+                smartUnion([types.number(), types.number(), types.string()]),
+              ),
             ),
-          ),
-        ]),
+          ]),
+        ),
       ),
-    ),
-    execution_time: z.optional(z.nullable(types.number())),
-    status: z.optional(z.nullable(MetricComputationStatus$inboundSchema)),
-    error_message: z.optional(z.nullable(types.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "execution_time": "executionTime",
-      "error_message": "errorMessage",
-    });
-  }),
+      execution_time: z.optional(z.nullable(types.number())),
+      status: z.optional(z.nullable(MetricComputationStatus$inboundSchema)),
+      error_message: z.optional(z.nullable(types.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "execution_time": "executionTime",
+        "error_message": "errorMessage",
+      });
+    }),
+  )
 );
 
 export function metricComputationFromJSON(

@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 import { smartUnion } from "../types/smartUnion.js";
 
@@ -12,6 +13,7 @@ export const ScorerNameFilterOperator = {
   Eq: "eq",
   Ne: "ne",
   Contains: "contains",
+  Regex: "regex",
   OneOf: "one_of",
   NotIn: "not_in",
 } as const;
@@ -31,7 +33,7 @@ export type ScorerNameFilter = {
 /** @internal */
 export const ScorerNameFilterOperator$outboundSchema: z.ZodMiniEnum<
   typeof ScorerNameFilterOperator
-> = z.enum(ScorerNameFilterOperator);
+> = /* @__PURE__ */ lazySchema$(() => z.enum(ScorerNameFilterOperator));
 
 /** @internal */
 export type ScorerNameFilterValue$Outbound = string | Array<string>;
@@ -40,7 +42,9 @@ export type ScorerNameFilterValue$Outbound = string | Array<string>;
 export const ScorerNameFilterValue$outboundSchema: z.ZodMiniType<
   ScorerNameFilterValue$Outbound,
   ScorerNameFilterValue
-> = smartUnion([z.string(), z.array(z.string())]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([z.string(), z.array(z.string())])
+);
 
 export function scorerNameFilterValueToJSON(
   scorerNameFilterValue: ScorerNameFilterValue,
@@ -62,18 +66,20 @@ export type ScorerNameFilter$Outbound = {
 export const ScorerNameFilter$outboundSchema: z.ZodMiniType<
   ScorerNameFilter$Outbound,
   ScorerNameFilter
-> = z.pipe(
-  z.object({
-    name: z.literal("name"),
-    operator: ScorerNameFilterOperator$outboundSchema,
-    value: smartUnion([z.string(), z.array(z.string())]),
-    caseSensitive: z._default(z.boolean(), false),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      caseSensitive: "case_sensitive",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: z.literal("name"),
+      operator: ScorerNameFilterOperator$outboundSchema,
+      value: smartUnion([z.string(), z.array(z.string())]),
+      caseSensitive: z._default(z.boolean(), false),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        caseSensitive: "case_sensitive",
+      });
+    }),
+  )
 );
 
 export function scorerNameFilterToJSON(

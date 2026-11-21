@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { smartUnion } from "../types/smartUnion.js";
@@ -24,12 +24,14 @@ export type FeedbackRatingInfo = {
 export const FeedbackRatingInfoValue$inboundSchema: z.ZodMiniType<
   FeedbackRatingInfoValue,
   unknown
-> = smartUnion([
-  types.boolean(),
-  types.number(),
-  types.string(),
-  z.array(types.string()),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    types.boolean(),
+    types.number(),
+    types.string(),
+    z.array(types.string()),
+  ])
+);
 
 export function feedbackRatingInfoValueFromJSON(
   jsonString: string,
@@ -45,22 +47,24 @@ export function feedbackRatingInfoValueFromJSON(
 export const FeedbackRatingInfo$inboundSchema: z.ZodMiniType<
   FeedbackRatingInfo,
   unknown
-> = z.pipe(
-  z.object({
-    feedback_type: FeedbackType$inboundSchema,
-    value: smartUnion([
-      types.boolean(),
-      types.number(),
-      types.string(),
-      z.array(types.string()),
-    ]),
-    explanation: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "feedback_type": "feedbackType",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      feedback_type: FeedbackType$inboundSchema,
+      value: smartUnion([
+        types.boolean(),
+        types.number(),
+        types.string(),
+        z.array(types.string()),
+      ]),
+      explanation: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "feedback_type": "feedbackType",
+      });
+    }),
+  )
 );
 
 export function feedbackRatingInfoFromJSON(

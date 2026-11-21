@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { smartUnion } from "../types/smartUnion.js";
 import { AgentType, AgentType$outboundSchema } from "./agenttype.js";
 import {
@@ -18,10 +19,10 @@ import {
   ControlSpan$outboundSchema,
 } from "./controlspan.js";
 import {
-  Document,
-  Document$Outbound,
-  Document$outboundSchema,
-} from "./document.js";
+  DocumentInput,
+  DocumentInput$Outbound,
+  DocumentInput$outboundSchema,
+} from "./documentinput.js";
 import {
   FileContentPart,
   FileContentPart$Outbound,
@@ -32,6 +33,11 @@ import {
   GalileoCoreSchemasLoggingLlmMessage$Outbound,
   GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
 } from "./galileocoreschemasloggingllmmessage.js";
+import {
+  HttpSpan,
+  HttpSpan$Outbound,
+  HttpSpan$outboundSchema,
+} from "./httpspan.js";
 import {
   LlmSpan,
   LlmSpan$Outbound,
@@ -92,7 +98,7 @@ export type AgentSpanOutput2 =
   | GalileoCoreSchemasLoggingLlmMessage
   | ControlResult
   | string
-  | Array<Document>
+  | Array<DocumentInput>
   | Array<FileContentPart | TextContentPart>;
 
 export type AgentSpanRedactedOutput1 = FileContentPart | TextContentPart;
@@ -104,7 +110,7 @@ export type AgentSpanRedactedOutput2 =
   | GalileoCoreSchemasLoggingLlmMessage
   | ControlResult
   | string
-  | Array<Document>
+  | Array<DocumentInput>
   | Array<FileContentPart | TextContentPart>;
 
 export type AgentSpan = {
@@ -136,7 +142,7 @@ export type AgentSpan = {
     | GalileoCoreSchemasLoggingLlmMessage
     | ControlResult
     | string
-    | Array<Document>
+    | Array<DocumentInput>
     | Array<FileContentPart | TextContentPart>
     | null
     | undefined;
@@ -147,7 +153,7 @@ export type AgentSpan = {
     | GalileoCoreSchemasLoggingLlmMessage
     | ControlResult
     | string
-    | Array<Document>
+    | Array<DocumentInput>
     | Array<FileContentPart | TextContentPart>
     | null
     | undefined;
@@ -215,6 +221,7 @@ export type AgentSpan = {
     | Array<
       | AgentSpan
       | ControlSpan
+      | HttpSpan
       | LlmSpan
       | RetrieverSpan
       | ToolSpan
@@ -222,11 +229,16 @@ export type AgentSpan = {
     >
     | undefined;
   agentType?: AgentType | undefined;
+  /**
+   * Name of the agent.
+   */
+  agentName?: string | null | undefined;
 };
 
 export type AgentSpanSpan =
   | AgentSpan
   | ControlSpan
+  | HttpSpan
   | LlmSpan
   | RetrieverSpan
   | ToolSpan
@@ -241,7 +253,9 @@ export type AgentSpanInput1$Outbound =
 export const AgentSpanInput1$outboundSchema: z.ZodMiniType<
   AgentSpanInput1$Outbound,
   AgentSpanInput1
-> = z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema])
+);
 
 export function agentSpanInput1ToJSON(
   agentSpanInput1: AgentSpanInput1,
@@ -259,13 +273,15 @@ export type AgentSpanInput2$Outbound =
 export const AgentSpanInput2$outboundSchema: z.ZodMiniType<
   AgentSpanInput2$Outbound,
   AgentSpanInput2
-> = smartUnion([
-  z.string(),
-  z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
-  z.array(
-    z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
-  ),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    z.string(),
+    z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
+    z.array(
+      z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
+    ),
+  ])
+);
 
 export function agentSpanInput2ToJSON(
   agentSpanInput2: AgentSpanInput2,
@@ -282,7 +298,9 @@ export type AgentSpanRedactedInput1$Outbound =
 export const AgentSpanRedactedInput1$outboundSchema: z.ZodMiniType<
   AgentSpanRedactedInput1$Outbound,
   AgentSpanRedactedInput1
-> = z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema])
+);
 
 export function agentSpanRedactedInput1ToJSON(
   agentSpanRedactedInput1: AgentSpanRedactedInput1,
@@ -302,13 +320,15 @@ export type AgentSpanRedactedInput2$Outbound =
 export const AgentSpanRedactedInput2$outboundSchema: z.ZodMiniType<
   AgentSpanRedactedInput2$Outbound,
   AgentSpanRedactedInput2
-> = smartUnion([
-  z.string(),
-  z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
-  z.array(
-    z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
-  ),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    z.string(),
+    z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
+    z.array(
+      z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
+    ),
+  ])
+);
 
 export function agentSpanRedactedInput2ToJSON(
   agentSpanRedactedInput2: AgentSpanRedactedInput2,
@@ -327,7 +347,9 @@ export type AgentSpanOutput1$Outbound =
 export const AgentSpanOutput1$outboundSchema: z.ZodMiniType<
   AgentSpanOutput1$Outbound,
   AgentSpanOutput1
-> = z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema])
+);
 
 export function agentSpanOutput1ToJSON(
   agentSpanOutput1: AgentSpanOutput1,
@@ -342,22 +364,24 @@ export type AgentSpanOutput2$Outbound =
   | GalileoCoreSchemasLoggingLlmMessage$Outbound
   | ControlResult$Outbound
   | string
-  | Array<Document$Outbound>
+  | Array<DocumentInput$Outbound>
   | Array<FileContentPart$Outbound | TextContentPart$Outbound>;
 
 /** @internal */
 export const AgentSpanOutput2$outboundSchema: z.ZodMiniType<
   AgentSpanOutput2$Outbound,
   AgentSpanOutput2
-> = smartUnion([
-  GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
-  ControlResult$outboundSchema,
-  z.string(),
-  z.array(Document$outboundSchema),
-  z.array(
-    z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
-  ),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
+    ControlResult$outboundSchema,
+    z.string(),
+    z.array(DocumentInput$outboundSchema),
+    z.array(
+      z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
+    ),
+  ])
+);
 
 export function agentSpanOutput2ToJSON(
   agentSpanOutput2: AgentSpanOutput2,
@@ -376,7 +400,9 @@ export type AgentSpanRedactedOutput1$Outbound =
 export const AgentSpanRedactedOutput1$outboundSchema: z.ZodMiniType<
   AgentSpanRedactedOutput1$Outbound,
   AgentSpanRedactedOutput1
-> = z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema])
+);
 
 export function agentSpanRedactedOutput1ToJSON(
   agentSpanRedactedOutput1: AgentSpanRedactedOutput1,
@@ -391,22 +417,24 @@ export type AgentSpanRedactedOutput2$Outbound =
   | GalileoCoreSchemasLoggingLlmMessage$Outbound
   | ControlResult$Outbound
   | string
-  | Array<Document$Outbound>
+  | Array<DocumentInput$Outbound>
   | Array<FileContentPart$Outbound | TextContentPart$Outbound>;
 
 /** @internal */
 export const AgentSpanRedactedOutput2$outboundSchema: z.ZodMiniType<
   AgentSpanRedactedOutput2$Outbound,
   AgentSpanRedactedOutput2
-> = smartUnion([
-  GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
-  ControlResult$outboundSchema,
-  z.string(),
-  z.array(Document$outboundSchema),
-  z.array(
-    z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
-  ),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
+    ControlResult$outboundSchema,
+    z.string(),
+    z.array(DocumentInput$outboundSchema),
+    z.array(
+      z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
+    ),
+  ])
+);
 
 export function agentSpanRedactedOutput2ToJSON(
   agentSpanRedactedOutput2: AgentSpanRedactedOutput2,
@@ -434,7 +462,7 @@ export type AgentSpan$Outbound = {
     | GalileoCoreSchemasLoggingLlmMessage$Outbound
     | ControlResult$Outbound
     | string
-    | Array<Document$Outbound>
+    | Array<DocumentInput$Outbound>
     | Array<FileContentPart$Outbound | TextContentPart$Outbound>
     | null
     | undefined;
@@ -442,7 +470,7 @@ export type AgentSpan$Outbound = {
     | GalileoCoreSchemasLoggingLlmMessage$Outbound
     | ControlResult$Outbound
     | string
-    | Array<Document$Outbound>
+    | Array<DocumentInput$Outbound>
     | Array<FileContentPart$Outbound | TextContentPart$Outbound>
     | null
     | undefined;
@@ -465,6 +493,7 @@ export type AgentSpan$Outbound = {
     | Array<
       | AgentSpan$Outbound
       | ControlSpan$Outbound
+      | HttpSpan$Outbound
       | LlmSpan$Outbound
       | RetrieverSpan$Outbound
       | ToolSpan$Outbound
@@ -472,29 +501,18 @@ export type AgentSpan$Outbound = {
     >
     | undefined;
   agent_type?: string | undefined;
+  agent_name?: string | null | undefined;
 };
 
 /** @internal */
 export const AgentSpan$outboundSchema: z.ZodMiniType<
   AgentSpan$Outbound,
   AgentSpan
-> = z.pipe(
-  z.object({
-    type: z.literal("agent"),
-    input: z.optional(
-      smartUnion([
-        z.string(),
-        z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
-        z.array(
-          z.union([
-            FileContentPart$outboundSchema,
-            TextContentPart$outboundSchema,
-          ]),
-        ),
-      ]),
-    ),
-    redactedInput: z.optional(
-      z.nullable(
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      type: z.literal("agent"),
+      input: z.optional(
         smartUnion([
           z.string(),
           z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
@@ -506,84 +524,105 @@ export const AgentSpan$outboundSchema: z.ZodMiniType<
           ),
         ]),
       ),
-    ),
-    output: z.optional(
-      z.nullable(
-        smartUnion([
-          GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
-          ControlResult$outboundSchema,
-          z.string(),
-          z.array(Document$outboundSchema),
-          z.array(
-            z.union([
-              FileContentPart$outboundSchema,
-              TextContentPart$outboundSchema,
-            ]),
+      redactedInput: z.optional(
+        z.nullable(
+          smartUnion([
+            z.string(),
+            z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
+            z.array(
+              z.union([
+                FileContentPart$outboundSchema,
+                TextContentPart$outboundSchema,
+              ]),
+            ),
+          ]),
+        ),
+      ),
+      output: z.optional(
+        z.nullable(
+          smartUnion([
+            GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
+            ControlResult$outboundSchema,
+            z.string(),
+            z.array(DocumentInput$outboundSchema),
+            z.array(
+              z.union([
+                FileContentPart$outboundSchema,
+                TextContentPart$outboundSchema,
+              ]),
+            ),
+          ]),
+        ),
+      ),
+      redactedOutput: z.optional(
+        z.nullable(
+          smartUnion([
+            GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
+            ControlResult$outboundSchema,
+            z.string(),
+            z.array(DocumentInput$outboundSchema),
+            z.array(
+              z.union([
+                FileContentPart$outboundSchema,
+                TextContentPart$outboundSchema,
+              ]),
+            ),
+          ]),
+        ),
+      ),
+      name: z._default(z.string(), ""),
+      createdAt: z.optional(
+        z.pipe(z.date(), z.transform(v => v.toISOString())),
+      ),
+      userMetadata: z.optional(z.record(z.string(), z.string())),
+      tags: z.optional(z.array(z.string())),
+      statusCode: z.optional(z.nullable(z.int())),
+      metrics: z.optional(Metrics$outboundSchema),
+      externalId: z.optional(z.nullable(z.string())),
+      datasetInput: z.optional(z.nullable(z.string())),
+      datasetOutput: z.optional(z.nullable(z.string())),
+      datasetMetadata: z.optional(z.record(z.string(), z.string())),
+      id: z.optional(z.nullable(z.string())),
+      sessionId: z.optional(z.nullable(z.string())),
+      traceId: z.optional(z.nullable(z.string())),
+      stepNumber: z.optional(z.nullable(z.int())),
+      parentId: z.optional(z.nullable(z.string())),
+      spans: z.optional(
+        z.array(z.union([
+          z.lazy(() => AgentSpan$outboundSchema),
+          ControlSpan$outboundSchema,
+          z.lazy(() => HttpSpan$outboundSchema),
+          LlmSpan$outboundSchema,
+          z.lazy(() => RetrieverSpan$outboundSchema),
+          z.lazy(() =>
+            ToolSpan$outboundSchema
           ),
-        ]),
+          z.lazy(() => WorkflowSpan$outboundSchema),
+        ])),
       ),
-    ),
-    redactedOutput: z.optional(
-      z.nullable(
-        smartUnion([
-          GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
-          ControlResult$outboundSchema,
-          z.string(),
-          z.array(Document$outboundSchema),
-          z.array(
-            z.union([
-              FileContentPart$outboundSchema,
-              TextContentPart$outboundSchema,
-            ]),
-          ),
-        ]),
-      ),
-    ),
-    name: z._default(z.string(), ""),
-    createdAt: z.optional(z.pipe(z.date(), z.transform(v => v.toISOString()))),
-    userMetadata: z.optional(z.record(z.string(), z.string())),
-    tags: z.optional(z.array(z.string())),
-    statusCode: z.optional(z.nullable(z.int())),
-    metrics: z.optional(Metrics$outboundSchema),
-    externalId: z.optional(z.nullable(z.string())),
-    datasetInput: z.optional(z.nullable(z.string())),
-    datasetOutput: z.optional(z.nullable(z.string())),
-    datasetMetadata: z.optional(z.record(z.string(), z.string())),
-    id: z.optional(z.nullable(z.string())),
-    sessionId: z.optional(z.nullable(z.string())),
-    traceId: z.optional(z.nullable(z.string())),
-    stepNumber: z.optional(z.nullable(z.int())),
-    parentId: z.optional(z.nullable(z.string())),
-    spans: z.optional(z.array(z.union([
-      z.lazy(() => AgentSpan$outboundSchema),
-      ControlSpan$outboundSchema,
-      LlmSpan$outboundSchema,
-      z.lazy(() => RetrieverSpan$outboundSchema),
-      z.lazy(() => ToolSpan$outboundSchema),
-      z.lazy(() =>
-        WorkflowSpan$outboundSchema
-      ),
-    ]))),
-    agentType: z.optional(AgentType$outboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      redactedInput: "redacted_input",
-      redactedOutput: "redacted_output",
-      createdAt: "created_at",
-      userMetadata: "user_metadata",
-      statusCode: "status_code",
-      externalId: "external_id",
-      datasetInput: "dataset_input",
-      datasetOutput: "dataset_output",
-      datasetMetadata: "dataset_metadata",
-      sessionId: "session_id",
-      traceId: "trace_id",
-      stepNumber: "step_number",
-      parentId: "parent_id",
-      agentType: "agent_type",
-    });
-  }),
+      agentType: z.optional(AgentType$outboundSchema),
+      agentName: z.optional(z.nullable(z.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        redactedInput: "redacted_input",
+        redactedOutput: "redacted_output",
+        createdAt: "created_at",
+        userMetadata: "user_metadata",
+        statusCode: "status_code",
+        externalId: "external_id",
+        datasetInput: "dataset_input",
+        datasetOutput: "dataset_output",
+        datasetMetadata: "dataset_metadata",
+        sessionId: "session_id",
+        traceId: "trace_id",
+        stepNumber: "step_number",
+        parentId: "parent_id",
+        agentType: "agent_type",
+        agentName: "agent_name",
+      });
+    }),
+  )
 );
 
 export function agentSpanToJSON(agentSpan: AgentSpan): string {
@@ -594,6 +633,7 @@ export function agentSpanToJSON(agentSpan: AgentSpan): string {
 export type AgentSpanSpan$Outbound =
   | AgentSpan$Outbound
   | ControlSpan$Outbound
+  | HttpSpan$Outbound
   | LlmSpan$Outbound
   | RetrieverSpan$Outbound
   | ToolSpan$Outbound
@@ -603,14 +643,17 @@ export type AgentSpanSpan$Outbound =
 export const AgentSpanSpan$outboundSchema: z.ZodMiniType<
   AgentSpanSpan$Outbound,
   AgentSpanSpan
-> = z.union([
-  z.lazy(() => AgentSpan$outboundSchema),
-  ControlSpan$outboundSchema,
-  LlmSpan$outboundSchema,
-  z.lazy(() => RetrieverSpan$outboundSchema),
-  z.lazy(() => ToolSpan$outboundSchema),
-  z.lazy(() => WorkflowSpan$outboundSchema),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    z.lazy(() => AgentSpan$outboundSchema),
+    ControlSpan$outboundSchema,
+    z.lazy(() => HttpSpan$outboundSchema),
+    LlmSpan$outboundSchema,
+    z.lazy(() => RetrieverSpan$outboundSchema),
+    z.lazy(() => ToolSpan$outboundSchema),
+    z.lazy(() => WorkflowSpan$outboundSchema),
+  ])
+);
 
 export function agentSpanSpanToJSON(agentSpanSpan: AgentSpanSpan): string {
   return JSON.stringify(AgentSpanSpan$outboundSchema.parse(agentSpanSpan));

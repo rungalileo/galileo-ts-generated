@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
@@ -12,6 +13,7 @@ export const CollaboratorRole = {
   Editor: "editor",
   Annotator: "annotator",
   Viewer: "viewer",
+  Custom: "custom",
 } as const;
 export type CollaboratorRole = OpenEnum<typeof CollaboratorRole>;
 
@@ -19,9 +21,13 @@ export type CollaboratorRole = OpenEnum<typeof CollaboratorRole>;
 export const CollaboratorRole$inboundSchema: z.ZodMiniType<
   CollaboratorRole,
   unknown
-> = openEnums.inboundSchema(CollaboratorRole);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(CollaboratorRole)
+);
 /** @internal */
 export const CollaboratorRole$outboundSchema: z.ZodMiniType<
   string,
   CollaboratorRole
-> = openEnums.outboundSchema(CollaboratorRole);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.outboundSchema(CollaboratorRole)
+);

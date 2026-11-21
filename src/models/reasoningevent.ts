@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { smartUnion } from "../types/smartUnion.js";
@@ -54,13 +54,17 @@ export type ReasoningEvent = {
 
 /** @internal */
 export const Summary$inboundSchema: z.ZodMiniType<Summary, unknown> =
-  smartUnion([types.string(), z.array(z.record(z.string(), z.any()))]);
+  /* @__PURE__ */ lazySchema$(() =>
+    smartUnion([types.string(), z.array(z.record(z.string(), z.any()))])
+  );
 /** @internal */
 export type Summary$Outbound = string | Array<{ [k: string]: any }>;
 
 /** @internal */
 export const Summary$outboundSchema: z.ZodMiniType<Summary$Outbound, Summary> =
-  smartUnion([z.string(), z.array(z.record(z.string(), z.any()))]);
+  /* @__PURE__ */ lazySchema$(() =>
+    smartUnion([z.string(), z.array(z.record(z.string(), z.any()))])
+  );
 
 export function summaryToJSON(summary: Summary): string {
   return JSON.stringify(Summary$outboundSchema.parse(summary));
@@ -79,25 +83,27 @@ export function summaryFromJSON(
 export const ReasoningEvent$inboundSchema: z.ZodMiniType<
   ReasoningEvent,
   unknown
-> = z.pipe(
-  z.object({
-    type: types.literal("reasoning"),
-    id: z.optional(z.nullable(types.string())),
-    status: z.optional(z.nullable(EventStatus$inboundSchema)),
-    metadata: z.optional(z.nullable(z.record(z.string(), z.any()))),
-    error_message: z.optional(z.nullable(types.string())),
-    content: z.optional(z.nullable(types.string())),
-    summary: z.optional(
-      z.nullable(
-        smartUnion([types.string(), z.array(z.record(z.string(), z.any()))]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      type: types.literal("reasoning"),
+      id: z.optional(z.nullable(types.string())),
+      status: z.optional(z.nullable(EventStatus$inboundSchema)),
+      metadata: z.optional(z.nullable(z.record(z.string(), z.any()))),
+      error_message: z.optional(z.nullable(types.string())),
+      content: z.optional(z.nullable(types.string())),
+      summary: z.optional(
+        z.nullable(
+          smartUnion([types.string(), z.array(z.record(z.string(), z.any()))]),
+        ),
       ),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "error_message": "errorMessage",
-    });
-  }),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "error_message": "errorMessage",
+      });
+    }),
+  )
 );
 /** @internal */
 export type ReasoningEvent$Outbound = {
@@ -114,25 +120,27 @@ export type ReasoningEvent$Outbound = {
 export const ReasoningEvent$outboundSchema: z.ZodMiniType<
   ReasoningEvent$Outbound,
   ReasoningEvent
-> = z.pipe(
-  z.object({
-    type: z.literal("reasoning"),
-    id: z.optional(z.nullable(z.string())),
-    status: z.optional(z.nullable(EventStatus$outboundSchema)),
-    metadata: z.optional(z.nullable(z.record(z.string(), z.any()))),
-    errorMessage: z.optional(z.nullable(z.string())),
-    content: z.optional(z.nullable(z.string())),
-    summary: z.optional(
-      z.nullable(
-        smartUnion([z.string(), z.array(z.record(z.string(), z.any()))]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      type: z.literal("reasoning"),
+      id: z.optional(z.nullable(z.string())),
+      status: z.optional(z.nullable(EventStatus$outboundSchema)),
+      metadata: z.optional(z.nullable(z.record(z.string(), z.any()))),
+      errorMessage: z.optional(z.nullable(z.string())),
+      content: z.optional(z.nullable(z.string())),
+      summary: z.optional(
+        z.nullable(
+          smartUnion([z.string(), z.array(z.record(z.string(), z.any()))]),
+        ),
       ),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      errorMessage: "error_message",
-    });
-  }),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        errorMessage: "error_message",
+      });
+    }),
+  )
 );
 
 export function reasoningEventToJSON(reasoningEvent: ReasoningEvent): string {

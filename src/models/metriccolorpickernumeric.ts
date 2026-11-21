@@ -4,7 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -43,10 +43,12 @@ export type MetricColorPickerNumeric = {
 export const MetricColorPickerNumeric$inboundSchema: z.ZodMiniType<
   MetricColorPickerNumeric,
   unknown
-> = z.object({
-  type: types.literal("numeric"),
-  constraints: z.array(NumericColorConstraint$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    type: types.literal("numeric"),
+    constraints: z.array(NumericColorConstraint$inboundSchema),
+  })
+);
 /** @internal */
 export type MetricColorPickerNumeric$Outbound = {
   type: "numeric";
@@ -57,10 +59,12 @@ export type MetricColorPickerNumeric$Outbound = {
 export const MetricColorPickerNumeric$outboundSchema: z.ZodMiniType<
   MetricColorPickerNumeric$Outbound,
   MetricColorPickerNumeric
-> = z.object({
-  type: z.literal("numeric"),
-  constraints: z.array(NumericColorConstraint$outboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    type: z.literal("numeric"),
+    constraints: z.array(NumericColorConstraint$outboundSchema),
+  })
+);
 
 export function metricColorPickerNumericToJSON(
   metricColorPickerNumeric: MetricColorPickerNumeric,

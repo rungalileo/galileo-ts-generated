@@ -5,15 +5,11 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { smartUnion } from "../types/smartUnion.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
-import {
-  GalileoCoreSchemasSharedScorersScorerNameScorerName,
-  GalileoCoreSchemasSharedScorersScorerNameScorerName$inboundSchema,
-} from "./galileocoreschemassharedscorersscorernamescorername.js";
 import {
   LunaInputTypeEnum,
   LunaInputTypeEnum$inboundSchema,
@@ -22,6 +18,7 @@ import {
   LunaOutputTypeEnum,
   LunaOutputTypeEnum$inboundSchema,
 } from "./lunaoutputtypeenum.js";
+import { ScorerName, ScorerName$inboundSchema } from "./scorername.js";
 
 export type FineTunedScorerResponseClassNameToVocabIx = {
   [k: string]: Array<number>;
@@ -43,10 +40,7 @@ export type FineTunedScorerResponse = {
   /**
    * Executor pipeline. Defaults to finetuned scorer pipeline but can run custom galileo score pipelines.
    */
-  executor?:
-    | GalileoCoreSchemasSharedScorersScorerNameScorerName
-    | null
-    | undefined;
+  executor?: ScorerName | null | undefined;
   createdAt: Date;
   updatedAt: Date;
   createdBy: string;
@@ -55,10 +49,12 @@ export type FineTunedScorerResponse = {
 /** @internal */
 export const FineTunedScorerResponseClassNameToVocabIx$inboundSchema:
   z.ZodMiniType<FineTunedScorerResponseClassNameToVocabIx, unknown> =
-    smartUnion([
-      z.record(z.string(), z.array(types.number())),
-      z.record(z.string(), types.number()),
-    ]);
+    /* @__PURE__ */ lazySchema$(() =>
+      smartUnion([
+        z.record(z.string(), z.array(types.number())),
+        z.record(z.string(), types.number()),
+      ])
+    );
 
 export function fineTunedScorerResponseClassNameToVocabIxFromJSON(
   jsonString: string,
@@ -80,44 +76,44 @@ export function fineTunedScorerResponseClassNameToVocabIxFromJSON(
 export const FineTunedScorerResponse$inboundSchema: z.ZodMiniType<
   FineTunedScorerResponse,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.string(),
-    name: types.string(),
-    lora_task_id: types.number(),
-    lora_weights_path: z.optional(z.nullable(types.string())),
-    prompt: types.string(),
-    luna_input_type: z.optional(z.nullable(LunaInputTypeEnum$inboundSchema)),
-    luna_output_type: z.optional(z.nullable(LunaOutputTypeEnum$inboundSchema)),
-    class_name_to_vocab_ix: z.optional(
-      z.nullable(
-        smartUnion([
-          z.record(z.string(), z.array(types.number())),
-          z.record(z.string(), types.number()),
-        ]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.string(),
+      name: types.string(),
+      lora_task_id: types.number(),
+      lora_weights_path: z.optional(z.nullable(types.string())),
+      prompt: types.string(),
+      luna_input_type: z.optional(z.nullable(LunaInputTypeEnum$inboundSchema)),
+      luna_output_type: z.optional(
+        z.nullable(LunaOutputTypeEnum$inboundSchema),
       ),
-    ),
-    executor: z.optional(
-      z.nullable(
-        GalileoCoreSchemasSharedScorersScorerNameScorerName$inboundSchema,
+      class_name_to_vocab_ix: z.optional(
+        z.nullable(
+          smartUnion([
+            z.record(z.string(), z.array(types.number())),
+            z.record(z.string(), types.number()),
+          ]),
+        ),
       ),
-    ),
-    created_at: types.date(),
-    updated_at: types.date(),
-    created_by: types.string(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "lora_task_id": "loraTaskId",
-      "lora_weights_path": "loraWeightsPath",
-      "luna_input_type": "lunaInputType",
-      "luna_output_type": "lunaOutputType",
-      "class_name_to_vocab_ix": "classNameToVocabIx",
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-      "created_by": "createdBy",
-    });
-  }),
+      executor: z.optional(z.nullable(ScorerName$inboundSchema)),
+      created_at: types.date(),
+      updated_at: types.date(),
+      created_by: types.string(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "lora_task_id": "loraTaskId",
+        "lora_weights_path": "loraWeightsPath",
+        "luna_input_type": "lunaInputType",
+        "luna_output_type": "lunaOutputType",
+        "class_name_to_vocab_ix": "classNameToVocabIx",
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+        "created_by": "createdBy",
+      });
+    }),
+  )
 );
 
 export function fineTunedScorerResponseFromJSON(

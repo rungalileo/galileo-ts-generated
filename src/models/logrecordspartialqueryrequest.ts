@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType,
   FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$Outbound,
@@ -70,6 +71,9 @@ export type LogRecordsPartialQueryRequestFilter =
  */
 export type LogRecordsPartialQueryRequest = {
   startingToken?: number | undefined;
+  /**
+   * Records per page, at most 1000. Page through larger result sets with starting_token or previous_last_row_id.
+   */
   limit?: number | undefined;
   previousLastRowId?: string | null | undefined;
   /**
@@ -84,6 +88,10 @@ export type LogRecordsPartialQueryRequest = {
    * Metrics testing id associated with the traces.
    */
   metricsTestingId?: string | null | undefined;
+  /**
+   * Assigned log view for restricted access.
+   */
+  accessViewId?: string | null | undefined;
   filters?:
     | Array<
       | LogRecordsBooleanFilter
@@ -129,15 +137,17 @@ export type LogRecordsPartialQueryRequestFilter$Outbound =
 export const LogRecordsPartialQueryRequestFilter$outboundSchema: z.ZodMiniType<
   LogRecordsPartialQueryRequestFilter$Outbound,
   LogRecordsPartialQueryRequestFilter
-> = z.union([
-  LogRecordsBooleanFilter$outboundSchema,
-  LogRecordsCollectionFilter$outboundSchema,
-  LogRecordsDateFilter$outboundSchema,
-  LogRecordsFullyAnnotatedFilter$outboundSchema,
-  LogRecordsIDFilter$outboundSchema,
-  LogRecordsNumberFilter$outboundSchema,
-  LogRecordsTextFilter$outboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    LogRecordsBooleanFilter$outboundSchema,
+    LogRecordsCollectionFilter$outboundSchema,
+    LogRecordsDateFilter$outboundSchema,
+    LogRecordsFullyAnnotatedFilter$outboundSchema,
+    LogRecordsIDFilter$outboundSchema,
+    LogRecordsNumberFilter$outboundSchema,
+    LogRecordsTextFilter$outboundSchema,
+  ])
+);
 
 export function logRecordsPartialQueryRequestFilterToJSON(
   logRecordsPartialQueryRequestFilter: LogRecordsPartialQueryRequestFilter,
@@ -157,6 +167,7 @@ export type LogRecordsPartialQueryRequest$Outbound = {
   log_stream_id?: string | null | undefined;
   experiment_id?: string | null | undefined;
   metrics_testing_id?: string | null | undefined;
+  access_view_id?: string | null | undefined;
   filters?:
     | Array<
       | LogRecordsBooleanFilter$Outbound
@@ -183,52 +194,56 @@ export type LogRecordsPartialQueryRequest$Outbound = {
 export const LogRecordsPartialQueryRequest$outboundSchema: z.ZodMiniType<
   LogRecordsPartialQueryRequest$Outbound,
   LogRecordsPartialQueryRequest
-> = z.pipe(
-  z.object({
-    startingToken: z._default(z.int(), 0),
-    limit: z._default(z.int(), 100),
-    previousLastRowId: z.optional(z.nullable(z.string())),
-    logStreamId: z.optional(z.nullable(z.string())),
-    experimentId: z.optional(z.nullable(z.string())),
-    metricsTestingId: z.optional(z.nullable(z.string())),
-    filters: z.optional(
-      z.array(
-        z.union([
-          LogRecordsBooleanFilter$outboundSchema,
-          LogRecordsCollectionFilter$outboundSchema,
-          LogRecordsDateFilter$outboundSchema,
-          LogRecordsFullyAnnotatedFilter$outboundSchema,
-          LogRecordsIDFilter$outboundSchema,
-          LogRecordsNumberFilter$outboundSchema,
-          LogRecordsTextFilter$outboundSchema,
-        ]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      startingToken: z._default(z.int(), 0),
+      limit: z._default(z.int(), 100),
+      previousLastRowId: z.optional(z.nullable(z.string())),
+      logStreamId: z.optional(z.nullable(z.string())),
+      experimentId: z.optional(z.nullable(z.string())),
+      metricsTestingId: z.optional(z.nullable(z.string())),
+      accessViewId: z.optional(z.nullable(z.string())),
+      filters: z.optional(
+        z.array(
+          z.union([
+            LogRecordsBooleanFilter$outboundSchema,
+            LogRecordsCollectionFilter$outboundSchema,
+            LogRecordsDateFilter$outboundSchema,
+            LogRecordsFullyAnnotatedFilter$outboundSchema,
+            LogRecordsIDFilter$outboundSchema,
+            LogRecordsNumberFilter$outboundSchema,
+            LogRecordsTextFilter$outboundSchema,
+          ]),
+        ),
       ),
-    ),
-    filterTree: z.optional(
-      z.nullable(
-        FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$outboundSchema,
+      filterTree: z.optional(
+        z.nullable(
+          FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$outboundSchema,
+        ),
       ),
-    ),
-    sort: z.optional(z.nullable(LogRecordsSortClause$outboundSchema)),
-    truncateFields: z._default(z.boolean(), false),
-    includeCounts: z._default(z.boolean(), false),
-    includeCodeMetricMetadata: z._default(z.boolean(), false),
-    selectColumns: SelectColumns$outboundSchema,
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      startingToken: "starting_token",
-      previousLastRowId: "previous_last_row_id",
-      logStreamId: "log_stream_id",
-      experimentId: "experiment_id",
-      metricsTestingId: "metrics_testing_id",
-      filterTree: "filter_tree",
-      truncateFields: "truncate_fields",
-      includeCounts: "include_counts",
-      includeCodeMetricMetadata: "include_code_metric_metadata",
-      selectColumns: "select_columns",
-    });
-  }),
+      sort: z.optional(z.nullable(LogRecordsSortClause$outboundSchema)),
+      truncateFields: z._default(z.boolean(), false),
+      includeCounts: z._default(z.boolean(), false),
+      includeCodeMetricMetadata: z._default(z.boolean(), false),
+      selectColumns: SelectColumns$outboundSchema,
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        startingToken: "starting_token",
+        previousLastRowId: "previous_last_row_id",
+        logStreamId: "log_stream_id",
+        experimentId: "experiment_id",
+        metricsTestingId: "metrics_testing_id",
+        accessViewId: "access_view_id",
+        filterTree: "filter_tree",
+        truncateFields: "truncate_fields",
+        includeCounts: "include_counts",
+        includeCodeMetricMetadata: "include_code_metric_metadata",
+        selectColumns: "select_columns",
+      });
+    }),
+  )
 );
 
 export function logRecordsPartialQueryRequestToJSON(

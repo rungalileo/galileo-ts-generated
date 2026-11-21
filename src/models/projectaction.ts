@@ -4,15 +4,19 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
 export const ProjectAction = {
-  Update: "update",
+  ReadAllLogs: "read_all_logs",
+  ReadFilteredLogs: "read_filtered_logs",
+  ManageLogViews: "manage_log_views",
   Delete: "delete",
   Rename: "rename",
   Share: "share",
   CreateRun: "create_run",
+  CreateEvaluator: "create_evaluator",
   DeleteRun: "delete_run",
   RenameRun: "rename_run",
   MoveRun: "move_run",
@@ -25,6 +29,7 @@ export const ProjectAction = {
   CreateStage: "create_stage",
   EditStage: "edit_stage",
   ConfigureCrownLogic: "configure_crown_logic",
+  ConfigureRateLimit: "configure_rate_limit",
   DeleteData: "delete_data",
   SetMetric: "set_metric",
   EditRunTags: "edit_run_tags",
@@ -33,6 +38,7 @@ export const ProjectAction = {
   EditEdit: "edit_edit",
   UpdateControlBindings: "update_control_bindings",
   UseControlRuntime: "use_control_runtime",
+  UpdateEvaluatorCostCap: "update_evaluator_cost_cap",
 } as const;
 export type ProjectAction = OpenEnum<typeof ProjectAction>;
 
@@ -40,9 +46,9 @@ export type ProjectAction = OpenEnum<typeof ProjectAction>;
 export const ProjectAction$inboundSchema: z.ZodMiniType<
   ProjectAction,
   unknown
-> = openEnums.inboundSchema(ProjectAction);
+> = /* @__PURE__ */ lazySchema$(() => openEnums.inboundSchema(ProjectAction));
 /** @internal */
 export const ProjectAction$outboundSchema: z.ZodMiniType<
   string,
   ProjectAction
-> = openEnums.outboundSchema(ProjectAction);
+> = /* @__PURE__ */ lazySchema$(() => openEnums.outboundSchema(ProjectAction));

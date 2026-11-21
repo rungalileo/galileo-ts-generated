@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type SchemeHTTPBasic = {
   username: string;
@@ -20,10 +21,12 @@ export type SchemeHTTPBasic$Outbound = {
 export const SchemeHTTPBasic$outboundSchema: z.ZodMiniType<
   SchemeHTTPBasic$Outbound,
   SchemeHTTPBasic
-> = z.object({
-  username: z.string(),
-  password: z.string(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    username: z.string(),
+    password: z.string(),
+  })
+);
 
 export function schemeHTTPBasicToJSON(
   schemeHTTPBasic: SchemeHTTPBasic,

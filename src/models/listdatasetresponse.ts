@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { DatasetDB, DatasetDB$inboundSchema } from "./datasetdb.js";
@@ -23,20 +23,22 @@ export type ListDatasetResponse = {
 export const ListDatasetResponse$inboundSchema: z.ZodMiniType<
   ListDatasetResponse,
   unknown
-> = z.pipe(
-  z.object({
-    starting_token: z._default(types.number(), 0),
-    limit: z._default(types.number(), 100),
-    paginated: z._default(types.boolean(), false),
-    next_starting_token: z.optional(z.nullable(types.number())),
-    datasets: types.optional(z.array(DatasetDB$inboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "starting_token": "startingToken",
-      "next_starting_token": "nextStartingToken",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      starting_token: z._default(types.number(), 0),
+      limit: z._default(types.number(), 100),
+      paginated: z._default(types.boolean(), false),
+      next_starting_token: z.optional(z.nullable(types.number())),
+      datasets: types.optional(z.array(DatasetDB$inboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "starting_token": "startingToken",
+        "next_starting_token": "nextStartingToken",
+      });
+    }),
+  )
 );
 
 export function listDatasetResponseFromJSON(

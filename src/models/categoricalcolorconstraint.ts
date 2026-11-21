@@ -4,7 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 import { Result as SafeParseResult } from "../types/fp.js";
@@ -55,18 +55,24 @@ export type CategoricalColorConstraint = {
 export const CategoricalColorConstraintOperator$inboundSchema: z.ZodMiniType<
   CategoricalColorConstraintOperator,
   unknown
-> = openEnums.inboundSchema(CategoricalColorConstraintOperator);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(CategoricalColorConstraintOperator)
+);
 /** @internal */
 export const CategoricalColorConstraintOperator$outboundSchema: z.ZodMiniType<
   string,
   CategoricalColorConstraintOperator
-> = openEnums.outboundSchema(CategoricalColorConstraintOperator);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.outboundSchema(CategoricalColorConstraintOperator)
+);
 
 /** @internal */
 export const CategoricalColorConstraintValue$inboundSchema: z.ZodMiniType<
   CategoricalColorConstraintValue,
   unknown
-> = smartUnion([types.string(), z.array(types.string())]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([types.string(), z.array(types.string())])
+);
 /** @internal */
 export type CategoricalColorConstraintValue$Outbound = string | Array<string>;
 
@@ -74,7 +80,9 @@ export type CategoricalColorConstraintValue$Outbound = string | Array<string>;
 export const CategoricalColorConstraintValue$outboundSchema: z.ZodMiniType<
   CategoricalColorConstraintValue$Outbound,
   CategoricalColorConstraintValue
-> = smartUnion([z.string(), z.array(z.string())]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([z.string(), z.array(z.string())])
+);
 
 export function categoricalColorConstraintValueToJSON(
   categoricalColorConstraintValue: CategoricalColorConstraintValue,
@@ -99,11 +107,13 @@ export function categoricalColorConstraintValueFromJSON(
 export const CategoricalColorConstraint$inboundSchema: z.ZodMiniType<
   CategoricalColorConstraint,
   unknown
-> = z.object({
-  color: MetricColor$inboundSchema,
-  operator: CategoricalColorConstraintOperator$inboundSchema,
-  value: smartUnion([types.string(), z.array(types.string())]),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    color: MetricColor$inboundSchema,
+    operator: CategoricalColorConstraintOperator$inboundSchema,
+    value: smartUnion([types.string(), z.array(types.string())]),
+  })
+);
 /** @internal */
 export type CategoricalColorConstraint$Outbound = {
   color: string;
@@ -115,11 +125,13 @@ export type CategoricalColorConstraint$Outbound = {
 export const CategoricalColorConstraint$outboundSchema: z.ZodMiniType<
   CategoricalColorConstraint$Outbound,
   CategoricalColorConstraint
-> = z.object({
-  color: MetricColor$outboundSchema,
-  operator: CategoricalColorConstraintOperator$outboundSchema,
-  value: smartUnion([z.string(), z.array(z.string())]),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    color: MetricColor$outboundSchema,
+    operator: CategoricalColorConstraintOperator$outboundSchema,
+    value: smartUnion([z.string(), z.array(z.string())]),
+  })
+);
 
 export function categoricalColorConstraintToJSON(
   categoricalColorConstraint: CategoricalColorConstraint,
