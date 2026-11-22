@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   LLMExportFormat,
   LLMExportFormat$outboundSchema,
@@ -78,6 +79,10 @@ export type LogRecordsExportRequest = {
    */
   fileName?: string | null | undefined;
   /**
+   * When true, export only enabled scorer metrics with computed values (success or roll_up). For session exports, omit entire sessions unless every enabled metric at session, trace, or span level is ready (success, roll_up, or not_applicable). Not supported with export_format=jsonl_flat (returns 422); use jsonl or csv instead.
+   */
+  exportComputedMetricsOnly?: boolean | undefined;
+  /**
    * Log stream id associated with the traces.
    */
   logStreamId?: string | null | undefined;
@@ -89,6 +94,10 @@ export type LogRecordsExportRequest = {
    * Metrics testing id associated with the traces.
    */
   metricsTestingId?: string | null | undefined;
+  /**
+   * Assigned log view for restricted access.
+   */
+  accessViewId?: string | null | undefined;
   /**
    * Filters to apply on the export
    */
@@ -116,6 +125,10 @@ export type LogRecordsExportRequest = {
    * used throughout the platform: session, trace, and span.
    */
   rootType: RootType;
+  /**
+   * If True, include per-row scorer metadata (the dict returned alongside the score by code-based scorers via the (score, metadata) tuple-return contract) on each MetricSuccess in the export. Off by default to keep payloads small for callers that don't need it.
+   */
+  includeCodeMetricMetadata?: boolean | undefined;
 };
 
 /** @internal */
@@ -132,15 +145,17 @@ export type LogRecordsExportRequestFilter$Outbound =
 export const LogRecordsExportRequestFilter$outboundSchema: z.ZodMiniType<
   LogRecordsExportRequestFilter$Outbound,
   LogRecordsExportRequestFilter
-> = z.union([
-  LogRecordsBooleanFilter$outboundSchema,
-  LogRecordsCollectionFilter$outboundSchema,
-  LogRecordsDateFilter$outboundSchema,
-  LogRecordsFullyAnnotatedFilter$outboundSchema,
-  LogRecordsIDFilter$outboundSchema,
-  LogRecordsNumberFilter$outboundSchema,
-  LogRecordsTextFilter$outboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    LogRecordsBooleanFilter$outboundSchema,
+    LogRecordsCollectionFilter$outboundSchema,
+    LogRecordsDateFilter$outboundSchema,
+    LogRecordsFullyAnnotatedFilter$outboundSchema,
+    LogRecordsIDFilter$outboundSchema,
+    LogRecordsNumberFilter$outboundSchema,
+    LogRecordsTextFilter$outboundSchema,
+  ])
+);
 
 export function logRecordsExportRequestFilterToJSON(
   logRecordsExportRequestFilter: LogRecordsExportRequestFilter,
@@ -158,9 +173,11 @@ export type LogRecordsExportRequest$Outbound = {
   export_format?: string | undefined;
   redact: boolean;
   file_name?: string | null | undefined;
+  export_computed_metrics_only: boolean;
   log_stream_id?: string | null | undefined;
   experiment_id?: string | null | undefined;
   metrics_testing_id?: string | null | undefined;
+  access_view_id?: string | null | undefined;
   filters?:
     | Array<
       | LogRecordsBooleanFilter$Outbound
@@ -174,48 +191,57 @@ export type LogRecordsExportRequest$Outbound = {
     | undefined;
   sort?: LogRecordsSortClause$Outbound | null | undefined;
   root_type: string;
+  include_code_metric_metadata: boolean;
 };
 
 /** @internal */
 export const LogRecordsExportRequest$outboundSchema: z.ZodMiniType<
   LogRecordsExportRequest$Outbound,
   LogRecordsExportRequest
-> = z.pipe(
-  z.object({
-    columnIds: z.optional(z.nullable(z.array(z.string()))),
-    exportFormat: z.optional(LLMExportFormat$outboundSchema),
-    redact: z._default(z.boolean(), true),
-    fileName: z.optional(z.nullable(z.string())),
-    logStreamId: z.optional(z.nullable(z.string())),
-    experimentId: z.optional(z.nullable(z.string())),
-    metricsTestingId: z.optional(z.nullable(z.string())),
-    filters: z.optional(
-      z.array(
-        z.union([
-          LogRecordsBooleanFilter$outboundSchema,
-          LogRecordsCollectionFilter$outboundSchema,
-          LogRecordsDateFilter$outboundSchema,
-          LogRecordsFullyAnnotatedFilter$outboundSchema,
-          LogRecordsIDFilter$outboundSchema,
-          LogRecordsNumberFilter$outboundSchema,
-          LogRecordsTextFilter$outboundSchema,
-        ]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      columnIds: z.optional(z.nullable(z.array(z.string()))),
+      exportFormat: z.optional(LLMExportFormat$outboundSchema),
+      redact: z._default(z.boolean(), true),
+      fileName: z.optional(z.nullable(z.string())),
+      exportComputedMetricsOnly: z._default(z.boolean(), false),
+      logStreamId: z.optional(z.nullable(z.string())),
+      experimentId: z.optional(z.nullable(z.string())),
+      metricsTestingId: z.optional(z.nullable(z.string())),
+      accessViewId: z.optional(z.nullable(z.string())),
+      filters: z.optional(
+        z.array(
+          z.union([
+            LogRecordsBooleanFilter$outboundSchema,
+            LogRecordsCollectionFilter$outboundSchema,
+            LogRecordsDateFilter$outboundSchema,
+            LogRecordsFullyAnnotatedFilter$outboundSchema,
+            LogRecordsIDFilter$outboundSchema,
+            LogRecordsNumberFilter$outboundSchema,
+            LogRecordsTextFilter$outboundSchema,
+          ]),
+        ),
       ),
-    ),
-    sort: z.optional(z.nullable(LogRecordsSortClause$outboundSchema)),
-    rootType: RootType$outboundSchema,
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      columnIds: "column_ids",
-      exportFormat: "export_format",
-      fileName: "file_name",
-      logStreamId: "log_stream_id",
-      experimentId: "experiment_id",
-      metricsTestingId: "metrics_testing_id",
-      rootType: "root_type",
-    });
-  }),
+      sort: z.optional(z.nullable(LogRecordsSortClause$outboundSchema)),
+      rootType: RootType$outboundSchema,
+      includeCodeMetricMetadata: z._default(z.boolean(), false),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        columnIds: "column_ids",
+        exportFormat: "export_format",
+        fileName: "file_name",
+        exportComputedMetricsOnly: "export_computed_metrics_only",
+        logStreamId: "log_stream_id",
+        experimentId: "experiment_id",
+        metricsTestingId: "metrics_testing_id",
+        accessViewId: "access_view_id",
+        rootType: "root_type",
+        includeCodeMetricMetadata: "include_code_metric_metadata",
+      });
+    }),
+  )
 );
 
 export function logRecordsExportRequestToJSON(

@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 import { smartUnion } from "../types/smartUnion.js";
 
@@ -12,6 +13,7 @@ export const ExperimentGroupNameFilterOperator = {
   Eq: "eq",
   Ne: "ne",
   Contains: "contains",
+  Regex: "regex",
   OneOf: "one_of",
   NotIn: "not_in",
 } as const;
@@ -31,7 +33,9 @@ export type ExperimentGroupNameFilter = {
 /** @internal */
 export const ExperimentGroupNameFilterOperator$outboundSchema: z.ZodMiniEnum<
   typeof ExperimentGroupNameFilterOperator
-> = z.enum(ExperimentGroupNameFilterOperator);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.enum(ExperimentGroupNameFilterOperator)
+);
 
 /** @internal */
 export type ExperimentGroupNameFilterValue$Outbound = string | Array<string>;
@@ -40,7 +44,9 @@ export type ExperimentGroupNameFilterValue$Outbound = string | Array<string>;
 export const ExperimentGroupNameFilterValue$outboundSchema: z.ZodMiniType<
   ExperimentGroupNameFilterValue$Outbound,
   ExperimentGroupNameFilterValue
-> = smartUnion([z.string(), z.array(z.string())]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([z.string(), z.array(z.string())])
+);
 
 export function experimentGroupNameFilterValueToJSON(
   experimentGroupNameFilterValue: ExperimentGroupNameFilterValue,
@@ -64,18 +70,20 @@ export type ExperimentGroupNameFilter$Outbound = {
 export const ExperimentGroupNameFilter$outboundSchema: z.ZodMiniType<
   ExperimentGroupNameFilter$Outbound,
   ExperimentGroupNameFilter
-> = z.pipe(
-  z.object({
-    name: z.literal("experiment_group_name"),
-    operator: ExperimentGroupNameFilterOperator$outboundSchema,
-    value: smartUnion([z.string(), z.array(z.string())]),
-    caseSensitive: z._default(z.boolean(), true),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      caseSensitive: "case_sensitive",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: z.literal("experiment_group_name"),
+      operator: ExperimentGroupNameFilterOperator$outboundSchema,
+      value: smartUnion([z.string(), z.array(z.string())]),
+      caseSensitive: z._default(z.boolean(), true),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        caseSensitive: "case_sensitive",
+      });
+    }),
+  )
 );
 
 export function experimentGroupNameFilterToJSON(

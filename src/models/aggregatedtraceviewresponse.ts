@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import {
@@ -42,24 +42,26 @@ export type AggregatedTraceViewResponse = {
 export const AggregatedTraceViewResponse$inboundSchema: z.ZodMiniType<
   AggregatedTraceViewResponse,
   unknown
-> = z.pipe(
-  z.object({
-    graph: AggregatedTraceViewGraph$inboundSchema,
-    num_traces: types.number(),
-    num_sessions: types.number(),
-    start_time: z.optional(z.nullable(types.date())),
-    end_time: z.optional(z.nullable(types.date())),
-    has_all_traces: types.boolean(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "num_traces": "numTraces",
-      "num_sessions": "numSessions",
-      "start_time": "startTime",
-      "end_time": "endTime",
-      "has_all_traces": "hasAllTraces",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      graph: AggregatedTraceViewGraph$inboundSchema,
+      num_traces: types.number(),
+      num_sessions: types.number(),
+      start_time: z.optional(z.nullable(types.date())),
+      end_time: z.optional(z.nullable(types.date())),
+      has_all_traces: types.boolean(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "num_traces": "numTraces",
+        "num_sessions": "numSessions",
+        "start_time": "startTime",
+        "end_time": "endTime",
+        "has_all_traces": "hasAllTraces",
+      });
+    }),
+  )
 );
 
 export function aggregatedTraceViewResponseFromJSON(

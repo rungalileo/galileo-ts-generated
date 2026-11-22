@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
 import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import * as openEnums from "../types/enums.js";
@@ -73,11 +73,13 @@ export type InputToxicityScorer = {
 export const InputToxicityScorerFilter$inboundSchema: z.ZodMiniType<
   InputToxicityScorerFilter,
   unknown
-> = discriminatedUnion("name", {
-  metadata: MetadataFilter$inboundSchema,
-  modality: ModalityFilter$inboundSchema,
-  node_name: NodeNameFilter$inboundSchema,
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  discriminatedUnion("name", {
+    metadata: MetadataFilter$inboundSchema,
+    modality: ModalityFilter$inboundSchema,
+    node_name: NodeNameFilter$inboundSchema,
+  })
+);
 /** @internal */
 export type InputToxicityScorerFilter$Outbound =
   | MetadataFilter$Outbound
@@ -88,11 +90,13 @@ export type InputToxicityScorerFilter$Outbound =
 export const InputToxicityScorerFilter$outboundSchema: z.ZodMiniType<
   InputToxicityScorerFilter$Outbound,
   InputToxicityScorerFilter
-> = z.union([
-  MetadataFilter$outboundSchema,
-  ModalityFilter$outboundSchema,
-  NodeNameFilter$outboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    MetadataFilter$outboundSchema,
+    ModalityFilter$outboundSchema,
+    NodeNameFilter$outboundSchema,
+  ])
+);
 
 export function inputToxicityScorerFilterToJSON(
   inputToxicityScorerFilter: InputToxicityScorerFilter,
@@ -115,41 +119,47 @@ export function inputToxicityScorerFilterFromJSON(
 export const InputToxicityScorerType$inboundSchema: z.ZodMiniType<
   InputToxicityScorerType,
   unknown
-> = openEnums.inboundSchema(InputToxicityScorerType);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(InputToxicityScorerType)
+);
 /** @internal */
 export const InputToxicityScorerType$outboundSchema: z.ZodMiniType<
   string,
   InputToxicityScorerType
-> = openEnums.outboundSchema(InputToxicityScorerType);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.outboundSchema(InputToxicityScorerType)
+);
 
 /** @internal */
 export const InputToxicityScorer$inboundSchema: z.ZodMiniType<
   InputToxicityScorer,
   unknown
-> = z.pipe(
-  z.object({
-    name: types.literal("input_toxicity"),
-    filters: z.optional(
-      z.nullable(
-        z.array(
-          discriminatedUnion("name", {
-            metadata: MetadataFilter$inboundSchema,
-            modality: ModalityFilter$inboundSchema,
-            node_name: NodeNameFilter$inboundSchema,
-          }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: types.literal("input_toxicity"),
+      filters: z.optional(
+        z.nullable(
+          z.array(
+            discriminatedUnion("name", {
+              metadata: MetadataFilter$inboundSchema,
+              modality: ModalityFilter$inboundSchema,
+              node_name: NodeNameFilter$inboundSchema,
+            }),
+          ),
         ),
       ),
-    ),
-    type: z._default(InputToxicityScorerType$inboundSchema, "luna"),
-    model_name: z.optional(z.nullable(types.string())),
-    num_judges: z.optional(z.nullable(types.number())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "model_name": "modelName",
-      "num_judges": "numJudges",
-    });
-  }),
+      type: z._default(InputToxicityScorerType$inboundSchema, "luna"),
+      model_name: z.optional(z.nullable(types.string())),
+      num_judges: z.optional(z.nullable(types.number())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "model_name": "modelName",
+        "num_judges": "numJudges",
+      });
+    }),
+  )
 );
 /** @internal */
 export type InputToxicityScorer$Outbound = {
@@ -171,30 +181,32 @@ export type InputToxicityScorer$Outbound = {
 export const InputToxicityScorer$outboundSchema: z.ZodMiniType<
   InputToxicityScorer$Outbound,
   InputToxicityScorer
-> = z.pipe(
-  z.object({
-    name: z.literal("input_toxicity"),
-    filters: z.optional(
-      z.nullable(
-        z.array(
-          z.union([
-            MetadataFilter$outboundSchema,
-            ModalityFilter$outboundSchema,
-            NodeNameFilter$outboundSchema,
-          ]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: z.literal("input_toxicity"),
+      filters: z.optional(
+        z.nullable(
+          z.array(
+            z.union([
+              MetadataFilter$outboundSchema,
+              ModalityFilter$outboundSchema,
+              NodeNameFilter$outboundSchema,
+            ]),
+          ),
         ),
       ),
-    ),
-    type: z._default(InputToxicityScorerType$outboundSchema, "luna"),
-    modelName: z.optional(z.nullable(z.string())),
-    numJudges: z.optional(z.nullable(z.int())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      modelName: "model_name",
-      numJudges: "num_judges",
-    });
-  }),
+      type: z._default(InputToxicityScorerType$outboundSchema, "luna"),
+      modelName: z.optional(z.nullable(z.string())),
+      numJudges: z.optional(z.nullable(z.int())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        modelName: "model_name",
+        numJudges: "num_judges",
+      });
+    }),
+  )
 );
 
 export function inputToxicityScorerToJSON(

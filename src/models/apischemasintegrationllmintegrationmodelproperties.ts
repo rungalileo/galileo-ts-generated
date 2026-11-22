@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import {
@@ -14,35 +14,65 @@ import {
 } from "./contentmodality.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
+  ModelLifecycleState,
+  ModelLifecycleState$inboundSchema,
+} from "./modellifecyclestate.js";
+import {
   MultimodalCapability,
   MultimodalCapability$inboundSchema,
 } from "./multimodalcapability.js";
 
 export type ApiSchemasIntegrationLlmIntegrationModelProperties = {
+  /**
+   * Galileo model identifier used in settings and API requests to select this model.
+   */
   alias: string;
+  /**
+   * Provider model identifier used to match the model to its configured provider deployment or profile.
+   */
   name: string;
+  /**
+   * Human-readable model name shown in the UI.
+   */
+  displayName: string;
   inputModalities: Array<ContentModality>;
+  lifecycleState?: ModelLifecycleState | undefined;
+  replacementAlias?: string | null | undefined;
+  deprecationDate?: Date | null | undefined;
+  retirementDate?: Date | null | undefined;
   multimodalCapabilities?: Array<MultimodalCapability> | undefined;
 };
 
 /** @internal */
 export const ApiSchemasIntegrationLlmIntegrationModelProperties$inboundSchema:
-  z.ZodMiniType<ApiSchemasIntegrationLlmIntegrationModelProperties, unknown> = z
-    .pipe(
-      z.object({
-        alias: types.string(),
-        name: types.string(),
-        input_modalities: z.array(ContentModality$inboundSchema),
-        multimodal_capabilities: types.optional(
-          z.array(MultimodalCapability$inboundSchema),
-        ),
-      }),
-      z.transform((v) => {
-        return remap$(v, {
-          "input_modalities": "inputModalities",
-          "multimodal_capabilities": "multimodalCapabilities",
-        });
-      }),
+  z.ZodMiniType<ApiSchemasIntegrationLlmIntegrationModelProperties, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          alias: types.string(),
+          name: types.string(),
+          display_name: types.string(),
+          input_modalities: z.array(ContentModality$inboundSchema),
+          lifecycle_state: types.optional(ModelLifecycleState$inboundSchema),
+          replacement_alias: z.optional(z.nullable(types.string())),
+          deprecation_date: z.optional(z.nullable(types.date())),
+          retirement_date: z.optional(z.nullable(types.date())),
+          multimodal_capabilities: types.optional(
+            z.array(MultimodalCapability$inboundSchema),
+          ),
+        }),
+        z.transform((v) => {
+          return remap$(v, {
+            "display_name": "displayName",
+            "input_modalities": "inputModalities",
+            "lifecycle_state": "lifecycleState",
+            "replacement_alias": "replacementAlias",
+            "deprecation_date": "deprecationDate",
+            "retirement_date": "retirementDate",
+            "multimodal_capabilities": "multimodalCapabilities",
+          });
+        }),
+      )
     );
 
 export function apiSchemasIntegrationLlmIntegrationModelPropertiesFromJSON(

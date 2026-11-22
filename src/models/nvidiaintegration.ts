@@ -4,7 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -20,12 +20,14 @@ export type NvidiaIntegration = {
 export const NvidiaIntegration$inboundSchema: z.ZodMiniType<
   NvidiaIntegration,
   unknown
-> = z.object({
-  id: z.optional(z.nullable(types.string())),
-  name: z._default(types.literal("nvidia"), "nvidia"),
-  provider: types.literal("nvidia"),
-  extra: z.optional(z.nullable(z.record(z.string(), z.any()))),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: z.optional(z.nullable(types.string())),
+    name: z._default(types.literal("nvidia"), "nvidia"),
+    provider: types.literal("nvidia"),
+    extra: z.optional(z.nullable(z.record(z.string(), z.any()))),
+  })
+);
 
 export function nvidiaIntegrationFromJSON(
   jsonString: string,

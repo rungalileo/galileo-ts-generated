@@ -4,13 +4,10 @@
  */
 
 import * as z from "zod/v4-mini";
-import { remap as remap$ } from "../lib/primitives.js";
-import { ProjectType, ProjectType$outboundSchema } from "./projecttype.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type ProjectUpdate = {
   name?: string | null | undefined;
-  createdBy?: string | null | undefined;
-  type?: ProjectType | null | undefined;
   labels?: Array<string> | null | undefined;
   description?: string | null | undefined;
 };
@@ -18,8 +15,6 @@ export type ProjectUpdate = {
 /** @internal */
 export type ProjectUpdate$Outbound = {
   name?: string | null | undefined;
-  created_by?: string | null | undefined;
-  type?: string | null | undefined;
   labels?: Array<string> | null | undefined;
   description?: string | null | undefined;
 };
@@ -28,19 +23,12 @@ export type ProjectUpdate$Outbound = {
 export const ProjectUpdate$outboundSchema: z.ZodMiniType<
   ProjectUpdate$Outbound,
   ProjectUpdate
-> = z.pipe(
+> = /* @__PURE__ */ lazySchema$(() =>
   z.object({
     name: z.optional(z.nullable(z.string())),
-    createdBy: z.optional(z.nullable(z.string())),
-    type: z.optional(z.nullable(ProjectType$outboundSchema)),
     labels: z.optional(z.nullable(z.array(z.string()))),
     description: z.optional(z.nullable(z.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      createdBy: "created_by",
-    });
-  }),
+  })
 );
 
 export function projectUpdateToJSON(projectUpdate: ProjectUpdate): string {

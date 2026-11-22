@@ -4,12 +4,14 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
 export const NodeType = {
   Chain: "chain",
   Chat: "chat",
+  Http: "http",
   Llm: "llm",
   Retriever: "retriever",
   Tool: "tool",
@@ -22,7 +24,7 @@ export type NodeType = OpenEnum<typeof NodeType>;
 
 /** @internal */
 export const NodeType$inboundSchema: z.ZodMiniType<NodeType, unknown> =
-  openEnums.inboundSchema(NodeType);
+  /* @__PURE__ */ lazySchema$(() => openEnums.inboundSchema(NodeType));
 /** @internal */
 export const NodeType$outboundSchema: z.ZodMiniType<string, NodeType> =
-  openEnums.outboundSchema(NodeType);
+  /* @__PURE__ */ lazySchema$(() => openEnums.outboundSchema(NodeType));

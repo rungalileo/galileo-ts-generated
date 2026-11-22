@@ -5,10 +5,12 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../../lib/schemas.js";
 import * as models from "../index.js";
 
 export type GetAvailableModelsLlmIntegrationsLlmIntegrationModelsGetSecurity = {
   apiKeyHeader?: string | undefined;
+  classicAPIKeyHeader?: string | undefined;
   oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
   httpBasic?: models.SchemeHTTPBasic | undefined;
 };
@@ -21,6 +23,7 @@ export type GetAvailableModelsLlmIntegrationsLlmIntegrationModelsGetRequest = {
 export type GetAvailableModelsLlmIntegrationsLlmIntegrationModelsGetSecurity$Outbound =
   {
     APIKeyHeader?: string | undefined;
+    ClassicAPIKeyHeader?: string | undefined;
     OAuth2PasswordBearer?:
       | models.OAuth2PasswordBearerInput$Outbound
       | undefined;
@@ -32,21 +35,25 @@ export const GetAvailableModelsLlmIntegrationsLlmIntegrationModelsGetSecurity$ou
   z.ZodMiniType<
     GetAvailableModelsLlmIntegrationsLlmIntegrationModelsGetSecurity$Outbound,
     GetAvailableModelsLlmIntegrationsLlmIntegrationModelsGetSecurity
-  > = z.pipe(
-    z.object({
-      apiKeyHeader: z.optional(z.string()),
-      oAuth2PasswordBearer: z.optional(
-        models.OAuth2PasswordBearerInput$outboundSchema,
-      ),
-      httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        apiKeyHeader: "APIKeyHeader",
-        oAuth2PasswordBearer: "OAuth2PasswordBearer",
-        httpBasic: "HTTPBasic",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        apiKeyHeader: z.optional(z.string()),
+        classicAPIKeyHeader: z.optional(z.string()),
+        oAuth2PasswordBearer: z.optional(
+          models.OAuth2PasswordBearerInput$outboundSchema,
+        ),
+        httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          apiKeyHeader: "APIKeyHeader",
+          classicAPIKeyHeader: "ClassicAPIKeyHeader",
+          oAuth2PasswordBearer: "OAuth2PasswordBearer",
+          httpBasic: "HTTPBasic",
+        });
+      }),
+    )
   );
 
 export function getAvailableModelsLlmIntegrationsLlmIntegrationModelsGetSecurityToJSON(
@@ -70,15 +77,17 @@ export const GetAvailableModelsLlmIntegrationsLlmIntegrationModelsGetRequest$out
   z.ZodMiniType<
     GetAvailableModelsLlmIntegrationsLlmIntegrationModelsGetRequest$Outbound,
     GetAvailableModelsLlmIntegrationsLlmIntegrationModelsGetRequest
-  > = z.pipe(
-    z.object({
-      llmIntegration: models.LLMIntegration$outboundSchema,
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        llmIntegration: "llm_integration",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        llmIntegration: models.LLMIntegration$outboundSchema,
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          llmIntegration: "llm_integration",
+        });
+      }),
+    )
   );
 
 export function getAvailableModelsLlmIntegrationsLlmIntegrationModelsGetRequestToJSON(

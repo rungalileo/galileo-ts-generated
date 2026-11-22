@@ -5,12 +5,16 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { AuthMethod, AuthMethod$inboundSchema } from "./authmethod.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import { Permission, Permission$inboundSchema } from "./permission.js";
+import {
+  UserLifecycleState,
+  UserLifecycleState$inboundSchema,
+} from "./userlifecyclestate.js";
 import { UserRole, UserRole$inboundSchema } from "./userrole.js";
 
 export type UserDB = {
@@ -22,6 +26,15 @@ export type UserDB = {
   authMethod?: AuthMethod | undefined;
   role?: UserRole | undefined;
   emailIsVerified?: boolean | null | undefined;
+  /**
+   * Retention state, separate from invitation, verification, and sign-in status.
+   *
+   * @remarks
+   *
+   * Active identities are neither deactivated nor removed. Deactivated identities retain
+   * their profile with access revoked. Removed identities have an anonymized live profile.
+   */
+  lifecycleState?: UserLifecycleState | undefined;
   organizationId: string;
   organizationName: string;
   createdAt: Date;
@@ -29,34 +42,39 @@ export type UserDB = {
 };
 
 /** @internal */
-export const UserDB$inboundSchema: z.ZodMiniType<UserDB, unknown> = z.pipe(
-  z.object({
-    id: types.string(),
-    permissions: types.optional(z.array(Permission$inboundSchema)),
-    email: types.string(),
-    first_name: z.optional(z.nullable(types.string())),
-    last_name: z.optional(z.nullable(types.string())),
-    auth_method: types.optional(AuthMethod$inboundSchema),
-    role: types.optional(UserRole$inboundSchema),
-    email_is_verified: z.optional(z.nullable(types.boolean())),
-    organization_id: types.string(),
-    organization_name: types.string(),
-    created_at: types.date(),
-    updated_at: types.date(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "first_name": "firstName",
-      "last_name": "lastName",
-      "auth_method": "authMethod",
-      "email_is_verified": "emailIsVerified",
-      "organization_id": "organizationId",
-      "organization_name": "organizationName",
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-    });
-  }),
-);
+export const UserDB$inboundSchema: z.ZodMiniType<UserDB, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        id: types.string(),
+        permissions: types.optional(z.array(Permission$inboundSchema)),
+        email: types.string(),
+        first_name: z.optional(z.nullable(types.string())),
+        last_name: z.optional(z.nullable(types.string())),
+        auth_method: types.optional(AuthMethod$inboundSchema),
+        role: types.optional(UserRole$inboundSchema),
+        email_is_verified: z.optional(z.nullable(types.boolean())),
+        lifecycle_state: types.optional(UserLifecycleState$inboundSchema),
+        organization_id: types.string(),
+        organization_name: types.string(),
+        created_at: types.date(),
+        updated_at: types.date(),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "first_name": "firstName",
+          "last_name": "lastName",
+          "auth_method": "authMethod",
+          "email_is_verified": "emailIsVerified",
+          "lifecycle_state": "lifecycleState",
+          "organization_id": "organizationId",
+          "organization_name": "organizationName",
+          "created_at": "createdAt",
+          "updated_at": "updatedAt",
+        });
+      }),
+    )
+  );
 
 export function userDBFromJSON(
   jsonString: string,

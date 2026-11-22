@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 import { smartUnion } from "../types/smartUnion.js";
 
@@ -12,6 +13,7 @@ export const PromptTemplateNameFilterOperator = {
   Eq: "eq",
   Ne: "ne",
   Contains: "contains",
+  Regex: "regex",
   OneOf: "one_of",
   NotIn: "not_in",
 } as const;
@@ -31,7 +33,7 @@ export type PromptTemplateNameFilter = {
 /** @internal */
 export const PromptTemplateNameFilterOperator$outboundSchema: z.ZodMiniEnum<
   typeof PromptTemplateNameFilterOperator
-> = z.enum(PromptTemplateNameFilterOperator);
+> = /* @__PURE__ */ lazySchema$(() => z.enum(PromptTemplateNameFilterOperator));
 
 /** @internal */
 export type PromptTemplateNameFilterValue$Outbound = string | Array<string>;
@@ -40,7 +42,9 @@ export type PromptTemplateNameFilterValue$Outbound = string | Array<string>;
 export const PromptTemplateNameFilterValue$outboundSchema: z.ZodMiniType<
   PromptTemplateNameFilterValue$Outbound,
   PromptTemplateNameFilterValue
-> = smartUnion([z.string(), z.array(z.string())]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([z.string(), z.array(z.string())])
+);
 
 export function promptTemplateNameFilterValueToJSON(
   promptTemplateNameFilterValue: PromptTemplateNameFilterValue,
@@ -64,18 +68,20 @@ export type PromptTemplateNameFilter$Outbound = {
 export const PromptTemplateNameFilter$outboundSchema: z.ZodMiniType<
   PromptTemplateNameFilter$Outbound,
   PromptTemplateNameFilter
-> = z.pipe(
-  z.object({
-    name: z.literal("name"),
-    operator: PromptTemplateNameFilterOperator$outboundSchema,
-    value: smartUnion([z.string(), z.array(z.string())]),
-    caseSensitive: z._default(z.boolean(), true),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      caseSensitive: "case_sensitive",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: z.literal("name"),
+      operator: PromptTemplateNameFilterOperator$outboundSchema,
+      value: smartUnion([z.string(), z.array(z.string())]),
+      caseSensitive: z._default(z.boolean(), true),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        caseSensitive: "case_sensitive",
+      });
+    }),
+  )
 );
 
 export function promptTemplateNameFilterToJSON(

@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type ColumnMappingConfig = {
   columns: Array<string>;
@@ -20,10 +21,12 @@ export type ColumnMappingConfig$Outbound = {
 export const ColumnMappingConfig$outboundSchema: z.ZodMiniType<
   ColumnMappingConfig$Outbound,
   ColumnMappingConfig
-> = z.object({
-  columns: z.array(z.string()),
-  flatten: z._default(z.boolean(), false),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    columns: z.array(z.string()),
+    flatten: z._default(z.boolean(), false),
+  })
+);
 
 export function columnMappingConfigToJSON(
   columnMappingConfig: ColumnMappingConfig,

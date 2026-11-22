@@ -5,10 +5,12 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../../lib/schemas.js";
 import * as models from "../index.js";
 
 export type GetSessionProjectsProjectIdSessionsSessionIdGetSecurity = {
   apiKeyHeader?: string | undefined;
+  classicAPIKeyHeader?: string | undefined;
   oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
   httpBasic?: models.SchemeHTTPBasic | undefined;
 };
@@ -17,11 +19,17 @@ export type GetSessionProjectsProjectIdSessionsSessionIdGetRequest = {
   sessionId: string;
   projectId: string;
   includePresignedUrls?: boolean | undefined;
+  accessViewId?: string | null | undefined;
+  /**
+   * If False, omit the `redacted_input` and `redacted_output` fields from the response. When redaction is active these hold the same text already returned in `input`/`output`, so clients that do not read them can halve the payload. This does not change whether redaction is applied.
+   */
+  includeRedactedIo?: boolean | undefined;
 };
 
 /** @internal */
 export type GetSessionProjectsProjectIdSessionsSessionIdGetSecurity$Outbound = {
   APIKeyHeader?: string | undefined;
+  ClassicAPIKeyHeader?: string | undefined;
   OAuth2PasswordBearer?: models.OAuth2PasswordBearerInput$Outbound | undefined;
   HTTPBasic?: models.SchemeHTTPBasic$Outbound | undefined;
 };
@@ -31,21 +39,25 @@ export const GetSessionProjectsProjectIdSessionsSessionIdGetSecurity$outboundSch
   z.ZodMiniType<
     GetSessionProjectsProjectIdSessionsSessionIdGetSecurity$Outbound,
     GetSessionProjectsProjectIdSessionsSessionIdGetSecurity
-  > = z.pipe(
-    z.object({
-      apiKeyHeader: z.optional(z.string()),
-      oAuth2PasswordBearer: z.optional(
-        models.OAuth2PasswordBearerInput$outboundSchema,
-      ),
-      httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        apiKeyHeader: "APIKeyHeader",
-        oAuth2PasswordBearer: "OAuth2PasswordBearer",
-        httpBasic: "HTTPBasic",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        apiKeyHeader: z.optional(z.string()),
+        classicAPIKeyHeader: z.optional(z.string()),
+        oAuth2PasswordBearer: z.optional(
+          models.OAuth2PasswordBearerInput$outboundSchema,
+        ),
+        httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          apiKeyHeader: "APIKeyHeader",
+          classicAPIKeyHeader: "ClassicAPIKeyHeader",
+          oAuth2PasswordBearer: "OAuth2PasswordBearer",
+          httpBasic: "HTTPBasic",
+        });
+      }),
+    )
   );
 
 export function getSessionProjectsProjectIdSessionsSessionIdGetSecurityToJSON(
@@ -63,6 +75,8 @@ export type GetSessionProjectsProjectIdSessionsSessionIdGetRequest$Outbound = {
   session_id: string;
   project_id: string;
   include_presigned_urls: boolean;
+  access_view_id?: string | null | undefined;
+  include_redacted_io: boolean;
 };
 
 /** @internal */
@@ -70,19 +84,25 @@ export const GetSessionProjectsProjectIdSessionsSessionIdGetRequest$outboundSche
   z.ZodMiniType<
     GetSessionProjectsProjectIdSessionsSessionIdGetRequest$Outbound,
     GetSessionProjectsProjectIdSessionsSessionIdGetRequest
-  > = z.pipe(
-    z.object({
-      sessionId: z.string(),
-      projectId: z.string(),
-      includePresignedUrls: z._default(z.boolean(), false),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        sessionId: "session_id",
-        projectId: "project_id",
-        includePresignedUrls: "include_presigned_urls",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        sessionId: z.string(),
+        projectId: z.string(),
+        includePresignedUrls: z._default(z.boolean(), false),
+        accessViewId: z.optional(z.nullable(z.string())),
+        includeRedactedIo: z._default(z.boolean(), true),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          sessionId: "session_id",
+          projectId: "project_id",
+          includePresignedUrls: "include_presigned_urls",
+          accessViewId: "access_view_id",
+          includeRedactedIo: "include_redacted_io",
+        });
+      }),
+    )
   );
 
 export function getSessionProjectsProjectIdSessionsSessionIdGetRequestToJSON(

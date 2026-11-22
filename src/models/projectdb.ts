@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -34,30 +34,32 @@ export type ProjectDB = {
 };
 
 /** @internal */
-export const ProjectDB$inboundSchema: z.ZodMiniType<ProjectDB, unknown> = z
-  .pipe(
-    z.object({
-      id: types.string(),
-      permissions: types.optional(z.array(Permission$inboundSchema)),
-      name: z.optional(z.nullable(types.string())),
-      created_by: types.string(),
-      type: z.optional(z.nullable(ProjectType$inboundSchema)),
-      created_by_user: UserInfo$inboundSchema,
-      runs: z.array(RunDB$inboundSchema),
-      created_at: types.date(),
-      updated_at: types.date(),
-      bookmark: z._default(types.boolean(), false),
-      description: z.optional(z.nullable(types.string())),
-      labels: types.optional(z.array(ProjectLabels$inboundSchema)),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "created_by": "createdBy",
-        "created_by_user": "createdByUser",
-        "created_at": "createdAt",
-        "updated_at": "updatedAt",
-      });
-    }),
+export const ProjectDB$inboundSchema: z.ZodMiniType<ProjectDB, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        id: types.string(),
+        permissions: types.optional(z.array(Permission$inboundSchema)),
+        name: z.optional(z.nullable(types.string())),
+        created_by: types.string(),
+        type: z.optional(z.nullable(ProjectType$inboundSchema)),
+        created_by_user: UserInfo$inboundSchema,
+        runs: z.array(RunDB$inboundSchema),
+        created_at: types.date(),
+        updated_at: types.date(),
+        bookmark: z._default(types.boolean(), false),
+        description: z.optional(z.nullable(types.string())),
+        labels: types.optional(z.array(ProjectLabels$inboundSchema)),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "created_by": "createdBy",
+          "created_by_user": "createdByUser",
+          "created_at": "createdAt",
+          "updated_at": "updatedAt",
+        });
+      }),
+    )
   );
 
 export function projectDBFromJSON(

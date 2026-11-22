@@ -4,7 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
 import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import { Result as SafeParseResult } from "../types/fp.js";
@@ -55,11 +55,13 @@ export type InputToneScorer = {
 export const InputToneScorerFilter$inboundSchema: z.ZodMiniType<
   InputToneScorerFilter,
   unknown
-> = discriminatedUnion("name", {
-  metadata: MetadataFilter$inboundSchema,
-  modality: ModalityFilter$inboundSchema,
-  node_name: NodeNameFilter$inboundSchema,
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  discriminatedUnion("name", {
+    metadata: MetadataFilter$inboundSchema,
+    modality: ModalityFilter$inboundSchema,
+    node_name: NodeNameFilter$inboundSchema,
+  })
+);
 /** @internal */
 export type InputToneScorerFilter$Outbound =
   | MetadataFilter$Outbound
@@ -70,11 +72,13 @@ export type InputToneScorerFilter$Outbound =
 export const InputToneScorerFilter$outboundSchema: z.ZodMiniType<
   InputToneScorerFilter$Outbound,
   InputToneScorerFilter
-> = z.union([
-  MetadataFilter$outboundSchema,
-  ModalityFilter$outboundSchema,
-  NodeNameFilter$outboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    MetadataFilter$outboundSchema,
+    ModalityFilter$outboundSchema,
+    NodeNameFilter$outboundSchema,
+  ])
+);
 
 export function inputToneScorerFilterToJSON(
   inputToneScorerFilter: InputToneScorerFilter,
@@ -97,20 +101,22 @@ export function inputToneScorerFilterFromJSON(
 export const InputToneScorer$inboundSchema: z.ZodMiniType<
   InputToneScorer,
   unknown
-> = z.object({
-  name: types.literal("input_tone"),
-  filters: z.optional(
-    z.nullable(
-      z.array(
-        discriminatedUnion("name", {
-          metadata: MetadataFilter$inboundSchema,
-          modality: ModalityFilter$inboundSchema,
-          node_name: NodeNameFilter$inboundSchema,
-        }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    name: types.literal("input_tone"),
+    filters: z.optional(
+      z.nullable(
+        z.array(
+          discriminatedUnion("name", {
+            metadata: MetadataFilter$inboundSchema,
+            modality: ModalityFilter$inboundSchema,
+            node_name: NodeNameFilter$inboundSchema,
+          }),
+        ),
       ),
     ),
-  ),
-});
+  })
+);
 /** @internal */
 export type InputToneScorer$Outbound = {
   name: "input_tone";
@@ -128,20 +134,22 @@ export type InputToneScorer$Outbound = {
 export const InputToneScorer$outboundSchema: z.ZodMiniType<
   InputToneScorer$Outbound,
   InputToneScorer
-> = z.object({
-  name: z.literal("input_tone"),
-  filters: z.optional(
-    z.nullable(
-      z.array(
-        z.union([
-          MetadataFilter$outboundSchema,
-          ModalityFilter$outboundSchema,
-          NodeNameFilter$outboundSchema,
-        ]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    name: z.literal("input_tone"),
+    filters: z.optional(
+      z.nullable(
+        z.array(
+          z.union([
+            MetadataFilter$outboundSchema,
+            ModalityFilter$outboundSchema,
+            NodeNameFilter$outboundSchema,
+          ]),
+        ),
       ),
     ),
-  ),
-});
+  })
+);
 
 export function inputToneScorerToJSON(
   inputToneScorer: InputToneScorer,

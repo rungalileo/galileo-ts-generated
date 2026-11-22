@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type BodyLoginEmailLoginPost = {
   grantType?: string | null | undefined;
@@ -29,22 +30,24 @@ export type BodyLoginEmailLoginPost$Outbound = {
 export const BodyLoginEmailLoginPost$outboundSchema: z.ZodMiniType<
   BodyLoginEmailLoginPost$Outbound,
   BodyLoginEmailLoginPost
-> = z.pipe(
-  z.object({
-    grantType: z.optional(z.nullable(z.string())),
-    username: z.string(),
-    password: z.string(),
-    scope: z._default(z.string(), ""),
-    clientId: z.optional(z.nullable(z.string())),
-    clientSecret: z.optional(z.nullable(z.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      grantType: "grant_type",
-      clientId: "client_id",
-      clientSecret: "client_secret",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      grantType: z.optional(z.nullable(z.string())),
+      username: z.string(),
+      password: z.string(),
+      scope: z._default(z.string(), ""),
+      clientId: z.optional(z.nullable(z.string())),
+      clientSecret: z.optional(z.nullable(z.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        grantType: "grant_type",
+        clientId: "client_id",
+        clientSecret: "client_secret",
+      });
+    }),
+  )
 );
 
 export function bodyLoginEmailLoginPostToJSON(

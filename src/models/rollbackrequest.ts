@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type RollbackRequest = {
   rollbackVersion: number;
@@ -19,15 +20,17 @@ export type RollbackRequest$Outbound = {
 export const RollbackRequest$outboundSchema: z.ZodMiniType<
   RollbackRequest$Outbound,
   RollbackRequest
-> = z.pipe(
-  z.object({
-    rollbackVersion: z.int(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      rollbackVersion: "rollback_version",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      rollbackVersion: z.int(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        rollbackVersion: "rollback_version",
+      });
+    }),
+  )
 );
 
 export function rollbackRequestToJSON(

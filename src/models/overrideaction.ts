@@ -4,7 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -31,11 +31,13 @@ export type OverrideAction = {
 export const OverrideAction$inboundSchema: z.ZodMiniType<
   OverrideAction,
   unknown
-> = z.object({
-  type: types.literal("OVERRIDE"),
-  subscriptions: types.optional(z.array(SubscriptionConfig$inboundSchema)),
-  choices: z.array(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    type: types.literal("OVERRIDE"),
+    subscriptions: types.optional(z.array(SubscriptionConfig$inboundSchema)),
+    choices: z.array(types.string()),
+  })
+);
 /** @internal */
 export type OverrideAction$Outbound = {
   type: "OVERRIDE";
@@ -47,11 +49,13 @@ export type OverrideAction$Outbound = {
 export const OverrideAction$outboundSchema: z.ZodMiniType<
   OverrideAction$Outbound,
   OverrideAction
-> = z.object({
-  type: z.literal("OVERRIDE"),
-  subscriptions: z.optional(z.array(SubscriptionConfig$outboundSchema)),
-  choices: z.array(z.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    type: z.literal("OVERRIDE"),
+    subscriptions: z.optional(z.array(SubscriptionConfig$outboundSchema)),
+    choices: z.array(z.string()),
+  })
+);
 
 export function overrideActionToJSON(overrideAction: OverrideAction): string {
   return JSON.stringify(OverrideAction$outboundSchema.parse(overrideAction));

@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { smartUnion } from "../../types/smartUnion.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
@@ -13,6 +13,7 @@ import * as models from "../index.js";
 
 export type InvokeProtectInvokePostSecurity = {
   apiKeyHeader?: string | undefined;
+  classicAPIKeyHeader?: string | undefined;
   oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
   httpBasic?: models.SchemeHTTPBasic | undefined;
 };
@@ -27,6 +28,7 @@ export type ResponseInvokeProtectInvokePost =
 /** @internal */
 export type InvokeProtectInvokePostSecurity$Outbound = {
   APIKeyHeader?: string | undefined;
+  ClassicAPIKeyHeader?: string | undefined;
   OAuth2PasswordBearer?: models.OAuth2PasswordBearerInput$Outbound | undefined;
   HTTPBasic?: models.SchemeHTTPBasic$Outbound | undefined;
 };
@@ -35,21 +37,25 @@ export type InvokeProtectInvokePostSecurity$Outbound = {
 export const InvokeProtectInvokePostSecurity$outboundSchema: z.ZodMiniType<
   InvokeProtectInvokePostSecurity$Outbound,
   InvokeProtectInvokePostSecurity
-> = z.pipe(
-  z.object({
-    apiKeyHeader: z.optional(z.string()),
-    oAuth2PasswordBearer: z.optional(
-      models.OAuth2PasswordBearerInput$outboundSchema,
-    ),
-    httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      apiKeyHeader: "APIKeyHeader",
-      oAuth2PasswordBearer: "OAuth2PasswordBearer",
-      httpBasic: "HTTPBasic",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      apiKeyHeader: z.optional(z.string()),
+      classicAPIKeyHeader: z.optional(z.string()),
+      oAuth2PasswordBearer: z.optional(
+        models.OAuth2PasswordBearerInput$outboundSchema,
+      ),
+      httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        apiKeyHeader: "APIKeyHeader",
+        classicAPIKeyHeader: "ClassicAPIKeyHeader",
+        oAuth2PasswordBearer: "OAuth2PasswordBearer",
+        httpBasic: "HTTPBasic",
+      });
+    }),
+  )
 );
 
 export function invokeProtectInvokePostSecurityToJSON(
@@ -66,10 +72,12 @@ export function invokeProtectInvokePostSecurityToJSON(
 export const ResponseInvokeProtectInvokePost$inboundSchema: z.ZodMiniType<
   ResponseInvokeProtectInvokePost,
   unknown
-> = smartUnion([
-  models.InvokeResponse$inboundSchema,
-  models.ProtectResponse$inboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    models.InvokeResponse$inboundSchema,
+    models.ProtectResponse$inboundSchema,
+  ])
+);
 
 export function responseInvokeProtectInvokePostFromJSON(
   jsonString: string,

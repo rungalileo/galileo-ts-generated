@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
@@ -22,4 +23,6 @@ export type LogRecordsFilterType = OpenEnum<typeof LogRecordsFilterType>;
 export const LogRecordsFilterType$inboundSchema: z.ZodMiniType<
   LogRecordsFilterType,
   unknown
-> = openEnums.inboundSchema(LogRecordsFilterType);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(LogRecordsFilterType)
+);

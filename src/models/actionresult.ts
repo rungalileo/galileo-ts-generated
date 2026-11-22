@@ -4,7 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { ActionType, ActionType$inboundSchema } from "./actiontype.js";
@@ -20,10 +20,12 @@ export type ActionResult = {
 
 /** @internal */
 export const ActionResult$inboundSchema: z.ZodMiniType<ActionResult, unknown> =
-  z.object({
-    type: ActionType$inboundSchema,
-    value: types.string(),
-  });
+  /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      type: ActionType$inboundSchema,
+      value: types.string(),
+    })
+  );
 
 export function actionResultFromJSON(
   jsonString: string,

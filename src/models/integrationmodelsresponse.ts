@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import {
@@ -36,33 +36,37 @@ export type IntegrationModelsResponse = {
 export const IntegrationModelsResponse$inboundSchema: z.ZodMiniType<
   IntegrationModelsResponse,
   unknown
-> = z.pipe(
-  z.object({
-    integration_name: types.string(),
-    integration_id: types.string(),
-    provider: IntegrationProvider$inboundSchema,
-    models: z.array(types.string()),
-    scorer_models: z.array(types.string()),
-    recommended_models: types.optional(
-      z.record(z.string(), z.array(types.string())),
-    ),
-    supports_num_judges: z._default(types.boolean(), true),
-    supports_file_uploads: z._default(types.boolean(), false),
-    model_properties: types.optional(
-      z.array(ApiSchemasIntegrationLlmIntegrationModelProperties$inboundSchema),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "integration_name": "integrationName",
-      "integration_id": "integrationId",
-      "scorer_models": "scorerModels",
-      "recommended_models": "recommendedModels",
-      "supports_num_judges": "supportsNumJudges",
-      "supports_file_uploads": "supportsFileUploads",
-      "model_properties": "modelProperties",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      integration_name: types.string(),
+      integration_id: types.string(),
+      provider: IntegrationProvider$inboundSchema,
+      models: z.array(types.string()),
+      scorer_models: z.array(types.string()),
+      recommended_models: types.optional(
+        z.record(z.string(), z.array(types.string())),
+      ),
+      supports_num_judges: z._default(types.boolean(), true),
+      supports_file_uploads: z._default(types.boolean(), false),
+      model_properties: types.optional(
+        z.array(
+          ApiSchemasIntegrationLlmIntegrationModelProperties$inboundSchema,
+        ),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "integration_name": "integrationName",
+        "integration_id": "integrationId",
+        "scorer_models": "scorerModels",
+        "recommended_models": "recommendedModels",
+        "supports_num_judges": "supportsNumJudges",
+        "supports_file_uploads": "supportsFileUploads",
+        "model_properties": "modelProperties",
+      });
+    }),
+  )
 );
 
 export function integrationModelsResponseFromJSON(

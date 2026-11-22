@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
@@ -17,9 +18,10 @@ export const IntegrationProvider = {
   Mistral: "mistral",
   Nvidia: "nvidia",
   Openai: "openai",
-  VegasGateway: "vegas_gateway",
   VertexAi: "vertex_ai",
   Writer: "writer",
+  Typesafe: "typesafe",
+  Luna: "luna",
 } as const;
 export type IntegrationProvider = OpenEnum<typeof IntegrationProvider>;
 
@@ -27,9 +29,13 @@ export type IntegrationProvider = OpenEnum<typeof IntegrationProvider>;
 export const IntegrationProvider$inboundSchema: z.ZodMiniType<
   IntegrationProvider,
   unknown
-> = openEnums.inboundSchema(IntegrationProvider);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(IntegrationProvider)
+);
 /** @internal */
 export const IntegrationProvider$outboundSchema: z.ZodMiniType<
   string,
   IntegrationProvider
-> = openEnums.outboundSchema(IntegrationProvider);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.outboundSchema(IntegrationProvider)
+);

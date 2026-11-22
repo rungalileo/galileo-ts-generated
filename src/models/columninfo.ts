@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import {
@@ -15,6 +15,10 @@ import {
 import { DataType, DataType$inboundSchema } from "./datatype.js";
 import { DataUnit, DataUnit$inboundSchema } from "./dataunit.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
+import {
+  MetricThreshold,
+  MetricThreshold$inboundSchema,
+} from "./metricthreshold.js";
 import { StepType, StepType$inboundSchema } from "./steptype.js";
 
 export type ColumnInfo = {
@@ -79,43 +83,50 @@ export type ColumnInfo = {
    * Alternate metric key for this column. When scorer UUIDs are used as column IDs, this holds the legacy metric_name string for dual-key ClickHouse query fallback.
    */
   metricKeyAlias?: string | null | undefined;
+  /**
+   * Thresholds for the column, if this is a metrics column.
+   */
+  threshold?: MetricThreshold | null | undefined;
 };
 
 /** @internal */
-export const ColumnInfo$inboundSchema: z.ZodMiniType<ColumnInfo, unknown> = z
-  .pipe(
-    z.object({
-      id: types.string(),
-      label: z.optional(z.nullable(types.string())),
-      category: ColumnCategory$inboundSchema,
-      description: z.optional(z.nullable(types.string())),
-      group_label: z.optional(z.nullable(types.string())),
-      data_type: types.nullable(DataType$inboundSchema),
-      data_unit: z.optional(z.nullable(DataUnit$inboundSchema)),
-      multi_valued: z._default(types.boolean(), false),
-      allowed_values: z.optional(z.nullable(z.array(z.any()))),
-      sortable: types.optional(types.boolean()),
-      filterable: types.optional(types.boolean()),
-      is_empty: z._default(types.boolean(), false),
-      applicable_types: types.optional(z.array(StepType$inboundSchema)),
-      is_optional: z._default(types.boolean(), false),
-      roll_up_method: z.optional(z.nullable(types.string())),
-      metric_key_alias: z.optional(z.nullable(types.string())),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "group_label": "groupLabel",
-        "data_type": "dataType",
-        "data_unit": "dataUnit",
-        "multi_valued": "multiValued",
-        "allowed_values": "allowedValues",
-        "is_empty": "isEmpty",
-        "applicable_types": "applicableTypes",
-        "is_optional": "isOptional",
-        "roll_up_method": "rollUpMethod",
-        "metric_key_alias": "metricKeyAlias",
-      });
-    }),
+export const ColumnInfo$inboundSchema: z.ZodMiniType<ColumnInfo, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        id: types.string(),
+        label: z.optional(z.nullable(types.string())),
+        category: ColumnCategory$inboundSchema,
+        description: z.optional(z.nullable(types.string())),
+        group_label: z.optional(z.nullable(types.string())),
+        data_type: types.nullable(DataType$inboundSchema),
+        data_unit: z.optional(z.nullable(DataUnit$inboundSchema)),
+        multi_valued: z._default(types.boolean(), false),
+        allowed_values: z.optional(z.nullable(z.array(z.any()))),
+        sortable: types.optional(types.boolean()),
+        filterable: types.optional(types.boolean()),
+        is_empty: z._default(types.boolean(), false),
+        applicable_types: types.optional(z.array(StepType$inboundSchema)),
+        is_optional: z._default(types.boolean(), false),
+        roll_up_method: z.optional(z.nullable(types.string())),
+        metric_key_alias: z.optional(z.nullable(types.string())),
+        threshold: z.optional(z.nullable(MetricThreshold$inboundSchema)),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "group_label": "groupLabel",
+          "data_type": "dataType",
+          "data_unit": "dataUnit",
+          "multi_valued": "multiValued",
+          "allowed_values": "allowedValues",
+          "is_empty": "isEmpty",
+          "applicable_types": "applicableTypes",
+          "is_optional": "isOptional",
+          "roll_up_method": "rollUpMethod",
+          "metric_key_alias": "metricKeyAlias",
+        });
+      }),
+    )
   );
 
 export function columnInfoFromJSON(

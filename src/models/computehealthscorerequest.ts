@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   OutputTypeEnum,
   OutputTypeEnum$outboundSchema,
@@ -39,21 +40,23 @@ export type ComputeHealthScoreRequest$Outbound = {
 export const ComputeHealthScoreRequest$outboundSchema: z.ZodMiniType<
   ComputeHealthScoreRequest$Outbound,
   ComputeHealthScoreRequest
-> = z.pipe(
-  z.object({
-    scorerId: z.string(),
-    outputType: OutputTypeEnum$outboundSchema,
-    scoreableNodeTypes: z.optional(z.array(StepType$outboundSchema)),
-    mgtOverlay: z.optional(z.record(z.string(), z.nullable(z.string()))),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      scorerId: "scorer_id",
-      outputType: "output_type",
-      scoreableNodeTypes: "scoreable_node_types",
-      mgtOverlay: "mgt_overlay",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      scorerId: z.string(),
+      outputType: OutputTypeEnum$outboundSchema,
+      scoreableNodeTypes: z.optional(z.array(StepType$outboundSchema)),
+      mgtOverlay: z.optional(z.record(z.string(), z.nullable(z.string()))),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        scorerId: "scorer_id",
+        outputType: "output_type",
+        scoreableNodeTypes: "scoreable_node_types",
+        mgtOverlay: "mgt_overlay",
+      });
+    }),
+  )
 );
 
 export function computeHealthScoreRequestToJSON(

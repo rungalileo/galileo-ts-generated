@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
@@ -17,4 +18,6 @@ export type GroupMemberAction = OpenEnum<typeof GroupMemberAction>;
 export const GroupMemberAction$inboundSchema: z.ZodMiniType<
   GroupMemberAction,
   unknown
-> = openEnums.inboundSchema(GroupMemberAction);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(GroupMemberAction)
+);

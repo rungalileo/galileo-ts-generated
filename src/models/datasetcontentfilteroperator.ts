@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 
 export const DatasetContentFilterOperator = {
@@ -18,4 +19,4 @@ export type DatasetContentFilterOperator = ClosedEnum<
 /** @internal */
 export const DatasetContentFilterOperator$outboundSchema: z.ZodMiniEnum<
   typeof DatasetContentFilterOperator
-> = z.enum(DatasetContentFilterOperator);
+> = /* @__PURE__ */ lazySchema$(() => z.enum(DatasetContentFilterOperator));

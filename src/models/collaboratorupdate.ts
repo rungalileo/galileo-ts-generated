@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   CollaboratorRole,
   CollaboratorRole$outboundSchema,
@@ -22,9 +23,11 @@ export type CollaboratorUpdate$Outbound = {
 export const CollaboratorUpdate$outboundSchema: z.ZodMiniType<
   CollaboratorUpdate$Outbound,
   CollaboratorUpdate
-> = z.object({
-  role: CollaboratorRole$outboundSchema,
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    role: CollaboratorRole$outboundSchema,
+  })
+);
 
 export function collaboratorUpdateToJSON(
   collaboratorUpdate: CollaboratorUpdate,

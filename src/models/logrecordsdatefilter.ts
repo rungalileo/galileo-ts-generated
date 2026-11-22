@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 
 export const LogRecordsDateFilterOperator = {
@@ -32,7 +33,7 @@ export type LogRecordsDateFilter = {
 /** @internal */
 export const LogRecordsDateFilterOperator$outboundSchema: z.ZodMiniEnum<
   typeof LogRecordsDateFilterOperator
-> = z.enum(LogRecordsDateFilterOperator);
+> = /* @__PURE__ */ lazySchema$(() => z.enum(LogRecordsDateFilterOperator));
 
 /** @internal */
 export type LogRecordsDateFilter$Outbound = {
@@ -46,18 +47,20 @@ export type LogRecordsDateFilter$Outbound = {
 export const LogRecordsDateFilter$outboundSchema: z.ZodMiniType<
   LogRecordsDateFilter$Outbound,
   LogRecordsDateFilter
-> = z.pipe(
-  z.object({
-    columnId: z.string(),
-    operator: LogRecordsDateFilterOperator$outboundSchema,
-    value: z.pipe(z.date(), z.transform(v => v.toISOString())),
-    type: z.literal("date"),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      columnId: "column_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      columnId: z.string(),
+      operator: LogRecordsDateFilterOperator$outboundSchema,
+      value: z.pipe(z.date(), z.transform(v => v.toISOString())),
+      type: z.literal("date"),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        columnId: "column_id",
+      });
+    }),
+  )
 );
 
 export function logRecordsDateFilterToJSON(

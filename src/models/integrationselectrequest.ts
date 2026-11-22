@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type IntegrationSelectRequest = {
   integrationName: string;
@@ -21,17 +22,19 @@ export type IntegrationSelectRequest$Outbound = {
 export const IntegrationSelectRequest$outboundSchema: z.ZodMiniType<
   IntegrationSelectRequest$Outbound,
   IntegrationSelectRequest
-> = z.pipe(
-  z.object({
-    integrationName: z.string(),
-    integrationId: z.string(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      integrationName: "integration_name",
-      integrationId: "integration_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      integrationName: z.string(),
+      integrationId: z.string(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        integrationName: "integration_name",
+        integrationId: "integration_id",
+      });
+    }),
+  )
 );
 
 export function integrationSelectRequestToJSON(

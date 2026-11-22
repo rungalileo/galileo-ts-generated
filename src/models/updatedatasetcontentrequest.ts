@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   DatasetAppendRow,
   DatasetAppendRow$Outbound,
@@ -30,6 +31,16 @@ import {
   DatasetPrependRow$outboundSchema,
 } from "./datasetprependrow.js";
 import {
+  DatasetRemoveColumn,
+  DatasetRemoveColumn$Outbound,
+  DatasetRemoveColumn$outboundSchema,
+} from "./datasetremovecolumn.js";
+import {
+  DatasetRenameColumn,
+  DatasetRenameColumn$Outbound,
+  DatasetRenameColumn$outboundSchema,
+} from "./datasetrenamecolumn.js";
+import {
   DatasetUpdateRow,
   DatasetUpdateRow$Outbound,
   DatasetUpdateRow$outboundSchema,
@@ -41,6 +52,8 @@ export type Edit =
   | DatasetDeleteRow
   | DatasetFilterRows
   | DatasetPrependRow
+  | DatasetRemoveColumn
+  | DatasetRenameColumn
   | DatasetUpdateRow;
 
 /**
@@ -61,6 +74,8 @@ export type UpdateDatasetContentRequest = {
     | DatasetDeleteRow
     | DatasetFilterRows
     | DatasetPrependRow
+    | DatasetRemoveColumn
+    | DatasetRenameColumn
     | DatasetUpdateRow
   >;
 };
@@ -72,17 +87,24 @@ export type Edit$Outbound =
   | DatasetDeleteRow$Outbound
   | DatasetFilterRows$Outbound
   | DatasetPrependRow$Outbound
+  | DatasetRemoveColumn$Outbound
+  | DatasetRenameColumn$Outbound
   | DatasetUpdateRow$Outbound;
 
 /** @internal */
-export const Edit$outboundSchema: z.ZodMiniType<Edit$Outbound, Edit> = z.union([
-  DatasetAppendRow$outboundSchema,
-  DatasetCopyRecordData$outboundSchema,
-  DatasetDeleteRow$outboundSchema,
-  DatasetFilterRows$outboundSchema,
-  DatasetPrependRow$outboundSchema,
-  DatasetUpdateRow$outboundSchema,
-]);
+export const Edit$outboundSchema: z.ZodMiniType<Edit$Outbound, Edit> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.union([
+      DatasetAppendRow$outboundSchema,
+      DatasetCopyRecordData$outboundSchema,
+      DatasetDeleteRow$outboundSchema,
+      DatasetFilterRows$outboundSchema,
+      DatasetPrependRow$outboundSchema,
+      DatasetRemoveColumn$outboundSchema,
+      DatasetRenameColumn$outboundSchema,
+      DatasetUpdateRow$outboundSchema,
+    ])
+  );
 
 export function editToJSON(edit: Edit): string {
   return JSON.stringify(Edit$outboundSchema.parse(edit));
@@ -96,6 +118,8 @@ export type UpdateDatasetContentRequest$Outbound = {
     | DatasetDeleteRow$Outbound
     | DatasetFilterRows$Outbound
     | DatasetPrependRow$Outbound
+    | DatasetRemoveColumn$Outbound
+    | DatasetRenameColumn$Outbound
     | DatasetUpdateRow$Outbound
   >;
 };
@@ -104,18 +128,22 @@ export type UpdateDatasetContentRequest$Outbound = {
 export const UpdateDatasetContentRequest$outboundSchema: z.ZodMiniType<
   UpdateDatasetContentRequest$Outbound,
   UpdateDatasetContentRequest
-> = z.object({
-  edits: z.array(
-    z.union([
-      DatasetAppendRow$outboundSchema,
-      DatasetCopyRecordData$outboundSchema,
-      DatasetDeleteRow$outboundSchema,
-      DatasetFilterRows$outboundSchema,
-      DatasetPrependRow$outboundSchema,
-      DatasetUpdateRow$outboundSchema,
-    ]),
-  ),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    edits: z.array(
+      z.union([
+        DatasetAppendRow$outboundSchema,
+        DatasetCopyRecordData$outboundSchema,
+        DatasetDeleteRow$outboundSchema,
+        DatasetFilterRows$outboundSchema,
+        DatasetPrependRow$outboundSchema,
+        DatasetRemoveColumn$outboundSchema,
+        DatasetRenameColumn$outboundSchema,
+        DatasetUpdateRow$outboundSchema,
+      ]),
+    ),
+  })
+);
 
 export function updateDatasetContentRequestToJSON(
   updateDatasetContentRequest: UpdateDatasetContentRequest,

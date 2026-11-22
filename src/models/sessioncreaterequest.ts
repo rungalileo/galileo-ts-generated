@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   LoggingMethod,
   LoggingMethod$outboundSchema,
@@ -26,7 +27,7 @@ export type SessionCreateRequest = {
   loggingMethod?: LoggingMethod | undefined;
   clientVersion?: string | null | undefined;
   /**
-   * Whether or not to use reliable logging.  If set to False, the method will respond immediately before verifying that the traces have been successfully ingested, and no error message will be returned if ingestion fails.  If set to True, the method will wait for the traces to be successfully ingested or return an error message if there is an ingestion failure.
+   * Whether or not to use reliable logging.  If set to False, the method will respond immediately before verifying that the traces have been successfully ingested, and no error message will be returned if ingestion fails.  If set to True, the method will wait for the traces to be durably accepted or return an error message if there is an ingestion failure. On the streaming write path (kafka_metrics_pipeline) accepted means acknowledged by Kafka; the records become readable after the data-writer flush, about GALILEO_STREAMING_EXPECTED_LAG_SECONDS (default 2.5 s) later, so a read issued immediately after the response can miss them.
    */
   reliable?: boolean | undefined;
   /**
@@ -65,31 +66,33 @@ export type SessionCreateRequest$Outbound = {
 export const SessionCreateRequest$outboundSchema: z.ZodMiniType<
   SessionCreateRequest$Outbound,
   SessionCreateRequest
-> = z.pipe(
-  z.object({
-    logStreamId: z.optional(z.nullable(z.string())),
-    experimentId: z.optional(z.nullable(z.string())),
-    metricsTestingId: z.optional(z.nullable(z.string())),
-    loggingMethod: z.optional(LoggingMethod$outboundSchema),
-    clientVersion: z.optional(z.nullable(z.string())),
-    reliable: z._default(z.boolean(), true),
-    name: z.optional(z.nullable(z.string())),
-    previousSessionId: z.optional(z.nullable(z.string())),
-    externalId: z.optional(z.nullable(z.string())),
-    userMetadata: z.optional(z.nullable(z.record(z.string(), z.string()))),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      logStreamId: "log_stream_id",
-      experimentId: "experiment_id",
-      metricsTestingId: "metrics_testing_id",
-      loggingMethod: "logging_method",
-      clientVersion: "client_version",
-      previousSessionId: "previous_session_id",
-      externalId: "external_id",
-      userMetadata: "user_metadata",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      logStreamId: z.optional(z.nullable(z.string())),
+      experimentId: z.optional(z.nullable(z.string())),
+      metricsTestingId: z.optional(z.nullable(z.string())),
+      loggingMethod: z.optional(LoggingMethod$outboundSchema),
+      clientVersion: z.optional(z.nullable(z.string())),
+      reliable: z._default(z.boolean(), true),
+      name: z.optional(z.nullable(z.string())),
+      previousSessionId: z.optional(z.nullable(z.string())),
+      externalId: z.optional(z.nullable(z.string())),
+      userMetadata: z.optional(z.nullable(z.record(z.string(), z.string()))),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        logStreamId: "log_stream_id",
+        experimentId: "experiment_id",
+        metricsTestingId: "metrics_testing_id",
+        loggingMethod: "logging_method",
+        clientVersion: "client_version",
+        previousSessionId: "previous_session_id",
+        externalId: "external_id",
+        userMetadata: "user_metadata",
+      });
+    }),
+  )
 );
 
 export function sessionCreateRequestToJSON(

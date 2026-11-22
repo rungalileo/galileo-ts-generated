@@ -14,7 +14,7 @@ let value: LogRecordsQueryResponse = {
       input: "Who is a smart LLM?",
       output: "I am",
       name: "",
-      createdAt: new Date("2026-05-12T23:58:32.302404Z"),
+      createdAt: new Date("2026-11-20T15:51:38.781661Z"),
       userMetadata: {},
       tags: [],
       metrics: {
@@ -33,6 +33,8 @@ let value: LogRecordsQueryResponse = {
       annotationAggregates: {},
       annotationAgreement: {},
       annotationQueueIds: [],
+      progressMessage: "",
+      errorMessage: "",
       isComplete: true,
     },
     {
@@ -48,7 +50,7 @@ let value: LogRecordsQueryResponse = {
         role: "user",
       },
       name: "",
-      createdAt: new Date("2026-05-12T23:58:32.302552Z"),
+      createdAt: new Date("2026-11-20T15:51:38.781800Z"),
       userMetadata: {},
       tags: [],
       metrics: {
@@ -70,10 +72,13 @@ let value: LogRecordsQueryResponse = {
       annotationAggregates: {},
       annotationAgreement: {},
       annotationQueueIds: [],
+      progressMessage: "",
+      errorMessage: "",
       parentId: "1a0939d1-8b43-4fe3-a91c-196e2d9847e3",
       isComplete: true,
     },
   ],
+  numRecords: 219764,
 };
 ```
 
@@ -87,3 +92,4 @@ let value: LogRecordsQueryResponse = {
 | `nextStartingToken`                      | *number*                                 | :heavy_minus_sign:                       | N/A                                      |
 | `lastRowId`                              | *string*                                 | :heavy_minus_sign:                       | N/A                                      |
 | `records`                                | *models.LogRecordsQueryResponseRecord*[] | :heavy_minus_sign:                       | records matching the query               |
+| `numRecords`                             | *number*                                 | :heavy_check_mark:                       | number of records                        |

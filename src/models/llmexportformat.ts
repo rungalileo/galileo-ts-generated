@@ -4,15 +4,17 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 
 export const LLMExportFormat = {
   Csv: "csv",
   Jsonl: "jsonl",
+  JsonlFlat: "jsonl_flat",
 } as const;
 export type LLMExportFormat = ClosedEnum<typeof LLMExportFormat>;
 
 /** @internal */
 export const LLMExportFormat$outboundSchema: z.ZodMiniEnum<
   typeof LLMExportFormat
-> = z.enum(LLMExportFormat);
+> = /* @__PURE__ */ lazySchema$(() => z.enum(LLMExportFormat));

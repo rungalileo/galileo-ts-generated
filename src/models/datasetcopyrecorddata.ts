@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 /**
  * Prepend or append trace or span data to dataset.
@@ -22,7 +23,9 @@ export type DatasetCopyRecordData = {
    */
   prepend?: boolean | undefined;
   /**
-   * If True, write trace output to generated_output column; if False, write to output column (backward compatible)
+   * DEPRECATED and ignored. Record copies always map the record's output to the generated_output column and dataset_output to the output (ground truth) column. Retained so requests from older clients still validate; will be removed.
+   *
+   * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
    */
   useGeneratedOutputColumn?: boolean | undefined;
 };
@@ -41,23 +44,25 @@ export type DatasetCopyRecordData$Outbound = {
 export const DatasetCopyRecordData$outboundSchema: z.ZodMiniType<
   DatasetCopyRecordData$Outbound,
   DatasetCopyRecordData
-> = z.pipe(
-  z.object({
-    editType: z.literal("copy_record_data"),
-    projectId: z.optional(z.nullable(z.string())),
-    queueId: z.optional(z.nullable(z.string())),
-    ids: z.array(z.string()),
-    prepend: z._default(z.boolean(), true),
-    useGeneratedOutputColumn: z._default(z.boolean(), false),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      editType: "edit_type",
-      projectId: "project_id",
-      queueId: "queue_id",
-      useGeneratedOutputColumn: "use_generated_output_column",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      editType: z.literal("copy_record_data"),
+      projectId: z.optional(z.nullable(z.string())),
+      queueId: z.optional(z.nullable(z.string())),
+      ids: z.array(z.string()),
+      prepend: z._default(z.boolean(), true),
+      useGeneratedOutputColumn: z._default(z.boolean(), false),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        editType: "edit_type",
+        projectId: "project_id",
+        queueId: "queue_id",
+        useGeneratedOutputColumn: "use_generated_output_column",
+      });
+    }),
+  )
 );
 
 export function datasetCopyRecordDataToJSON(

@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -22,17 +22,19 @@ export type FewShotExample = {
 export const FewShotExample$inboundSchema: z.ZodMiniType<
   FewShotExample,
   unknown
-> = z.pipe(
-  z.object({
-    generation_prompt_and_response: types.string(),
-    evaluating_response: types.string(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "generation_prompt_and_response": "generationPromptAndResponse",
-      "evaluating_response": "evaluatingResponse",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      generation_prompt_and_response: types.string(),
+      evaluating_response: types.string(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "generation_prompt_and_response": "generationPromptAndResponse",
+        "evaluating_response": "evaluatingResponse",
+      });
+    }),
+  )
 );
 /** @internal */
 export type FewShotExample$Outbound = {
@@ -44,17 +46,19 @@ export type FewShotExample$Outbound = {
 export const FewShotExample$outboundSchema: z.ZodMiniType<
   FewShotExample$Outbound,
   FewShotExample
-> = z.pipe(
-  z.object({
-    generationPromptAndResponse: z.string(),
-    evaluatingResponse: z.string(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      generationPromptAndResponse: "generation_prompt_and_response",
-      evaluatingResponse: "evaluating_response",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      generationPromptAndResponse: z.string(),
+      evaluatingResponse: z.string(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        generationPromptAndResponse: "generation_prompt_and_response",
+        evaluatingResponse: "evaluating_response",
+      });
+    }),
+  )
 );
 
 export function fewShotExampleToJSON(fewShotExample: FewShotExample): string {

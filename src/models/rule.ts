@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { smartUnion } from "../types/smartUnion.js";
@@ -37,12 +37,9 @@ export type Rule = {
 export const RuleTargetValue$inboundSchema: z.ZodMiniType<
   RuleTargetValue,
   unknown
-> = smartUnion([
-  types.string(),
-  types.number(),
-  types.number(),
-  z.array(z.any()),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([types.string(), types.number(), types.number(), z.array(z.any())])
+);
 /** @internal */
 export type RuleTargetValue$Outbound = string | number | number | Array<any>;
 
@@ -50,7 +47,9 @@ export type RuleTargetValue$Outbound = string | number | number | Array<any>;
 export const RuleTargetValue$outboundSchema: z.ZodMiniType<
   RuleTargetValue$Outbound,
   RuleTargetValue
-> = smartUnion([z.string(), z.number(), z.int(), z.array(z.any())]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([z.string(), z.number(), z.int(), z.array(z.any())])
+);
 
 export function ruleTargetValueToJSON(
   ruleTargetValue: RuleTargetValue,
@@ -68,25 +67,28 @@ export function ruleTargetValueFromJSON(
 }
 
 /** @internal */
-export const Rule$inboundSchema: z.ZodMiniType<Rule, unknown> = z.pipe(
-  z.object({
-    metric: types.string(),
-    operator: RuleOperator$inboundSchema,
-    target_value: types.nullable(
-      smartUnion([
-        types.string(),
-        types.number(),
-        types.number(),
-        z.array(z.any()),
-      ]),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "target_value": "targetValue",
-    });
-  }),
-);
+export const Rule$inboundSchema: z.ZodMiniType<Rule, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        metric: types.string(),
+        operator: RuleOperator$inboundSchema,
+        target_value: types.nullable(
+          smartUnion([
+            types.string(),
+            types.number(),
+            types.number(),
+            z.array(z.any()),
+          ]),
+        ),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "target_value": "targetValue",
+        });
+      }),
+    )
+  );
 /** @internal */
 export type Rule$Outbound = {
   metric: string;
@@ -95,20 +97,23 @@ export type Rule$Outbound = {
 };
 
 /** @internal */
-export const Rule$outboundSchema: z.ZodMiniType<Rule$Outbound, Rule> = z.pipe(
-  z.object({
-    metric: z.string(),
-    operator: RuleOperator$outboundSchema,
-    targetValue: z.nullable(
-      smartUnion([z.string(), z.number(), z.int(), z.array(z.any())]),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      targetValue: "target_value",
-    });
-  }),
-);
+export const Rule$outboundSchema: z.ZodMiniType<Rule$Outbound, Rule> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        metric: z.string(),
+        operator: RuleOperator$outboundSchema,
+        targetValue: z.nullable(
+          smartUnion([z.string(), z.number(), z.int(), z.array(z.any())]),
+        ),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          targetValue: "target_value",
+        });
+      }),
+    )
+  );
 
 export function ruleToJSON(rule: Rule): string {
   return JSON.stringify(Rule$outboundSchema.parse(rule));

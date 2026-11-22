@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -31,31 +31,57 @@ export type LlmMetrics = {
    * Time until the first token was generated in nanoseconds.
    */
   timeToFirstTokenNs?: number | null | undefined;
+  /**
+   * Number of image input tokens.
+   */
+  numImageInputTokens?: number | null | undefined;
+  /**
+   * Number of audio input tokens.
+   */
+  numAudioInputTokens?: number | null | undefined;
+  /**
+   * Number of audio output tokens.
+   */
+  numAudioOutputTokens?: number | null | undefined;
+  /**
+   * Number of image output tokens.
+   */
+  numImageOutputTokens?: number | null | undefined;
   [additionalProperties: string]: unknown;
 };
 
 /** @internal */
-export const LlmMetrics$inboundSchema: z.ZodMiniType<LlmMetrics, unknown> = z
-  .pipe(
-    z.catchall(
-      z.object({
-        duration_ns: z.optional(z.nullable(types.number())),
-        num_input_tokens: z.optional(z.nullable(types.number())),
-        num_output_tokens: z.optional(z.nullable(types.number())),
-        num_total_tokens: z.optional(z.nullable(types.number())),
-        time_to_first_token_ns: z.optional(z.nullable(types.number())),
+export const LlmMetrics$inboundSchema: z.ZodMiniType<LlmMetrics, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.catchall(
+        z.object({
+          duration_ns: z.optional(z.nullable(types.number())),
+          num_input_tokens: z.optional(z.nullable(types.number())),
+          num_output_tokens: z.optional(z.nullable(types.number())),
+          num_total_tokens: z.optional(z.nullable(types.number())),
+          time_to_first_token_ns: z.optional(z.nullable(types.number())),
+          num_image_input_tokens: z.optional(z.nullable(types.number())),
+          num_audio_input_tokens: z.optional(z.nullable(types.number())),
+          num_audio_output_tokens: z.optional(z.nullable(types.number())),
+          num_image_output_tokens: z.optional(z.nullable(types.number())),
+        }),
+        z.any(),
+      ),
+      z.transform((v) => {
+        return remap$(v, {
+          "duration_ns": "durationNs",
+          "num_input_tokens": "numInputTokens",
+          "num_output_tokens": "numOutputTokens",
+          "num_total_tokens": "numTotalTokens",
+          "time_to_first_token_ns": "timeToFirstTokenNs",
+          "num_image_input_tokens": "numImageInputTokens",
+          "num_audio_input_tokens": "numAudioInputTokens",
+          "num_audio_output_tokens": "numAudioOutputTokens",
+          "num_image_output_tokens": "numImageOutputTokens",
+        });
       }),
-      z.any(),
-    ),
-    z.transform((v) => {
-      return remap$(v, {
-        "duration_ns": "durationNs",
-        "num_input_tokens": "numInputTokens",
-        "num_output_tokens": "numOutputTokens",
-        "num_total_tokens": "numTotalTokens",
-        "time_to_first_token_ns": "timeToFirstTokenNs",
-      });
-    }),
+    )
   );
 /** @internal */
 export type LlmMetrics$Outbound = {
@@ -64,6 +90,10 @@ export type LlmMetrics$Outbound = {
   num_output_tokens?: number | null | undefined;
   num_total_tokens?: number | null | undefined;
   time_to_first_token_ns?: number | null | undefined;
+  num_image_input_tokens?: number | null | undefined;
+  num_audio_input_tokens?: number | null | undefined;
+  num_audio_output_tokens?: number | null | undefined;
+  num_image_output_tokens?: number | null | undefined;
   [additionalProperties: string]: unknown;
 };
 
@@ -71,28 +101,38 @@ export type LlmMetrics$Outbound = {
 export const LlmMetrics$outboundSchema: z.ZodMiniType<
   LlmMetrics$Outbound,
   LlmMetrics
-> = z.pipe(
-  z.catchall(
-    z.object({
-      durationNs: z.optional(z.nullable(z.int())),
-      numInputTokens: z.optional(z.nullable(z.int())),
-      numOutputTokens: z.optional(z.nullable(z.int())),
-      numTotalTokens: z.optional(z.nullable(z.int())),
-      timeToFirstTokenNs: z.optional(z.nullable(z.int())),
-    }),
-    z.any(),
-  ),
-  z.transform((v) => {
-    return {
-      ...remap$(v, {
-        durationNs: "duration_ns",
-        numInputTokens: "num_input_tokens",
-        numOutputTokens: "num_output_tokens",
-        numTotalTokens: "num_total_tokens",
-        timeToFirstTokenNs: "time_to_first_token_ns",
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.catchall(
+      z.object({
+        durationNs: z.optional(z.nullable(z.int())),
+        numInputTokens: z.optional(z.nullable(z.int())),
+        numOutputTokens: z.optional(z.nullable(z.int())),
+        numTotalTokens: z.optional(z.nullable(z.int())),
+        timeToFirstTokenNs: z.optional(z.nullable(z.int())),
+        numImageInputTokens: z.optional(z.nullable(z.int())),
+        numAudioInputTokens: z.optional(z.nullable(z.int())),
+        numAudioOutputTokens: z.optional(z.nullable(z.int())),
+        numImageOutputTokens: z.optional(z.nullable(z.int())),
       }),
-    };
-  }),
+      z.any(),
+    ),
+    z.transform((v) => {
+      return {
+        ...remap$(v, {
+          durationNs: "duration_ns",
+          numInputTokens: "num_input_tokens",
+          numOutputTokens: "num_output_tokens",
+          numTotalTokens: "num_total_tokens",
+          timeToFirstTokenNs: "time_to_first_token_ns",
+          numImageInputTokens: "num_image_input_tokens",
+          numAudioInputTokens: "num_audio_input_tokens",
+          numAudioOutputTokens: "num_audio_output_tokens",
+          numImageOutputTokens: "num_image_output_tokens",
+        }),
+      };
+    }),
+  )
 );
 
 export function llmMetricsToJSON(llmMetrics: LlmMetrics): string {
