@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -17,6 +17,7 @@ import {
 export type ProjectIntegrationCosts = {
   projectId: string;
   projectName: string;
+  runId?: string | null | undefined;
   totalCost: number;
   dataPoints?: Array<IntegrationCostsDataPoint> | undefined;
 };
@@ -25,23 +26,27 @@ export type ProjectIntegrationCosts = {
 export const ProjectIntegrationCosts$inboundSchema: z.ZodMiniType<
   ProjectIntegrationCosts,
   unknown
-> = z.pipe(
-  z.object({
-    project_id: types.string(),
-    project_name: types.string(),
-    total_cost: z._default(types.number(), 0),
-    data_points: types.optional(
-      z.array(IntegrationCostsDataPoint$inboundSchema),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "project_id": "projectId",
-      "project_name": "projectName",
-      "total_cost": "totalCost",
-      "data_points": "dataPoints",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      project_id: types.string(),
+      project_name: types.string(),
+      run_id: z.optional(z.nullable(types.string())),
+      total_cost: z._default(types.number(), 0),
+      data_points: types.optional(
+        z.array(IntegrationCostsDataPoint$inboundSchema),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "project_id": "projectId",
+        "project_name": "projectName",
+        "run_id": "runId",
+        "total_cost": "totalCost",
+        "data_points": "dataPoints",
+      });
+    }),
+  )
 );
 
 export function projectIntegrationCostsFromJSON(

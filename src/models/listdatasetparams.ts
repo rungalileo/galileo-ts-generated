@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   DatasetCreatedAtSort,
   DatasetCreatedAtSort$Outbound,
@@ -115,13 +116,15 @@ export type ListDatasetParamsFilter$Outbound =
 export const ListDatasetParamsFilter$outboundSchema: z.ZodMiniType<
   ListDatasetParamsFilter$Outbound,
   ListDatasetParamsFilter
-> = z.union([
-  DatasetDraftFilter$outboundSchema,
-  DatasetIDFilter$outboundSchema,
-  DatasetNameFilter$outboundSchema,
-  DatasetNotInProjectFilter$outboundSchema,
-  DatasetUsedInProjectFilter$outboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    DatasetDraftFilter$outboundSchema,
+    DatasetIDFilter$outboundSchema,
+    DatasetNameFilter$outboundSchema,
+    DatasetNotInProjectFilter$outboundSchema,
+    DatasetUsedInProjectFilter$outboundSchema,
+  ])
+);
 
 export function listDatasetParamsFilterToJSON(
   listDatasetParamsFilter: ListDatasetParamsFilter,
@@ -145,15 +148,17 @@ export type ListDatasetParamsSort$Outbound =
 export const ListDatasetParamsSort$outboundSchema: z.ZodMiniType<
   ListDatasetParamsSort$Outbound,
   ListDatasetParamsSort
-> = z.union([
-  DatasetCreatedAtSort$outboundSchema,
-  DatasetLastEditedByUserAtSort$outboundSchema,
-  DatasetNameSort$outboundSchema,
-  DatasetRowsSort$outboundSchema,
-  DatasetProjectsSort$outboundSchema,
-  DatasetProjectLastUsedAtSort$outboundSchema,
-  DatasetUpdatedAtSort$outboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    DatasetCreatedAtSort$outboundSchema,
+    DatasetLastEditedByUserAtSort$outboundSchema,
+    DatasetNameSort$outboundSchema,
+    DatasetRowsSort$outboundSchema,
+    DatasetProjectsSort$outboundSchema,
+    DatasetProjectLastUsedAtSort$outboundSchema,
+    DatasetUpdatedAtSort$outboundSchema,
+  ])
+);
 
 export function listDatasetParamsSortToJSON(
   listDatasetParamsSort: ListDatasetParamsSort,
@@ -190,32 +195,34 @@ export type ListDatasetParams$Outbound = {
 export const ListDatasetParams$outboundSchema: z.ZodMiniType<
   ListDatasetParams$Outbound,
   ListDatasetParams
-> = z.object({
-  filters: z.optional(
-    z.array(
-      z.union([
-        DatasetDraftFilter$outboundSchema,
-        DatasetIDFilter$outboundSchema,
-        DatasetNameFilter$outboundSchema,
-        DatasetNotInProjectFilter$outboundSchema,
-        DatasetUsedInProjectFilter$outboundSchema,
-      ]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    filters: z.optional(
+      z.array(
+        z.union([
+          DatasetDraftFilter$outboundSchema,
+          DatasetIDFilter$outboundSchema,
+          DatasetNameFilter$outboundSchema,
+          DatasetNotInProjectFilter$outboundSchema,
+          DatasetUsedInProjectFilter$outboundSchema,
+        ]),
+      ),
     ),
-  ),
-  sort: z.optional(
-    z.nullable(
-      z.union([
-        DatasetCreatedAtSort$outboundSchema,
-        DatasetLastEditedByUserAtSort$outboundSchema,
-        DatasetNameSort$outboundSchema,
-        DatasetRowsSort$outboundSchema,
-        DatasetProjectsSort$outboundSchema,
-        DatasetProjectLastUsedAtSort$outboundSchema,
-        DatasetUpdatedAtSort$outboundSchema,
-      ]),
+    sort: z.optional(
+      z.nullable(
+        z.union([
+          DatasetCreatedAtSort$outboundSchema,
+          DatasetLastEditedByUserAtSort$outboundSchema,
+          DatasetNameSort$outboundSchema,
+          DatasetRowsSort$outboundSchema,
+          DatasetProjectsSort$outboundSchema,
+          DatasetProjectLastUsedAtSort$outboundSchema,
+          DatasetUpdatedAtSort$outboundSchema,
+        ]),
+      ),
     ),
-  ),
-});
+  })
+);
 
 export function listDatasetParamsToJSON(
   listDatasetParams: ListDatasetParams,

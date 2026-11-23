@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 import { smartUnion } from "../types/smartUnion.js";
 
@@ -40,7 +41,7 @@ export type LogRecordsNumberFilter = {
 /** @internal */
 export const LogRecordsNumberFilterOperator$outboundSchema: z.ZodMiniEnum<
   typeof LogRecordsNumberFilterOperator
-> = z.enum(LogRecordsNumberFilterOperator);
+> = /* @__PURE__ */ lazySchema$(() => z.enum(LogRecordsNumberFilterOperator));
 
 /** @internal */
 export type LogRecordsNumberFilterValue$Outbound =
@@ -53,7 +54,9 @@ export type LogRecordsNumberFilterValue$Outbound =
 export const LogRecordsNumberFilterValue$outboundSchema: z.ZodMiniType<
   LogRecordsNumberFilterValue$Outbound,
   LogRecordsNumberFilterValue
-> = smartUnion([z.int(), z.number(), z.array(z.int()), z.array(z.number())]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([z.int(), z.number(), z.array(z.int()), z.array(z.number())])
+);
 
 export function logRecordsNumberFilterValueToJSON(
   logRecordsNumberFilterValue: LogRecordsNumberFilterValue,
@@ -77,23 +80,25 @@ export type LogRecordsNumberFilter$Outbound = {
 export const LogRecordsNumberFilter$outboundSchema: z.ZodMiniType<
   LogRecordsNumberFilter$Outbound,
   LogRecordsNumberFilter
-> = z.pipe(
-  z.object({
-    columnId: z.string(),
-    operator: LogRecordsNumberFilterOperator$outboundSchema,
-    value: smartUnion([
-      z.int(),
-      z.number(),
-      z.array(z.int()),
-      z.array(z.number()),
-    ]),
-    type: z.literal("number"),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      columnId: "column_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      columnId: z.string(),
+      operator: LogRecordsNumberFilterOperator$outboundSchema,
+      value: smartUnion([
+        z.int(),
+        z.number(),
+        z.array(z.int()),
+        z.array(z.number()),
+      ]),
+      type: z.literal("number"),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        columnId: "column_id",
+      });
+    }),
+  )
 );
 
 export function logRecordsNumberFilterToJSON(

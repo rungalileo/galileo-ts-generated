@@ -5,18 +5,33 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
+import { ClosedEnum } from "../types/enums.js";
+
+export const ExperimentUpdateRequestTaskType = {
+  Sixteen: 16,
+  Seventeen: 17,
+} as const;
+export type ExperimentUpdateRequestTaskType = ClosedEnum<
+  typeof ExperimentUpdateRequestTaskType
+>;
 
 export type ExperimentUpdateRequest = {
   name: string;
-  taskType?: 16 | undefined;
+  taskType?: ExperimentUpdateRequestTaskType | undefined;
   experimentGroupId?: string | null | undefined;
   experimentGroupName?: string | null | undefined;
 };
 
 /** @internal */
+export const ExperimentUpdateRequestTaskType$outboundSchema: z.ZodMiniEnum<
+  typeof ExperimentUpdateRequestTaskType
+> = /* @__PURE__ */ lazySchema$(() => z.enum(ExperimentUpdateRequestTaskType));
+
+/** @internal */
 export type ExperimentUpdateRequest$Outbound = {
   name: string;
-  task_type?: 16 | undefined;
+  task_type?: number | undefined;
   experiment_group_id?: string | null | undefined;
   experiment_group_name?: string | null | undefined;
 };
@@ -25,20 +40,22 @@ export type ExperimentUpdateRequest$Outbound = {
 export const ExperimentUpdateRequest$outboundSchema: z.ZodMiniType<
   ExperimentUpdateRequest$Outbound,
   ExperimentUpdateRequest
-> = z.pipe(
-  z.object({
-    name: z.string(),
-    taskType: z.optional(z.literal(16)),
-    experimentGroupId: z.optional(z.nullable(z.string())),
-    experimentGroupName: z.optional(z.nullable(z.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      taskType: "task_type",
-      experimentGroupId: "experiment_group_id",
-      experimentGroupName: "experiment_group_name",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: z.string(),
+      taskType: z.optional(ExperimentUpdateRequestTaskType$outboundSchema),
+      experimentGroupId: z.optional(z.nullable(z.string())),
+      experimentGroupName: z.optional(z.nullable(z.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        taskType: "task_type",
+        experimentGroupId: "experiment_group_id",
+        experimentGroupName: "experiment_group_name",
+      });
+    }),
+  )
 );
 
 export function experimentUpdateRequestToJSON(

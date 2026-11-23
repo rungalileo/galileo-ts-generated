@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type ProjectBookmarkSort = {
   name: "bookmark";
@@ -23,17 +24,19 @@ export type ProjectBookmarkSort$Outbound = {
 export const ProjectBookmarkSort$outboundSchema: z.ZodMiniType<
   ProjectBookmarkSort$Outbound,
   ProjectBookmarkSort
-> = z.pipe(
-  z.object({
-    name: z.literal("bookmark"),
-    ascending: z._default(z.boolean(), true),
-    sortType: z._default(z.literal("custom"), "custom" as const),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      sortType: "sort_type",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: z.literal("bookmark"),
+      ascending: z._default(z.boolean(), true),
+      sortType: z._default(z.literal("custom"), "custom" as const),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        sortType: "sort_type",
+      });
+    }),
+  )
 );
 
 export function projectBookmarkSortToJSON(

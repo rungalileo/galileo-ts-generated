@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   DatasetContentFilterOperator,
   DatasetContentFilterOperator$outboundSchema,
@@ -27,17 +28,19 @@ export type DatasetContentFilter$Outbound = {
 export const DatasetContentFilter$outboundSchema: z.ZodMiniType<
   DatasetContentFilter$Outbound,
   DatasetContentFilter
-> = z.pipe(
-  z.object({
-    columnName: z.string(),
-    value: z.string(),
-    operator: z.optional(DatasetContentFilterOperator$outboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      columnName: "column_name",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      columnName: z.string(),
+      value: z.string(),
+      operator: z.optional(DatasetContentFilterOperator$outboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        columnName: "column_name",
+      });
+    }),
+  )
 );
 
 export function datasetContentFilterToJSON(

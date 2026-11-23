@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import {
@@ -29,27 +29,29 @@ export type CreateUpdateRegisteredScorerResponse = {
 export const CreateUpdateRegisteredScorerResponse$inboundSchema: z.ZodMiniType<
   CreateUpdateRegisteredScorerResponse,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.string(),
-    name: types.string(),
-    score_type: types.nullable(types.string()),
-    created_at: types.date(),
-    updated_at: types.date(),
-    created_by: types.string(),
-    data_type: types.nullable(DataTypeOptions$inboundSchema),
-    scoreable_node_types: types.nullable(z.array(types.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "score_type": "scoreType",
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-      "created_by": "createdBy",
-      "data_type": "dataType",
-      "scoreable_node_types": "scoreableNodeTypes",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.string(),
+      name: types.string(),
+      score_type: types.nullable(types.string()),
+      created_at: types.date(),
+      updated_at: types.date(),
+      created_by: types.string(),
+      data_type: types.nullable(DataTypeOptions$inboundSchema),
+      scoreable_node_types: types.nullable(z.array(types.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "score_type": "scoreType",
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+        "created_by": "createdBy",
+        "data_type": "dataType",
+        "scoreable_node_types": "scoreableNodeTypes",
+      });
+    }),
+  )
 );
 
 export function createUpdateRegisteredScorerResponseFromJSON(

@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   PromptTemplateCreatedAtSort,
   PromptTemplateCreatedAtSort$Outbound,
@@ -79,12 +80,14 @@ export type ListPromptTemplateParamsFilter$Outbound =
 export const ListPromptTemplateParamsFilter$outboundSchema: z.ZodMiniType<
   ListPromptTemplateParamsFilter$Outbound,
   ListPromptTemplateParamsFilter
-> = z.union([
-  PromptTemplateCreatedByFilter$outboundSchema,
-  PromptTemplateNameFilter$outboundSchema,
-  PromptTemplateNotInProjectFilter$outboundSchema,
-  PromptTemplateUsedInProjectFilter$outboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    PromptTemplateCreatedByFilter$outboundSchema,
+    PromptTemplateNameFilter$outboundSchema,
+    PromptTemplateNotInProjectFilter$outboundSchema,
+    PromptTemplateUsedInProjectFilter$outboundSchema,
+  ])
+);
 
 export function listPromptTemplateParamsFilterToJSON(
   listPromptTemplateParamsFilter: ListPromptTemplateParamsFilter,
@@ -106,11 +109,13 @@ export type ListPromptTemplateParamsSort$Outbound =
 export const ListPromptTemplateParamsSort$outboundSchema: z.ZodMiniType<
   ListPromptTemplateParamsSort$Outbound,
   ListPromptTemplateParamsSort
-> = z.union([
-  PromptTemplateCreatedAtSort$outboundSchema,
-  PromptTemplateNameSort$outboundSchema,
-  PromptTemplateUpdatedAtSort$outboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    PromptTemplateCreatedAtSort$outboundSchema,
+    PromptTemplateNameSort$outboundSchema,
+    PromptTemplateUpdatedAtSort$outboundSchema,
+  ])
+);
 
 export function listPromptTemplateParamsSortToJSON(
   listPromptTemplateParamsSort: ListPromptTemplateParamsSort,
@@ -144,27 +149,29 @@ export type ListPromptTemplateParams$Outbound = {
 export const ListPromptTemplateParams$outboundSchema: z.ZodMiniType<
   ListPromptTemplateParams$Outbound,
   ListPromptTemplateParams
-> = z.object({
-  filters: z.optional(
-    z.array(
-      z.union([
-        PromptTemplateCreatedByFilter$outboundSchema,
-        PromptTemplateNameFilter$outboundSchema,
-        PromptTemplateNotInProjectFilter$outboundSchema,
-        PromptTemplateUsedInProjectFilter$outboundSchema,
-      ]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    filters: z.optional(
+      z.array(
+        z.union([
+          PromptTemplateCreatedByFilter$outboundSchema,
+          PromptTemplateNameFilter$outboundSchema,
+          PromptTemplateNotInProjectFilter$outboundSchema,
+          PromptTemplateUsedInProjectFilter$outboundSchema,
+        ]),
+      ),
     ),
-  ),
-  sort: z.optional(
-    z.nullable(
-      z.union([
-        PromptTemplateCreatedAtSort$outboundSchema,
-        PromptTemplateNameSort$outboundSchema,
-        PromptTemplateUpdatedAtSort$outboundSchema,
-      ]),
+    sort: z.optional(
+      z.nullable(
+        z.union([
+          PromptTemplateCreatedAtSort$outboundSchema,
+          PromptTemplateNameSort$outboundSchema,
+          PromptTemplateUpdatedAtSort$outboundSchema,
+        ]),
+      ),
     ),
-  ),
-});
+  })
+);
 
 export function listPromptTemplateParamsToJSON(
   listPromptTemplateParams: ListPromptTemplateParams,

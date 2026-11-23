@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -23,6 +23,11 @@ import { SDKValidationError } from "./errors/sdkvalidationerror.js";
  *               Mutually exclusive with ``supported_parameters``.
  *     supported_parameters: Explicit list of parameter names this model supports.
  *                           Mutually exclusive with ``based_on``.
+ *     supports_json_schema: Whether the endpoint supports an OpenAI-style ``json_schema``
+ *                           ``response_format`` for this model. Defaults to False.
+ *     fallback_models: Other models on this integration, sent as the request body
+ *                      field ``fallbacks`` when this model is called. Set this only when
+ *                      the endpoint accepts that field. A strict endpoint can reject the request.
  */
 export type PromptgalileoSchemasConfigCustomModelProperties = {
   /**
@@ -41,24 +46,38 @@ export type PromptgalileoSchemasConfigCustomModelProperties = {
    * Explicit list of parameter names this model supports (e.g., ['max_tokens', 'temperature', 'verbosity']). Each name must be a valid RunParamsMap field. Mutually exclusive with based_on.
    */
   supportedParameters?: Array<string> | null | undefined;
+  /**
+   * Set to true only if the endpoint supports OpenAI-style structured outputs for this model. When true, Galileo sends JSON response schemas, such as those of LLM-as-a-judge metrics, as response_format with type 'json_schema'. Works with based_on and with supported_parameters.
+   */
+  supportsJsonSchema?: boolean | undefined;
+  /**
+   * Names of other models on this integration. When this model is called, these names are sent as the request body field fallbacks. Set this only when the endpoint accepts a fallbacks body field. A strict endpoint can reject the whole request.
+   */
+  fallbackModels?: Array<string> | null | undefined;
 };
 
 /** @internal */
 export const PromptgalileoSchemasConfigCustomModelProperties$inboundSchema:
-  z.ZodMiniType<PromptgalileoSchemasConfigCustomModelProperties, unknown> = z
-    .pipe(
-      z.object({
-        name: types.string(),
-        alias: z.optional(z.nullable(types.string())),
-        based_on: z.optional(z.nullable(types.string())),
-        supported_parameters: z.optional(z.nullable(z.array(types.string()))),
-      }),
-      z.transform((v) => {
-        return remap$(v, {
-          "based_on": "basedOn",
-          "supported_parameters": "supportedParameters",
-        });
-      }),
+  z.ZodMiniType<PromptgalileoSchemasConfigCustomModelProperties, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          name: types.string(),
+          alias: z.optional(z.nullable(types.string())),
+          based_on: z.optional(z.nullable(types.string())),
+          supported_parameters: z.optional(z.nullable(z.array(types.string()))),
+          supports_json_schema: z._default(types.boolean(), false),
+          fallback_models: z.optional(z.nullable(z.array(types.string()))),
+        }),
+        z.transform((v) => {
+          return remap$(v, {
+            "based_on": "basedOn",
+            "supported_parameters": "supportedParameters",
+            "supports_json_schema": "supportsJsonSchema",
+            "fallback_models": "fallbackModels",
+          });
+        }),
+      )
     );
 /** @internal */
 export type PromptgalileoSchemasConfigCustomModelProperties$Outbound = {
@@ -66,6 +85,8 @@ export type PromptgalileoSchemasConfigCustomModelProperties$Outbound = {
   alias?: string | null | undefined;
   based_on?: string | null | undefined;
   supported_parameters?: Array<string> | null | undefined;
+  supports_json_schema: boolean;
+  fallback_models?: Array<string> | null | undefined;
 };
 
 /** @internal */
@@ -73,19 +94,25 @@ export const PromptgalileoSchemasConfigCustomModelProperties$outboundSchema:
   z.ZodMiniType<
     PromptgalileoSchemasConfigCustomModelProperties$Outbound,
     PromptgalileoSchemasConfigCustomModelProperties
-  > = z.pipe(
-    z.object({
-      name: z.string(),
-      alias: z.optional(z.nullable(z.string())),
-      basedOn: z.optional(z.nullable(z.string())),
-      supportedParameters: z.optional(z.nullable(z.array(z.string()))),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        basedOn: "based_on",
-        supportedParameters: "supported_parameters",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        name: z.string(),
+        alias: z.optional(z.nullable(z.string())),
+        basedOn: z.optional(z.nullable(z.string())),
+        supportedParameters: z.optional(z.nullable(z.array(z.string()))),
+        supportsJsonSchema: z._default(z.boolean(), false),
+        fallbackModels: z.optional(z.nullable(z.array(z.string()))),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          basedOn: "based_on",
+          supportedParameters: "supported_parameters",
+          supportsJsonSchema: "supports_json_schema",
+          fallbackModels: "fallback_models",
+        });
+      }),
+    )
   );
 
 export function promptgalileoSchemasConfigCustomModelPropertiesToJSON(

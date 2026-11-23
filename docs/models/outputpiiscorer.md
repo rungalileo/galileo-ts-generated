@@ -10,7 +10,7 @@ let value: OutputPIIScorer = {
   filters: [
     {
       name: "node_name",
-      operator: "contains",
+      operator: "regex",
       value: "<value>",
       caseSensitive: true,
     },

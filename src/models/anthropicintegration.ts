@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import {
@@ -47,34 +47,36 @@ export type AnthropicIntegration = {
 export const AnthropicIntegration$inboundSchema: z.ZodMiniType<
   AnthropicIntegration,
   unknown
-> = z.pipe(
-  z.object({
-    multi_modal_config: z.optional(
-      z.nullable(MultiModalModelIntegrationConfig$inboundSchema),
-    ),
-    authentication_type: types.optional(
-      AnthropicAuthenticationType$inboundSchema,
-    ),
-    endpoint: z.optional(z.nullable(types.string())),
-    authentication_scope: z.optional(z.nullable(types.string())),
-    oauth2_token_url: z.optional(z.nullable(types.string())),
-    custom_header_mapping: z.optional(
-      z.nullable(z.record(z.string(), types.string())),
-    ),
-    id: z.optional(z.nullable(types.string())),
-    name: z._default(types.literal("anthropic"), "anthropic"),
-    provider: types.literal("anthropic"),
-    extra: z.optional(z.nullable(z.record(z.string(), z.any()))),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "multi_modal_config": "multiModalConfig",
-      "authentication_type": "authenticationType",
-      "authentication_scope": "authenticationScope",
-      "oauth2_token_url": "oauth2TokenUrl",
-      "custom_header_mapping": "customHeaderMapping",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      multi_modal_config: z.optional(
+        z.nullable(MultiModalModelIntegrationConfig$inboundSchema),
+      ),
+      authentication_type: types.optional(
+        AnthropicAuthenticationType$inboundSchema,
+      ),
+      endpoint: z.optional(z.nullable(types.string())),
+      authentication_scope: z.optional(z.nullable(types.string())),
+      oauth2_token_url: z.optional(z.nullable(types.string())),
+      custom_header_mapping: z.optional(
+        z.nullable(z.record(z.string(), types.string())),
+      ),
+      id: z.optional(z.nullable(types.string())),
+      name: z._default(types.literal("anthropic"), "anthropic"),
+      provider: types.literal("anthropic"),
+      extra: z.optional(z.nullable(z.record(z.string(), z.any()))),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "multi_modal_config": "multiModalConfig",
+        "authentication_type": "authenticationType",
+        "authentication_scope": "authenticationScope",
+        "oauth2_token_url": "oauth2TokenUrl",
+        "custom_header_mapping": "customHeaderMapping",
+      });
+    }),
+  )
 );
 
 export function anthropicIntegrationFromJSON(

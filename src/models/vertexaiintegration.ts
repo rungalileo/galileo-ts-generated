@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -34,23 +34,27 @@ export type VertexAIIntegration = {
 export const VertexAIIntegration$inboundSchema: z.ZodMiniType<
   VertexAIIntegration,
   unknown
-> = z.pipe(
-  z.object({
-    multi_modal_config: z.optional(
-      z.nullable(MultiModalModelIntegrationConfig$inboundSchema),
-    ),
-    gcs_config: z.optional(z.nullable(VertexAIGCSConfigResponse$inboundSchema)),
-    id: z.optional(z.nullable(types.string())),
-    name: z._default(types.literal("vertex_ai"), "vertex_ai"),
-    provider: types.literal("vertex_ai"),
-    extra: z.optional(z.nullable(z.record(z.string(), z.any()))),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "multi_modal_config": "multiModalConfig",
-      "gcs_config": "gcsConfig",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      multi_modal_config: z.optional(
+        z.nullable(MultiModalModelIntegrationConfig$inboundSchema),
+      ),
+      gcs_config: z.optional(
+        z.nullable(VertexAIGCSConfigResponse$inboundSchema),
+      ),
+      id: z.optional(z.nullable(types.string())),
+      name: z._default(types.literal("vertex_ai"), "vertex_ai"),
+      provider: types.literal("vertex_ai"),
+      extra: z.optional(z.nullable(z.record(z.string(), z.any()))),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "multi_modal_config": "multiModalConfig",
+        "gcs_config": "gcsConfig",
+      });
+    }),
+  )
 );
 
 export function vertexAIIntegrationFromJSON(

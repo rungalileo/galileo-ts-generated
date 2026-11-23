@@ -6,7 +6,7 @@
 import { AnnotationRatingInfo } from "galileo-generated/models";
 
 let value: AnnotationRatingInfo = {
-  annotationType: "score",
+  annotationType: "tags",
   value: [
     "<value 1>",
     "<value 2>",

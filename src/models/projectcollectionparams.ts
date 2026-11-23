@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   ProjectBookmarkFilter,
   ProjectBookmarkFilter$Outbound,
@@ -132,16 +133,18 @@ export type ProjectCollectionParamsFilter$Outbound =
 export const ProjectCollectionParamsFilter$outboundSchema: z.ZodMiniType<
   ProjectCollectionParamsFilter$Outbound,
   ProjectCollectionParamsFilter
-> = z.union([
-  ProjectBookmarkFilter$outboundSchema,
-  ProjectCreatedAtFilter$outboundSchema,
-  ProjectCreatorFilter$outboundSchema,
-  ProjectIDFilter$outboundSchema,
-  ProjectNameFilter$outboundSchema,
-  ProjectRunsFilter$outboundSchema,
-  ProjectTypeFilter$outboundSchema,
-  ProjectUpdatedAtFilter$outboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    ProjectBookmarkFilter$outboundSchema,
+    ProjectCreatedAtFilter$outboundSchema,
+    ProjectCreatorFilter$outboundSchema,
+    ProjectIDFilter$outboundSchema,
+    ProjectNameFilter$outboundSchema,
+    ProjectRunsFilter$outboundSchema,
+    ProjectTypeFilter$outboundSchema,
+    ProjectUpdatedAtFilter$outboundSchema,
+  ])
+);
 
 export function projectCollectionParamsFilterToJSON(
   projectCollectionParamsFilter: ProjectCollectionParamsFilter,
@@ -166,14 +169,16 @@ export type ProjectCollectionParamsSort$Outbound =
 export const ProjectCollectionParamsSort$outboundSchema: z.ZodMiniType<
   ProjectCollectionParamsSort$Outbound,
   ProjectCollectionParamsSort
-> = z.union([
-  ProjectBookmarkSort$outboundSchema,
-  ProjectCreatedAtSort$outboundSchema,
-  ProjectNameSort$outboundSchema,
-  ProjectRunsSort$outboundSchema,
-  ProjectTypeSort$outboundSchema,
-  ProjectUpdatedAtSort$outboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    ProjectBookmarkSort$outboundSchema,
+    ProjectCreatedAtSort$outboundSchema,
+    ProjectNameSort$outboundSchema,
+    ProjectRunsSort$outboundSchema,
+    ProjectTypeSort$outboundSchema,
+    ProjectUpdatedAtSort$outboundSchema,
+  ])
+);
 
 export function projectCollectionParamsSortToJSON(
   projectCollectionParamsSort: ProjectCollectionParamsSort,
@@ -214,34 +219,36 @@ export type ProjectCollectionParams$Outbound = {
 export const ProjectCollectionParams$outboundSchema: z.ZodMiniType<
   ProjectCollectionParams$Outbound,
   ProjectCollectionParams
-> = z.object({
-  filters: z.optional(
-    z.array(
-      z.union([
-        ProjectBookmarkFilter$outboundSchema,
-        ProjectCreatedAtFilter$outboundSchema,
-        ProjectCreatorFilter$outboundSchema,
-        ProjectIDFilter$outboundSchema,
-        ProjectNameFilter$outboundSchema,
-        ProjectRunsFilter$outboundSchema,
-        ProjectTypeFilter$outboundSchema,
-        ProjectUpdatedAtFilter$outboundSchema,
-      ]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    filters: z.optional(
+      z.array(
+        z.union([
+          ProjectBookmarkFilter$outboundSchema,
+          ProjectCreatedAtFilter$outboundSchema,
+          ProjectCreatorFilter$outboundSchema,
+          ProjectIDFilter$outboundSchema,
+          ProjectNameFilter$outboundSchema,
+          ProjectRunsFilter$outboundSchema,
+          ProjectTypeFilter$outboundSchema,
+          ProjectUpdatedAtFilter$outboundSchema,
+        ]),
+      ),
     ),
-  ),
-  sort: z.optional(
-    z.nullable(
-      z.union([
-        ProjectBookmarkSort$outboundSchema,
-        ProjectCreatedAtSort$outboundSchema,
-        ProjectNameSort$outboundSchema,
-        ProjectRunsSort$outboundSchema,
-        ProjectTypeSort$outboundSchema,
-        ProjectUpdatedAtSort$outboundSchema,
-      ]),
+    sort: z.optional(
+      z.nullable(
+        z.union([
+          ProjectBookmarkSort$outboundSchema,
+          ProjectCreatedAtSort$outboundSchema,
+          ProjectNameSort$outboundSchema,
+          ProjectRunsSort$outboundSchema,
+          ProjectTypeSort$outboundSchema,
+          ProjectUpdatedAtSort$outboundSchema,
+        ]),
+      ),
     ),
-  ),
-});
+  })
+);
 
 export function projectCollectionParamsToJSON(
   projectCollectionParams: ProjectCollectionParams,

@@ -5,11 +5,17 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   ChainPollTemplate,
   ChainPollTemplate$Outbound,
   ChainPollTemplate$outboundSchema,
 } from "./chainpolltemplate.js";
+import {
+  FileContentPart,
+  FileContentPart$Outbound,
+  FileContentPart$outboundSchema,
+} from "./filecontentpart.js";
 import {
   FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType,
   FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$Outbound,
@@ -60,6 +66,11 @@ import {
   LogRecordsTextFilter$Outbound,
   LogRecordsTextFilter$outboundSchema,
 } from "./logrecordstextfilter.js";
+import {
+  TextContentPart,
+  TextContentPart$Outbound,
+  TextContentPart$outboundSchema,
+} from "./textcontentpart.js";
 
 export type ValidateLLMScorerLogRecordRequestFilter =
   | LogRecordsBooleanFilter
@@ -70,6 +81,10 @@ export type ValidateLLMScorerLogRecordRequestFilter =
   | LogRecordsNumberFilter
   | LogRecordsTextFilter;
 
+export type ValidateLLMScorerLogRecordRequestNormalizedInput =
+  | FileContentPart
+  | TextContentPart;
+
 /**
  * Request to validate a new LLM scorer based on a log record.
  *
@@ -78,6 +93,9 @@ export type ValidateLLMScorerLogRecordRequestFilter =
  */
 export type ValidateLLMScorerLogRecordRequest = {
   startingToken?: number | undefined;
+  /**
+   * Records per page, at most 1000. Page through larger result sets with starting_token or previous_last_row_id.
+   */
   limit?: number | undefined;
   previousLastRowId?: string | null | undefined;
   /**
@@ -92,6 +110,10 @@ export type ValidateLLMScorerLogRecordRequest = {
    * Metrics testing id associated with the traces.
    */
   metricsTestingId?: string | null | undefined;
+  /**
+   * Assigned log view for restricted access.
+   */
+  accessViewId?: string | null | undefined;
   filters?:
     | Array<
       | LogRecordsBooleanFilter
@@ -130,6 +152,10 @@ export type ValidateLLMScorerLogRecordRequest = {
    */
   chainPollTemplate: ChainPollTemplate;
   scorerConfiguration: GeneratedScorerConfiguration;
+  /**
+   * Optional multimodal content parts. When set, replaces the text-only query/response formatting in the validation job so that file content is passed through to the LLM.
+   */
+  normalizedInput?: Array<FileContentPart | TextContentPart> | null | undefined;
   userPrompt: string;
 };
 
@@ -148,15 +174,17 @@ export const ValidateLLMScorerLogRecordRequestFilter$outboundSchema:
   z.ZodMiniType<
     ValidateLLMScorerLogRecordRequestFilter$Outbound,
     ValidateLLMScorerLogRecordRequestFilter
-  > = z.union([
-    LogRecordsBooleanFilter$outboundSchema,
-    LogRecordsCollectionFilter$outboundSchema,
-    LogRecordsDateFilter$outboundSchema,
-    LogRecordsFullyAnnotatedFilter$outboundSchema,
-    LogRecordsIDFilter$outboundSchema,
-    LogRecordsNumberFilter$outboundSchema,
-    LogRecordsTextFilter$outboundSchema,
-  ]);
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.union([
+      LogRecordsBooleanFilter$outboundSchema,
+      LogRecordsCollectionFilter$outboundSchema,
+      LogRecordsDateFilter$outboundSchema,
+      LogRecordsFullyAnnotatedFilter$outboundSchema,
+      LogRecordsIDFilter$outboundSchema,
+      LogRecordsNumberFilter$outboundSchema,
+      LogRecordsTextFilter$outboundSchema,
+    ])
+  );
 
 export function validateLLMScorerLogRecordRequestFilterToJSON(
   validateLLMScorerLogRecordRequestFilter:
@@ -170,6 +198,31 @@ export function validateLLMScorerLogRecordRequestFilterToJSON(
 }
 
 /** @internal */
+export type ValidateLLMScorerLogRecordRequestNormalizedInput$Outbound =
+  | FileContentPart$Outbound
+  | TextContentPart$Outbound;
+
+/** @internal */
+export const ValidateLLMScorerLogRecordRequestNormalizedInput$outboundSchema:
+  z.ZodMiniType<
+    ValidateLLMScorerLogRecordRequestNormalizedInput$Outbound,
+    ValidateLLMScorerLogRecordRequestNormalizedInput
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema])
+  );
+
+export function validateLLMScorerLogRecordRequestNormalizedInputToJSON(
+  validateLLMScorerLogRecordRequestNormalizedInput:
+    ValidateLLMScorerLogRecordRequestNormalizedInput,
+): string {
+  return JSON.stringify(
+    ValidateLLMScorerLogRecordRequestNormalizedInput$outboundSchema.parse(
+      validateLLMScorerLogRecordRequestNormalizedInput,
+    ),
+  );
+}
+
+/** @internal */
 export type ValidateLLMScorerLogRecordRequest$Outbound = {
   starting_token: number;
   limit: number;
@@ -177,6 +230,7 @@ export type ValidateLLMScorerLogRecordRequest$Outbound = {
   log_stream_id?: string | null | undefined;
   experiment_id?: string | null | undefined;
   metrics_testing_id?: string | null | undefined;
+  access_view_id?: string | null | undefined;
   filters?:
     | Array<
       | LogRecordsBooleanFilter$Outbound
@@ -200,6 +254,10 @@ export type ValidateLLMScorerLogRecordRequest$Outbound = {
   response: string;
   chain_poll_template: ChainPollTemplate$Outbound;
   scorer_configuration: GeneratedScorerConfiguration$Outbound;
+  normalized_input?:
+    | Array<FileContentPart$Outbound | TextContentPart$Outbound>
+    | null
+    | undefined;
   user_prompt: string;
 };
 
@@ -207,58 +265,73 @@ export type ValidateLLMScorerLogRecordRequest$Outbound = {
 export const ValidateLLMScorerLogRecordRequest$outboundSchema: z.ZodMiniType<
   ValidateLLMScorerLogRecordRequest$Outbound,
   ValidateLLMScorerLogRecordRequest
-> = z.pipe(
-  z.object({
-    startingToken: z._default(z.int(), 0),
-    limit: z._default(z.int(), 100),
-    previousLastRowId: z.optional(z.nullable(z.string())),
-    logStreamId: z.optional(z.nullable(z.string())),
-    experimentId: z.optional(z.nullable(z.string())),
-    metricsTestingId: z.optional(z.nullable(z.string())),
-    filters: z.optional(
-      z.array(
-        z.union([
-          LogRecordsBooleanFilter$outboundSchema,
-          LogRecordsCollectionFilter$outboundSchema,
-          LogRecordsDateFilter$outboundSchema,
-          LogRecordsFullyAnnotatedFilter$outboundSchema,
-          LogRecordsIDFilter$outboundSchema,
-          LogRecordsNumberFilter$outboundSchema,
-          LogRecordsTextFilter$outboundSchema,
-        ]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      startingToken: z._default(z.int(), 0),
+      limit: z._default(z.int(), 100),
+      previousLastRowId: z.optional(z.nullable(z.string())),
+      logStreamId: z.optional(z.nullable(z.string())),
+      experimentId: z.optional(z.nullable(z.string())),
+      metricsTestingId: z.optional(z.nullable(z.string())),
+      accessViewId: z.optional(z.nullable(z.string())),
+      filters: z.optional(
+        z.array(
+          z.union([
+            LogRecordsBooleanFilter$outboundSchema,
+            LogRecordsCollectionFilter$outboundSchema,
+            LogRecordsDateFilter$outboundSchema,
+            LogRecordsFullyAnnotatedFilter$outboundSchema,
+            LogRecordsIDFilter$outboundSchema,
+            LogRecordsNumberFilter$outboundSchema,
+            LogRecordsTextFilter$outboundSchema,
+          ]),
+        ),
       ),
-    ),
-    filterTree: z.optional(
-      z.nullable(
-        FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$outboundSchema,
+      filterTree: z.optional(
+        z.nullable(
+          FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$outboundSchema,
+        ),
       ),
-    ),
-    sort: z.optional(z.nullable(LogRecordsSortClause$outboundSchema)),
-    truncateFields: z._default(z.boolean(), false),
-    includeCounts: z._default(z.boolean(), false),
-    includeCodeMetricMetadata: z._default(z.boolean(), false),
-    query: z.string(),
-    response: z.string(),
-    chainPollTemplate: ChainPollTemplate$outboundSchema,
-    scorerConfiguration: GeneratedScorerConfiguration$outboundSchema,
-    userPrompt: z.string(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      startingToken: "starting_token",
-      previousLastRowId: "previous_last_row_id",
-      logStreamId: "log_stream_id",
-      experimentId: "experiment_id",
-      metricsTestingId: "metrics_testing_id",
-      filterTree: "filter_tree",
-      truncateFields: "truncate_fields",
-      includeCounts: "include_counts",
-      includeCodeMetricMetadata: "include_code_metric_metadata",
-      chainPollTemplate: "chain_poll_template",
-      scorerConfiguration: "scorer_configuration",
-      userPrompt: "user_prompt",
-    });
-  }),
+      sort: z.optional(z.nullable(LogRecordsSortClause$outboundSchema)),
+      truncateFields: z._default(z.boolean(), false),
+      includeCounts: z._default(z.boolean(), false),
+      includeCodeMetricMetadata: z._default(z.boolean(), false),
+      query: z.string(),
+      response: z.string(),
+      chainPollTemplate: ChainPollTemplate$outboundSchema,
+      scorerConfiguration: GeneratedScorerConfiguration$outboundSchema,
+      normalizedInput: z.optional(
+        z.nullable(
+          z.array(
+            z.union([
+              FileContentPart$outboundSchema,
+              TextContentPart$outboundSchema,
+            ]),
+          ),
+        ),
+      ),
+      userPrompt: z.string(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        startingToken: "starting_token",
+        previousLastRowId: "previous_last_row_id",
+        logStreamId: "log_stream_id",
+        experimentId: "experiment_id",
+        metricsTestingId: "metrics_testing_id",
+        accessViewId: "access_view_id",
+        filterTree: "filter_tree",
+        truncateFields: "truncate_fields",
+        includeCounts: "include_counts",
+        includeCodeMetricMetadata: "include_code_metric_metadata",
+        chainPollTemplate: "chain_poll_template",
+        scorerConfiguration: "scorer_configuration",
+        normalizedInput: "normalized_input",
+        userPrompt: "user_prompt",
+      });
+    }),
+  )
 );
 
 export function validateLLMScorerLogRecordRequestToJSON(

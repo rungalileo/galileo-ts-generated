@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -17,19 +17,21 @@ export type ScoreBucket = {
 };
 
 /** @internal */
-export const ScoreBucket$inboundSchema: z.ZodMiniType<ScoreBucket, unknown> = z
-  .pipe(
-    z.object({
-      min_inclusive: types.number(),
-      max_exclusive: types.nullable(types.number()),
-      count: types.number(),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "min_inclusive": "minInclusive",
-        "max_exclusive": "maxExclusive",
-      });
-    }),
+export const ScoreBucket$inboundSchema: z.ZodMiniType<ScoreBucket, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        min_inclusive: types.number(),
+        max_exclusive: types.nullable(types.number()),
+        count: types.number(),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "min_inclusive": "minInclusive",
+          "max_exclusive": "maxExclusive",
+        });
+      }),
+    )
   );
 
 export function scoreBucketFromJSON(

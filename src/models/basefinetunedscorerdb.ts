@@ -5,16 +5,11 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { smartUnion } from "../types/smartUnion.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
-import {
-  GalileoCoreSchemasSharedScorersScorerNameScorerName,
-  GalileoCoreSchemasSharedScorersScorerNameScorerName$inboundSchema,
-  GalileoCoreSchemasSharedScorersScorerNameScorerName$outboundSchema,
-} from "./galileocoreschemassharedscorersscorernamescorername.js";
 import {
   LunaInputTypeEnum,
   LunaInputTypeEnum$inboundSchema,
@@ -25,6 +20,11 @@ import {
   LunaOutputTypeEnum$inboundSchema,
   LunaOutputTypeEnum$outboundSchema,
 } from "./lunaoutputtypeenum.js";
+import {
+  ScorerName,
+  ScorerName$inboundSchema,
+  ScorerName$outboundSchema,
+} from "./scorername.js";
 
 export type BaseFinetunedScorerDBClassNameToVocabIx = {
   [k: string]: Array<number>;
@@ -46,18 +46,18 @@ export type BaseFinetunedScorerDB = {
   /**
    * Executor pipeline. Defaults to finetuned scorer pipeline but can run custom galileo score pipelines.
    */
-  executor?:
-    | GalileoCoreSchemasSharedScorersScorerNameScorerName
-    | null
-    | undefined;
+  executor?: ScorerName | null | undefined;
 };
 
 /** @internal */
 export const BaseFinetunedScorerDBClassNameToVocabIx$inboundSchema:
-  z.ZodMiniType<BaseFinetunedScorerDBClassNameToVocabIx, unknown> = smartUnion([
-    z.record(z.string(), z.array(types.number())),
-    z.record(z.string(), types.number()),
-  ]);
+  z.ZodMiniType<BaseFinetunedScorerDBClassNameToVocabIx, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      smartUnion([
+        z.record(z.string(), z.array(types.number())),
+        z.record(z.string(), types.number()),
+      ])
+    );
 /** @internal */
 export type BaseFinetunedScorerDBClassNameToVocabIx$Outbound = {
   [k: string]: Array<number>;
@@ -68,10 +68,12 @@ export const BaseFinetunedScorerDBClassNameToVocabIx$outboundSchema:
   z.ZodMiniType<
     BaseFinetunedScorerDBClassNameToVocabIx$Outbound,
     BaseFinetunedScorerDBClassNameToVocabIx
-  > = smartUnion([
-    z.record(z.string(), z.array(z.int())),
-    z.record(z.string(), z.int()),
-  ]);
+  > = /* @__PURE__ */ lazySchema$(() =>
+    smartUnion([
+      z.record(z.string(), z.array(z.int())),
+      z.record(z.string(), z.int()),
+    ])
+  );
 
 export function baseFinetunedScorerDBClassNameToVocabIxToJSON(
   baseFinetunedScorerDBClassNameToVocabIx:
@@ -103,38 +105,38 @@ export function baseFinetunedScorerDBClassNameToVocabIxFromJSON(
 export const BaseFinetunedScorerDB$inboundSchema: z.ZodMiniType<
   BaseFinetunedScorerDB,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.string(),
-    name: types.string(),
-    lora_task_id: types.number(),
-    lora_weights_path: z.optional(z.nullable(types.string())),
-    prompt: types.string(),
-    luna_input_type: z.optional(z.nullable(LunaInputTypeEnum$inboundSchema)),
-    luna_output_type: z.optional(z.nullable(LunaOutputTypeEnum$inboundSchema)),
-    class_name_to_vocab_ix: z.optional(
-      z.nullable(
-        smartUnion([
-          z.record(z.string(), z.array(types.number())),
-          z.record(z.string(), types.number()),
-        ]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.string(),
+      name: types.string(),
+      lora_task_id: types.number(),
+      lora_weights_path: z.optional(z.nullable(types.string())),
+      prompt: types.string(),
+      luna_input_type: z.optional(z.nullable(LunaInputTypeEnum$inboundSchema)),
+      luna_output_type: z.optional(
+        z.nullable(LunaOutputTypeEnum$inboundSchema),
       ),
-    ),
-    executor: z.optional(
-      z.nullable(
-        GalileoCoreSchemasSharedScorersScorerNameScorerName$inboundSchema,
+      class_name_to_vocab_ix: z.optional(
+        z.nullable(
+          smartUnion([
+            z.record(z.string(), z.array(types.number())),
+            z.record(z.string(), types.number()),
+          ]),
+        ),
       ),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "lora_task_id": "loraTaskId",
-      "lora_weights_path": "loraWeightsPath",
-      "luna_input_type": "lunaInputType",
-      "luna_output_type": "lunaOutputType",
-      "class_name_to_vocab_ix": "classNameToVocabIx",
-    });
-  }),
+      executor: z.optional(z.nullable(ScorerName$inboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "lora_task_id": "loraTaskId",
+        "lora_weights_path": "loraWeightsPath",
+        "luna_input_type": "lunaInputType",
+        "luna_output_type": "lunaOutputType",
+        "class_name_to_vocab_ix": "classNameToVocabIx",
+      });
+    }),
+  )
 );
 /** @internal */
 export type BaseFinetunedScorerDB$Outbound = {
@@ -157,38 +159,36 @@ export type BaseFinetunedScorerDB$Outbound = {
 export const BaseFinetunedScorerDB$outboundSchema: z.ZodMiniType<
   BaseFinetunedScorerDB$Outbound,
   BaseFinetunedScorerDB
-> = z.pipe(
-  z.object({
-    id: z.string(),
-    name: z.string(),
-    loraTaskId: z.int(),
-    loraWeightsPath: z.optional(z.nullable(z.string())),
-    prompt: z.string(),
-    lunaInputType: z.optional(z.nullable(LunaInputTypeEnum$outboundSchema)),
-    lunaOutputType: z.optional(z.nullable(LunaOutputTypeEnum$outboundSchema)),
-    classNameToVocabIx: z.optional(
-      z.nullable(
-        smartUnion([
-          z.record(z.string(), z.array(z.int())),
-          z.record(z.string(), z.int()),
-        ]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: z.string(),
+      name: z.string(),
+      loraTaskId: z.int(),
+      loraWeightsPath: z.optional(z.nullable(z.string())),
+      prompt: z.string(),
+      lunaInputType: z.optional(z.nullable(LunaInputTypeEnum$outboundSchema)),
+      lunaOutputType: z.optional(z.nullable(LunaOutputTypeEnum$outboundSchema)),
+      classNameToVocabIx: z.optional(
+        z.nullable(
+          smartUnion([
+            z.record(z.string(), z.array(z.int())),
+            z.record(z.string(), z.int()),
+          ]),
+        ),
       ),
-    ),
-    executor: z.optional(
-      z.nullable(
-        GalileoCoreSchemasSharedScorersScorerNameScorerName$outboundSchema,
-      ),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      loraTaskId: "lora_task_id",
-      loraWeightsPath: "lora_weights_path",
-      lunaInputType: "luna_input_type",
-      lunaOutputType: "luna_output_type",
-      classNameToVocabIx: "class_name_to_vocab_ix",
-    });
-  }),
+      executor: z.optional(z.nullable(ScorerName$outboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        loraTaskId: "lora_task_id",
+        loraWeightsPath: "lora_weights_path",
+        lunaInputType: "luna_input_type",
+        lunaOutputType: "luna_output_type",
+        classNameToVocabIx: "class_name_to_vocab_ix",
+      });
+    }),
+  )
 );
 
 export function baseFinetunedScorerDBToJSON(

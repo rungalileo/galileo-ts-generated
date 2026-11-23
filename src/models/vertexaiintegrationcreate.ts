@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   MultiModalModelIntegrationConfig,
   MultiModalModelIntegrationConfig$Outbound,
@@ -39,20 +40,22 @@ export type VertexAIIntegrationCreate$Outbound = {
 export const VertexAIIntegrationCreate$outboundSchema: z.ZodMiniType<
   VertexAIIntegrationCreate$Outbound,
   VertexAIIntegrationCreate
-> = z.pipe(
-  z.object({
-    multiModalConfig: z.optional(
-      z.nullable(MultiModalModelIntegrationConfig$outboundSchema),
-    ),
-    gcsConfig: z.optional(z.nullable(VertexAIGCSConfig$outboundSchema)),
-    token: z.string(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      multiModalConfig: "multi_modal_config",
-      gcsConfig: "gcs_config",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      multiModalConfig: z.optional(
+        z.nullable(MultiModalModelIntegrationConfig$outboundSchema),
+      ),
+      gcsConfig: z.optional(z.nullable(VertexAIGCSConfig$outboundSchema)),
+      token: z.string(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        multiModalConfig: "multi_modal_config",
+        gcsConfig: "gcs_config",
+      });
+    }),
+  )
 );
 
 export function vertexAIIntegrationCreateToJSON(

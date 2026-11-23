@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
@@ -26,9 +27,11 @@ export type ContentModality = OpenEnum<typeof ContentModality>;
 export const ContentModality$inboundSchema: z.ZodMiniType<
   ContentModality,
   unknown
-> = openEnums.inboundSchema(ContentModality);
+> = /* @__PURE__ */ lazySchema$(() => openEnums.inboundSchema(ContentModality));
 /** @internal */
 export const ContentModality$outboundSchema: z.ZodMiniType<
   string,
   ContentModality
-> = openEnums.outboundSchema(ContentModality);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.outboundSchema(ContentModality)
+);

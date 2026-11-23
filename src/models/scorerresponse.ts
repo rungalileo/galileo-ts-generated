@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
 import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import { Result as SafeParseResult } from "../types/fp.js";
@@ -14,10 +14,6 @@ import {
   BaseMetricRollUpConfigDB,
   BaseMetricRollUpConfigDB$inboundSchema,
 } from "./basemetricrollupconfigdb.js";
-import {
-  BaseScorerVersionDB,
-  BaseScorerVersionDB$inboundSchema,
-} from "./basescorerversiondb.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import { InputTypeEnum, InputTypeEnum$inboundSchema } from "./inputtypeenum.js";
 import {
@@ -45,14 +41,27 @@ import {
   OutputTypeEnum,
   OutputTypeEnum$inboundSchema,
 } from "./outputtypeenum.js";
+import { Permission, Permission$inboundSchema } from "./permission.js";
 import {
   RollUpMethodDisplayOptions,
   RollUpMethodDisplayOptions$inboundSchema,
 } from "./rollupmethoddisplayoptions.js";
 import {
+  ScorerCatalogVersionResponse,
+  ScorerCatalogVersionResponse$inboundSchema,
+} from "./scorercatalogversionresponse.js";
+import {
   ScorerDefaults,
   ScorerDefaults$inboundSchema,
 } from "./scorerdefaults.js";
+import {
+  ScorerInvocationConfig,
+  ScorerInvocationConfig$inboundSchema,
+} from "./scorerinvocationconfig.js";
+import {
+  ScorerScopeProjectRef,
+  ScorerScopeProjectRef$inboundSchema,
+} from "./scorerscopeprojectref.js";
 import { ScorerTypes, ScorerTypes$inboundSchema } from "./scorertypes.js";
 
 export type ScorerResponseMetricColorPickerConfig =
@@ -64,14 +73,20 @@ export type ScorerResponseMetricColorPickerConfig =
 
 export type ScorerResponse = {
   id: string;
+  permissions?: Array<Permission> | undefined;
   name: string;
+  label?: string | null | undefined;
   scorerType: ScorerTypes;
   defaults?: ScorerDefaults | null | undefined;
-  latestVersion?: BaseScorerVersionDB | null | undefined;
+  /**
+   * Intrinsic metadata for invoking this scorer directly with query and response inputs.
+   */
+  invocation?: ScorerInvocationConfig | null | undefined;
+  latestVersion?: ScorerCatalogVersionResponse | null | undefined;
   modelType?: ModelType | null | undefined;
   groundTruth?: boolean | null | undefined;
   defaultVersionId?: string | null | undefined;
-  defaultVersion?: BaseScorerVersionDB | null | undefined;
+  defaultVersion?: ScorerCatalogVersionResponse | null | undefined;
   userPrompt?: string | null | undefined;
   scoreableNodeTypes?: Array<string> | null | undefined;
   outputType?: OutputTypeEnum | null | undefined;
@@ -82,7 +97,7 @@ export type ScorerResponse = {
   deprecated?: boolean | null | undefined;
   rollUpMethod?: RollUpMethodDisplayOptions | null | undefined;
   rollUpConfig?: BaseMetricRollUpConfigDB | null | undefined;
-  label?: string | null | undefined;
+  registrationOrigin?: "luna_studio" | null | undefined;
   tags: Array<string>;
   /**
    * Fields that can be used in the scorer to configure it. i.e. model, num_judges, etc. This enables the ui to know which fields a user can configure when they're setting a scorer
@@ -102,18 +117,23 @@ export type ScorerResponse = {
     | undefined;
   colorThresholdConfig?: MetricColorPickerNumeric | null | undefined;
   metricName?: string | null | undefined;
+  isGlobal: boolean;
+  scopeProjects?: Array<ScorerScopeProjectRef> | undefined;
+  projectsUsed?: Array<ScorerScopeProjectRef> | undefined;
 };
 
 /** @internal */
 export const ScorerResponseMetricColorPickerConfig$inboundSchema: z.ZodMiniType<
   ScorerResponseMetricColorPickerConfig,
   unknown
-> = discriminatedUnion("type", {
-  boolean: MetricColorPickerBoolean$inboundSchema,
-  categorical: MetricColorPickerCategorical$inboundSchema,
-  multi_label: MetricColorPickerMultiLabel$inboundSchema,
-  numeric: MetricColorPickerNumeric$inboundSchema,
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  discriminatedUnion("type", {
+    boolean: MetricColorPickerBoolean$inboundSchema,
+    categorical: MetricColorPickerCategorical$inboundSchema,
+    multi_label: MetricColorPickerMultiLabel$inboundSchema,
+    numeric: MetricColorPickerNumeric$inboundSchema,
+  })
+);
 
 export function scorerResponseMetricColorPickerConfigFromJSON(
   jsonString: string,
@@ -130,79 +150,99 @@ export function scorerResponseMetricColorPickerConfigFromJSON(
 export const ScorerResponse$inboundSchema: z.ZodMiniType<
   ScorerResponse,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.string(),
-    name: types.string(),
-    scorer_type: ScorerTypes$inboundSchema,
-    defaults: z.optional(z.nullable(ScorerDefaults$inboundSchema)),
-    latest_version: z.optional(z.nullable(BaseScorerVersionDB$inboundSchema)),
-    model_type: z.optional(z.nullable(ModelType$inboundSchema)),
-    ground_truth: z.optional(z.nullable(types.boolean())),
-    default_version_id: z.optional(z.nullable(types.string())),
-    default_version: z.optional(z.nullable(BaseScorerVersionDB$inboundSchema)),
-    user_prompt: z.optional(z.nullable(types.string())),
-    scoreable_node_types: z.optional(z.nullable(z.array(types.string()))),
-    output_type: z.optional(z.nullable(OutputTypeEnum$inboundSchema)),
-    input_type: z.optional(z.nullable(InputTypeEnum$inboundSchema)),
-    multimodal_capabilities: z.optional(
-      z.nullable(z.array(MultimodalCapability$inboundSchema)),
-    ),
-    required_scorers: z.optional(z.nullable(z.array(types.string()))),
-    required_metric_ids: z.optional(z.nullable(z.array(types.string()))),
-    deprecated: z.optional(z.nullable(types.boolean())),
-    roll_up_method: z.optional(
-      z.nullable(RollUpMethodDisplayOptions$inboundSchema),
-    ),
-    roll_up_config: z.optional(
-      z.nullable(BaseMetricRollUpConfigDB$inboundSchema),
-    ),
-    label: z.optional(z.nullable(types.string())),
-    tags: z.array(types.string()),
-    included_fields: types.optional(z.array(types.string())),
-    description: z.optional(z.nullable(types.string())),
-    created_by: z.optional(z.nullable(types.string())),
-    created_at: z.optional(z.nullable(types.date())),
-    updated_at: z.optional(z.nullable(types.date())),
-    metric_color_picker_config: z.optional(
-      z.nullable(discriminatedUnion("type", {
-        boolean: MetricColorPickerBoolean$inboundSchema,
-        categorical: MetricColorPickerCategorical$inboundSchema,
-        multi_label: MetricColorPickerMultiLabel$inboundSchema,
-        numeric: MetricColorPickerNumeric$inboundSchema,
-      })),
-    ),
-    color_threshold_config: z.optional(
-      z.nullable(MetricColorPickerNumeric$inboundSchema),
-    ),
-    metric_name: z.optional(z.nullable(types.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "scorer_type": "scorerType",
-      "latest_version": "latestVersion",
-      "model_type": "modelType",
-      "ground_truth": "groundTruth",
-      "default_version_id": "defaultVersionId",
-      "default_version": "defaultVersion",
-      "user_prompt": "userPrompt",
-      "scoreable_node_types": "scoreableNodeTypes",
-      "output_type": "outputType",
-      "input_type": "inputType",
-      "multimodal_capabilities": "multimodalCapabilities",
-      "required_scorers": "requiredScorers",
-      "required_metric_ids": "requiredMetricIds",
-      "roll_up_method": "rollUpMethod",
-      "roll_up_config": "rollUpConfig",
-      "included_fields": "includedFields",
-      "created_by": "createdBy",
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-      "metric_color_picker_config": "metricColorPickerConfig",
-      "color_threshold_config": "colorThresholdConfig",
-      "metric_name": "metricName",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.string(),
+      permissions: types.optional(z.array(Permission$inboundSchema)),
+      name: types.string(),
+      label: z.optional(z.nullable(types.string())),
+      scorer_type: ScorerTypes$inboundSchema,
+      defaults: z.optional(z.nullable(ScorerDefaults$inboundSchema)),
+      invocation: z.optional(z.nullable(ScorerInvocationConfig$inboundSchema)),
+      latest_version: z.optional(
+        z.nullable(ScorerCatalogVersionResponse$inboundSchema),
+      ),
+      model_type: z.optional(z.nullable(ModelType$inboundSchema)),
+      ground_truth: z.optional(z.nullable(types.boolean())),
+      default_version_id: z.optional(z.nullable(types.string())),
+      default_version: z.optional(
+        z.nullable(ScorerCatalogVersionResponse$inboundSchema),
+      ),
+      user_prompt: z.optional(z.nullable(types.string())),
+      scoreable_node_types: z.optional(z.nullable(z.array(types.string()))),
+      output_type: z.optional(z.nullable(OutputTypeEnum$inboundSchema)),
+      input_type: z.optional(z.nullable(InputTypeEnum$inboundSchema)),
+      multimodal_capabilities: z.optional(
+        z.nullable(z.array(MultimodalCapability$inboundSchema)),
+      ),
+      required_scorers: z.optional(z.nullable(z.array(types.string()))),
+      required_metric_ids: z.optional(z.nullable(z.array(types.string()))),
+      deprecated: z.optional(z.nullable(types.boolean())),
+      roll_up_method: z.optional(
+        z.nullable(RollUpMethodDisplayOptions$inboundSchema),
+      ),
+      roll_up_config: z.optional(
+        z.nullable(BaseMetricRollUpConfigDB$inboundSchema),
+      ),
+      registration_origin: z.optional(z.nullable(types.literal("luna_studio"))),
+      tags: z.array(types.string()),
+      included_fields: types.optional(z.array(types.string())),
+      description: z.optional(z.nullable(types.string())),
+      created_by: z.optional(z.nullable(types.string())),
+      created_at: z.optional(z.nullable(types.date())),
+      updated_at: z.optional(z.nullable(types.date())),
+      metric_color_picker_config: z.optional(
+        z.nullable(discriminatedUnion("type", {
+          boolean: MetricColorPickerBoolean$inboundSchema,
+          categorical: MetricColorPickerCategorical$inboundSchema,
+          multi_label: MetricColorPickerMultiLabel$inboundSchema,
+          numeric: MetricColorPickerNumeric$inboundSchema,
+        })),
+      ),
+      color_threshold_config: z.optional(
+        z.nullable(MetricColorPickerNumeric$inboundSchema),
+      ),
+      metric_name: z.optional(z.nullable(types.string())),
+      is_global: z._default(types.boolean(), false),
+      scope_projects: types.optional(
+        z.array(ScorerScopeProjectRef$inboundSchema),
+      ),
+      projects_used: types.optional(
+        z.array(ScorerScopeProjectRef$inboundSchema),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "scorer_type": "scorerType",
+        "latest_version": "latestVersion",
+        "model_type": "modelType",
+        "ground_truth": "groundTruth",
+        "default_version_id": "defaultVersionId",
+        "default_version": "defaultVersion",
+        "user_prompt": "userPrompt",
+        "scoreable_node_types": "scoreableNodeTypes",
+        "output_type": "outputType",
+        "input_type": "inputType",
+        "multimodal_capabilities": "multimodalCapabilities",
+        "required_scorers": "requiredScorers",
+        "required_metric_ids": "requiredMetricIds",
+        "roll_up_method": "rollUpMethod",
+        "roll_up_config": "rollUpConfig",
+        "registration_origin": "registrationOrigin",
+        "included_fields": "includedFields",
+        "created_by": "createdBy",
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+        "metric_color_picker_config": "metricColorPickerConfig",
+        "color_threshold_config": "colorThresholdConfig",
+        "metric_name": "metricName",
+        "is_global": "isGlobal",
+        "scope_projects": "scopeProjects",
+        "projects_used": "projectsUsed",
+      });
+    }),
+  )
 );
 
 export function scorerResponseFromJSON(

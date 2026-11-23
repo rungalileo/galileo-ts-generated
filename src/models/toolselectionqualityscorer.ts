@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
 import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import * as openEnums from "../types/enums.js";
@@ -75,11 +75,13 @@ export type ToolSelectionQualityScorer = {
 export const ToolSelectionQualityScorerFilter$inboundSchema: z.ZodMiniType<
   ToolSelectionQualityScorerFilter,
   unknown
-> = discriminatedUnion("name", {
-  metadata: MetadataFilter$inboundSchema,
-  modality: ModalityFilter$inboundSchema,
-  node_name: NodeNameFilter$inboundSchema,
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  discriminatedUnion("name", {
+    metadata: MetadataFilter$inboundSchema,
+    modality: ModalityFilter$inboundSchema,
+    node_name: NodeNameFilter$inboundSchema,
+  })
+);
 /** @internal */
 export type ToolSelectionQualityScorerFilter$Outbound =
   | MetadataFilter$Outbound
@@ -90,11 +92,13 @@ export type ToolSelectionQualityScorerFilter$Outbound =
 export const ToolSelectionQualityScorerFilter$outboundSchema: z.ZodMiniType<
   ToolSelectionQualityScorerFilter$Outbound,
   ToolSelectionQualityScorerFilter
-> = z.union([
-  MetadataFilter$outboundSchema,
-  ModalityFilter$outboundSchema,
-  NodeNameFilter$outboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    MetadataFilter$outboundSchema,
+    ModalityFilter$outboundSchema,
+    NodeNameFilter$outboundSchema,
+  ])
+);
 
 export function toolSelectionQualityScorerFilterToJSON(
   toolSelectionQualityScorerFilter: ToolSelectionQualityScorerFilter,
@@ -119,41 +123,47 @@ export function toolSelectionQualityScorerFilterFromJSON(
 export const ToolSelectionQualityScorerType$inboundSchema: z.ZodMiniType<
   ToolSelectionQualityScorerType,
   unknown
-> = openEnums.inboundSchema(ToolSelectionQualityScorerType);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(ToolSelectionQualityScorerType)
+);
 /** @internal */
 export const ToolSelectionQualityScorerType$outboundSchema: z.ZodMiniType<
   string,
   ToolSelectionQualityScorerType
-> = openEnums.outboundSchema(ToolSelectionQualityScorerType);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.outboundSchema(ToolSelectionQualityScorerType)
+);
 
 /** @internal */
 export const ToolSelectionQualityScorer$inboundSchema: z.ZodMiniType<
   ToolSelectionQualityScorer,
   unknown
-> = z.pipe(
-  z.object({
-    name: types.literal("tool_selection_quality"),
-    filters: z.optional(
-      z.nullable(
-        z.array(
-          discriminatedUnion("name", {
-            metadata: MetadataFilter$inboundSchema,
-            modality: ModalityFilter$inboundSchema,
-            node_name: NodeNameFilter$inboundSchema,
-          }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: types.literal("tool_selection_quality"),
+      filters: z.optional(
+        z.nullable(
+          z.array(
+            discriminatedUnion("name", {
+              metadata: MetadataFilter$inboundSchema,
+              modality: ModalityFilter$inboundSchema,
+              node_name: NodeNameFilter$inboundSchema,
+            }),
+          ),
         ),
       ),
-    ),
-    type: z._default(ToolSelectionQualityScorerType$inboundSchema, "plus"),
-    model_name: z.optional(z.nullable(types.string())),
-    num_judges: z.optional(z.nullable(types.number())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "model_name": "modelName",
-      "num_judges": "numJudges",
-    });
-  }),
+      type: z._default(ToolSelectionQualityScorerType$inboundSchema, "plus"),
+      model_name: z.optional(z.nullable(types.string())),
+      num_judges: z.optional(z.nullable(types.number())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "model_name": "modelName",
+        "num_judges": "numJudges",
+      });
+    }),
+  )
 );
 /** @internal */
 export type ToolSelectionQualityScorer$Outbound = {
@@ -175,30 +185,32 @@ export type ToolSelectionQualityScorer$Outbound = {
 export const ToolSelectionQualityScorer$outboundSchema: z.ZodMiniType<
   ToolSelectionQualityScorer$Outbound,
   ToolSelectionQualityScorer
-> = z.pipe(
-  z.object({
-    name: z.literal("tool_selection_quality"),
-    filters: z.optional(
-      z.nullable(
-        z.array(
-          z.union([
-            MetadataFilter$outboundSchema,
-            ModalityFilter$outboundSchema,
-            NodeNameFilter$outboundSchema,
-          ]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: z.literal("tool_selection_quality"),
+      filters: z.optional(
+        z.nullable(
+          z.array(
+            z.union([
+              MetadataFilter$outboundSchema,
+              ModalityFilter$outboundSchema,
+              NodeNameFilter$outboundSchema,
+            ]),
+          ),
         ),
       ),
-    ),
-    type: z._default(ToolSelectionQualityScorerType$outboundSchema, "plus"),
-    modelName: z.optional(z.nullable(z.string())),
-    numJudges: z.optional(z.nullable(z.int())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      modelName: "model_name",
-      numJudges: "num_judges",
-    });
-  }),
+      type: z._default(ToolSelectionQualityScorerType$outboundSchema, "plus"),
+      modelName: z.optional(z.nullable(z.string())),
+      numJudges: z.optional(z.nullable(z.int())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        modelName: "model_name",
+        numJudges: "num_judges",
+      });
+    }),
+  )
 );
 
 export function toolSelectionQualityScorerToJSON(

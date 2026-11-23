@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type ExperimentGroupIDFilter = {
   name: "experiment_group_id";
@@ -20,10 +21,12 @@ export type ExperimentGroupIDFilter$Outbound = {
 export const ExperimentGroupIDFilter$outboundSchema: z.ZodMiniType<
   ExperimentGroupIDFilter$Outbound,
   ExperimentGroupIDFilter
-> = z.object({
-  name: z.literal("experiment_group_id"),
-  value: z.string(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    name: z.literal("experiment_group_id"),
+    value: z.string(),
+  })
+);
 
 export function experimentGroupIDFilterToJSON(
   experimentGroupIDFilter: ExperimentGroupIDFilter,

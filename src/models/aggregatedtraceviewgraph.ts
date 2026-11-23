@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import {
   AggregatedTraceViewEdge,
@@ -31,17 +31,21 @@ export type AggregatedTraceViewGraph = {
 export const AggregatedTraceViewGraph$inboundSchema: z.ZodMiniType<
   AggregatedTraceViewGraph,
   unknown
-> = z.pipe(
-  z.object({
-    nodes: z.array(AggregatedTraceViewNode$inboundSchema),
-    edges: z.array(AggregatedTraceViewEdge$inboundSchema),
-    edge_occurrences_histogram: z.optional(z.nullable(Histogram$inboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "edge_occurrences_histogram": "edgeOccurrencesHistogram",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      nodes: z.array(AggregatedTraceViewNode$inboundSchema),
+      edges: z.array(AggregatedTraceViewEdge$inboundSchema),
+      edge_occurrences_histogram: z.optional(
+        z.nullable(Histogram$inboundSchema),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "edge_occurrences_histogram": "edgeOccurrencesHistogram",
+      });
+    }),
+  )
 );
 
 export function aggregatedTraceViewGraphFromJSON(

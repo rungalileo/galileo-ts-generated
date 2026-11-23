@@ -64,7 +64,8 @@ let value: RecommendedModelsResponse = {
 
 ## Fields
 
-| Field                                      | Type                                       | Required                                   | Description                                |
-| ------------------------------------------ | ------------------------------------------ | ------------------------------------------ | ------------------------------------------ |
-| `supported`                                | Record<string, Record<string, *string*[]>> | :heavy_check_mark:                         | N/A                                        |
-| `available`                                | Record<string, Record<string, *string*[]>> | :heavy_check_mark:                         | N/A                                        |
+| Field                                                                     | Type                                                                      | Required                                                                  | Description                                                               |
+| ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| `supported`                                                               | Record<string, Record<string, *string*[]>>                                | :heavy_check_mark:                                                        | N/A                                                                       |
+| `available`                                                               | Record<string, Record<string, *string*[]>>                                | :heavy_check_mark:                                                        | N/A                                                                       |
+| `modelDisplayNames`                                                       | Record<string, *string*>                                                  | :heavy_minus_sign:                                                        | UI labels keyed by the model aliases returned in supported and available. |

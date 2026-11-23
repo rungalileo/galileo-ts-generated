@@ -5,29 +5,39 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
+import {
+  OAuth2PasswordBearerInput,
+  OAuth2PasswordBearerInput$Outbound,
+  OAuth2PasswordBearerInput$outboundSchema,
+} from "./oauth2passwordbearerinput.js";
 
 export type Security = {
-  apiKeyHeader?: string | undefined;
+  oAuth2PasswordBearer?: OAuth2PasswordBearerInput | undefined;
 };
 
 /** @internal */
 export type Security$Outbound = {
-  APIKeyHeader?: string | undefined;
+  OAuth2PasswordBearer?: OAuth2PasswordBearerInput$Outbound | undefined;
 };
 
 /** @internal */
 export const Security$outboundSchema: z.ZodMiniType<
   Security$Outbound,
   Security
-> = z.pipe(
-  z.object({
-    apiKeyHeader: z.optional(z.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      apiKeyHeader: "APIKeyHeader",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      oAuth2PasswordBearer: z.optional(
+        OAuth2PasswordBearerInput$outboundSchema,
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        oAuth2PasswordBearer: "OAuth2PasswordBearer",
+      });
+    }),
+  )
 );
 
 export function securityToJSON(security: Security): string {

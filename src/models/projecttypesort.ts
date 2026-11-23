@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type ProjectTypeSort = {
   name: "type";
@@ -23,17 +24,19 @@ export type ProjectTypeSort$Outbound = {
 export const ProjectTypeSort$outboundSchema: z.ZodMiniType<
   ProjectTypeSort$Outbound,
   ProjectTypeSort
-> = z.pipe(
-  z.object({
-    name: z.literal("type"),
-    ascending: z._default(z.boolean(), true),
-    sortType: z._default(z.literal("column"), "column" as const),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      sortType: "sort_type",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: z.literal("type"),
+      ascending: z._default(z.boolean(), true),
+      sortType: z._default(z.literal("column"), "column" as const),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        sortType: "sort_type",
+      });
+    }),
+  )
 );
 
 export function projectTypeSortToJSON(

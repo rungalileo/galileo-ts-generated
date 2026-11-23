@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { ActionResult, ActionResult$inboundSchema } from "./actionresult.js";
@@ -57,31 +57,33 @@ export type InvokeResponse = {
 export const InvokeResponse$inboundSchema: z.ZodMiniType<
   InvokeResponse,
   unknown
-> = z.pipe(
-  z.object({
-    status: types.optional(ExecutionStatus$inboundSchema),
-    api_version: z._default(types.string(), "1.0.0"),
-    text: types.string(),
-    trace_metadata: TraceMetadata$inboundSchema,
-    stage_metadata: StageMetadata$inboundSchema,
-    ruleset_results: types.optional(z.array(RulesetResult$inboundSchema)),
-    metric_results: types.optional(
-      z.record(z.string(), MetricComputation$inboundSchema),
-    ),
-    action_result: ActionResult$inboundSchema,
-    metadata: z.optional(z.nullable(z.record(z.string(), types.string()))),
-    headers: z.optional(z.nullable(z.record(z.string(), types.string()))),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "api_version": "apiVersion",
-      "trace_metadata": "traceMetadata",
-      "stage_metadata": "stageMetadata",
-      "ruleset_results": "rulesetResults",
-      "metric_results": "metricResults",
-      "action_result": "actionResult",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      status: types.optional(ExecutionStatus$inboundSchema),
+      api_version: z._default(types.string(), "1.0.0"),
+      text: types.string(),
+      trace_metadata: TraceMetadata$inboundSchema,
+      stage_metadata: StageMetadata$inboundSchema,
+      ruleset_results: types.optional(z.array(RulesetResult$inboundSchema)),
+      metric_results: types.optional(
+        z.record(z.string(), MetricComputation$inboundSchema),
+      ),
+      action_result: ActionResult$inboundSchema,
+      metadata: z.optional(z.nullable(z.record(z.string(), types.string()))),
+      headers: z.optional(z.nullable(z.record(z.string(), types.string()))),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "api_version": "apiVersion",
+        "trace_metadata": "traceMetadata",
+        "stage_metadata": "stageMetadata",
+        "ruleset_results": "rulesetResults",
+        "metric_results": "metricResults",
+        "action_result": "actionResult",
+      });
+    }),
+  )
 );
 
 export function invokeResponseFromJSON(

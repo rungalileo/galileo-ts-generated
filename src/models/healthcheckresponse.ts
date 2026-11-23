@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -20,17 +20,19 @@ export type HealthcheckResponse = {
 export const HealthcheckResponse$inboundSchema: z.ZodMiniType<
   HealthcheckResponse,
   unknown
-> = z.pipe(
-  z.object({
-    api_version: types.string(),
-    message: types.string(),
-    version: types.string(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "api_version": "apiVersion",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      api_version: types.string(),
+      message: types.string(),
+      version: types.string(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "api_version": "apiVersion",
+      });
+    }),
+  )
 );
 
 export function healthcheckResponseFromJSON(

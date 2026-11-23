@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 
 export const LoggingMethod = {
@@ -16,4 +17,4 @@ export type LoggingMethod = ClosedEnum<typeof LoggingMethod>;
 
 /** @internal */
 export const LoggingMethod$outboundSchema: z.ZodMiniEnum<typeof LoggingMethod> =
-  z.enum(LoggingMethod);
+  /* @__PURE__ */ lazySchema$(() => z.enum(LoggingMethod));

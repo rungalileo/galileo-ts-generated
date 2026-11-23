@@ -5,24 +5,51 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
+import { Result as SafeParseResult } from "../../types/fp.js";
+import { smartUnion } from "../../types/smartUnion.js";
+import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
 
 export type PreviewDatasetDatasetsDatasetIdPreviewPostSecurity = {
   apiKeyHeader?: string | undefined;
+  classicAPIKeyHeader?: string | undefined;
   oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
   httpBasic?: models.SchemeHTTPBasic | undefined;
 };
 
+export type PreviewRequest =
+  | models.LunaDatasetPreviewRequest
+  | models.PreviewDatasetRequest;
+
 export type PreviewDatasetDatasetsDatasetIdPreviewPostRequest = {
   datasetId: string;
+  cursor?: string | null | undefined;
+  /**
+   * Defaults to 10 for semantic mappings and 100 for legacy column_mapping.
+   */
+  limit?: number | null | undefined;
   startingToken?: number | undefined;
-  limit?: number | undefined;
-  body: models.PreviewDatasetRequest;
+  ifMatch?: string | null | undefined;
+  body: models.LunaDatasetPreviewRequest | models.PreviewDatasetRequest;
+};
+
+/**
+ * Dataset response
+ */
+export type ResponsePreviewDatasetDatasetsDatasetIdPreviewPost =
+  | models.LunaDatasetPreview
+  | models.DatasetContent;
+
+export type PreviewDatasetDatasetsDatasetIdPreviewPostResponse = {
+  headers: { [k: string]: Array<string> };
+  result: models.LunaDatasetPreview | models.DatasetContent;
 };
 
 /** @internal */
 export type PreviewDatasetDatasetsDatasetIdPreviewPostSecurity$Outbound = {
   APIKeyHeader?: string | undefined;
+  ClassicAPIKeyHeader?: string | undefined;
   OAuth2PasswordBearer?: models.OAuth2PasswordBearerInput$Outbound | undefined;
   HTTPBasic?: models.SchemeHTTPBasic$Outbound | undefined;
 };
@@ -32,21 +59,25 @@ export const PreviewDatasetDatasetsDatasetIdPreviewPostSecurity$outboundSchema:
   z.ZodMiniType<
     PreviewDatasetDatasetsDatasetIdPreviewPostSecurity$Outbound,
     PreviewDatasetDatasetsDatasetIdPreviewPostSecurity
-  > = z.pipe(
-    z.object({
-      apiKeyHeader: z.optional(z.string()),
-      oAuth2PasswordBearer: z.optional(
-        models.OAuth2PasswordBearerInput$outboundSchema,
-      ),
-      httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        apiKeyHeader: "APIKeyHeader",
-        oAuth2PasswordBearer: "OAuth2PasswordBearer",
-        httpBasic: "HTTPBasic",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        apiKeyHeader: z.optional(z.string()),
+        classicAPIKeyHeader: z.optional(z.string()),
+        oAuth2PasswordBearer: z.optional(
+          models.OAuth2PasswordBearerInput$outboundSchema,
+        ),
+        httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          apiKeyHeader: "APIKeyHeader",
+          classicAPIKeyHeader: "ClassicAPIKeyHeader",
+          oAuth2PasswordBearer: "OAuth2PasswordBearer",
+          httpBasic: "HTTPBasic",
+        });
+      }),
+    )
   );
 
 export function previewDatasetDatasetsDatasetIdPreviewPostSecurityToJSON(
@@ -61,11 +92,35 @@ export function previewDatasetDatasetsDatasetIdPreviewPostSecurityToJSON(
 }
 
 /** @internal */
+export type PreviewRequest$Outbound =
+  | models.LunaDatasetPreviewRequest$Outbound
+  | models.PreviewDatasetRequest$Outbound;
+
+/** @internal */
+export const PreviewRequest$outboundSchema: z.ZodMiniType<
+  PreviewRequest$Outbound,
+  PreviewRequest
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    models.LunaDatasetPreviewRequest$outboundSchema,
+    models.PreviewDatasetRequest$outboundSchema,
+  ])
+);
+
+export function previewRequestToJSON(previewRequest: PreviewRequest): string {
+  return JSON.stringify(PreviewRequest$outboundSchema.parse(previewRequest));
+}
+
+/** @internal */
 export type PreviewDatasetDatasetsDatasetIdPreviewPostRequest$Outbound = {
   dataset_id: string;
+  cursor?: string | null | undefined;
+  limit?: number | null | undefined;
   starting_token: number;
-  limit: number;
-  body: models.PreviewDatasetRequest$Outbound;
+  "If-Match"?: string | null | undefined;
+  body:
+    | models.LunaDatasetPreviewRequest$Outbound
+    | models.PreviewDatasetRequest$Outbound;
 };
 
 /** @internal */
@@ -73,19 +128,27 @@ export const PreviewDatasetDatasetsDatasetIdPreviewPostRequest$outboundSchema:
   z.ZodMiniType<
     PreviewDatasetDatasetsDatasetIdPreviewPostRequest$Outbound,
     PreviewDatasetDatasetsDatasetIdPreviewPostRequest
-  > = z.pipe(
-    z.object({
-      datasetId: z.string(),
-      startingToken: z._default(z.int(), 0),
-      limit: z._default(z.int(), 100),
-      body: models.PreviewDatasetRequest$outboundSchema,
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        datasetId: "dataset_id",
-        startingToken: "starting_token",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        datasetId: z.string(),
+        cursor: z.optional(z.nullable(z.string())),
+        limit: z.optional(z.nullable(z.int())),
+        startingToken: z._default(z.int(), 0),
+        ifMatch: z.optional(z.nullable(z.string())),
+        body: smartUnion([
+          models.LunaDatasetPreviewRequest$outboundSchema,
+          models.PreviewDatasetRequest$outboundSchema,
+        ]),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          datasetId: "dataset_id",
+          startingToken: "starting_token",
+          ifMatch: "If-Match",
+        });
+      }),
+    )
   );
 
 export function previewDatasetDatasetsDatasetIdPreviewPostRequestToJSON(
@@ -96,5 +159,68 @@ export function previewDatasetDatasetsDatasetIdPreviewPostRequestToJSON(
     PreviewDatasetDatasetsDatasetIdPreviewPostRequest$outboundSchema.parse(
       previewDatasetDatasetsDatasetIdPreviewPostRequest,
     ),
+  );
+}
+
+/** @internal */
+export const ResponsePreviewDatasetDatasetsDatasetIdPreviewPost$inboundSchema:
+  z.ZodMiniType<ResponsePreviewDatasetDatasetsDatasetIdPreviewPost, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      smartUnion([
+        models.LunaDatasetPreview$inboundSchema,
+        models.DatasetContent$inboundSchema,
+      ])
+    );
+
+export function responsePreviewDatasetDatasetsDatasetIdPreviewPostFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  ResponsePreviewDatasetDatasetsDatasetIdPreviewPost,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      ResponsePreviewDatasetDatasetsDatasetIdPreviewPost$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'ResponsePreviewDatasetDatasetsDatasetIdPreviewPost' from JSON`,
+  );
+}
+
+/** @internal */
+export const PreviewDatasetDatasetsDatasetIdPreviewPostResponse$inboundSchema:
+  z.ZodMiniType<PreviewDatasetDatasetsDatasetIdPreviewPostResponse, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+          Result: smartUnion([
+            models.LunaDatasetPreview$inboundSchema,
+            models.DatasetContent$inboundSchema,
+          ]),
+        }),
+        z.transform((v) => {
+          return remap$(v, {
+            "Headers": "headers",
+            "Result": "result",
+          });
+        }),
+      )
+    );
+
+export function previewDatasetDatasetsDatasetIdPreviewPostResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  PreviewDatasetDatasetsDatasetIdPreviewPostResponse,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      PreviewDatasetDatasetsDatasetIdPreviewPostResponse$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'PreviewDatasetDatasetsDatasetIdPreviewPostResponse' from JSON`,
   );
 }

@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType,
   FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$Outbound,
@@ -18,6 +19,14 @@ import {
 
 export type LogRecordsCustomMetricsQueryRequest = {
   /**
+   * Include traces from this time onward.
+   */
+  startTime: Date;
+  /**
+   * Include traces up to this time.
+   */
+  endTime: Date;
+  /**
    * Log stream id associated with the traces.
    */
   logStreamId?: string | null | undefined;
@@ -30,20 +39,16 @@ export type LogRecordsCustomMetricsQueryRequest = {
    */
   metricsTestingId?: string | null | undefined;
   /**
+   * Assigned log view for restricted access.
+   */
+  accessViewId?: string | null | undefined;
+  /**
    * Filter expression tree for complex filtering
    */
   filterTree?:
     | FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType
     | null
     | undefined;
-  /**
-   * Include traces from this time onward.
-   */
-  startTime: Date;
-  /**
-   * Include traces up to this time.
-   */
-  endTime: Date;
   /**
    * Time interval in minutes for bucketing
    */
@@ -60,15 +65,16 @@ export type LogRecordsCustomMetricsQueryRequest = {
 
 /** @internal */
 export type LogRecordsCustomMetricsQueryRequest$Outbound = {
+  start_time: string;
+  end_time: string;
   log_stream_id?: string | null | undefined;
   experiment_id?: string | null | undefined;
   metrics_testing_id?: string | null | undefined;
+  access_view_id?: string | null | undefined;
   filter_tree?:
     | FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$Outbound
     | null
     | undefined;
-  start_time: string;
-  end_time: string;
   interval_minutes: number;
   metric_details: Array<MetricAggregationDetail$Outbound>;
   group_by?: string | null | undefined;
@@ -78,35 +84,39 @@ export type LogRecordsCustomMetricsQueryRequest$Outbound = {
 export const LogRecordsCustomMetricsQueryRequest$outboundSchema: z.ZodMiniType<
   LogRecordsCustomMetricsQueryRequest$Outbound,
   LogRecordsCustomMetricsQueryRequest
-> = z.pipe(
-  z.object({
-    logStreamId: z.optional(z.nullable(z.string())),
-    experimentId: z.optional(z.nullable(z.string())),
-    metricsTestingId: z.optional(z.nullable(z.string())),
-    filterTree: z.optional(
-      z.nullable(
-        FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$outboundSchema,
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      startTime: z.pipe(z.date(), z.transform(v => v.toISOString())),
+      endTime: z.pipe(z.date(), z.transform(v => v.toISOString())),
+      logStreamId: z.optional(z.nullable(z.string())),
+      experimentId: z.optional(z.nullable(z.string())),
+      metricsTestingId: z.optional(z.nullable(z.string())),
+      accessViewId: z.optional(z.nullable(z.string())),
+      filterTree: z.optional(
+        z.nullable(
+          FilterExpressionAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$outboundSchema,
+        ),
       ),
-    ),
-    startTime: z.pipe(z.date(), z.transform(v => v.toISOString())),
-    endTime: z.pipe(z.date(), z.transform(v => v.toISOString())),
-    intervalMinutes: z._default(z.int(), 5),
-    metricDetails: z.array(MetricAggregationDetail$outboundSchema),
-    groupBy: z.optional(z.nullable(z.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      logStreamId: "log_stream_id",
-      experimentId: "experiment_id",
-      metricsTestingId: "metrics_testing_id",
-      filterTree: "filter_tree",
-      startTime: "start_time",
-      endTime: "end_time",
-      intervalMinutes: "interval_minutes",
-      metricDetails: "metric_details",
-      groupBy: "group_by",
-    });
-  }),
+      intervalMinutes: z._default(z.int(), 5),
+      metricDetails: z.array(MetricAggregationDetail$outboundSchema),
+      groupBy: z.optional(z.nullable(z.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        startTime: "start_time",
+        endTime: "end_time",
+        logStreamId: "log_stream_id",
+        experimentId: "experiment_id",
+        metricsTestingId: "metrics_testing_id",
+        accessViewId: "access_view_id",
+        filterTree: "filter_tree",
+        intervalMinutes: "interval_minutes",
+        metricDetails: "metric_details",
+        groupBy: "group_by",
+      });
+    }),
+  )
 );
 
 export function logRecordsCustomMetricsQueryRequestToJSON(

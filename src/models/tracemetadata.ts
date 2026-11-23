@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -33,20 +33,22 @@ export type TraceMetadata = {
 export const TraceMetadata$inboundSchema: z.ZodMiniType<
   TraceMetadata,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.optional(types.string()),
-    received_at: types.optional(types.number()),
-    response_at: types.optional(types.number()),
-    execution_time: z._default(types.number(), -1),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "received_at": "receivedAt",
-      "response_at": "responseAt",
-      "execution_time": "executionTime",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.optional(types.string()),
+      received_at: types.optional(types.number()),
+      response_at: types.optional(types.number()),
+      execution_time: z._default(types.number(), -1),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "received_at": "receivedAt",
+        "response_at": "responseAt",
+        "execution_time": "executionTime",
+      });
+    }),
+  )
 );
 
 export function traceMetadataFromJSON(

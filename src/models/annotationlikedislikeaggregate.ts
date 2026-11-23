@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -22,23 +22,25 @@ export type AnnotationLikeDislikeAggregate = {
 export const AnnotationLikeDislikeAggregate$inboundSchema: z.ZodMiniType<
   AnnotationLikeDislikeAggregate,
   unknown
-> = z.pipe(
-  z.object({
-    annotation_type: types.literal("like_dislike"),
-    like_count: types.number(),
-    dislike_count: types.number(),
-    unrated_count: types.number(),
-    tie_count: z.optional(z.nullable(types.number())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "annotation_type": "annotationType",
-      "like_count": "likeCount",
-      "dislike_count": "dislikeCount",
-      "unrated_count": "unratedCount",
-      "tie_count": "tieCount",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      annotation_type: types.literal("like_dislike"),
+      like_count: types.number(),
+      dislike_count: types.number(),
+      unrated_count: types.number(),
+      tie_count: z.optional(z.nullable(types.number())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "annotation_type": "annotationType",
+        "like_count": "likeCount",
+        "dislike_count": "dislikeCount",
+        "unrated_count": "unratedCount",
+        "tie_count": "tieCount",
+      });
+    }),
+  )
 );
 
 export function annotationLikeDislikeAggregateFromJSON(

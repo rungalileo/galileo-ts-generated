@@ -10,9 +10,10 @@ let value: CompletenessScorer = {
   filters: [
     {
       name: "metadata",
-      operator: "one_of",
+      operator: "not_in",
       key: "<key>",
       value: "<value>",
+      caseSensitive: true,
     },
   ],
 };

@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   GalileoCoreSchemasLoggingLlmMessage,
   GalileoCoreSchemasLoggingLlmMessage$Outbound,
@@ -166,6 +167,10 @@ export type LlmSpan = {
    */
   model?: string | null | undefined;
   /**
+   * Provider used for this span.
+   */
+  provider?: string | null | undefined;
+  /**
    * Temperature used for generation.
    */
   temperature?: number | null | undefined;
@@ -190,16 +195,18 @@ export type LlmSpanEvent$Outbound =
 export const LlmSpanEvent$outboundSchema: z.ZodMiniType<
   LlmSpanEvent$Outbound,
   LlmSpanEvent
-> = z.union([
-  ImageGenerationEvent$outboundSchema,
-  InternalToolCall$outboundSchema,
-  MCPApprovalRequestEvent$outboundSchema,
-  MCPCallEvent$outboundSchema,
-  MCPListToolsEvent$outboundSchema,
-  MessageEvent$outboundSchema,
-  ReasoningEvent$outboundSchema,
-  WebSearchCallEvent$outboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    ImageGenerationEvent$outboundSchema,
+    InternalToolCall$outboundSchema,
+    MCPApprovalRequestEvent$outboundSchema,
+    MCPCallEvent$outboundSchema,
+    MCPListToolsEvent$outboundSchema,
+    MessageEvent$outboundSchema,
+    ReasoningEvent$outboundSchema,
+    WebSearchCallEvent$outboundSchema,
+  ])
+);
 
 export function llmSpanEventToJSON(llmSpanEvent: LlmSpanEvent): string {
   return JSON.stringify(LlmSpanEvent$outboundSchema.parse(llmSpanEvent));
@@ -248,81 +255,87 @@ export type LlmSpan$Outbound = {
     | null
     | undefined;
   model?: string | null | undefined;
+  provider?: string | null | undefined;
   temperature?: number | null | undefined;
   finish_reason?: string | null | undefined;
 };
 
 /** @internal */
 export const LlmSpan$outboundSchema: z.ZodMiniType<LlmSpan$Outbound, LlmSpan> =
-  z.pipe(
-    z.object({
-      type: z.literal("llm"),
-      input: z.optional(
-        z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
-      ),
-      redactedInput: z.optional(
-        z.nullable(z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema)),
-      ),
-      output: z.optional(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
-      redactedOutput: z.optional(
-        z.nullable(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
-      ),
-      name: z._default(z.string(), ""),
-      createdAt: z.optional(
-        z.pipe(z.date(), z.transform(v => v.toISOString())),
-      ),
-      userMetadata: z.optional(z.record(z.string(), z.string())),
-      tags: z.optional(z.array(z.string())),
-      statusCode: z.optional(z.nullable(z.int())),
-      metrics: z.optional(LlmMetrics$outboundSchema),
-      externalId: z.optional(z.nullable(z.string())),
-      datasetInput: z.optional(z.nullable(z.string())),
-      datasetOutput: z.optional(z.nullable(z.string())),
-      datasetMetadata: z.optional(z.record(z.string(), z.string())),
-      id: z.optional(z.nullable(z.string())),
-      sessionId: z.optional(z.nullable(z.string())),
-      traceId: z.optional(z.nullable(z.string())),
-      stepNumber: z.optional(z.nullable(z.int())),
-      parentId: z.optional(z.nullable(z.string())),
-      tools: z.optional(z.nullable(z.array(z.record(z.string(), z.any())))),
-      events: z.optional(
-        z.nullable(
-          z.array(
-            z.union([
-              ImageGenerationEvent$outboundSchema,
-              InternalToolCall$outboundSchema,
-              MCPApprovalRequestEvent$outboundSchema,
-              MCPCallEvent$outboundSchema,
-              MCPListToolsEvent$outboundSchema,
-              MessageEvent$outboundSchema,
-              ReasoningEvent$outboundSchema,
-              WebSearchCallEvent$outboundSchema,
-            ]),
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        type: z.literal("llm"),
+        input: z.optional(
+          z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
+        ),
+        redactedInput: z.optional(
+          z.nullable(
+            z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
           ),
         ),
-      ),
-      model: z.optional(z.nullable(z.string())),
-      temperature: z.optional(z.nullable(z.number())),
-      finishReason: z.optional(z.nullable(z.string())),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        redactedInput: "redacted_input",
-        redactedOutput: "redacted_output",
-        createdAt: "created_at",
-        userMetadata: "user_metadata",
-        statusCode: "status_code",
-        externalId: "external_id",
-        datasetInput: "dataset_input",
-        datasetOutput: "dataset_output",
-        datasetMetadata: "dataset_metadata",
-        sessionId: "session_id",
-        traceId: "trace_id",
-        stepNumber: "step_number",
-        parentId: "parent_id",
-        finishReason: "finish_reason",
-      });
-    }),
+        output: z.optional(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
+        redactedOutput: z.optional(
+          z.nullable(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
+        ),
+        name: z._default(z.string(), ""),
+        createdAt: z.optional(
+          z.pipe(z.date(), z.transform(v => v.toISOString())),
+        ),
+        userMetadata: z.optional(z.record(z.string(), z.string())),
+        tags: z.optional(z.array(z.string())),
+        statusCode: z.optional(z.nullable(z.int())),
+        metrics: z.optional(LlmMetrics$outboundSchema),
+        externalId: z.optional(z.nullable(z.string())),
+        datasetInput: z.optional(z.nullable(z.string())),
+        datasetOutput: z.optional(z.nullable(z.string())),
+        datasetMetadata: z.optional(z.record(z.string(), z.string())),
+        id: z.optional(z.nullable(z.string())),
+        sessionId: z.optional(z.nullable(z.string())),
+        traceId: z.optional(z.nullable(z.string())),
+        stepNumber: z.optional(z.nullable(z.int())),
+        parentId: z.optional(z.nullable(z.string())),
+        tools: z.optional(z.nullable(z.array(z.record(z.string(), z.any())))),
+        events: z.optional(
+          z.nullable(
+            z.array(
+              z.union([
+                ImageGenerationEvent$outboundSchema,
+                InternalToolCall$outboundSchema,
+                MCPApprovalRequestEvent$outboundSchema,
+                MCPCallEvent$outboundSchema,
+                MCPListToolsEvent$outboundSchema,
+                MessageEvent$outboundSchema,
+                ReasoningEvent$outboundSchema,
+                WebSearchCallEvent$outboundSchema,
+              ]),
+            ),
+          ),
+        ),
+        model: z.optional(z.nullable(z.string())),
+        provider: z.optional(z.nullable(z.string())),
+        temperature: z.optional(z.nullable(z.number())),
+        finishReason: z.optional(z.nullable(z.string())),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          redactedInput: "redacted_input",
+          redactedOutput: "redacted_output",
+          createdAt: "created_at",
+          userMetadata: "user_metadata",
+          statusCode: "status_code",
+          externalId: "external_id",
+          datasetInput: "dataset_input",
+          datasetOutput: "dataset_output",
+          datasetMetadata: "dataset_metadata",
+          sessionId: "session_id",
+          traceId: "trace_id",
+          stepNumber: "step_number",
+          parentId: "parent_id",
+          finishReason: "finish_reason",
+        });
+      }),
+    )
   );
 
 export function llmSpanToJSON(llmSpan: LlmSpan): string {

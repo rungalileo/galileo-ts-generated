@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   AnthropicAuthenticationType,
   AnthropicAuthenticationType$outboundSchema,
@@ -55,29 +56,33 @@ export type AnthropicIntegrationCreate$Outbound = {
 export const AnthropicIntegrationCreate$outboundSchema: z.ZodMiniType<
   AnthropicIntegrationCreate$Outbound,
   AnthropicIntegrationCreate
-> = z.pipe(
-  z.object({
-    multiModalConfig: z.optional(
-      z.nullable(MultiModalModelIntegrationConfig$outboundSchema),
-    ),
-    authenticationType: z.optional(AnthropicAuthenticationType$outboundSchema),
-    endpoint: z.optional(z.nullable(z.string())),
-    authenticationScope: z.optional(z.nullable(z.string())),
-    oauth2TokenUrl: z.optional(z.nullable(z.string())),
-    customHeaderMapping: z.optional(
-      z.nullable(z.record(z.string(), z.string())),
-    ),
-    token: z.string(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      multiModalConfig: "multi_modal_config",
-      authenticationType: "authentication_type",
-      authenticationScope: "authentication_scope",
-      oauth2TokenUrl: "oauth2_token_url",
-      customHeaderMapping: "custom_header_mapping",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      multiModalConfig: z.optional(
+        z.nullable(MultiModalModelIntegrationConfig$outboundSchema),
+      ),
+      authenticationType: z.optional(
+        AnthropicAuthenticationType$outboundSchema,
+      ),
+      endpoint: z.optional(z.nullable(z.string())),
+      authenticationScope: z.optional(z.nullable(z.string())),
+      oauth2TokenUrl: z.optional(z.nullable(z.string())),
+      customHeaderMapping: z.optional(
+        z.nullable(z.record(z.string(), z.string())),
+      ),
+      token: z.string(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        multiModalConfig: "multi_modal_config",
+        authenticationType: "authentication_type",
+        authenticationScope: "authentication_scope",
+        oauth2TokenUrl: "oauth2_token_url",
+        customHeaderMapping: "custom_header_mapping",
+      });
+    }),
+  )
 );
 
 export function anthropicIntegrationCreateToJSON(
