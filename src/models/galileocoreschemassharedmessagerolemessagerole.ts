@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
@@ -22,8 +23,12 @@ export type GalileoCoreSchemasSharedMessageRoleMessageRole = OpenEnum<
 /** @internal */
 export const GalileoCoreSchemasSharedMessageRoleMessageRole$inboundSchema:
   z.ZodMiniType<GalileoCoreSchemasSharedMessageRoleMessageRole, unknown> =
-    openEnums.inboundSchema(GalileoCoreSchemasSharedMessageRoleMessageRole);
+    /* @__PURE__ */ lazySchema$(() =>
+      openEnums.inboundSchema(GalileoCoreSchemasSharedMessageRoleMessageRole)
+    );
 /** @internal */
 export const GalileoCoreSchemasSharedMessageRoleMessageRole$outboundSchema:
   z.ZodMiniType<string, GalileoCoreSchemasSharedMessageRoleMessageRole> =
-    openEnums.outboundSchema(GalileoCoreSchemasSharedMessageRoleMessageRole);
+    /* @__PURE__ */ lazySchema$(() =>
+      openEnums.outboundSchema(GalileoCoreSchemasSharedMessageRoleMessageRole)
+    );

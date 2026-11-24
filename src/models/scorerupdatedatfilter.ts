@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 
 export const ScorerUpdatedAtFilterOperator = {
@@ -27,7 +28,7 @@ export type ScorerUpdatedAtFilter = {
 /** @internal */
 export const ScorerUpdatedAtFilterOperator$outboundSchema: z.ZodMiniEnum<
   typeof ScorerUpdatedAtFilterOperator
-> = z.enum(ScorerUpdatedAtFilterOperator);
+> = /* @__PURE__ */ lazySchema$(() => z.enum(ScorerUpdatedAtFilterOperator));
 
 /** @internal */
 export type ScorerUpdatedAtFilter$Outbound = {
@@ -40,11 +41,13 @@ export type ScorerUpdatedAtFilter$Outbound = {
 export const ScorerUpdatedAtFilter$outboundSchema: z.ZodMiniType<
   ScorerUpdatedAtFilter$Outbound,
   ScorerUpdatedAtFilter
-> = z.object({
-  name: z.literal("updated_at"),
-  operator: ScorerUpdatedAtFilterOperator$outboundSchema,
-  value: z.pipe(z.date(), z.transform(v => v.toISOString())),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    name: z.literal("updated_at"),
+    operator: ScorerUpdatedAtFilterOperator$outboundSchema,
+    value: z.pipe(z.date(), z.transform(v => v.toISOString())),
+  })
+);
 
 export function scorerUpdatedAtFilterToJSON(
   scorerUpdatedAtFilter: ScorerUpdatedAtFilter,

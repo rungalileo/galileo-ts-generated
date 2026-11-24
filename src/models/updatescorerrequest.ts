@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   InputTypeEnum,
   InputTypeEnum$outboundSchema,
@@ -89,12 +90,14 @@ export const UpdateScorerRequestMetricColorPickerConfig$outboundSchema:
   z.ZodMiniType<
     UpdateScorerRequestMetricColorPickerConfig$Outbound,
     UpdateScorerRequestMetricColorPickerConfig
-  > = z.union([
-    MetricColorPickerBoolean$outboundSchema,
-    MetricColorPickerCategorical$outboundSchema,
-    MetricColorPickerMultiLabel$outboundSchema,
-    MetricColorPickerNumeric$outboundSchema,
-  ]);
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.union([
+      MetricColorPickerBoolean$outboundSchema,
+      MetricColorPickerCategorical$outboundSchema,
+      MetricColorPickerMultiLabel$outboundSchema,
+      MetricColorPickerNumeric$outboundSchema,
+    ])
+  );
 
 export function updateScorerRequestMetricColorPickerConfigToJSON(
   updateScorerRequestMetricColorPickerConfig:
@@ -135,50 +138,52 @@ export type UpdateScorerRequest$Outbound = {
 export const UpdateScorerRequest$outboundSchema: z.ZodMiniType<
   UpdateScorerRequest$Outbound,
   UpdateScorerRequest
-> = z.pipe(
-  z.object({
-    name: z.optional(z.nullable(z.string())),
-    description: z.optional(z.nullable(z.string())),
-    tags: z.optional(z.nullable(z.array(z.string()))),
-    defaults: z.optional(z.nullable(ScorerDefaults$outboundSchema)),
-    modelType: z.optional(z.nullable(ModelType$outboundSchema)),
-    groundTruth: z.optional(z.nullable(z.boolean())),
-    defaultVersionId: z.optional(z.nullable(z.string())),
-    userPrompt: z.optional(z.nullable(z.string())),
-    scoreableNodeTypes: z.optional(z.nullable(z.array(z.string()))),
-    outputType: z.optional(z.nullable(OutputTypeEnum$outboundSchema)),
-    inputType: z.optional(z.nullable(InputTypeEnum$outboundSchema)),
-    multimodalCapabilities: z.optional(
-      z.nullable(z.array(MultimodalCapability$outboundSchema)),
-    ),
-    rollUpMethod: z.optional(
-      z.nullable(RollUpMethodDisplayOptions$outboundSchema),
-    ),
-    metricColorPickerConfig: z.optional(
-      z.nullable(
-        z.union([
-          MetricColorPickerBoolean$outboundSchema,
-          MetricColorPickerCategorical$outboundSchema,
-          MetricColorPickerMultiLabel$outboundSchema,
-          MetricColorPickerNumeric$outboundSchema,
-        ]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: z.optional(z.nullable(z.string())),
+      description: z.optional(z.nullable(z.string())),
+      tags: z.optional(z.nullable(z.array(z.string()))),
+      defaults: z.optional(z.nullable(ScorerDefaults$outboundSchema)),
+      modelType: z.optional(z.nullable(ModelType$outboundSchema)),
+      groundTruth: z.optional(z.nullable(z.boolean())),
+      defaultVersionId: z.optional(z.nullable(z.string())),
+      userPrompt: z.optional(z.nullable(z.string())),
+      scoreableNodeTypes: z.optional(z.nullable(z.array(z.string()))),
+      outputType: z.optional(z.nullable(OutputTypeEnum$outboundSchema)),
+      inputType: z.optional(z.nullable(InputTypeEnum$outboundSchema)),
+      multimodalCapabilities: z.optional(
+        z.nullable(z.array(MultimodalCapability$outboundSchema)),
       ),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      modelType: "model_type",
-      groundTruth: "ground_truth",
-      defaultVersionId: "default_version_id",
-      userPrompt: "user_prompt",
-      scoreableNodeTypes: "scoreable_node_types",
-      outputType: "output_type",
-      inputType: "input_type",
-      multimodalCapabilities: "multimodal_capabilities",
-      rollUpMethod: "roll_up_method",
-      metricColorPickerConfig: "metric_color_picker_config",
-    });
-  }),
+      rollUpMethod: z.optional(
+        z.nullable(RollUpMethodDisplayOptions$outboundSchema),
+      ),
+      metricColorPickerConfig: z.optional(
+        z.nullable(
+          z.union([
+            MetricColorPickerBoolean$outboundSchema,
+            MetricColorPickerCategorical$outboundSchema,
+            MetricColorPickerMultiLabel$outboundSchema,
+            MetricColorPickerNumeric$outboundSchema,
+          ]),
+        ),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        modelType: "model_type",
+        groundTruth: "ground_truth",
+        defaultVersionId: "default_version_id",
+        userPrompt: "user_prompt",
+        scoreableNodeTypes: "scoreable_node_types",
+        outputType: "output_type",
+        inputType: "input_type",
+        multimodalCapabilities: "multimodal_capabilities",
+        rollUpMethod: "roll_up_method",
+        metricColorPickerConfig: "metric_color_picker_config",
+      });
+    }),
+  )
 );
 
 export function updateScorerRequestToJSON(

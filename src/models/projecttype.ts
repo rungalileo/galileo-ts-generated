@@ -4,12 +4,11 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
 export const ProjectType = {
-  PromptEvaluation: "prompt_evaluation",
-  LlmMonitor: "llm_monitor",
   Protect: "protect",
   GenAi: "gen_ai",
 } as const;
@@ -17,7 +16,7 @@ export type ProjectType = OpenEnum<typeof ProjectType>;
 
 /** @internal */
 export const ProjectType$inboundSchema: z.ZodMiniType<ProjectType, unknown> =
-  openEnums.inboundSchema(ProjectType);
+  /* @__PURE__ */ lazySchema$(() => openEnums.inboundSchema(ProjectType));
 /** @internal */
 export const ProjectType$outboundSchema: z.ZodMiniType<string, ProjectType> =
-  openEnums.outboundSchema(ProjectType);
+  /* @__PURE__ */ lazySchema$(() => openEnums.outboundSchema(ProjectType));

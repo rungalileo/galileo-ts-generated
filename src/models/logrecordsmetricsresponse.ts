@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { smartUnion } from "../types/smartUnion.js";
@@ -36,11 +36,13 @@ export type LogRecordsMetricsResponse = {
 export const AggregateMetrics$inboundSchema: z.ZodMiniType<
   AggregateMetrics,
   unknown
-> = smartUnion([
-  types.number(),
-  types.number(),
-  z.record(z.string(), types.number()),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    types.number(),
+    types.number(),
+    z.record(z.string(), types.number()),
+  ])
+);
 
 export function aggregateMetricsFromJSON(
   jsonString: string,
@@ -56,35 +58,37 @@ export function aggregateMetricsFromJSON(
 export const LogRecordsMetricsResponse$inboundSchema: z.ZodMiniType<
   LogRecordsMetricsResponse,
   unknown
-> = z.pipe(
-  z.object({
-    group_by_columns: z.array(types.string()),
-    aggregate_metrics: z.record(
-      z.string(),
-      smartUnion([
-        types.number(),
-        types.number(),
-        z.record(z.string(), types.number()),
-      ]),
-    ),
-    bucketed_metrics: z.record(
-      z.string(),
-      z.array(BucketedMetrics$inboundSchema),
-    ),
-    ems_captured_error: z._default(types.boolean(), false),
-    standard_errors: z.optional(
-      z.nullable(z.record(z.string(), StandardError$inboundSchema)),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "group_by_columns": "groupByColumns",
-      "aggregate_metrics": "aggregateMetrics",
-      "bucketed_metrics": "bucketedMetrics",
-      "ems_captured_error": "emsCapturedError",
-      "standard_errors": "standardErrors",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      group_by_columns: z.array(types.string()),
+      aggregate_metrics: z.record(
+        z.string(),
+        smartUnion([
+          types.number(),
+          types.number(),
+          z.record(z.string(), types.number()),
+        ]),
+      ),
+      bucketed_metrics: z.record(
+        z.string(),
+        z.array(BucketedMetrics$inboundSchema),
+      ),
+      ems_captured_error: z._default(types.boolean(), false),
+      standard_errors: z.optional(
+        z.nullable(z.record(z.string(), StandardError$inboundSchema)),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "group_by_columns": "groupByColumns",
+        "aggregate_metrics": "aggregateMetrics",
+        "bucketed_metrics": "bucketedMetrics",
+        "ems_captured_error": "emsCapturedError",
+        "standard_errors": "standardErrors",
+      });
+    }),
+  )
 );
 
 export function logRecordsMetricsResponseFromJSON(

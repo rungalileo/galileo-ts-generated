@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   Payload,
   Payload$Outbound,
@@ -77,29 +78,31 @@ export type ProtectRequest$Outbound = {
 export const ProtectRequest$outboundSchema: z.ZodMiniType<
   ProtectRequest$Outbound,
   ProtectRequest
-> = z.pipe(
-  z.object({
-    prioritizedRulesets: z.optional(z.array(Ruleset$outboundSchema)),
-    payload: Payload$outboundSchema,
-    projectName: z.optional(z.nullable(z.string())),
-    projectId: z.optional(z.nullable(z.string())),
-    stageName: z.optional(z.nullable(z.string())),
-    stageId: z.optional(z.nullable(z.string())),
-    stageVersion: z.optional(z.nullable(z.int())),
-    timeout: z._default(z.number(), 300),
-    metadata: z.optional(z.nullable(z.record(z.string(), z.string()))),
-    headers: z.optional(z.nullable(z.record(z.string(), z.string()))),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      prioritizedRulesets: "prioritized_rulesets",
-      projectName: "project_name",
-      projectId: "project_id",
-      stageName: "stage_name",
-      stageId: "stage_id",
-      stageVersion: "stage_version",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      prioritizedRulesets: z.optional(z.array(Ruleset$outboundSchema)),
+      payload: Payload$outboundSchema,
+      projectName: z.optional(z.nullable(z.string())),
+      projectId: z.optional(z.nullable(z.string())),
+      stageName: z.optional(z.nullable(z.string())),
+      stageId: z.optional(z.nullable(z.string())),
+      stageVersion: z.optional(z.nullable(z.int())),
+      timeout: z._default(z.number(), 300),
+      metadata: z.optional(z.nullable(z.record(z.string(), z.string()))),
+      headers: z.optional(z.nullable(z.record(z.string(), z.string()))),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        prioritizedRulesets: "prioritized_rulesets",
+        projectName: "project_name",
+        projectId: "project_id",
+        stageName: "stage_name",
+        stageId: "stage_id",
+        stageVersion: "stage_version",
+      });
+    }),
+  )
 );
 
 export function protectRequestToJSON(protectRequest: ProtectRequest): string {

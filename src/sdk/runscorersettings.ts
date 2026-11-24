@@ -3,7 +3,13 @@
  * @generated-id: 45c4915bfeeb
  */
 
+import {
+  runScorerSettingsEnableEvaluatorsProjectsProjectIdRunsRunIdScorerSettingsEvaluatorsEnablePost,
+} from "../funcs/runScorerSettingsEnableEvaluatorsProjectsProjectIdRunsRunIdScorerSettingsEvaluatorsEnablePost.js";
 import { runScorerSettingsGetSettingsProjectsProjectIdRunsRunIdScorerSettingsGet } from "../funcs/runScorerSettingsGetSettingsProjectsProjectIdRunsRunIdScorerSettingsGet.js";
+import {
+  runScorerSettingsInspectEvaluatorsProjectsProjectIdRunsRunIdScorerSettingsEvaluatorsInspectPost,
+} from "../funcs/runScorerSettingsInspectEvaluatorsProjectsProjectIdRunsRunIdScorerSettingsEvaluatorsInspectPost.js";
 import {
   runScorerSettingsUpsertScorersConfigProjectsProjectIdRunsRunIdScorerSettingsPatch,
 } from "../funcs/runScorerSettingsUpsertScorersConfigProjectsProjectIdRunsRunIdScorerSettingsPatch.js";
@@ -15,7 +21,65 @@ import { unwrapAsync } from "../types/fp.js";
 
 export class RunScorerSettings extends ClientSDK {
   /**
+   * Inspect Evaluators
+   *
+   * @remarks
+   * Resolve exact visible Evaluators on the primary before approval.
+   */
+  async inspectEvaluatorsProjectsProjectIdRunsRunIdScorerSettingsEvaluatorsInspectPost(
+    security:
+      operations.InspectEvaluatorsProjectsProjectIdRunsRunIdScorerSettingsEvaluatorsInspectPostSecurity,
+    request:
+      operations.InspectEvaluatorsProjectsProjectIdRunsRunIdScorerSettingsEvaluatorsInspectPostRequest,
+    options?: RequestOptions,
+  ): Promise<models.RunEvaluatorsInspection> {
+    return unwrapAsync(
+      runScorerSettingsInspectEvaluatorsProjectsProjectIdRunsRunIdScorerSettingsEvaluatorsInspectPost(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Enable Evaluators
+   *
+   * @remarks
+   * Add exact saved Evaluators while preserving settings and historical scores.
+   */
+  async enableEvaluatorsProjectsProjectIdRunsRunIdScorerSettingsEvaluatorsEnablePost(
+    security:
+      operations.EnableEvaluatorsProjectsProjectIdRunsRunIdScorerSettingsEvaluatorsEnablePostSecurity,
+    request:
+      operations.EnableEvaluatorsProjectsProjectIdRunsRunIdScorerSettingsEvaluatorsEnablePostRequest,
+    options?: RequestOptions,
+  ): Promise<models.RunEvaluatorsEnabled> {
+    return unwrapAsync(
+      runScorerSettingsEnableEvaluatorsProjectsProjectIdRunsRunIdScorerSettingsEvaluatorsEnablePost(
+        this,
+        security,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
    * Upsert Scorers Config
+   *
+   * @remarks
+   * Enable or disable a run's scorers, recomputing metrics for any newly enabled ones.
+   *
+   * Args:
+   *     run_scorer_settings: Scorer settings to apply to the run.
+   *     run: Run resolved from the URL, verified to belong to the URL project.
+   *     a_ctx: Async request context supplying the read session and current user.
+   *     capabilities: Scorer types the client can decode; decision scorers are left out of the response otherwise.
+   *
+   * Returns:
+   *     The run's settings after the update.
    */
   async upsertScorersConfigProjectsProjectIdRunsRunIdScorerSettingsPatch(
     security:
@@ -36,6 +100,18 @@ export class RunScorerSettings extends ClientSDK {
 
   /**
    * Upsert Scorers Config
+   *
+   * @remarks
+   * Enable or disable a run's scorers, recomputing metrics for any newly enabled ones.
+   *
+   * Args:
+   *     run_scorer_settings: Scorer settings to apply to the run.
+   *     run: Run resolved from the URL, verified to belong to the URL project.
+   *     a_ctx: Async request context supplying the read session and current user.
+   *     capabilities: Scorer types the client can decode; decision scorers are left out of the response otherwise.
+   *
+   * Returns:
+   *     The run's settings after the update.
    */
   async upsertScorersConfigProjectsProjectIdRunsRunIdScorerSettingsPost(
     security:
@@ -56,6 +132,20 @@ export class RunScorerSettings extends ClientSDK {
 
   /**
    * Get Settings
+   *
+   * @remarks
+   * Return a run's scorer settings.
+   *
+   * Args:
+   *     run_id: Run whose settings are requested, used for the not-found message.
+   *     run_scorer_settings: Hydrated settings resolved by the route dependency.
+   *     capabilities: Scorer types the client can decode; decision scorers are left out of the response otherwise.
+   *
+   * Returns:
+   *     The run's scorer settings.
+   *
+   * Raises:
+   *     HTTPException: 404 when the run has no scorer settings recorded.
    */
   async getSettingsProjectsProjectIdRunsRunIdScorerSettingsGet(
     security:

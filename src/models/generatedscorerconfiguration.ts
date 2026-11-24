@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -49,29 +49,31 @@ export type GeneratedScorerConfiguration = {
 export const GeneratedScorerConfiguration$inboundSchema: z.ZodMiniType<
   GeneratedScorerConfiguration,
   unknown
-> = z.pipe(
-  z.object({
-    model_alias: z._default(types.string(), "gpt-4.1-mini"),
-    num_judges: z._default(types.number(), 3),
-    output_type: types.optional(OutputTypeEnum$inboundSchema),
-    scoreable_node_types: types.optional(z.array(types.string())),
-    cot_enabled: z._default(types.boolean(), false),
-    ground_truth: z._default(types.boolean(), false),
-    multimodal_capabilities: z.optional(
-      z.nullable(z.array(MultimodalCapability$inboundSchema)),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "model_alias": "modelAlias",
-      "num_judges": "numJudges",
-      "output_type": "outputType",
-      "scoreable_node_types": "scoreableNodeTypes",
-      "cot_enabled": "cotEnabled",
-      "ground_truth": "groundTruth",
-      "multimodal_capabilities": "multimodalCapabilities",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      model_alias: z._default(types.string(), "gpt-4.1-mini"),
+      num_judges: z._default(types.number(), 3),
+      output_type: types.optional(OutputTypeEnum$inboundSchema),
+      scoreable_node_types: types.optional(z.array(types.string())),
+      cot_enabled: z._default(types.boolean(), false),
+      ground_truth: z._default(types.boolean(), false),
+      multimodal_capabilities: z.optional(
+        z.nullable(z.array(MultimodalCapability$inboundSchema)),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "model_alias": "modelAlias",
+        "num_judges": "numJudges",
+        "output_type": "outputType",
+        "scoreable_node_types": "scoreableNodeTypes",
+        "cot_enabled": "cotEnabled",
+        "ground_truth": "groundTruth",
+        "multimodal_capabilities": "multimodalCapabilities",
+      });
+    }),
+  )
 );
 /** @internal */
 export type GeneratedScorerConfiguration$Outbound = {
@@ -88,29 +90,31 @@ export type GeneratedScorerConfiguration$Outbound = {
 export const GeneratedScorerConfiguration$outboundSchema: z.ZodMiniType<
   GeneratedScorerConfiguration$Outbound,
   GeneratedScorerConfiguration
-> = z.pipe(
-  z.object({
-    modelAlias: z._default(z.string(), "gpt-4.1-mini"),
-    numJudges: z._default(z.int(), 3),
-    outputType: z.optional(OutputTypeEnum$outboundSchema),
-    scoreableNodeTypes: z.optional(z.array(z.string())),
-    cotEnabled: z._default(z.boolean(), false),
-    groundTruth: z._default(z.boolean(), false),
-    multimodalCapabilities: z.optional(
-      z.nullable(z.array(MultimodalCapability$outboundSchema)),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      modelAlias: "model_alias",
-      numJudges: "num_judges",
-      outputType: "output_type",
-      scoreableNodeTypes: "scoreable_node_types",
-      cotEnabled: "cot_enabled",
-      groundTruth: "ground_truth",
-      multimodalCapabilities: "multimodal_capabilities",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      modelAlias: z._default(z.string(), "gpt-4.1-mini"),
+      numJudges: z._default(z.int(), 3),
+      outputType: z.optional(OutputTypeEnum$outboundSchema),
+      scoreableNodeTypes: z.optional(z.array(z.string())),
+      cotEnabled: z._default(z.boolean(), false),
+      groundTruth: z._default(z.boolean(), false),
+      multimodalCapabilities: z.optional(
+        z.nullable(z.array(MultimodalCapability$outboundSchema)),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        modelAlias: "model_alias",
+        numJudges: "num_judges",
+        outputType: "output_type",
+        scoreableNodeTypes: "scoreable_node_types",
+        cotEnabled: "cot_enabled",
+        groundTruth: "ground_truth",
+        multimodalCapabilities: "multimodal_capabilities",
+      });
+    }),
+  )
 );
 
 export function generatedScorerConfigurationToJSON(

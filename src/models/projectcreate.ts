@@ -5,13 +5,13 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ProjectType, ProjectType$outboundSchema } from "./projecttype.js";
 
 export type ProjectCreate = {
   name: string;
   createdBy?: string | null | undefined;
   type?: ProjectType | undefined;
-  createExampleTemplates?: boolean | undefined;
 };
 
 /** @internal */
@@ -19,26 +19,25 @@ export type ProjectCreate$Outbound = {
   name: string;
   created_by?: string | null | undefined;
   type?: string | undefined;
-  create_example_templates: boolean;
 };
 
 /** @internal */
 export const ProjectCreate$outboundSchema: z.ZodMiniType<
   ProjectCreate$Outbound,
   ProjectCreate
-> = z.pipe(
-  z.object({
-    name: z.string(),
-    createdBy: z.optional(z.nullable(z.string())),
-    type: z.optional(ProjectType$outboundSchema),
-    createExampleTemplates: z._default(z.boolean(), false),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      createdBy: "created_by",
-      createExampleTemplates: "create_example_templates",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: z.string(),
+      createdBy: z.optional(z.nullable(z.string())),
+      type: z.optional(ProjectType$outboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        createdBy: "created_by",
+      });
+    }),
+  )
 );
 
 export function projectCreateToJSON(projectCreate: ProjectCreate): string {

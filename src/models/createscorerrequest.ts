@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   InputTypeEnum,
   InputTypeEnum$outboundSchema,
@@ -47,6 +48,11 @@ import {
   ScorerDefaults$Outbound,
   ScorerDefaults$outboundSchema,
 } from "./scorerdefaults.js";
+import {
+  ScorerInvocationConfig,
+  ScorerInvocationConfig$Outbound,
+  ScorerInvocationConfig$outboundSchema,
+} from "./scorerinvocationconfig.js";
 import { ScorerTypes, ScorerTypes$outboundSchema } from "./scorertypes.js";
 
 export type CreateScorerRequestMetricColorPickerConfig =
@@ -58,9 +64,11 @@ export type CreateScorerRequestMetricColorPickerConfig =
 export type CreateScorerRequest = {
   name: string;
   id?: string | null | undefined;
-  description?: string | undefined;
+  label?: string | null | undefined;
+  description?: string | null | undefined;
   tags?: Array<string> | undefined;
   defaults?: ScorerDefaults | null | undefined;
+  invocation?: ScorerInvocationConfig | null | undefined;
   scorerType: ScorerTypes;
   deprecated?: boolean | null | undefined;
   modelType?: ModelType | null | undefined;
@@ -81,6 +89,8 @@ export type CreateScorerRequest = {
     | MetricColorPickerNumeric
     | null
     | undefined;
+  isGlobal?: boolean | null | undefined;
+  projectIds?: Array<string> | undefined;
 };
 
 /** @internal */
@@ -95,12 +105,14 @@ export const CreateScorerRequestMetricColorPickerConfig$outboundSchema:
   z.ZodMiniType<
     CreateScorerRequestMetricColorPickerConfig$Outbound,
     CreateScorerRequestMetricColorPickerConfig
-  > = z.union([
-    MetricColorPickerBoolean$outboundSchema,
-    MetricColorPickerCategorical$outboundSchema,
-    MetricColorPickerMultiLabel$outboundSchema,
-    MetricColorPickerNumeric$outboundSchema,
-  ]);
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.union([
+      MetricColorPickerBoolean$outboundSchema,
+      MetricColorPickerCategorical$outboundSchema,
+      MetricColorPickerMultiLabel$outboundSchema,
+      MetricColorPickerNumeric$outboundSchema,
+    ])
+  );
 
 export function createScorerRequestMetricColorPickerConfigToJSON(
   createScorerRequestMetricColorPickerConfig:
@@ -117,9 +129,11 @@ export function createScorerRequestMetricColorPickerConfigToJSON(
 export type CreateScorerRequest$Outbound = {
   name: string;
   id?: string | null | undefined;
-  description: string;
+  label?: string | null | undefined;
+  description?: string | null | undefined;
   tags?: Array<string> | undefined;
   defaults?: ScorerDefaults$Outbound | null | undefined;
+  invocation?: ScorerInvocationConfig$Outbound | null | undefined;
   scorer_type: string;
   deprecated?: boolean | null | undefined;
   model_type?: string | null | undefined;
@@ -140,64 +154,74 @@ export type CreateScorerRequest$Outbound = {
     | MetricColorPickerNumeric$Outbound
     | null
     | undefined;
+  is_global?: boolean | null | undefined;
+  project_ids?: Array<string> | undefined;
 };
 
 /** @internal */
 export const CreateScorerRequest$outboundSchema: z.ZodMiniType<
   CreateScorerRequest$Outbound,
   CreateScorerRequest
-> = z.pipe(
-  z.object({
-    name: z.string(),
-    id: z.optional(z.nullable(z.string())),
-    description: z._default(z.string(), ""),
-    tags: z.optional(z.array(z.string())),
-    defaults: z.optional(z.nullable(ScorerDefaults$outboundSchema)),
-    scorerType: ScorerTypes$outboundSchema,
-    deprecated: z.optional(z.nullable(z.boolean())),
-    modelType: z.optional(z.nullable(ModelType$outboundSchema)),
-    groundTruth: z.optional(z.nullable(z.boolean())),
-    defaultVersionId: z.optional(z.nullable(z.string())),
-    userPrompt: z.optional(z.nullable(z.string())),
-    scoreableNodeTypes: z.optional(z.nullable(z.array(z.string()))),
-    outputType: z.optional(z.nullable(OutputTypeEnum$outboundSchema)),
-    inputType: z.optional(z.nullable(InputTypeEnum$outboundSchema)),
-    multimodalCapabilities: z.optional(
-      z.nullable(z.array(MultimodalCapability$outboundSchema)),
-    ),
-    requiredScorers: z.optional(z.nullable(z.array(z.string()))),
-    requiredMetricIds: z.optional(z.nullable(z.array(z.string()))),
-    rollUpMethod: z.optional(
-      z.nullable(RollUpMethodDisplayOptions$outboundSchema),
-    ),
-    metricColorPickerConfig: z.optional(
-      z.nullable(
-        z.union([
-          MetricColorPickerBoolean$outboundSchema,
-          MetricColorPickerCategorical$outboundSchema,
-          MetricColorPickerMultiLabel$outboundSchema,
-          MetricColorPickerNumeric$outboundSchema,
-        ]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: z.string(),
+      id: z.optional(z.nullable(z.string())),
+      label: z.optional(z.nullable(z.string())),
+      description: z.optional(z.nullable(z.string())),
+      tags: z.optional(z.array(z.string())),
+      defaults: z.optional(z.nullable(ScorerDefaults$outboundSchema)),
+      invocation: z.optional(z.nullable(ScorerInvocationConfig$outboundSchema)),
+      scorerType: ScorerTypes$outboundSchema,
+      deprecated: z.optional(z.nullable(z.boolean())),
+      modelType: z.optional(z.nullable(ModelType$outboundSchema)),
+      groundTruth: z.optional(z.nullable(z.boolean())),
+      defaultVersionId: z.optional(z.nullable(z.string())),
+      userPrompt: z.optional(z.nullable(z.string())),
+      scoreableNodeTypes: z.optional(z.nullable(z.array(z.string()))),
+      outputType: z.optional(z.nullable(OutputTypeEnum$outboundSchema)),
+      inputType: z.optional(z.nullable(InputTypeEnum$outboundSchema)),
+      multimodalCapabilities: z.optional(
+        z.nullable(z.array(MultimodalCapability$outboundSchema)),
       ),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      scorerType: "scorer_type",
-      modelType: "model_type",
-      groundTruth: "ground_truth",
-      defaultVersionId: "default_version_id",
-      userPrompt: "user_prompt",
-      scoreableNodeTypes: "scoreable_node_types",
-      outputType: "output_type",
-      inputType: "input_type",
-      multimodalCapabilities: "multimodal_capabilities",
-      requiredScorers: "required_scorers",
-      requiredMetricIds: "required_metric_ids",
-      rollUpMethod: "roll_up_method",
-      metricColorPickerConfig: "metric_color_picker_config",
-    });
-  }),
+      requiredScorers: z.optional(z.nullable(z.array(z.string()))),
+      requiredMetricIds: z.optional(z.nullable(z.array(z.string()))),
+      rollUpMethod: z.optional(
+        z.nullable(RollUpMethodDisplayOptions$outboundSchema),
+      ),
+      metricColorPickerConfig: z.optional(
+        z.nullable(
+          z.union([
+            MetricColorPickerBoolean$outboundSchema,
+            MetricColorPickerCategorical$outboundSchema,
+            MetricColorPickerMultiLabel$outboundSchema,
+            MetricColorPickerNumeric$outboundSchema,
+          ]),
+        ),
+      ),
+      isGlobal: z.optional(z.nullable(z.boolean())),
+      projectIds: z.optional(z.array(z.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        scorerType: "scorer_type",
+        modelType: "model_type",
+        groundTruth: "ground_truth",
+        defaultVersionId: "default_version_id",
+        userPrompt: "user_prompt",
+        scoreableNodeTypes: "scoreable_node_types",
+        outputType: "output_type",
+        inputType: "input_type",
+        multimodalCapabilities: "multimodal_capabilities",
+        requiredScorers: "required_scorers",
+        requiredMetricIds: "required_metric_ids",
+        rollUpMethod: "roll_up_method",
+        metricColorPickerConfig: "metric_color_picker_config",
+        isGlobal: "is_global",
+        projectIds: "project_ids",
+      });
+    }),
+  )
 );
 
 export function createScorerRequestToJSON(

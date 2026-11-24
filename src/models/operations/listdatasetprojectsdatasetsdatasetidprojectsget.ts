@@ -5,10 +5,12 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../../lib/schemas.js";
 import * as models from "../index.js";
 
 export type ListDatasetProjectsDatasetsDatasetIdProjectsGetSecurity = {
   apiKeyHeader?: string | undefined;
+  classicAPIKeyHeader?: string | undefined;
   oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
   httpBasic?: models.SchemeHTTPBasic | undefined;
 };
@@ -22,6 +24,7 @@ export type ListDatasetProjectsDatasetsDatasetIdProjectsGetRequest = {
 /** @internal */
 export type ListDatasetProjectsDatasetsDatasetIdProjectsGetSecurity$Outbound = {
   APIKeyHeader?: string | undefined;
+  ClassicAPIKeyHeader?: string | undefined;
   OAuth2PasswordBearer?: models.OAuth2PasswordBearerInput$Outbound | undefined;
   HTTPBasic?: models.SchemeHTTPBasic$Outbound | undefined;
 };
@@ -31,21 +34,25 @@ export const ListDatasetProjectsDatasetsDatasetIdProjectsGetSecurity$outboundSch
   z.ZodMiniType<
     ListDatasetProjectsDatasetsDatasetIdProjectsGetSecurity$Outbound,
     ListDatasetProjectsDatasetsDatasetIdProjectsGetSecurity
-  > = z.pipe(
-    z.object({
-      apiKeyHeader: z.optional(z.string()),
-      oAuth2PasswordBearer: z.optional(
-        models.OAuth2PasswordBearerInput$outboundSchema,
-      ),
-      httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        apiKeyHeader: "APIKeyHeader",
-        oAuth2PasswordBearer: "OAuth2PasswordBearer",
-        httpBasic: "HTTPBasic",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        apiKeyHeader: z.optional(z.string()),
+        classicAPIKeyHeader: z.optional(z.string()),
+        oAuth2PasswordBearer: z.optional(
+          models.OAuth2PasswordBearerInput$outboundSchema,
+        ),
+        httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          apiKeyHeader: "APIKeyHeader",
+          classicAPIKeyHeader: "ClassicAPIKeyHeader",
+          oAuth2PasswordBearer: "OAuth2PasswordBearer",
+          httpBasic: "HTTPBasic",
+        });
+      }),
+    )
   );
 
 export function listDatasetProjectsDatasetsDatasetIdProjectsGetSecurityToJSON(
@@ -70,18 +77,20 @@ export const ListDatasetProjectsDatasetsDatasetIdProjectsGetRequest$outboundSche
   z.ZodMiniType<
     ListDatasetProjectsDatasetsDatasetIdProjectsGetRequest$Outbound,
     ListDatasetProjectsDatasetsDatasetIdProjectsGetRequest
-  > = z.pipe(
-    z.object({
-      datasetId: z.string(),
-      startingToken: z._default(z.int(), 0),
-      limit: z._default(z.int(), 100),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        datasetId: "dataset_id",
-        startingToken: "starting_token",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        datasetId: z.string(),
+        startingToken: z._default(z.int(), 0),
+        limit: z._default(z.int(), 100),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          datasetId: "dataset_id",
+          startingToken: "starting_token",
+        });
+      }),
+    )
   );
 
 export function listDatasetProjectsDatasetsDatasetIdProjectsGetRequestToJSON(

@@ -20,7 +20,6 @@ import { projectsListUserProjectCollaboratorsProjectsProjectIdUsersGet } from ".
 import { projectsUpdateGroupProjectCollaboratorProjectsProjectIdGroupsGroupIdPatch } from "../funcs/projectsUpdateGroupProjectCollaboratorProjectsProjectIdGroupsGroupIdPatch.js";
 import { projectsUpdateProjectProjectsProjectIdPut } from "../funcs/projectsUpdateProjectProjectsProjectIdPut.js";
 import { projectsUpdateUserProjectCollaboratorProjectsProjectIdUsersUserIdPatch } from "../funcs/projectsUpdateUserProjectCollaboratorProjectsProjectIdUsersUserIdPatch.js";
-import { projectsUploadFileProjectsProjectIdUploadFilePost } from "../funcs/projectsUploadFileProjectsProjectIdUploadFilePost.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
 import * as models from "../models/index.js";
 import * as operations from "../models/operations/index.js";
@@ -139,23 +138,10 @@ export class Projects extends ClientSDK {
   }
 
   /**
-   * Upload File
-   */
-  async uploadFileProjectsProjectIdUploadFilePost(
-    security: operations.UploadFileProjectsProjectIdUploadFilePostSecurity,
-    request: operations.UploadFileProjectsProjectIdUploadFilePostRequest,
-    options?: RequestOptions,
-  ): Promise<any> {
-    return unwrapAsync(projectsUploadFileProjectsProjectIdUploadFilePost(
-      this,
-      security,
-      request,
-      options,
-    ));
-  }
-
-  /**
    * Get Collaborator Roles
+   *
+   * @remarks
+   * List the collaborator roles that can be assigned on a project.
    */
   async getCollaboratorRolesCollaboratorRolesGet(
     security: operations.GetCollaboratorRolesCollaboratorRolesGetSecurity,
@@ -186,6 +172,9 @@ export class Projects extends ClientSDK {
 
   /**
    * Update Project
+   *
+   * @remarks
+   * Rename a project while rejecting unsupported project field updates.
    */
   async updateProjectProjectsProjectIdPut(
     security: operations.UpdateProjectProjectsProjectIdPutSecurity,
@@ -234,7 +223,7 @@ export class Projects extends ClientSDK {
     request:
       operations.CreateUserProjectCollaboratorsProjectsProjectIdUsersPostRequest,
     options?: RequestOptions,
-  ): Promise<Array<models.UserCollaborator>> {
+  ): Promise<Array<models.ProjectUserCollaborator>> {
     return unwrapAsync(
       projectsCreateUserProjectCollaboratorsProjectsProjectIdUsersPost(
         this,
@@ -257,7 +246,7 @@ export class Projects extends ClientSDK {
     request:
       operations.ListUserProjectCollaboratorsProjectsProjectIdUsersGetRequest,
     options?: RequestOptions,
-  ): Promise<models.ListUserCollaboratorsResponse> {
+  ): Promise<models.ListProjectUserCollaboratorsResponse> {
     return unwrapAsync(
       projectsListUserProjectCollaboratorsProjectsProjectIdUsersGet(
         this,
@@ -280,7 +269,7 @@ export class Projects extends ClientSDK {
     request:
       operations.CreateGroupProjectCollaboratorsProjectsProjectIdGroupsPostRequest,
     options?: RequestOptions,
-  ): Promise<Array<models.GroupCollaborator>> {
+  ): Promise<Array<models.ProjectGroupCollaborator>> {
     return unwrapAsync(
       projectsCreateGroupProjectCollaboratorsProjectsProjectIdGroupsPost(
         this,
@@ -303,7 +292,7 @@ export class Projects extends ClientSDK {
     request:
       operations.ListGroupProjectCollaboratorsProjectsProjectIdGroupsGetRequest,
     options?: RequestOptions,
-  ): Promise<models.ListGroupCollaboratorsResponse> {
+  ): Promise<models.ListProjectGroupCollaboratorsResponse> {
     return unwrapAsync(
       projectsListGroupProjectCollaboratorsProjectsProjectIdGroupsGet(
         this,
@@ -326,7 +315,7 @@ export class Projects extends ClientSDK {
     request:
       operations.UpdateUserProjectCollaboratorProjectsProjectIdUsersUserIdPatchRequest,
     options?: RequestOptions,
-  ): Promise<models.UserCollaborator> {
+  ): Promise<models.ProjectUserCollaborator> {
     return unwrapAsync(
       projectsUpdateUserProjectCollaboratorProjectsProjectIdUsersUserIdPatch(
         this,
@@ -372,7 +361,7 @@ export class Projects extends ClientSDK {
     request:
       operations.UpdateGroupProjectCollaboratorProjectsProjectIdGroupsGroupIdPatchRequest,
     options?: RequestOptions,
-  ): Promise<models.GroupCollaborator> {
+  ): Promise<models.ProjectGroupCollaborator> {
     return unwrapAsync(
       projectsUpdateGroupProjectCollaboratorProjectsProjectIdGroupsGroupIdPatch(
         this,

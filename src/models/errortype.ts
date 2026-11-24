@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
@@ -15,7 +16,9 @@ export const ErrorType = {
   PermissionError: "permission_error",
   NotFoundError: "not_found_error",
   WorkflowError: "workflow_error",
+  RateLimitError: "rate_limit_error",
   SystemError: "system_error",
+  TimeoutError: "timeout_error",
   NotApplicableReason: "not_applicable_reason",
   UncatalogedError: "uncataloged_error",
 } as const;
@@ -23,4 +26,4 @@ export type ErrorType = OpenEnum<typeof ErrorType>;
 
 /** @internal */
 export const ErrorType$inboundSchema: z.ZodMiniType<ErrorType, unknown> =
-  openEnums.inboundSchema(ErrorType);
+  /* @__PURE__ */ lazySchema$(() => openEnums.inboundSchema(ErrorType));

@@ -6,12 +6,25 @@
 
 * [createStageProjectsProjectIdStagesPost](#createstageprojectsprojectidstagespost) - Create Stage
 * [getStageProjectsProjectIdStagesGet](#getstageprojectsprojectidstagesget) - Get Stage
+* [listStagesPaginatedProjectsProjectIdStagesPaginatedGet](#liststagespaginatedprojectsprojectidstagespaginatedget) - List Stages Paginated
+* [getStageRulesetsProjectsProjectIdStagesStageIdRulesetsGet](#getstagerulesetsprojectsprojectidstagesstageidrulesetsget) - Get Stage Rulesets
 * [updateStageProjectsProjectIdStagesStageIdPost](#updatestageprojectsprojectidstagesstageidpost) - Update Stage
 * [pauseStageProjectsProjectIdStagesStageIdPut](#pausestageprojectsprojectidstagesstageidput) - Pause Stage
 
 ## createStageProjectsProjectIdStagesPost
 
-Create Stage
+Create a stage for a project, optionally seeding a first version.
+
+Args:
+    stage_request: The stage to create, including its type and (for central stages) rulesets.
+    ctx: Async request context.
+    project: The project to create the stage in, resolved from the URL.
+
+Returns:
+    The created stage, with its current version set if it's a central stage.
+
+Raises:
+    HTTPException: 422 if the project isn't a protect or gen_ai project.
 
 ### Example Usage
 
@@ -94,7 +107,20 @@ run();
 
 ## getStageProjectsProjectIdStagesGet
 
-Get Stage
+Get a stage by ID or by (project ID and name).
+
+Args:
+    project_id: Project the stage belongs to, resolved from the URL.
+    stage_name: Stage name to look up (used with project_id when stage_id is omitted).
+    stage_id: Stage ID to look up directly.
+    ctx: Async request context.
+
+Returns:
+    The matching stage.
+
+Raises:
+    HTTPException: 422 if neither stage_id nor stage_name is provided.
+    GalileoServerException: 404 if the stage exists but belongs to a different project.
 
 ### Example Usage
 
@@ -167,9 +193,207 @@ run();
 | errors.HTTPValidationError          | 422                                 | application/json                    |
 | errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
 
+## listStagesPaginatedProjectsProjectIdStagesPaginatedGet
+
+List the stages of a project.
+
+`get_stage` resolves one stage the caller can already name. This lists them, so a
+caller can report on a project's stages without knowing any name. That matters
+because a Protect invoke call with an unknown stage name creates that stage, so a
+project can hold stages nobody configured.
+
+Args:
+    project_id: Project to list stages for, resolved from the URL.
+    request: Pagination, taken from the query string.
+    ctx: Async request context.
+
+Returns:
+    One page of the project's stages, oldest first.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="list_stages_paginated_projects__project_id__stages_paginated_get" method="get" path="/projects/{project_id}/stages/paginated" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.stage.listStagesPaginatedProjectsProjectIdStagesPaginatedGet({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    projectId: "<value>",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { protectListStagesPaginatedProjectsProjectIdStagesPaginatedGet } from "galileo-generated/funcs/protectListStagesPaginatedProjectsProjectIdStagesPaginatedGet.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await protectListStagesPaginatedProjectsProjectIdStagesPaginatedGet(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    projectId: "<value>",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("protectListStagesPaginatedProjectsProjectIdStagesPaginatedGet failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.ListStagesPaginatedProjectsProjectIdStagesPaginatedGetRequest](../../models/operations/liststagespaginatedprojectsprojectidstagespaginatedgetrequest.md)           | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `security`                                                                                                                                                                     | [operations.ListStagesPaginatedProjectsProjectIdStagesPaginatedGetSecurity](../../models/operations/liststagespaginatedprojectsprojectidstagespaginatedgetsecurity.md)         | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[models.ListStageResponse](../../models/liststageresponse.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
+## getStageRulesetsProjectsProjectIdStagesStageIdRulesetsGet
+
+Get the rulesets of a stage's current version, or a local stage's newest version.
+
+`StageDB` carries the version number but not the rulesets. This returns them, so a
+caller can export a stage's guardrails, for example to move them to Agent Control.
+
+For a central stage this is the version an invoke call applies when it names no
+version. A local stage has no current version: each invoke applies its own inline
+rulesets. For a local stage this returns the most recently created version, which is
+not always the set callers send now. After invokes with A, B and then A again, it is B.
+
+Args:
+    project_id: Project the stage belongs to, resolved from the URL.
+    stage_id: Stage to read.
+    ctx: Async request context.
+
+Returns:
+    The version and its rulesets. Protect stores no ruleset order, so the list order is
+    not a priority.
+
+Raises:
+    GalileoServerException: 404 if the stage belongs to a different project.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="get_stage_rulesets_projects__project_id__stages__stage_id__rulesets_get" method="get" path="/projects/{project_id}/stages/{stage_id}/rulesets" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.stage.getStageRulesetsProjectsProjectIdStagesStageIdRulesetsGet({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    projectId: "<value>",
+    stageId: "<value>",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import { protectGetStageRulesetsProjectsProjectIdStagesStageIdRulesetsGet } from "galileo-generated/funcs/protectGetStageRulesetsProjectsProjectIdStagesStageIdRulesetsGet.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await protectGetStageRulesetsProjectsProjectIdStagesStageIdRulesetsGet(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    projectId: "<value>",
+    stageId: "<value>",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("protectGetStageRulesetsProjectsProjectIdStagesStageIdRulesetsGet failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.GetStageRulesetsProjectsProjectIdStagesStageIdRulesetsGetRequest](../../models/operations/getstagerulesetsprojectsprojectidstagesstageidrulesetsgetrequest.md)     | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `security`                                                                                                                                                                     | [operations.GetStageRulesetsProjectsProjectIdStagesStageIdRulesetsGetSecurity](../../models/operations/getstagerulesetsprojectsprojectidstagesstageidrulesetsgetsecurity.md)   | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[models.StageRulesetsResponse](../../models/stagerulesetsresponse.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
 ## updateStageProjectsProjectIdStagesStageIdPost
 
-Update Stage
+Create a new centralized-ruleset version for a central stage and set it as current.
+
+Args:
+    project_id: Project the stage belongs to, resolved from the URL.
+    stage_id: Stage to update.
+    stage_version_rulesets: The new rulesets for the version.
+    ctx: Async request context.
+
+Returns:
+    The updated stage, defaulted to the new version.
+
+Raises:
+    GalileoServerException: 404 if the stage belongs to a different project.
+    HTTPException: 422 if the stage isn't a central stage.
 
 ### Example Usage
 
@@ -248,7 +472,19 @@ run();
 
 ## pauseStageProjectsProjectIdStagesStageIdPut
 
-Pause Stage
+Pause or unpause a stage.
+
+Args:
+    project_id: Project the stage belongs to, resolved from the URL.
+    stage_id: Stage to update.
+    pause: New paused state.
+    ctx: Async request context.
+
+Returns:
+    The updated stage.
+
+Raises:
+    GalileoServerException: 404 if the stage belongs to a different project.
 
 ### Example Usage
 
@@ -262,8 +498,8 @@ async function run() {
   const result = await galileoGenerated.stage.pauseStageProjectsProjectIdStagesStageIdPut({
     apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
   }, {
-    stageId: "<value>",
     projectId: "<value>",
+    stageId: "<value>",
   });
 
   console.log(result);
@@ -288,8 +524,8 @@ async function run() {
   const res = await protectPauseStageProjectsProjectIdStagesStageIdPut(galileoGenerated, {
     apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
   }, {
-    stageId: "<value>",
     projectId: "<value>",
+    stageId: "<value>",
   });
   if (res.ok) {
     const { value: result } = res;

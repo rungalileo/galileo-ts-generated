@@ -4,7 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -40,11 +40,13 @@ export type BooleanColorConstraint = {
 export const BooleanColorConstraint$inboundSchema: z.ZodMiniType<
   BooleanColorConstraint,
   unknown
-> = z.object({
-  color: MetricColor$inboundSchema,
-  operator: types.literal("eq"),
-  value: types.boolean(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    color: MetricColor$inboundSchema,
+    operator: types.literal("eq"),
+    value: types.boolean(),
+  })
+);
 /** @internal */
 export type BooleanColorConstraint$Outbound = {
   color: string;
@@ -56,11 +58,13 @@ export type BooleanColorConstraint$Outbound = {
 export const BooleanColorConstraint$outboundSchema: z.ZodMiniType<
   BooleanColorConstraint$Outbound,
   BooleanColorConstraint
-> = z.object({
-  color: MetricColor$outboundSchema,
-  operator: z.literal("eq"),
-  value: z.boolean(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    color: MetricColor$outboundSchema,
+    operator: z.literal("eq"),
+    value: z.boolean(),
+  })
+);
 
 export function booleanColorConstraintToJSON(
   booleanColorConstraint: BooleanColorConstraint,

@@ -5,7 +5,7 @@
 ```typescript
 import { MetadataFilterOperator } from "galileo-generated/models";
 
-let value: MetadataFilterOperator = "eq";
+let value: MetadataFilterOperator = "ne";
 
 // Open enum: unrecognized values are captured as Unrecognized<string>
 ```
@@ -13,5 +13,5 @@ let value: MetadataFilterOperator = "eq";
 ## Values
 
 ```typescript
-"one_of" | "not_in" | "eq" | "ne" | Unrecognized<string>
+"one_of" | "not_in" | "eq" | "ne" | "regex" | Unrecognized<string>
 ```

@@ -4,7 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { smartUnion } from "../types/smartUnion.js";
@@ -17,6 +17,10 @@ import {
   ControlResourceAction,
   ControlResourceAction$inboundSchema,
 } from "./controlresourceaction.js";
+import {
+  CustomDashboardAction,
+  CustomDashboardAction$inboundSchema,
+} from "./customdashboardaction.js";
 import { DatasetAction, DatasetAction$inboundSchema } from "./datasetaction.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
@@ -45,6 +49,7 @@ import {
   RegisteredScorerAction,
   RegisteredScorerAction$inboundSchema,
 } from "./registeredscoreraction.js";
+import { ScorerAction, ScorerAction$inboundSchema } from "./scoreraction.js";
 import { UserAction, UserAction$inboundSchema } from "./useraction.js";
 
 export type PermissionAction =
@@ -52,6 +57,7 @@ export type PermissionAction =
   | GroupAction
   | GroupMemberAction
   | ProjectAction
+  | ScorerAction
   | RegisteredScorerAction
   | ApiKeyAction
   | GeneratedScorerAction
@@ -60,7 +66,8 @@ export type PermissionAction =
   | IntegrationAction
   | OrganizationAction
   | AnnotationQueueAction
-  | ControlResourceAction;
+  | ControlResourceAction
+  | CustomDashboardAction;
 
 export type Permission = {
   action:
@@ -68,6 +75,7 @@ export type Permission = {
     | GroupAction
     | GroupMemberAction
     | ProjectAction
+    | ScorerAction
     | RegisteredScorerAction
     | ApiKeyAction
     | GeneratedScorerAction
@@ -76,7 +84,8 @@ export type Permission = {
     | IntegrationAction
     | OrganizationAction
     | AnnotationQueueAction
-    | ControlResourceAction;
+    | ControlResourceAction
+    | CustomDashboardAction;
   allowed: boolean;
   message?: string | null | undefined;
 };
@@ -85,21 +94,25 @@ export type Permission = {
 export const PermissionAction$inboundSchema: z.ZodMiniType<
   PermissionAction,
   unknown
-> = smartUnion([
-  UserAction$inboundSchema,
-  GroupAction$inboundSchema,
-  GroupMemberAction$inboundSchema,
-  ProjectAction$inboundSchema,
-  RegisteredScorerAction$inboundSchema,
-  ApiKeyAction$inboundSchema,
-  GeneratedScorerAction$inboundSchema,
-  FineTunedScorerAction$inboundSchema,
-  DatasetAction$inboundSchema,
-  IntegrationAction$inboundSchema,
-  OrganizationAction$inboundSchema,
-  AnnotationQueueAction$inboundSchema,
-  ControlResourceAction$inboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    UserAction$inboundSchema,
+    GroupAction$inboundSchema,
+    GroupMemberAction$inboundSchema,
+    ProjectAction$inboundSchema,
+    ScorerAction$inboundSchema,
+    RegisteredScorerAction$inboundSchema,
+    ApiKeyAction$inboundSchema,
+    GeneratedScorerAction$inboundSchema,
+    FineTunedScorerAction$inboundSchema,
+    DatasetAction$inboundSchema,
+    IntegrationAction$inboundSchema,
+    OrganizationAction$inboundSchema,
+    AnnotationQueueAction$inboundSchema,
+    ControlResourceAction$inboundSchema,
+    CustomDashboardAction$inboundSchema,
+  ])
+);
 
 export function permissionActionFromJSON(
   jsonString: string,
@@ -112,26 +125,30 @@ export function permissionActionFromJSON(
 }
 
 /** @internal */
-export const Permission$inboundSchema: z.ZodMiniType<Permission, unknown> = z
-  .object({
-    action: smartUnion([
-      UserAction$inboundSchema,
-      GroupAction$inboundSchema,
-      GroupMemberAction$inboundSchema,
-      ProjectAction$inboundSchema,
-      RegisteredScorerAction$inboundSchema,
-      ApiKeyAction$inboundSchema,
-      GeneratedScorerAction$inboundSchema,
-      FineTunedScorerAction$inboundSchema,
-      DatasetAction$inboundSchema,
-      IntegrationAction$inboundSchema,
-      OrganizationAction$inboundSchema,
-      AnnotationQueueAction$inboundSchema,
-      ControlResourceAction$inboundSchema,
-    ]),
-    allowed: types.boolean(),
-    message: z.optional(z.nullable(types.string())),
-  });
+export const Permission$inboundSchema: z.ZodMiniType<Permission, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      action: smartUnion([
+        UserAction$inboundSchema,
+        GroupAction$inboundSchema,
+        GroupMemberAction$inboundSchema,
+        ProjectAction$inboundSchema,
+        ScorerAction$inboundSchema,
+        RegisteredScorerAction$inboundSchema,
+        ApiKeyAction$inboundSchema,
+        GeneratedScorerAction$inboundSchema,
+        FineTunedScorerAction$inboundSchema,
+        DatasetAction$inboundSchema,
+        IntegrationAction$inboundSchema,
+        OrganizationAction$inboundSchema,
+        AnnotationQueueAction$inboundSchema,
+        ControlResourceAction$inboundSchema,
+        CustomDashboardAction$inboundSchema,
+      ]),
+      allowed: types.boolean(),
+      message: z.optional(z.nullable(types.string())),
+    })
+  );
 
 export function permissionFromJSON(
   jsonString: string,

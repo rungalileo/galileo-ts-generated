@@ -5,11 +5,15 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { smartUnion } from "../types/smartUnion.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
+import {
+  RegisteredScorerValidationStage,
+  RegisteredScorerValidationStage$inboundSchema,
+} from "./registeredscorervalidationstage.js";
 import {
   TaskResultStatus,
   TaskResultStatus$inboundSchema,
@@ -29,13 +33,16 @@ export type RegisteredScorerTaskResultResponse = {
   updatedAt: Date;
   status: TaskResultStatus;
   result?: ValidateRegisteredScorerResult | string | null | undefined;
+  stage?: RegisteredScorerValidationStage | null | undefined;
+  stageStartedAt?: Date | null | undefined;
 };
 
 /** @internal */
 export const RegisteredScorerTaskResultResponseResult$inboundSchema:
-  z.ZodMiniType<RegisteredScorerTaskResultResponseResult, unknown> = smartUnion(
-    [ValidateRegisteredScorerResult$inboundSchema, types.string()],
-  );
+  z.ZodMiniType<RegisteredScorerTaskResultResponseResult, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      smartUnion([ValidateRegisteredScorerResult$inboundSchema, types.string()])
+    );
 
 export function registeredScorerTaskResultResponseResultFromJSON(
   jsonString: string,
@@ -57,27 +64,34 @@ export function registeredScorerTaskResultResponseResultFromJSON(
 export const RegisteredScorerTaskResultResponse$inboundSchema: z.ZodMiniType<
   RegisteredScorerTaskResultResponse,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.string(),
-    created_at: types.date(),
-    updated_at: types.date(),
-    status: TaskResultStatus$inboundSchema,
-    result: z.optional(
-      z.nullable(
-        smartUnion([
-          ValidateRegisteredScorerResult$inboundSchema,
-          types.string(),
-        ]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.string(),
+      created_at: types.date(),
+      updated_at: types.date(),
+      status: TaskResultStatus$inboundSchema,
+      result: z.optional(
+        z.nullable(
+          smartUnion([
+            ValidateRegisteredScorerResult$inboundSchema,
+            types.string(),
+          ]),
+        ),
       ),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-    });
-  }),
+      stage: z.optional(
+        z.nullable(RegisteredScorerValidationStage$inboundSchema),
+      ),
+      stage_started_at: z.optional(z.nullable(types.date())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+        "stage_started_at": "stageStartedAt",
+      });
+    }),
+  )
 );
 
 export function registeredScorerTaskResultResponseFromJSON(

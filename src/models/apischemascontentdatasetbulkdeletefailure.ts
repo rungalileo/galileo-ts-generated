@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -21,19 +21,22 @@ export type ApiSchemasContentDatasetBulkDeleteFailure = {
 
 /** @internal */
 export const ApiSchemasContentDatasetBulkDeleteFailure$inboundSchema:
-  z.ZodMiniType<ApiSchemasContentDatasetBulkDeleteFailure, unknown> = z.pipe(
-    z.object({
-      dataset_id: types.string(),
-      dataset_name: types.string(),
-      reason: types.string(),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "dataset_id": "datasetId",
-        "dataset_name": "datasetName",
-      });
-    }),
-  );
+  z.ZodMiniType<ApiSchemasContentDatasetBulkDeleteFailure, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          dataset_id: types.string(),
+          dataset_name: types.string(),
+          reason: types.string(),
+        }),
+        z.transform((v) => {
+          return remap$(v, {
+            "dataset_id": "datasetId",
+            "dataset_name": "datasetName",
+          });
+        }),
+      )
+    );
 
 export function apiSchemasContentDatasetBulkDeleteFailureFromJSON(
   jsonString: string,

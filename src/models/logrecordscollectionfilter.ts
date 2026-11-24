@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 import { smartUnion } from "../types/smartUnion.js";
 
@@ -34,7 +35,9 @@ export type LogRecordsCollectionFilter = {
 /** @internal */
 export const LogRecordsCollectionFilterOperator$outboundSchema: z.ZodMiniEnum<
   typeof LogRecordsCollectionFilterOperator
-> = z.enum(LogRecordsCollectionFilterOperator);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.enum(LogRecordsCollectionFilterOperator)
+);
 
 /** @internal */
 export type LogRecordsCollectionFilterValue$Outbound = string | Array<string>;
@@ -43,7 +46,9 @@ export type LogRecordsCollectionFilterValue$Outbound = string | Array<string>;
 export const LogRecordsCollectionFilterValue$outboundSchema: z.ZodMiniType<
   LogRecordsCollectionFilterValue$Outbound,
   LogRecordsCollectionFilterValue
-> = smartUnion([z.string(), z.array(z.string())]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([z.string(), z.array(z.string())])
+);
 
 export function logRecordsCollectionFilterValueToJSON(
   logRecordsCollectionFilterValue: LogRecordsCollectionFilterValue,
@@ -68,20 +73,22 @@ export type LogRecordsCollectionFilter$Outbound = {
 export const LogRecordsCollectionFilter$outboundSchema: z.ZodMiniType<
   LogRecordsCollectionFilter$Outbound,
   LogRecordsCollectionFilter
-> = z.pipe(
-  z.object({
-    columnId: z.string(),
-    operator: LogRecordsCollectionFilterOperator$outboundSchema,
-    value: smartUnion([z.string(), z.array(z.string())]),
-    caseSensitive: z._default(z.boolean(), true),
-    type: z.literal("collection"),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      columnId: "column_id",
-      caseSensitive: "case_sensitive",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      columnId: z.string(),
+      operator: LogRecordsCollectionFilterOperator$outboundSchema,
+      value: smartUnion([z.string(), z.array(z.string())]),
+      caseSensitive: z._default(z.boolean(), true),
+      type: z.literal("collection"),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        columnId: "column_id",
+        caseSensitive: "case_sensitive",
+      });
+    }),
+  )
 );
 
 export function logRecordsCollectionFilterToJSON(

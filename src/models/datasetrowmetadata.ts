@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -24,25 +24,27 @@ export type DatasetRowMetadata = {
 export const DatasetRowMetadata$inboundSchema: z.ZodMiniType<
   DatasetRowMetadata,
   unknown
-> = z.pipe(
-  z.object({
-    created_in_version: types.number(),
-    created_at: types.date(),
-    created_by_user: types.nullable(UserInfo$inboundSchema),
-    updated_in_version: types.number(),
-    updated_at: types.date(),
-    updated_by_user: types.nullable(UserInfo$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "created_in_version": "createdInVersion",
-      "created_at": "createdAt",
-      "created_by_user": "createdByUser",
-      "updated_in_version": "updatedInVersion",
-      "updated_at": "updatedAt",
-      "updated_by_user": "updatedByUser",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      created_in_version: types.number(),
+      created_at: types.date(),
+      created_by_user: types.nullable(UserInfo$inboundSchema),
+      updated_in_version: types.number(),
+      updated_at: types.date(),
+      updated_by_user: types.nullable(UserInfo$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "created_in_version": "createdInVersion",
+        "created_at": "createdAt",
+        "created_by_user": "createdByUser",
+        "updated_in_version": "updatedInVersion",
+        "updated_at": "updatedAt",
+        "updated_by_user": "updatedByUser",
+      });
+    }),
+  )
 );
 
 export function datasetRowMetadataFromJSON(

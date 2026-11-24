@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -66,12 +66,9 @@ export type ExperimentResponse = {
   createdByUser?: UserInfo | null | undefined;
   numSpans?: number | null | undefined;
   numTraces?: number | null | undefined;
+  numSessions?: number | null | undefined;
   /**
-   * Valid task types for modeling.
-   *
-   * @remarks
-   *
-   * We store these as ints instead of strings because we will be looking this up in the database frequently.
+   * Keep the existing integer values used by stored runs.
    */
   taskType: TaskType;
   dataset?: ExperimentDataset | null | undefined;
@@ -114,71 +111,77 @@ export type ExperimentResponse = {
 export const ExperimentResponse$inboundSchema: z.ZodMiniType<
   ExperimentResponse,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.string(),
-    created_at: types.optional(types.date()),
-    updated_at: z.optional(z.nullable(types.date())),
-    name: z._default(types.string(), ""),
-    project_id: types.string(),
-    created_by: z.optional(z.nullable(types.string())),
-    created_by_user: z.optional(z.nullable(UserInfo$inboundSchema)),
-    num_spans: z.optional(z.nullable(types.number())),
-    num_traces: z.optional(z.nullable(types.number())),
-    task_type: TaskType$inboundSchema,
-    dataset: z.optional(z.nullable(ExperimentDataset$inboundSchema)),
-    aggregate_metrics: types.optional(z.record(z.string(), z.any())),
-    structured_aggregate_metrics: z.optional(
-      z.nullable(z.record(z.string(), MetricAggregates$inboundSchema)),
-    ),
-    aggregate_feedback: types.optional(
-      z.record(z.string(), FeedbackAggregate$inboundSchema),
-    ),
-    rating_aggregates: types.optional(
-      z.record(
-        z.string(),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.string(),
+      created_at: types.optional(types.date()),
+      updated_at: z.optional(z.nullable(types.date())),
+      name: z._default(types.string(), ""),
+      project_id: types.string(),
+      created_by: z.optional(z.nullable(types.string())),
+      created_by_user: z.optional(z.nullable(UserInfo$inboundSchema)),
+      num_spans: z.optional(z.nullable(types.number())),
+      num_traces: z.optional(z.nullable(types.number())),
+      num_sessions: z.optional(z.nullable(types.number())),
+      task_type: TaskType$inboundSchema,
+      dataset: z.optional(z.nullable(ExperimentDataset$inboundSchema)),
+      aggregate_metrics: types.optional(z.record(z.string(), z.any())),
+      structured_aggregate_metrics: z.optional(
+        z.nullable(z.record(z.string(), MetricAggregates$inboundSchema)),
+      ),
+      aggregate_feedback: types.optional(
         z.record(z.string(), FeedbackAggregate$inboundSchema),
       ),
-    ),
-    ranking_score: z.optional(z.nullable(types.number())),
-    rank: z.optional(z.nullable(types.number())),
-    winner: z.optional(z.nullable(types.boolean())),
-    playground_id: z.optional(z.nullable(types.string())),
-    playground: z.optional(z.nullable(ExperimentPlayground$inboundSchema)),
-    prompt_run_settings: z.optional(
-      z.nullable(PromptRunSettings$inboundSchema),
-    ),
-    prompt_model: z.optional(z.nullable(types.string())),
-    prompt: z.optional(z.nullable(ExperimentPrompt$inboundSchema)),
-    tags: types.optional(z.record(z.string(), z.array(RunTagDB$inboundSchema))),
-    status: types.optional(ExperimentStatus$inboundSchema),
-    experiment_group_id: z.optional(z.nullable(types.string())),
-    experiment_group_name: z.optional(z.nullable(types.string())),
-    experiment_group_is_system: z.optional(z.nullable(types.boolean())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-      "project_id": "projectId",
-      "created_by": "createdBy",
-      "created_by_user": "createdByUser",
-      "num_spans": "numSpans",
-      "num_traces": "numTraces",
-      "task_type": "taskType",
-      "aggregate_metrics": "aggregateMetrics",
-      "structured_aggregate_metrics": "structuredAggregateMetrics",
-      "aggregate_feedback": "aggregateFeedback",
-      "rating_aggregates": "ratingAggregates",
-      "ranking_score": "rankingScore",
-      "playground_id": "playgroundId",
-      "prompt_run_settings": "promptRunSettings",
-      "prompt_model": "promptModel",
-      "experiment_group_id": "experimentGroupId",
-      "experiment_group_name": "experimentGroupName",
-      "experiment_group_is_system": "experimentGroupIsSystem",
-    });
-  }),
+      rating_aggregates: types.optional(
+        z.record(
+          z.string(),
+          z.record(z.string(), FeedbackAggregate$inboundSchema),
+        ),
+      ),
+      ranking_score: z.optional(z.nullable(types.number())),
+      rank: z.optional(z.nullable(types.number())),
+      winner: z.optional(z.nullable(types.boolean())),
+      playground_id: z.optional(z.nullable(types.string())),
+      playground: z.optional(z.nullable(ExperimentPlayground$inboundSchema)),
+      prompt_run_settings: z.optional(
+        z.nullable(PromptRunSettings$inboundSchema),
+      ),
+      prompt_model: z.optional(z.nullable(types.string())),
+      prompt: z.optional(z.nullable(ExperimentPrompt$inboundSchema)),
+      tags: types.optional(
+        z.record(z.string(), z.array(RunTagDB$inboundSchema)),
+      ),
+      status: types.optional(ExperimentStatus$inboundSchema),
+      experiment_group_id: z.optional(z.nullable(types.string())),
+      experiment_group_name: z.optional(z.nullable(types.string())),
+      experiment_group_is_system: z.optional(z.nullable(types.boolean())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+        "project_id": "projectId",
+        "created_by": "createdBy",
+        "created_by_user": "createdByUser",
+        "num_spans": "numSpans",
+        "num_traces": "numTraces",
+        "num_sessions": "numSessions",
+        "task_type": "taskType",
+        "aggregate_metrics": "aggregateMetrics",
+        "structured_aggregate_metrics": "structuredAggregateMetrics",
+        "aggregate_feedback": "aggregateFeedback",
+        "rating_aggregates": "ratingAggregates",
+        "ranking_score": "rankingScore",
+        "playground_id": "playgroundId",
+        "prompt_run_settings": "promptRunSettings",
+        "prompt_model": "promptModel",
+        "experiment_group_id": "experimentGroupId",
+        "experiment_group_name": "experimentGroupName",
+        "experiment_group_is_system": "experimentGroupIsSystem",
+      });
+    }),
+  )
 );
 
 export function experimentResponseFromJSON(

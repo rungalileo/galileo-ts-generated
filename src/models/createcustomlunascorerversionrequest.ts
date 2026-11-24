@@ -5,10 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import {
-  GalileoCoreSchemasSharedScorersScorerNameScorerName,
-  GalileoCoreSchemasSharedScorersScorerNameScorerName$outboundSchema,
-} from "./galileocoreschemassharedscorersscorernamescorername.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   LunaInputTypeEnum,
   LunaInputTypeEnum$outboundSchema,
@@ -17,6 +14,7 @@ import {
   LunaOutputTypeEnum,
   LunaOutputTypeEnum$outboundSchema,
 } from "./lunaoutputtypeenum.js";
+import { ScorerName, ScorerName$outboundSchema } from "./scorername.js";
 
 export type CreateCustomLunaScorerVersionRequest = {
   loraTaskId: number;
@@ -25,10 +23,7 @@ export type CreateCustomLunaScorerVersionRequest = {
   /**
    * Executor pipeline. Defaults to finetuned scorer pipeline but can run custom galileo score pipelines.
    */
-  executor?:
-    | GalileoCoreSchemasSharedScorersScorerNameScorerName
-    | null
-    | undefined;
+  executor?: ScorerName | null | undefined;
   lunaInputType?: LunaInputTypeEnum | null | undefined;
   lunaOutputType?: LunaOutputTypeEnum | null | undefined;
 };
@@ -47,27 +42,25 @@ export type CreateCustomLunaScorerVersionRequest$Outbound = {
 export const CreateCustomLunaScorerVersionRequest$outboundSchema: z.ZodMiniType<
   CreateCustomLunaScorerVersionRequest$Outbound,
   CreateCustomLunaScorerVersionRequest
-> = z.pipe(
-  z.object({
-    loraTaskId: z.int(),
-    prompt: z.string(),
-    loraWeightsPath: z.optional(z.nullable(z.string())),
-    executor: z.optional(
-      z.nullable(
-        GalileoCoreSchemasSharedScorersScorerNameScorerName$outboundSchema,
-      ),
-    ),
-    lunaInputType: z.optional(z.nullable(LunaInputTypeEnum$outboundSchema)),
-    lunaOutputType: z.optional(z.nullable(LunaOutputTypeEnum$outboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      loraTaskId: "lora_task_id",
-      loraWeightsPath: "lora_weights_path",
-      lunaInputType: "luna_input_type",
-      lunaOutputType: "luna_output_type",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      loraTaskId: z.int(),
+      prompt: z.string(),
+      loraWeightsPath: z.optional(z.nullable(z.string())),
+      executor: z.optional(z.nullable(ScorerName$outboundSchema)),
+      lunaInputType: z.optional(z.nullable(LunaInputTypeEnum$outboundSchema)),
+      lunaOutputType: z.optional(z.nullable(LunaOutputTypeEnum$outboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        loraTaskId: "lora_task_id",
+        loraWeightsPath: "lora_weights_path",
+        lunaInputType: "luna_input_type",
+        lunaOutputType: "luna_output_type",
+      });
+    }),
+  )
 );
 
 export function createCustomLunaScorerVersionRequestToJSON(

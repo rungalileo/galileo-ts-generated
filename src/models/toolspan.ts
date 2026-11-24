@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   AgentSpan,
   AgentSpan$Outbound,
@@ -15,6 +16,11 @@ import {
   ControlSpan$Outbound,
   ControlSpan$outboundSchema,
 } from "./controlspan.js";
+import {
+  HttpSpan,
+  HttpSpan$Outbound,
+  HttpSpan$outboundSchema,
+} from "./httpspan.js";
 import {
   LlmSpan,
   LlmSpan$Outbound,
@@ -121,6 +127,7 @@ export type ToolSpan = {
     | Array<
       | AgentSpan
       | ControlSpan
+      | HttpSpan
       | LlmSpan
       | RetrieverSpan
       | ToolSpan
@@ -136,6 +143,7 @@ export type ToolSpan = {
 export type ToolSpanSpan =
   | AgentSpan
   | ControlSpan
+  | HttpSpan
   | LlmSpan
   | RetrieverSpan
   | ToolSpan
@@ -167,6 +175,7 @@ export type ToolSpan$Outbound = {
     | Array<
       | AgentSpan$Outbound
       | ControlSpan$Outbound
+      | HttpSpan$Outbound
       | LlmSpan$Outbound
       | RetrieverSpan$Outbound
       | ToolSpan$Outbound
@@ -180,58 +189,65 @@ export type ToolSpan$Outbound = {
 export const ToolSpan$outboundSchema: z.ZodMiniType<
   ToolSpan$Outbound,
   ToolSpan
-> = z.pipe(
-  z.object({
-    type: z.literal("tool"),
-    input: z._default(z.string(), ""),
-    redactedInput: z.optional(z.nullable(z.string())),
-    output: z.optional(z.nullable(z.string())),
-    redactedOutput: z.optional(z.nullable(z.string())),
-    name: z._default(z.string(), ""),
-    createdAt: z.optional(z.pipe(z.date(), z.transform(v => v.toISOString()))),
-    userMetadata: z.optional(z.record(z.string(), z.string())),
-    tags: z.optional(z.array(z.string())),
-    statusCode: z.optional(z.nullable(z.int())),
-    metrics: z.optional(Metrics$outboundSchema),
-    externalId: z.optional(z.nullable(z.string())),
-    datasetInput: z.optional(z.nullable(z.string())),
-    datasetOutput: z.optional(z.nullable(z.string())),
-    datasetMetadata: z.optional(z.record(z.string(), z.string())),
-    id: z.optional(z.nullable(z.string())),
-    sessionId: z.optional(z.nullable(z.string())),
-    traceId: z.optional(z.nullable(z.string())),
-    stepNumber: z.optional(z.nullable(z.int())),
-    parentId: z.optional(z.nullable(z.string())),
-    spans: z.optional(z.array(z.union([
-      z.lazy(() => AgentSpan$outboundSchema),
-      ControlSpan$outboundSchema,
-      LlmSpan$outboundSchema,
-      z.lazy(() => RetrieverSpan$outboundSchema),
-      z.lazy(() => ToolSpan$outboundSchema),
-      z.lazy(() =>
-        WorkflowSpan$outboundSchema
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      type: z.literal("tool"),
+      input: z._default(z.string(), ""),
+      redactedInput: z.optional(z.nullable(z.string())),
+      output: z.optional(z.nullable(z.string())),
+      redactedOutput: z.optional(z.nullable(z.string())),
+      name: z._default(z.string(), ""),
+      createdAt: z.optional(
+        z.pipe(z.date(), z.transform(v => v.toISOString())),
       ),
-    ]))),
-    toolCallId: z.optional(z.nullable(z.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      redactedInput: "redacted_input",
-      redactedOutput: "redacted_output",
-      createdAt: "created_at",
-      userMetadata: "user_metadata",
-      statusCode: "status_code",
-      externalId: "external_id",
-      datasetInput: "dataset_input",
-      datasetOutput: "dataset_output",
-      datasetMetadata: "dataset_metadata",
-      sessionId: "session_id",
-      traceId: "trace_id",
-      stepNumber: "step_number",
-      parentId: "parent_id",
-      toolCallId: "tool_call_id",
-    });
-  }),
+      userMetadata: z.optional(z.record(z.string(), z.string())),
+      tags: z.optional(z.array(z.string())),
+      statusCode: z.optional(z.nullable(z.int())),
+      metrics: z.optional(Metrics$outboundSchema),
+      externalId: z.optional(z.nullable(z.string())),
+      datasetInput: z.optional(z.nullable(z.string())),
+      datasetOutput: z.optional(z.nullable(z.string())),
+      datasetMetadata: z.optional(z.record(z.string(), z.string())),
+      id: z.optional(z.nullable(z.string())),
+      sessionId: z.optional(z.nullable(z.string())),
+      traceId: z.optional(z.nullable(z.string())),
+      stepNumber: z.optional(z.nullable(z.int())),
+      parentId: z.optional(z.nullable(z.string())),
+      spans: z.optional(
+        z.array(z.union([
+          z.lazy(() => AgentSpan$outboundSchema),
+          ControlSpan$outboundSchema,
+          z.lazy(() => HttpSpan$outboundSchema),
+          LlmSpan$outboundSchema,
+          z.lazy(() => RetrieverSpan$outboundSchema),
+          z.lazy(() =>
+            ToolSpan$outboundSchema
+          ),
+          z.lazy(() => WorkflowSpan$outboundSchema),
+        ])),
+      ),
+      toolCallId: z.optional(z.nullable(z.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        redactedInput: "redacted_input",
+        redactedOutput: "redacted_output",
+        createdAt: "created_at",
+        userMetadata: "user_metadata",
+        statusCode: "status_code",
+        externalId: "external_id",
+        datasetInput: "dataset_input",
+        datasetOutput: "dataset_output",
+        datasetMetadata: "dataset_metadata",
+        sessionId: "session_id",
+        traceId: "trace_id",
+        stepNumber: "step_number",
+        parentId: "parent_id",
+        toolCallId: "tool_call_id",
+      });
+    }),
+  )
 );
 
 export function toolSpanToJSON(toolSpan: ToolSpan): string {
@@ -242,6 +258,7 @@ export function toolSpanToJSON(toolSpan: ToolSpan): string {
 export type ToolSpanSpan$Outbound =
   | AgentSpan$Outbound
   | ControlSpan$Outbound
+  | HttpSpan$Outbound
   | LlmSpan$Outbound
   | RetrieverSpan$Outbound
   | ToolSpan$Outbound
@@ -251,14 +268,17 @@ export type ToolSpanSpan$Outbound =
 export const ToolSpanSpan$outboundSchema: z.ZodMiniType<
   ToolSpanSpan$Outbound,
   ToolSpanSpan
-> = z.union([
-  z.lazy(() => AgentSpan$outboundSchema),
-  ControlSpan$outboundSchema,
-  LlmSpan$outboundSchema,
-  z.lazy(() => RetrieverSpan$outboundSchema),
-  z.lazy(() => ToolSpan$outboundSchema),
-  z.lazy(() => WorkflowSpan$outboundSchema),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    z.lazy(() => AgentSpan$outboundSchema),
+    ControlSpan$outboundSchema,
+    z.lazy(() => HttpSpan$outboundSchema),
+    LlmSpan$outboundSchema,
+    z.lazy(() => RetrieverSpan$outboundSchema),
+    z.lazy(() => ToolSpan$outboundSchema),
+    z.lazy(() => WorkflowSpan$outboundSchema),
+  ])
+);
 
 export function toolSpanSpanToJSON(toolSpanSpan: ToolSpanSpan): string {
   return JSON.stringify(ToolSpanSpan$outboundSchema.parse(toolSpanSpan));

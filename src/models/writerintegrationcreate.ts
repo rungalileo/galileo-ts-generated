@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type WriterIntegrationCreate = {
   organizationId: string;
@@ -21,16 +22,18 @@ export type WriterIntegrationCreate$Outbound = {
 export const WriterIntegrationCreate$outboundSchema: z.ZodMiniType<
   WriterIntegrationCreate$Outbound,
   WriterIntegrationCreate
-> = z.pipe(
-  z.object({
-    organizationId: z.string(),
-    token: z.string(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      organizationId: "organization_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      organizationId: z.string(),
+      token: z.string(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        organizationId: "organization_id",
+      });
+    }),
+  )
 );
 
 export function writerIntegrationCreateToJSON(

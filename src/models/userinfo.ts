@@ -5,36 +5,54 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
+import {
+  UserLifecycleState,
+  UserLifecycleState$inboundSchema,
+} from "./userlifecyclestate.js";
 
 /**
  * A user's basic information, used for display purposes.
  */
 export type UserInfo = {
   id: string;
+  /**
+   * Retention state, separate from invitation, verification, and sign-in status.
+   *
+   * @remarks
+   *
+   * Active identities are neither deactivated nor removed. Deactivated identities retain
+   * their profile with access revoked. Removed identities have an anonymized live profile.
+   */
+  lifecycleState?: UserLifecycleState | undefined;
   email: string;
   firstName?: string | null | undefined;
   lastName?: string | null | undefined;
 };
 
 /** @internal */
-export const UserInfo$inboundSchema: z.ZodMiniType<UserInfo, unknown> = z.pipe(
-  z.object({
-    id: types.string(),
-    email: types.string(),
-    first_name: z.optional(z.nullable(types.string())),
-    last_name: z.optional(z.nullable(types.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "first_name": "firstName",
-      "last_name": "lastName",
-    });
-  }),
-);
+export const UserInfo$inboundSchema: z.ZodMiniType<UserInfo, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        id: types.string(),
+        lifecycle_state: types.optional(UserLifecycleState$inboundSchema),
+        email: types.string(),
+        first_name: z.optional(z.nullable(types.string())),
+        last_name: z.optional(z.nullable(types.string())),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "lifecycle_state": "lifecycleState",
+          "first_name": "firstName",
+          "last_name": "lastName",
+        });
+      }),
+    )
+  );
 
 export function userInfoFromJSON(
   jsonString: string,

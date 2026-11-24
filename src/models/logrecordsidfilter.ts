@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 
 export const LogRecordsIDFilterOperator = {
@@ -31,7 +32,7 @@ export type LogRecordsIDFilter = {
 /** @internal */
 export const LogRecordsIDFilterOperator$outboundSchema: z.ZodMiniEnum<
   typeof LogRecordsIDFilterOperator
-> = z.enum(LogRecordsIDFilterOperator);
+> = /* @__PURE__ */ lazySchema$(() => z.enum(LogRecordsIDFilterOperator));
 
 /** @internal */
 export type LogRecordsIDFilter$Outbound = {
@@ -45,18 +46,20 @@ export type LogRecordsIDFilter$Outbound = {
 export const LogRecordsIDFilter$outboundSchema: z.ZodMiniType<
   LogRecordsIDFilter$Outbound,
   LogRecordsIDFilter
-> = z.pipe(
-  z.object({
-    columnId: z.string(),
-    operator: z._default(LogRecordsIDFilterOperator$outboundSchema, "eq"),
-    value: z.any(),
-    type: z.literal("id"),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      columnId: "column_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      columnId: z.string(),
+      operator: z._default(LogRecordsIDFilterOperator$outboundSchema, "eq"),
+      value: z.any(),
+      type: z.literal("id"),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        columnId: "column_id",
+      });
+    }),
+  )
 );
 
 export function logRecordsIDFilterToJSON(

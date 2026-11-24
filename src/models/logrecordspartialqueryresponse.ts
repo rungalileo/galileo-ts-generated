@@ -5,54 +5,59 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
 import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
-  PartialExtendedAgentSpanRecord,
-  PartialExtendedAgentSpanRecord$inboundSchema,
-} from "./partialextendedagentspanrecord.js";
+  PartialExtendedAgentSpanRecordOutput,
+  PartialExtendedAgentSpanRecordOutput$inboundSchema,
+} from "./partialextendedagentspanrecordoutput.js";
 import {
-  PartialExtendedControlSpanRecord,
-  PartialExtendedControlSpanRecord$inboundSchema,
-} from "./partialextendedcontrolspanrecord.js";
+  PartialExtendedControlSpanRecordOutput,
+  PartialExtendedControlSpanRecordOutput$inboundSchema,
+} from "./partialextendedcontrolspanrecordoutput.js";
 import {
-  PartialExtendedLlmSpanRecord,
-  PartialExtendedLlmSpanRecord$inboundSchema,
-} from "./partialextendedllmspanrecord.js";
+  PartialExtendedHttpSpanRecordOutput,
+  PartialExtendedHttpSpanRecordOutput$inboundSchema,
+} from "./partialextendedhttpspanrecordoutput.js";
 import {
-  PartialExtendedRetrieverSpanRecord,
-  PartialExtendedRetrieverSpanRecord$inboundSchema,
-} from "./partialextendedretrieverspanrecord.js";
+  PartialExtendedLlmSpanRecordOutput,
+  PartialExtendedLlmSpanRecordOutput$inboundSchema,
+} from "./partialextendedllmspanrecordoutput.js";
 import {
-  PartialExtendedSessionRecord,
-  PartialExtendedSessionRecord$inboundSchema,
-} from "./partialextendedsessionrecord.js";
+  PartialExtendedRetrieverSpanRecordOutput,
+  PartialExtendedRetrieverSpanRecordOutput$inboundSchema,
+} from "./partialextendedretrieverspanrecordoutput.js";
 import {
-  PartialExtendedToolSpanRecord,
-  PartialExtendedToolSpanRecord$inboundSchema,
-} from "./partialextendedtoolspanrecord.js";
+  PartialExtendedSessionRecordOutput,
+  PartialExtendedSessionRecordOutput$inboundSchema,
+} from "./partialextendedsessionrecordoutput.js";
 import {
-  PartialExtendedTraceRecord,
-  PartialExtendedTraceRecord$inboundSchema,
-} from "./partialextendedtracerecord.js";
+  PartialExtendedToolSpanRecordOutput,
+  PartialExtendedToolSpanRecordOutput$inboundSchema,
+} from "./partialextendedtoolspanrecordoutput.js";
 import {
-  PartialExtendedWorkflowSpanRecord,
-  PartialExtendedWorkflowSpanRecord$inboundSchema,
-} from "./partialextendedworkflowspanrecord.js";
+  PartialExtendedTraceRecordOutput,
+  PartialExtendedTraceRecordOutput$inboundSchema,
+} from "./partialextendedtracerecordoutput.js";
+import {
+  PartialExtendedWorkflowSpanRecordOutput,
+  PartialExtendedWorkflowSpanRecordOutput$inboundSchema,
+} from "./partialextendedworkflowspanrecordoutput.js";
 
 export type LogRecordsPartialQueryResponseRecord =
-  | PartialExtendedAgentSpanRecord
-  | PartialExtendedControlSpanRecord
-  | PartialExtendedLlmSpanRecord
-  | PartialExtendedRetrieverSpanRecord
-  | PartialExtendedSessionRecord
-  | PartialExtendedToolSpanRecord
-  | PartialExtendedTraceRecord
-  | PartialExtendedWorkflowSpanRecord
+  | PartialExtendedAgentSpanRecordOutput
+  | PartialExtendedControlSpanRecordOutput
+  | PartialExtendedHttpSpanRecordOutput
+  | PartialExtendedLlmSpanRecordOutput
+  | PartialExtendedRetrieverSpanRecordOutput
+  | PartialExtendedSessionRecordOutput
+  | PartialExtendedToolSpanRecordOutput
+  | PartialExtendedTraceRecordOutput
+  | PartialExtendedWorkflowSpanRecordOutput
   | discriminatedUnionTypes.Unknown<"type">;
 
 export type LogRecordsPartialQueryResponse = {
@@ -66,33 +71,41 @@ export type LogRecordsPartialQueryResponse = {
    */
   records?:
     | Array<
-      | PartialExtendedAgentSpanRecord
-      | PartialExtendedControlSpanRecord
-      | PartialExtendedLlmSpanRecord
-      | PartialExtendedRetrieverSpanRecord
-      | PartialExtendedSessionRecord
-      | PartialExtendedToolSpanRecord
-      | PartialExtendedTraceRecord
-      | PartialExtendedWorkflowSpanRecord
+      | PartialExtendedAgentSpanRecordOutput
+      | PartialExtendedControlSpanRecordOutput
+      | PartialExtendedHttpSpanRecordOutput
+      | PartialExtendedLlmSpanRecordOutput
+      | PartialExtendedRetrieverSpanRecordOutput
+      | PartialExtendedSessionRecordOutput
+      | PartialExtendedToolSpanRecordOutput
+      | PartialExtendedTraceRecordOutput
+      | PartialExtendedWorkflowSpanRecordOutput
       | discriminatedUnionTypes.Unknown<"type">
     >
     | undefined;
+  /**
+   * number of records
+   */
+  numRecords: number;
 };
 
 /** @internal */
 export const LogRecordsPartialQueryResponseRecord$inboundSchema: z.ZodMiniType<
   LogRecordsPartialQueryResponseRecord,
   unknown
-> = discriminatedUnion("type", {
-  agent: PartialExtendedAgentSpanRecord$inboundSchema,
-  control: PartialExtendedControlSpanRecord$inboundSchema,
-  llm: PartialExtendedLlmSpanRecord$inboundSchema,
-  retriever: PartialExtendedRetrieverSpanRecord$inboundSchema,
-  session: PartialExtendedSessionRecord$inboundSchema,
-  tool: PartialExtendedToolSpanRecord$inboundSchema,
-  trace: PartialExtendedTraceRecord$inboundSchema,
-  workflow: PartialExtendedWorkflowSpanRecord$inboundSchema,
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  discriminatedUnion("type", {
+    agent: PartialExtendedAgentSpanRecordOutput$inboundSchema,
+    control: PartialExtendedControlSpanRecordOutput$inboundSchema,
+    http: PartialExtendedHttpSpanRecordOutput$inboundSchema,
+    llm: PartialExtendedLlmSpanRecordOutput$inboundSchema,
+    retriever: PartialExtendedRetrieverSpanRecordOutput$inboundSchema,
+    session: PartialExtendedSessionRecordOutput$inboundSchema,
+    tool: PartialExtendedToolSpanRecordOutput$inboundSchema,
+    trace: PartialExtendedTraceRecordOutput$inboundSchema,
+    workflow: PartialExtendedWorkflowSpanRecordOutput$inboundSchema,
+  })
+);
 
 export function logRecordsPartialQueryResponseRecordFromJSON(
   jsonString: string,
@@ -109,31 +122,36 @@ export function logRecordsPartialQueryResponseRecordFromJSON(
 export const LogRecordsPartialQueryResponse$inboundSchema: z.ZodMiniType<
   LogRecordsPartialQueryResponse,
   unknown
-> = z.pipe(
-  z.object({
-    starting_token: z._default(types.number(), 0),
-    limit: z._default(types.number(), 100),
-    paginated: z._default(types.boolean(), false),
-    next_starting_token: z.optional(z.nullable(types.number())),
-    last_row_id: z.optional(z.nullable(types.string())),
-    records: types.optional(z.array(discriminatedUnion("type", {
-      agent: PartialExtendedAgentSpanRecord$inboundSchema,
-      control: PartialExtendedControlSpanRecord$inboundSchema,
-      llm: PartialExtendedLlmSpanRecord$inboundSchema,
-      retriever: PartialExtendedRetrieverSpanRecord$inboundSchema,
-      session: PartialExtendedSessionRecord$inboundSchema,
-      tool: PartialExtendedToolSpanRecord$inboundSchema,
-      trace: PartialExtendedTraceRecord$inboundSchema,
-      workflow: PartialExtendedWorkflowSpanRecord$inboundSchema,
-    }))),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "starting_token": "startingToken",
-      "next_starting_token": "nextStartingToken",
-      "last_row_id": "lastRowId",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      starting_token: z._default(types.number(), 0),
+      limit: z._default(types.number(), 100),
+      paginated: z._default(types.boolean(), false),
+      next_starting_token: z.optional(z.nullable(types.number())),
+      last_row_id: z.optional(z.nullable(types.string())),
+      records: types.optional(z.array(discriminatedUnion("type", {
+        agent: PartialExtendedAgentSpanRecordOutput$inboundSchema,
+        control: PartialExtendedControlSpanRecordOutput$inboundSchema,
+        http: PartialExtendedHttpSpanRecordOutput$inboundSchema,
+        llm: PartialExtendedLlmSpanRecordOutput$inboundSchema,
+        retriever: PartialExtendedRetrieverSpanRecordOutput$inboundSchema,
+        session: PartialExtendedSessionRecordOutput$inboundSchema,
+        tool: PartialExtendedToolSpanRecordOutput$inboundSchema,
+        trace: PartialExtendedTraceRecordOutput$inboundSchema,
+        workflow: PartialExtendedWorkflowSpanRecordOutput$inboundSchema,
+      }))),
+      num_records: types.number(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "starting_token": "startingToken",
+        "next_starting_token": "nextStartingToken",
+        "last_row_id": "lastRowId",
+        "num_records": "numRecords",
+      });
+    }),
+  )
 );
 
 export function logRecordsPartialQueryResponseFromJSON(

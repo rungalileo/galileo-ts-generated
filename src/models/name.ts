@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -19,17 +19,20 @@ export type Name = {
 };
 
 /** @internal */
-export const Name$inboundSchema: z.ZodMiniType<Name, unknown> = z.pipe(
-  z.object({
-    value: types.string(),
-    append_suffix_if_duplicate: z._default(types.boolean(), false),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "append_suffix_if_duplicate": "appendSuffixIfDuplicate",
-    });
-  }),
-);
+export const Name$inboundSchema: z.ZodMiniType<Name, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        value: types.string(),
+        append_suffix_if_duplicate: z._default(types.boolean(), false),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "append_suffix_if_duplicate": "appendSuffixIfDuplicate",
+        });
+      }),
+    )
+  );
 /** @internal */
 export type Name$Outbound = {
   value: string;
@@ -37,17 +40,20 @@ export type Name$Outbound = {
 };
 
 /** @internal */
-export const Name$outboundSchema: z.ZodMiniType<Name$Outbound, Name> = z.pipe(
-  z.object({
-    value: z.string(),
-    appendSuffixIfDuplicate: z._default(z.boolean(), false),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      appendSuffixIfDuplicate: "append_suffix_if_duplicate",
-    });
-  }),
-);
+export const Name$outboundSchema: z.ZodMiniType<Name$Outbound, Name> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        value: z.string(),
+        appendSuffixIfDuplicate: z._default(z.boolean(), false),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          appendSuffixIfDuplicate: "append_suffix_if_duplicate",
+        });
+      }),
+    )
+  );
 
 export function nameToJSON(name: Name): string {
   return JSON.stringify(Name$outboundSchema.parse(name));

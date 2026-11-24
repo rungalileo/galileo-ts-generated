@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type MistralIntegrationCreate = {
   token: string;
@@ -18,9 +19,11 @@ export type MistralIntegrationCreate$Outbound = {
 export const MistralIntegrationCreate$outboundSchema: z.ZodMiniType<
   MistralIntegrationCreate$Outbound,
   MistralIntegrationCreate
-> = z.object({
-  token: z.string(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    token: z.string(),
+  })
+);
 
 export function mistralIntegrationCreateToJSON(
   mistralIntegrationCreate: MistralIntegrationCreate,

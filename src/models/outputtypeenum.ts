@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
@@ -20,6 +21,7 @@ export const OutputTypeEnum = {
   Multilabel: "multilabel",
   RetrievedChunkListBoolean: "retrieved_chunk_list_boolean",
   BooleanMultilabel: "boolean_multilabel",
+  BooleanProbability: "boolean_probability",
 } as const;
 /**
  * Enumeration of output types.
@@ -30,9 +32,9 @@ export type OutputTypeEnum = OpenEnum<typeof OutputTypeEnum>;
 export const OutputTypeEnum$inboundSchema: z.ZodMiniType<
   OutputTypeEnum,
   unknown
-> = openEnums.inboundSchema(OutputTypeEnum);
+> = /* @__PURE__ */ lazySchema$(() => openEnums.inboundSchema(OutputTypeEnum));
 /** @internal */
 export const OutputTypeEnum$outboundSchema: z.ZodMiniType<
   string,
   OutputTypeEnum
-> = openEnums.outboundSchema(OutputTypeEnum);
+> = /* @__PURE__ */ lazySchema$(() => openEnums.outboundSchema(OutputTypeEnum));

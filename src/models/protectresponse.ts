@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -35,20 +35,22 @@ export type ProtectResponse = {
 export const ProtectResponse$inboundSchema: z.ZodMiniType<
   ProtectResponse,
   unknown
-> = z.pipe(
-  z.catchall(
-    z.object({
-      status: types.optional(ExecutionStatus$inboundSchema),
-      text: types.string(),
-      trace_metadata: TraceMetadata$inboundSchema,
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.catchall(
+      z.object({
+        status: types.optional(ExecutionStatus$inboundSchema),
+        text: types.string(),
+        trace_metadata: TraceMetadata$inboundSchema,
+      }),
+      z.any(),
+    ),
+    z.transform((v) => {
+      return remap$(v, {
+        "trace_metadata": "traceMetadata",
+      });
     }),
-    z.any(),
-  ),
-  z.transform((v) => {
-    return remap$(v, {
-      "trace_metadata": "traceMetadata",
-    });
-  }),
+  )
 );
 
 export function protectResponseFromJSON(

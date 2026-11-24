@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -61,25 +61,27 @@ export type MCPCallEvent = {
 
 /** @internal */
 export const MCPCallEvent$inboundSchema: z.ZodMiniType<MCPCallEvent, unknown> =
-  z.pipe(
-    z.object({
-      type: types.literal("mcp_call"),
-      id: z.optional(z.nullable(types.string())),
-      status: z.optional(z.nullable(EventStatus$inboundSchema)),
-      metadata: z.optional(z.nullable(z.record(z.string(), z.any()))),
-      error_message: z.optional(z.nullable(types.string())),
-      tool_name: z.optional(z.nullable(types.string())),
-      server_name: z.optional(z.nullable(types.string())),
-      arguments: z.optional(z.nullable(z.record(z.string(), z.any()))),
-      result: z.optional(z.nullable(z.record(z.string(), z.any()))),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "error_message": "errorMessage",
-        "tool_name": "toolName",
-        "server_name": "serverName",
-      });
-    }),
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        type: types.literal("mcp_call"),
+        id: z.optional(z.nullable(types.string())),
+        status: z.optional(z.nullable(EventStatus$inboundSchema)),
+        metadata: z.optional(z.nullable(z.record(z.string(), z.any()))),
+        error_message: z.optional(z.nullable(types.string())),
+        tool_name: z.optional(z.nullable(types.string())),
+        server_name: z.optional(z.nullable(types.string())),
+        arguments: z.optional(z.nullable(z.record(z.string(), z.any()))),
+        result: z.optional(z.nullable(z.record(z.string(), z.any()))),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "error_message": "errorMessage",
+          "tool_name": "toolName",
+          "server_name": "serverName",
+        });
+      }),
+    )
   );
 /** @internal */
 export type MCPCallEvent$Outbound = {
@@ -98,25 +100,27 @@ export type MCPCallEvent$Outbound = {
 export const MCPCallEvent$outboundSchema: z.ZodMiniType<
   MCPCallEvent$Outbound,
   MCPCallEvent
-> = z.pipe(
-  z.object({
-    type: z.literal("mcp_call"),
-    id: z.optional(z.nullable(z.string())),
-    status: z.optional(z.nullable(EventStatus$outboundSchema)),
-    metadata: z.optional(z.nullable(z.record(z.string(), z.any()))),
-    errorMessage: z.optional(z.nullable(z.string())),
-    toolName: z.optional(z.nullable(z.string())),
-    serverName: z.optional(z.nullable(z.string())),
-    arguments: z.optional(z.nullable(z.record(z.string(), z.any()))),
-    result: z.optional(z.nullable(z.record(z.string(), z.any()))),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      errorMessage: "error_message",
-      toolName: "tool_name",
-      serverName: "server_name",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      type: z.literal("mcp_call"),
+      id: z.optional(z.nullable(z.string())),
+      status: z.optional(z.nullable(EventStatus$outboundSchema)),
+      metadata: z.optional(z.nullable(z.record(z.string(), z.any()))),
+      errorMessage: z.optional(z.nullable(z.string())),
+      toolName: z.optional(z.nullable(z.string())),
+      serverName: z.optional(z.nullable(z.string())),
+      arguments: z.optional(z.nullable(z.record(z.string(), z.any()))),
+      result: z.optional(z.nullable(z.record(z.string(), z.any()))),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        errorMessage: "error_message",
+        toolName: "tool_name",
+        serverName: "server_name",
+      });
+    }),
+  )
 );
 
 export function mcpCallEventToJSON(mcpCallEvent: MCPCallEvent): string {

@@ -3,66 +3,74 @@
 
 ## Supported Types
 
-### `models.PartialExtendedAgentSpanRecord`
+### `models.PartialExtendedAgentSpanRecordOutput`
 
 ```typescript
-const value: models.PartialExtendedAgentSpanRecord = {
+const value: models.PartialExtendedAgentSpanRecordOutput = {
   type: "agent",
 };
 ```
 
-### `models.PartialExtendedControlSpanRecord`
+### `models.PartialExtendedControlSpanRecordOutput`
 
 ```typescript
-const value: models.PartialExtendedControlSpanRecord = {
+const value: models.PartialExtendedControlSpanRecordOutput = {
   type: "control",
 };
 ```
 
-### `models.PartialExtendedLlmSpanRecord`
+### `models.PartialExtendedHttpSpanRecordOutput`
 
 ```typescript
-const value: models.PartialExtendedLlmSpanRecord = {
+const value: models.PartialExtendedHttpSpanRecordOutput = {
+  type: "http",
+};
+```
+
+### `models.PartialExtendedLlmSpanRecordOutput`
+
+```typescript
+const value: models.PartialExtendedLlmSpanRecordOutput = {
   type: "llm",
 };
 ```
 
-### `models.PartialExtendedRetrieverSpanRecord`
+### `models.PartialExtendedRetrieverSpanRecordOutput`
 
 ```typescript
-const value: models.PartialExtendedRetrieverSpanRecord = {
+const value: models.PartialExtendedRetrieverSpanRecordOutput = {
   type: "retriever",
 };
 ```
 
-### `models.PartialExtendedSessionRecord`
+### `models.PartialExtendedSessionRecordOutput`
 
 ```typescript
-const value: models.PartialExtendedSessionRecord = {
+const value: models.PartialExtendedSessionRecordOutput = {
   type: "session",
 };
 ```
 
-### `models.PartialExtendedToolSpanRecord`
+### `models.PartialExtendedToolSpanRecordOutput`
 
 ```typescript
-const value: models.PartialExtendedToolSpanRecord = {
+const value: models.PartialExtendedToolSpanRecordOutput = {
   type: "tool",
 };
 ```
 
-### `models.PartialExtendedTraceRecord`
+### `models.PartialExtendedTraceRecordOutput`
 
 ```typescript
-const value: models.PartialExtendedTraceRecord = {
+const value: models.PartialExtendedTraceRecordOutput = {
   type: "trace",
 };
 ```
 
-### `models.PartialExtendedWorkflowSpanRecord`
+### `models.PartialExtendedWorkflowSpanRecordOutput`
 
 ```typescript
-const value: models.PartialExtendedWorkflowSpanRecord = {
+const value: models.PartialExtendedWorkflowSpanRecordOutput = {
   type: "workflow",
 };
 ```

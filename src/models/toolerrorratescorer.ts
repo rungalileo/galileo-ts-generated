@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
 import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import * as openEnums from "../types/enums.js";
@@ -69,11 +69,13 @@ export type ToolErrorRateScorer = {
 export const ToolErrorRateScorerFilter$inboundSchema: z.ZodMiniType<
   ToolErrorRateScorerFilter,
   unknown
-> = discriminatedUnion("name", {
-  metadata: MetadataFilter$inboundSchema,
-  modality: ModalityFilter$inboundSchema,
-  node_name: NodeNameFilter$inboundSchema,
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  discriminatedUnion("name", {
+    metadata: MetadataFilter$inboundSchema,
+    modality: ModalityFilter$inboundSchema,
+    node_name: NodeNameFilter$inboundSchema,
+  })
+);
 /** @internal */
 export type ToolErrorRateScorerFilter$Outbound =
   | MetadataFilter$Outbound
@@ -84,11 +86,13 @@ export type ToolErrorRateScorerFilter$Outbound =
 export const ToolErrorRateScorerFilter$outboundSchema: z.ZodMiniType<
   ToolErrorRateScorerFilter$Outbound,
   ToolErrorRateScorerFilter
-> = z.union([
-  MetadataFilter$outboundSchema,
-  ModalityFilter$outboundSchema,
-  NodeNameFilter$outboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    MetadataFilter$outboundSchema,
+    ModalityFilter$outboundSchema,
+    NodeNameFilter$outboundSchema,
+  ])
+);
 
 export function toolErrorRateScorerFilterToJSON(
   toolErrorRateScorerFilter: ToolErrorRateScorerFilter,
@@ -111,39 +115,45 @@ export function toolErrorRateScorerFilterFromJSON(
 export const ToolErrorRateScorerType$inboundSchema: z.ZodMiniType<
   ToolErrorRateScorerType,
   unknown
-> = openEnums.inboundSchema(ToolErrorRateScorerType);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(ToolErrorRateScorerType)
+);
 /** @internal */
 export const ToolErrorRateScorerType$outboundSchema: z.ZodMiniType<
   string,
   ToolErrorRateScorerType
-> = openEnums.outboundSchema(ToolErrorRateScorerType);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.outboundSchema(ToolErrorRateScorerType)
+);
 
 /** @internal */
 export const ToolErrorRateScorer$inboundSchema: z.ZodMiniType<
   ToolErrorRateScorer,
   unknown
-> = z.pipe(
-  z.object({
-    name: types.literal("tool_error_rate"),
-    filters: z.optional(
-      z.nullable(
-        z.array(
-          discriminatedUnion("name", {
-            metadata: MetadataFilter$inboundSchema,
-            modality: ModalityFilter$inboundSchema,
-            node_name: NodeNameFilter$inboundSchema,
-          }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: types.literal("tool_error_rate"),
+      filters: z.optional(
+        z.nullable(
+          z.array(
+            discriminatedUnion("name", {
+              metadata: MetadataFilter$inboundSchema,
+              modality: ModalityFilter$inboundSchema,
+              node_name: NodeNameFilter$inboundSchema,
+            }),
+          ),
         ),
       ),
-    ),
-    type: z._default(ToolErrorRateScorerType$inboundSchema, "plus"),
-    model_name: z.optional(z.nullable(types.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "model_name": "modelName",
-    });
-  }),
+      type: z._default(ToolErrorRateScorerType$inboundSchema, "plus"),
+      model_name: z.optional(z.nullable(types.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "model_name": "modelName",
+      });
+    }),
+  )
 );
 /** @internal */
 export type ToolErrorRateScorer$Outbound = {
@@ -164,28 +174,30 @@ export type ToolErrorRateScorer$Outbound = {
 export const ToolErrorRateScorer$outboundSchema: z.ZodMiniType<
   ToolErrorRateScorer$Outbound,
   ToolErrorRateScorer
-> = z.pipe(
-  z.object({
-    name: z.literal("tool_error_rate"),
-    filters: z.optional(
-      z.nullable(
-        z.array(
-          z.union([
-            MetadataFilter$outboundSchema,
-            ModalityFilter$outboundSchema,
-            NodeNameFilter$outboundSchema,
-          ]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: z.literal("tool_error_rate"),
+      filters: z.optional(
+        z.nullable(
+          z.array(
+            z.union([
+              MetadataFilter$outboundSchema,
+              ModalityFilter$outboundSchema,
+              NodeNameFilter$outboundSchema,
+            ]),
+          ),
         ),
       ),
-    ),
-    type: z._default(ToolErrorRateScorerType$outboundSchema, "plus"),
-    modelName: z.optional(z.nullable(z.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      modelName: "model_name",
-    });
-  }),
+      type: z._default(ToolErrorRateScorerType$outboundSchema, "plus"),
+      modelName: z.optional(z.nullable(z.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        modelName: "model_name",
+      });
+    }),
+  )
 );
 
 export function toolErrorRateScorerToJSON(

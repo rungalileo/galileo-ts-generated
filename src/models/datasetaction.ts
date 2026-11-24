@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
@@ -20,9 +21,9 @@ export type DatasetAction = OpenEnum<typeof DatasetAction>;
 export const DatasetAction$inboundSchema: z.ZodMiniType<
   DatasetAction,
   unknown
-> = openEnums.inboundSchema(DatasetAction);
+> = /* @__PURE__ */ lazySchema$(() => openEnums.inboundSchema(DatasetAction));
 /** @internal */
 export const DatasetAction$outboundSchema: z.ZodMiniType<
   string,
   DatasetAction
-> = openEnums.outboundSchema(DatasetAction);
+> = /* @__PURE__ */ lazySchema$(() => openEnums.outboundSchema(DatasetAction));

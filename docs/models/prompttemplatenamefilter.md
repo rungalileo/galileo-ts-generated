@@ -7,7 +7,7 @@ import { PromptTemplateNameFilter } from "galileo-generated/models";
 
 let value: PromptTemplateNameFilter = {
   name: "name",
-  operator: "one_of",
+  operator: "regex",
   value: [],
 };
 ```

@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 import { smartUnion } from "../types/smartUnion.js";
 
@@ -35,7 +36,7 @@ export type ProjectRunsFilter = {
 /** @internal */
 export const ProjectRunsFilterOperator$outboundSchema: z.ZodMiniEnum<
   typeof ProjectRunsFilterOperator
-> = z.enum(ProjectRunsFilterOperator);
+> = /* @__PURE__ */ lazySchema$(() => z.enum(ProjectRunsFilterOperator));
 
 /** @internal */
 export type ProjectRunsFilterValue$Outbound =
@@ -48,7 +49,9 @@ export type ProjectRunsFilterValue$Outbound =
 export const ProjectRunsFilterValue$outboundSchema: z.ZodMiniType<
   ProjectRunsFilterValue$Outbound,
   ProjectRunsFilterValue
-> = smartUnion([z.int(), z.number(), z.array(z.int()), z.array(z.number())]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([z.int(), z.number(), z.array(z.int()), z.array(z.number())])
+);
 
 export function projectRunsFilterValueToJSON(
   projectRunsFilterValue: ProjectRunsFilterValue,
@@ -69,16 +72,18 @@ export type ProjectRunsFilter$Outbound = {
 export const ProjectRunsFilter$outboundSchema: z.ZodMiniType<
   ProjectRunsFilter$Outbound,
   ProjectRunsFilter
-> = z.object({
-  name: z.literal("runs"),
-  operator: ProjectRunsFilterOperator$outboundSchema,
-  value: smartUnion([
-    z.int(),
-    z.number(),
-    z.array(z.int()),
-    z.array(z.number()),
-  ]),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    name: z.literal("runs"),
+    operator: ProjectRunsFilterOperator$outboundSchema,
+    value: smartUnion([
+      z.int(),
+      z.number(),
+      z.array(z.int()),
+      z.array(z.number()),
+    ]),
+  })
+);
 
 export function projectRunsFilterToJSON(
   projectRunsFilter: ProjectRunsFilter,

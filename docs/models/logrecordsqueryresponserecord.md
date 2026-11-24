@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.ExtendedAgentSpanRecord`
+### `models.ExtendedAgentSpanRecordOutput`
 
 ```typescript
-const value: models.ExtendedAgentSpanRecord = {
+const value: models.ExtendedAgentSpanRecordOutput = {
   type: "agent",
   id: "<value>",
   sessionId: "<value>",
@@ -16,10 +16,10 @@ const value: models.ExtendedAgentSpanRecord = {
 };
 ```
 
-### `models.ExtendedControlSpanRecord`
+### `models.ExtendedControlSpanRecordOutput`
 
 ```typescript
-const value: models.ExtendedControlSpanRecord = {
+const value: models.ExtendedControlSpanRecordOutput = {
   type: "control",
   id: "<value>",
   sessionId: "<value>",
@@ -29,10 +29,23 @@ const value: models.ExtendedControlSpanRecord = {
 };
 ```
 
-### `models.ExtendedLlmSpanRecord`
+### `models.ExtendedHttpSpanRecordOutput`
 
 ```typescript
-const value: models.ExtendedLlmSpanRecord = {
+const value: models.ExtendedHttpSpanRecordOutput = {
+  type: "http",
+  id: "<value>",
+  sessionId: "<value>",
+  projectId: "<value>",
+  runId: "<value>",
+  parentId: "<value>",
+};
+```
+
+### `models.ExtendedLlmSpanRecordOutput`
+
+```typescript
+const value: models.ExtendedLlmSpanRecordOutput = {
   type: "llm",
   id: "<value>",
   sessionId: "<value>",
@@ -42,10 +55,10 @@ const value: models.ExtendedLlmSpanRecord = {
 };
 ```
 
-### `models.ExtendedRetrieverSpanRecord`
+### `models.ExtendedRetrieverSpanRecordOutput`
 
 ```typescript
-const value: models.ExtendedRetrieverSpanRecord = {
+const value: models.ExtendedRetrieverSpanRecordOutput = {
   type: "retriever",
   id: "<value>",
   sessionId: "<value>",
@@ -55,10 +68,10 @@ const value: models.ExtendedRetrieverSpanRecord = {
 };
 ```
 
-### `models.ExtendedSessionRecord`
+### `models.ExtendedSessionRecordOutput`
 
 ```typescript
-const value: models.ExtendedSessionRecord = {
+const value: models.ExtendedSessionRecordOutput = {
   type: "session",
   id: "<value>",
   projectId: "<value>",
@@ -66,10 +79,10 @@ const value: models.ExtendedSessionRecord = {
 };
 ```
 
-### `models.ExtendedToolSpanRecord`
+### `models.ExtendedToolSpanRecordOutput`
 
 ```typescript
-const value: models.ExtendedToolSpanRecord = {
+const value: models.ExtendedToolSpanRecordOutput = {
   type: "tool",
   id: "<value>",
   sessionId: "<value>",
@@ -79,10 +92,10 @@ const value: models.ExtendedToolSpanRecord = {
 };
 ```
 
-### `models.ExtendedTraceRecord`
+### `models.ExtendedTraceRecordOutput`
 
 ```typescript
-const value: models.ExtendedTraceRecord = {
+const value: models.ExtendedTraceRecordOutput = {
   type: "trace",
   id: "<value>",
   sessionId: "<value>",
@@ -92,10 +105,10 @@ const value: models.ExtendedTraceRecord = {
 };
 ```
 
-### `models.ExtendedWorkflowSpanRecord`
+### `models.ExtendedWorkflowSpanRecordOutput`
 
 ```typescript
-const value: models.ExtendedWorkflowSpanRecord = {
+const value: models.ExtendedWorkflowSpanRecordOutput = {
   type: "workflow",
   id: "<value>",
   sessionId: "<value>",

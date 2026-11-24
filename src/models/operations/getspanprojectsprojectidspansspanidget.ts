@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import * as discriminatedUnionTypes from "../../types/discriminatedUnion.js";
 import { discriminatedUnion } from "../../types/discriminatedUnion.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
@@ -14,6 +14,7 @@ import * as models from "../index.js";
 
 export type GetSpanProjectsProjectIdSpansSpanIdGetSecurity = {
   apiKeyHeader?: string | undefined;
+  classicAPIKeyHeader?: string | undefined;
   oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
   httpBasic?: models.SchemeHTTPBasic | undefined;
 };
@@ -22,6 +23,7 @@ export type GetSpanProjectsProjectIdSpansSpanIdGetRequest = {
   spanId: string;
   projectId: string;
   includePresignedUrls?: boolean | undefined;
+  accessViewId?: string | null | undefined;
 };
 
 /**
@@ -30,15 +32,17 @@ export type GetSpanProjectsProjectIdSpansSpanIdGetRequest = {
 export type ResponseGetSpanProjectsProjectIdSpansSpanIdGet =
   | models.ExtendedAgentSpanRecordWithChildren
   | models.ExtendedWorkflowSpanRecordWithChildren
-  | models.ExtendedLlmSpanRecord
+  | models.ExtendedLlmSpanRecordInput
   | models.ExtendedToolSpanRecordWithChildren
   | models.ExtendedRetrieverSpanRecordWithChildren
-  | models.ExtendedControlSpanRecord
+  | models.ExtendedControlSpanRecordInput
+  | models.ExtendedHttpSpanRecordWithChildren
   | discriminatedUnionTypes.Unknown<"type">;
 
 /** @internal */
 export type GetSpanProjectsProjectIdSpansSpanIdGetSecurity$Outbound = {
   APIKeyHeader?: string | undefined;
+  ClassicAPIKeyHeader?: string | undefined;
   OAuth2PasswordBearer?: models.OAuth2PasswordBearerInput$Outbound | undefined;
   HTTPBasic?: models.SchemeHTTPBasic$Outbound | undefined;
 };
@@ -48,21 +52,25 @@ export const GetSpanProjectsProjectIdSpansSpanIdGetSecurity$outboundSchema:
   z.ZodMiniType<
     GetSpanProjectsProjectIdSpansSpanIdGetSecurity$Outbound,
     GetSpanProjectsProjectIdSpansSpanIdGetSecurity
-  > = z.pipe(
-    z.object({
-      apiKeyHeader: z.optional(z.string()),
-      oAuth2PasswordBearer: z.optional(
-        models.OAuth2PasswordBearerInput$outboundSchema,
-      ),
-      httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        apiKeyHeader: "APIKeyHeader",
-        oAuth2PasswordBearer: "OAuth2PasswordBearer",
-        httpBasic: "HTTPBasic",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        apiKeyHeader: z.optional(z.string()),
+        classicAPIKeyHeader: z.optional(z.string()),
+        oAuth2PasswordBearer: z.optional(
+          models.OAuth2PasswordBearerInput$outboundSchema,
+        ),
+        httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          apiKeyHeader: "APIKeyHeader",
+          classicAPIKeyHeader: "ClassicAPIKeyHeader",
+          oAuth2PasswordBearer: "OAuth2PasswordBearer",
+          httpBasic: "HTTPBasic",
+        });
+      }),
+    )
   );
 
 export function getSpanProjectsProjectIdSpansSpanIdGetSecurityToJSON(
@@ -81,6 +89,7 @@ export type GetSpanProjectsProjectIdSpansSpanIdGetRequest$Outbound = {
   span_id: string;
   project_id: string;
   include_presigned_urls: boolean;
+  access_view_id?: string | null | undefined;
 };
 
 /** @internal */
@@ -88,19 +97,23 @@ export const GetSpanProjectsProjectIdSpansSpanIdGetRequest$outboundSchema:
   z.ZodMiniType<
     GetSpanProjectsProjectIdSpansSpanIdGetRequest$Outbound,
     GetSpanProjectsProjectIdSpansSpanIdGetRequest
-  > = z.pipe(
-    z.object({
-      spanId: z.string(),
-      projectId: z.string(),
-      includePresignedUrls: z._default(z.boolean(), false),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        spanId: "span_id",
-        projectId: "project_id",
-        includePresignedUrls: "include_presigned_urls",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        spanId: z.string(),
+        projectId: z.string(),
+        includePresignedUrls: z._default(z.boolean(), false),
+        accessViewId: z.optional(z.nullable(z.string())),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          spanId: "span_id",
+          projectId: "project_id",
+          includePresignedUrls: "include_presigned_urls",
+          accessViewId: "access_view_id",
+        });
+      }),
+    )
   );
 
 export function getSpanProjectsProjectIdSpansSpanIdGetRequestToJSON(
@@ -117,14 +130,17 @@ export function getSpanProjectsProjectIdSpansSpanIdGetRequestToJSON(
 /** @internal */
 export const ResponseGetSpanProjectsProjectIdSpansSpanIdGet$inboundSchema:
   z.ZodMiniType<ResponseGetSpanProjectsProjectIdSpansSpanIdGet, unknown> =
-    discriminatedUnion("type", {
-      agent: models.ExtendedAgentSpanRecordWithChildren$inboundSchema,
-      workflow: models.ExtendedWorkflowSpanRecordWithChildren$inboundSchema,
-      llm: models.ExtendedLlmSpanRecord$inboundSchema,
-      tool: models.ExtendedToolSpanRecordWithChildren$inboundSchema,
-      retriever: models.ExtendedRetrieverSpanRecordWithChildren$inboundSchema,
-      control: models.ExtendedControlSpanRecord$inboundSchema,
-    });
+    /* @__PURE__ */ lazySchema$(() =>
+      discriminatedUnion("type", {
+        agent: models.ExtendedAgentSpanRecordWithChildren$inboundSchema,
+        workflow: models.ExtendedWorkflowSpanRecordWithChildren$inboundSchema,
+        llm: models.ExtendedLlmSpanRecordInput$inboundSchema,
+        tool: models.ExtendedToolSpanRecordWithChildren$inboundSchema,
+        retriever: models.ExtendedRetrieverSpanRecordWithChildren$inboundSchema,
+        control: models.ExtendedControlSpanRecordInput$inboundSchema,
+        http: models.ExtendedHttpSpanRecordWithChildren$inboundSchema,
+      })
+    );
 
 export function responseGetSpanProjectsProjectIdSpansSpanIdGetFromJSON(
   jsonString: string,

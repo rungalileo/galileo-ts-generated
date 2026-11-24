@@ -5,19 +5,14 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { blobLikeSchema } from "../types/blobs.js";
-
-export type BodyCreateDatasetDatasetsPostFile = {
-  fileName: string;
-  content: ReadableStream<Uint8Array> | Blob | ArrayBuffer | Uint8Array;
-};
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type BodyCreateDatasetDatasetsPost = {
   draft?: boolean | undefined;
   hidden?: boolean | undefined;
   name?: string | null | undefined;
   appendSuffixIfDuplicate?: boolean | undefined;
-  file?: BodyCreateDatasetDatasetsPostFile | Blob | undefined;
+  file?: string | null | undefined;
   copyFromDatasetId?: string | null | undefined;
   copyFromDatasetVersionIndex?: number | null | undefined;
   projectId?: string | null | undefined;
@@ -25,42 +20,12 @@ export type BodyCreateDatasetDatasetsPost = {
 };
 
 /** @internal */
-export type BodyCreateDatasetDatasetsPostFile$Outbound = {
-  fileName: string;
-  content: ReadableStream<Uint8Array> | Blob | ArrayBuffer | Uint8Array;
-};
-
-/** @internal */
-export const BodyCreateDatasetDatasetsPostFile$outboundSchema: z.ZodMiniType<
-  BodyCreateDatasetDatasetsPostFile$Outbound,
-  BodyCreateDatasetDatasetsPostFile
-> = z.object({
-  fileName: z.string(),
-  content: z.union([
-    z.custom<ReadableStream<Uint8Array>>(x => x instanceof ReadableStream),
-    z.custom<Blob>(x => x instanceof Blob),
-    z.custom<ArrayBuffer>(x => x instanceof ArrayBuffer),
-    z.custom<Uint8Array>(x => x instanceof Uint8Array),
-  ]),
-});
-
-export function bodyCreateDatasetDatasetsPostFileToJSON(
-  bodyCreateDatasetDatasetsPostFile: BodyCreateDatasetDatasetsPostFile,
-): string {
-  return JSON.stringify(
-    BodyCreateDatasetDatasetsPostFile$outboundSchema.parse(
-      bodyCreateDatasetDatasetsPostFile,
-    ),
-  );
-}
-
-/** @internal */
 export type BodyCreateDatasetDatasetsPost$Outbound = {
   draft: boolean;
   hidden: boolean;
   name?: string | null | undefined;
   append_suffix_if_duplicate: boolean;
-  file?: BodyCreateDatasetDatasetsPostFile$Outbound | Blob | undefined;
+  file?: string | null | undefined;
   copy_from_dataset_id?: string | null | undefined;
   copy_from_dataset_version_index?: number | null | undefined;
   project_id?: string | null | undefined;
@@ -71,30 +36,29 @@ export type BodyCreateDatasetDatasetsPost$Outbound = {
 export const BodyCreateDatasetDatasetsPost$outboundSchema: z.ZodMiniType<
   BodyCreateDatasetDatasetsPost$Outbound,
   BodyCreateDatasetDatasetsPost
-> = z.pipe(
-  z.object({
-    draft: z._default(z.boolean(), false),
-    hidden: z._default(z.boolean(), false),
-    name: z.optional(z.nullable(z.string())),
-    appendSuffixIfDuplicate: z._default(z.boolean(), false),
-    file: z.optional(z.union([
-      z.lazy(() => BodyCreateDatasetDatasetsPostFile$outboundSchema),
-      blobLikeSchema,
-    ])),
-    copyFromDatasetId: z.optional(z.nullable(z.string())),
-    copyFromDatasetVersionIndex: z.optional(z.nullable(z.int())),
-    projectId: z.optional(z.nullable(z.string())),
-    columnMapping: z.optional(z.nullable(z.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      appendSuffixIfDuplicate: "append_suffix_if_duplicate",
-      copyFromDatasetId: "copy_from_dataset_id",
-      copyFromDatasetVersionIndex: "copy_from_dataset_version_index",
-      projectId: "project_id",
-      columnMapping: "column_mapping",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      draft: z._default(z.boolean(), false),
+      hidden: z._default(z.boolean(), false),
+      name: z.optional(z.nullable(z.string())),
+      appendSuffixIfDuplicate: z._default(z.boolean(), false),
+      file: z.optional(z.nullable(z.string())),
+      copyFromDatasetId: z.optional(z.nullable(z.string())),
+      copyFromDatasetVersionIndex: z.optional(z.nullable(z.int())),
+      projectId: z.optional(z.nullable(z.string())),
+      columnMapping: z.optional(z.nullable(z.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        appendSuffixIfDuplicate: "append_suffix_if_duplicate",
+        copyFromDatasetId: "copy_from_dataset_id",
+        copyFromDatasetVersionIndex: "copy_from_dataset_version_index",
+        projectId: "project_id",
+        columnMapping: "column_mapping",
+      });
+    }),
+  )
 );
 
 export function bodyCreateDatasetDatasetsPostToJSON(

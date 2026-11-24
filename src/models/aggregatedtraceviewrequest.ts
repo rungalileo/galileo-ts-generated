@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   LogRecordsBooleanFilter,
   LogRecordsBooleanFilter$Outbound,
@@ -52,6 +53,10 @@ export type AggregatedTraceViewRequestFilter =
 
 export type AggregatedTraceViewRequest = {
   /**
+   * Assigned log view for restricted access.
+   */
+  accessViewId?: string | null | undefined;
+  /**
    * Log stream id associated with the traces.
    */
   logStreamId: string;
@@ -85,15 +90,17 @@ export type AggregatedTraceViewRequestFilter$Outbound =
 export const AggregatedTraceViewRequestFilter$outboundSchema: z.ZodMiniType<
   AggregatedTraceViewRequestFilter$Outbound,
   AggregatedTraceViewRequestFilter
-> = z.union([
-  LogRecordsBooleanFilter$outboundSchema,
-  LogRecordsCollectionFilter$outboundSchema,
-  LogRecordsDateFilter$outboundSchema,
-  LogRecordsFullyAnnotatedFilter$outboundSchema,
-  LogRecordsIDFilter$outboundSchema,
-  LogRecordsNumberFilter$outboundSchema,
-  LogRecordsTextFilter$outboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    LogRecordsBooleanFilter$outboundSchema,
+    LogRecordsCollectionFilter$outboundSchema,
+    LogRecordsDateFilter$outboundSchema,
+    LogRecordsFullyAnnotatedFilter$outboundSchema,
+    LogRecordsIDFilter$outboundSchema,
+    LogRecordsNumberFilter$outboundSchema,
+    LogRecordsTextFilter$outboundSchema,
+  ])
+);
 
 export function aggregatedTraceViewRequestFilterToJSON(
   aggregatedTraceViewRequestFilter: AggregatedTraceViewRequestFilter,
@@ -107,6 +114,7 @@ export function aggregatedTraceViewRequestFilterToJSON(
 
 /** @internal */
 export type AggregatedTraceViewRequest$Outbound = {
+  access_view_id?: string | null | undefined;
   log_stream_id: string;
   filters?:
     | Array<
@@ -125,28 +133,32 @@ export type AggregatedTraceViewRequest$Outbound = {
 export const AggregatedTraceViewRequest$outboundSchema: z.ZodMiniType<
   AggregatedTraceViewRequest$Outbound,
   AggregatedTraceViewRequest
-> = z.pipe(
-  z.object({
-    logStreamId: z.string(),
-    filters: z.optional(
-      z.array(
-        z.union([
-          LogRecordsBooleanFilter$outboundSchema,
-          LogRecordsCollectionFilter$outboundSchema,
-          LogRecordsDateFilter$outboundSchema,
-          LogRecordsFullyAnnotatedFilter$outboundSchema,
-          LogRecordsIDFilter$outboundSchema,
-          LogRecordsNumberFilter$outboundSchema,
-          LogRecordsTextFilter$outboundSchema,
-        ]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      accessViewId: z.optional(z.nullable(z.string())),
+      logStreamId: z.string(),
+      filters: z.optional(
+        z.array(
+          z.union([
+            LogRecordsBooleanFilter$outboundSchema,
+            LogRecordsCollectionFilter$outboundSchema,
+            LogRecordsDateFilter$outboundSchema,
+            LogRecordsFullyAnnotatedFilter$outboundSchema,
+            LogRecordsIDFilter$outboundSchema,
+            LogRecordsNumberFilter$outboundSchema,
+            LogRecordsTextFilter$outboundSchema,
+          ]),
+        ),
       ),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      logStreamId: "log_stream_id",
-    });
-  }),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        accessViewId: "access_view_id",
+        logStreamId: "log_stream_id",
+      });
+    }),
+  )
 );
 
 export function aggregatedTraceViewRequestToJSON(

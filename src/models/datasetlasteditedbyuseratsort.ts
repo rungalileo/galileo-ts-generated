@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type DatasetLastEditedByUserAtSort = {
   name: "last_edited_by_user_at";
@@ -25,18 +26,20 @@ export type DatasetLastEditedByUserAtSort$Outbound = {
 export const DatasetLastEditedByUserAtSort$outboundSchema: z.ZodMiniType<
   DatasetLastEditedByUserAtSort$Outbound,
   DatasetLastEditedByUserAtSort
-> = z.pipe(
-  z.object({
-    name: z.literal("last_edited_by_user_at"),
-    ascending: z._default(z.boolean(), true),
-    sortType: z._default(z.literal("custom_uuid"), "custom_uuid" as const),
-    value: z.string(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      sortType: "sort_type",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: z.literal("last_edited_by_user_at"),
+      ascending: z._default(z.boolean(), true),
+      sortType: z._default(z.literal("custom_uuid"), "custom_uuid" as const),
+      value: z.string(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        sortType: "sort_type",
+      });
+    }),
+  )
 );
 
 export function datasetLastEditedByUserAtSortToJSON(

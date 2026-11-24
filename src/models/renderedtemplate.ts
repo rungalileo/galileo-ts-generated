@@ -4,7 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -18,10 +18,12 @@ export type RenderedTemplate = {
 export const RenderedTemplate$inboundSchema: z.ZodMiniType<
   RenderedTemplate,
   unknown
-> = z.object({
-  result: types.string(),
-  warning: z.optional(z.nullable(types.string())),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    result: types.string(),
+    warning: z.optional(z.nullable(types.string())),
+  })
+);
 
 export function renderedTemplateFromJSON(
   jsonString: string,

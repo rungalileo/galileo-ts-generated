@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   CollaboratorRole,
   CollaboratorRole$outboundSchema,
@@ -35,18 +36,20 @@ export type UserCollaboratorCreate$Outbound = {
 export const UserCollaboratorCreate$outboundSchema: z.ZodMiniType<
   UserCollaboratorCreate$Outbound,
   UserCollaboratorCreate
-> = z.pipe(
-  z.object({
-    role: z.optional(CollaboratorRole$outboundSchema),
-    userId: z.optional(z.nullable(z.string())),
-    userEmail: z.optional(z.nullable(z.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      userId: "user_id",
-      userEmail: "user_email",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      role: z.optional(CollaboratorRole$outboundSchema),
+      userId: z.optional(z.nullable(z.string())),
+      userEmail: z.optional(z.nullable(z.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        userId: "user_id",
+        userEmail: "user_email",
+      });
+    }),
+  )
 );
 
 export function userCollaboratorCreateToJSON(

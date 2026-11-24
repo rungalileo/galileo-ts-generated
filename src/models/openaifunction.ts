@@ -4,7 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -17,9 +17,11 @@ export type OpenAIFunction = {
 export const OpenAIFunction$inboundSchema: z.ZodMiniType<
   OpenAIFunction,
   unknown
-> = z.object({
-  name: types.string(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    name: types.string(),
+  })
+);
 /** @internal */
 export type OpenAIFunction$Outbound = {
   name: string;
@@ -29,9 +31,11 @@ export type OpenAIFunction$Outbound = {
 export const OpenAIFunction$outboundSchema: z.ZodMiniType<
   OpenAIFunction$Outbound,
   OpenAIFunction
-> = z.object({
-  name: z.string(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    name: z.string(),
+  })
+);
 
 export function openAIFunctionToJSON(openAIFunction: OpenAIFunction): string {
   return JSON.stringify(OpenAIFunction$outboundSchema.parse(openAIFunction));

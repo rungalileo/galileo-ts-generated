@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
@@ -19,9 +20,13 @@ export type AnthropicAuthenticationType = OpenEnum<
 export const AnthropicAuthenticationType$inboundSchema: z.ZodMiniType<
   AnthropicAuthenticationType,
   unknown
-> = openEnums.inboundSchema(AnthropicAuthenticationType);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(AnthropicAuthenticationType)
+);
 /** @internal */
 export const AnthropicAuthenticationType$outboundSchema: z.ZodMiniType<
   string,
   AnthropicAuthenticationType
-> = openEnums.outboundSchema(AnthropicAuthenticationType);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.outboundSchema(AnthropicAuthenticationType)
+);

@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import {
@@ -57,46 +57,50 @@ export type AzureIntegration = {
 export const AzureIntegration$inboundSchema: z.ZodMiniType<
   AzureIntegration,
   unknown
-> = z.pipe(
-  z.object({
-    multi_modal_config: z.optional(
-      z.nullable(MultiModalModelIntegrationConfig$inboundSchema),
-    ),
-    proxy: z._default(types.boolean(), false),
-    endpoint: types.string(),
-    api_version: z._default(types.string(), "2025-03-01-preview"),
-    azure_deployment: z.optional(z.nullable(types.string())),
-    authentication_type: types.optional(AzureAuthenticationType$inboundSchema),
-    authentication_scope: z.optional(z.nullable(types.string())),
-    default_headers: z.optional(
-      z.nullable(z.record(z.string(), types.string())),
-    ),
-    deployments: types.optional(z.record(z.string(), types.string())),
-    oauth2_token_url: z.optional(z.nullable(types.string())),
-    custom_header_mapping: z.optional(
-      z.nullable(z.record(z.string(), types.string())),
-    ),
-    available_deployments: z.optional(
-      z.nullable(z.array(AzureModelDeployment$inboundSchema)),
-    ),
-    id: z.optional(z.nullable(types.string())),
-    name: z._default(types.literal("azure"), "azure"),
-    provider: types.literal("azure"),
-    extra: z.optional(z.nullable(z.record(z.string(), z.any()))),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "multi_modal_config": "multiModalConfig",
-      "api_version": "apiVersion",
-      "azure_deployment": "azureDeployment",
-      "authentication_type": "authenticationType",
-      "authentication_scope": "authenticationScope",
-      "default_headers": "defaultHeaders",
-      "oauth2_token_url": "oauth2TokenUrl",
-      "custom_header_mapping": "customHeaderMapping",
-      "available_deployments": "availableDeployments",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      multi_modal_config: z.optional(
+        z.nullable(MultiModalModelIntegrationConfig$inboundSchema),
+      ),
+      proxy: z._default(types.boolean(), false),
+      endpoint: types.string(),
+      api_version: z._default(types.string(), "2025-03-01-preview"),
+      azure_deployment: z.optional(z.nullable(types.string())),
+      authentication_type: types.optional(
+        AzureAuthenticationType$inboundSchema,
+      ),
+      authentication_scope: z.optional(z.nullable(types.string())),
+      default_headers: z.optional(
+        z.nullable(z.record(z.string(), types.string())),
+      ),
+      deployments: types.optional(z.record(z.string(), types.string())),
+      oauth2_token_url: z.optional(z.nullable(types.string())),
+      custom_header_mapping: z.optional(
+        z.nullable(z.record(z.string(), types.string())),
+      ),
+      available_deployments: z.optional(
+        z.nullable(z.array(AzureModelDeployment$inboundSchema)),
+      ),
+      id: z.optional(z.nullable(types.string())),
+      name: z._default(types.literal("azure"), "azure"),
+      provider: types.literal("azure"),
+      extra: z.optional(z.nullable(z.record(z.string(), z.any()))),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "multi_modal_config": "multiModalConfig",
+        "api_version": "apiVersion",
+        "azure_deployment": "azureDeployment",
+        "authentication_type": "authenticationType",
+        "authentication_scope": "authenticationScope",
+        "default_headers": "defaultHeaders",
+        "oauth2_token_url": "oauth2TokenUrl",
+        "custom_header_mapping": "customHeaderMapping",
+        "available_deployments": "availableDeployments",
+      });
+    }),
+  )
 );
 
 export function azureIntegrationFromJSON(

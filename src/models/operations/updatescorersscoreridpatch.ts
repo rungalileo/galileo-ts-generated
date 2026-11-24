@@ -5,10 +5,12 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../../lib/schemas.js";
 import * as models from "../index.js";
 
 export type UpdateScorersScorerIdPatchSecurity = {
   apiKeyHeader?: string | undefined;
+  classicAPIKeyHeader?: string | undefined;
   oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
   httpBasic?: models.SchemeHTTPBasic | undefined;
 };
@@ -21,6 +23,7 @@ export type UpdateScorersScorerIdPatchRequest = {
 /** @internal */
 export type UpdateScorersScorerIdPatchSecurity$Outbound = {
   APIKeyHeader?: string | undefined;
+  ClassicAPIKeyHeader?: string | undefined;
   OAuth2PasswordBearer?: models.OAuth2PasswordBearerInput$Outbound | undefined;
   HTTPBasic?: models.SchemeHTTPBasic$Outbound | undefined;
 };
@@ -29,21 +32,25 @@ export type UpdateScorersScorerIdPatchSecurity$Outbound = {
 export const UpdateScorersScorerIdPatchSecurity$outboundSchema: z.ZodMiniType<
   UpdateScorersScorerIdPatchSecurity$Outbound,
   UpdateScorersScorerIdPatchSecurity
-> = z.pipe(
-  z.object({
-    apiKeyHeader: z.optional(z.string()),
-    oAuth2PasswordBearer: z.optional(
-      models.OAuth2PasswordBearerInput$outboundSchema,
-    ),
-    httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      apiKeyHeader: "APIKeyHeader",
-      oAuth2PasswordBearer: "OAuth2PasswordBearer",
-      httpBasic: "HTTPBasic",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      apiKeyHeader: z.optional(z.string()),
+      classicAPIKeyHeader: z.optional(z.string()),
+      oAuth2PasswordBearer: z.optional(
+        models.OAuth2PasswordBearerInput$outboundSchema,
+      ),
+      httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        apiKeyHeader: "APIKeyHeader",
+        classicAPIKeyHeader: "ClassicAPIKeyHeader",
+        oAuth2PasswordBearer: "OAuth2PasswordBearer",
+        httpBasic: "HTTPBasic",
+      });
+    }),
+  )
 );
 
 export function updateScorersScorerIdPatchSecurityToJSON(
@@ -66,16 +73,18 @@ export type UpdateScorersScorerIdPatchRequest$Outbound = {
 export const UpdateScorersScorerIdPatchRequest$outboundSchema: z.ZodMiniType<
   UpdateScorersScorerIdPatchRequest$Outbound,
   UpdateScorersScorerIdPatchRequest
-> = z.pipe(
-  z.object({
-    scorerId: z.string(),
-    body: models.UpdateScorerRequest$outboundSchema,
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      scorerId: "scorer_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      scorerId: z.string(),
+      body: models.UpdateScorerRequest$outboundSchema,
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        scorerId: "scorer_id",
+      });
+    }),
+  )
 );
 
 export function updateScorersScorerIdPatchRequestToJSON(

@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 /**
  * Request to delete multiple datasets.
@@ -22,15 +23,17 @@ export type BulkDeleteDatasetsRequest$Outbound = {
 export const BulkDeleteDatasetsRequest$outboundSchema: z.ZodMiniType<
   BulkDeleteDatasetsRequest$Outbound,
   BulkDeleteDatasetsRequest
-> = z.pipe(
-  z.object({
-    datasetIds: z.array(z.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      datasetIds: "dataset_ids",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      datasetIds: z.array(z.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        datasetIds: "dataset_ids",
+      });
+    }),
+  )
 );
 
 export function bulkDeleteDatasetsRequestToJSON(

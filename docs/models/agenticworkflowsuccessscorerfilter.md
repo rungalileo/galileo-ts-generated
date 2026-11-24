@@ -8,7 +8,7 @@
 ```typescript
 const value: models.MetadataFilter = {
   name: "metadata",
-  operator: "ne",
+  operator: "regex",
   key: "<key>",
   value: [
     "<value 1>",
@@ -32,7 +32,7 @@ const value: models.ModalityFilter = {
 ```typescript
 const value: models.NodeNameFilter = {
   name: "node_name",
-  operator: "contains",
+  operator: "regex",
   value: [
     "<value 1>",
   ],

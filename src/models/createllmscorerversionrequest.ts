@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   ChainPollTemplate,
   ChainPollTemplate$Outbound,
@@ -48,30 +49,34 @@ export type CreateLLMScorerVersionRequest$Outbound = {
 export const CreateLLMScorerVersionRequest$outboundSchema: z.ZodMiniType<
   CreateLLMScorerVersionRequest$Outbound,
   CreateLLMScorerVersionRequest
-> = z.pipe(
-  z.object({
-    modelName: z.optional(z.nullable(z.string())),
-    numJudges: z.optional(z.nullable(z.int())),
-    scoreableNodeTypes: z.optional(z.nullable(z.array(z.string()))),
-    cotEnabled: z.optional(z.nullable(z.boolean())),
-    outputType: z.optional(z.nullable(OutputTypeEnum$outboundSchema)),
-    inputType: z.optional(z.nullable(InputTypeEnum$outboundSchema)),
-    instructions: z.optional(z.nullable(z.string())),
-    chainPollTemplate: z.optional(z.nullable(ChainPollTemplate$outboundSchema)),
-    userPrompt: z.optional(z.nullable(z.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      modelName: "model_name",
-      numJudges: "num_judges",
-      scoreableNodeTypes: "scoreable_node_types",
-      cotEnabled: "cot_enabled",
-      outputType: "output_type",
-      inputType: "input_type",
-      chainPollTemplate: "chain_poll_template",
-      userPrompt: "user_prompt",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      modelName: z.optional(z.nullable(z.string())),
+      numJudges: z.optional(z.nullable(z.int())),
+      scoreableNodeTypes: z.optional(z.nullable(z.array(z.string()))),
+      cotEnabled: z.optional(z.nullable(z.boolean())),
+      outputType: z.optional(z.nullable(OutputTypeEnum$outboundSchema)),
+      inputType: z.optional(z.nullable(InputTypeEnum$outboundSchema)),
+      instructions: z.optional(z.nullable(z.string())),
+      chainPollTemplate: z.optional(
+        z.nullable(ChainPollTemplate$outboundSchema),
+      ),
+      userPrompt: z.optional(z.nullable(z.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        modelName: "model_name",
+        numJudges: "num_judges",
+        scoreableNodeTypes: "scoreable_node_types",
+        cotEnabled: "cot_enabled",
+        outputType: "output_type",
+        inputType: "input_type",
+        chainPollTemplate: "chain_poll_template",
+        userPrompt: "user_prompt",
+      });
+    }),
+  )
 );
 
 export function createLLMScorerVersionRequestToJSON(

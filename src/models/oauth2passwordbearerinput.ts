@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { smartUnion } from "../types/smartUnion.js";
 import {
   OAuth2PasswordBearerCredentials,
@@ -27,7 +28,9 @@ export type OAuth2PasswordBearerInput$Outbound =
 export const OAuth2PasswordBearerInput$outboundSchema: z.ZodMiniType<
   OAuth2PasswordBearerInput$Outbound,
   OAuth2PasswordBearerInput
-> = smartUnion([OAuth2PasswordBearerCredentials$outboundSchema, z.string()]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([OAuth2PasswordBearerCredentials$outboundSchema, z.string()])
+);
 
 export function oAuth2PasswordBearerInputToJSON(
   oAuth2PasswordBearerInput: OAuth2PasswordBearerInput,
