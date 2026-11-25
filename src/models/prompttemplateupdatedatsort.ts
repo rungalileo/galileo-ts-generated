@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type PromptTemplateUpdatedAtSort = {
   name: "updated_at";
@@ -23,17 +24,19 @@ export type PromptTemplateUpdatedAtSort$Outbound = {
 export const PromptTemplateUpdatedAtSort$outboundSchema: z.ZodMiniType<
   PromptTemplateUpdatedAtSort$Outbound,
   PromptTemplateUpdatedAtSort
-> = z.pipe(
-  z.object({
-    name: z.literal("updated_at"),
-    ascending: z._default(z.boolean(), true),
-    sortType: z._default(z.literal("column"), "column" as const),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      sortType: "sort_type",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: z.literal("updated_at"),
+      ascending: z._default(z.boolean(), true),
+      sortType: z._default(z.literal("column"), "column" as const),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        sortType: "sort_type",
+      });
+    }),
+  )
 );
 
 export function promptTemplateUpdatedAtSortToJSON(

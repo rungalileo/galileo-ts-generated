@@ -7,7 +7,7 @@ import { ProjectNameFilter } from "galileo-generated/models";
 
 let value: ProjectNameFilter = {
   name: "name",
-  operator: "eq",
+  operator: "ne",
   value: "<value>",
 };
 ```

@@ -10,14 +10,22 @@ let value: ListScorersResponse = {
     {
       id: "<value>",
       name: "<value>",
-      scorerType: "luna",
+      scorerType: "decision",
       defaults: {
         filters: [
           {
             name: "metadata",
-            operator: "ne",
+            operator: "regex",
             key: "<key>",
             value: "<value>",
+            caseSensitive: true,
+          },
+        ],
+        childSpanFilters: [
+          {
+            name: "modality",
+            operator: "ne",
+            value: "ENUM_VALUE",
           },
         ],
       },

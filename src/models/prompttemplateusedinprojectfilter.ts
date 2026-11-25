@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type PromptTemplateUsedInProjectFilter = {
   name: "used_in_project";
@@ -20,10 +21,12 @@ export type PromptTemplateUsedInProjectFilter$Outbound = {
 export const PromptTemplateUsedInProjectFilter$outboundSchema: z.ZodMiniType<
   PromptTemplateUsedInProjectFilter$Outbound,
   PromptTemplateUsedInProjectFilter
-> = z.object({
-  name: z.literal("used_in_project"),
-  value: z.string(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    name: z.literal("used_in_project"),
+    value: z.string(),
+  })
+);
 
 export function promptTemplateUsedInProjectFilterToJSON(
   promptTemplateUsedInProjectFilter: PromptTemplateUsedInProjectFilter,

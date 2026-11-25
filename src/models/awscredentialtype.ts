@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
@@ -17,9 +18,13 @@ export type AwsCredentialType = OpenEnum<typeof AwsCredentialType>;
 export const AwsCredentialType$inboundSchema: z.ZodMiniType<
   AwsCredentialType,
   unknown
-> = openEnums.inboundSchema(AwsCredentialType);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(AwsCredentialType)
+);
 /** @internal */
 export const AwsCredentialType$outboundSchema: z.ZodMiniType<
   string,
   AwsCredentialType
-> = openEnums.outboundSchema(AwsCredentialType);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.outboundSchema(AwsCredentialType)
+);

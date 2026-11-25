@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -50,22 +50,24 @@ export type MCPListToolsEvent = {
 export const MCPListToolsEvent$inboundSchema: z.ZodMiniType<
   MCPListToolsEvent,
   unknown
-> = z.pipe(
-  z.object({
-    type: types.literal("mcp_list_tools"),
-    id: z.optional(z.nullable(types.string())),
-    status: z.optional(z.nullable(EventStatus$inboundSchema)),
-    metadata: z.optional(z.nullable(z.record(z.string(), z.any()))),
-    error_message: z.optional(z.nullable(types.string())),
-    server_name: z.optional(z.nullable(types.string())),
-    tools: z.optional(z.nullable(z.array(z.record(z.string(), z.any())))),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "error_message": "errorMessage",
-      "server_name": "serverName",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      type: types.literal("mcp_list_tools"),
+      id: z.optional(z.nullable(types.string())),
+      status: z.optional(z.nullable(EventStatus$inboundSchema)),
+      metadata: z.optional(z.nullable(z.record(z.string(), z.any()))),
+      error_message: z.optional(z.nullable(types.string())),
+      server_name: z.optional(z.nullable(types.string())),
+      tools: z.optional(z.nullable(z.array(z.record(z.string(), z.any())))),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "error_message": "errorMessage",
+        "server_name": "serverName",
+      });
+    }),
+  )
 );
 /** @internal */
 export type MCPListToolsEvent$Outbound = {
@@ -82,22 +84,24 @@ export type MCPListToolsEvent$Outbound = {
 export const MCPListToolsEvent$outboundSchema: z.ZodMiniType<
   MCPListToolsEvent$Outbound,
   MCPListToolsEvent
-> = z.pipe(
-  z.object({
-    type: z.literal("mcp_list_tools"),
-    id: z.optional(z.nullable(z.string())),
-    status: z.optional(z.nullable(EventStatus$outboundSchema)),
-    metadata: z.optional(z.nullable(z.record(z.string(), z.any()))),
-    errorMessage: z.optional(z.nullable(z.string())),
-    serverName: z.optional(z.nullable(z.string())),
-    tools: z.optional(z.nullable(z.array(z.record(z.string(), z.any())))),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      errorMessage: "error_message",
-      serverName: "server_name",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      type: z.literal("mcp_list_tools"),
+      id: z.optional(z.nullable(z.string())),
+      status: z.optional(z.nullable(EventStatus$outboundSchema)),
+      metadata: z.optional(z.nullable(z.record(z.string(), z.any()))),
+      errorMessage: z.optional(z.nullable(z.string())),
+      serverName: z.optional(z.nullable(z.string())),
+      tools: z.optional(z.nullable(z.array(z.record(z.string(), z.any())))),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        errorMessage: "error_message",
+        serverName: "server_name",
+      });
+    }),
+  )
 );
 
 export function mcpListToolsEventToJSON(

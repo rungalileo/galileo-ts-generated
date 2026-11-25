@@ -5,11 +5,13 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../../lib/schemas.js";
 import * as models from "../index.js";
 
 export type ListProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProjectsGetSecurity =
   {
     apiKeyHeader?: string | undefined;
+    classicAPIKeyHeader?: string | undefined;
     oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
     httpBasic?: models.SchemeHTTPBasic | undefined;
   };
@@ -17,7 +19,6 @@ export type ListProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProje
 export type ListProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProjectsGetRequest =
   {
     scorerVersionId: string;
-    scorerId: string;
     startingToken?: number | undefined;
     limit?: number | undefined;
   };
@@ -26,6 +27,7 @@ export type ListProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProje
 export type ListProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProjectsGetSecurity$Outbound =
   {
     APIKeyHeader?: string | undefined;
+    ClassicAPIKeyHeader?: string | undefined;
     OAuth2PasswordBearer?:
       | models.OAuth2PasswordBearerInput$Outbound
       | undefined;
@@ -37,21 +39,25 @@ export const ListProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProj
   z.ZodMiniType<
     ListProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProjectsGetSecurity$Outbound,
     ListProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProjectsGetSecurity
-  > = z.pipe(
-    z.object({
-      apiKeyHeader: z.optional(z.string()),
-      oAuth2PasswordBearer: z.optional(
-        models.OAuth2PasswordBearerInput$outboundSchema,
-      ),
-      httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        apiKeyHeader: "APIKeyHeader",
-        oAuth2PasswordBearer: "OAuth2PasswordBearer",
-        httpBasic: "HTTPBasic",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        apiKeyHeader: z.optional(z.string()),
+        classicAPIKeyHeader: z.optional(z.string()),
+        oAuth2PasswordBearer: z.optional(
+          models.OAuth2PasswordBearerInput$outboundSchema,
+        ),
+        httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          apiKeyHeader: "APIKeyHeader",
+          classicAPIKeyHeader: "ClassicAPIKeyHeader",
+          oAuth2PasswordBearer: "OAuth2PasswordBearer",
+          httpBasic: "HTTPBasic",
+        });
+      }),
+    )
   );
 
 export function listProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProjectsGetSecurityToJSON(
@@ -70,7 +76,6 @@ export function listProjectsForScorerVersionRouteScorersVersionsScorerVersionIdP
 export type ListProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProjectsGetRequest$Outbound =
   {
     scorer_version_id: string;
-    scorer_id: string;
     starting_token: number;
     limit: number;
   };
@@ -80,20 +85,20 @@ export const ListProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProj
   z.ZodMiniType<
     ListProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProjectsGetRequest$Outbound,
     ListProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProjectsGetRequest
-  > = z.pipe(
-    z.object({
-      scorerVersionId: z.string(),
-      scorerId: z.string(),
-      startingToken: z._default(z.int(), 0),
-      limit: z._default(z.int(), 100),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        scorerVersionId: "scorer_version_id",
-        scorerId: "scorer_id",
-        startingToken: "starting_token",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        scorerVersionId: z.string(),
+        startingToken: z._default(z.int(), 0),
+        limit: z._default(z.int(), 100),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          scorerVersionId: "scorer_version_id",
+          startingToken: "starting_token",
+        });
+      }),
+    )
   );
 
 export function listProjectsForScorerVersionRouteScorersVersionsScorerVersionIdProjectsGetRequestToJSON(

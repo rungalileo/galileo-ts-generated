@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 
 export const DatasetFormat = {
@@ -16,4 +17,4 @@ export type DatasetFormat = ClosedEnum<typeof DatasetFormat>;
 
 /** @internal */
 export const DatasetFormat$outboundSchema: z.ZodMiniEnum<typeof DatasetFormat> =
-  z.enum(DatasetFormat);
+  /* @__PURE__ */ lazySchema$(() => z.enum(DatasetFormat));

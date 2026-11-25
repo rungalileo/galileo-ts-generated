@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import {
@@ -39,26 +39,28 @@ export type AwsBedrockIntegration = {
 export const AwsBedrockIntegration$inboundSchema: z.ZodMiniType<
   AwsBedrockIntegration,
   unknown
-> = z.pipe(
-  z.object({
-    multi_modal_config: z.optional(
-      z.nullable(MultiModalModelIntegrationConfig$inboundSchema),
-    ),
-    credential_type: types.optional(AwsCredentialType$inboundSchema),
-    region: z._default(types.string(), "us-west-2"),
-    inference_profiles: types.optional(z.record(z.string(), types.string())),
-    id: z.optional(z.nullable(types.string())),
-    name: z._default(types.literal("aws_bedrock"), "aws_bedrock"),
-    provider: types.literal("aws_bedrock"),
-    extra: z.optional(z.nullable(z.record(z.string(), z.any()))),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "multi_modal_config": "multiModalConfig",
-      "credential_type": "credentialType",
-      "inference_profiles": "inferenceProfiles",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      multi_modal_config: z.optional(
+        z.nullable(MultiModalModelIntegrationConfig$inboundSchema),
+      ),
+      credential_type: types.optional(AwsCredentialType$inboundSchema),
+      region: z._default(types.string(), "us-west-2"),
+      inference_profiles: types.optional(z.record(z.string(), types.string())),
+      id: z.optional(z.nullable(types.string())),
+      name: z._default(types.literal("aws_bedrock"), "aws_bedrock"),
+      provider: types.literal("aws_bedrock"),
+      extra: z.optional(z.nullable(z.record(z.string(), z.any()))),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "multi_modal_config": "multiModalConfig",
+        "credential_type": "credentialType",
+        "inference_profiles": "inferenceProfiles",
+      });
+    }),
+  )
 );
 
 export function awsBedrockIntegrationFromJSON(

@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type DatasetData = {
   datasetId: string;
@@ -21,17 +22,19 @@ export type DatasetData$Outbound = {
 export const DatasetData$outboundSchema: z.ZodMiniType<
   DatasetData$Outbound,
   DatasetData
-> = z.pipe(
-  z.object({
-    datasetId: z.string(),
-    datasetVersionIndex: z.optional(z.nullable(z.int())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      datasetId: "dataset_id",
-      datasetVersionIndex: "dataset_version_index",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      datasetId: z.string(),
+      datasetVersionIndex: z.optional(z.nullable(z.int())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        datasetId: "dataset_id",
+        datasetVersionIndex: "dataset_version_index",
+      });
+    }),
+  )
 );
 
 export function datasetDataToJSON(datasetData: DatasetData): string {

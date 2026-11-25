@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -20,17 +20,19 @@ export type BaseRegisteredScorerDB = {
 export const BaseRegisteredScorerDB$inboundSchema: z.ZodMiniType<
   BaseRegisteredScorerDB,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.string(),
-    name: types.string(),
-    score_type: z.optional(z.nullable(types.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "score_type": "scoreType",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.string(),
+      name: types.string(),
+      score_type: z.optional(z.nullable(types.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "score_type": "scoreType",
+      });
+    }),
+  )
 );
 /** @internal */
 export type BaseRegisteredScorerDB$Outbound = {
@@ -43,17 +45,19 @@ export type BaseRegisteredScorerDB$Outbound = {
 export const BaseRegisteredScorerDB$outboundSchema: z.ZodMiniType<
   BaseRegisteredScorerDB$Outbound,
   BaseRegisteredScorerDB
-> = z.pipe(
-  z.object({
-    id: z.string(),
-    name: z.string(),
-    scoreType: z.optional(z.nullable(z.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      scoreType: "score_type",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: z.string(),
+      name: z.string(),
+      scoreType: z.optional(z.nullable(z.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        scoreType: "score_type",
+      });
+    }),
+  )
 );
 
 export function baseRegisteredScorerDBToJSON(

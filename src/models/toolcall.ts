@@ -4,7 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -21,11 +21,13 @@ export type ToolCall = {
 };
 
 /** @internal */
-export const ToolCall$inboundSchema: z.ZodMiniType<ToolCall, unknown> = z
-  .object({
-    id: types.string(),
-    function: ToolCallFunction$inboundSchema,
-  });
+export const ToolCall$inboundSchema: z.ZodMiniType<ToolCall, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      id: types.string(),
+      function: ToolCallFunction$inboundSchema,
+    })
+  );
 /** @internal */
 export type ToolCall$Outbound = {
   id: string;
@@ -36,10 +38,12 @@ export type ToolCall$Outbound = {
 export const ToolCall$outboundSchema: z.ZodMiniType<
   ToolCall$Outbound,
   ToolCall
-> = z.object({
-  id: z.string(),
-  function: ToolCallFunction$outboundSchema,
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: z.string(),
+    function: ToolCallFunction$outboundSchema,
+  })
+);
 
 export function toolCallToJSON(toolCall: ToolCall): string {
   return JSON.stringify(ToolCall$outboundSchema.parse(toolCall));

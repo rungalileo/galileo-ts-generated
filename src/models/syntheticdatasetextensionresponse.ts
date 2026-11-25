@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -21,15 +21,17 @@ export type SyntheticDatasetExtensionResponse = {
 export const SyntheticDatasetExtensionResponse$inboundSchema: z.ZodMiniType<
   SyntheticDatasetExtensionResponse,
   unknown
-> = z.pipe(
-  z.object({
-    dataset_id: types.string(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "dataset_id": "datasetId",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      dataset_id: types.string(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "dataset_id": "datasetId",
+      });
+    }),
+  )
 );
 
 export function syntheticDatasetExtensionResponseFromJSON(

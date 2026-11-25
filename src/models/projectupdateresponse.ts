@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -27,24 +27,26 @@ export type ProjectUpdateResponse = {
 export const ProjectUpdateResponse$inboundSchema: z.ZodMiniType<
   ProjectUpdateResponse,
   unknown
-> = z.pipe(
-  z.object({
-    name: z.optional(z.nullable(types.string())),
-    created_by: z.optional(z.nullable(types.string())),
-    type: z.optional(z.nullable(ProjectType$inboundSchema)),
-    id: types.string(),
-    created_at: types.date(),
-    updated_at: types.date(),
-    labels: types.optional(z.array(ProjectLabels$inboundSchema)),
-    description: z.optional(z.nullable(types.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "created_by": "createdBy",
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: z.optional(z.nullable(types.string())),
+      created_by: z.optional(z.nullable(types.string())),
+      type: z.optional(z.nullable(ProjectType$inboundSchema)),
+      id: types.string(),
+      created_at: types.date(),
+      updated_at: types.date(),
+      labels: types.optional(z.array(ProjectLabels$inboundSchema)),
+      description: z.optional(z.nullable(types.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "created_by": "createdBy",
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+      });
+    }),
+  )
 );
 
 export function projectUpdateResponseFromJSON(

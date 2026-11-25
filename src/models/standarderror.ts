@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -34,32 +34,34 @@ export type StandardError = {
 export const StandardError$inboundSchema: z.ZodMiniType<
   StandardError,
   unknown
-> = z.pipe(
-  z.object({
-    error_code: types.number(),
-    error_type: ErrorType$inboundSchema,
-    error_group: types.string(),
-    severity: ErrorSeverity$inboundSchema,
-    message: types.string(),
-    user_action: z.optional(z.nullable(types.string())),
-    documentation_link: z.optional(z.nullable(types.string())),
-    retriable: z._default(types.boolean(), false),
-    blocking: z._default(types.boolean(), false),
-    http_status_code: z.optional(z.nullable(types.number())),
-    source_service: z.optional(z.nullable(types.string())),
-    context: types.optional(z.record(z.string(), z.any())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "error_code": "errorCode",
-      "error_type": "errorType",
-      "error_group": "errorGroup",
-      "user_action": "userAction",
-      "documentation_link": "documentationLink",
-      "http_status_code": "httpStatusCode",
-      "source_service": "sourceService",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      error_code: types.number(),
+      error_type: ErrorType$inboundSchema,
+      error_group: types.string(),
+      severity: ErrorSeverity$inboundSchema,
+      message: types.string(),
+      user_action: z.optional(z.nullable(types.string())),
+      documentation_link: z.optional(z.nullable(types.string())),
+      retriable: z._default(types.boolean(), false),
+      blocking: z._default(types.boolean(), false),
+      http_status_code: z.optional(z.nullable(types.number())),
+      source_service: z.optional(z.nullable(types.string())),
+      context: types.optional(z.record(z.string(), z.any())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "error_code": "errorCode",
+        "error_type": "errorType",
+        "error_group": "errorGroup",
+        "user_action": "userAction",
+        "documentation_link": "documentationLink",
+        "http_status_code": "httpStatusCode",
+        "source_service": "sourceService",
+      });
+    }),
+  )
 );
 
 export function standardErrorFromJSON(

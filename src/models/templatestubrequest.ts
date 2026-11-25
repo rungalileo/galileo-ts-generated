@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type TemplateStubRequest = {
   templates: Array<string>;
@@ -18,9 +19,11 @@ export type TemplateStubRequest$Outbound = {
 export const TemplateStubRequest$outboundSchema: z.ZodMiniType<
   TemplateStubRequest$Outbound,
   TemplateStubRequest
-> = z.object({
-  templates: z.array(z.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    templates: z.array(z.string()),
+  })
+);
 
 export function templateStubRequestToJSON(
   templateStubRequest: TemplateStubRequest,

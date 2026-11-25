@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
 import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import { Result as SafeParseResult } from "../types/fp.js";
@@ -65,10 +65,12 @@ export type RulesetResult = {
 export const RulesetResultAction$inboundSchema: z.ZodMiniType<
   RulesetResultAction,
   unknown
-> = discriminatedUnion("type", {
-  OVERRIDE: OverrideAction$inboundSchema,
-  PASSTHROUGH: PassthroughAction$inboundSchema,
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  discriminatedUnion("type", {
+    OVERRIDE: OverrideAction$inboundSchema,
+    PASSTHROUGH: PassthroughAction$inboundSchema,
+  })
+);
 
 export function rulesetResultActionFromJSON(
   jsonString: string,
@@ -84,24 +86,26 @@ export function rulesetResultActionFromJSON(
 export const RulesetResult$inboundSchema: z.ZodMiniType<
   RulesetResult,
   unknown
-> = z.pipe(
-  z.object({
-    status: types.optional(ExecutionStatus$inboundSchema),
-    rules: types.optional(z.array(Rule$inboundSchema)),
-    action: types.optional(
-      discriminatedUnion("type", {
-        OVERRIDE: OverrideAction$inboundSchema,
-        PASSTHROUGH: PassthroughAction$inboundSchema,
-      }),
-    ),
-    description: z.optional(z.nullable(types.string())),
-    rule_results: types.optional(z.array(RuleResult$inboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "rule_results": "ruleResults",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      status: types.optional(ExecutionStatus$inboundSchema),
+      rules: types.optional(z.array(Rule$inboundSchema)),
+      action: types.optional(
+        discriminatedUnion("type", {
+          OVERRIDE: OverrideAction$inboundSchema,
+          PASSTHROUGH: PassthroughAction$inboundSchema,
+        }),
+      ),
+      description: z.optional(z.nullable(types.string())),
+      rule_results: types.optional(z.array(RuleResult$inboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "rule_results": "ruleResults",
+      });
+    }),
+  )
 );
 
 export function rulesetResultFromJSON(

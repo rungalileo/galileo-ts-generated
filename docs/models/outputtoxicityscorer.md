@@ -13,6 +13,7 @@ let value: OutputToxicityScorer = {
       operator: "eq",
       key: "<key>",
       value: [],
+      caseSensitive: true,
     },
   ],
 };

@@ -12,11 +12,9 @@ let value: GeneratedScorerResponse = {
     template: "<value>",
   },
   createdBy: "<value>",
-  createdAt: new Date("2025-11-02T13:00:24.026Z"),
-  updatedAt: new Date("2025-04-07T21:04:02.068Z"),
-  scoreableNodeTypes: [
-    "chat",
-  ],
+  createdAt: new Date("2025-04-07T21:04:02.068Z"),
+  updatedAt: new Date("2025-09-28T20:21:35.975Z"),
+  scoreableNodeTypes: [],
   scorerConfiguration: {},
 };
 ```

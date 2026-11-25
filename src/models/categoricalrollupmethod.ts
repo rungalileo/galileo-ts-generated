@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 
 /**
@@ -22,7 +23,7 @@ export type CategoricalRollUpMethod = ClosedEnum<
 /** @internal */
 export const CategoricalRollUpMethod$inboundSchema: z.ZodMiniEnum<
   typeof CategoricalRollUpMethod
-> = z.enum(CategoricalRollUpMethod);
+> = /* @__PURE__ */ lazySchema$(() => z.enum(CategoricalRollUpMethod));
 /** @internal */
 export const CategoricalRollUpMethod$outboundSchema: z.ZodMiniEnum<
   typeof CategoricalRollUpMethod

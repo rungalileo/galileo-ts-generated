@@ -4,7 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
 import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import { Result as SafeParseResult } from "../types/fp.js";
@@ -55,11 +55,13 @@ export type ContextRelevanceScorer = {
 export const ContextRelevanceScorerFilter$inboundSchema: z.ZodMiniType<
   ContextRelevanceScorerFilter,
   unknown
-> = discriminatedUnion("name", {
-  metadata: MetadataFilter$inboundSchema,
-  modality: ModalityFilter$inboundSchema,
-  node_name: NodeNameFilter$inboundSchema,
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  discriminatedUnion("name", {
+    metadata: MetadataFilter$inboundSchema,
+    modality: ModalityFilter$inboundSchema,
+    node_name: NodeNameFilter$inboundSchema,
+  })
+);
 /** @internal */
 export type ContextRelevanceScorerFilter$Outbound =
   | MetadataFilter$Outbound
@@ -70,11 +72,13 @@ export type ContextRelevanceScorerFilter$Outbound =
 export const ContextRelevanceScorerFilter$outboundSchema: z.ZodMiniType<
   ContextRelevanceScorerFilter$Outbound,
   ContextRelevanceScorerFilter
-> = z.union([
-  MetadataFilter$outboundSchema,
-  ModalityFilter$outboundSchema,
-  NodeNameFilter$outboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    MetadataFilter$outboundSchema,
+    ModalityFilter$outboundSchema,
+    NodeNameFilter$outboundSchema,
+  ])
+);
 
 export function contextRelevanceScorerFilterToJSON(
   contextRelevanceScorerFilter: ContextRelevanceScorerFilter,
@@ -99,20 +103,22 @@ export function contextRelevanceScorerFilterFromJSON(
 export const ContextRelevanceScorer$inboundSchema: z.ZodMiniType<
   ContextRelevanceScorer,
   unknown
-> = z.object({
-  name: types.literal("context_relevance"),
-  filters: z.optional(
-    z.nullable(
-      z.array(
-        discriminatedUnion("name", {
-          metadata: MetadataFilter$inboundSchema,
-          modality: ModalityFilter$inboundSchema,
-          node_name: NodeNameFilter$inboundSchema,
-        }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    name: types.literal("context_relevance"),
+    filters: z.optional(
+      z.nullable(
+        z.array(
+          discriminatedUnion("name", {
+            metadata: MetadataFilter$inboundSchema,
+            modality: ModalityFilter$inboundSchema,
+            node_name: NodeNameFilter$inboundSchema,
+          }),
+        ),
       ),
     ),
-  ),
-});
+  })
+);
 /** @internal */
 export type ContextRelevanceScorer$Outbound = {
   name: "context_relevance";
@@ -130,20 +136,22 @@ export type ContextRelevanceScorer$Outbound = {
 export const ContextRelevanceScorer$outboundSchema: z.ZodMiniType<
   ContextRelevanceScorer$Outbound,
   ContextRelevanceScorer
-> = z.object({
-  name: z.literal("context_relevance"),
-  filters: z.optional(
-    z.nullable(
-      z.array(
-        z.union([
-          MetadataFilter$outboundSchema,
-          ModalityFilter$outboundSchema,
-          NodeNameFilter$outboundSchema,
-        ]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    name: z.literal("context_relevance"),
+    filters: z.optional(
+      z.nullable(
+        z.array(
+          z.union([
+            MetadataFilter$outboundSchema,
+            ModalityFilter$outboundSchema,
+            NodeNameFilter$outboundSchema,
+          ]),
+        ),
       ),
     ),
-  ),
-});
+  })
+);
 
 export function contextRelevanceScorerToJSON(
   contextRelevanceScorer: ContextRelevanceScorer,

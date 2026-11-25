@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -23,21 +23,23 @@ export type AggregatedTraceViewEdge = {
 export const AggregatedTraceViewEdge$inboundSchema: z.ZodMiniType<
   AggregatedTraceViewEdge,
   unknown
-> = z.pipe(
-  z.object({
-    source: types.string(),
-    target: types.string(),
-    weight: types.number(),
-    occurrences: types.number(),
-    trace_count: types.number(),
-    trace_ids: z.array(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "trace_count": "traceCount",
-      "trace_ids": "traceIds",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      source: types.string(),
+      target: types.string(),
+      weight: types.number(),
+      occurrences: types.number(),
+      trace_count: types.number(),
+      trace_ids: z.array(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "trace_count": "traceCount",
+        "trace_ids": "traceIds",
+      });
+    }),
+  )
 );
 
 export function aggregatedTraceViewEdgeFromJSON(

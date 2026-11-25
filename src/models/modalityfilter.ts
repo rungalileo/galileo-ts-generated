@@ -4,7 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 import { Result as SafeParseResult } from "../types/fp.js";
@@ -38,18 +38,24 @@ export type ModalityFilter = {
 export const ModalityFilterOperator$inboundSchema: z.ZodMiniType<
   ModalityFilterOperator,
   unknown
-> = openEnums.inboundSchema(ModalityFilterOperator);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(ModalityFilterOperator)
+);
 /** @internal */
 export const ModalityFilterOperator$outboundSchema: z.ZodMiniType<
   string,
   ModalityFilterOperator
-> = openEnums.outboundSchema(ModalityFilterOperator);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.outboundSchema(ModalityFilterOperator)
+);
 
 /** @internal */
 export const ModalityFilterValue$inboundSchema: z.ZodMiniType<
   ModalityFilterValue,
   unknown
-> = smartUnion([types.string(), z.array(types.string())]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([types.string(), z.array(types.string())])
+);
 /** @internal */
 export type ModalityFilterValue$Outbound = string | Array<string>;
 
@@ -57,7 +63,9 @@ export type ModalityFilterValue$Outbound = string | Array<string>;
 export const ModalityFilterValue$outboundSchema: z.ZodMiniType<
   ModalityFilterValue$Outbound,
   ModalityFilterValue
-> = smartUnion([z.string(), z.array(z.string())]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([z.string(), z.array(z.string())])
+);
 
 export function modalityFilterValueToJSON(
   modalityFilterValue: ModalityFilterValue,
@@ -80,11 +88,13 @@ export function modalityFilterValueFromJSON(
 export const ModalityFilter$inboundSchema: z.ZodMiniType<
   ModalityFilter,
   unknown
-> = z.object({
-  name: types.literal("modality"),
-  operator: ModalityFilterOperator$inboundSchema,
-  value: smartUnion([types.string(), z.array(types.string())]),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    name: types.literal("modality"),
+    operator: ModalityFilterOperator$inboundSchema,
+    value: smartUnion([types.string(), z.array(types.string())]),
+  })
+);
 /** @internal */
 export type ModalityFilter$Outbound = {
   name: "modality";
@@ -96,11 +106,13 @@ export type ModalityFilter$Outbound = {
 export const ModalityFilter$outboundSchema: z.ZodMiniType<
   ModalityFilter$Outbound,
   ModalityFilter
-> = z.object({
-  name: z.literal("modality"),
-  operator: ModalityFilterOperator$outboundSchema,
-  value: smartUnion([z.string(), z.array(z.string())]),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    name: z.literal("modality"),
+    operator: ModalityFilterOperator$outboundSchema,
+    value: smartUnion([z.string(), z.array(z.string())]),
+  })
+);
 
 export function modalityFilterToJSON(modalityFilter: ModalityFilter): string {
   return JSON.stringify(ModalityFilter$outboundSchema.parse(modalityFilter));

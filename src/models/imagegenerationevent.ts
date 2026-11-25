@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -54,22 +54,24 @@ export type ImageGenerationEvent = {
 export const ImageGenerationEvent$inboundSchema: z.ZodMiniType<
   ImageGenerationEvent,
   unknown
-> = z.pipe(
-  z.object({
-    type: types.literal("image_generation"),
-    id: z.optional(z.nullable(types.string())),
-    status: z.optional(z.nullable(EventStatus$inboundSchema)),
-    metadata: z.optional(z.nullable(z.record(z.string(), z.any()))),
-    error_message: z.optional(z.nullable(types.string())),
-    prompt: z.optional(z.nullable(types.string())),
-    images: z.optional(z.nullable(z.array(z.record(z.string(), z.any())))),
-    model: z.optional(z.nullable(types.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "error_message": "errorMessage",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      type: types.literal("image_generation"),
+      id: z.optional(z.nullable(types.string())),
+      status: z.optional(z.nullable(EventStatus$inboundSchema)),
+      metadata: z.optional(z.nullable(z.record(z.string(), z.any()))),
+      error_message: z.optional(z.nullable(types.string())),
+      prompt: z.optional(z.nullable(types.string())),
+      images: z.optional(z.nullable(z.array(z.record(z.string(), z.any())))),
+      model: z.optional(z.nullable(types.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "error_message": "errorMessage",
+      });
+    }),
+  )
 );
 /** @internal */
 export type ImageGenerationEvent$Outbound = {
@@ -87,22 +89,24 @@ export type ImageGenerationEvent$Outbound = {
 export const ImageGenerationEvent$outboundSchema: z.ZodMiniType<
   ImageGenerationEvent$Outbound,
   ImageGenerationEvent
-> = z.pipe(
-  z.object({
-    type: z.literal("image_generation"),
-    id: z.optional(z.nullable(z.string())),
-    status: z.optional(z.nullable(EventStatus$outboundSchema)),
-    metadata: z.optional(z.nullable(z.record(z.string(), z.any()))),
-    errorMessage: z.optional(z.nullable(z.string())),
-    prompt: z.optional(z.nullable(z.string())),
-    images: z.optional(z.nullable(z.array(z.record(z.string(), z.any())))),
-    model: z.optional(z.nullable(z.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      errorMessage: "error_message",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      type: z.literal("image_generation"),
+      id: z.optional(z.nullable(z.string())),
+      status: z.optional(z.nullable(EventStatus$outboundSchema)),
+      metadata: z.optional(z.nullable(z.record(z.string(), z.any()))),
+      errorMessage: z.optional(z.nullable(z.string())),
+      prompt: z.optional(z.nullable(z.string())),
+      images: z.optional(z.nullable(z.array(z.record(z.string(), z.any())))),
+      model: z.optional(z.nullable(z.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        errorMessage: "error_message",
+      });
+    }),
+  )
 );
 
 export function imageGenerationEventToJSON(

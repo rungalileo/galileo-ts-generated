@@ -4,7 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { smartUnion } from "../types/smartUnion.js";
@@ -16,12 +16,9 @@ export type JsonPrimitive = string | number | number | boolean;
 export const JsonPrimitive$inboundSchema: z.ZodMiniType<
   JsonPrimitive,
   unknown
-> = smartUnion([
-  types.string(),
-  types.number(),
-  types.number(),
-  types.boolean(),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([types.string(), types.number(), types.number(), types.boolean()])
+);
 
 export function jsonPrimitiveFromJSON(
   jsonString: string,

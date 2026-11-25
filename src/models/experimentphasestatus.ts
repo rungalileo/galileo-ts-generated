@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -21,15 +21,17 @@ export type ExperimentPhaseStatus = {
 export const ExperimentPhaseStatus$inboundSchema: z.ZodMiniType<
   ExperimentPhaseStatus,
   unknown
-> = z.pipe(
-  z.object({
-    progress_percent: z._default(types.number(), 0),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "progress_percent": "progressPercent",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      progress_percent: z._default(types.number(), 0),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "progress_percent": "progressPercent",
+      });
+    }),
+  )
 );
 
 export function experimentPhaseStatusFromJSON(

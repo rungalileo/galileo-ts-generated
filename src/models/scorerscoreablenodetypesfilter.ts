@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 import { smartUnion } from "../types/smartUnion.js";
 
@@ -29,9 +30,10 @@ export type ScorerScoreableNodeTypesFilter = {
 
 /** @internal */
 export const ScorerScoreableNodeTypesFilterOperator$outboundSchema:
-  z.ZodMiniEnum<typeof ScorerScoreableNodeTypesFilterOperator> = z.enum(
-    ScorerScoreableNodeTypesFilterOperator,
-  );
+  z.ZodMiniEnum<typeof ScorerScoreableNodeTypesFilterOperator> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.enum(ScorerScoreableNodeTypesFilterOperator)
+    );
 
 /** @internal */
 export type ScorerScoreableNodeTypesFilterValue$Outbound =
@@ -42,7 +44,9 @@ export type ScorerScoreableNodeTypesFilterValue$Outbound =
 export const ScorerScoreableNodeTypesFilterValue$outboundSchema: z.ZodMiniType<
   ScorerScoreableNodeTypesFilterValue$Outbound,
   ScorerScoreableNodeTypesFilterValue
-> = smartUnion([z.string(), z.array(z.string())]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([z.string(), z.array(z.string())])
+);
 
 export function scorerScoreableNodeTypesFilterValueToJSON(
   scorerScoreableNodeTypesFilterValue: ScorerScoreableNodeTypesFilterValue,
@@ -66,18 +70,20 @@ export type ScorerScoreableNodeTypesFilter$Outbound = {
 export const ScorerScoreableNodeTypesFilter$outboundSchema: z.ZodMiniType<
   ScorerScoreableNodeTypesFilter$Outbound,
   ScorerScoreableNodeTypesFilter
-> = z.pipe(
-  z.object({
-    name: z.literal("scoreable_node_types"),
-    operator: ScorerScoreableNodeTypesFilterOperator$outboundSchema,
-    value: smartUnion([z.string(), z.array(z.string())]),
-    caseSensitive: z._default(z.boolean(), true),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      caseSensitive: "case_sensitive",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: z.literal("scoreable_node_types"),
+      operator: ScorerScoreableNodeTypesFilterOperator$outboundSchema,
+      value: smartUnion([z.string(), z.array(z.string())]),
+      caseSensitive: z._default(z.boolean(), true),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        caseSensitive: "case_sensitive",
+      });
+    }),
+  )
 );
 
 export function scorerScoreableNodeTypesFilterToJSON(

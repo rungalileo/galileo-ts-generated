@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import {
@@ -28,22 +28,24 @@ export type GroupCollaborator = {
 export const GroupCollaborator$inboundSchema: z.ZodMiniType<
   GroupCollaborator,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.string(),
-    permissions: types.optional(z.array(Permission$inboundSchema)),
-    role: CollaboratorRole$inboundSchema,
-    created_at: types.date(),
-    group_id: types.string(),
-    group_name: types.string(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "created_at": "createdAt",
-      "group_id": "groupId",
-      "group_name": "groupName",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.string(),
+      permissions: types.optional(z.array(Permission$inboundSchema)),
+      role: CollaboratorRole$inboundSchema,
+      created_at: types.date(),
+      group_id: types.string(),
+      group_name: types.string(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "created_at": "createdAt",
+        "group_id": "groupId",
+        "group_name": "groupName",
+      });
+    }),
+  )
 );
 
 export function groupCollaboratorFromJSON(

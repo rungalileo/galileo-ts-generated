@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
@@ -15,7 +16,7 @@ export type StageType = OpenEnum<typeof StageType>;
 
 /** @internal */
 export const StageType$inboundSchema: z.ZodMiniType<StageType, unknown> =
-  openEnums.inboundSchema(StageType);
+  /* @__PURE__ */ lazySchema$(() => openEnums.inboundSchema(StageType));
 /** @internal */
 export const StageType$outboundSchema: z.ZodMiniType<string, StageType> =
-  openEnums.outboundSchema(StageType);
+  /* @__PURE__ */ lazySchema$(() => openEnums.outboundSchema(StageType));

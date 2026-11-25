@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { smartUnion } from "../types/smartUnion.js";
 import {
   DatasetData,
@@ -28,7 +29,9 @@ export type Data$Outbound = DatasetData$Outbound | StringData$Outbound;
 
 /** @internal */
 export const Data$outboundSchema: z.ZodMiniType<Data$Outbound, Data> =
-  smartUnion([DatasetData$outboundSchema, StringData$outboundSchema]);
+  /* @__PURE__ */ lazySchema$(() =>
+    smartUnion([DatasetData$outboundSchema, StringData$outboundSchema])
+  );
 
 export function dataToJSON(data: Data): string {
   return JSON.stringify(Data$outboundSchema.parse(data));
@@ -44,10 +47,12 @@ export type RenderTemplateRequest$Outbound = {
 export const RenderTemplateRequest$outboundSchema: z.ZodMiniType<
   RenderTemplateRequest$Outbound,
   RenderTemplateRequest
-> = z.object({
-  template: z.string(),
-  data: smartUnion([DatasetData$outboundSchema, StringData$outboundSchema]),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    template: z.string(),
+    data: smartUnion([DatasetData$outboundSchema, StringData$outboundSchema]),
+  })
+);
 
 export function renderTemplateRequestToJSON(
   renderTemplateRequest: RenderTemplateRequest,

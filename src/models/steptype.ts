@@ -4,10 +4,12 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
 export const StepType = {
+  Http: "http",
   Llm: "llm",
   Retriever: "retriever",
   Tool: "tool",
@@ -21,7 +23,7 @@ export type StepType = OpenEnum<typeof StepType>;
 
 /** @internal */
 export const StepType$inboundSchema: z.ZodMiniType<StepType, unknown> =
-  openEnums.inboundSchema(StepType);
+  /* @__PURE__ */ lazySchema$(() => openEnums.inboundSchema(StepType));
 /** @internal */
 export const StepType$outboundSchema: z.ZodMiniType<string, StepType> =
-  openEnums.outboundSchema(StepType);
+  /* @__PURE__ */ lazySchema$(() => openEnums.outboundSchema(StepType));

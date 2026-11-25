@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 
 export const MetricAggregation = {
@@ -24,4 +25,4 @@ export type MetricAggregation = ClosedEnum<typeof MetricAggregation>;
 /** @internal */
 export const MetricAggregation$outboundSchema: z.ZodMiniEnum<
   typeof MetricAggregation
-> = z.enum(MetricAggregation);
+> = /* @__PURE__ */ lazySchema$(() => z.enum(MetricAggregation));

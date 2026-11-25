@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -31,27 +31,29 @@ export type IntegrationDB = {
 export const IntegrationDB$inboundSchema: z.ZodMiniType<
   IntegrationDB,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.string(),
-    permissions: types.optional(z.array(Permission$inboundSchema)),
-    name: types.string(),
-    provider: IntegrationProvider$inboundSchema,
-    created_at: types.date(),
-    updated_at: types.date(),
-    created_by: types.string(),
-    is_selected: z._default(types.boolean(), false),
-    is_disabled: z._default(types.boolean(), false),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-      "created_by": "createdBy",
-      "is_selected": "isSelected",
-      "is_disabled": "isDisabled",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.string(),
+      permissions: types.optional(z.array(Permission$inboundSchema)),
+      name: types.string(),
+      provider: IntegrationProvider$inboundSchema,
+      created_at: types.date(),
+      updated_at: types.date(),
+      created_by: types.string(),
+      is_selected: z._default(types.boolean(), false),
+      is_disabled: z._default(types.boolean(), false),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+        "created_by": "createdBy",
+        "is_selected": "isSelected",
+        "is_disabled": "isDisabled",
+      });
+    }),
+  )
 );
 
 export function integrationDBFromJSON(

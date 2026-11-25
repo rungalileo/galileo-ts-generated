@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
 import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import { Result as SafeParseResult } from "../types/fp.js";
@@ -21,20 +21,28 @@ import {
   AnnotationRatingInfo$inboundSchema,
 } from "./annotationratinginfo.js";
 import {
+  AnnotationStatus,
+  AnnotationStatus$inboundSchema,
+} from "./annotationstatus.js";
+import {
   ContentModality,
   ContentModality$inboundSchema,
 } from "./contentmodality.js";
 import { ControlResult, ControlResult$inboundSchema } from "./controlresult.js";
-import { Document, Document$inboundSchema } from "./document.js";
+import { DocumentInput, DocumentInput$inboundSchema } from "./documentinput.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
-  ExtendedControlSpanRecord,
-  ExtendedControlSpanRecord$inboundSchema,
-} from "./extendedcontrolspanrecord.js";
+  ExtendedControlSpanRecordInput,
+  ExtendedControlSpanRecordInput$inboundSchema,
+} from "./extendedcontrolspanrecordinput.js";
 import {
-  ExtendedLlmSpanRecord,
-  ExtendedLlmSpanRecord$inboundSchema,
-} from "./extendedllmspanrecord.js";
+  ExtendedHttpSpanRecordWithChildren,
+  ExtendedHttpSpanRecordWithChildren$inboundSchema,
+} from "./extendedhttpspanrecordwithchildren.js";
+import {
+  ExtendedLlmSpanRecordInput,
+  ExtendedLlmSpanRecordInput$inboundSchema,
+} from "./extendedllmspanrecordinput.js";
 import {
   ExtendedRetrieverSpanRecordWithChildren,
   ExtendedRetrieverSpanRecordWithChildren$inboundSchema,
@@ -75,9 +83,15 @@ import {
   MetricNotComputed$inboundSchema,
 } from "./metricnotcomputed.js";
 import { MetricPending, MetricPending$inboundSchema } from "./metricpending.js";
-import { MetricRollUp, MetricRollUp$inboundSchema } from "./metricrollup.js";
+import {
+  MetricRollUpInput,
+  MetricRollUpInput$inboundSchema,
+} from "./metricrollupinput.js";
 import { Metrics, Metrics$inboundSchema } from "./metrics.js";
-import { MetricSuccess, MetricSuccess$inboundSchema } from "./metricsuccess.js";
+import {
+  MetricSuccessInput,
+  MetricSuccessInput$inboundSchema,
+} from "./metricsuccessinput.js";
 import {
   TextContentPart,
   TextContentPart$inboundSchema,
@@ -125,7 +139,7 @@ export type ExtendedAgentSpanRecordWithChildrenOutput2 =
   | GalileoCoreSchemasLoggingLlmMessage
   | ControlResult
   | string
-  | Array<Document>
+  | Array<DocumentInput>
   | Array<
     FileContentPart | TextContentPart | discriminatedUnionTypes.Unknown<"type">
   >;
@@ -142,7 +156,7 @@ export type ExtendedAgentSpanRecordWithChildrenRedactedOutput2 =
   | GalileoCoreSchemasLoggingLlmMessage
   | ControlResult
   | string
-  | Array<Document>
+  | Array<DocumentInput>
   | Array<
     FileContentPart | TextContentPart | discriminatedUnionTypes.Unknown<"type">
   >;
@@ -154,16 +168,17 @@ export type ExtendedAgentSpanRecordWithChildrenMetricInfo =
   | MetricNotApplicable
   | MetricNotComputed
   | MetricPending
-  | MetricRollUp
-  | MetricSuccess
+  | MetricRollUpInput
+  | MetricSuccessInput
   | discriminatedUnionTypes.Unknown<"statusType">;
 
 export type ExtendedAgentSpanRecordWithChildren = {
   spans?:
     | Array<
       | ExtendedAgentSpanRecordWithChildren
-      | ExtendedControlSpanRecord
-      | ExtendedLlmSpanRecord
+      | ExtendedControlSpanRecordInput
+      | ExtendedHttpSpanRecordWithChildren
+      | ExtendedLlmSpanRecordInput
       | ExtendedRetrieverSpanRecordWithChildren
       | ExtendedToolSpanRecordWithChildren
       | ExtendedWorkflowSpanRecordWithChildren
@@ -206,7 +221,7 @@ export type ExtendedAgentSpanRecordWithChildren = {
     | GalileoCoreSchemasLoggingLlmMessage
     | ControlResult
     | string
-    | Array<Document>
+    | Array<DocumentInput>
     | Array<
       | FileContentPart
       | TextContentPart
@@ -221,7 +236,7 @@ export type ExtendedAgentSpanRecordWithChildren = {
     | GalileoCoreSchemasLoggingLlmMessage
     | ControlResult
     | string
-    | Array<Document>
+    | Array<DocumentInput>
     | Array<
       | FileContentPart
       | TextContentPart
@@ -341,6 +356,22 @@ export type ExtendedAgentSpanRecordWithChildren = {
    */
   fullyAnnotated?: boolean | null | undefined;
   /**
+   * Annotation review status of the record
+   */
+  annotationStatus?: AnnotationStatus | null | undefined;
+  /**
+   * Emails of tracked queue members who rated the record
+   */
+  annotatedMembers?: Array<string> | null | undefined;
+  /**
+   * Runner progress text written directly to CH span
+   */
+  progressMessage: string;
+  /**
+   * Runner error text written directly to CH span
+   */
+  errorMessage: string;
+  /**
    * Detailed information about the metrics associated with this trace or span
    */
   metricInfo?:
@@ -352,8 +383,8 @@ export type ExtendedAgentSpanRecordWithChildren = {
         | MetricNotApplicable
         | MetricNotComputed
         | MetricPending
-        | MetricRollUp
-        | MetricSuccess
+        | MetricRollUpInput
+        | MetricSuccessInput
         | discriminatedUnionTypes.Unknown<"statusType">;
     }
     | null
@@ -375,12 +406,17 @@ export type ExtendedAgentSpanRecordWithChildren = {
    */
   stepNumber?: number | null | undefined;
   agentType?: AgentType | undefined;
+  /**
+   * Name of the agent.
+   */
+  agentName?: string | null | undefined;
 };
 
 export type ExtendedAgentSpanRecordWithChildrenSpan =
   | ExtendedAgentSpanRecordWithChildren
-  | ExtendedControlSpanRecord
-  | ExtendedLlmSpanRecord
+  | ExtendedControlSpanRecordInput
+  | ExtendedHttpSpanRecordWithChildren
+  | ExtendedLlmSpanRecordInput
   | ExtendedRetrieverSpanRecordWithChildren
   | ExtendedToolSpanRecordWithChildren
   | ExtendedWorkflowSpanRecordWithChildren
@@ -389,10 +425,12 @@ export type ExtendedAgentSpanRecordWithChildrenSpan =
 /** @internal */
 export const ExtendedAgentSpanRecordWithChildrenInput1$inboundSchema:
   z.ZodMiniType<ExtendedAgentSpanRecordWithChildrenInput1, unknown> =
-    discriminatedUnion("type", {
-      file: FileContentPart$inboundSchema,
-      text: TextContentPart$inboundSchema,
-    });
+    /* @__PURE__ */ lazySchema$(() =>
+      discriminatedUnion("type", {
+        file: FileContentPart$inboundSchema,
+        text: TextContentPart$inboundSchema,
+      })
+    );
 
 export function extendedAgentSpanRecordWithChildrenInput1FromJSON(
   jsonString: string,
@@ -413,16 +451,18 @@ export function extendedAgentSpanRecordWithChildrenInput1FromJSON(
 /** @internal */
 export const ExtendedAgentSpanRecordWithChildrenInput2$inboundSchema:
   z.ZodMiniType<ExtendedAgentSpanRecordWithChildrenInput2, unknown> =
-    smartUnion([
-      types.string(),
-      z.array(GalileoCoreSchemasLoggingLlmMessage$inboundSchema),
-      z.array(
-        discriminatedUnion("type", {
-          file: FileContentPart$inboundSchema,
-          text: TextContentPart$inboundSchema,
-        }),
-      ),
-    ]);
+    /* @__PURE__ */ lazySchema$(() =>
+      smartUnion([
+        types.string(),
+        z.array(GalileoCoreSchemasLoggingLlmMessage$inboundSchema),
+        z.array(
+          discriminatedUnion("type", {
+            file: FileContentPart$inboundSchema,
+            text: TextContentPart$inboundSchema,
+          }),
+        ),
+      ])
+    );
 
 export function extendedAgentSpanRecordWithChildrenInput2FromJSON(
   jsonString: string,
@@ -443,10 +483,12 @@ export function extendedAgentSpanRecordWithChildrenInput2FromJSON(
 /** @internal */
 export const ExtendedAgentSpanRecordWithChildrenRedactedInput1$inboundSchema:
   z.ZodMiniType<ExtendedAgentSpanRecordWithChildrenRedactedInput1, unknown> =
-    discriminatedUnion("type", {
-      file: FileContentPart$inboundSchema,
-      text: TextContentPart$inboundSchema,
-    });
+    /* @__PURE__ */ lazySchema$(() =>
+      discriminatedUnion("type", {
+        file: FileContentPart$inboundSchema,
+        text: TextContentPart$inboundSchema,
+      })
+    );
 
 export function extendedAgentSpanRecordWithChildrenRedactedInput1FromJSON(
   jsonString: string,
@@ -467,16 +509,18 @@ export function extendedAgentSpanRecordWithChildrenRedactedInput1FromJSON(
 /** @internal */
 export const ExtendedAgentSpanRecordWithChildrenRedactedInput2$inboundSchema:
   z.ZodMiniType<ExtendedAgentSpanRecordWithChildrenRedactedInput2, unknown> =
-    smartUnion([
-      types.string(),
-      z.array(GalileoCoreSchemasLoggingLlmMessage$inboundSchema),
-      z.array(
-        discriminatedUnion("type", {
-          file: FileContentPart$inboundSchema,
-          text: TextContentPart$inboundSchema,
-        }),
-      ),
-    ]);
+    /* @__PURE__ */ lazySchema$(() =>
+      smartUnion([
+        types.string(),
+        z.array(GalileoCoreSchemasLoggingLlmMessage$inboundSchema),
+        z.array(
+          discriminatedUnion("type", {
+            file: FileContentPart$inboundSchema,
+            text: TextContentPart$inboundSchema,
+          }),
+        ),
+      ])
+    );
 
 export function extendedAgentSpanRecordWithChildrenRedactedInput2FromJSON(
   jsonString: string,
@@ -497,10 +541,12 @@ export function extendedAgentSpanRecordWithChildrenRedactedInput2FromJSON(
 /** @internal */
 export const ExtendedAgentSpanRecordWithChildrenOutput1$inboundSchema:
   z.ZodMiniType<ExtendedAgentSpanRecordWithChildrenOutput1, unknown> =
-    discriminatedUnion("type", {
-      file: FileContentPart$inboundSchema,
-      text: TextContentPart$inboundSchema,
-    });
+    /* @__PURE__ */ lazySchema$(() =>
+      discriminatedUnion("type", {
+        file: FileContentPart$inboundSchema,
+        text: TextContentPart$inboundSchema,
+      })
+    );
 
 export function extendedAgentSpanRecordWithChildrenOutput1FromJSON(
   jsonString: string,
@@ -521,18 +567,20 @@ export function extendedAgentSpanRecordWithChildrenOutput1FromJSON(
 /** @internal */
 export const ExtendedAgentSpanRecordWithChildrenOutput2$inboundSchema:
   z.ZodMiniType<ExtendedAgentSpanRecordWithChildrenOutput2, unknown> =
-    smartUnion([
-      GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
-      ControlResult$inboundSchema,
-      types.string(),
-      z.array(Document$inboundSchema),
-      z.array(
-        discriminatedUnion("type", {
-          file: FileContentPart$inboundSchema,
-          text: TextContentPart$inboundSchema,
-        }),
-      ),
-    ]);
+    /* @__PURE__ */ lazySchema$(() =>
+      smartUnion([
+        GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
+        ControlResult$inboundSchema,
+        types.string(),
+        z.array(DocumentInput$inboundSchema),
+        z.array(
+          discriminatedUnion("type", {
+            file: FileContentPart$inboundSchema,
+            text: TextContentPart$inboundSchema,
+          }),
+        ),
+      ])
+    );
 
 export function extendedAgentSpanRecordWithChildrenOutput2FromJSON(
   jsonString: string,
@@ -553,10 +601,12 @@ export function extendedAgentSpanRecordWithChildrenOutput2FromJSON(
 /** @internal */
 export const ExtendedAgentSpanRecordWithChildrenRedactedOutput1$inboundSchema:
   z.ZodMiniType<ExtendedAgentSpanRecordWithChildrenRedactedOutput1, unknown> =
-    discriminatedUnion("type", {
-      file: FileContentPart$inboundSchema,
-      text: TextContentPart$inboundSchema,
-    });
+    /* @__PURE__ */ lazySchema$(() =>
+      discriminatedUnion("type", {
+        file: FileContentPart$inboundSchema,
+        text: TextContentPart$inboundSchema,
+      })
+    );
 
 export function extendedAgentSpanRecordWithChildrenRedactedOutput1FromJSON(
   jsonString: string,
@@ -577,18 +627,20 @@ export function extendedAgentSpanRecordWithChildrenRedactedOutput1FromJSON(
 /** @internal */
 export const ExtendedAgentSpanRecordWithChildrenRedactedOutput2$inboundSchema:
   z.ZodMiniType<ExtendedAgentSpanRecordWithChildrenRedactedOutput2, unknown> =
-    smartUnion([
-      GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
-      ControlResult$inboundSchema,
-      types.string(),
-      z.array(Document$inboundSchema),
-      z.array(
-        discriminatedUnion("type", {
-          file: FileContentPart$inboundSchema,
-          text: TextContentPart$inboundSchema,
-        }),
-      ),
-    ]);
+    /* @__PURE__ */ lazySchema$(() =>
+      smartUnion([
+        GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
+        ControlResult$inboundSchema,
+        types.string(),
+        z.array(DocumentInput$inboundSchema),
+        z.array(
+          discriminatedUnion("type", {
+            file: FileContentPart$inboundSchema,
+            text: TextContentPart$inboundSchema,
+          }),
+        ),
+      ])
+    );
 
 export function extendedAgentSpanRecordWithChildrenRedactedOutput2FromJSON(
   jsonString: string,
@@ -609,16 +661,18 @@ export function extendedAgentSpanRecordWithChildrenRedactedOutput2FromJSON(
 /** @internal */
 export const ExtendedAgentSpanRecordWithChildrenMetricInfo$inboundSchema:
   z.ZodMiniType<ExtendedAgentSpanRecordWithChildrenMetricInfo, unknown> =
-    discriminatedUnion("status_type", {
-      computing: MetricComputing$inboundSchema,
-      error: MetricError$inboundSchema,
-      failed: MetricFailed$inboundSchema,
-      not_applicable: MetricNotApplicable$inboundSchema,
-      not_computed: MetricNotComputed$inboundSchema,
-      pending: MetricPending$inboundSchema,
-      roll_up: MetricRollUp$inboundSchema,
-      success: MetricSuccess$inboundSchema,
-    }, { outputPropertyName: "statusType" });
+    /* @__PURE__ */ lazySchema$(() =>
+      discriminatedUnion("status_type", {
+        computing: MetricComputing$inboundSchema,
+        error: MetricError$inboundSchema,
+        failed: MetricFailed$inboundSchema,
+        not_applicable: MetricNotApplicable$inboundSchema,
+        not_computed: MetricNotComputed$inboundSchema,
+        pending: MetricPending$inboundSchema,
+        roll_up: MetricRollUpInput$inboundSchema,
+        success: MetricSuccessInput$inboundSchema,
+      }, { outputPropertyName: "statusType" })
+    );
 
 export function extendedAgentSpanRecordWithChildrenMetricInfoFromJSON(
   jsonString: string,
@@ -640,35 +694,24 @@ export function extendedAgentSpanRecordWithChildrenMetricInfoFromJSON(
 export const ExtendedAgentSpanRecordWithChildren$inboundSchema: z.ZodMiniType<
   ExtendedAgentSpanRecordWithChildren,
   unknown
-> = z.pipe(
-  z.object({
-    spans: types.optional(z.array(discriminatedUnion("type", {
-      agent: z.lazy(() => ExtendedAgentSpanRecordWithChildren$inboundSchema),
-      control: ExtendedControlSpanRecord$inboundSchema,
-      llm: ExtendedLlmSpanRecord$inboundSchema,
-      retriever: z.lazy(() =>
-        ExtendedRetrieverSpanRecordWithChildren$inboundSchema
-      ),
-      tool: z.lazy(() => ExtendedToolSpanRecordWithChildren$inboundSchema),
-      workflow: z.lazy(() =>
-        ExtendedWorkflowSpanRecordWithChildren$inboundSchema
-      ),
-    }))),
-    type: types.literal("agent"),
-    input: types.optional(
-      smartUnion([
-        types.string(),
-        z.array(GalileoCoreSchemasLoggingLlmMessage$inboundSchema),
-        z.array(
-          discriminatedUnion("type", {
-            file: FileContentPart$inboundSchema,
-            text: TextContentPart$inboundSchema,
-          }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      spans: types.optional(z.array(discriminatedUnion("type", {
+        agent: z.lazy(() => ExtendedAgentSpanRecordWithChildren$inboundSchema),
+        control: ExtendedControlSpanRecordInput$inboundSchema,
+        http: z.lazy(() => ExtendedHttpSpanRecordWithChildren$inboundSchema),
+        llm: ExtendedLlmSpanRecordInput$inboundSchema,
+        retriever: z.lazy(() =>
+          ExtendedRetrieverSpanRecordWithChildren$inboundSchema
         ),
-      ]),
-    ),
-    redacted_input: z.optional(
-      z.nullable(
+        tool: z.lazy(() => ExtendedToolSpanRecordWithChildren$inboundSchema),
+        workflow: z.lazy(() =>
+          ExtendedWorkflowSpanRecordWithChildren$inboundSchema
+        ),
+      }))),
+      type: types.literal("agent"),
+      input: types.optional(
         smartUnion([
           types.string(),
           z.array(GalileoCoreSchemasLoggingLlmMessage$inboundSchema),
@@ -680,133 +723,159 @@ export const ExtendedAgentSpanRecordWithChildren$inboundSchema: z.ZodMiniType<
           ),
         ]),
       ),
-    ),
-    output: z.optional(
-      z.nullable(
-        smartUnion([
-          GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
-          ControlResult$inboundSchema,
-          types.string(),
-          z.array(Document$inboundSchema),
-          z.array(
-            discriminatedUnion("type", {
-              file: FileContentPart$inboundSchema,
-              text: TextContentPart$inboundSchema,
-            }),
-          ),
-        ]),
+      redacted_input: z.optional(
+        z.nullable(
+          smartUnion([
+            types.string(),
+            z.array(GalileoCoreSchemasLoggingLlmMessage$inboundSchema),
+            z.array(
+              discriminatedUnion("type", {
+                file: FileContentPart$inboundSchema,
+                text: TextContentPart$inboundSchema,
+              }),
+            ),
+          ]),
+        ),
       ),
-    ),
-    redacted_output: z.optional(
-      z.nullable(
-        smartUnion([
-          GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
-          ControlResult$inboundSchema,
-          types.string(),
-          z.array(Document$inboundSchema),
-          z.array(
-            discriminatedUnion("type", {
-              file: FileContentPart$inboundSchema,
-              text: TextContentPart$inboundSchema,
-            }),
-          ),
-        ]),
+      output: z.optional(
+        z.nullable(
+          smartUnion([
+            GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
+            ControlResult$inboundSchema,
+            types.string(),
+            z.array(DocumentInput$inboundSchema),
+            z.array(
+              discriminatedUnion("type", {
+                file: FileContentPart$inboundSchema,
+                text: TextContentPart$inboundSchema,
+              }),
+            ),
+          ]),
+        ),
       ),
-    ),
-    name: z._default(types.string(), ""),
-    created_at: types.optional(types.date()),
-    user_metadata: types.optional(z.record(z.string(), types.string())),
-    tags: types.optional(z.array(types.string())),
-    status_code: z.optional(z.nullable(types.number())),
-    metrics: types.optional(Metrics$inboundSchema),
-    external_id: z.optional(z.nullable(types.string())),
-    dataset_input: z.optional(z.nullable(types.string())),
-    dataset_output: z.optional(z.nullable(types.string())),
-    dataset_metadata: types.optional(z.record(z.string(), types.string())),
-    id: types.string(),
-    session_id: types.string(),
-    trace_id: z.optional(z.nullable(types.string())),
-    project_id: types.string(),
-    run_id: types.string(),
-    updated_at: z.optional(z.nullable(types.date())),
-    has_children: z.optional(z.nullable(types.boolean())),
-    metrics_batch_id: z.optional(z.nullable(types.string())),
-    session_batch_id: z.optional(z.nullable(types.string())),
-    feedback_rating_info: types.optional(
-      z.record(z.string(), FeedbackRatingInfo$inboundSchema),
-    ),
-    annotations: types.optional(
-      z.record(
-        z.string(),
-        z.record(z.string(), AnnotationRatingInfo$inboundSchema),
+      redacted_output: z.optional(
+        z.nullable(
+          smartUnion([
+            GalileoCoreSchemasLoggingLlmMessage$inboundSchema,
+            ControlResult$inboundSchema,
+            types.string(),
+            z.array(DocumentInput$inboundSchema),
+            z.array(
+              discriminatedUnion("type", {
+                file: FileContentPart$inboundSchema,
+                text: TextContentPart$inboundSchema,
+              }),
+            ),
+          ]),
+        ),
       ),
-    ),
-    file_ids: types.optional(z.array(types.string())),
-    file_modalities: types.optional(z.array(ContentModality$inboundSchema)),
-    annotation_aggregates: types.optional(
-      z.record(z.string(), AnnotationAggregate$inboundSchema),
-    ),
-    annotation_agreement: types.optional(z.record(z.string(), types.number())),
-    overall_annotation_agreement: z.optional(z.nullable(types.number())),
-    annotation_queue_ids: types.optional(z.array(types.string())),
-    fully_annotated: z.optional(z.nullable(types.boolean())),
-    metric_info: z.optional(
-      z.nullable(z.record(
-        z.string(),
-        discriminatedUnion("status_type", {
-          computing: MetricComputing$inboundSchema,
-          error: MetricError$inboundSchema,
-          failed: MetricFailed$inboundSchema,
-          not_applicable: MetricNotApplicable$inboundSchema,
-          not_computed: MetricNotComputed$inboundSchema,
-          pending: MetricPending$inboundSchema,
-          roll_up: MetricRollUp$inboundSchema,
-          success: MetricSuccess$inboundSchema,
-        }, { outputPropertyName: "statusType" }),
-      )),
-    ),
-    files: z.optional(
-      z.nullable(z.record(z.string(), FileMetadata$inboundSchema)),
-    ),
-    parent_id: types.string(),
-    is_complete: z._default(types.boolean(), true),
-    step_number: z.optional(z.nullable(types.number())),
-    agent_type: types.optional(AgentType$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "redacted_input": "redactedInput",
-      "redacted_output": "redactedOutput",
-      "created_at": "createdAt",
-      "user_metadata": "userMetadata",
-      "status_code": "statusCode",
-      "external_id": "externalId",
-      "dataset_input": "datasetInput",
-      "dataset_output": "datasetOutput",
-      "dataset_metadata": "datasetMetadata",
-      "session_id": "sessionId",
-      "trace_id": "traceId",
-      "project_id": "projectId",
-      "run_id": "runId",
-      "updated_at": "updatedAt",
-      "has_children": "hasChildren",
-      "metrics_batch_id": "metricsBatchId",
-      "session_batch_id": "sessionBatchId",
-      "feedback_rating_info": "feedbackRatingInfo",
-      "file_ids": "fileIds",
-      "file_modalities": "fileModalities",
-      "annotation_aggregates": "annotationAggregates",
-      "annotation_agreement": "annotationAgreement",
-      "overall_annotation_agreement": "overallAnnotationAgreement",
-      "annotation_queue_ids": "annotationQueueIds",
-      "fully_annotated": "fullyAnnotated",
-      "metric_info": "metricInfo",
-      "parent_id": "parentId",
-      "is_complete": "isComplete",
-      "step_number": "stepNumber",
-      "agent_type": "agentType",
-    });
-  }),
+      name: z._default(types.string(), ""),
+      created_at: types.optional(types.date()),
+      user_metadata: types.optional(z.record(z.string(), types.string())),
+      tags: types.optional(z.array(types.string())),
+      status_code: z.optional(z.nullable(types.number())),
+      metrics: types.optional(Metrics$inboundSchema),
+      external_id: z.optional(z.nullable(types.string())),
+      dataset_input: z.optional(z.nullable(types.string())),
+      dataset_output: z.optional(z.nullable(types.string())),
+      dataset_metadata: types.optional(z.record(z.string(), types.string())),
+      id: types.string(),
+      session_id: types.string(),
+      trace_id: z.optional(z.nullable(types.string())),
+      project_id: types.string(),
+      run_id: types.string(),
+      updated_at: z.optional(z.nullable(types.date())),
+      has_children: z.optional(z.nullable(types.boolean())),
+      metrics_batch_id: z.optional(z.nullable(types.string())),
+      session_batch_id: z.optional(z.nullable(types.string())),
+      feedback_rating_info: types.optional(
+        z.record(z.string(), FeedbackRatingInfo$inboundSchema),
+      ),
+      annotations: types.optional(
+        z.record(
+          z.string(),
+          z.record(z.string(), AnnotationRatingInfo$inboundSchema),
+        ),
+      ),
+      file_ids: types.optional(z.array(types.string())),
+      file_modalities: types.optional(z.array(ContentModality$inboundSchema)),
+      annotation_aggregates: types.optional(
+        z.record(z.string(), AnnotationAggregate$inboundSchema),
+      ),
+      annotation_agreement: types.optional(
+        z.record(z.string(), types.number()),
+      ),
+      overall_annotation_agreement: z.optional(z.nullable(types.number())),
+      annotation_queue_ids: types.optional(z.array(types.string())),
+      fully_annotated: z.optional(z.nullable(types.boolean())),
+      annotation_status: z.optional(z.nullable(AnnotationStatus$inboundSchema)),
+      annotated_members: z.optional(z.nullable(z.array(types.string()))),
+      progress_message: z._default(types.string(), ""),
+      error_message: z._default(types.string(), ""),
+      metric_info: z.optional(
+        z.nullable(z.record(
+          z.string(),
+          discriminatedUnion("status_type", {
+            computing: MetricComputing$inboundSchema,
+            error: MetricError$inboundSchema,
+            failed: MetricFailed$inboundSchema,
+            not_applicable: MetricNotApplicable$inboundSchema,
+            not_computed: MetricNotComputed$inboundSchema,
+            pending: MetricPending$inboundSchema,
+            roll_up: MetricRollUpInput$inboundSchema,
+            success: MetricSuccessInput$inboundSchema,
+          }, { outputPropertyName: "statusType" }),
+        )),
+      ),
+      files: z.optional(
+        z.nullable(z.record(z.string(), FileMetadata$inboundSchema)),
+      ),
+      parent_id: types.string(),
+      is_complete: z._default(types.boolean(), true),
+      step_number: z.optional(z.nullable(types.number())),
+      agent_type: types.optional(AgentType$inboundSchema),
+      agent_name: z.optional(z.nullable(types.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "redacted_input": "redactedInput",
+        "redacted_output": "redactedOutput",
+        "created_at": "createdAt",
+        "user_metadata": "userMetadata",
+        "status_code": "statusCode",
+        "external_id": "externalId",
+        "dataset_input": "datasetInput",
+        "dataset_output": "datasetOutput",
+        "dataset_metadata": "datasetMetadata",
+        "session_id": "sessionId",
+        "trace_id": "traceId",
+        "project_id": "projectId",
+        "run_id": "runId",
+        "updated_at": "updatedAt",
+        "has_children": "hasChildren",
+        "metrics_batch_id": "metricsBatchId",
+        "session_batch_id": "sessionBatchId",
+        "feedback_rating_info": "feedbackRatingInfo",
+        "file_ids": "fileIds",
+        "file_modalities": "fileModalities",
+        "annotation_aggregates": "annotationAggregates",
+        "annotation_agreement": "annotationAgreement",
+        "overall_annotation_agreement": "overallAnnotationAgreement",
+        "annotation_queue_ids": "annotationQueueIds",
+        "fully_annotated": "fullyAnnotated",
+        "annotation_status": "annotationStatus",
+        "annotated_members": "annotatedMembers",
+        "progress_message": "progressMessage",
+        "error_message": "errorMessage",
+        "metric_info": "metricInfo",
+        "parent_id": "parentId",
+        "is_complete": "isComplete",
+        "step_number": "stepNumber",
+        "agent_type": "agentType",
+        "agent_name": "agentName",
+      });
+    }),
+  )
 );
 
 export function extendedAgentSpanRecordWithChildrenFromJSON(
@@ -823,18 +892,21 @@ export function extendedAgentSpanRecordWithChildrenFromJSON(
 /** @internal */
 export const ExtendedAgentSpanRecordWithChildrenSpan$inboundSchema:
   z.ZodMiniType<ExtendedAgentSpanRecordWithChildrenSpan, unknown> =
-    discriminatedUnion("type", {
-      agent: z.lazy(() => ExtendedAgentSpanRecordWithChildren$inboundSchema),
-      control: ExtendedControlSpanRecord$inboundSchema,
-      llm: ExtendedLlmSpanRecord$inboundSchema,
-      retriever: z.lazy(() =>
-        ExtendedRetrieverSpanRecordWithChildren$inboundSchema
-      ),
-      tool: z.lazy(() => ExtendedToolSpanRecordWithChildren$inboundSchema),
-      workflow: z.lazy(() =>
-        ExtendedWorkflowSpanRecordWithChildren$inboundSchema
-      ),
-    });
+    /* @__PURE__ */ lazySchema$(() =>
+      discriminatedUnion("type", {
+        agent: z.lazy(() => ExtendedAgentSpanRecordWithChildren$inboundSchema),
+        control: ExtendedControlSpanRecordInput$inboundSchema,
+        http: z.lazy(() => ExtendedHttpSpanRecordWithChildren$inboundSchema),
+        llm: ExtendedLlmSpanRecordInput$inboundSchema,
+        retriever: z.lazy(() =>
+          ExtendedRetrieverSpanRecordWithChildren$inboundSchema
+        ),
+        tool: z.lazy(() => ExtendedToolSpanRecordWithChildren$inboundSchema),
+        workflow: z.lazy(() =>
+          ExtendedWorkflowSpanRecordWithChildren$inboundSchema
+        ),
+      })
+    );
 
 export function extendedAgentSpanRecordWithChildrenSpanFromJSON(
   jsonString: string,

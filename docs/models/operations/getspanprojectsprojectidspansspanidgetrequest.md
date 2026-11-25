@@ -18,3 +18,4 @@ let value: GetSpanProjectsProjectIdSpansSpanIdGetRequest = {
 | `spanId`               | *string*               | :heavy_check_mark:     | N/A                    |
 | `projectId`            | *string*               | :heavy_check_mark:     | N/A                    |
 | `includePresignedUrls` | *boolean*              | :heavy_minus_sign:     | N/A                    |
+| `accessViewId`         | *string*               | :heavy_minus_sign:     | N/A                    |

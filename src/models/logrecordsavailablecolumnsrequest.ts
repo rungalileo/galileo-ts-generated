@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type LogRecordsAvailableColumnsRequest = {
   /**
@@ -36,27 +37,29 @@ export type LogRecordsAvailableColumnsRequest$Outbound = {
 export const LogRecordsAvailableColumnsRequest$outboundSchema: z.ZodMiniType<
   LogRecordsAvailableColumnsRequest$Outbound,
   LogRecordsAvailableColumnsRequest
-> = z.pipe(
-  z.object({
-    logStreamId: z.optional(z.nullable(z.string())),
-    experimentId: z.optional(z.nullable(z.string())),
-    metricsTestingId: z.optional(z.nullable(z.string())),
-    startTime: z.optional(
-      z.nullable(z.pipe(z.date(), z.transform(v => v.toISOString()))),
-    ),
-    endTime: z.optional(
-      z.nullable(z.pipe(z.date(), z.transform(v => v.toISOString()))),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      logStreamId: "log_stream_id",
-      experimentId: "experiment_id",
-      metricsTestingId: "metrics_testing_id",
-      startTime: "start_time",
-      endTime: "end_time",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      logStreamId: z.optional(z.nullable(z.string())),
+      experimentId: z.optional(z.nullable(z.string())),
+      metricsTestingId: z.optional(z.nullable(z.string())),
+      startTime: z.optional(
+        z.nullable(z.pipe(z.date(), z.transform(v => v.toISOString()))),
+      ),
+      endTime: z.optional(
+        z.nullable(z.pipe(z.date(), z.transform(v => v.toISOString()))),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        logStreamId: "log_stream_id",
+        experimentId: "experiment_id",
+        metricsTestingId: "metrics_testing_id",
+        startTime: "start_time",
+        endTime: "end_time",
+      });
+    }),
+  )
 );
 
 export function logRecordsAvailableColumnsRequestToJSON(
