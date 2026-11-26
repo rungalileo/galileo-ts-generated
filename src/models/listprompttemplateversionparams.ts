@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   PromptTemplateVersionCreatedAtSort,
   PromptTemplateVersionCreatedAtSort$Outbound,
@@ -44,11 +45,13 @@ export type ListPromptTemplateVersionParamsSort$Outbound =
 export const ListPromptTemplateVersionParamsSort$outboundSchema: z.ZodMiniType<
   ListPromptTemplateVersionParamsSort$Outbound,
   ListPromptTemplateVersionParamsSort
-> = z.union([
-  PromptTemplateVersionCreatedAtSort$outboundSchema,
-  PromptTemplateVersionUpdatedAtSort$outboundSchema,
-  PromptTemplateVersionNumberSort$outboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    PromptTemplateVersionCreatedAtSort$outboundSchema,
+    PromptTemplateVersionUpdatedAtSort$outboundSchema,
+    PromptTemplateVersionNumberSort$outboundSchema,
+  ])
+);
 
 export function listPromptTemplateVersionParamsSortToJSON(
   listPromptTemplateVersionParamsSort: ListPromptTemplateVersionParamsSort,
@@ -74,17 +77,19 @@ export type ListPromptTemplateVersionParams$Outbound = {
 export const ListPromptTemplateVersionParams$outboundSchema: z.ZodMiniType<
   ListPromptTemplateVersionParams$Outbound,
   ListPromptTemplateVersionParams
-> = z.object({
-  sort: z.optional(
-    z.nullable(
-      z.union([
-        PromptTemplateVersionCreatedAtSort$outboundSchema,
-        PromptTemplateVersionUpdatedAtSort$outboundSchema,
-        PromptTemplateVersionNumberSort$outboundSchema,
-      ]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    sort: z.optional(
+      z.nullable(
+        z.union([
+          PromptTemplateVersionCreatedAtSort$outboundSchema,
+          PromptTemplateVersionUpdatedAtSort$outboundSchema,
+          PromptTemplateVersionNumberSort$outboundSchema,
+        ]),
+      ),
     ),
-  ),
-});
+  })
+);
 
 export function listPromptTemplateVersionParamsToJSON(
   listPromptTemplateVersionParams: ListPromptTemplateVersionParams,

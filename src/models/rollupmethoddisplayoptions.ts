@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
@@ -42,9 +43,13 @@ export type RollUpMethodDisplayOptions = OpenEnum<
 export const RollUpMethodDisplayOptions$inboundSchema: z.ZodMiniType<
   RollUpMethodDisplayOptions,
   unknown
-> = openEnums.inboundSchema(RollUpMethodDisplayOptions);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(RollUpMethodDisplayOptions)
+);
 /** @internal */
 export const RollUpMethodDisplayOptions$outboundSchema: z.ZodMiniType<
   string,
   RollUpMethodDisplayOptions
-> = openEnums.outboundSchema(RollUpMethodDisplayOptions);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.outboundSchema(RollUpMethodDisplayOptions)
+);

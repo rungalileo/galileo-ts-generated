@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
@@ -24,7 +25,7 @@ export type RuleOperator = OpenEnum<typeof RuleOperator>;
 
 /** @internal */
 export const RuleOperator$inboundSchema: z.ZodMiniType<RuleOperator, unknown> =
-  openEnums.inboundSchema(RuleOperator);
+  /* @__PURE__ */ lazySchema$(() => openEnums.inboundSchema(RuleOperator));
 /** @internal */
 export const RuleOperator$outboundSchema: z.ZodMiniType<string, RuleOperator> =
-  openEnums.outboundSchema(RuleOperator);
+  /* @__PURE__ */ lazySchema$(() => openEnums.outboundSchema(RuleOperator));

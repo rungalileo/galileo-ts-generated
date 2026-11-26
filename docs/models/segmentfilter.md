@@ -8,7 +8,7 @@ import { SegmentFilter } from "galileo-generated/models";
 let value: SegmentFilter = {
   filter: {
     name: "node_name",
-    operator: "eq",
+    operator: "ne",
     value: [
       "<value 1>",
       "<value 2>",
@@ -26,3 +26,4 @@ let value: SegmentFilter = {
 | `filter`                                                                | *models.SegmentFilterFilter*                                            | :heavy_minus_sign:                                                      | Filter to apply to the segment. By default sample on all data.          |
 | `sampleRate`                                                            | *number*                                                                | :heavy_check_mark:                                                      | The fraction of the data to sample. Must be between 0 and 1, inclusive. |
 | `llmScorers`                                                            | *boolean*                                                               | :heavy_minus_sign:                                                      | Whether to sample only on LLM scorers.                                  |
+| `multimodalScorers`                                                     | *boolean*                                                               | :heavy_minus_sign:                                                      | Whether to sample only on multimodal scorers.                           |

@@ -5,27 +5,30 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { smartUnion } from "../types/smartUnion.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import { NodeType, NodeType$inboundSchema } from "./nodetype.js";
 
-export type Score = number | number | string | boolean;
+export type Score = string | number | number | boolean;
 
 export type TestScore = {
   nodeType: NodeType;
-  score?: number | number | string | boolean | null | undefined;
+  score?: string | number | number | boolean | null | undefined;
 };
 
 /** @internal */
-export const Score$inboundSchema: z.ZodMiniType<Score, unknown> = smartUnion([
-  types.number(),
-  types.number(),
-  types.string(),
-  types.boolean(),
-]);
+export const Score$inboundSchema: z.ZodMiniType<Score, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    smartUnion([
+      types.string(),
+      types.number(),
+      types.number(),
+      types.boolean(),
+    ])
+  );
 
 export function scoreFromJSON(
   jsonString: string,
@@ -38,26 +41,28 @@ export function scoreFromJSON(
 }
 
 /** @internal */
-export const TestScore$inboundSchema: z.ZodMiniType<TestScore, unknown> = z
-  .pipe(
-    z.object({
-      node_type: NodeType$inboundSchema,
-      score: z.optional(
-        z.nullable(
-          smartUnion([
-            types.number(),
-            types.number(),
-            types.string(),
-            types.boolean(),
-          ]),
+export const TestScore$inboundSchema: z.ZodMiniType<TestScore, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        node_type: NodeType$inboundSchema,
+        score: z.optional(
+          z.nullable(
+            smartUnion([
+              types.string(),
+              types.number(),
+              types.number(),
+              types.boolean(),
+            ]),
+          ),
         ),
-      ),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "node_type": "nodeType",
-      });
-    }),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "node_type": "nodeType",
+        });
+      }),
+    )
   );
 
 export function testScoreFromJSON(

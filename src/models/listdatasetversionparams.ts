@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   DatasetVersionIndexSort,
   DatasetVersionIndexSort$Outbound,
@@ -24,7 +25,7 @@ export type ListDatasetVersionParamsSort$Outbound =
 export const ListDatasetVersionParamsSort$outboundSchema: z.ZodMiniType<
   ListDatasetVersionParamsSort$Outbound,
   ListDatasetVersionParamsSort
-> = DatasetVersionIndexSort$outboundSchema;
+> = /* @__PURE__ */ lazySchema$(() => DatasetVersionIndexSort$outboundSchema);
 
 export function listDatasetVersionParamsSortToJSON(
   listDatasetVersionParamsSort: ListDatasetVersionParamsSort,
@@ -45,9 +46,11 @@ export type ListDatasetVersionParams$Outbound = {
 export const ListDatasetVersionParams$outboundSchema: z.ZodMiniType<
   ListDatasetVersionParams$Outbound,
   ListDatasetVersionParams
-> = z.object({
-  sort: z.optional(z.nullable(DatasetVersionIndexSort$outboundSchema)),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    sort: z.optional(z.nullable(DatasetVersionIndexSort$outboundSchema)),
+  })
+);
 
 export function listDatasetVersionParamsToJSON(
   listDatasetVersionParams: ListDatasetVersionParams,

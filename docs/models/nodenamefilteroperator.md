@@ -5,7 +5,7 @@
 ```typescript
 import { NodeNameFilterOperator } from "galileo-generated/models";
 
-let value: NodeNameFilterOperator = "ne";
+let value: NodeNameFilterOperator = "contains";
 
 // Open enum: unrecognized values are captured as Unrecognized<string>
 ```
@@ -13,5 +13,5 @@ let value: NodeNameFilterOperator = "ne";
 ## Values
 
 ```typescript
-"eq" | "ne" | "contains" | "one_of" | "not_in" | Unrecognized<string>
+"eq" | "ne" | "contains" | "regex" | "one_of" | "not_in" | Unrecognized<string>
 ```

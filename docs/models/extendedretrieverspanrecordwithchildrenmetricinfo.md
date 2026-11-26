@@ -51,26 +51,21 @@ const value: models.MetricPending = {
 };
 ```
 
-### `models.MetricRollUp`
+### `models.MetricRollUpInput`
 
 ```typescript
-const value: models.MetricRollUp = {
+const value: models.MetricRollUpInput = {
   statusType: "roll_up",
-  value: "f9abc59e-90e4-4b33-97d1-b7b7b1252e46",
+  value: 794845,
 };
 ```
 
-### `models.MetricSuccess`
+### `models.MetricSuccessInput`
 
 ```typescript
-const value: models.MetricSuccess = {
+const value: models.MetricSuccessInput = {
   statusType: "success",
-  value: {
-    hallucinationSeverity: 0,
-    start: 829158,
-    end: 490363,
-    hallucination: 9786.5,
-  },
+  value: null,
 };
 ```
 

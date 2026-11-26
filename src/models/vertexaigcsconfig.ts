@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 /**
  * Configuration for GCS file uploads in Vertex AI.
@@ -26,19 +27,21 @@ export type VertexAIGCSConfig$Outbound = {
 export const VertexAIGCSConfig$outboundSchema: z.ZodMiniType<
   VertexAIGCSConfig$Outbound,
   VertexAIGCSConfig
-> = z.pipe(
-  z.object({
-    serviceAccountCredentials: z.string(),
-    bucketName: z.string(),
-    objectPathPrefix: z.string(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      serviceAccountCredentials: "service_account_credentials",
-      bucketName: "bucket_name",
-      objectPathPrefix: "object_path_prefix",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      serviceAccountCredentials: z.string(),
+      bucketName: z.string(),
+      objectPathPrefix: z.string(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        serviceAccountCredentials: "service_account_credentials",
+        bucketName: "bucket_name",
+        objectPathPrefix: "object_path_prefix",
+      });
+    }),
+  )
 );
 
 export function vertexAIGCSConfigToJSON(

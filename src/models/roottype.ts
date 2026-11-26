@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 
 /**
@@ -30,6 +31,5 @@ export const RootType = {
 export type RootType = ClosedEnum<typeof RootType>;
 
 /** @internal */
-export const RootType$outboundSchema: z.ZodMiniEnum<typeof RootType> = z.enum(
-  RootType,
-);
+export const RootType$outboundSchema: z.ZodMiniEnum<typeof RootType> =
+  /* @__PURE__ */ lazySchema$(() => z.enum(RootType));

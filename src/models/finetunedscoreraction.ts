@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
@@ -17,4 +18,6 @@ export type FineTunedScorerAction = OpenEnum<typeof FineTunedScorerAction>;
 export const FineTunedScorerAction$inboundSchema: z.ZodMiniType<
   FineTunedScorerAction,
   unknown
-> = openEnums.inboundSchema(FineTunedScorerAction);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(FineTunedScorerAction)
+);

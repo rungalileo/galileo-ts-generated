@@ -4,7 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { smartUnion } from "../types/smartUnion.js";
@@ -21,7 +21,9 @@ export type Segment = {
 
 /** @internal */
 export const SegmentValue$inboundSchema: z.ZodMiniType<SegmentValue, unknown> =
-  smartUnion([types.number(), types.number(), types.string()]);
+  /* @__PURE__ */ lazySchema$(() =>
+    smartUnion([types.number(), types.number(), types.string()])
+  );
 
 export function segmentValueFromJSON(
   jsonString: string,
@@ -34,12 +36,15 @@ export function segmentValueFromJSON(
 }
 
 /** @internal */
-export const Segment$inboundSchema: z.ZodMiniType<Segment, unknown> = z.object({
-  start: types.number(),
-  end: types.number(),
-  value: smartUnion([types.number(), types.number(), types.string()]),
-  prob: z.optional(z.nullable(types.number())),
-});
+export const Segment$inboundSchema: z.ZodMiniType<Segment, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      start: types.number(),
+      end: types.number(),
+      value: smartUnion([types.number(), types.number(), types.string()]),
+      prob: z.optional(z.nullable(types.number())),
+    })
+  );
 
 export function segmentFromJSON(
   jsonString: string,

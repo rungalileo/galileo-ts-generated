@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
@@ -13,6 +14,11 @@ export const OrganizationAction = {
   DeleteLogData: "delete_log_data",
   ReadSettings: "read_settings",
   UpdateSettings: "update_settings",
+  ReadCostSettings: "read_cost_settings",
+  ReadAiUsage: "read_ai_usage",
+  ReadAiUsageOrganization: "read_ai_usage_organization",
+  ReadUnredactedData: "read_unredacted_data",
+  UpdateEvaluatorCostCap: "update_evaluator_cost_cap",
 } as const;
 export type OrganizationAction = OpenEnum<typeof OrganizationAction>;
 
@@ -20,4 +26,6 @@ export type OrganizationAction = OpenEnum<typeof OrganizationAction>;
 export const OrganizationAction$inboundSchema: z.ZodMiniType<
   OrganizationAction,
   unknown
-> = openEnums.inboundSchema(OrganizationAction);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(OrganizationAction)
+);

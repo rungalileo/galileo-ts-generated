@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 
 export const PromptTemplateCreatedByFilterOperator = {
@@ -25,9 +26,10 @@ export type PromptTemplateCreatedByFilter = {
 
 /** @internal */
 export const PromptTemplateCreatedByFilterOperator$outboundSchema:
-  z.ZodMiniEnum<typeof PromptTemplateCreatedByFilterOperator> = z.enum(
-    PromptTemplateCreatedByFilterOperator,
-  );
+  z.ZodMiniEnum<typeof PromptTemplateCreatedByFilterOperator> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.enum(PromptTemplateCreatedByFilterOperator)
+    );
 
 /** @internal */
 export type PromptTemplateCreatedByFilter$Outbound = {
@@ -40,14 +42,16 @@ export type PromptTemplateCreatedByFilter$Outbound = {
 export const PromptTemplateCreatedByFilter$outboundSchema: z.ZodMiniType<
   PromptTemplateCreatedByFilter$Outbound,
   PromptTemplateCreatedByFilter
-> = z.object({
-  name: z.literal("creator"),
-  operator: z._default(
-    PromptTemplateCreatedByFilterOperator$outboundSchema,
-    "eq",
-  ),
-  value: z.any(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    name: z.literal("creator"),
+    operator: z._default(
+      PromptTemplateCreatedByFilterOperator$outboundSchema,
+      "eq",
+    ),
+    value: z.any(),
+  })
+);
 
 export function promptTemplateCreatedByFilterToJSON(
   promptTemplateCreatedByFilter: PromptTemplateCreatedByFilter,

@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import {
@@ -16,6 +16,10 @@ import {
   CustomLLMConfig,
   CustomLLMConfig$inboundSchema,
 } from "./customllmconfig.js";
+import {
+  DecisionModelProperties,
+  DecisionModelProperties$inboundSchema,
+} from "./decisionmodelproperties.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
   MultiModalModelIntegrationConfig,
@@ -53,6 +57,7 @@ export type CustomIntegrationDefinition = {
     | Array<PromptgalileoSchemasConfigCustomModelProperties>
     | null
     | undefined;
+  decisionModelProperties?: Array<DecisionModelProperties> | null | undefined;
   token?: string | null | undefined;
   apiKeyHeader?: string | null | undefined;
   apiKeyValue?: string | null | undefined;
@@ -68,44 +73,52 @@ export type CustomIntegrationDefinition = {
 export const CustomIntegrationDefinition$inboundSchema: z.ZodMiniType<
   CustomIntegrationDefinition,
   unknown
-> = z.pipe(
-  z.object({
-    authentication_type: CustomAuthenticationType$inboundSchema,
-    endpoint: types.string(),
-    default_model: z.optional(z.nullable(types.string())),
-    model_properties: z.optional(
-      z.nullable(
-        z.array(PromptgalileoSchemasConfigCustomModelProperties$inboundSchema),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      authentication_type: CustomAuthenticationType$inboundSchema,
+      endpoint: types.string(),
+      default_model: z.optional(z.nullable(types.string())),
+      model_properties: z.optional(
+        z.nullable(
+          z.array(
+            PromptgalileoSchemasConfigCustomModelProperties$inboundSchema,
+          ),
+        ),
       ),
-    ),
-    token: z.optional(z.nullable(types.string())),
-    api_key_header: z.optional(z.nullable(types.string())),
-    api_key_value: z.optional(z.nullable(types.string())),
-    authentication_scope: z.optional(z.nullable(types.string())),
-    oauth2_token_url: z.optional(z.nullable(types.string())),
-    headers: z.optional(z.nullable(z.record(z.string(), types.string()))),
-    custom_llm_config: z.optional(z.nullable(CustomLLMConfig$inboundSchema)),
-    custom_header_mapping: z.optional(
-      z.nullable(z.record(z.string(), types.string())),
-    ),
-    multi_modal_config: z.optional(
-      z.nullable(MultiModalModelIntegrationConfig$inboundSchema),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "authentication_type": "authenticationType",
-      "default_model": "defaultModel",
-      "model_properties": "modelProperties",
-      "api_key_header": "apiKeyHeader",
-      "api_key_value": "apiKeyValue",
-      "authentication_scope": "authenticationScope",
-      "oauth2_token_url": "oauth2TokenUrl",
-      "custom_llm_config": "customLlmConfig",
-      "custom_header_mapping": "customHeaderMapping",
-      "multi_modal_config": "multiModalConfig",
-    });
-  }),
+      decision_model_properties: z.optional(
+        z.nullable(z.array(DecisionModelProperties$inboundSchema)),
+      ),
+      token: z.optional(z.nullable(types.string())),
+      api_key_header: z.optional(z.nullable(types.string())),
+      api_key_value: z.optional(z.nullable(types.string())),
+      authentication_scope: z.optional(z.nullable(types.string())),
+      oauth2_token_url: z.optional(z.nullable(types.string())),
+      headers: z.optional(z.nullable(z.record(z.string(), types.string()))),
+      custom_llm_config: z.optional(z.nullable(CustomLLMConfig$inboundSchema)),
+      custom_header_mapping: z.optional(
+        z.nullable(z.record(z.string(), types.string())),
+      ),
+      multi_modal_config: z.optional(
+        z.nullable(MultiModalModelIntegrationConfig$inboundSchema),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "authentication_type": "authenticationType",
+        "default_model": "defaultModel",
+        "model_properties": "modelProperties",
+        "decision_model_properties": "decisionModelProperties",
+        "api_key_header": "apiKeyHeader",
+        "api_key_value": "apiKeyValue",
+        "authentication_scope": "authenticationScope",
+        "oauth2_token_url": "oauth2TokenUrl",
+        "custom_llm_config": "customLlmConfig",
+        "custom_header_mapping": "customHeaderMapping",
+        "multi_modal_config": "multiModalConfig",
+      });
+    }),
+  )
 );
 
 export function customIntegrationDefinitionFromJSON(

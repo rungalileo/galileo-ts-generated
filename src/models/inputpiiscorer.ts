@@ -4,7 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
 import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import { Result as SafeParseResult } from "../types/fp.js";
@@ -55,11 +55,13 @@ export type InputPIIScorer = {
 export const InputPIIScorerFilter$inboundSchema: z.ZodMiniType<
   InputPIIScorerFilter,
   unknown
-> = discriminatedUnion("name", {
-  metadata: MetadataFilter$inboundSchema,
-  modality: ModalityFilter$inboundSchema,
-  node_name: NodeNameFilter$inboundSchema,
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  discriminatedUnion("name", {
+    metadata: MetadataFilter$inboundSchema,
+    modality: ModalityFilter$inboundSchema,
+    node_name: NodeNameFilter$inboundSchema,
+  })
+);
 /** @internal */
 export type InputPIIScorerFilter$Outbound =
   | MetadataFilter$Outbound
@@ -70,11 +72,13 @@ export type InputPIIScorerFilter$Outbound =
 export const InputPIIScorerFilter$outboundSchema: z.ZodMiniType<
   InputPIIScorerFilter$Outbound,
   InputPIIScorerFilter
-> = z.union([
-  MetadataFilter$outboundSchema,
-  ModalityFilter$outboundSchema,
-  NodeNameFilter$outboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    MetadataFilter$outboundSchema,
+    ModalityFilter$outboundSchema,
+    NodeNameFilter$outboundSchema,
+  ])
+);
 
 export function inputPIIScorerFilterToJSON(
   inputPIIScorerFilter: InputPIIScorerFilter,
@@ -97,20 +101,22 @@ export function inputPIIScorerFilterFromJSON(
 export const InputPIIScorer$inboundSchema: z.ZodMiniType<
   InputPIIScorer,
   unknown
-> = z.object({
-  name: types.literal("input_pii"),
-  filters: z.optional(
-    z.nullable(
-      z.array(
-        discriminatedUnion("name", {
-          metadata: MetadataFilter$inboundSchema,
-          modality: ModalityFilter$inboundSchema,
-          node_name: NodeNameFilter$inboundSchema,
-        }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    name: types.literal("input_pii"),
+    filters: z.optional(
+      z.nullable(
+        z.array(
+          discriminatedUnion("name", {
+            metadata: MetadataFilter$inboundSchema,
+            modality: ModalityFilter$inboundSchema,
+            node_name: NodeNameFilter$inboundSchema,
+          }),
+        ),
       ),
     ),
-  ),
-});
+  })
+);
 /** @internal */
 export type InputPIIScorer$Outbound = {
   name: "input_pii";
@@ -128,20 +134,22 @@ export type InputPIIScorer$Outbound = {
 export const InputPIIScorer$outboundSchema: z.ZodMiniType<
   InputPIIScorer$Outbound,
   InputPIIScorer
-> = z.object({
-  name: z.literal("input_pii"),
-  filters: z.optional(
-    z.nullable(
-      z.array(
-        z.union([
-          MetadataFilter$outboundSchema,
-          ModalityFilter$outboundSchema,
-          NodeNameFilter$outboundSchema,
-        ]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    name: z.literal("input_pii"),
+    filters: z.optional(
+      z.nullable(
+        z.array(
+          z.union([
+            MetadataFilter$outboundSchema,
+            ModalityFilter$outboundSchema,
+            NodeNameFilter$outboundSchema,
+          ]),
+        ),
       ),
     ),
-  ),
-});
+  })
+);
 
 export function inputPIIScorerToJSON(inputPIIScorer: InputPIIScorer): string {
   return JSON.stringify(InputPIIScorer$outboundSchema.parse(inputPIIScorer));

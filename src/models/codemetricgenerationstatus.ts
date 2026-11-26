@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
@@ -20,4 +21,6 @@ export type CodeMetricGenerationStatus = OpenEnum<
 export const CodeMetricGenerationStatus$inboundSchema: z.ZodMiniType<
   CodeMetricGenerationStatus,
   unknown
-> = openEnums.inboundSchema(CodeMetricGenerationStatus);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(CodeMetricGenerationStatus)
+);

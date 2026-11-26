@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { smartUnion } from "../types/smartUnion.js";
 
 export type DatasetAppendRowValues1 = string | number | number;
@@ -30,7 +31,9 @@ export type DatasetAppendRowValues1$Outbound = string | number | number;
 export const DatasetAppendRowValues1$outboundSchema: z.ZodMiniType<
   DatasetAppendRowValues1$Outbound,
   DatasetAppendRowValues1
-> = smartUnion([z.string(), z.int(), z.number()]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([z.string(), z.int(), z.number()])
+);
 
 export function datasetAppendRowValues1ToJSON(
   datasetAppendRowValues1: DatasetAppendRowValues1,
@@ -49,15 +52,17 @@ export type DatasetAppendRowValues2$Outbound = string | number | number | {
 export const DatasetAppendRowValues2$outboundSchema: z.ZodMiniType<
   DatasetAppendRowValues2$Outbound,
   DatasetAppendRowValues2
-> = smartUnion([
-  z.string(),
-  z.int(),
-  z.number(),
-  z.record(
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
     z.string(),
-    z.nullable(smartUnion([z.string(), z.int(), z.number()])),
-  ),
-]);
+    z.int(),
+    z.number(),
+    z.record(
+      z.string(),
+      z.nullable(smartUnion([z.string(), z.int(), z.number()])),
+    ),
+  ])
+);
 
 export function datasetAppendRowValues2ToJSON(
   datasetAppendRowValues2: DatasetAppendRowValues2,
@@ -82,31 +87,33 @@ export type DatasetAppendRow$Outbound = {
 export const DatasetAppendRow$outboundSchema: z.ZodMiniType<
   DatasetAppendRow$Outbound,
   DatasetAppendRow
-> = z.pipe(
-  z.object({
-    editType: z.literal("append_row"),
-    values: z.record(
-      z.string(),
-      z.nullable(
-        smartUnion([
-          z.string(),
-          z.int(),
-          z.number(),
-          z.record(
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      editType: z.literal("append_row"),
+      values: z.record(
+        z.string(),
+        z.nullable(
+          smartUnion([
             z.string(),
-            z.nullable(smartUnion([z.string(), z.int(), z.number()])),
-          ),
-        ]),
+            z.int(),
+            z.number(),
+            z.record(
+              z.string(),
+              z.nullable(smartUnion([z.string(), z.int(), z.number()])),
+            ),
+          ]),
+        ),
       ),
-    ),
-    rowId: z.optional(z.nullable(z.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      editType: "edit_type",
-      rowId: "row_id",
-    });
-  }),
+      rowId: z.optional(z.nullable(z.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        editType: "edit_type",
+        rowId: "row_id",
+      });
+    }),
+  )
 );
 
 export function datasetAppendRowToJSON(

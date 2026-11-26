@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { smartUnion } from "../types/smartUnion.js";
 import {
   AgentSpan,
@@ -21,6 +22,11 @@ import {
   FileContentPart$Outbound,
   FileContentPart$outboundSchema,
 } from "./filecontentpart.js";
+import {
+  HttpSpan,
+  HttpSpan$Outbound,
+  HttpSpan$outboundSchema,
+} from "./httpspan.js";
 import {
   LlmSpan,
   LlmSpan$Outbound,
@@ -87,6 +93,7 @@ export type TraceRedactedOutput2 =
 export type TraceSpan =
   | AgentSpan
   | ControlSpan
+  | HttpSpan
   | LlmSpan
   | RetrieverSpan
   | ToolSpan
@@ -185,12 +192,17 @@ export type Trace = {
     | Array<
       | AgentSpan
       | ControlSpan
+      | HttpSpan
       | LlmSpan
       | RetrieverSpan
       | ToolSpan
       | WorkflowSpan
     >
     | undefined;
+  /**
+   * Generated output from the dataset associated with this trace
+   */
+  datasetGeneratedOutput?: string | null | undefined;
 };
 
 /** @internal */
@@ -202,7 +214,9 @@ export type TraceInput1$Outbound =
 export const TraceInput1$outboundSchema: z.ZodMiniType<
   TraceInput1$Outbound,
   TraceInput1
-> = z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema])
+);
 
 export function traceInput1ToJSON(traceInput1: TraceInput1): string {
   return JSON.stringify(TraceInput1$outboundSchema.parse(traceInput1));
@@ -217,12 +231,14 @@ export type TraceInput2$Outbound =
 export const TraceInput2$outboundSchema: z.ZodMiniType<
   TraceInput2$Outbound,
   TraceInput2
-> = smartUnion([
-  z.string(),
-  z.array(
-    z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
-  ),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    z.string(),
+    z.array(
+      z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
+    ),
+  ])
+);
 
 export function traceInput2ToJSON(traceInput2: TraceInput2): string {
   return JSON.stringify(TraceInput2$outboundSchema.parse(traceInput2));
@@ -237,7 +253,9 @@ export type TraceRedactedInput1$Outbound =
 export const TraceRedactedInput1$outboundSchema: z.ZodMiniType<
   TraceRedactedInput1$Outbound,
   TraceRedactedInput1
-> = z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema])
+);
 
 export function traceRedactedInput1ToJSON(
   traceRedactedInput1: TraceRedactedInput1,
@@ -256,12 +274,14 @@ export type TraceRedactedInput2$Outbound =
 export const TraceRedactedInput2$outboundSchema: z.ZodMiniType<
   TraceRedactedInput2$Outbound,
   TraceRedactedInput2
-> = smartUnion([
-  z.string(),
-  z.array(
-    z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
-  ),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    z.string(),
+    z.array(
+      z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
+    ),
+  ])
+);
 
 export function traceRedactedInput2ToJSON(
   traceRedactedInput2: TraceRedactedInput2,
@@ -280,7 +300,9 @@ export type TraceOutput1$Outbound =
 export const TraceOutput1$outboundSchema: z.ZodMiniType<
   TraceOutput1$Outbound,
   TraceOutput1
-> = z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema])
+);
 
 export function traceOutput1ToJSON(traceOutput1: TraceOutput1): string {
   return JSON.stringify(TraceOutput1$outboundSchema.parse(traceOutput1));
@@ -295,12 +317,14 @@ export type TraceOutput2$Outbound =
 export const TraceOutput2$outboundSchema: z.ZodMiniType<
   TraceOutput2$Outbound,
   TraceOutput2
-> = smartUnion([
-  z.string(),
-  z.array(
-    z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
-  ),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    z.string(),
+    z.array(
+      z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
+    ),
+  ])
+);
 
 export function traceOutput2ToJSON(traceOutput2: TraceOutput2): string {
   return JSON.stringify(TraceOutput2$outboundSchema.parse(traceOutput2));
@@ -315,7 +339,9 @@ export type TraceRedactedOutput1$Outbound =
 export const TraceRedactedOutput1$outboundSchema: z.ZodMiniType<
   TraceRedactedOutput1$Outbound,
   TraceRedactedOutput1
-> = z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema])
+);
 
 export function traceRedactedOutput1ToJSON(
   traceRedactedOutput1: TraceRedactedOutput1,
@@ -334,12 +360,14 @@ export type TraceRedactedOutput2$Outbound =
 export const TraceRedactedOutput2$outboundSchema: z.ZodMiniType<
   TraceRedactedOutput2$Outbound,
   TraceRedactedOutput2
-> = smartUnion([
-  z.string(),
-  z.array(
-    z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
-  ),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    z.string(),
+    z.array(
+      z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
+    ),
+  ])
+);
 
 export function traceRedactedOutput2ToJSON(
   traceRedactedOutput2: TraceRedactedOutput2,
@@ -353,6 +381,7 @@ export function traceRedactedOutput2ToJSON(
 export type TraceSpan$Outbound =
   | AgentSpan$Outbound
   | ControlSpan$Outbound
+  | HttpSpan$Outbound
   | LlmSpan$Outbound
   | RetrieverSpan$Outbound
   | ToolSpan$Outbound
@@ -362,14 +391,17 @@ export type TraceSpan$Outbound =
 export const TraceSpan$outboundSchema: z.ZodMiniType<
   TraceSpan$Outbound,
   TraceSpan
-> = z.union([
-  AgentSpan$outboundSchema,
-  ControlSpan$outboundSchema,
-  LlmSpan$outboundSchema,
-  RetrieverSpan$outboundSchema,
-  ToolSpan$outboundSchema,
-  WorkflowSpan$outboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    AgentSpan$outboundSchema,
+    ControlSpan$outboundSchema,
+    HttpSpan$outboundSchema,
+    LlmSpan$outboundSchema,
+    RetrieverSpan$outboundSchema,
+    ToolSpan$outboundSchema,
+    WorkflowSpan$outboundSchema,
+  ])
+);
 
 export function traceSpanToJSON(traceSpan: TraceSpan): string {
   return JSON.stringify(TraceSpan$outboundSchema.parse(traceSpan));
@@ -416,116 +448,123 @@ export type Trace$Outbound = {
     | Array<
       | AgentSpan$Outbound
       | ControlSpan$Outbound
+      | HttpSpan$Outbound
       | LlmSpan$Outbound
       | RetrieverSpan$Outbound
       | ToolSpan$Outbound
       | WorkflowSpan$Outbound
     >
     | undefined;
+  dataset_generated_output?: string | null | undefined;
 };
 
 /** @internal */
-export const Trace$outboundSchema: z.ZodMiniType<Trace$Outbound, Trace> = z
-  .pipe(
-    z.object({
-      type: z._default(z.literal("trace"), "trace" as const),
-      input: z.optional(
-        smartUnion([
-          z.string(),
-          z.array(
-            z.union([
-              FileContentPart$outboundSchema,
-              TextContentPart$outboundSchema,
+export const Trace$outboundSchema: z.ZodMiniType<Trace$Outbound, Trace> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        type: z._default(z.literal("trace"), "trace" as const),
+        input: z.optional(
+          smartUnion([
+            z.string(),
+            z.array(
+              z.union([
+                FileContentPart$outboundSchema,
+                TextContentPart$outboundSchema,
+              ]),
+            ),
+          ]),
+        ),
+        redactedInput: z.optional(
+          z.nullable(
+            smartUnion([
+              z.string(),
+              z.array(
+                z.union([
+                  FileContentPart$outboundSchema,
+                  TextContentPart$outboundSchema,
+                ]),
+              ),
             ]),
           ),
-        ]),
-      ),
-      redactedInput: z.optional(
-        z.nullable(
-          smartUnion([
-            z.string(),
-            z.array(
-              z.union([
-                FileContentPart$outboundSchema,
-                TextContentPart$outboundSchema,
-              ]),
-            ),
-          ]),
         ),
-      ),
-      output: z.optional(
-        z.nullable(
-          smartUnion([
-            z.string(),
-            z.array(
-              z.union([
-                FileContentPart$outboundSchema,
-                TextContentPart$outboundSchema,
-              ]),
-            ),
-          ]),
+        output: z.optional(
+          z.nullable(
+            smartUnion([
+              z.string(),
+              z.array(
+                z.union([
+                  FileContentPart$outboundSchema,
+                  TextContentPart$outboundSchema,
+                ]),
+              ),
+            ]),
+          ),
         ),
-      ),
-      redactedOutput: z.optional(
-        z.nullable(
-          smartUnion([
-            z.string(),
-            z.array(
-              z.union([
-                FileContentPart$outboundSchema,
-                TextContentPart$outboundSchema,
-              ]),
-            ),
-          ]),
+        redactedOutput: z.optional(
+          z.nullable(
+            smartUnion([
+              z.string(),
+              z.array(
+                z.union([
+                  FileContentPart$outboundSchema,
+                  TextContentPart$outboundSchema,
+                ]),
+              ),
+            ]),
+          ),
         ),
-      ),
-      name: z._default(z.string(), ""),
-      createdAt: z.optional(
-        z.pipe(z.date(), z.transform(v => v.toISOString())),
-      ),
-      userMetadata: z.optional(z.record(z.string(), z.string())),
-      tags: z.optional(z.array(z.string())),
-      statusCode: z.optional(z.nullable(z.int())),
-      metrics: z.optional(Metrics$outboundSchema),
-      externalId: z.optional(z.nullable(z.string())),
-      datasetInput: z.optional(z.nullable(z.string())),
-      datasetOutput: z.optional(z.nullable(z.string())),
-      datasetMetadata: z.optional(z.record(z.string(), z.string())),
-      id: z.optional(z.nullable(z.string())),
-      sessionId: z.optional(z.nullable(z.string())),
-      traceId: z.optional(z.nullable(z.string())),
-      stepNumber: z.optional(z.nullable(z.int())),
-      parentId: z.optional(z.nullable(z.string())),
-      spans: z.optional(
-        z.array(
-          z.union([
-            AgentSpan$outboundSchema,
-            ControlSpan$outboundSchema,
-            LlmSpan$outboundSchema,
-            RetrieverSpan$outboundSchema,
-            ToolSpan$outboundSchema,
-            WorkflowSpan$outboundSchema,
-          ]),
+        name: z._default(z.string(), ""),
+        createdAt: z.optional(
+          z.pipe(z.date(), z.transform(v => v.toISOString())),
         ),
-      ),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        redactedInput: "redacted_input",
-        redactedOutput: "redacted_output",
-        createdAt: "created_at",
-        userMetadata: "user_metadata",
-        statusCode: "status_code",
-        externalId: "external_id",
-        datasetInput: "dataset_input",
-        datasetOutput: "dataset_output",
-        datasetMetadata: "dataset_metadata",
-        sessionId: "session_id",
-        traceId: "trace_id",
-        stepNumber: "step_number",
-        parentId: "parent_id",
-      });
-    }),
+        userMetadata: z.optional(z.record(z.string(), z.string())),
+        tags: z.optional(z.array(z.string())),
+        statusCode: z.optional(z.nullable(z.int())),
+        metrics: z.optional(Metrics$outboundSchema),
+        externalId: z.optional(z.nullable(z.string())),
+        datasetInput: z.optional(z.nullable(z.string())),
+        datasetOutput: z.optional(z.nullable(z.string())),
+        datasetMetadata: z.optional(z.record(z.string(), z.string())),
+        id: z.optional(z.nullable(z.string())),
+        sessionId: z.optional(z.nullable(z.string())),
+        traceId: z.optional(z.nullable(z.string())),
+        stepNumber: z.optional(z.nullable(z.int())),
+        parentId: z.optional(z.nullable(z.string())),
+        spans: z.optional(
+          z.array(
+            z.union([
+              AgentSpan$outboundSchema,
+              ControlSpan$outboundSchema,
+              HttpSpan$outboundSchema,
+              LlmSpan$outboundSchema,
+              RetrieverSpan$outboundSchema,
+              ToolSpan$outboundSchema,
+              WorkflowSpan$outboundSchema,
+            ]),
+          ),
+        ),
+        datasetGeneratedOutput: z.optional(z.nullable(z.string())),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          redactedInput: "redacted_input",
+          redactedOutput: "redacted_output",
+          createdAt: "created_at",
+          userMetadata: "user_metadata",
+          statusCode: "status_code",
+          externalId: "external_id",
+          datasetInput: "dataset_input",
+          datasetOutput: "dataset_output",
+          datasetMetadata: "dataset_metadata",
+          sessionId: "session_id",
+          traceId: "trace_id",
+          stepNumber: "step_number",
+          parentId: "parent_id",
+          datasetGeneratedOutput: "dataset_generated_output",
+        });
+      }),
+    )
   );
 
 export function traceToJSON(trace: Trace): string {

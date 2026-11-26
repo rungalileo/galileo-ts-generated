@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -34,27 +34,29 @@ export type MetricAggregates = {
 export const MetricAggregates$inboundSchema: z.ZodMiniType<
   MetricAggregates,
   unknown
-> = z.pipe(
-  z.object({
-    avg: z.optional(z.nullable(types.number())),
-    sum: z.optional(z.nullable(types.number())),
-    min: z.optional(z.nullable(types.number())),
-    max: z.optional(z.nullable(types.number())),
-    count: z.optional(z.nullable(types.number())),
-    pct: z.optional(z.nullable(types.number())),
-    p50: z.optional(z.nullable(types.number())),
-    p90: z.optional(z.nullable(types.number())),
-    p95: z.optional(z.nullable(types.number())),
-    p99: z.optional(z.nullable(types.number())),
-    value_distribution: z.optional(
-      z.nullable(z.record(z.string(), types.number())),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "value_distribution": "valueDistribution",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      avg: z.optional(z.nullable(types.number())),
+      sum: z.optional(z.nullable(types.number())),
+      min: z.optional(z.nullable(types.number())),
+      max: z.optional(z.nullable(types.number())),
+      count: z.optional(z.nullable(types.number())),
+      pct: z.optional(z.nullable(types.number())),
+      p50: z.optional(z.nullable(types.number())),
+      p90: z.optional(z.nullable(types.number())),
+      p95: z.optional(z.nullable(types.number())),
+      p99: z.optional(z.nullable(types.number())),
+      value_distribution: z.optional(
+        z.nullable(z.record(z.string(), types.number())),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "value_distribution": "valueDistribution",
+      });
+    }),
+  )
 );
 
 export function metricAggregatesFromJSON(

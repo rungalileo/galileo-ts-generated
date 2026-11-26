@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
 import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import { Result as SafeParseResult } from "../types/fp.js";
@@ -77,15 +77,22 @@ import {
   OutputTypeEnum$outboundSchema,
 } from "./outputtypeenum.js";
 import {
-  PromptgalileoSchemasScorerNameScorerName,
-  PromptgalileoSchemasScorerNameScorerName$inboundSchema,
-  PromptgalileoSchemasScorerNameScorerName$outboundSchema,
-} from "./promptgalileoschemasscorernamescorername.js";
-import {
   RollUpStrategy,
   RollUpStrategy$inboundSchema,
   RollUpStrategy$outboundSchema,
 } from "./rollupstrategy.js";
+import {
+  ScorerMetadataSelection,
+  ScorerMetadataSelection$inboundSchema,
+  ScorerMetadataSelection$Outbound,
+  ScorerMetadataSelection$outboundSchema,
+} from "./scorermetadataselection.js";
+import {
+  SpanInputSelection,
+  SpanInputSelection$inboundSchema,
+  SpanInputSelection$Outbound,
+  SpanInputSelection$outboundSchema,
+} from "./spaninputselection.js";
 
 export type BaseScorerFilter =
   | MetadataFilter
@@ -109,7 +116,6 @@ export type BaseScorer = {
   aggregates?: { [k: string]: any } | null | undefined;
   aggregateKeys?: Array<string> | null | undefined;
   extra?: { [k: string]: any } | null | undefined;
-  subScorers?: Array<PromptgalileoSchemasScorerNameScorerName> | undefined;
   filters?:
     | Array<
       | MetadataFilter
@@ -126,6 +132,9 @@ export type BaseScorer = {
   numJudges?: number | null | undefined;
   defaultModelAlias?: string | null | undefined;
   groundTruth?: boolean | null | undefined;
+  metadataSelection?: ScorerMetadataSelection | null | undefined;
+  spanInputSelections?: Array<SpanInputSelection> | null | undefined;
+  requireMatchingSpan?: boolean | undefined;
   regexField?: string | undefined;
   registeredScorerId?: string | null | undefined;
   generatedScorerId?: string | null | undefined;
@@ -137,6 +146,7 @@ export type BaseScorer = {
   outputType?: OutputTypeEnum | null | undefined;
   inputType?: InputTypeEnum | null | undefined;
   multimodalCapabilities?: Array<MultimodalCapability> | null | undefined;
+  requiresToolsInLlmSpan?: boolean | undefined;
   requiredScorers?: Array<string> | null | undefined;
   requiredMetricIds?: Array<string> | null | undefined;
   rollUpStrategy?: RollUpStrategy | null | undefined;
@@ -155,17 +165,20 @@ export type BaseScorer = {
     | { [k: string]: number }
     | null
     | undefined;
+  scorerPathName?: string | null | undefined;
 };
 
 /** @internal */
 export const BaseScorerFilter$inboundSchema: z.ZodMiniType<
   BaseScorerFilter,
   unknown
-> = discriminatedUnion("name", {
-  metadata: MetadataFilter$inboundSchema,
-  modality: ModalityFilter$inboundSchema,
-  node_name: NodeNameFilter$inboundSchema,
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  discriminatedUnion("name", {
+    metadata: MetadataFilter$inboundSchema,
+    modality: ModalityFilter$inboundSchema,
+    node_name: NodeNameFilter$inboundSchema,
+  })
+);
 /** @internal */
 export type BaseScorerFilter$Outbound =
   | MetadataFilter$Outbound
@@ -176,11 +189,13 @@ export type BaseScorerFilter$Outbound =
 export const BaseScorerFilter$outboundSchema: z.ZodMiniType<
   BaseScorerFilter$Outbound,
   BaseScorerFilter
-> = z.union([
-  MetadataFilter$outboundSchema,
-  ModalityFilter$outboundSchema,
-  NodeNameFilter$outboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    MetadataFilter$outboundSchema,
+    ModalityFilter$outboundSchema,
+    NodeNameFilter$outboundSchema,
+  ])
+);
 
 export function baseScorerFilterToJSON(
   baseScorerFilter: BaseScorerFilter,
@@ -203,10 +218,12 @@ export function baseScorerFilterFromJSON(
 export const BaseScorerRollUpMethods$inboundSchema: z.ZodMiniType<
   BaseScorerRollUpMethods,
   unknown
-> = smartUnion([
-  z.array(NumericRollUpMethod$inboundSchema),
-  z.array(CategoricalRollUpMethod$inboundSchema),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    z.array(NumericRollUpMethod$inboundSchema),
+    z.array(CategoricalRollUpMethod$inboundSchema),
+  ])
+);
 /** @internal */
 export type BaseScorerRollUpMethods$Outbound = Array<string> | Array<string>;
 
@@ -214,10 +231,12 @@ export type BaseScorerRollUpMethods$Outbound = Array<string> | Array<string>;
 export const BaseScorerRollUpMethods$outboundSchema: z.ZodMiniType<
   BaseScorerRollUpMethods$Outbound,
   BaseScorerRollUpMethods
-> = smartUnion([
-  z.array(NumericRollUpMethod$outboundSchema),
-  z.array(CategoricalRollUpMethod$outboundSchema),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    z.array(NumericRollUpMethod$outboundSchema),
+    z.array(CategoricalRollUpMethod$outboundSchema),
+  ])
+);
 
 export function baseScorerRollUpMethodsToJSON(
   baseScorerRollUpMethods: BaseScorerRollUpMethods,
@@ -240,10 +259,12 @@ export function baseScorerRollUpMethodsFromJSON(
 export const BaseScorerClassNameToVocabIx$inboundSchema: z.ZodMiniType<
   BaseScorerClassNameToVocabIx,
   unknown
-> = smartUnion([
-  z.record(z.string(), z.array(types.number())),
-  z.record(z.string(), types.number()),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    z.record(z.string(), z.array(types.number())),
+    z.record(z.string(), types.number()),
+  ])
+);
 /** @internal */
 export type BaseScorerClassNameToVocabIx$Outbound = {
   [k: string]: Array<number>;
@@ -253,10 +274,12 @@ export type BaseScorerClassNameToVocabIx$Outbound = {
 export const BaseScorerClassNameToVocabIx$outboundSchema: z.ZodMiniType<
   BaseScorerClassNameToVocabIx$Outbound,
   BaseScorerClassNameToVocabIx
-> = smartUnion([
-  z.record(z.string(), z.array(z.int())),
-  z.record(z.string(), z.int()),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    z.record(z.string(), z.array(z.int())),
+    z.record(z.string(), z.int()),
+  ])
+);
 
 export function baseScorerClassNameToVocabIxToJSON(
   baseScorerClassNameToVocabIx: BaseScorerClassNameToVocabIx,
@@ -278,114 +301,128 @@ export function baseScorerClassNameToVocabIxFromJSON(
 }
 
 /** @internal */
-export const BaseScorer$inboundSchema: z.ZodMiniType<BaseScorer, unknown> = z
-  .pipe(
-    z.object({
-      scorer_name: z._default(types.string(), ""),
-      name: z._default(types.string(), ""),
-      scores: z.optional(z.nullable(z.array(z.any()))),
-      indices: z.optional(z.nullable(z.array(types.number()))),
-      aggregates: z.optional(z.nullable(z.record(z.string(), z.any()))),
-      aggregate_keys: z.optional(z.nullable(z.array(types.string()))),
-      extra: z.optional(z.nullable(z.record(z.string(), z.any()))),
-      sub_scorers: types.optional(
-        z.array(PromptgalileoSchemasScorerNameScorerName$inboundSchema),
-      ),
-      filters: z.optional(
-        z.nullable(
-          z.array(
-            discriminatedUnion("name", {
-              metadata: MetadataFilter$inboundSchema,
-              modality: ModalityFilter$inboundSchema,
-              node_name: NodeNameFilter$inboundSchema,
-            }),
+export const BaseScorer$inboundSchema: z.ZodMiniType<BaseScorer, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        scorer_name: z._default(types.string(), ""),
+        name: z._default(types.string(), ""),
+        scores: z.optional(z.nullable(z.array(z.any()))),
+        indices: z.optional(z.nullable(z.array(types.number()))),
+        aggregates: z.optional(z.nullable(z.record(z.string(), z.any()))),
+        aggregate_keys: z.optional(z.nullable(z.array(types.string()))),
+        extra: z.optional(z.nullable(z.record(z.string(), z.any()))),
+        filters: z.optional(
+          z.nullable(
+            z.array(
+              discriminatedUnion("name", {
+                metadata: MetadataFilter$inboundSchema,
+                modality: ModalityFilter$inboundSchema,
+                node_name: NodeNameFilter$inboundSchema,
+              }),
+            ),
           ),
         ),
-      ),
-      metric_name: z.optional(z.nullable(types.string())),
-      description: z.optional(z.nullable(types.string())),
-      chainpoll_template: z.optional(
-        z.nullable(ChainPollTemplate$inboundSchema),
-      ),
-      model_alias: z.optional(z.nullable(types.string())),
-      num_judges: z.optional(z.nullable(types.number())),
-      default_model_alias: z.optional(z.nullable(types.string())),
-      ground_truth: z.optional(z.nullable(types.boolean())),
-      regex_field: z._default(types.string(), ""),
-      registered_scorer_id: z.optional(z.nullable(types.string())),
-      generated_scorer_id: z.optional(z.nullable(types.string())),
-      scorer_version_id: z.optional(z.nullable(types.string())),
-      user_code: z.optional(z.nullable(types.string())),
-      can_copy_to_llm: z.optional(z.nullable(types.boolean())),
-      scoreable_node_types: z.optional(
-        z.nullable(z.array(NodeType$inboundSchema)),
-      ),
-      cot_enabled: z.optional(z.nullable(types.boolean())),
-      output_type: z.optional(z.nullable(OutputTypeEnum$inboundSchema)),
-      input_type: z.optional(z.nullable(InputTypeEnum$inboundSchema)),
-      multimodal_capabilities: z.optional(
-        z.nullable(z.array(MultimodalCapability$inboundSchema)),
-      ),
-      required_scorers: z.optional(z.nullable(z.array(types.string()))),
-      required_metric_ids: z.optional(z.nullable(z.array(types.string()))),
-      roll_up_strategy: z.optional(z.nullable(RollUpStrategy$inboundSchema)),
-      roll_up_methods: z.optional(
-        z.nullable(
-          smartUnion([
-            z.array(NumericRollUpMethod$inboundSchema),
-            z.array(CategoricalRollUpMethod$inboundSchema),
-          ]),
+        metric_name: z.optional(z.nullable(types.string())),
+        description: z.optional(z.nullable(types.string())),
+        chainpoll_template: z.optional(
+          z.nullable(ChainPollTemplate$inboundSchema),
         ),
-      ),
-      prompt: z.optional(z.nullable(types.string())),
-      lora_task_id: z.optional(z.nullable(types.number())),
-      lora_weights_path: z.optional(z.nullable(types.string())),
-      luna_input_type: z.optional(z.nullable(LunaInputTypeEnum$inboundSchema)),
-      luna_output_type: z.optional(
-        z.nullable(LunaOutputTypeEnum$inboundSchema),
-      ),
-      class_name_to_vocab_ix: z.optional(
-        z.nullable(
-          smartUnion([
-            z.record(z.string(), z.array(types.number())),
-            z.record(z.string(), types.number()),
-          ]),
+        model_alias: z.optional(z.nullable(types.string())),
+        num_judges: z.optional(z.nullable(types.number())),
+        default_model_alias: z.optional(z.nullable(types.string())),
+        ground_truth: z.optional(z.nullable(types.boolean())),
+        metadata_selection: z.optional(
+          z.nullable(ScorerMetadataSelection$inboundSchema),
         ),
-      ),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "scorer_name": "scorerName",
-        "aggregate_keys": "aggregateKeys",
-        "sub_scorers": "subScorers",
-        "metric_name": "metricName",
-        "chainpoll_template": "chainpollTemplate",
-        "model_alias": "modelAlias",
-        "num_judges": "numJudges",
-        "default_model_alias": "defaultModelAlias",
-        "ground_truth": "groundTruth",
-        "regex_field": "regexField",
-        "registered_scorer_id": "registeredScorerId",
-        "generated_scorer_id": "generatedScorerId",
-        "scorer_version_id": "scorerVersionId",
-        "user_code": "userCode",
-        "can_copy_to_llm": "canCopyToLlm",
-        "scoreable_node_types": "scoreableNodeTypes",
-        "cot_enabled": "cotEnabled",
-        "output_type": "outputType",
-        "input_type": "inputType",
-        "multimodal_capabilities": "multimodalCapabilities",
-        "required_scorers": "requiredScorers",
-        "required_metric_ids": "requiredMetricIds",
-        "roll_up_strategy": "rollUpStrategy",
-        "roll_up_methods": "rollUpMethods",
-        "lora_task_id": "loraTaskId",
-        "lora_weights_path": "loraWeightsPath",
-        "luna_input_type": "lunaInputType",
-        "luna_output_type": "lunaOutputType",
-        "class_name_to_vocab_ix": "classNameToVocabIx",
-      });
-    }),
+        span_input_selections: z.optional(
+          z.nullable(z.array(SpanInputSelection$inboundSchema)),
+        ),
+        require_matching_span: z._default(types.boolean(), false),
+        regex_field: z._default(types.string(), ""),
+        registered_scorer_id: z.optional(z.nullable(types.string())),
+        generated_scorer_id: z.optional(z.nullable(types.string())),
+        scorer_version_id: z.optional(z.nullable(types.string())),
+        user_code: z.optional(z.nullable(types.string())),
+        can_copy_to_llm: z.optional(z.nullable(types.boolean())),
+        scoreable_node_types: z.optional(
+          z.nullable(z.array(NodeType$inboundSchema)),
+        ),
+        cot_enabled: z.optional(z.nullable(types.boolean())),
+        output_type: z.optional(z.nullable(OutputTypeEnum$inboundSchema)),
+        input_type: z.optional(z.nullable(InputTypeEnum$inboundSchema)),
+        multimodal_capabilities: z.optional(
+          z.nullable(z.array(MultimodalCapability$inboundSchema)),
+        ),
+        requires_tools_in_llm_span: z._default(types.boolean(), false),
+        required_scorers: z.optional(z.nullable(z.array(types.string()))),
+        required_metric_ids: z.optional(z.nullable(z.array(types.string()))),
+        roll_up_strategy: z.optional(z.nullable(RollUpStrategy$inboundSchema)),
+        roll_up_methods: z.optional(
+          z.nullable(
+            smartUnion([
+              z.array(NumericRollUpMethod$inboundSchema),
+              z.array(CategoricalRollUpMethod$inboundSchema),
+            ]),
+          ),
+        ),
+        prompt: z.optional(z.nullable(types.string())),
+        lora_task_id: z.optional(z.nullable(types.number())),
+        lora_weights_path: z.optional(z.nullable(types.string())),
+        luna_input_type: z.optional(
+          z.nullable(LunaInputTypeEnum$inboundSchema),
+        ),
+        luna_output_type: z.optional(
+          z.nullable(LunaOutputTypeEnum$inboundSchema),
+        ),
+        class_name_to_vocab_ix: z.optional(
+          z.nullable(
+            smartUnion([
+              z.record(z.string(), z.array(types.number())),
+              z.record(z.string(), types.number()),
+            ]),
+          ),
+        ),
+        scorer_path_name: z.optional(z.nullable(types.string())),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "scorer_name": "scorerName",
+          "aggregate_keys": "aggregateKeys",
+          "metric_name": "metricName",
+          "chainpoll_template": "chainpollTemplate",
+          "model_alias": "modelAlias",
+          "num_judges": "numJudges",
+          "default_model_alias": "defaultModelAlias",
+          "ground_truth": "groundTruth",
+          "metadata_selection": "metadataSelection",
+          "span_input_selections": "spanInputSelections",
+          "require_matching_span": "requireMatchingSpan",
+          "regex_field": "regexField",
+          "registered_scorer_id": "registeredScorerId",
+          "generated_scorer_id": "generatedScorerId",
+          "scorer_version_id": "scorerVersionId",
+          "user_code": "userCode",
+          "can_copy_to_llm": "canCopyToLlm",
+          "scoreable_node_types": "scoreableNodeTypes",
+          "cot_enabled": "cotEnabled",
+          "output_type": "outputType",
+          "input_type": "inputType",
+          "multimodal_capabilities": "multimodalCapabilities",
+          "requires_tools_in_llm_span": "requiresToolsInLlmSpan",
+          "required_scorers": "requiredScorers",
+          "required_metric_ids": "requiredMetricIds",
+          "roll_up_strategy": "rollUpStrategy",
+          "roll_up_methods": "rollUpMethods",
+          "lora_task_id": "loraTaskId",
+          "lora_weights_path": "loraWeightsPath",
+          "luna_input_type": "lunaInputType",
+          "luna_output_type": "lunaOutputType",
+          "class_name_to_vocab_ix": "classNameToVocabIx",
+          "scorer_path_name": "scorerPathName",
+        });
+      }),
+    )
   );
 /** @internal */
 export type BaseScorer$Outbound = {
@@ -396,7 +433,6 @@ export type BaseScorer$Outbound = {
   aggregates?: { [k: string]: any } | null | undefined;
   aggregate_keys?: Array<string> | null | undefined;
   extra?: { [k: string]: any } | null | undefined;
-  sub_scorers?: Array<string> | undefined;
   filters?:
     | Array<
       | MetadataFilter$Outbound
@@ -412,6 +448,9 @@ export type BaseScorer$Outbound = {
   num_judges?: number | null | undefined;
   default_model_alias?: string | null | undefined;
   ground_truth?: boolean | null | undefined;
+  metadata_selection?: ScorerMetadataSelection$Outbound | null | undefined;
+  span_input_selections?: Array<SpanInputSelection$Outbound> | null | undefined;
+  require_matching_span: boolean;
   regex_field: string;
   registered_scorer_id?: string | null | undefined;
   generated_scorer_id?: string | null | undefined;
@@ -423,6 +462,7 @@ export type BaseScorer$Outbound = {
   output_type?: string | null | undefined;
   input_type?: string | null | undefined;
   multimodal_capabilities?: Array<string> | null | undefined;
+  requires_tools_in_llm_span: boolean;
   required_scorers?: Array<string> | null | undefined;
   required_metric_ids?: Array<string> | null | undefined;
   roll_up_strategy?: string | null | undefined;
@@ -437,115 +477,130 @@ export type BaseScorer$Outbound = {
     | { [k: string]: number }
     | null
     | undefined;
+  scorer_path_name?: string | null | undefined;
 };
 
 /** @internal */
 export const BaseScorer$outboundSchema: z.ZodMiniType<
   BaseScorer$Outbound,
   BaseScorer
-> = z.pipe(
-  z.object({
-    scorerName: z._default(z.string(), ""),
-    name: z._default(z.string(), ""),
-    scores: z.optional(z.nullable(z.array(z.any()))),
-    indices: z.optional(z.nullable(z.array(z.int()))),
-    aggregates: z.optional(z.nullable(z.record(z.string(), z.any()))),
-    aggregateKeys: z.optional(z.nullable(z.array(z.string()))),
-    extra: z.optional(z.nullable(z.record(z.string(), z.any()))),
-    subScorers: z.optional(
-      z.array(PromptgalileoSchemasScorerNameScorerName$outboundSchema),
-    ),
-    filters: z.optional(
-      z.nullable(
-        z.array(
-          z.union([
-            MetadataFilter$outboundSchema,
-            ModalityFilter$outboundSchema,
-            NodeNameFilter$outboundSchema,
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      scorerName: z._default(z.string(), ""),
+      name: z._default(z.string(), ""),
+      scores: z.optional(z.nullable(z.array(z.any()))),
+      indices: z.optional(z.nullable(z.array(z.int()))),
+      aggregates: z.optional(z.nullable(z.record(z.string(), z.any()))),
+      aggregateKeys: z.optional(z.nullable(z.array(z.string()))),
+      extra: z.optional(z.nullable(z.record(z.string(), z.any()))),
+      filters: z.optional(
+        z.nullable(
+          z.array(
+            z.union([
+              MetadataFilter$outboundSchema,
+              ModalityFilter$outboundSchema,
+              NodeNameFilter$outboundSchema,
+            ]),
+          ),
+        ),
+      ),
+      metricName: z.optional(z.nullable(z.string())),
+      description: z.optional(z.nullable(z.string())),
+      chainpollTemplate: z.optional(
+        z.nullable(ChainPollTemplate$outboundSchema),
+      ),
+      modelAlias: z.optional(z.nullable(z.string())),
+      numJudges: z.optional(z.nullable(z.int())),
+      defaultModelAlias: z.optional(z.nullable(z.string())),
+      groundTruth: z.optional(z.nullable(z.boolean())),
+      metadataSelection: z.optional(
+        z.nullable(ScorerMetadataSelection$outboundSchema),
+      ),
+      spanInputSelections: z.optional(
+        z.nullable(z.array(SpanInputSelection$outboundSchema)),
+      ),
+      requireMatchingSpan: z._default(z.boolean(), false),
+      regexField: z._default(z.string(), ""),
+      registeredScorerId: z.optional(z.nullable(z.string())),
+      generatedScorerId: z.optional(z.nullable(z.string())),
+      scorerVersionId: z.optional(z.nullable(z.string())),
+      userCode: z.optional(z.nullable(z.string())),
+      canCopyToLlm: z.optional(z.nullable(z.boolean())),
+      scoreableNodeTypes: z.optional(
+        z.nullable(z.array(NodeType$outboundSchema)),
+      ),
+      cotEnabled: z.optional(z.nullable(z.boolean())),
+      outputType: z.optional(z.nullable(OutputTypeEnum$outboundSchema)),
+      inputType: z.optional(z.nullable(InputTypeEnum$outboundSchema)),
+      multimodalCapabilities: z.optional(
+        z.nullable(z.array(MultimodalCapability$outboundSchema)),
+      ),
+      requiresToolsInLlmSpan: z._default(z.boolean(), false),
+      requiredScorers: z.optional(z.nullable(z.array(z.string()))),
+      requiredMetricIds: z.optional(z.nullable(z.array(z.string()))),
+      rollUpStrategy: z.optional(z.nullable(RollUpStrategy$outboundSchema)),
+      rollUpMethods: z.optional(
+        z.nullable(
+          smartUnion([
+            z.array(NumericRollUpMethod$outboundSchema),
+            z.array(CategoricalRollUpMethod$outboundSchema),
           ]),
         ),
       ),
-    ),
-    metricName: z.optional(z.nullable(z.string())),
-    description: z.optional(z.nullable(z.string())),
-    chainpollTemplate: z.optional(z.nullable(ChainPollTemplate$outboundSchema)),
-    modelAlias: z.optional(z.nullable(z.string())),
-    numJudges: z.optional(z.nullable(z.int())),
-    defaultModelAlias: z.optional(z.nullable(z.string())),
-    groundTruth: z.optional(z.nullable(z.boolean())),
-    regexField: z._default(z.string(), ""),
-    registeredScorerId: z.optional(z.nullable(z.string())),
-    generatedScorerId: z.optional(z.nullable(z.string())),
-    scorerVersionId: z.optional(z.nullable(z.string())),
-    userCode: z.optional(z.nullable(z.string())),
-    canCopyToLlm: z.optional(z.nullable(z.boolean())),
-    scoreableNodeTypes: z.optional(
-      z.nullable(z.array(NodeType$outboundSchema)),
-    ),
-    cotEnabled: z.optional(z.nullable(z.boolean())),
-    outputType: z.optional(z.nullable(OutputTypeEnum$outboundSchema)),
-    inputType: z.optional(z.nullable(InputTypeEnum$outboundSchema)),
-    multimodalCapabilities: z.optional(
-      z.nullable(z.array(MultimodalCapability$outboundSchema)),
-    ),
-    requiredScorers: z.optional(z.nullable(z.array(z.string()))),
-    requiredMetricIds: z.optional(z.nullable(z.array(z.string()))),
-    rollUpStrategy: z.optional(z.nullable(RollUpStrategy$outboundSchema)),
-    rollUpMethods: z.optional(
-      z.nullable(
-        smartUnion([
-          z.array(NumericRollUpMethod$outboundSchema),
-          z.array(CategoricalRollUpMethod$outboundSchema),
-        ]),
+      prompt: z.optional(z.nullable(z.string())),
+      loraTaskId: z.optional(z.nullable(z.int())),
+      loraWeightsPath: z.optional(z.nullable(z.string())),
+      lunaInputType: z.optional(z.nullable(LunaInputTypeEnum$outboundSchema)),
+      lunaOutputType: z.optional(z.nullable(LunaOutputTypeEnum$outboundSchema)),
+      classNameToVocabIx: z.optional(
+        z.nullable(
+          smartUnion([
+            z.record(z.string(), z.array(z.int())),
+            z.record(z.string(), z.int()),
+          ]),
+        ),
       ),
-    ),
-    prompt: z.optional(z.nullable(z.string())),
-    loraTaskId: z.optional(z.nullable(z.int())),
-    loraWeightsPath: z.optional(z.nullable(z.string())),
-    lunaInputType: z.optional(z.nullable(LunaInputTypeEnum$outboundSchema)),
-    lunaOutputType: z.optional(z.nullable(LunaOutputTypeEnum$outboundSchema)),
-    classNameToVocabIx: z.optional(
-      z.nullable(
-        smartUnion([
-          z.record(z.string(), z.array(z.int())),
-          z.record(z.string(), z.int()),
-        ]),
-      ),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      scorerName: "scorer_name",
-      aggregateKeys: "aggregate_keys",
-      subScorers: "sub_scorers",
-      metricName: "metric_name",
-      chainpollTemplate: "chainpoll_template",
-      modelAlias: "model_alias",
-      numJudges: "num_judges",
-      defaultModelAlias: "default_model_alias",
-      groundTruth: "ground_truth",
-      regexField: "regex_field",
-      registeredScorerId: "registered_scorer_id",
-      generatedScorerId: "generated_scorer_id",
-      scorerVersionId: "scorer_version_id",
-      userCode: "user_code",
-      canCopyToLlm: "can_copy_to_llm",
-      scoreableNodeTypes: "scoreable_node_types",
-      cotEnabled: "cot_enabled",
-      outputType: "output_type",
-      inputType: "input_type",
-      multimodalCapabilities: "multimodal_capabilities",
-      requiredScorers: "required_scorers",
-      requiredMetricIds: "required_metric_ids",
-      rollUpStrategy: "roll_up_strategy",
-      rollUpMethods: "roll_up_methods",
-      loraTaskId: "lora_task_id",
-      loraWeightsPath: "lora_weights_path",
-      lunaInputType: "luna_input_type",
-      lunaOutputType: "luna_output_type",
-      classNameToVocabIx: "class_name_to_vocab_ix",
-    });
-  }),
+      scorerPathName: z.optional(z.nullable(z.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        scorerName: "scorer_name",
+        aggregateKeys: "aggregate_keys",
+        metricName: "metric_name",
+        chainpollTemplate: "chainpoll_template",
+        modelAlias: "model_alias",
+        numJudges: "num_judges",
+        defaultModelAlias: "default_model_alias",
+        groundTruth: "ground_truth",
+        metadataSelection: "metadata_selection",
+        spanInputSelections: "span_input_selections",
+        requireMatchingSpan: "require_matching_span",
+        regexField: "regex_field",
+        registeredScorerId: "registered_scorer_id",
+        generatedScorerId: "generated_scorer_id",
+        scorerVersionId: "scorer_version_id",
+        userCode: "user_code",
+        canCopyToLlm: "can_copy_to_llm",
+        scoreableNodeTypes: "scoreable_node_types",
+        cotEnabled: "cot_enabled",
+        outputType: "output_type",
+        inputType: "input_type",
+        multimodalCapabilities: "multimodal_capabilities",
+        requiresToolsInLlmSpan: "requires_tools_in_llm_span",
+        requiredScorers: "required_scorers",
+        requiredMetricIds: "required_metric_ids",
+        rollUpStrategy: "roll_up_strategy",
+        rollUpMethods: "roll_up_methods",
+        loraTaskId: "lora_task_id",
+        loraWeightsPath: "lora_weights_path",
+        lunaInputType: "luna_input_type",
+        lunaOutputType: "luna_output_type",
+        classNameToVocabIx: "class_name_to_vocab_ix",
+        scorerPathName: "scorer_path_name",
+      });
+    }),
+  )
 );
 
 export function baseScorerToJSON(baseScorer: BaseScorer): string {

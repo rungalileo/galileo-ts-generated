@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -22,19 +22,21 @@ export type OpenAIIntegration = {
 export const OpenAIIntegration$inboundSchema: z.ZodMiniType<
   OpenAIIntegration,
   unknown
-> = z.pipe(
-  z.object({
-    organization_id: z.optional(z.nullable(types.string())),
-    id: z.optional(z.nullable(types.string())),
-    name: z._default(types.literal("openai"), "openai"),
-    provider: types.literal("openai"),
-    extra: z.optional(z.nullable(z.record(z.string(), z.any()))),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "organization_id": "organizationId",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      organization_id: z.optional(z.nullable(types.string())),
+      id: z.optional(z.nullable(types.string())),
+      name: z._default(types.literal("openai"), "openai"),
+      provider: types.literal("openai"),
+      extra: z.optional(z.nullable(z.record(z.string(), z.any()))),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "organization_id": "organizationId",
+      });
+    }),
+  )
 );
 
 export function openAIIntegrationFromJSON(

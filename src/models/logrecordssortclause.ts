@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type LogRecordsSortClause = {
   /**
@@ -26,18 +27,20 @@ export type LogRecordsSortClause$Outbound = {
 export const LogRecordsSortClause$outboundSchema: z.ZodMiniType<
   LogRecordsSortClause$Outbound,
   LogRecordsSortClause
-> = z.pipe(
-  z.object({
-    columnId: z.string(),
-    ascending: z._default(z.boolean(), true),
-    sortType: z._default(z.literal("column"), "column" as const),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      columnId: "column_id",
-      sortType: "sort_type",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      columnId: z.string(),
+      ascending: z._default(z.boolean(), true),
+      sortType: z._default(z.literal("column"), "column" as const),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        columnId: "column_id",
+        sortType: "sort_type",
+      });
+    }),
+  )
 );
 
 export function logRecordsSortClauseToJSON(

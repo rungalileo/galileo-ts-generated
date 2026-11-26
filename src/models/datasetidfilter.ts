@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 
 export const DatasetIDFilterOperator = {
@@ -26,7 +27,7 @@ export type DatasetIDFilter = {
 /** @internal */
 export const DatasetIDFilterOperator$outboundSchema: z.ZodMiniEnum<
   typeof DatasetIDFilterOperator
-> = z.enum(DatasetIDFilterOperator);
+> = /* @__PURE__ */ lazySchema$(() => z.enum(DatasetIDFilterOperator));
 
 /** @internal */
 export type DatasetIDFilter$Outbound = {
@@ -39,11 +40,13 @@ export type DatasetIDFilter$Outbound = {
 export const DatasetIDFilter$outboundSchema: z.ZodMiniType<
   DatasetIDFilter$Outbound,
   DatasetIDFilter
-> = z.object({
-  name: z.literal("id"),
-  operator: z._default(DatasetIDFilterOperator$outboundSchema, "eq"),
-  value: z.any(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    name: z.literal("id"),
+    operator: z._default(DatasetIDFilterOperator$outboundSchema, "eq"),
+    value: z.any(),
+  })
+);
 
 export function datasetIDFilterToJSON(
   datasetIDFilter: DatasetIDFilter,

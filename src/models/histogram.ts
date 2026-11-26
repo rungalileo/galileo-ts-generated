@@ -4,7 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -34,13 +34,15 @@ export type Histogram = {
 };
 
 /** @internal */
-export const Histogram$inboundSchema: z.ZodMiniType<Histogram, unknown> = z
-  .object({
-    strategy: HistogramStrategy$inboundSchema,
-    edges: z.array(types.number()),
-    buckets: z.array(HistogramBucket$inboundSchema),
-    total: types.number(),
-  });
+export const Histogram$inboundSchema: z.ZodMiniType<Histogram, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      strategy: HistogramStrategy$inboundSchema,
+      edges: z.array(types.number()),
+      buckets: z.array(HistogramBucket$inboundSchema),
+      total: types.number(),
+    })
+  );
 
 export function histogramFromJSON(
   jsonString: string,

@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 /**
  * Configuration for dataset examples in synthetic data generation.
@@ -26,19 +27,21 @@ export type SyntheticDataSourceDataset$Outbound = {
 export const SyntheticDataSourceDataset$outboundSchema: z.ZodMiniType<
   SyntheticDataSourceDataset$Outbound,
   SyntheticDataSourceDataset
-> = z.pipe(
-  z.object({
-    datasetId: z.string(),
-    datasetVersionIndex: z.optional(z.nullable(z.int())),
-    rowIds: z.optional(z.nullable(z.array(z.string()))),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      datasetId: "dataset_id",
-      datasetVersionIndex: "dataset_version_index",
-      rowIds: "row_ids",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      datasetId: z.string(),
+      datasetVersionIndex: z.optional(z.nullable(z.int())),
+      rowIds: z.optional(z.nullable(z.array(z.string()))),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        datasetId: "dataset_id",
+        datasetVersionIndex: "dataset_version_index",
+        rowIds: "row_ids",
+      });
+    }),
+  )
 );
 
 export function syntheticDataSourceDatasetToJSON(

@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import {
@@ -35,18 +35,20 @@ export type ControlResult = {
 export const ControlResult$inboundSchema: z.ZodMiniType<
   ControlResult,
   unknown
-> = z.pipe(
-  z.object({
-    action: ControlAction$inboundSchema,
-    matched: types.boolean(),
-    confidence: z.optional(z.nullable(types.number())),
-    error_message: z.optional(z.nullable(types.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "error_message": "errorMessage",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      action: ControlAction$inboundSchema,
+      matched: types.boolean(),
+      confidence: z.optional(z.nullable(types.number())),
+      error_message: z.optional(z.nullable(types.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "error_message": "errorMessage",
+      });
+    }),
+  )
 );
 /** @internal */
 export type ControlResult$Outbound = {
@@ -60,18 +62,20 @@ export type ControlResult$Outbound = {
 export const ControlResult$outboundSchema: z.ZodMiniType<
   ControlResult$Outbound,
   ControlResult
-> = z.pipe(
-  z.object({
-    action: ControlAction$outboundSchema,
-    matched: z.boolean(),
-    confidence: z.optional(z.nullable(z.number())),
-    errorMessage: z.optional(z.nullable(z.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      errorMessage: "error_message",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      action: ControlAction$outboundSchema,
+      matched: z.boolean(),
+      confidence: z.optional(z.nullable(z.number())),
+      errorMessage: z.optional(z.nullable(z.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        errorMessage: "error_message",
+      });
+    }),
+  )
 );
 
 export function controlResultToJSON(controlResult: ControlResult): string {

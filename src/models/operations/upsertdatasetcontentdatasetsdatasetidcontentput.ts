@@ -5,11 +5,15 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
+import { Result as SafeParseResult } from "../../types/fp.js";
 import { smartUnion } from "../../types/smartUnion.js";
+import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
 
 export type UpsertDatasetContentDatasetsDatasetIdContentPutSecurity = {
   apiKeyHeader?: string | undefined;
+  classicAPIKeyHeader?: string | undefined;
   oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
   httpBasic?: models.SchemeHTTPBasic | undefined;
 };
@@ -21,9 +25,14 @@ export type UpsertDatasetContentDatasetsDatasetIdContentPutRequest = {
   body: models.RollbackRequest | models.UpsertDatasetContentRequest;
 };
 
+export type UpsertDatasetContentDatasetsDatasetIdContentPutResponse = {
+  headers: { [k: string]: Array<string> };
+};
+
 /** @internal */
 export type UpsertDatasetContentDatasetsDatasetIdContentPutSecurity$Outbound = {
   APIKeyHeader?: string | undefined;
+  ClassicAPIKeyHeader?: string | undefined;
   OAuth2PasswordBearer?: models.OAuth2PasswordBearerInput$Outbound | undefined;
   HTTPBasic?: models.SchemeHTTPBasic$Outbound | undefined;
 };
@@ -33,21 +42,25 @@ export const UpsertDatasetContentDatasetsDatasetIdContentPutSecurity$outboundSch
   z.ZodMiniType<
     UpsertDatasetContentDatasetsDatasetIdContentPutSecurity$Outbound,
     UpsertDatasetContentDatasetsDatasetIdContentPutSecurity
-  > = z.pipe(
-    z.object({
-      apiKeyHeader: z.optional(z.string()),
-      oAuth2PasswordBearer: z.optional(
-        models.OAuth2PasswordBearerInput$outboundSchema,
-      ),
-      httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        apiKeyHeader: "APIKeyHeader",
-        oAuth2PasswordBearer: "OAuth2PasswordBearer",
-        httpBasic: "HTTPBasic",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        apiKeyHeader: z.optional(z.string()),
+        classicAPIKeyHeader: z.optional(z.string()),
+        oAuth2PasswordBearer: z.optional(
+          models.OAuth2PasswordBearerInput$outboundSchema,
+        ),
+        httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          apiKeyHeader: "APIKeyHeader",
+          classicAPIKeyHeader: "ClassicAPIKeyHeader",
+          oAuth2PasswordBearer: "OAuth2PasswordBearer",
+          httpBasic: "HTTPBasic",
+        });
+      }),
+    )
   );
 
 export function upsertDatasetContentDatasetsDatasetIdContentPutSecurityToJSON(
@@ -67,10 +80,12 @@ export type Body$Outbound =
 
 /** @internal */
 export const Body$outboundSchema: z.ZodMiniType<Body$Outbound, Body> =
-  smartUnion([
-    models.RollbackRequest$outboundSchema,
-    models.UpsertDatasetContentRequest$outboundSchema,
-  ]);
+  /* @__PURE__ */ lazySchema$(() =>
+    smartUnion([
+      models.RollbackRequest$outboundSchema,
+      models.UpsertDatasetContentRequest$outboundSchema,
+    ])
+  );
 
 export function bodyToJSON(body: Body): string {
   return JSON.stringify(Body$outboundSchema.parse(body));
@@ -89,19 +104,21 @@ export const UpsertDatasetContentDatasetsDatasetIdContentPutRequest$outboundSche
   z.ZodMiniType<
     UpsertDatasetContentDatasetsDatasetIdContentPutRequest$Outbound,
     UpsertDatasetContentDatasetsDatasetIdContentPutRequest
-  > = z.pipe(
-    z.object({
-      datasetId: z.string(),
-      body: smartUnion([
-        models.RollbackRequest$outboundSchema,
-        models.UpsertDatasetContentRequest$outboundSchema,
-      ]),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        datasetId: "dataset_id",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        datasetId: z.string(),
+        body: smartUnion([
+          models.RollbackRequest$outboundSchema,
+          models.UpsertDatasetContentRequest$outboundSchema,
+        ]),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          datasetId: "dataset_id",
+        });
+      }),
+    )
   );
 
 export function upsertDatasetContentDatasetsDatasetIdContentPutRequestToJSON(
@@ -112,5 +129,38 @@ export function upsertDatasetContentDatasetsDatasetIdContentPutRequestToJSON(
     UpsertDatasetContentDatasetsDatasetIdContentPutRequest$outboundSchema.parse(
       upsertDatasetContentDatasetsDatasetIdContentPutRequest,
     ),
+  );
+}
+
+/** @internal */
+export const UpsertDatasetContentDatasetsDatasetIdContentPutResponse$inboundSchema:
+  z.ZodMiniType<
+    UpsertDatasetContentDatasetsDatasetIdContentPutResponse,
+    unknown
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "Headers": "headers",
+        });
+      }),
+    )
+  );
+
+export function upsertDatasetContentDatasetsDatasetIdContentPutResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  UpsertDatasetContentDatasetsDatasetIdContentPutResponse,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      UpsertDatasetContentDatasetsDatasetIdContentPutResponse$inboundSchema
+        .parse(JSON.parse(x)),
+    `Failed to parse 'UpsertDatasetContentDatasetsDatasetIdContentPutResponse' from JSON`,
   );
 }

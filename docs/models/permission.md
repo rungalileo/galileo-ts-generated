@@ -6,7 +6,7 @@
 import { Permission } from "galileo-generated/models";
 
 let value: Permission = {
-  action: "delete",
+  action: "share",
   allowed: false,
 };
 ```

@@ -4,49 +4,29 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
 /**
- * Valid task types for modeling.
- *
- * @remarks
- *
- * We store these as ints instead of strings because we will be looking this up in the database frequently.
+ * Keep the existing integer values used by stored runs.
  */
 export const TaskType = {
-  Zero: 0,
-  One: 1,
-  Two: 2,
-  Three: 3,
-  Four: 4,
-  Five: 5,
-  Six: 6,
-  Seven: 7,
-  Eight: 8,
-  Nine: 9,
-  Ten: 10,
-  Eleven: 11,
-  Twelve: 12,
   Thirteen: 13,
-  Fourteen: 14,
   Fifteen: 15,
   Sixteen: 16,
   Seventeen: 17,
   Eighteen: 18,
+  Nineteen: 19,
 } as const;
 /**
- * Valid task types for modeling.
- *
- * @remarks
- *
- * We store these as ints instead of strings because we will be looking this up in the database frequently.
+ * Keep the existing integer values used by stored runs.
  */
 export type TaskType = OpenEnum<typeof TaskType>;
 
 /** @internal */
 export const TaskType$inboundSchema: z.ZodMiniType<TaskType, unknown> =
-  openEnums.inboundSchemaInt(TaskType);
+  /* @__PURE__ */ lazySchema$(() => openEnums.inboundSchemaInt(TaskType));
 /** @internal */
 export const TaskType$outboundSchema: z.ZodMiniType<number, TaskType> =
-  openEnums.outboundSchemaInt(TaskType);
+  /* @__PURE__ */ lazySchema$(() => openEnums.outboundSchemaInt(TaskType));

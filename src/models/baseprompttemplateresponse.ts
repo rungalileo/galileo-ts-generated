@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { smartUnion } from "../types/smartUnion.js";
@@ -46,7 +46,9 @@ export type BasePromptTemplateResponse = {
 export const BasePromptTemplateResponseName$inboundSchema: z.ZodMiniType<
   BasePromptTemplateResponseName,
   unknown
-> = smartUnion([Name$inboundSchema, types.string()]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([Name$inboundSchema, types.string()])
+);
 
 export function basePromptTemplateResponseNameFromJSON(
   jsonString: string,
@@ -62,37 +64,39 @@ export function basePromptTemplateResponseNameFromJSON(
 export const BasePromptTemplateResponse$inboundSchema: z.ZodMiniType<
   BasePromptTemplateResponse,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.string(),
-    permissions: types.optional(z.array(Permission$inboundSchema)),
-    name: smartUnion([Name$inboundSchema, types.string()]),
-    template: types.string(),
-    selected_version: BasePromptTemplateVersionResponse$inboundSchema,
-    selected_version_id: types.string(),
-    all_versions: types.optional(
-      z.array(BasePromptTemplateVersionResponse$inboundSchema),
-    ),
-    all_available_versions: z.array(types.number()),
-    total_versions: types.number(),
-    max_version: types.number(),
-    created_at: types.date(),
-    updated_at: types.date(),
-    created_by_user: types.nullable(UserInfo$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "selected_version": "selectedVersion",
-      "selected_version_id": "selectedVersionId",
-      "all_versions": "allVersions",
-      "all_available_versions": "allAvailableVersions",
-      "total_versions": "totalVersions",
-      "max_version": "maxVersion",
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-      "created_by_user": "createdByUser",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.string(),
+      permissions: types.optional(z.array(Permission$inboundSchema)),
+      name: smartUnion([Name$inboundSchema, types.string()]),
+      template: types.string(),
+      selected_version: BasePromptTemplateVersionResponse$inboundSchema,
+      selected_version_id: types.string(),
+      all_versions: types.optional(
+        z.array(BasePromptTemplateVersionResponse$inboundSchema),
+      ),
+      all_available_versions: z.array(types.number()),
+      total_versions: types.number(),
+      max_version: types.number(),
+      created_at: types.date(),
+      updated_at: types.date(),
+      created_by_user: types.nullable(UserInfo$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "selected_version": "selectedVersion",
+        "selected_version_id": "selectedVersionId",
+        "all_versions": "allVersions",
+        "all_available_versions": "allAvailableVersions",
+        "total_versions": "totalVersions",
+        "max_version": "maxVersion",
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+        "created_by_user": "createdByUser",
+      });
+    }),
+  )
 );
 
 export function basePromptTemplateResponseFromJSON(

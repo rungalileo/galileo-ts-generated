@@ -6,12 +6,12 @@
 import * as z from "zod/v4-mini";
 import { GalileoGeneratedCore } from "../core.js";
 import { encodeFormQuery, encodeSimple } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
-import { RequestOptions } from "../lib/sdks.js";
+import { encodePath, RequestOptions } from "../lib/sdks.js";
 import { resolveOAuth2Password, resolveSecurity } from "../lib/security.js";
-import { pathToFunc } from "../lib/url.js";
 import { GalileoGeneratedError } from "../models/errors/galileogeneratederror.js";
 import {
   ConnectionError,
@@ -32,7 +32,16 @@ import { Result } from "../types/fp.js";
  * List User Integration Collaborators
  *
  * @remarks
- * List the users with which the integration has been shared.
+ * List the users the integration has been shared with.
+ *
+ * Args:
+ *     integration: Integration resolved from the URL.
+ *     pagination: Page window to return.
+ *     principal: Caller the collaborator permissions are evaluated for.
+ *     ctx: Async request context supplying the read session and current user.
+ *
+ * Returns:
+ *     The requested page of user collaborators.
  */
 export function integrationsListUserIntegrationCollaboratorsIntegrationsIntegrationIdUsersGet(
   client: GalileoGeneratedCore,
@@ -109,8 +118,14 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
-  const path = pathToFunc("/integrations/{integration_id}/users")(pathParams);
+  const pathResult = encodePath(
+    "/integrations/{integration_id}/users",
+    pathParams,
+  );
+  if (!pathResult.ok) {
+    return [pathResult, { status: "invalid" }];
+  }
+  const path = pathResult.value;
 
   const query = encodeFormQuery({
     "limit": payload.limit,
@@ -124,9 +139,16 @@ async function $do(
   const requestSecurity = resolveSecurity(
     [
       {
-        fieldName: "Galileo-API-Key",
+        fieldName: "Splunk-AO-API-Key",
         type: "apiKey:header",
         value: security?.apiKeyHeader,
+      },
+    ],
+    [
+      {
+        fieldName: "Galileo-API-Key",
+        type: "apiKey:header",
+        value: security?.classicAPIKeyHeader,
       },
     ],
     [
@@ -183,7 +205,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["422", "4XX", "5XX"],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });

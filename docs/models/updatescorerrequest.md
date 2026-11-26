@@ -9,10 +9,20 @@ let value: UpdateScorerRequest = {
   defaults: {
     filters: [
       {
-        name: "metadata",
-        operator: "ne",
-        key: "<key>",
+        name: "node_name",
+        operator: "regex",
         value: "<value>",
+        caseSensitive: true,
+      },
+    ],
+    childSpanFilters: [
+      {
+        name: "node_name",
+        operator: "contains",
+        value: [
+          "<value 1>",
+        ],
+        caseSensitive: true,
       },
     ],
   },
@@ -26,7 +36,7 @@ let value: UpdateScorerRequest = {
 | `name`                                                                       | *string*                                                                     | :heavy_minus_sign:                                                           | N/A                                                                          |
 | `description`                                                                | *string*                                                                     | :heavy_minus_sign:                                                           | N/A                                                                          |
 | `tags`                                                                       | *string*[]                                                                   | :heavy_minus_sign:                                                           | N/A                                                                          |
-| `defaults`                                                                   | [models.ScorerDefaults](../models/scorerdefaults.md)                         | :heavy_minus_sign:                                                           | N/A                                                                          |
+| `defaults`                                                                   | [models.ScorerDefaultsRequest](../models/scorerdefaultsrequest.md)           | :heavy_minus_sign:                                                           | N/A                                                                          |
 | `modelType`                                                                  | [models.ModelType](../models/modeltype.md)                                   | :heavy_minus_sign:                                                           | N/A                                                                          |
 | `groundTruth`                                                                | *boolean*                                                                    | :heavy_minus_sign:                                                           | N/A                                                                          |
 | `defaultVersionId`                                                           | *string*                                                                     | :heavy_minus_sign:                                                           | N/A                                                                          |

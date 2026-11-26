@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -30,36 +30,38 @@ export type DatasetVersionDB = {
 export const DatasetVersionDB$inboundSchema: z.ZodMiniType<
   DatasetVersionDB,
   unknown
-> = z.pipe(
-  z.object({
-    version_index: types.number(),
-    name: types.nullable(types.string()),
-    created_at: types.date(),
-    created_by_user: types.nullable(UserInfo$inboundSchema),
-    num_rows: types.number(),
-    column_names: z.array(types.string()),
-    rows_added: types.number(),
-    rows_removed: types.number(),
-    rows_edited: types.number(),
-    columns_added: types.number(),
-    columns_removed: types.number(),
-    columns_renamed: types.number(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "version_index": "versionIndex",
-      "created_at": "createdAt",
-      "created_by_user": "createdByUser",
-      "num_rows": "numRows",
-      "column_names": "columnNames",
-      "rows_added": "rowsAdded",
-      "rows_removed": "rowsRemoved",
-      "rows_edited": "rowsEdited",
-      "columns_added": "columnsAdded",
-      "columns_removed": "columnsRemoved",
-      "columns_renamed": "columnsRenamed",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      version_index: types.number(),
+      name: types.nullable(types.string()),
+      created_at: types.date(),
+      created_by_user: types.nullable(UserInfo$inboundSchema),
+      num_rows: types.number(),
+      column_names: z.array(types.string()),
+      rows_added: types.number(),
+      rows_removed: types.number(),
+      rows_edited: types.number(),
+      columns_added: types.number(),
+      columns_removed: types.number(),
+      columns_renamed: types.number(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "version_index": "versionIndex",
+        "created_at": "createdAt",
+        "created_by_user": "createdByUser",
+        "num_rows": "numRows",
+        "column_names": "columnNames",
+        "rows_added": "rowsAdded",
+        "rows_removed": "rowsRemoved",
+        "rows_edited": "rowsEdited",
+        "columns_added": "columnsAdded",
+        "columns_removed": "columnsRemoved",
+        "columns_renamed": "columnsRenamed",
+      });
+    }),
+  )
 );
 
 export function datasetVersionDBFromJSON(

@@ -4,7 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 import { Result as SafeParseResult } from "../types/fp.js";
@@ -60,18 +60,24 @@ export type NumericColorConstraint = {
 export const NumericColorConstraintOperator$inboundSchema: z.ZodMiniType<
   NumericColorConstraintOperator,
   unknown
-> = openEnums.inboundSchema(NumericColorConstraintOperator);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(NumericColorConstraintOperator)
+);
 /** @internal */
 export const NumericColorConstraintOperator$outboundSchema: z.ZodMiniType<
   string,
   NumericColorConstraintOperator
-> = openEnums.outboundSchema(NumericColorConstraintOperator);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.outboundSchema(NumericColorConstraintOperator)
+);
 
 /** @internal */
 export const NumericColorConstraintValue$inboundSchema: z.ZodMiniType<
   NumericColorConstraintValue,
   unknown
-> = smartUnion([types.number(), z.array(types.number())]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([types.number(), z.array(types.number())])
+);
 /** @internal */
 export type NumericColorConstraintValue$Outbound = number | Array<number>;
 
@@ -79,7 +85,9 @@ export type NumericColorConstraintValue$Outbound = number | Array<number>;
 export const NumericColorConstraintValue$outboundSchema: z.ZodMiniType<
   NumericColorConstraintValue$Outbound,
   NumericColorConstraintValue
-> = smartUnion([z.number(), z.array(z.number())]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([z.number(), z.array(z.number())])
+);
 
 export function numericColorConstraintValueToJSON(
   numericColorConstraintValue: NumericColorConstraintValue,
@@ -104,11 +112,13 @@ export function numericColorConstraintValueFromJSON(
 export const NumericColorConstraint$inboundSchema: z.ZodMiniType<
   NumericColorConstraint,
   unknown
-> = z.object({
-  color: MetricColor$inboundSchema,
-  operator: NumericColorConstraintOperator$inboundSchema,
-  value: smartUnion([types.number(), z.array(types.number())]),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    color: MetricColor$inboundSchema,
+    operator: NumericColorConstraintOperator$inboundSchema,
+    value: smartUnion([types.number(), z.array(types.number())]),
+  })
+);
 /** @internal */
 export type NumericColorConstraint$Outbound = {
   color: string;
@@ -120,11 +130,13 @@ export type NumericColorConstraint$Outbound = {
 export const NumericColorConstraint$outboundSchema: z.ZodMiniType<
   NumericColorConstraint$Outbound,
   NumericColorConstraint
-> = z.object({
-  color: MetricColor$outboundSchema,
-  operator: NumericColorConstraintOperator$outboundSchema,
-  value: smartUnion([z.number(), z.array(z.number())]),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    color: MetricColor$outboundSchema,
+    operator: NumericColorConstraintOperator$outboundSchema,
+    value: smartUnion([z.number(), z.array(z.number())]),
+  })
+);
 
 export function numericColorConstraintToJSON(
   numericColorConstraint: NumericColorConstraint,

@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -41,23 +41,25 @@ export type SessionCreateResponse = {
 export const SessionCreateResponse$inboundSchema: z.ZodMiniType<
   SessionCreateResponse,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.string(),
-    name: types.nullable(types.string()),
-    project_id: types.string(),
-    project_name: types.string(),
-    previous_session_id: z.optional(z.nullable(types.string())),
-    external_id: z.optional(z.nullable(types.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "project_id": "projectId",
-      "project_name": "projectName",
-      "previous_session_id": "previousSessionId",
-      "external_id": "externalId",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.string(),
+      name: types.nullable(types.string()),
+      project_id: types.string(),
+      project_name: types.string(),
+      previous_session_id: z.optional(z.nullable(types.string())),
+      external_id: z.optional(z.nullable(types.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "project_id": "projectId",
+        "project_name": "projectName",
+        "previous_session_id": "previousSessionId",
+        "external_id": "externalId",
+      });
+    }),
+  )
 );
 
 export function sessionCreateResponseFromJSON(

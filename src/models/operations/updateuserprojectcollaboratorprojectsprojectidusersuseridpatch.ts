@@ -5,11 +5,13 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../../lib/schemas.js";
 import * as models from "../index.js";
 
 export type UpdateUserProjectCollaboratorProjectsProjectIdUsersUserIdPatchSecurity =
   {
     apiKeyHeader?: string | undefined;
+    classicAPIKeyHeader?: string | undefined;
     oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
     httpBasic?: models.SchemeHTTPBasic | undefined;
   };
@@ -18,13 +20,14 @@ export type UpdateUserProjectCollaboratorProjectsProjectIdUsersUserIdPatchReques
   {
     projectId: string;
     userId: string;
-    body: models.CollaboratorUpdate;
+    body: models.ProjectCollaboratorUpdate;
   };
 
 /** @internal */
 export type UpdateUserProjectCollaboratorProjectsProjectIdUsersUserIdPatchSecurity$Outbound =
   {
     APIKeyHeader?: string | undefined;
+    ClassicAPIKeyHeader?: string | undefined;
     OAuth2PasswordBearer?:
       | models.OAuth2PasswordBearerInput$Outbound
       | undefined;
@@ -36,21 +39,25 @@ export const UpdateUserProjectCollaboratorProjectsProjectIdUsersUserIdPatchSecur
   z.ZodMiniType<
     UpdateUserProjectCollaboratorProjectsProjectIdUsersUserIdPatchSecurity$Outbound,
     UpdateUserProjectCollaboratorProjectsProjectIdUsersUserIdPatchSecurity
-  > = z.pipe(
-    z.object({
-      apiKeyHeader: z.optional(z.string()),
-      oAuth2PasswordBearer: z.optional(
-        models.OAuth2PasswordBearerInput$outboundSchema,
-      ),
-      httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        apiKeyHeader: "APIKeyHeader",
-        oAuth2PasswordBearer: "OAuth2PasswordBearer",
-        httpBasic: "HTTPBasic",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        apiKeyHeader: z.optional(z.string()),
+        classicAPIKeyHeader: z.optional(z.string()),
+        oAuth2PasswordBearer: z.optional(
+          models.OAuth2PasswordBearerInput$outboundSchema,
+        ),
+        httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          apiKeyHeader: "APIKeyHeader",
+          classicAPIKeyHeader: "ClassicAPIKeyHeader",
+          oAuth2PasswordBearer: "OAuth2PasswordBearer",
+          httpBasic: "HTTPBasic",
+        });
+      }),
+    )
   );
 
 export function updateUserProjectCollaboratorProjectsProjectIdUsersUserIdPatchSecurityToJSON(
@@ -70,7 +77,7 @@ export type UpdateUserProjectCollaboratorProjectsProjectIdUsersUserIdPatchReques
   {
     project_id: string;
     user_id: string;
-    body: models.CollaboratorUpdate$Outbound;
+    body: models.ProjectCollaboratorUpdate$Outbound;
   };
 
 /** @internal */
@@ -78,18 +85,20 @@ export const UpdateUserProjectCollaboratorProjectsProjectIdUsersUserIdPatchReque
   z.ZodMiniType<
     UpdateUserProjectCollaboratorProjectsProjectIdUsersUserIdPatchRequest$Outbound,
     UpdateUserProjectCollaboratorProjectsProjectIdUsersUserIdPatchRequest
-  > = z.pipe(
-    z.object({
-      projectId: z.string(),
-      userId: z.string(),
-      body: models.CollaboratorUpdate$outboundSchema,
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        projectId: "project_id",
-        userId: "user_id",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        projectId: z.string(),
+        userId: z.string(),
+        body: models.ProjectCollaboratorUpdate$outboundSchema,
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          projectId: "project_id",
+          userId: "user_id",
+        });
+      }),
+    )
   );
 
 export function updateUserProjectCollaboratorProjectsProjectIdUsersUserIdPatchRequestToJSON(

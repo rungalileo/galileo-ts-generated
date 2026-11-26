@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -21,18 +21,20 @@ export type HallucinationSegment = {
 export const HallucinationSegment$inboundSchema: z.ZodMiniType<
   HallucinationSegment,
   unknown
-> = z.pipe(
-  z.object({
-    hallucination_severity: z._default(types.number(), 0),
-    start: types.number(),
-    end: types.number(),
-    hallucination: types.number(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "hallucination_severity": "hallucinationSeverity",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      hallucination_severity: z._default(types.number(), 0),
+      start: types.number(),
+      end: types.number(),
+      hallucination: types.number(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "hallucination_severity": "hallucinationSeverity",
+      });
+    }),
+  )
 );
 
 export function hallucinationSegmentFromJSON(

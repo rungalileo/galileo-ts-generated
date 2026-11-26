@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
@@ -17,9 +18,13 @@ export type ControlCheckStage = OpenEnum<typeof ControlCheckStage>;
 export const ControlCheckStage$inboundSchema: z.ZodMiniType<
   ControlCheckStage,
   unknown
-> = openEnums.inboundSchema(ControlCheckStage);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(ControlCheckStage)
+);
 /** @internal */
 export const ControlCheckStage$outboundSchema: z.ZodMiniType<
   string,
   ControlCheckStage
-> = openEnums.outboundSchema(ControlCheckStage);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.outboundSchema(ControlCheckStage)
+);

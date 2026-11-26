@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -21,19 +21,21 @@ export type ExperimentPrompt = {
 export const ExperimentPrompt$inboundSchema: z.ZodMiniType<
   ExperimentPrompt,
   unknown
-> = z.pipe(
-  z.object({
-    prompt_template_id: z.optional(z.nullable(types.string())),
-    version_index: z.optional(z.nullable(types.number())),
-    name: z.optional(z.nullable(types.string())),
-    content: z.optional(z.nullable(types.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "prompt_template_id": "promptTemplateId",
-      "version_index": "versionIndex",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      prompt_template_id: z.optional(z.nullable(types.string())),
+      version_index: z.optional(z.nullable(types.number())),
+      name: z.optional(z.nullable(types.string())),
+      content: z.optional(z.nullable(types.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "prompt_template_id": "promptTemplateId",
+        "version_index": "versionIndex",
+      });
+    }),
+  )
 );
 
 export function experimentPromptFromJSON(

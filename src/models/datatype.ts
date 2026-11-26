@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
@@ -21,6 +22,7 @@ export const DataType = {
   Playground: "playground",
   Rank: "rank",
   CategoryCount: "category_count",
+  RetrievedChunkListBoolean: "retrieved_chunk_list_boolean",
   ScoreRatingAggregate: "score_rating_aggregate",
   StarRatingAggregate: "star_rating_aggregate",
   ThumbRatingAggregate: "thumb_rating_aggregate",
@@ -33,4 +35,4 @@ export type DataType = OpenEnum<typeof DataType>;
 
 /** @internal */
 export const DataType$inboundSchema: z.ZodMiniType<DataType, unknown> =
-  openEnums.inboundSchema(DataType);
+  /* @__PURE__ */ lazySchema$(() => openEnums.inboundSchema(DataType));

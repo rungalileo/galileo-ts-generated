@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type DatabricksIntegrationCreate = {
   token: string;
@@ -29,20 +30,22 @@ export type DatabricksIntegrationCreate$Outbound = {
 export const DatabricksIntegrationCreate$outboundSchema: z.ZodMiniType<
   DatabricksIntegrationCreate$Outbound,
   DatabricksIntegrationCreate
-> = z.pipe(
-  z.object({
-    token: z.string(),
-    hostname: z.string(),
-    defaultCatalogName: z.optional(z.nullable(z.string())),
-    path: z.optional(z.nullable(z.string())),
-    llm: z._default(z.boolean(), false),
-    storage: z._default(z.boolean(), false),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      defaultCatalogName: "default_catalog_name",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      token: z.string(),
+      hostname: z.string(),
+      defaultCatalogName: z.optional(z.nullable(z.string())),
+      path: z.optional(z.nullable(z.string())),
+      llm: z._default(z.boolean(), false),
+      storage: z._default(z.boolean(), false),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        defaultCatalogName: "default_catalog_name",
+      });
+    }),
+  )
 );
 
 export function databricksIntegrationCreateToJSON(

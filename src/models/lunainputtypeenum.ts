@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
@@ -18,9 +19,13 @@ export type LunaInputTypeEnum = OpenEnum<typeof LunaInputTypeEnum>;
 export const LunaInputTypeEnum$inboundSchema: z.ZodMiniType<
   LunaInputTypeEnum,
   unknown
-> = openEnums.inboundSchema(LunaInputTypeEnum);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(LunaInputTypeEnum)
+);
 /** @internal */
 export const LunaInputTypeEnum$outboundSchema: z.ZodMiniType<
   string,
   LunaInputTypeEnum
-> = openEnums.outboundSchema(LunaInputTypeEnum);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.outboundSchema(LunaInputTypeEnum)
+);

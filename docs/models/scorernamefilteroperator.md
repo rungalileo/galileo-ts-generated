@@ -11,5 +11,5 @@ let value: ScorerNameFilterOperator = "not_in";
 ## Values
 
 ```typescript
-"eq" | "ne" | "contains" | "one_of" | "not_in"
+"eq" | "ne" | "contains" | "regex" | "one_of" | "not_in"
 ```

@@ -5,11 +5,14 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../../lib/schemas.js";
 import * as models from "../index.js";
 
 export type LogTracesProjectsProjectIdTracesPostSecurity = {
   apiKeyHeader?: string | undefined;
+  classicAPIKeyHeader?: string | undefined;
   oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
+  httpBasic?: models.SchemeHTTPBasic | undefined;
 };
 
 export type LogTracesProjectsProjectIdTracesPostRequest = {
@@ -20,7 +23,9 @@ export type LogTracesProjectsProjectIdTracesPostRequest = {
 /** @internal */
 export type LogTracesProjectsProjectIdTracesPostSecurity$Outbound = {
   APIKeyHeader?: string | undefined;
+  ClassicAPIKeyHeader?: string | undefined;
   OAuth2PasswordBearer?: models.OAuth2PasswordBearerInput$Outbound | undefined;
+  HTTPBasic?: models.SchemeHTTPBasic$Outbound | undefined;
 };
 
 /** @internal */
@@ -28,19 +33,25 @@ export const LogTracesProjectsProjectIdTracesPostSecurity$outboundSchema:
   z.ZodMiniType<
     LogTracesProjectsProjectIdTracesPostSecurity$Outbound,
     LogTracesProjectsProjectIdTracesPostSecurity
-  > = z.pipe(
-    z.object({
-      apiKeyHeader: z.optional(z.string()),
-      oAuth2PasswordBearer: z.optional(
-        models.OAuth2PasswordBearerInput$outboundSchema,
-      ),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        apiKeyHeader: "APIKeyHeader",
-        oAuth2PasswordBearer: "OAuth2PasswordBearer",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        apiKeyHeader: z.optional(z.string()),
+        classicAPIKeyHeader: z.optional(z.string()),
+        oAuth2PasswordBearer: z.optional(
+          models.OAuth2PasswordBearerInput$outboundSchema,
+        ),
+        httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          apiKeyHeader: "APIKeyHeader",
+          classicAPIKeyHeader: "ClassicAPIKeyHeader",
+          oAuth2PasswordBearer: "OAuth2PasswordBearer",
+          httpBasic: "HTTPBasic",
+        });
+      }),
+    )
   );
 
 export function logTracesProjectsProjectIdTracesPostSecurityToJSON(
@@ -65,16 +76,18 @@ export const LogTracesProjectsProjectIdTracesPostRequest$outboundSchema:
   z.ZodMiniType<
     LogTracesProjectsProjectIdTracesPostRequest$Outbound,
     LogTracesProjectsProjectIdTracesPostRequest
-  > = z.pipe(
-    z.object({
-      projectId: z.string(),
-      body: models.LogTracesIngestRequest$outboundSchema,
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        projectId: "project_id",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        projectId: z.string(),
+        body: models.LogTracesIngestRequest$outboundSchema,
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          projectId: "project_id",
+        });
+      }),
+    )
   );
 
 export function logTracesProjectsProjectIdTracesPostRequestToJSON(

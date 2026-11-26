@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 /**
  * Internal filter: excludes scorers with model_type == slm while including
@@ -24,9 +25,11 @@ export type ScorerExcludeSlmScorersFilter$Outbound = {
 export const ScorerExcludeSlmScorersFilter$outboundSchema: z.ZodMiniType<
   ScorerExcludeSlmScorersFilter$Outbound,
   ScorerExcludeSlmScorersFilter
-> = z.object({
-  name: z.literal("exclude_slm_scorers"),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    name: z.literal("exclude_slm_scorers"),
+  })
+);
 
 export function scorerExcludeSlmScorersFilterToJSON(
   scorerExcludeSlmScorersFilter: ScorerExcludeSlmScorersFilter,

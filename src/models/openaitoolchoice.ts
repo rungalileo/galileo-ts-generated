@@ -4,7 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -24,10 +24,12 @@ export type OpenAIToolChoice = {
 export const OpenAIToolChoice$inboundSchema: z.ZodMiniType<
   OpenAIToolChoice,
   unknown
-> = z.object({
-  type: z._default(types.string(), "function"),
-  function: OpenAIFunction$inboundSchema,
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    type: z._default(types.string(), "function"),
+    function: OpenAIFunction$inboundSchema,
+  })
+);
 /** @internal */
 export type OpenAIToolChoice$Outbound = {
   type: string;
@@ -38,10 +40,12 @@ export type OpenAIToolChoice$Outbound = {
 export const OpenAIToolChoice$outboundSchema: z.ZodMiniType<
   OpenAIToolChoice$Outbound,
   OpenAIToolChoice
-> = z.object({
-  type: z._default(z.string(), "function"),
-  function: OpenAIFunction$outboundSchema,
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    type: z._default(z.string(), "function"),
+    function: OpenAIFunction$outboundSchema,
+  })
+);
 
 export function openAIToolChoiceToJSON(
   openAIToolChoice: OpenAIToolChoice,

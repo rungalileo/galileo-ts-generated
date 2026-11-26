@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   AgentSpan,
   AgentSpan$Outbound,
@@ -15,6 +16,11 @@ import {
   ControlSpan$Outbound,
   ControlSpan$outboundSchema,
 } from "./controlspan.js";
+import {
+  HttpSpan,
+  HttpSpan$Outbound,
+  HttpSpan$outboundSchema,
+} from "./httpspan.js";
 import {
   LlmSpan,
   LlmSpan$Outbound,
@@ -43,6 +49,7 @@ import {
 export type LogSpansIngestRequestSpan =
   | AgentSpan
   | ControlSpan
+  | HttpSpan
   | LlmSpan
   | RetrieverSpan
   | ToolSpan
@@ -67,14 +74,20 @@ export type LogSpansIngestRequest = {
   loggingMethod?: LoggingMethod | undefined;
   clientVersion?: string | null | undefined;
   /**
-   * Whether or not to use reliable logging.  If set to False, the method will respond immediately before verifying that the traces have been successfully ingested, and no error message will be returned if ingestion fails.  If set to True, the method will wait for the traces to be successfully ingested or return an error message if there is an ingestion failure.
+   * Whether or not to use reliable logging.  If set to False, the method will respond immediately before verifying that the traces have been successfully ingested, and no error message will be returned if ingestion fails.  If set to True, the method will wait for the traces to be durably accepted or return an error message if there is an ingestion failure. On the streaming write path (kafka_metrics_pipeline) accepted means acknowledged by Kafka; the records become readable after the data-writer flush, about GALILEO_STREAMING_EXPECTED_LAG_SECONDS (default 2.5 s) later, so a read issued immediately after the response can miss them.
    */
   reliable?: boolean | undefined;
   /**
    * List of spans to log.
    */
   spans: Array<
-    AgentSpan | ControlSpan | LlmSpan | RetrieverSpan | ToolSpan | WorkflowSpan
+    | AgentSpan
+    | ControlSpan
+    | HttpSpan
+    | LlmSpan
+    | RetrieverSpan
+    | ToolSpan
+    | WorkflowSpan
   >;
   /**
    * Trace id associated with the spans.
@@ -90,6 +103,7 @@ export type LogSpansIngestRequest = {
 export type LogSpansIngestRequestSpan$Outbound =
   | AgentSpan$Outbound
   | ControlSpan$Outbound
+  | HttpSpan$Outbound
   | LlmSpan$Outbound
   | RetrieverSpan$Outbound
   | ToolSpan$Outbound
@@ -99,14 +113,17 @@ export type LogSpansIngestRequestSpan$Outbound =
 export const LogSpansIngestRequestSpan$outboundSchema: z.ZodMiniType<
   LogSpansIngestRequestSpan$Outbound,
   LogSpansIngestRequestSpan
-> = z.union([
-  AgentSpan$outboundSchema,
-  ControlSpan$outboundSchema,
-  LlmSpan$outboundSchema,
-  RetrieverSpan$outboundSchema,
-  ToolSpan$outboundSchema,
-  WorkflowSpan$outboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    AgentSpan$outboundSchema,
+    ControlSpan$outboundSchema,
+    HttpSpan$outboundSchema,
+    LlmSpan$outboundSchema,
+    RetrieverSpan$outboundSchema,
+    ToolSpan$outboundSchema,
+    WorkflowSpan$outboundSchema,
+  ])
+);
 
 export function logSpansIngestRequestSpanToJSON(
   logSpansIngestRequestSpan: LogSpansIngestRequestSpan,
@@ -127,6 +144,7 @@ export type LogSpansIngestRequest$Outbound = {
   spans: Array<
     | AgentSpan$Outbound
     | ControlSpan$Outbound
+    | HttpSpan$Outbound
     | LlmSpan$Outbound
     | RetrieverSpan$Outbound
     | ToolSpan$Outbound
@@ -140,38 +158,41 @@ export type LogSpansIngestRequest$Outbound = {
 export const LogSpansIngestRequest$outboundSchema: z.ZodMiniType<
   LogSpansIngestRequest$Outbound,
   LogSpansIngestRequest
-> = z.pipe(
-  z.object({
-    logStreamId: z.optional(z.nullable(z.string())),
-    experimentId: z.optional(z.nullable(z.string())),
-    metricsTestingId: z.optional(z.nullable(z.string())),
-    loggingMethod: z.optional(LoggingMethod$outboundSchema),
-    clientVersion: z.optional(z.nullable(z.string())),
-    reliable: z._default(z.boolean(), true),
-    spans: z.array(
-      z.union([
-        AgentSpan$outboundSchema,
-        ControlSpan$outboundSchema,
-        LlmSpan$outboundSchema,
-        RetrieverSpan$outboundSchema,
-        ToolSpan$outboundSchema,
-        WorkflowSpan$outboundSchema,
-      ]),
-    ),
-    traceId: z.string(),
-    parentId: z.string(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      logStreamId: "log_stream_id",
-      experimentId: "experiment_id",
-      metricsTestingId: "metrics_testing_id",
-      loggingMethod: "logging_method",
-      clientVersion: "client_version",
-      traceId: "trace_id",
-      parentId: "parent_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      logStreamId: z.optional(z.nullable(z.string())),
+      experimentId: z.optional(z.nullable(z.string())),
+      metricsTestingId: z.optional(z.nullable(z.string())),
+      loggingMethod: z.optional(LoggingMethod$outboundSchema),
+      clientVersion: z.optional(z.nullable(z.string())),
+      reliable: z._default(z.boolean(), true),
+      spans: z.array(
+        z.union([
+          AgentSpan$outboundSchema,
+          ControlSpan$outboundSchema,
+          HttpSpan$outboundSchema,
+          LlmSpan$outboundSchema,
+          RetrieverSpan$outboundSchema,
+          ToolSpan$outboundSchema,
+          WorkflowSpan$outboundSchema,
+        ]),
+      ),
+      traceId: z.string(),
+      parentId: z.string(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        logStreamId: "log_stream_id",
+        experimentId: "experiment_id",
+        metricsTestingId: "metrics_testing_id",
+        loggingMethod: "logging_method",
+        clientVersion: "client_version",
+        traceId: "trace_id",
+        parentId: "parent_id",
+      });
+    }),
+  )
 );
 
 export function logSpansIngestRequestToJSON(

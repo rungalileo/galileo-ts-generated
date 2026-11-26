@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type UpdateDatasetVersionRequest = {
   name?: string | null | undefined;
@@ -18,9 +19,11 @@ export type UpdateDatasetVersionRequest$Outbound = {
 export const UpdateDatasetVersionRequest$outboundSchema: z.ZodMiniType<
   UpdateDatasetVersionRequest$Outbound,
   UpdateDatasetVersionRequest
-> = z.object({
-  name: z.optional(z.nullable(z.string())),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    name: z.optional(z.nullable(z.string())),
+  })
+);
 
 export function updateDatasetVersionRequestToJSON(
   updateDatasetVersionRequest: UpdateDatasetVersionRequest,

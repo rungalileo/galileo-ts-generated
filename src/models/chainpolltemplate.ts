@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -57,28 +57,30 @@ export type ChainPollTemplate = {
 export const ChainPollTemplate$inboundSchema: z.ZodMiniType<
   ChainPollTemplate,
   unknown
-> = z.pipe(
-  z.object({
-    metric_system_prompt: z.optional(z.nullable(types.string())),
-    metric_description: z.optional(z.nullable(types.string())),
-    value_field_name: z._default(types.string(), "rating"),
-    explanation_field_name: z._default(types.string(), "explanation"),
-    template: types.string(),
-    metric_few_shot_examples: types.optional(
-      z.array(FewShotExample$inboundSchema),
-    ),
-    response_schema: z.optional(z.nullable(z.record(z.string(), z.any()))),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "metric_system_prompt": "metricSystemPrompt",
-      "metric_description": "metricDescription",
-      "value_field_name": "valueFieldName",
-      "explanation_field_name": "explanationFieldName",
-      "metric_few_shot_examples": "metricFewShotExamples",
-      "response_schema": "responseSchema",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      metric_system_prompt: z.optional(z.nullable(types.string())),
+      metric_description: z.optional(z.nullable(types.string())),
+      value_field_name: z._default(types.string(), "rating"),
+      explanation_field_name: z._default(types.string(), "explanation"),
+      template: types.string(),
+      metric_few_shot_examples: types.optional(
+        z.array(FewShotExample$inboundSchema),
+      ),
+      response_schema: z.optional(z.nullable(z.record(z.string(), z.any()))),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "metric_system_prompt": "metricSystemPrompt",
+        "metric_description": "metricDescription",
+        "value_field_name": "valueFieldName",
+        "explanation_field_name": "explanationFieldName",
+        "metric_few_shot_examples": "metricFewShotExamples",
+        "response_schema": "responseSchema",
+      });
+    }),
+  )
 );
 /** @internal */
 export type ChainPollTemplate$Outbound = {
@@ -95,26 +97,28 @@ export type ChainPollTemplate$Outbound = {
 export const ChainPollTemplate$outboundSchema: z.ZodMiniType<
   ChainPollTemplate$Outbound,
   ChainPollTemplate
-> = z.pipe(
-  z.object({
-    metricSystemPrompt: z.optional(z.nullable(z.string())),
-    metricDescription: z.optional(z.nullable(z.string())),
-    valueFieldName: z._default(z.string(), "rating"),
-    explanationFieldName: z._default(z.string(), "explanation"),
-    template: z.string(),
-    metricFewShotExamples: z.optional(z.array(FewShotExample$outboundSchema)),
-    responseSchema: z.optional(z.nullable(z.record(z.string(), z.any()))),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      metricSystemPrompt: "metric_system_prompt",
-      metricDescription: "metric_description",
-      valueFieldName: "value_field_name",
-      explanationFieldName: "explanation_field_name",
-      metricFewShotExamples: "metric_few_shot_examples",
-      responseSchema: "response_schema",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      metricSystemPrompt: z.optional(z.nullable(z.string())),
+      metricDescription: z.optional(z.nullable(z.string())),
+      valueFieldName: z._default(z.string(), "rating"),
+      explanationFieldName: z._default(z.string(), "explanation"),
+      template: z.string(),
+      metricFewShotExamples: z.optional(z.array(FewShotExample$outboundSchema)),
+      responseSchema: z.optional(z.nullable(z.record(z.string(), z.any()))),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        metricSystemPrompt: "metric_system_prompt",
+        metricDescription: "metric_description",
+        valueFieldName: "value_field_name",
+        explanationFieldName: "explanation_field_name",
+        metricFewShotExamples: "metric_few_shot_examples",
+        responseSchema: "response_schema",
+      });
+    }),
+  )
 );
 
 export function chainPollTemplateToJSON(

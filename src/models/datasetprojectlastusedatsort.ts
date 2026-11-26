@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type DatasetProjectLastUsedAtSort = {
   name: "project_last_used_at";
@@ -25,18 +26,20 @@ export type DatasetProjectLastUsedAtSort$Outbound = {
 export const DatasetProjectLastUsedAtSort$outboundSchema: z.ZodMiniType<
   DatasetProjectLastUsedAtSort$Outbound,
   DatasetProjectLastUsedAtSort
-> = z.pipe(
-  z.object({
-    name: z.literal("project_last_used_at"),
-    ascending: z._default(z.boolean(), true),
-    sortType: z._default(z.literal("custom_uuid"), "custom_uuid" as const),
-    value: z.string(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      sortType: "sort_type",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: z.literal("project_last_used_at"),
+      ascending: z._default(z.boolean(), true),
+      sortType: z._default(z.literal("custom_uuid"), "custom_uuid" as const),
+      value: z.string(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        sortType: "sort_type",
+      });
+    }),
+  )
 );
 
 export function datasetProjectLastUsedAtSortToJSON(

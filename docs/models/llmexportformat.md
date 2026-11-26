@@ -5,11 +5,11 @@
 ```typescript
 import { LLMExportFormat } from "galileo-generated/models";
 
-let value: LLMExportFormat = "jsonl";
+let value: LLMExportFormat = "jsonl_flat";
 ```
 
 ## Values
 
 ```typescript
-"csv" | "jsonl"
+"csv" | "jsonl" | "jsonl_flat"
 ```

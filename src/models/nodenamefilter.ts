@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 import { Result as SafeParseResult } from "../types/fp.js";
@@ -17,6 +17,7 @@ export const NodeNameFilterOperator = {
   Eq: "eq",
   Ne: "ne",
   Contains: "contains",
+  Regex: "regex",
   OneOf: "one_of",
   NotIn: "not_in",
 } as const;
@@ -38,18 +39,24 @@ export type NodeNameFilter = {
 export const NodeNameFilterOperator$inboundSchema: z.ZodMiniType<
   NodeNameFilterOperator,
   unknown
-> = openEnums.inboundSchema(NodeNameFilterOperator);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(NodeNameFilterOperator)
+);
 /** @internal */
 export const NodeNameFilterOperator$outboundSchema: z.ZodMiniType<
   string,
   NodeNameFilterOperator
-> = openEnums.outboundSchema(NodeNameFilterOperator);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.outboundSchema(NodeNameFilterOperator)
+);
 
 /** @internal */
 export const NodeNameFilterValue$inboundSchema: z.ZodMiniType<
   NodeNameFilterValue,
   unknown
-> = smartUnion([types.string(), z.array(types.string())]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([types.string(), z.array(types.string())])
+);
 /** @internal */
 export type NodeNameFilterValue$Outbound = string | Array<string>;
 
@@ -57,7 +64,9 @@ export type NodeNameFilterValue$Outbound = string | Array<string>;
 export const NodeNameFilterValue$outboundSchema: z.ZodMiniType<
   NodeNameFilterValue$Outbound,
   NodeNameFilterValue
-> = smartUnion([z.string(), z.array(z.string())]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([z.string(), z.array(z.string())])
+);
 
 export function nodeNameFilterValueToJSON(
   nodeNameFilterValue: NodeNameFilterValue,
@@ -80,18 +89,20 @@ export function nodeNameFilterValueFromJSON(
 export const NodeNameFilter$inboundSchema: z.ZodMiniType<
   NodeNameFilter,
   unknown
-> = z.pipe(
-  z.object({
-    name: types.literal("node_name"),
-    operator: NodeNameFilterOperator$inboundSchema,
-    value: smartUnion([types.string(), z.array(types.string())]),
-    case_sensitive: z._default(types.boolean(), true),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "case_sensitive": "caseSensitive",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: types.literal("node_name"),
+      operator: NodeNameFilterOperator$inboundSchema,
+      value: smartUnion([types.string(), z.array(types.string())]),
+      case_sensitive: z._default(types.boolean(), true),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "case_sensitive": "caseSensitive",
+      });
+    }),
+  )
 );
 /** @internal */
 export type NodeNameFilter$Outbound = {
@@ -105,18 +116,20 @@ export type NodeNameFilter$Outbound = {
 export const NodeNameFilter$outboundSchema: z.ZodMiniType<
   NodeNameFilter$Outbound,
   NodeNameFilter
-> = z.pipe(
-  z.object({
-    name: z.literal("node_name"),
-    operator: NodeNameFilterOperator$outboundSchema,
-    value: smartUnion([z.string(), z.array(z.string())]),
-    caseSensitive: z._default(z.boolean(), true),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      caseSensitive: "case_sensitive",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: z.literal("node_name"),
+      operator: NodeNameFilterOperator$outboundSchema,
+      value: smartUnion([z.string(), z.array(z.string())]),
+      caseSensitive: z._default(z.boolean(), true),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        caseSensitive: "case_sensitive",
+      });
+    }),
+  )
 );
 
 export function nodeNameFilterToJSON(nodeNameFilter: NodeNameFilter): string {

@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -40,44 +40,46 @@ export type RunParamsMap = {
 
 /** @internal */
 export const RunParamsMap$inboundSchema: z.ZodMiniType<RunParamsMap, unknown> =
-  z.pipe(
-    z.object({
-      model: z.optional(z.nullable(types.string())),
-      temperature: z.optional(z.nullable(types.string())),
-      max_tokens: z.optional(z.nullable(types.string())),
-      stop_sequences: z.optional(z.nullable(types.string())),
-      top_p: z.optional(z.nullable(types.string())),
-      top_k: z.optional(z.nullable(types.string())),
-      frequency_penalty: z.optional(z.nullable(types.string())),
-      presence_penalty: z.optional(z.nullable(types.string())),
-      echo: z.optional(z.nullable(types.string())),
-      logprobs: z.optional(z.nullable(types.string())),
-      top_logprobs: z.optional(z.nullable(types.string())),
-      n: z.optional(z.nullable(types.string())),
-      api_version: z.optional(z.nullable(types.string())),
-      tools: z.optional(z.nullable(types.string())),
-      tool_choice: z.optional(z.nullable(types.string())),
-      response_format: z.optional(z.nullable(types.string())),
-      reasoning_effort: z.optional(z.nullable(types.string())),
-      verbosity: z.optional(z.nullable(types.string())),
-      deployment_name: z.optional(z.nullable(types.string())),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "max_tokens": "maxTokens",
-        "stop_sequences": "stopSequences",
-        "top_p": "topP",
-        "top_k": "topK",
-        "frequency_penalty": "frequencyPenalty",
-        "presence_penalty": "presencePenalty",
-        "top_logprobs": "topLogprobs",
-        "api_version": "apiVersion",
-        "tool_choice": "toolChoice",
-        "response_format": "responseFormat",
-        "reasoning_effort": "reasoningEffort",
-        "deployment_name": "deploymentName",
-      });
-    }),
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        model: z.optional(z.nullable(types.string())),
+        temperature: z.optional(z.nullable(types.string())),
+        max_tokens: z.optional(z.nullable(types.string())),
+        stop_sequences: z.optional(z.nullable(types.string())),
+        top_p: z.optional(z.nullable(types.string())),
+        top_k: z.optional(z.nullable(types.string())),
+        frequency_penalty: z.optional(z.nullable(types.string())),
+        presence_penalty: z.optional(z.nullable(types.string())),
+        echo: z.optional(z.nullable(types.string())),
+        logprobs: z.optional(z.nullable(types.string())),
+        top_logprobs: z.optional(z.nullable(types.string())),
+        n: z.optional(z.nullable(types.string())),
+        api_version: z.optional(z.nullable(types.string())),
+        tools: z.optional(z.nullable(types.string())),
+        tool_choice: z.optional(z.nullable(types.string())),
+        response_format: z.optional(z.nullable(types.string())),
+        reasoning_effort: z.optional(z.nullable(types.string())),
+        verbosity: z.optional(z.nullable(types.string())),
+        deployment_name: z.optional(z.nullable(types.string())),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "max_tokens": "maxTokens",
+          "stop_sequences": "stopSequences",
+          "top_p": "topP",
+          "top_k": "topK",
+          "frequency_penalty": "frequencyPenalty",
+          "presence_penalty": "presencePenalty",
+          "top_logprobs": "topLogprobs",
+          "api_version": "apiVersion",
+          "tool_choice": "toolChoice",
+          "response_format": "responseFormat",
+          "reasoning_effort": "reasoningEffort",
+          "deployment_name": "deploymentName",
+        });
+      }),
+    )
   );
 /** @internal */
 export type RunParamsMap$Outbound = {
@@ -106,44 +108,46 @@ export type RunParamsMap$Outbound = {
 export const RunParamsMap$outboundSchema: z.ZodMiniType<
   RunParamsMap$Outbound,
   RunParamsMap
-> = z.pipe(
-  z.object({
-    model: z.optional(z.nullable(z.string())),
-    temperature: z.optional(z.nullable(z.string())),
-    maxTokens: z.optional(z.nullable(z.string())),
-    stopSequences: z.optional(z.nullable(z.string())),
-    topP: z.optional(z.nullable(z.string())),
-    topK: z.optional(z.nullable(z.string())),
-    frequencyPenalty: z.optional(z.nullable(z.string())),
-    presencePenalty: z.optional(z.nullable(z.string())),
-    echo: z.optional(z.nullable(z.string())),
-    logprobs: z.optional(z.nullable(z.string())),
-    topLogprobs: z.optional(z.nullable(z.string())),
-    n: z.optional(z.nullable(z.string())),
-    apiVersion: z.optional(z.nullable(z.string())),
-    tools: z.optional(z.nullable(z.string())),
-    toolChoice: z.optional(z.nullable(z.string())),
-    responseFormat: z.optional(z.nullable(z.string())),
-    reasoningEffort: z.optional(z.nullable(z.string())),
-    verbosity: z.optional(z.nullable(z.string())),
-    deploymentName: z.optional(z.nullable(z.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      maxTokens: "max_tokens",
-      stopSequences: "stop_sequences",
-      topP: "top_p",
-      topK: "top_k",
-      frequencyPenalty: "frequency_penalty",
-      presencePenalty: "presence_penalty",
-      topLogprobs: "top_logprobs",
-      apiVersion: "api_version",
-      toolChoice: "tool_choice",
-      responseFormat: "response_format",
-      reasoningEffort: "reasoning_effort",
-      deploymentName: "deployment_name",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      model: z.optional(z.nullable(z.string())),
+      temperature: z.optional(z.nullable(z.string())),
+      maxTokens: z.optional(z.nullable(z.string())),
+      stopSequences: z.optional(z.nullable(z.string())),
+      topP: z.optional(z.nullable(z.string())),
+      topK: z.optional(z.nullable(z.string())),
+      frequencyPenalty: z.optional(z.nullable(z.string())),
+      presencePenalty: z.optional(z.nullable(z.string())),
+      echo: z.optional(z.nullable(z.string())),
+      logprobs: z.optional(z.nullable(z.string())),
+      topLogprobs: z.optional(z.nullable(z.string())),
+      n: z.optional(z.nullable(z.string())),
+      apiVersion: z.optional(z.nullable(z.string())),
+      tools: z.optional(z.nullable(z.string())),
+      toolChoice: z.optional(z.nullable(z.string())),
+      responseFormat: z.optional(z.nullable(z.string())),
+      reasoningEffort: z.optional(z.nullable(z.string())),
+      verbosity: z.optional(z.nullable(z.string())),
+      deploymentName: z.optional(z.nullable(z.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        maxTokens: "max_tokens",
+        stopSequences: "stop_sequences",
+        topP: "top_p",
+        topK: "top_k",
+        frequencyPenalty: "frequency_penalty",
+        presencePenalty: "presence_penalty",
+        topLogprobs: "top_logprobs",
+        apiVersion: "api_version",
+        toolChoice: "tool_choice",
+        responseFormat: "response_format",
+        reasoningEffort: "reasoning_effort",
+        deploymentName: "deployment_name",
+      });
+    }),
+  )
 );
 
 export function runParamsMapToJSON(runParamsMap: RunParamsMap): string {

@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -24,18 +24,20 @@ export type FeatureIntegrationCosts = {
 export const FeatureIntegrationCosts$inboundSchema: z.ZodMiniType<
   FeatureIntegrationCosts,
   unknown
-> = z.pipe(
-  z.object({
-    feature_name: types.string(),
-    total_cost: z._default(types.number(), 0),
-    projects: types.optional(z.array(ProjectIntegrationCosts$inboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "feature_name": "featureName",
-      "total_cost": "totalCost",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      feature_name: types.string(),
+      total_cost: z._default(types.number(), 0),
+      projects: types.optional(z.array(ProjectIntegrationCosts$inboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "feature_name": "featureName",
+        "total_cost": "totalCost",
+      });
+    }),
+  )
 );
 
 export function featureIntegrationCostsFromJSON(
