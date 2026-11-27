@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import {
@@ -31,7 +31,7 @@ export type GeneratedScorerResponse = {
    */
   chainPollTemplate: ChainPollTemplate;
   userPrompt?: string | null | undefined;
-  createdBy: string;
+  createdBy: string | null;
   createdAt: Date;
   updatedAt: Date;
   scoreableNodeTypes: Array<NodeType> | null;
@@ -42,30 +42,32 @@ export type GeneratedScorerResponse = {
 export const GeneratedScorerResponse$inboundSchema: z.ZodMiniType<
   GeneratedScorerResponse,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.string(),
-    name: types.string(),
-    instructions: z.optional(z.nullable(types.string())),
-    chain_poll_template: ChainPollTemplate$inboundSchema,
-    user_prompt: z.optional(z.nullable(types.string())),
-    created_by: types.string(),
-    created_at: types.date(),
-    updated_at: types.date(),
-    scoreable_node_types: types.nullable(z.array(NodeType$inboundSchema)),
-    scorer_configuration: GeneratedScorerConfiguration$inboundSchema,
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "chain_poll_template": "chainPollTemplate",
-      "user_prompt": "userPrompt",
-      "created_by": "createdBy",
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-      "scoreable_node_types": "scoreableNodeTypes",
-      "scorer_configuration": "scorerConfiguration",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.string(),
+      name: types.string(),
+      instructions: z.optional(z.nullable(types.string())),
+      chain_poll_template: ChainPollTemplate$inboundSchema,
+      user_prompt: z.optional(z.nullable(types.string())),
+      created_by: types.nullable(types.string()),
+      created_at: types.date(),
+      updated_at: types.date(),
+      scoreable_node_types: types.nullable(z.array(NodeType$inboundSchema)),
+      scorer_configuration: GeneratedScorerConfiguration$inboundSchema,
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "chain_poll_template": "chainPollTemplate",
+        "user_prompt": "userPrompt",
+        "created_by": "createdBy",
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+        "scoreable_node_types": "scoreableNodeTypes",
+        "scorer_configuration": "scorerConfiguration",
+      });
+    }),
+  )
 );
 
 export function generatedScorerResponseFromJSON(

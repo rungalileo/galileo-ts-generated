@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -19,19 +19,22 @@ export type Metrics = {
 };
 
 /** @internal */
-export const Metrics$inboundSchema: z.ZodMiniType<Metrics, unknown> = z.pipe(
-  z.catchall(
-    z.object({
-      duration_ns: z.optional(z.nullable(types.number())),
-    }),
-    z.any(),
-  ),
-  z.transform((v) => {
-    return remap$(v, {
-      "duration_ns": "durationNs",
-    });
-  }),
-);
+export const Metrics$inboundSchema: z.ZodMiniType<Metrics, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.catchall(
+        z.object({
+          duration_ns: z.optional(z.nullable(types.number())),
+        }),
+        z.any(),
+      ),
+      z.transform((v) => {
+        return remap$(v, {
+          "duration_ns": "durationNs",
+        });
+      }),
+    )
+  );
 /** @internal */
 export type Metrics$Outbound = {
   duration_ns?: number | null | undefined;
@@ -40,20 +43,22 @@ export type Metrics$Outbound = {
 
 /** @internal */
 export const Metrics$outboundSchema: z.ZodMiniType<Metrics$Outbound, Metrics> =
-  z.pipe(
-    z.catchall(
-      z.object({
-        durationNs: z.optional(z.nullable(z.int())),
-      }),
-      z.any(),
-    ),
-    z.transform((v) => {
-      return {
-        ...remap$(v, {
-          durationNs: "duration_ns",
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.catchall(
+        z.object({
+          durationNs: z.optional(z.nullable(z.int())),
         }),
-      };
-    }),
+        z.any(),
+      ),
+      z.transform((v) => {
+        return {
+          ...remap$(v, {
+            durationNs: "duration_ns",
+          }),
+        };
+      }),
+    )
   );
 
 export function metricsToJSON(metrics: Metrics): string {

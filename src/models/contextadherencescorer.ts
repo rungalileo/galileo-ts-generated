@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
 import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import * as openEnums from "../types/enums.js";
@@ -75,11 +75,13 @@ export type ContextAdherenceScorer = {
 export const ContextAdherenceScorerFilter$inboundSchema: z.ZodMiniType<
   ContextAdherenceScorerFilter,
   unknown
-> = discriminatedUnion("name", {
-  metadata: MetadataFilter$inboundSchema,
-  modality: ModalityFilter$inboundSchema,
-  node_name: NodeNameFilter$inboundSchema,
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  discriminatedUnion("name", {
+    metadata: MetadataFilter$inboundSchema,
+    modality: ModalityFilter$inboundSchema,
+    node_name: NodeNameFilter$inboundSchema,
+  })
+);
 /** @internal */
 export type ContextAdherenceScorerFilter$Outbound =
   | MetadataFilter$Outbound
@@ -90,11 +92,13 @@ export type ContextAdherenceScorerFilter$Outbound =
 export const ContextAdherenceScorerFilter$outboundSchema: z.ZodMiniType<
   ContextAdherenceScorerFilter$Outbound,
   ContextAdherenceScorerFilter
-> = z.union([
-  MetadataFilter$outboundSchema,
-  ModalityFilter$outboundSchema,
-  NodeNameFilter$outboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    MetadataFilter$outboundSchema,
+    ModalityFilter$outboundSchema,
+    NodeNameFilter$outboundSchema,
+  ])
+);
 
 export function contextAdherenceScorerFilterToJSON(
   contextAdherenceScorerFilter: ContextAdherenceScorerFilter,
@@ -119,41 +123,47 @@ export function contextAdherenceScorerFilterFromJSON(
 export const ContextAdherenceScorerType$inboundSchema: z.ZodMiniType<
   ContextAdherenceScorerType,
   unknown
-> = openEnums.inboundSchema(ContextAdherenceScorerType);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(ContextAdherenceScorerType)
+);
 /** @internal */
 export const ContextAdherenceScorerType$outboundSchema: z.ZodMiniType<
   string,
   ContextAdherenceScorerType
-> = openEnums.outboundSchema(ContextAdherenceScorerType);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.outboundSchema(ContextAdherenceScorerType)
+);
 
 /** @internal */
 export const ContextAdherenceScorer$inboundSchema: z.ZodMiniType<
   ContextAdherenceScorer,
   unknown
-> = z.pipe(
-  z.object({
-    name: types.literal("context_adherence"),
-    filters: z.optional(
-      z.nullable(
-        z.array(
-          discriminatedUnion("name", {
-            metadata: MetadataFilter$inboundSchema,
-            modality: ModalityFilter$inboundSchema,
-            node_name: NodeNameFilter$inboundSchema,
-          }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: types.literal("context_adherence"),
+      filters: z.optional(
+        z.nullable(
+          z.array(
+            discriminatedUnion("name", {
+              metadata: MetadataFilter$inboundSchema,
+              modality: ModalityFilter$inboundSchema,
+              node_name: NodeNameFilter$inboundSchema,
+            }),
+          ),
         ),
       ),
-    ),
-    type: z._default(ContextAdherenceScorerType$inboundSchema, "luna"),
-    model_name: z.optional(z.nullable(types.string())),
-    num_judges: z.optional(z.nullable(types.number())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "model_name": "modelName",
-      "num_judges": "numJudges",
-    });
-  }),
+      type: z._default(ContextAdherenceScorerType$inboundSchema, "luna"),
+      model_name: z.optional(z.nullable(types.string())),
+      num_judges: z.optional(z.nullable(types.number())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "model_name": "modelName",
+        "num_judges": "numJudges",
+      });
+    }),
+  )
 );
 /** @internal */
 export type ContextAdherenceScorer$Outbound = {
@@ -175,30 +185,32 @@ export type ContextAdherenceScorer$Outbound = {
 export const ContextAdherenceScorer$outboundSchema: z.ZodMiniType<
   ContextAdherenceScorer$Outbound,
   ContextAdherenceScorer
-> = z.pipe(
-  z.object({
-    name: z.literal("context_adherence"),
-    filters: z.optional(
-      z.nullable(
-        z.array(
-          z.union([
-            MetadataFilter$outboundSchema,
-            ModalityFilter$outboundSchema,
-            NodeNameFilter$outboundSchema,
-          ]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: z.literal("context_adherence"),
+      filters: z.optional(
+        z.nullable(
+          z.array(
+            z.union([
+              MetadataFilter$outboundSchema,
+              ModalityFilter$outboundSchema,
+              NodeNameFilter$outboundSchema,
+            ]),
+          ),
         ),
       ),
-    ),
-    type: z._default(ContextAdherenceScorerType$outboundSchema, "luna"),
-    modelName: z.optional(z.nullable(z.string())),
-    numJudges: z.optional(z.nullable(z.int())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      modelName: "model_name",
-      numJudges: "num_judges",
-    });
-  }),
+      type: z._default(ContextAdherenceScorerType$outboundSchema, "luna"),
+      modelName: z.optional(z.nullable(z.string())),
+      numJudges: z.optional(z.nullable(z.int())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        modelName: "model_name",
+        numJudges: "num_judges",
+      });
+    }),
+  )
 );
 
 export function contextAdherenceScorerToJSON(

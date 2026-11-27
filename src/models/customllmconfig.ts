@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -37,19 +37,21 @@ export type CustomLLMConfig = {
 export const CustomLLMConfig$inboundSchema: z.ZodMiniType<
   CustomLLMConfig,
   unknown
-> = z.pipe(
-  z.object({
-    file_name: types.string(),
-    class_name: types.string(),
-    init_kwargs: z.optional(z.nullable(z.record(z.string(), z.any()))),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "file_name": "fileName",
-      "class_name": "className",
-      "init_kwargs": "initKwargs",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      file_name: types.string(),
+      class_name: types.string(),
+      init_kwargs: z.optional(z.nullable(z.record(z.string(), z.any()))),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "file_name": "fileName",
+        "class_name": "className",
+        "init_kwargs": "initKwargs",
+      });
+    }),
+  )
 );
 /** @internal */
 export type CustomLLMConfig$Outbound = {
@@ -62,19 +64,21 @@ export type CustomLLMConfig$Outbound = {
 export const CustomLLMConfig$outboundSchema: z.ZodMiniType<
   CustomLLMConfig$Outbound,
   CustomLLMConfig
-> = z.pipe(
-  z.object({
-    fileName: z.string(),
-    className: z.string(),
-    initKwargs: z.optional(z.nullable(z.record(z.string(), z.any()))),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      fileName: "file_name",
-      className: "class_name",
-      initKwargs: "init_kwargs",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      fileName: z.string(),
+      className: z.string(),
+      initKwargs: z.optional(z.nullable(z.record(z.string(), z.any()))),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        fileName: "file_name",
+        className: "class_name",
+        initKwargs: "init_kwargs",
+      });
+    }),
+  )
 );
 
 export function customLLMConfigToJSON(

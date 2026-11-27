@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 import { Result as SafeParseResult } from "../types/fp.js";
@@ -19,7 +19,22 @@ export const PriorityCategory = {
 } as const;
 export type PriorityCategory = OpenEnum<typeof PriorityCategory>;
 
+export const LabelEnum = {
+  Instruction: "Instruction",
+  Retrieval: "Retrieval",
+  Decision: "Decision",
+  Output: "Output",
+  Tool: "Tool",
+  Reliability: "Reliability",
+  Security: "Security",
+  Efficiency: "Efficiency",
+} as const;
+export type LabelEnum = OpenEnum<typeof LabelEnum>;
+
 export type InsightSummary = {
+  /**
+   * Signal ID.
+   */
   id: string;
   title: string;
   observation: string;
@@ -27,34 +42,44 @@ export type InsightSummary = {
   suggestedAction: string;
   priority: number;
   priorityCategory?: PriorityCategory | null | undefined;
+  label?: LabelEnum | null | undefined;
 };
 
 /** @internal */
 export const PriorityCategory$inboundSchema: z.ZodMiniType<
   PriorityCategory,
   unknown
-> = openEnums.inboundSchema(PriorityCategory);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(PriorityCategory)
+);
+
+/** @internal */
+export const LabelEnum$inboundSchema: z.ZodMiniType<LabelEnum, unknown> =
+  /* @__PURE__ */ lazySchema$(() => openEnums.inboundSchema(LabelEnum));
 
 /** @internal */
 export const InsightSummary$inboundSchema: z.ZodMiniType<
   InsightSummary,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.string(),
-    title: types.string(),
-    observation: types.string(),
-    details: types.string(),
-    suggested_action: types.string(),
-    priority: types.number(),
-    priority_category: z.optional(z.nullable(PriorityCategory$inboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "suggested_action": "suggestedAction",
-      "priority_category": "priorityCategory",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.string(),
+      title: types.string(),
+      observation: types.string(),
+      details: types.string(),
+      suggested_action: types.string(),
+      priority: types.number(),
+      priority_category: z.optional(z.nullable(PriorityCategory$inboundSchema)),
+      label: z.optional(z.nullable(LabelEnum$inboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "suggested_action": "suggestedAction",
+        "priority_category": "priorityCategory",
+      });
+    }),
+  )
 );
 
 export function insightSummaryFromJSON(

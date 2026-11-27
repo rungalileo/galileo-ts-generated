@@ -4,7 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -21,10 +21,12 @@ export type TextContentPart = {
 export const TextContentPart$inboundSchema: z.ZodMiniType<
   TextContentPart,
   unknown
-> = z.object({
-  type: types.literal("text"),
-  text: types.string(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    type: types.literal("text"),
+    text: types.string(),
+  })
+);
 /** @internal */
 export type TextContentPart$Outbound = {
   type: "text";
@@ -35,10 +37,12 @@ export type TextContentPart$Outbound = {
 export const TextContentPart$outboundSchema: z.ZodMiniType<
   TextContentPart$Outbound,
   TextContentPart
-> = z.object({
-  type: z.literal("text"),
-  text: z.string(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    type: z.literal("text"),
+    text: z.string(),
+  })
+);
 
 export function textContentPartToJSON(
   textContentPart: TextContentPart,

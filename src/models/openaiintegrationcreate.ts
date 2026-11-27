@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type OpenAIIntegrationCreate = {
   organizationId?: string | null | undefined;
@@ -21,16 +22,18 @@ export type OpenAIIntegrationCreate$Outbound = {
 export const OpenAIIntegrationCreate$outboundSchema: z.ZodMiniType<
   OpenAIIntegrationCreate$Outbound,
   OpenAIIntegrationCreate
-> = z.pipe(
-  z.object({
-    organizationId: z.optional(z.nullable(z.string())),
-    token: z.string(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      organizationId: "organization_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      organizationId: z.optional(z.nullable(z.string())),
+      token: z.string(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        organizationId: "organization_id",
+      });
+    }),
+  )
 );
 
 export function openAIIntegrationCreateToJSON(

@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   AwsCredentialType,
   AwsCredentialType$outboundSchema,
@@ -48,24 +49,26 @@ export type AwsSageMakerIntegrationCreate$Outbound = {
 export const AwsSageMakerIntegrationCreate$outboundSchema: z.ZodMiniType<
   AwsSageMakerIntegrationCreate$Outbound,
   AwsSageMakerIntegrationCreate
-> = z.pipe(
-  z.object({
-    multiModalConfig: z.optional(
-      z.nullable(MultiModalModelIntegrationConfig$outboundSchema),
-    ),
-    models: z.optional(z.array(Model$outboundSchema)),
-    credentialType: z.optional(AwsCredentialType$outboundSchema),
-    region: z._default(z.string(), "us-west-2"),
-    inferenceProfiles: z.optional(z.record(z.string(), z.string())),
-    token: z.record(z.string(), z.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      multiModalConfig: "multi_modal_config",
-      credentialType: "credential_type",
-      inferenceProfiles: "inference_profiles",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      multiModalConfig: z.optional(
+        z.nullable(MultiModalModelIntegrationConfig$outboundSchema),
+      ),
+      models: z.optional(z.array(Model$outboundSchema)),
+      credentialType: z.optional(AwsCredentialType$outboundSchema),
+      region: z._default(z.string(), "us-west-2"),
+      inferenceProfiles: z.optional(z.record(z.string(), z.string())),
+      token: z.record(z.string(), z.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        multiModalConfig: "multi_modal_config",
+        credentialType: "credential_type",
+        inferenceProfiles: "inference_profiles",
+      });
+    }),
+  )
 );
 
 export function awsSageMakerIntegrationCreateToJSON(

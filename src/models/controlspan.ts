@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { smartUnion } from "../types/smartUnion.js";
 import {
   ControlAppliesTo,
@@ -182,7 +183,9 @@ export type ControlSpanInput1$Outbound =
 export const ControlSpanInput1$outboundSchema: z.ZodMiniType<
   ControlSpanInput1$Outbound,
   ControlSpanInput1
-> = z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema])
+);
 
 export function controlSpanInput1ToJSON(
   controlSpanInput1: ControlSpanInput1,
@@ -202,13 +205,15 @@ export type ControlSpanInput2$Outbound =
 export const ControlSpanInput2$outboundSchema: z.ZodMiniType<
   ControlSpanInput2$Outbound,
   ControlSpanInput2
-> = smartUnion([
-  z.string(),
-  z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
-  z.array(
-    z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
-  ),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    z.string(),
+    z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
+    z.array(
+      z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
+    ),
+  ])
+);
 
 export function controlSpanInput2ToJSON(
   controlSpanInput2: ControlSpanInput2,
@@ -227,7 +232,9 @@ export type ControlSpanRedactedInput1$Outbound =
 export const ControlSpanRedactedInput1$outboundSchema: z.ZodMiniType<
   ControlSpanRedactedInput1$Outbound,
   ControlSpanRedactedInput1
-> = z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema])
+);
 
 export function controlSpanRedactedInput1ToJSON(
   controlSpanRedactedInput1: ControlSpanRedactedInput1,
@@ -247,13 +254,15 @@ export type ControlSpanRedactedInput2$Outbound =
 export const ControlSpanRedactedInput2$outboundSchema: z.ZodMiniType<
   ControlSpanRedactedInput2$Outbound,
   ControlSpanRedactedInput2
-> = smartUnion([
-  z.string(),
-  z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
-  z.array(
-    z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
-  ),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    z.string(),
+    z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
+    z.array(
+      z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
+    ),
+  ])
+);
 
 export function controlSpanRedactedInput2ToJSON(
   controlSpanRedactedInput2: ControlSpanRedactedInput2,
@@ -306,23 +315,11 @@ export type ControlSpan$Outbound = {
 export const ControlSpan$outboundSchema: z.ZodMiniType<
   ControlSpan$Outbound,
   ControlSpan
-> = z.pipe(
-  z.object({
-    type: z.literal("control"),
-    input: z.optional(
-      smartUnion([
-        z.string(),
-        z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
-        z.array(
-          z.union([
-            FileContentPart$outboundSchema,
-            TextContentPart$outboundSchema,
-          ]),
-        ),
-      ]),
-    ),
-    redactedInput: z.optional(
-      z.nullable(
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      type: z.literal("control"),
+      input: z.optional(
         smartUnion([
           z.string(),
           z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
@@ -334,54 +331,70 @@ export const ControlSpan$outboundSchema: z.ZodMiniType<
           ),
         ]),
       ),
-    ),
-    output: z.optional(z.nullable(ControlResult$outboundSchema)),
-    redactedOutput: z.optional(z.nullable(ControlResult$outboundSchema)),
-    name: z._default(z.string(), ""),
-    createdAt: z.optional(z.pipe(z.date(), z.transform(v => v.toISOString()))),
-    userMetadata: z.optional(z.record(z.string(), z.string())),
-    tags: z.optional(z.array(z.string())),
-    statusCode: z.optional(z.nullable(z.int())),
-    metrics: z.optional(Metrics$outboundSchema),
-    externalId: z.optional(z.nullable(z.string())),
-    datasetInput: z.optional(z.nullable(z.string())),
-    datasetOutput: z.optional(z.nullable(z.string())),
-    datasetMetadata: z.optional(z.record(z.string(), z.string())),
-    id: z.optional(z.nullable(z.string())),
-    sessionId: z.optional(z.nullable(z.string())),
-    traceId: z.optional(z.nullable(z.string())),
-    stepNumber: z.optional(z.nullable(z.int())),
-    parentId: z.optional(z.nullable(z.string())),
-    controlId: z.optional(z.nullable(z.int())),
-    agentName: z.optional(z.nullable(z.string())),
-    checkStage: z.optional(z.nullable(ControlCheckStage$outboundSchema)),
-    appliesTo: z.optional(z.nullable(ControlAppliesTo$outboundSchema)),
-    evaluatorName: z.optional(z.nullable(z.string())),
-    selectorPath: z.optional(z.nullable(z.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      redactedInput: "redacted_input",
-      redactedOutput: "redacted_output",
-      createdAt: "created_at",
-      userMetadata: "user_metadata",
-      statusCode: "status_code",
-      externalId: "external_id",
-      datasetInput: "dataset_input",
-      datasetOutput: "dataset_output",
-      datasetMetadata: "dataset_metadata",
-      sessionId: "session_id",
-      traceId: "trace_id",
-      stepNumber: "step_number",
-      parentId: "parent_id",
-      controlId: "control_id",
-      agentName: "agent_name",
-      checkStage: "check_stage",
-      appliesTo: "applies_to",
-      evaluatorName: "evaluator_name",
-      selectorPath: "selector_path",
-    });
-  }),
+      redactedInput: z.optional(
+        z.nullable(
+          smartUnion([
+            z.string(),
+            z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
+            z.array(
+              z.union([
+                FileContentPart$outboundSchema,
+                TextContentPart$outboundSchema,
+              ]),
+            ),
+          ]),
+        ),
+      ),
+      output: z.optional(z.nullable(ControlResult$outboundSchema)),
+      redactedOutput: z.optional(z.nullable(ControlResult$outboundSchema)),
+      name: z._default(z.string(), ""),
+      createdAt: z.optional(
+        z.pipe(z.date(), z.transform(v => v.toISOString())),
+      ),
+      userMetadata: z.optional(z.record(z.string(), z.string())),
+      tags: z.optional(z.array(z.string())),
+      statusCode: z.optional(z.nullable(z.int())),
+      metrics: z.optional(Metrics$outboundSchema),
+      externalId: z.optional(z.nullable(z.string())),
+      datasetInput: z.optional(z.nullable(z.string())),
+      datasetOutput: z.optional(z.nullable(z.string())),
+      datasetMetadata: z.optional(z.record(z.string(), z.string())),
+      id: z.optional(z.nullable(z.string())),
+      sessionId: z.optional(z.nullable(z.string())),
+      traceId: z.optional(z.nullable(z.string())),
+      stepNumber: z.optional(z.nullable(z.int())),
+      parentId: z.optional(z.nullable(z.string())),
+      controlId: z.optional(z.nullable(z.int())),
+      agentName: z.optional(z.nullable(z.string())),
+      checkStage: z.optional(z.nullable(ControlCheckStage$outboundSchema)),
+      appliesTo: z.optional(z.nullable(ControlAppliesTo$outboundSchema)),
+      evaluatorName: z.optional(z.nullable(z.string())),
+      selectorPath: z.optional(z.nullable(z.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        redactedInput: "redacted_input",
+        redactedOutput: "redacted_output",
+        createdAt: "created_at",
+        userMetadata: "user_metadata",
+        statusCode: "status_code",
+        externalId: "external_id",
+        datasetInput: "dataset_input",
+        datasetOutput: "dataset_output",
+        datasetMetadata: "dataset_metadata",
+        sessionId: "session_id",
+        traceId: "trace_id",
+        stepNumber: "step_number",
+        parentId: "parent_id",
+        controlId: "control_id",
+        agentName: "agent_name",
+        checkStage: "check_stage",
+        appliesTo: "applies_to",
+        evaluatorName: "evaluator_name",
+        selectorPath: "selector_path",
+      });
+    }),
+  )
 );
 
 export function controlSpanToJSON(controlSpan: ControlSpan): string {

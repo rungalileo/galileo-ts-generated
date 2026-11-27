@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
@@ -19,9 +20,13 @@ export type AzureAuthenticationType = OpenEnum<typeof AzureAuthenticationType>;
 export const AzureAuthenticationType$inboundSchema: z.ZodMiniType<
   AzureAuthenticationType,
   unknown
-> = openEnums.inboundSchema(AzureAuthenticationType);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(AzureAuthenticationType)
+);
 /** @internal */
 export const AzureAuthenticationType$outboundSchema: z.ZodMiniType<
   string,
   AzureAuthenticationType
-> = openEnums.outboundSchema(AzureAuthenticationType);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.outboundSchema(AzureAuthenticationType)
+);

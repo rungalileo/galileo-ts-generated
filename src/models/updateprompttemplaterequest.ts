@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { smartUnion } from "../types/smartUnion.js";
 import { Name, Name$Outbound, Name$outboundSchema } from "./name.js";
 
@@ -20,7 +21,9 @@ export type UpdatePromptTemplateRequestName$Outbound = Name$Outbound | string;
 export const UpdatePromptTemplateRequestName$outboundSchema: z.ZodMiniType<
   UpdatePromptTemplateRequestName$Outbound,
   UpdatePromptTemplateRequestName
-> = smartUnion([Name$outboundSchema, z.string()]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([Name$outboundSchema, z.string()])
+);
 
 export function updatePromptTemplateRequestNameToJSON(
   updatePromptTemplateRequestName: UpdatePromptTemplateRequestName,
@@ -41,9 +44,11 @@ export type UpdatePromptTemplateRequest$Outbound = {
 export const UpdatePromptTemplateRequest$outboundSchema: z.ZodMiniType<
   UpdatePromptTemplateRequest$Outbound,
   UpdatePromptTemplateRequest
-> = z.object({
-  name: z.optional(z.nullable(smartUnion([Name$outboundSchema, z.string()]))),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    name: z.optional(z.nullable(smartUnion([Name$outboundSchema, z.string()]))),
+  })
+);
 
 export function updatePromptTemplateRequestToJSON(
   updatePromptTemplateRequest: UpdatePromptTemplateRequest,

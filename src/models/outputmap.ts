@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -19,23 +19,25 @@ export type OutputMap = {
 };
 
 /** @internal */
-export const OutputMap$inboundSchema: z.ZodMiniType<OutputMap, unknown> = z
-  .pipe(
-    z.object({
-      response: types.string(),
-      token_count: z.optional(z.nullable(types.string())),
-      input_token_count: z.optional(z.nullable(types.string())),
-      output_token_count: z.optional(z.nullable(types.string())),
-      completion_reason: z.optional(z.nullable(types.string())),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "token_count": "tokenCount",
-        "input_token_count": "inputTokenCount",
-        "output_token_count": "outputTokenCount",
-        "completion_reason": "completionReason",
-      });
-    }),
+export const OutputMap$inboundSchema: z.ZodMiniType<OutputMap, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        response: types.string(),
+        token_count: z.optional(z.nullable(types.string())),
+        input_token_count: z.optional(z.nullable(types.string())),
+        output_token_count: z.optional(z.nullable(types.string())),
+        completion_reason: z.optional(z.nullable(types.string())),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "token_count": "tokenCount",
+          "input_token_count": "inputTokenCount",
+          "output_token_count": "outputTokenCount",
+          "completion_reason": "completionReason",
+        });
+      }),
+    )
   );
 /** @internal */
 export type OutputMap$Outbound = {
@@ -50,22 +52,24 @@ export type OutputMap$Outbound = {
 export const OutputMap$outboundSchema: z.ZodMiniType<
   OutputMap$Outbound,
   OutputMap
-> = z.pipe(
-  z.object({
-    response: z.string(),
-    tokenCount: z.optional(z.nullable(z.string())),
-    inputTokenCount: z.optional(z.nullable(z.string())),
-    outputTokenCount: z.optional(z.nullable(z.string())),
-    completionReason: z.optional(z.nullable(z.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      tokenCount: "token_count",
-      inputTokenCount: "input_token_count",
-      outputTokenCount: "output_token_count",
-      completionReason: "completion_reason",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      response: z.string(),
+      tokenCount: z.optional(z.nullable(z.string())),
+      inputTokenCount: z.optional(z.nullable(z.string())),
+      outputTokenCount: z.optional(z.nullable(z.string())),
+      completionReason: z.optional(z.nullable(z.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        tokenCount: "token_count",
+        inputTokenCount: "input_token_count",
+        outputTokenCount: "output_token_count",
+        completionReason: "completion_reason",
+      });
+    }),
+  )
 );
 
 export function outputMapToJSON(outputMap: OutputMap): string {

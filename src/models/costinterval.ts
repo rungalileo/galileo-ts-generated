@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 
 export const CostInterval = {
@@ -15,5 +16,5 @@ export const CostInterval = {
 export type CostInterval = ClosedEnum<typeof CostInterval>;
 
 /** @internal */
-export const CostInterval$outboundSchema: z.ZodMiniEnum<typeof CostInterval> = z
-  .enum(CostInterval);
+export const CostInterval$outboundSchema: z.ZodMiniEnum<typeof CostInterval> =
+  /* @__PURE__ */ lazySchema$(() => z.enum(CostInterval));

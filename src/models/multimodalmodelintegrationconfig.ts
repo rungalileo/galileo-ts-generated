@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -28,17 +28,19 @@ export type MultiModalModelIntegrationConfig = {
 export const MultiModalModelIntegrationConfig$inboundSchema: z.ZodMiniType<
   MultiModalModelIntegrationConfig,
   unknown
-> = z.pipe(
-  z.object({
-    max_files: z.optional(z.nullable(types.number())),
-    max_file_size_bytes: z.optional(z.nullable(types.number())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "max_files": "maxFiles",
-      "max_file_size_bytes": "maxFileSizeBytes",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      max_files: z.optional(z.nullable(types.number())),
+      max_file_size_bytes: z.optional(z.nullable(types.number())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "max_files": "maxFiles",
+        "max_file_size_bytes": "maxFileSizeBytes",
+      });
+    }),
+  )
 );
 /** @internal */
 export type MultiModalModelIntegrationConfig$Outbound = {
@@ -50,17 +52,19 @@ export type MultiModalModelIntegrationConfig$Outbound = {
 export const MultiModalModelIntegrationConfig$outboundSchema: z.ZodMiniType<
   MultiModalModelIntegrationConfig$Outbound,
   MultiModalModelIntegrationConfig
-> = z.pipe(
-  z.object({
-    maxFiles: z.optional(z.nullable(z.int())),
-    maxFileSizeBytes: z.optional(z.nullable(z.int())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      maxFiles: "max_files",
-      maxFileSizeBytes: "max_file_size_bytes",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      maxFiles: z.optional(z.nullable(z.int())),
+      maxFileSizeBytes: z.optional(z.nullable(z.int())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        maxFiles: "max_files",
+        maxFileSizeBytes: "max_file_size_bytes",
+      });
+    }),
+  )
 );
 
 export function multiModalModelIntegrationConfigToJSON(

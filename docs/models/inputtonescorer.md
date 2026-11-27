@@ -10,7 +10,7 @@ let value: InputToneScorer = {
   filters: [
     {
       name: "node_name",
-      operator: "ne",
+      operator: "contains",
       value: "<value>",
       caseSensitive: true,
     },

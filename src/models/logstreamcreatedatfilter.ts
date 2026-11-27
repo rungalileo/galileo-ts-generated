@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 
 export const LogStreamCreatedAtFilterOperator = {
@@ -27,7 +28,7 @@ export type LogStreamCreatedAtFilter = {
 /** @internal */
 export const LogStreamCreatedAtFilterOperator$outboundSchema: z.ZodMiniEnum<
   typeof LogStreamCreatedAtFilterOperator
-> = z.enum(LogStreamCreatedAtFilterOperator);
+> = /* @__PURE__ */ lazySchema$(() => z.enum(LogStreamCreatedAtFilterOperator));
 
 /** @internal */
 export type LogStreamCreatedAtFilter$Outbound = {
@@ -40,11 +41,13 @@ export type LogStreamCreatedAtFilter$Outbound = {
 export const LogStreamCreatedAtFilter$outboundSchema: z.ZodMiniType<
   LogStreamCreatedAtFilter$Outbound,
   LogStreamCreatedAtFilter
-> = z.object({
-  name: z.literal("created_at"),
-  operator: LogStreamCreatedAtFilterOperator$outboundSchema,
-  value: z.pipe(z.date(), z.transform(v => v.toISOString())),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    name: z.literal("created_at"),
+    operator: LogStreamCreatedAtFilterOperator$outboundSchema,
+    value: z.pipe(z.date(), z.transform(v => v.toISOString())),
+  })
+);
 
 export function logStreamCreatedAtFilterToJSON(
   logStreamCreatedAtFilter: LogStreamCreatedAtFilter,

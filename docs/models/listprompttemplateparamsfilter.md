@@ -17,7 +17,7 @@ const value: models.PromptTemplateCreatedByFilter = {
 ```typescript
 const value: models.PromptTemplateNameFilter = {
   name: "name",
-  operator: "one_of",
+  operator: "regex",
   value: [],
 };
 ```

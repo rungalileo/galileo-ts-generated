@@ -5,10 +5,12 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../../lib/schemas.js";
 import * as models from "../index.js";
 
 export type CreateSessionProjectsProjectIdSessionsPostSecurity = {
   apiKeyHeader?: string | undefined;
+  classicAPIKeyHeader?: string | undefined;
   oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
   httpBasic?: models.SchemeHTTPBasic | undefined;
 };
@@ -21,6 +23,7 @@ export type CreateSessionProjectsProjectIdSessionsPostRequest = {
 /** @internal */
 export type CreateSessionProjectsProjectIdSessionsPostSecurity$Outbound = {
   APIKeyHeader?: string | undefined;
+  ClassicAPIKeyHeader?: string | undefined;
   OAuth2PasswordBearer?: models.OAuth2PasswordBearerInput$Outbound | undefined;
   HTTPBasic?: models.SchemeHTTPBasic$Outbound | undefined;
 };
@@ -30,21 +33,25 @@ export const CreateSessionProjectsProjectIdSessionsPostSecurity$outboundSchema:
   z.ZodMiniType<
     CreateSessionProjectsProjectIdSessionsPostSecurity$Outbound,
     CreateSessionProjectsProjectIdSessionsPostSecurity
-  > = z.pipe(
-    z.object({
-      apiKeyHeader: z.optional(z.string()),
-      oAuth2PasswordBearer: z.optional(
-        models.OAuth2PasswordBearerInput$outboundSchema,
-      ),
-      httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        apiKeyHeader: "APIKeyHeader",
-        oAuth2PasswordBearer: "OAuth2PasswordBearer",
-        httpBasic: "HTTPBasic",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        apiKeyHeader: z.optional(z.string()),
+        classicAPIKeyHeader: z.optional(z.string()),
+        oAuth2PasswordBearer: z.optional(
+          models.OAuth2PasswordBearerInput$outboundSchema,
+        ),
+        httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          apiKeyHeader: "APIKeyHeader",
+          classicAPIKeyHeader: "ClassicAPIKeyHeader",
+          oAuth2PasswordBearer: "OAuth2PasswordBearer",
+          httpBasic: "HTTPBasic",
+        });
+      }),
+    )
   );
 
 export function createSessionProjectsProjectIdSessionsPostSecurityToJSON(
@@ -69,16 +76,18 @@ export const CreateSessionProjectsProjectIdSessionsPostRequest$outboundSchema:
   z.ZodMiniType<
     CreateSessionProjectsProjectIdSessionsPostRequest$Outbound,
     CreateSessionProjectsProjectIdSessionsPostRequest
-  > = z.pipe(
-    z.object({
-      projectId: z.string(),
-      body: models.SessionCreateRequest$outboundSchema,
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        projectId: "project_id",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        projectId: z.string(),
+        body: models.SessionCreateRequest$outboundSchema,
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          projectId: "project_id",
+        });
+      }),
+    )
   );
 
 export function createSessionProjectsProjectIdSessionsPostRequestToJSON(

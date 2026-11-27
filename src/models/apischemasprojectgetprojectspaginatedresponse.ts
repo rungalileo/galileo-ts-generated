@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -21,21 +21,23 @@ export type ApiSchemasProjectGetProjectsPaginatedResponse = {
 
 /** @internal */
 export const ApiSchemasProjectGetProjectsPaginatedResponse$inboundSchema:
-  z.ZodMiniType<ApiSchemasProjectGetProjectsPaginatedResponse, unknown> = z
-    .pipe(
-      z.object({
-        starting_token: z._default(types.number(), 0),
-        limit: z._default(types.number(), 100),
-        paginated: z._default(types.boolean(), false),
-        next_starting_token: z.optional(z.nullable(types.number())),
-        projects: z.array(ProjectDB$inboundSchema),
-      }),
-      z.transform((v) => {
-        return remap$(v, {
-          "starting_token": "startingToken",
-          "next_starting_token": "nextStartingToken",
-        });
-      }),
+  z.ZodMiniType<ApiSchemasProjectGetProjectsPaginatedResponse, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          starting_token: z._default(types.number(), 0),
+          limit: z._default(types.number(), 100),
+          paginated: z._default(types.boolean(), false),
+          next_starting_token: z.optional(z.nullable(types.number())),
+          projects: z.array(ProjectDB$inboundSchema),
+        }),
+        z.transform((v) => {
+          return remap$(v, {
+            "starting_token": "startingToken",
+            "next_starting_token": "nextStartingToken",
+          });
+        }),
+      )
     );
 
 export function apiSchemasProjectGetProjectsPaginatedResponseFromJSON(

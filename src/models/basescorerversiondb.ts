@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import {
@@ -21,22 +21,24 @@ import {
   BaseGeneratedScorerDB$outboundSchema,
 } from "./basegeneratedscorerdb.js";
 import {
+  BaseLuna3ScorerDB,
+  BaseLuna3ScorerDB$inboundSchema,
+  BaseLuna3ScorerDB$Outbound,
+  BaseLuna3ScorerDB$outboundSchema,
+} from "./baseluna3scorerdb.js";
+import {
   BaseRegisteredScorerDB,
   BaseRegisteredScorerDB$inboundSchema,
   BaseRegisteredScorerDB$Outbound,
   BaseRegisteredScorerDB$outboundSchema,
 } from "./baseregisteredscorerdb.js";
+import {
+  DecisionScorerDB,
+  DecisionScorerDB$inboundSchema,
+  DecisionScorerDB$Outbound,
+  DecisionScorerDB$outboundSchema,
+} from "./decisionscorerdb.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
-import {
-  InputTypeEnum,
-  InputTypeEnum$inboundSchema,
-  InputTypeEnum$outboundSchema,
-} from "./inputtypeenum.js";
-import {
-  OutputTypeEnum,
-  OutputTypeEnum$inboundSchema,
-  OutputTypeEnum$outboundSchema,
-} from "./outputtypeenum.js";
 
 /**
  * Scorer version from the scorer_versions table.
@@ -48,65 +50,66 @@ export type BaseScorerVersionDB = {
   generatedScorer?: BaseGeneratedScorerDB | null | undefined;
   registeredScorer?: BaseRegisteredScorerDB | null | undefined;
   finetunedScorer?: BaseFinetunedScorerDB | null | undefined;
+  luna3Scorer?: BaseLuna3ScorerDB | null | undefined;
+  decisionScorer?: DecisionScorerDB | null | undefined;
   modelName?: string | null | undefined;
   numJudges?: number | null | undefined;
-  /**
-   * List of node types that can be scored by this scorer. Defaults to llm/chat.
-   */
-  scoreableNodeTypes?: Array<string> | null | undefined;
   /**
    * Whether to enable chain of thought for this scorer. Defaults to False for llm scorers.
    */
   cotEnabled?: boolean | null | undefined;
   /**
-   * What type of output to use for model-based scorers (sessions_normalized, trace_io_only, etc.).
+   * The runtime a code metric version runs on, such as python3.14. Null for a version saved before runtimes were recorded, which runs on the legacy Python 3.12 runtime.
    */
-  outputType?: OutputTypeEnum | null | undefined;
+  runtime?: string | null | undefined;
   /**
-   * What type of input to use for model-based scorers (sessions_normalized, trace_io_only, etc.).
+   * SHA-256 of the code bytes uploaded for a code metric version. Null for a version saved before digests were recorded.
    */
-  inputType?: InputTypeEnum | null | undefined;
+  codeSha256?: string | null | undefined;
 };
 
 /** @internal */
 export const BaseScorerVersionDB$inboundSchema: z.ZodMiniType<
   BaseScorerVersionDB,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.string(),
-    version: types.number(),
-    scorer_id: types.string(),
-    generated_scorer: z.optional(
-      z.nullable(BaseGeneratedScorerDB$inboundSchema),
-    ),
-    registered_scorer: z.optional(
-      z.nullable(BaseRegisteredScorerDB$inboundSchema),
-    ),
-    finetuned_scorer: z.optional(
-      z.nullable(BaseFinetunedScorerDB$inboundSchema),
-    ),
-    model_name: z.optional(z.nullable(types.string())),
-    num_judges: z.optional(z.nullable(types.number())),
-    scoreable_node_types: z.optional(z.nullable(z.array(types.string()))),
-    cot_enabled: z.optional(z.nullable(types.boolean())),
-    output_type: z.optional(z.nullable(OutputTypeEnum$inboundSchema)),
-    input_type: z.optional(z.nullable(InputTypeEnum$inboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "scorer_id": "scorerId",
-      "generated_scorer": "generatedScorer",
-      "registered_scorer": "registeredScorer",
-      "finetuned_scorer": "finetunedScorer",
-      "model_name": "modelName",
-      "num_judges": "numJudges",
-      "scoreable_node_types": "scoreableNodeTypes",
-      "cot_enabled": "cotEnabled",
-      "output_type": "outputType",
-      "input_type": "inputType",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.string(),
+      version: types.number(),
+      scorer_id: types.string(),
+      generated_scorer: z.optional(
+        z.nullable(BaseGeneratedScorerDB$inboundSchema),
+      ),
+      registered_scorer: z.optional(
+        z.nullable(BaseRegisteredScorerDB$inboundSchema),
+      ),
+      finetuned_scorer: z.optional(
+        z.nullable(BaseFinetunedScorerDB$inboundSchema),
+      ),
+      luna3_scorer: z.optional(z.nullable(BaseLuna3ScorerDB$inboundSchema)),
+      decision_scorer: z.optional(z.nullable(DecisionScorerDB$inboundSchema)),
+      model_name: z.optional(z.nullable(types.string())),
+      num_judges: z.optional(z.nullable(types.number())),
+      cot_enabled: z.optional(z.nullable(types.boolean())),
+      runtime: z.optional(z.nullable(types.string())),
+      code_sha256: z.optional(z.nullable(types.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "scorer_id": "scorerId",
+        "generated_scorer": "generatedScorer",
+        "registered_scorer": "registeredScorer",
+        "finetuned_scorer": "finetunedScorer",
+        "luna3_scorer": "luna3Scorer",
+        "decision_scorer": "decisionScorer",
+        "model_name": "modelName",
+        "num_judges": "numJudges",
+        "cot_enabled": "cotEnabled",
+        "code_sha256": "codeSha256",
+      });
+    }),
+  )
 );
 /** @internal */
 export type BaseScorerVersionDB$Outbound = {
@@ -116,53 +119,57 @@ export type BaseScorerVersionDB$Outbound = {
   generated_scorer?: BaseGeneratedScorerDB$Outbound | null | undefined;
   registered_scorer?: BaseRegisteredScorerDB$Outbound | null | undefined;
   finetuned_scorer?: BaseFinetunedScorerDB$Outbound | null | undefined;
+  luna3_scorer?: BaseLuna3ScorerDB$Outbound | null | undefined;
+  decision_scorer?: DecisionScorerDB$Outbound | null | undefined;
   model_name?: string | null | undefined;
   num_judges?: number | null | undefined;
-  scoreable_node_types?: Array<string> | null | undefined;
   cot_enabled?: boolean | null | undefined;
-  output_type?: string | null | undefined;
-  input_type?: string | null | undefined;
+  runtime?: string | null | undefined;
+  code_sha256?: string | null | undefined;
 };
 
 /** @internal */
 export const BaseScorerVersionDB$outboundSchema: z.ZodMiniType<
   BaseScorerVersionDB$Outbound,
   BaseScorerVersionDB
-> = z.pipe(
-  z.object({
-    id: z.string(),
-    version: z.int(),
-    scorerId: z.string(),
-    generatedScorer: z.optional(
-      z.nullable(BaseGeneratedScorerDB$outboundSchema),
-    ),
-    registeredScorer: z.optional(
-      z.nullable(BaseRegisteredScorerDB$outboundSchema),
-    ),
-    finetunedScorer: z.optional(
-      z.nullable(BaseFinetunedScorerDB$outboundSchema),
-    ),
-    modelName: z.optional(z.nullable(z.string())),
-    numJudges: z.optional(z.nullable(z.int())),
-    scoreableNodeTypes: z.optional(z.nullable(z.array(z.string()))),
-    cotEnabled: z.optional(z.nullable(z.boolean())),
-    outputType: z.optional(z.nullable(OutputTypeEnum$outboundSchema)),
-    inputType: z.optional(z.nullable(InputTypeEnum$outboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      scorerId: "scorer_id",
-      generatedScorer: "generated_scorer",
-      registeredScorer: "registered_scorer",
-      finetunedScorer: "finetuned_scorer",
-      modelName: "model_name",
-      numJudges: "num_judges",
-      scoreableNodeTypes: "scoreable_node_types",
-      cotEnabled: "cot_enabled",
-      outputType: "output_type",
-      inputType: "input_type",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: z.string(),
+      version: z.int(),
+      scorerId: z.string(),
+      generatedScorer: z.optional(
+        z.nullable(BaseGeneratedScorerDB$outboundSchema),
+      ),
+      registeredScorer: z.optional(
+        z.nullable(BaseRegisteredScorerDB$outboundSchema),
+      ),
+      finetunedScorer: z.optional(
+        z.nullable(BaseFinetunedScorerDB$outboundSchema),
+      ),
+      luna3Scorer: z.optional(z.nullable(BaseLuna3ScorerDB$outboundSchema)),
+      decisionScorer: z.optional(z.nullable(DecisionScorerDB$outboundSchema)),
+      modelName: z.optional(z.nullable(z.string())),
+      numJudges: z.optional(z.nullable(z.int())),
+      cotEnabled: z.optional(z.nullable(z.boolean())),
+      runtime: z.optional(z.nullable(z.string())),
+      codeSha256: z.optional(z.nullable(z.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        scorerId: "scorer_id",
+        generatedScorer: "generated_scorer",
+        registeredScorer: "registered_scorer",
+        finetunedScorer: "finetuned_scorer",
+        luna3Scorer: "luna3_scorer",
+        decisionScorer: "decision_scorer",
+        modelName: "model_name",
+        numJudges: "num_judges",
+        cotEnabled: "cot_enabled",
+        codeSha256: "code_sha256",
+      });
+    }),
+  )
 );
 
 export function baseScorerVersionDBToJSON(

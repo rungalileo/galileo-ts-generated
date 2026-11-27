@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type SelectColumns = {
   columnIds?: Array<string> | undefined;
@@ -23,19 +24,21 @@ export type SelectColumns$Outbound = {
 export const SelectColumns$outboundSchema: z.ZodMiniType<
   SelectColumns$Outbound,
   SelectColumns
-> = z.pipe(
-  z.object({
-    columnIds: z.optional(z.array(z.string())),
-    includeAllMetrics: z._default(z.boolean(), false),
-    includeAllFeedback: z._default(z.boolean(), false),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      columnIds: "column_ids",
-      includeAllMetrics: "include_all_metrics",
-      includeAllFeedback: "include_all_feedback",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      columnIds: z.optional(z.array(z.string())),
+      includeAllMetrics: z._default(z.boolean(), false),
+      includeAllFeedback: z._default(z.boolean(), false),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        columnIds: "column_ids",
+        includeAllMetrics: "include_all_metrics",
+        includeAllFeedback: "include_all_feedback",
+      });
+    }),
+  )
 );
 
 export function selectColumnsToJSON(selectColumns: SelectColumns): string {

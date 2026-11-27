@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type NvidiaIntegrationCreate = {
   token: string;
@@ -20,10 +21,12 @@ export type NvidiaIntegrationCreate$Outbound = {
 export const NvidiaIntegrationCreate$outboundSchema: z.ZodMiniType<
   NvidiaIntegrationCreate$Outbound,
   NvidiaIntegrationCreate
-> = z.object({
-  token: z.string(),
-  hostname: z.string(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    token: z.string(),
+    hostname: z.string(),
+  })
+);
 
 export function nvidiaIntegrationCreateToJSON(
   nvidiaIntegrationCreate: NvidiaIntegrationCreate,

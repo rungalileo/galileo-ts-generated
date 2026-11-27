@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import {
@@ -34,20 +34,22 @@ export type BaseGeneratedScorerDB = {
 export const BaseGeneratedScorerDB$inboundSchema: z.ZodMiniType<
   BaseGeneratedScorerDB,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.string(),
-    name: types.string(),
-    instructions: z.optional(z.nullable(types.string())),
-    chain_poll_template: ChainPollTemplate$inboundSchema,
-    user_prompt: z.optional(z.nullable(types.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "chain_poll_template": "chainPollTemplate",
-      "user_prompt": "userPrompt",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.string(),
+      name: types.string(),
+      instructions: z.optional(z.nullable(types.string())),
+      chain_poll_template: ChainPollTemplate$inboundSchema,
+      user_prompt: z.optional(z.nullable(types.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "chain_poll_template": "chainPollTemplate",
+        "user_prompt": "userPrompt",
+      });
+    }),
+  )
 );
 /** @internal */
 export type BaseGeneratedScorerDB$Outbound = {
@@ -62,20 +64,22 @@ export type BaseGeneratedScorerDB$Outbound = {
 export const BaseGeneratedScorerDB$outboundSchema: z.ZodMiniType<
   BaseGeneratedScorerDB$Outbound,
   BaseGeneratedScorerDB
-> = z.pipe(
-  z.object({
-    id: z.string(),
-    name: z.string(),
-    instructions: z.optional(z.nullable(z.string())),
-    chainPollTemplate: ChainPollTemplate$outboundSchema,
-    userPrompt: z.optional(z.nullable(z.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      chainPollTemplate: "chain_poll_template",
-      userPrompt: "user_prompt",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: z.string(),
+      name: z.string(),
+      instructions: z.optional(z.nullable(z.string())),
+      chainPollTemplate: ChainPollTemplate$outboundSchema,
+      userPrompt: z.optional(z.nullable(z.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        chainPollTemplate: "chain_poll_template",
+        userPrompt: "user_prompt",
+      });
+    }),
+  )
 );
 
 export function baseGeneratedScorerDBToJSON(

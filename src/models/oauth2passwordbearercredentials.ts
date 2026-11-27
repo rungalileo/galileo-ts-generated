@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 /**
  * OAuth2 Resource Owner Password Flow credentials
@@ -29,13 +30,15 @@ export type OAuth2PasswordBearerCredentials$Outbound = {
 export const OAuth2PasswordBearerCredentials$outboundSchema: z.ZodMiniType<
   OAuth2PasswordBearerCredentials$Outbound,
   OAuth2PasswordBearerCredentials
-> = z.object({
-  username: z.string(),
-  password: z.string(),
-  clientID: z.optional(z.string()),
-  clientSecret: z.optional(z.string()),
-  tokenURL: z._default(z.string(), "https://api.galileo.ai/login"),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    username: z.string(),
+    password: z.string(),
+    clientID: z.optional(z.string()),
+    clientSecret: z.optional(z.string()),
+    tokenURL: z._default(z.string(), "https://api.galileo.ai/login"),
+  })
+);
 
 export function oAuth2PasswordBearerCredentialsToJSON(
   oAuth2PasswordBearerCredentials: OAuth2PasswordBearerCredentials,

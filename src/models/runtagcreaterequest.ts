@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type RunTagCreateRequest = {
   key: string;
@@ -23,17 +24,19 @@ export type RunTagCreateRequest$Outbound = {
 export const RunTagCreateRequest$outboundSchema: z.ZodMiniType<
   RunTagCreateRequest$Outbound,
   RunTagCreateRequest
-> = z.pipe(
-  z.object({
-    key: z.string(),
-    value: z.string(),
-    tagType: z.string(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      tagType: "tag_type",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      key: z.string(),
+      value: z.string(),
+      tagType: z.string(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        tagType: "tag_type",
+      });
+    }),
+  )
 );
 
 export function runTagCreateRequestToJSON(

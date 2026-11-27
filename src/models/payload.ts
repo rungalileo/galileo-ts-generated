@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type Payload = {
   /**
@@ -24,10 +25,12 @@ export type Payload$Outbound = {
 
 /** @internal */
 export const Payload$outboundSchema: z.ZodMiniType<Payload$Outbound, Payload> =
-  z.object({
-    input: z.optional(z.nullable(z.string())),
-    output: z.optional(z.nullable(z.string())),
-  });
+  /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      input: z.optional(z.nullable(z.string())),
+      output: z.optional(z.nullable(z.string())),
+    })
+  );
 
 export function payloadToJSON(payload: Payload): string {
   return JSON.stringify(Payload$outboundSchema.parse(payload));

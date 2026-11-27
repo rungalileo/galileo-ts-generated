@@ -4,13 +4,210 @@
 
 ### Available Operations
 
+* [inspectEvaluatorsProjectsProjectIdRunsRunIdScorerSettingsEvaluatorsInspectPost](#inspectevaluatorsprojectsprojectidrunsrunidscorersettingsevaluatorsinspectpost) - Inspect Evaluators
+* [enableEvaluatorsProjectsProjectIdRunsRunIdScorerSettingsEvaluatorsEnablePost](#enableevaluatorsprojectsprojectidrunsrunidscorersettingsevaluatorsenablepost) - Enable Evaluators
 * [upsertScorersConfigProjectsProjectIdRunsRunIdScorerSettingsPatch](#upsertscorersconfigprojectsprojectidrunsrunidscorersettingspatch) - Upsert Scorers Config
 * [upsertScorersConfigProjectsProjectIdRunsRunIdScorerSettingsPost](#upsertscorersconfigprojectsprojectidrunsrunidscorersettingspost) - Upsert Scorers Config
 * [getSettingsProjectsProjectIdRunsRunIdScorerSettingsGet](#getsettingsprojectsprojectidrunsrunidscorersettingsget) - Get Settings
 
+## inspectEvaluatorsProjectsProjectIdRunsRunIdScorerSettingsEvaluatorsInspectPost
+
+Resolve exact visible Evaluators on the primary before approval.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="inspect_evaluators_projects__project_id__runs__run_id__scorer_settings_evaluators_inspect_post" method="post" path="/projects/{project_id}/runs/{run_id}/scorer-settings/evaluators/inspect" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.runScorerSettings.inspectEvaluatorsProjectsProjectIdRunsRunIdScorerSettingsEvaluatorsInspectPost({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    projectId: "<value>",
+    runId: "<value>",
+    body: {
+      evaluators: [
+        {
+          scorerId: "<value>",
+        },
+      ],
+    },
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import {
+  runScorerSettingsInspectEvaluatorsProjectsProjectIdRunsRunIdScorerSettingsEvaluatorsInspectPost,
+} from "galileo-generated/funcs/runScorerSettingsInspectEvaluatorsProjectsProjectIdRunsRunIdScorerSettingsEvaluatorsInspectPost.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await runScorerSettingsInspectEvaluatorsProjectsProjectIdRunsRunIdScorerSettingsEvaluatorsInspectPost(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    projectId: "<value>",
+    runId: "<value>",
+    body: {
+      evaluators: [
+        {
+          scorerId: "<value>",
+        },
+      ],
+    },
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("runScorerSettingsInspectEvaluatorsProjectsProjectIdRunsRunIdScorerSettingsEvaluatorsInspectPost failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                              | Type                                                                                                                                                                                                                   | Required                                                                                                                                                                                                               | Description                                                                                                                                                                                                            |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `request`                                                                                                                                                                                                              | [operations.InspectEvaluatorsProjectsProjectIdRunsRunIdScorerSettingsEvaluatorsInspectPostRequest](../../models/operations/inspectevaluatorsprojectsprojectidrunsrunidscorersettingsevaluatorsinspectpostrequest.md)   | :heavy_check_mark:                                                                                                                                                                                                     | The request object to use for the request.                                                                                                                                                                             |
+| `security`                                                                                                                                                                                                             | [operations.InspectEvaluatorsProjectsProjectIdRunsRunIdScorerSettingsEvaluatorsInspectPostSecurity](../../models/operations/inspectevaluatorsprojectsprojectidrunsrunidscorersettingsevaluatorsinspectpostsecurity.md) | :heavy_check_mark:                                                                                                                                                                                                     | The security requirements to use for the request.                                                                                                                                                                      |
+| `options`                                                                                                                                                                                                              | RequestOptions                                                                                                                                                                                                         | :heavy_minus_sign:                                                                                                                                                                                                     | Used to set various options for making HTTP requests.                                                                                                                                                                  |
+| `options.fetchOptions`                                                                                                                                                                                                 | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                                                                | :heavy_minus_sign:                                                                                                                                                                                                     | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.                                         |
+| `options.retries`                                                                                                                                                                                                      | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                                                          | :heavy_minus_sign:                                                                                                                                                                                                     | Enables retrying HTTP requests under certain failure conditions.                                                                                                                                                       |
+
+### Response
+
+**Promise\<[models.RunEvaluatorsInspection](../../models/runevaluatorsinspection.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
+## enableEvaluatorsProjectsProjectIdRunsRunIdScorerSettingsEvaluatorsEnablePost
+
+Add exact saved Evaluators while preserving settings and historical scores.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="enable_evaluators_projects__project_id__runs__run_id__scorer_settings_evaluators_enable_post" method="post" path="/projects/{project_id}/runs/{run_id}/scorer-settings/evaluators/enable" -->
+```typescript
+import { GalileoGenerated } from "galileo-generated";
+
+const galileoGenerated = new GalileoGenerated();
+
+async function run() {
+  const result = await galileoGenerated.runScorerSettings.enableEvaluatorsProjectsProjectIdRunsRunIdScorerSettingsEvaluatorsEnablePost({
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    projectId: "<value>",
+    runId: "<value>",
+    body: {
+      evaluators: [
+        {
+          scorerId: "<value>",
+        },
+      ],
+    },
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { GalileoGeneratedCore } from "galileo-generated/core.js";
+import {
+  runScorerSettingsEnableEvaluatorsProjectsProjectIdRunsRunIdScorerSettingsEvaluatorsEnablePost,
+} from "galileo-generated/funcs/runScorerSettingsEnableEvaluatorsProjectsProjectIdRunsRunIdScorerSettingsEvaluatorsEnablePost.js";
+
+// Use `GalileoGeneratedCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const galileoGenerated = new GalileoGeneratedCore();
+
+async function run() {
+  const res = await runScorerSettingsEnableEvaluatorsProjectsProjectIdRunsRunIdScorerSettingsEvaluatorsEnablePost(galileoGenerated, {
+    apiKeyHeader: process.env["GALILEOGENERATED_API_KEY_HEADER"] ?? "",
+  }, {
+    projectId: "<value>",
+    runId: "<value>",
+    body: {
+      evaluators: [
+        {
+          scorerId: "<value>",
+        },
+      ],
+    },
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("runScorerSettingsEnableEvaluatorsProjectsProjectIdRunsRunIdScorerSettingsEvaluatorsEnablePost failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                          | Type                                                                                                                                                                                                               | Required                                                                                                                                                                                                           | Description                                                                                                                                                                                                        |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                                                          | [operations.EnableEvaluatorsProjectsProjectIdRunsRunIdScorerSettingsEvaluatorsEnablePostRequest](../../models/operations/enableevaluatorsprojectsprojectidrunsrunidscorersettingsevaluatorsenablepostrequest.md)   | :heavy_check_mark:                                                                                                                                                                                                 | The request object to use for the request.                                                                                                                                                                         |
+| `security`                                                                                                                                                                                                         | [operations.EnableEvaluatorsProjectsProjectIdRunsRunIdScorerSettingsEvaluatorsEnablePostSecurity](../../models/operations/enableevaluatorsprojectsprojectidrunsrunidscorersettingsevaluatorsenablepostsecurity.md) | :heavy_check_mark:                                                                                                                                                                                                 | The security requirements to use for the request.                                                                                                                                                                  |
+| `options`                                                                                                                                                                                                          | RequestOptions                                                                                                                                                                                                     | :heavy_minus_sign:                                                                                                                                                                                                 | Used to set various options for making HTTP requests.                                                                                                                                                              |
+| `options.fetchOptions`                                                                                                                                                                                             | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                                                            | :heavy_minus_sign:                                                                                                                                                                                                 | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.                                     |
+| `options.retries`                                                                                                                                                                                                  | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                                                      | :heavy_minus_sign:                                                                                                                                                                                                 | Enables retrying HTTP requests under certain failure conditions.                                                                                                                                                   |
+
+### Response
+
+**Promise\<[models.RunEvaluatorsEnabled](../../models/runevaluatorsenabled.md)\>**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.HTTPValidationError          | 422                                 | application/json                    |
+| errors.GalileoGeneratedDefaultError | 4XX, 5XX                            | \*/\*                               |
+
 ## upsertScorersConfigProjectsProjectIdRunsRunIdScorerSettingsPatch
 
-Upsert Scorers Config
+Enable or disable a run's scorers, recomputing metrics for any newly enabled ones.
+
+Args:
+    run_scorer_settings: Scorer settings to apply to the run.
+    run: Run resolved from the URL, verified to belong to the URL project.
+    a_ctx: Async request context supplying the read session and current user.
+    capabilities: Scorer types the client can decode; decision scorers are left out of the response otherwise.
+
+Returns:
+    The run's settings after the update.
 
 ### Example Usage
 
@@ -29,8 +226,8 @@ async function run() {
     body: {
       scorers: [
         {
-          filters: null,
           id: "<value>",
+          filters: null,
           scorerType: "preset",
         },
       ],
@@ -41,6 +238,7 @@ async function run() {
             operator: "eq",
             key: "<key>",
             value: "<value>",
+            caseSensitive: true,
           },
           sampleRate: 9527.61,
         },
@@ -78,8 +276,8 @@ async function run() {
     body: {
       scorers: [
         {
-          filters: null,
           id: "<value>",
+          filters: null,
           scorerType: "preset",
         },
       ],
@@ -90,6 +288,7 @@ async function run() {
             operator: "eq",
             key: "<key>",
             value: "<value>",
+            caseSensitive: true,
           },
           sampleRate: 9527.61,
         },
@@ -131,7 +330,16 @@ run();
 
 ## upsertScorersConfigProjectsProjectIdRunsRunIdScorerSettingsPost
 
-Upsert Scorers Config
+Enable or disable a run's scorers, recomputing metrics for any newly enabled ones.
+
+Args:
+    run_scorer_settings: Scorer settings to apply to the run.
+    run: Run resolved from the URL, verified to belong to the URL project.
+    a_ctx: Async request context supplying the read session and current user.
+    capabilities: Scorer types the client can decode; decision scorers are left out of the response otherwise.
+
+Returns:
+    The run's settings after the update.
 
 ### Example Usage
 
@@ -150,6 +358,7 @@ async function run() {
     body: {
       scorers: [
         {
+          id: "<value>",
           filters: [
             {
               name: "modality",
@@ -157,7 +366,6 @@ async function run() {
               value: "ENUM_VALUE",
             },
           ],
-          id: "<value>",
           scorerType: "preset",
         },
       ],
@@ -202,6 +410,7 @@ async function run() {
     body: {
       scorers: [
         {
+          id: "<value>",
           filters: [
             {
               name: "modality",
@@ -209,7 +418,6 @@ async function run() {
               value: "ENUM_VALUE",
             },
           ],
-          id: "<value>",
           scorerType: "preset",
         },
       ],
@@ -260,7 +468,18 @@ run();
 
 ## getSettingsProjectsProjectIdRunsRunIdScorerSettingsGet
 
-Get Settings
+Return a run's scorer settings.
+
+Args:
+    run_id: Run whose settings are requested, used for the not-found message.
+    run_scorer_settings: Hydrated settings resolved by the route dependency.
+    capabilities: Scorer types the client can decode; decision scorers are left out of the response otherwise.
+
+Returns:
+    The run's scorer settings.
+
+Raises:
+    HTTPException: 404 when the run has no scorer settings recorded.
 
 ### Example Usage
 

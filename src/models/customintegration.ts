@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import {
@@ -16,6 +16,10 @@ import {
   CustomLLMConfig,
   CustomLLMConfig$inboundSchema,
 } from "./customllmconfig.js";
+import {
+  DecisionModelProperties,
+  DecisionModelProperties$inboundSchema,
+} from "./decisionmodelproperties.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
   MultiModalModelIntegrationConfig,
@@ -71,6 +75,10 @@ export type CustomIntegration = {
    */
   defaultModel?: string | null | undefined;
   /**
+   * The decision models this integration serves. An integration that lists decision models may have no chat models.
+   */
+  decisionModelProperties?: Array<DecisionModelProperties> | null | undefined;
+  /**
    * Endpoint URL for the custom integration.
    */
   endpoint: string;
@@ -109,50 +117,60 @@ export type CustomIntegration = {
 export const CustomIntegration$inboundSchema: z.ZodMiniType<
   CustomIntegration,
   unknown
-> = z.pipe(
-  z.object({
-    multi_modal_config: z.optional(
-      z.nullable(MultiModalModelIntegrationConfig$inboundSchema),
-    ),
-    authentication_type: types.optional(CustomAuthenticationType$inboundSchema),
-    models: z.optional(z.nullable(z.array(types.string()))),
-    model_properties: z.optional(
-      z.nullable(
-        z.array(PromptgalileoSchemasConfigCustomModelProperties$inboundSchema),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      multi_modal_config: z.optional(
+        z.nullable(MultiModalModelIntegrationConfig$inboundSchema),
       ),
-    ),
-    is_legacy_format: z._default(types.boolean(), false),
-    default_model: z.optional(z.nullable(types.string())),
-    endpoint: types.string(),
-    authentication_scope: z.optional(z.nullable(types.string())),
-    oauth2_token_url: z.optional(z.nullable(types.string())),
-    api_key_header: z.optional(z.nullable(types.string())),
-    api_key_value: z.optional(z.nullable(types.string())),
-    custom_llm_config: z.optional(z.nullable(CustomLLMConfig$inboundSchema)),
-    custom_header_mapping: z.optional(
-      z.nullable(z.record(z.string(), types.string())),
-    ),
-    headers: z.optional(z.nullable(z.record(z.string(), types.string()))),
-    id: z.optional(z.nullable(types.string())),
-    name: z._default(types.string(), "custom"),
-    provider: types.literal("custom"),
-    extra: z.optional(z.nullable(z.record(z.string(), z.any()))),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "multi_modal_config": "multiModalConfig",
-      "authentication_type": "authenticationType",
-      "model_properties": "modelProperties",
-      "is_legacy_format": "isLegacyFormat",
-      "default_model": "defaultModel",
-      "authentication_scope": "authenticationScope",
-      "oauth2_token_url": "oauth2TokenUrl",
-      "api_key_header": "apiKeyHeader",
-      "api_key_value": "apiKeyValue",
-      "custom_llm_config": "customLlmConfig",
-      "custom_header_mapping": "customHeaderMapping",
-    });
-  }),
+      authentication_type: types.optional(
+        CustomAuthenticationType$inboundSchema,
+      ),
+      models: z.optional(z.nullable(z.array(types.string()))),
+      model_properties: z.optional(
+        z.nullable(
+          z.array(
+            PromptgalileoSchemasConfigCustomModelProperties$inboundSchema,
+          ),
+        ),
+      ),
+      is_legacy_format: z._default(types.boolean(), false),
+      default_model: z.optional(z.nullable(types.string())),
+      decision_model_properties: z.optional(
+        z.nullable(z.array(DecisionModelProperties$inboundSchema)),
+      ),
+      endpoint: types.string(),
+      authentication_scope: z.optional(z.nullable(types.string())),
+      oauth2_token_url: z.optional(z.nullable(types.string())),
+      api_key_header: z.optional(z.nullable(types.string())),
+      api_key_value: z.optional(z.nullable(types.string())),
+      custom_llm_config: z.optional(z.nullable(CustomLLMConfig$inboundSchema)),
+      custom_header_mapping: z.optional(
+        z.nullable(z.record(z.string(), types.string())),
+      ),
+      headers: z.optional(z.nullable(z.record(z.string(), types.string()))),
+      id: z.optional(z.nullable(types.string())),
+      name: z._default(types.string(), "custom"),
+      provider: types.literal("custom"),
+      extra: z.optional(z.nullable(z.record(z.string(), z.any()))),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "multi_modal_config": "multiModalConfig",
+        "authentication_type": "authenticationType",
+        "model_properties": "modelProperties",
+        "is_legacy_format": "isLegacyFormat",
+        "default_model": "defaultModel",
+        "decision_model_properties": "decisionModelProperties",
+        "authentication_scope": "authenticationScope",
+        "oauth2_token_url": "oauth2TokenUrl",
+        "api_key_header": "apiKeyHeader",
+        "api_key_value": "apiKeyValue",
+        "custom_llm_config": "customLlmConfig",
+        "custom_header_mapping": "customHeaderMapping",
+      });
+    }),
+  )
 );
 
 export function customIntegrationFromJSON(

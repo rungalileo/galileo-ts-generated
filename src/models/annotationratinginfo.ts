@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { smartUnion } from "../types/smartUnion.js";
@@ -31,12 +31,14 @@ export type AnnotationRatingInfo = {
 export const AnnotationRatingInfoValue$inboundSchema: z.ZodMiniType<
   AnnotationRatingInfoValue,
   unknown
-> = smartUnion([
-  types.boolean(),
-  types.number(),
-  types.string(),
-  z.array(types.string()),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    types.boolean(),
+    types.number(),
+    types.string(),
+    z.array(types.string()),
+  ])
+);
 
 export function annotationRatingInfoValueFromJSON(
   jsonString: string,
@@ -52,22 +54,24 @@ export function annotationRatingInfoValueFromJSON(
 export const AnnotationRatingInfo$inboundSchema: z.ZodMiniType<
   AnnotationRatingInfo,
   unknown
-> = z.pipe(
-  z.object({
-    annotation_type: AnnotationType$inboundSchema,
-    value: smartUnion([
-      types.boolean(),
-      types.number(),
-      types.string(),
-      z.array(types.string()),
-    ]),
-    explanation: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "annotation_type": "annotationType",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      annotation_type: AnnotationType$inboundSchema,
+      value: smartUnion([
+        types.boolean(),
+        types.number(),
+        types.string(),
+        z.array(types.string()),
+      ]),
+      explanation: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "annotation_type": "annotationType",
+      });
+    }),
+  )
 );
 
 export function annotationRatingInfoFromJSON(

@@ -12,7 +12,14 @@
 
 ## getExperimentTagsProjectsProjectIdExperimentsExperimentIdTagsGet
 
-Gets tags for a given project_id/experiment_id.
+Get all tags for an experiment.
+
+Args:
+    run: The experiment to list tags for, resolved from the URL.
+    ctx: Async request context.
+
+Returns:
+    The experiment's tags, ordered by key.
 
 ### Example Usage
 
@@ -89,7 +96,19 @@ run();
 
 ## setTagForExperimentProjectsProjectIdExperimentsExperimentIdTagsPost
 
-Sets a tag for an experiment.
+Set a tag for an experiment.
+
+Args:
+    project_id: Project the experiment belongs to, resolved from the URL.
+    run: The experiment to tag, resolved from the URL.
+    tag_create: The tag's key, value, and type.
+    ctx: Async request context.
+
+Returns:
+    The created tag.
+
+Raises:
+    HTTPException: 400 if a tag with this key already exists on the experiment.
 
 ### Example Usage
 
@@ -178,7 +197,13 @@ run();
 
 ## getExperimentTagProjectsProjectIdExperimentsExperimentIdTagsTagIdGet
 
-Gets a tag for a given project_id/experiment_id.
+Get a tag by ID for an experiment.
+
+Args:
+    tag: The tag to return, resolved from the URL.
+
+Returns:
+    The tag.
 
 ### Example Usage
 
@@ -259,7 +284,16 @@ run();
 
 ## updateTagForExperimentProjectsProjectIdExperimentsExperimentIdTagsTagIdPut
 
-Sets or updates a tag for an experiment.
+Set or update a tag for an experiment.
+
+Args:
+    project_id: Project the experiment belongs to, resolved from the URL.
+    run: The experiment to tag, resolved from the URL.
+    tag_create: The tag's key, value, and type.
+    ctx: Async request context.
+
+Returns:
+    The created or updated tag.
 
 ### Example Usage
 
@@ -350,7 +384,14 @@ run();
 
 ## deleteExperimentTagProjectsProjectIdExperimentsExperimentIdTagsTagIdDelete
 
-Delete Experiment Tag
+Delete a tag from an experiment.
+
+Args:
+    tag: The tag to delete, resolved from the URL.
+    run: The experiment the tag belongs to, resolved from the URL.
+
+Returns:
+    A confirmation message.
 
 ### Example Usage
 

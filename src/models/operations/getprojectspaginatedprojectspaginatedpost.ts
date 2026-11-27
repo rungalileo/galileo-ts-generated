@@ -5,19 +5,24 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../../lib/schemas.js";
+import { smartUnion } from "../../types/smartUnion.js";
 import * as models from "../index.js";
 
 export type GetProjectsPaginatedProjectsPaginatedPostSecurity = {
   apiKeyHeader?: string | undefined;
+  classicAPIKeyHeader?: string | undefined;
   oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
   httpBasic?: models.SchemeHTTPBasic | undefined;
 };
 
+export type Action = models.ProjectAction | string;
+
 export type GetProjectsPaginatedProjectsPaginatedPostRequest = {
   /**
-   * Actions to include in the 'permissions' field.
+   * Actions to include in 'permissions'. Deprecated 'update' and log access actions are ignored.
    */
-  actions?: Array<models.ProjectAction> | undefined;
+  actions?: Array<models.ProjectAction | string> | undefined;
   startingToken?: number | undefined;
   limit?: number | undefined;
   body?: models.ProjectCollectionParams | undefined;
@@ -26,6 +31,7 @@ export type GetProjectsPaginatedProjectsPaginatedPostRequest = {
 /** @internal */
 export type GetProjectsPaginatedProjectsPaginatedPostSecurity$Outbound = {
   APIKeyHeader?: string | undefined;
+  ClassicAPIKeyHeader?: string | undefined;
   OAuth2PasswordBearer?: models.OAuth2PasswordBearerInput$Outbound | undefined;
   HTTPBasic?: models.SchemeHTTPBasic$Outbound | undefined;
 };
@@ -35,21 +41,25 @@ export const GetProjectsPaginatedProjectsPaginatedPostSecurity$outboundSchema:
   z.ZodMiniType<
     GetProjectsPaginatedProjectsPaginatedPostSecurity$Outbound,
     GetProjectsPaginatedProjectsPaginatedPostSecurity
-  > = z.pipe(
-    z.object({
-      apiKeyHeader: z.optional(z.string()),
-      oAuth2PasswordBearer: z.optional(
-        models.OAuth2PasswordBearerInput$outboundSchema,
-      ),
-      httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        apiKeyHeader: "APIKeyHeader",
-        oAuth2PasswordBearer: "OAuth2PasswordBearer",
-        httpBasic: "HTTPBasic",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        apiKeyHeader: z.optional(z.string()),
+        classicAPIKeyHeader: z.optional(z.string()),
+        oAuth2PasswordBearer: z.optional(
+          models.OAuth2PasswordBearerInput$outboundSchema,
+        ),
+        httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          apiKeyHeader: "APIKeyHeader",
+          classicAPIKeyHeader: "ClassicAPIKeyHeader",
+          oAuth2PasswordBearer: "OAuth2PasswordBearer",
+          httpBasic: "HTTPBasic",
+        });
+      }),
+    )
   );
 
 export function getProjectsPaginatedProjectsPaginatedPostSecurityToJSON(
@@ -64,8 +74,21 @@ export function getProjectsPaginatedProjectsPaginatedPostSecurityToJSON(
 }
 
 /** @internal */
+export type Action$Outbound = string | string;
+
+/** @internal */
+export const Action$outboundSchema: z.ZodMiniType<Action$Outbound, Action> =
+  /* @__PURE__ */ lazySchema$(() =>
+    smartUnion([models.ProjectAction$outboundSchema, z.string()])
+  );
+
+export function actionToJSON(action: Action): string {
+  return JSON.stringify(Action$outboundSchema.parse(action));
+}
+
+/** @internal */
 export type GetProjectsPaginatedProjectsPaginatedPostRequest$Outbound = {
-  actions?: Array<string> | undefined;
+  actions?: Array<string | string> | undefined;
   starting_token: number;
   limit: number;
   body?: models.ProjectCollectionParams$Outbound | undefined;
@@ -76,18 +99,24 @@ export const GetProjectsPaginatedProjectsPaginatedPostRequest$outboundSchema:
   z.ZodMiniType<
     GetProjectsPaginatedProjectsPaginatedPostRequest$Outbound,
     GetProjectsPaginatedProjectsPaginatedPostRequest
-  > = z.pipe(
-    z.object({
-      actions: z.optional(z.array(models.ProjectAction$outboundSchema)),
-      startingToken: z._default(z.int(), 0),
-      limit: z._default(z.int(), 100),
-      body: z.optional(models.ProjectCollectionParams$outboundSchema),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        startingToken: "starting_token",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        actions: z.optional(
+          z.array(
+            smartUnion([models.ProjectAction$outboundSchema, z.string()]),
+          ),
+        ),
+        startingToken: z._default(z.int(), 0),
+        limit: z._default(z.int(), 100),
+        body: z.optional(models.ProjectCollectionParams$outboundSchema),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          startingToken: "starting_token",
+        });
+      }),
+    )
   );
 
 export function getProjectsPaginatedProjectsPaginatedPostRequestToJSON(

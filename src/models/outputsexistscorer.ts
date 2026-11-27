@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
 import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import * as openEnums from "../types/enums.js";
@@ -73,11 +73,13 @@ export type OutputSexistScorer = {
 export const OutputSexistScorerFilter$inboundSchema: z.ZodMiniType<
   OutputSexistScorerFilter,
   unknown
-> = discriminatedUnion("name", {
-  metadata: MetadataFilter$inboundSchema,
-  modality: ModalityFilter$inboundSchema,
-  node_name: NodeNameFilter$inboundSchema,
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  discriminatedUnion("name", {
+    metadata: MetadataFilter$inboundSchema,
+    modality: ModalityFilter$inboundSchema,
+    node_name: NodeNameFilter$inboundSchema,
+  })
+);
 /** @internal */
 export type OutputSexistScorerFilter$Outbound =
   | MetadataFilter$Outbound
@@ -88,11 +90,13 @@ export type OutputSexistScorerFilter$Outbound =
 export const OutputSexistScorerFilter$outboundSchema: z.ZodMiniType<
   OutputSexistScorerFilter$Outbound,
   OutputSexistScorerFilter
-> = z.union([
-  MetadataFilter$outboundSchema,
-  ModalityFilter$outboundSchema,
-  NodeNameFilter$outboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    MetadataFilter$outboundSchema,
+    ModalityFilter$outboundSchema,
+    NodeNameFilter$outboundSchema,
+  ])
+);
 
 export function outputSexistScorerFilterToJSON(
   outputSexistScorerFilter: OutputSexistScorerFilter,
@@ -115,41 +119,47 @@ export function outputSexistScorerFilterFromJSON(
 export const OutputSexistScorerType$inboundSchema: z.ZodMiniType<
   OutputSexistScorerType,
   unknown
-> = openEnums.inboundSchema(OutputSexistScorerType);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(OutputSexistScorerType)
+);
 /** @internal */
 export const OutputSexistScorerType$outboundSchema: z.ZodMiniType<
   string,
   OutputSexistScorerType
-> = openEnums.outboundSchema(OutputSexistScorerType);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.outboundSchema(OutputSexistScorerType)
+);
 
 /** @internal */
 export const OutputSexistScorer$inboundSchema: z.ZodMiniType<
   OutputSexistScorer,
   unknown
-> = z.pipe(
-  z.object({
-    name: types.literal("output_sexist"),
-    filters: z.optional(
-      z.nullable(
-        z.array(
-          discriminatedUnion("name", {
-            metadata: MetadataFilter$inboundSchema,
-            modality: ModalityFilter$inboundSchema,
-            node_name: NodeNameFilter$inboundSchema,
-          }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: types.literal("output_sexist"),
+      filters: z.optional(
+        z.nullable(
+          z.array(
+            discriminatedUnion("name", {
+              metadata: MetadataFilter$inboundSchema,
+              modality: ModalityFilter$inboundSchema,
+              node_name: NodeNameFilter$inboundSchema,
+            }),
+          ),
         ),
       ),
-    ),
-    type: z._default(OutputSexistScorerType$inboundSchema, "luna"),
-    model_name: z.optional(z.nullable(types.string())),
-    num_judges: z.optional(z.nullable(types.number())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "model_name": "modelName",
-      "num_judges": "numJudges",
-    });
-  }),
+      type: z._default(OutputSexistScorerType$inboundSchema, "luna"),
+      model_name: z.optional(z.nullable(types.string())),
+      num_judges: z.optional(z.nullable(types.number())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "model_name": "modelName",
+        "num_judges": "numJudges",
+      });
+    }),
+  )
 );
 /** @internal */
 export type OutputSexistScorer$Outbound = {
@@ -171,30 +181,32 @@ export type OutputSexistScorer$Outbound = {
 export const OutputSexistScorer$outboundSchema: z.ZodMiniType<
   OutputSexistScorer$Outbound,
   OutputSexistScorer
-> = z.pipe(
-  z.object({
-    name: z.literal("output_sexist"),
-    filters: z.optional(
-      z.nullable(
-        z.array(
-          z.union([
-            MetadataFilter$outboundSchema,
-            ModalityFilter$outboundSchema,
-            NodeNameFilter$outboundSchema,
-          ]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: z.literal("output_sexist"),
+      filters: z.optional(
+        z.nullable(
+          z.array(
+            z.union([
+              MetadataFilter$outboundSchema,
+              ModalityFilter$outboundSchema,
+              NodeNameFilter$outboundSchema,
+            ]),
+          ),
         ),
       ),
-    ),
-    type: z._default(OutputSexistScorerType$outboundSchema, "luna"),
-    modelName: z.optional(z.nullable(z.string())),
-    numJudges: z.optional(z.nullable(z.int())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      modelName: "model_name",
-      numJudges: "num_judges",
-    });
-  }),
+      type: z._default(OutputSexistScorerType$outboundSchema, "luna"),
+      modelName: z.optional(z.nullable(z.string())),
+      numJudges: z.optional(z.nullable(z.int())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        modelName: "model_name",
+        numJudges: "num_judges",
+      });
+    }),
+  )
 );
 
 export function outputSexistScorerToJSON(

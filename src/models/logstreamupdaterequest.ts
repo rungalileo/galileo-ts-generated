@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type LogStreamUpdateRequest = {
   name: string;
@@ -18,9 +19,11 @@ export type LogStreamUpdateRequest$Outbound = {
 export const LogStreamUpdateRequest$outboundSchema: z.ZodMiniType<
   LogStreamUpdateRequest$Outbound,
   LogStreamUpdateRequest
-> = z.object({
-  name: z.string(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    name: z.string(),
+  })
+);
 
 export function logStreamUpdateRequestToJSON(
   logStreamUpdateRequest: LogStreamUpdateRequest,

@@ -5,11 +5,12 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
-  ScorerConfig,
-  ScorerConfig$Outbound,
-  ScorerConfig$outboundSchema,
-} from "./scorerconfig.js";
+  RuntimeScorerConfig,
+  RuntimeScorerConfig$Outbound,
+  RuntimeScorerConfig$outboundSchema,
+} from "./runtimescorerconfig.js";
 import {
   SegmentFilter,
   SegmentFilter$Outbound,
@@ -20,7 +21,7 @@ export type MetricSettingsRequest = {
   /**
    * List of Galileo scorers to enable.
    */
-  scorers?: Array<ScorerConfig> | null | undefined;
+  scorers?: Array<RuntimeScorerConfig> | null | undefined;
   /**
    * List of segment filters to apply to the run.
    */
@@ -29,7 +30,7 @@ export type MetricSettingsRequest = {
 
 /** @internal */
 export type MetricSettingsRequest$Outbound = {
-  scorers?: Array<ScorerConfig$Outbound> | null | undefined;
+  scorers?: Array<RuntimeScorerConfig$Outbound> | null | undefined;
   segment_filters?: Array<SegmentFilter$Outbound> | null | undefined;
 };
 
@@ -37,18 +38,22 @@ export type MetricSettingsRequest$Outbound = {
 export const MetricSettingsRequest$outboundSchema: z.ZodMiniType<
   MetricSettingsRequest$Outbound,
   MetricSettingsRequest
-> = z.pipe(
-  z.object({
-    scorers: z.optional(z.nullable(z.array(ScorerConfig$outboundSchema))),
-    segmentFilters: z.optional(
-      z.nullable(z.array(SegmentFilter$outboundSchema)),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      segmentFilters: "segment_filters",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      scorers: z.optional(
+        z.nullable(z.array(RuntimeScorerConfig$outboundSchema)),
+      ),
+      segmentFilters: z.optional(
+        z.nullable(z.array(SegmentFilter$outboundSchema)),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        segmentFilters: "segment_filters",
+      });
+    }),
+  )
 );
 
 export function metricSettingsRequestToJSON(

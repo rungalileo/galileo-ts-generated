@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -20,20 +20,22 @@ export type BucketedMetrics = {
 export const BucketedMetrics$inboundSchema: z.ZodMiniType<
   BucketedMetrics,
   unknown
-> = z.pipe(
-  z.catchall(
-    z.object({
-      start_bucket_time: types.date(),
-      end_bucket_time: types.date(),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.catchall(
+      z.object({
+        start_bucket_time: types.date(),
+        end_bucket_time: types.date(),
+      }),
+      z.any(),
+    ),
+    z.transform((v) => {
+      return remap$(v, {
+        "start_bucket_time": "startBucketTime",
+        "end_bucket_time": "endBucketTime",
+      });
     }),
-    z.any(),
-  ),
-  z.transform((v) => {
-    return remap$(v, {
-      "start_bucket_time": "startBucketTime",
-      "end_bucket_time": "endBucketTime",
-    });
-  }),
+  )
 );
 
 export function bucketedMetricsFromJSON(

@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
 import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import { Result as SafeParseResult } from "../types/fp.js";
@@ -20,6 +20,10 @@ import {
   AnnotationRatingInfo$inboundSchema,
 } from "./annotationratinginfo.js";
 import {
+  AnnotationStatus,
+  AnnotationStatus$inboundSchema,
+} from "./annotationstatus.js";
+import {
   ContentModality,
   ContentModality$inboundSchema,
 } from "./contentmodality.js";
@@ -29,13 +33,17 @@ import {
   ExtendedAgentSpanRecordWithChildren$inboundSchema,
 } from "./extendedagentspanrecordwithchildren.js";
 import {
-  ExtendedControlSpanRecord,
-  ExtendedControlSpanRecord$inboundSchema,
-} from "./extendedcontrolspanrecord.js";
+  ExtendedControlSpanRecordInput,
+  ExtendedControlSpanRecordInput$inboundSchema,
+} from "./extendedcontrolspanrecordinput.js";
 import {
-  ExtendedLlmSpanRecord,
-  ExtendedLlmSpanRecord$inboundSchema,
-} from "./extendedllmspanrecord.js";
+  ExtendedHttpSpanRecordWithChildren,
+  ExtendedHttpSpanRecordWithChildren$inboundSchema,
+} from "./extendedhttpspanrecordwithchildren.js";
+import {
+  ExtendedLlmSpanRecordInput,
+  ExtendedLlmSpanRecordInput$inboundSchema,
+} from "./extendedllmspanrecordinput.js";
 import {
   ExtendedRetrieverSpanRecordWithChildren,
   ExtendedRetrieverSpanRecordWithChildren$inboundSchema,
@@ -72,9 +80,15 @@ import {
   MetricNotComputed$inboundSchema,
 } from "./metricnotcomputed.js";
 import { MetricPending, MetricPending$inboundSchema } from "./metricpending.js";
-import { MetricRollUp, MetricRollUp$inboundSchema } from "./metricrollup.js";
+import {
+  MetricRollUpInput,
+  MetricRollUpInput$inboundSchema,
+} from "./metricrollupinput.js";
 import { Metrics, Metrics$inboundSchema } from "./metrics.js";
-import { MetricSuccess, MetricSuccess$inboundSchema } from "./metricsuccess.js";
+import {
+  MetricSuccessInput,
+  MetricSuccessInput$inboundSchema,
+} from "./metricsuccessinput.js";
 import {
   TextContentPart,
   TextContentPart$inboundSchema,
@@ -82,8 +96,9 @@ import {
 
 export type ExtendedTraceRecordWithChildrenSpan =
   | ExtendedAgentSpanRecordWithChildren
-  | ExtendedControlSpanRecord
-  | ExtendedLlmSpanRecord
+  | ExtendedControlSpanRecordInput
+  | ExtendedHttpSpanRecordWithChildren
+  | ExtendedLlmSpanRecordInput
   | ExtendedRetrieverSpanRecordWithChildren
   | ExtendedToolSpanRecordWithChildren
   | ExtendedWorkflowSpanRecordWithChildren
@@ -152,16 +167,17 @@ export type ExtendedTraceRecordWithChildrenMetricInfo =
   | MetricNotApplicable
   | MetricNotComputed
   | MetricPending
-  | MetricRollUp
-  | MetricSuccess
+  | MetricRollUpInput
+  | MetricSuccessInput
   | discriminatedUnionTypes.Unknown<"statusType">;
 
 export type ExtendedTraceRecordWithChildren = {
   spans?:
     | Array<
       | ExtendedAgentSpanRecordWithChildren
-      | ExtendedControlSpanRecord
-      | ExtendedLlmSpanRecord
+      | ExtendedControlSpanRecordInput
+      | ExtendedHttpSpanRecordWithChildren
+      | ExtendedLlmSpanRecordInput
       | ExtendedRetrieverSpanRecordWithChildren
       | ExtendedToolSpanRecordWithChildren
       | ExtendedWorkflowSpanRecordWithChildren
@@ -331,6 +347,22 @@ export type ExtendedTraceRecordWithChildren = {
    */
   fullyAnnotated?: boolean | null | undefined;
   /**
+   * Annotation review status of the record
+   */
+  annotationStatus?: AnnotationStatus | null | undefined;
+  /**
+   * Emails of tracked queue members who rated the record
+   */
+  annotatedMembers?: Array<string> | null | undefined;
+  /**
+   * Runner progress text written directly to CH span
+   */
+  progressMessage: string;
+  /**
+   * Runner error text written directly to CH span
+   */
+  errorMessage: string;
+  /**
    * Detailed information about the metrics associated with this trace or span
    */
   metricInfo?:
@@ -342,8 +374,8 @@ export type ExtendedTraceRecordWithChildren = {
         | MetricNotApplicable
         | MetricNotComputed
         | MetricPending
-        | MetricRollUp
-        | MetricSuccess
+        | MetricRollUpInput
+        | MetricSuccessInput
         | discriminatedUnionTypes.Unknown<"statusType">;
     }
     | null
@@ -352,6 +384,10 @@ export type ExtendedTraceRecordWithChildren = {
    * File metadata keyed by file ID for files associated with this record
    */
   files?: { [k: string]: FileMetadata } | null | undefined;
+  /**
+   * Generated output from the dataset associated with this trace
+   */
+  datasetGeneratedOutput?: string | null | undefined;
   /**
    * Whether the trace is complete or not
    */
@@ -363,14 +399,17 @@ export type ExtendedTraceRecordWithChildren = {
 export const ExtendedTraceRecordWithChildrenSpan$inboundSchema: z.ZodMiniType<
   ExtendedTraceRecordWithChildrenSpan,
   unknown
-> = discriminatedUnion("type", {
-  agent: ExtendedAgentSpanRecordWithChildren$inboundSchema,
-  control: ExtendedControlSpanRecord$inboundSchema,
-  llm: ExtendedLlmSpanRecord$inboundSchema,
-  retriever: ExtendedRetrieverSpanRecordWithChildren$inboundSchema,
-  tool: ExtendedToolSpanRecordWithChildren$inboundSchema,
-  workflow: ExtendedWorkflowSpanRecordWithChildren$inboundSchema,
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  discriminatedUnion("type", {
+    agent: ExtendedAgentSpanRecordWithChildren$inboundSchema,
+    control: ExtendedControlSpanRecordInput$inboundSchema,
+    http: ExtendedHttpSpanRecordWithChildren$inboundSchema,
+    llm: ExtendedLlmSpanRecordInput$inboundSchema,
+    retriever: ExtendedRetrieverSpanRecordWithChildren$inboundSchema,
+    tool: ExtendedToolSpanRecordWithChildren$inboundSchema,
+    workflow: ExtendedWorkflowSpanRecordWithChildren$inboundSchema,
+  })
+);
 
 export function extendedTraceRecordWithChildrenSpanFromJSON(
   jsonString: string,
@@ -387,10 +426,12 @@ export function extendedTraceRecordWithChildrenSpanFromJSON(
 export const ExtendedTraceRecordWithChildrenInput1$inboundSchema: z.ZodMiniType<
   ExtendedTraceRecordWithChildrenInput1,
   unknown
-> = discriminatedUnion("type", {
-  file: FileContentPart$inboundSchema,
-  text: TextContentPart$inboundSchema,
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  discriminatedUnion("type", {
+    file: FileContentPart$inboundSchema,
+    text: TextContentPart$inboundSchema,
+  })
+);
 
 export function extendedTraceRecordWithChildrenInput1FromJSON(
   jsonString: string,
@@ -407,15 +448,17 @@ export function extendedTraceRecordWithChildrenInput1FromJSON(
 export const ExtendedTraceRecordWithChildrenInput2$inboundSchema: z.ZodMiniType<
   ExtendedTraceRecordWithChildrenInput2,
   unknown
-> = smartUnion([
-  types.string(),
-  z.array(
-    discriminatedUnion("type", {
-      file: FileContentPart$inboundSchema,
-      text: TextContentPart$inboundSchema,
-    }),
-  ),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    types.string(),
+    z.array(
+      discriminatedUnion("type", {
+        file: FileContentPart$inboundSchema,
+        text: TextContentPart$inboundSchema,
+      }),
+    ),
+  ])
+);
 
 export function extendedTraceRecordWithChildrenInput2FromJSON(
   jsonString: string,
@@ -431,10 +474,12 @@ export function extendedTraceRecordWithChildrenInput2FromJSON(
 /** @internal */
 export const ExtendedTraceRecordWithChildrenRedactedInput1$inboundSchema:
   z.ZodMiniType<ExtendedTraceRecordWithChildrenRedactedInput1, unknown> =
-    discriminatedUnion("type", {
-      file: FileContentPart$inboundSchema,
-      text: TextContentPart$inboundSchema,
-    });
+    /* @__PURE__ */ lazySchema$(() =>
+      discriminatedUnion("type", {
+        file: FileContentPart$inboundSchema,
+        text: TextContentPart$inboundSchema,
+      })
+    );
 
 export function extendedTraceRecordWithChildrenRedactedInput1FromJSON(
   jsonString: string,
@@ -455,15 +500,17 @@ export function extendedTraceRecordWithChildrenRedactedInput1FromJSON(
 /** @internal */
 export const ExtendedTraceRecordWithChildrenRedactedInput2$inboundSchema:
   z.ZodMiniType<ExtendedTraceRecordWithChildrenRedactedInput2, unknown> =
-    smartUnion([
-      types.string(),
-      z.array(
-        discriminatedUnion("type", {
-          file: FileContentPart$inboundSchema,
-          text: TextContentPart$inboundSchema,
-        }),
-      ),
-    ]);
+    /* @__PURE__ */ lazySchema$(() =>
+      smartUnion([
+        types.string(),
+        z.array(
+          discriminatedUnion("type", {
+            file: FileContentPart$inboundSchema,
+            text: TextContentPart$inboundSchema,
+          }),
+        ),
+      ])
+    );
 
 export function extendedTraceRecordWithChildrenRedactedInput2FromJSON(
   jsonString: string,
@@ -484,10 +531,12 @@ export function extendedTraceRecordWithChildrenRedactedInput2FromJSON(
 /** @internal */
 export const ExtendedTraceRecordWithChildrenOutput1$inboundSchema:
   z.ZodMiniType<ExtendedTraceRecordWithChildrenOutput1, unknown> =
-    discriminatedUnion("type", {
-      file: FileContentPart$inboundSchema,
-      text: TextContentPart$inboundSchema,
-    });
+    /* @__PURE__ */ lazySchema$(() =>
+      discriminatedUnion("type", {
+        file: FileContentPart$inboundSchema,
+        text: TextContentPart$inboundSchema,
+      })
+    );
 
 export function extendedTraceRecordWithChildrenOutput1FromJSON(
   jsonString: string,
@@ -502,15 +551,18 @@ export function extendedTraceRecordWithChildrenOutput1FromJSON(
 
 /** @internal */
 export const ExtendedTraceRecordWithChildrenOutput2$inboundSchema:
-  z.ZodMiniType<ExtendedTraceRecordWithChildrenOutput2, unknown> = smartUnion([
-    types.string(),
-    z.array(
-      discriminatedUnion("type", {
-        file: FileContentPart$inboundSchema,
-        text: TextContentPart$inboundSchema,
-      }),
-    ),
-  ]);
+  z.ZodMiniType<ExtendedTraceRecordWithChildrenOutput2, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      smartUnion([
+        types.string(),
+        z.array(
+          discriminatedUnion("type", {
+            file: FileContentPart$inboundSchema,
+            text: TextContentPart$inboundSchema,
+          }),
+        ),
+      ])
+    );
 
 export function extendedTraceRecordWithChildrenOutput2FromJSON(
   jsonString: string,
@@ -526,10 +578,12 @@ export function extendedTraceRecordWithChildrenOutput2FromJSON(
 /** @internal */
 export const ExtendedTraceRecordWithChildrenRedactedOutput1$inboundSchema:
   z.ZodMiniType<ExtendedTraceRecordWithChildrenRedactedOutput1, unknown> =
-    discriminatedUnion("type", {
-      file: FileContentPart$inboundSchema,
-      text: TextContentPart$inboundSchema,
-    });
+    /* @__PURE__ */ lazySchema$(() =>
+      discriminatedUnion("type", {
+        file: FileContentPart$inboundSchema,
+        text: TextContentPart$inboundSchema,
+      })
+    );
 
 export function extendedTraceRecordWithChildrenRedactedOutput1FromJSON(
   jsonString: string,
@@ -550,15 +604,17 @@ export function extendedTraceRecordWithChildrenRedactedOutput1FromJSON(
 /** @internal */
 export const ExtendedTraceRecordWithChildrenRedactedOutput2$inboundSchema:
   z.ZodMiniType<ExtendedTraceRecordWithChildrenRedactedOutput2, unknown> =
-    smartUnion([
-      types.string(),
-      z.array(
-        discriminatedUnion("type", {
-          file: FileContentPart$inboundSchema,
-          text: TextContentPart$inboundSchema,
-        }),
-      ),
-    ]);
+    /* @__PURE__ */ lazySchema$(() =>
+      smartUnion([
+        types.string(),
+        z.array(
+          discriminatedUnion("type", {
+            file: FileContentPart$inboundSchema,
+            text: TextContentPart$inboundSchema,
+          }),
+        ),
+      ])
+    );
 
 export function extendedTraceRecordWithChildrenRedactedOutput2FromJSON(
   jsonString: string,
@@ -579,16 +635,18 @@ export function extendedTraceRecordWithChildrenRedactedOutput2FromJSON(
 /** @internal */
 export const ExtendedTraceRecordWithChildrenMetricInfo$inboundSchema:
   z.ZodMiniType<ExtendedTraceRecordWithChildrenMetricInfo, unknown> =
-    discriminatedUnion("status_type", {
-      computing: MetricComputing$inboundSchema,
-      error: MetricError$inboundSchema,
-      failed: MetricFailed$inboundSchema,
-      not_applicable: MetricNotApplicable$inboundSchema,
-      not_computed: MetricNotComputed$inboundSchema,
-      pending: MetricPending$inboundSchema,
-      roll_up: MetricRollUp$inboundSchema,
-      success: MetricSuccess$inboundSchema,
-    }, { outputPropertyName: "statusType" });
+    /* @__PURE__ */ lazySchema$(() =>
+      discriminatedUnion("status_type", {
+        computing: MetricComputing$inboundSchema,
+        error: MetricError$inboundSchema,
+        failed: MetricFailed$inboundSchema,
+        not_applicable: MetricNotApplicable$inboundSchema,
+        not_computed: MetricNotComputed$inboundSchema,
+        pending: MetricPending$inboundSchema,
+        roll_up: MetricRollUpInput$inboundSchema,
+        success: MetricSuccessInput$inboundSchema,
+      }, { outputPropertyName: "statusType" })
+    );
 
 export function extendedTraceRecordWithChildrenMetricInfoFromJSON(
   jsonString: string,
@@ -610,157 +668,172 @@ export function extendedTraceRecordWithChildrenMetricInfoFromJSON(
 export const ExtendedTraceRecordWithChildren$inboundSchema: z.ZodMiniType<
   ExtendedTraceRecordWithChildren,
   unknown
-> = z.pipe(
-  z.object({
-    spans: types.optional(z.array(discriminatedUnion("type", {
-      agent: ExtendedAgentSpanRecordWithChildren$inboundSchema,
-      control: ExtendedControlSpanRecord$inboundSchema,
-      llm: ExtendedLlmSpanRecord$inboundSchema,
-      retriever: ExtendedRetrieverSpanRecordWithChildren$inboundSchema,
-      tool: ExtendedToolSpanRecordWithChildren$inboundSchema,
-      workflow: ExtendedWorkflowSpanRecordWithChildren$inboundSchema,
-    }))),
-    type: z._default(types.literal("trace"), "trace"),
-    input: types.optional(
-      smartUnion([
-        types.string(),
-        z.array(
-          discriminatedUnion("type", {
-            file: FileContentPart$inboundSchema,
-            text: TextContentPart$inboundSchema,
-          }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      spans: types.optional(z.array(discriminatedUnion("type", {
+        agent: ExtendedAgentSpanRecordWithChildren$inboundSchema,
+        control: ExtendedControlSpanRecordInput$inboundSchema,
+        http: ExtendedHttpSpanRecordWithChildren$inboundSchema,
+        llm: ExtendedLlmSpanRecordInput$inboundSchema,
+        retriever: ExtendedRetrieverSpanRecordWithChildren$inboundSchema,
+        tool: ExtendedToolSpanRecordWithChildren$inboundSchema,
+        workflow: ExtendedWorkflowSpanRecordWithChildren$inboundSchema,
+      }))),
+      type: types.literal("trace"),
+      input: types.optional(
+        smartUnion([
+          types.string(),
+          z.array(
+            discriminatedUnion("type", {
+              file: FileContentPart$inboundSchema,
+              text: TextContentPart$inboundSchema,
+            }),
+          ),
+        ]),
+      ),
+      redacted_input: z.optional(
+        z.nullable(
+          smartUnion([
+            types.string(),
+            z.array(
+              discriminatedUnion("type", {
+                file: FileContentPart$inboundSchema,
+                text: TextContentPart$inboundSchema,
+              }),
+            ),
+          ]),
         ),
-      ]),
-    ),
-    redacted_input: z.optional(
-      z.nullable(
-        smartUnion([
-          types.string(),
-          z.array(
-            discriminatedUnion("type", {
-              file: FileContentPart$inboundSchema,
-              text: TextContentPart$inboundSchema,
-            }),
-          ),
-        ]),
       ),
-    ),
-    output: z.optional(
-      z.nullable(
-        smartUnion([
-          types.string(),
-          z.array(
-            discriminatedUnion("type", {
-              file: FileContentPart$inboundSchema,
-              text: TextContentPart$inboundSchema,
-            }),
-          ),
-        ]),
+      output: z.optional(
+        z.nullable(
+          smartUnion([
+            types.string(),
+            z.array(
+              discriminatedUnion("type", {
+                file: FileContentPart$inboundSchema,
+                text: TextContentPart$inboundSchema,
+              }),
+            ),
+          ]),
+        ),
       ),
-    ),
-    redacted_output: z.optional(
-      z.nullable(
-        smartUnion([
-          types.string(),
-          z.array(
-            discriminatedUnion("type", {
-              file: FileContentPart$inboundSchema,
-              text: TextContentPart$inboundSchema,
-            }),
-          ),
-        ]),
+      redacted_output: z.optional(
+        z.nullable(
+          smartUnion([
+            types.string(),
+            z.array(
+              discriminatedUnion("type", {
+                file: FileContentPart$inboundSchema,
+                text: TextContentPart$inboundSchema,
+              }),
+            ),
+          ]),
+        ),
       ),
-    ),
-    name: z._default(types.string(), ""),
-    created_at: types.optional(types.date()),
-    user_metadata: types.optional(z.record(z.string(), types.string())),
-    tags: types.optional(z.array(types.string())),
-    status_code: z.optional(z.nullable(types.number())),
-    metrics: types.optional(Metrics$inboundSchema),
-    external_id: z.optional(z.nullable(types.string())),
-    dataset_input: z.optional(z.nullable(types.string())),
-    dataset_output: z.optional(z.nullable(types.string())),
-    dataset_metadata: types.optional(z.record(z.string(), types.string())),
-    id: types.string(),
-    session_id: types.string(),
-    trace_id: types.string(),
-    project_id: types.string(),
-    run_id: types.string(),
-    updated_at: z.optional(z.nullable(types.date())),
-    has_children: z.optional(z.nullable(types.boolean())),
-    metrics_batch_id: z.optional(z.nullable(types.string())),
-    session_batch_id: z.optional(z.nullable(types.string())),
-    feedback_rating_info: types.optional(
-      z.record(z.string(), FeedbackRatingInfo$inboundSchema),
-    ),
-    annotations: types.optional(
-      z.record(
-        z.string(),
-        z.record(z.string(), AnnotationRatingInfo$inboundSchema),
+      name: z._default(types.string(), ""),
+      created_at: types.optional(types.date()),
+      user_metadata: types.optional(z.record(z.string(), types.string())),
+      tags: types.optional(z.array(types.string())),
+      status_code: z.optional(z.nullable(types.number())),
+      metrics: types.optional(Metrics$inboundSchema),
+      external_id: z.optional(z.nullable(types.string())),
+      dataset_input: z.optional(z.nullable(types.string())),
+      dataset_output: z.optional(z.nullable(types.string())),
+      dataset_metadata: types.optional(z.record(z.string(), types.string())),
+      id: types.string(),
+      session_id: types.string(),
+      trace_id: types.string(),
+      project_id: types.string(),
+      run_id: types.string(),
+      updated_at: z.optional(z.nullable(types.date())),
+      has_children: z.optional(z.nullable(types.boolean())),
+      metrics_batch_id: z.optional(z.nullable(types.string())),
+      session_batch_id: z.optional(z.nullable(types.string())),
+      feedback_rating_info: types.optional(
+        z.record(z.string(), FeedbackRatingInfo$inboundSchema),
       ),
-    ),
-    file_ids: types.optional(z.array(types.string())),
-    file_modalities: types.optional(z.array(ContentModality$inboundSchema)),
-    annotation_aggregates: types.optional(
-      z.record(z.string(), AnnotationAggregate$inboundSchema),
-    ),
-    annotation_agreement: types.optional(z.record(z.string(), types.number())),
-    overall_annotation_agreement: z.optional(z.nullable(types.number())),
-    annotation_queue_ids: types.optional(z.array(types.string())),
-    fully_annotated: z.optional(z.nullable(types.boolean())),
-    metric_info: z.optional(
-      z.nullable(z.record(
-        z.string(),
-        discriminatedUnion("status_type", {
-          computing: MetricComputing$inboundSchema,
-          error: MetricError$inboundSchema,
-          failed: MetricFailed$inboundSchema,
-          not_applicable: MetricNotApplicable$inboundSchema,
-          not_computed: MetricNotComputed$inboundSchema,
-          pending: MetricPending$inboundSchema,
-          roll_up: MetricRollUp$inboundSchema,
-          success: MetricSuccess$inboundSchema,
-        }, { outputPropertyName: "statusType" }),
-      )),
-    ),
-    files: z.optional(
-      z.nullable(z.record(z.string(), FileMetadata$inboundSchema)),
-    ),
-    is_complete: z._default(types.boolean(), true),
-    num_spans: z.optional(z.nullable(types.number())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "redacted_input": "redactedInput",
-      "redacted_output": "redactedOutput",
-      "created_at": "createdAt",
-      "user_metadata": "userMetadata",
-      "status_code": "statusCode",
-      "external_id": "externalId",
-      "dataset_input": "datasetInput",
-      "dataset_output": "datasetOutput",
-      "dataset_metadata": "datasetMetadata",
-      "session_id": "sessionId",
-      "trace_id": "traceId",
-      "project_id": "projectId",
-      "run_id": "runId",
-      "updated_at": "updatedAt",
-      "has_children": "hasChildren",
-      "metrics_batch_id": "metricsBatchId",
-      "session_batch_id": "sessionBatchId",
-      "feedback_rating_info": "feedbackRatingInfo",
-      "file_ids": "fileIds",
-      "file_modalities": "fileModalities",
-      "annotation_aggregates": "annotationAggregates",
-      "annotation_agreement": "annotationAgreement",
-      "overall_annotation_agreement": "overallAnnotationAgreement",
-      "annotation_queue_ids": "annotationQueueIds",
-      "fully_annotated": "fullyAnnotated",
-      "metric_info": "metricInfo",
-      "is_complete": "isComplete",
-      "num_spans": "numSpans",
-    });
-  }),
+      annotations: types.optional(
+        z.record(
+          z.string(),
+          z.record(z.string(), AnnotationRatingInfo$inboundSchema),
+        ),
+      ),
+      file_ids: types.optional(z.array(types.string())),
+      file_modalities: types.optional(z.array(ContentModality$inboundSchema)),
+      annotation_aggregates: types.optional(
+        z.record(z.string(), AnnotationAggregate$inboundSchema),
+      ),
+      annotation_agreement: types.optional(
+        z.record(z.string(), types.number()),
+      ),
+      overall_annotation_agreement: z.optional(z.nullable(types.number())),
+      annotation_queue_ids: types.optional(z.array(types.string())),
+      fully_annotated: z.optional(z.nullable(types.boolean())),
+      annotation_status: z.optional(z.nullable(AnnotationStatus$inboundSchema)),
+      annotated_members: z.optional(z.nullable(z.array(types.string()))),
+      progress_message: z._default(types.string(), ""),
+      error_message: z._default(types.string(), ""),
+      metric_info: z.optional(
+        z.nullable(z.record(
+          z.string(),
+          discriminatedUnion("status_type", {
+            computing: MetricComputing$inboundSchema,
+            error: MetricError$inboundSchema,
+            failed: MetricFailed$inboundSchema,
+            not_applicable: MetricNotApplicable$inboundSchema,
+            not_computed: MetricNotComputed$inboundSchema,
+            pending: MetricPending$inboundSchema,
+            roll_up: MetricRollUpInput$inboundSchema,
+            success: MetricSuccessInput$inboundSchema,
+          }, { outputPropertyName: "statusType" }),
+        )),
+      ),
+      files: z.optional(
+        z.nullable(z.record(z.string(), FileMetadata$inboundSchema)),
+      ),
+      dataset_generated_output: z.optional(z.nullable(types.string())),
+      is_complete: z._default(types.boolean(), true),
+      num_spans: z.optional(z.nullable(types.number())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "redacted_input": "redactedInput",
+        "redacted_output": "redactedOutput",
+        "created_at": "createdAt",
+        "user_metadata": "userMetadata",
+        "status_code": "statusCode",
+        "external_id": "externalId",
+        "dataset_input": "datasetInput",
+        "dataset_output": "datasetOutput",
+        "dataset_metadata": "datasetMetadata",
+        "session_id": "sessionId",
+        "trace_id": "traceId",
+        "project_id": "projectId",
+        "run_id": "runId",
+        "updated_at": "updatedAt",
+        "has_children": "hasChildren",
+        "metrics_batch_id": "metricsBatchId",
+        "session_batch_id": "sessionBatchId",
+        "feedback_rating_info": "feedbackRatingInfo",
+        "file_ids": "fileIds",
+        "file_modalities": "fileModalities",
+        "annotation_aggregates": "annotationAggregates",
+        "annotation_agreement": "annotationAgreement",
+        "overall_annotation_agreement": "overallAnnotationAgreement",
+        "annotation_queue_ids": "annotationQueueIds",
+        "fully_annotated": "fullyAnnotated",
+        "annotation_status": "annotationStatus",
+        "annotated_members": "annotatedMembers",
+        "progress_message": "progressMessage",
+        "error_message": "errorMessage",
+        "metric_info": "metricInfo",
+        "dataset_generated_output": "datasetGeneratedOutput",
+        "is_complete": "isComplete",
+        "num_spans": "numSpans",
+      });
+    }),
+  )
 );
 
 export function extendedTraceRecordWithChildrenFromJSON(

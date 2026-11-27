@@ -4,12 +4,16 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
 export const ControlAppliesTo = {
   LlmCall: "llm_call",
   ToolCall: "tool_call",
+  RetrieverCall: "retriever_call",
+  TraceCall: "trace_call",
+  SessionCall: "session_call",
 } as const;
 export type ControlAppliesTo = OpenEnum<typeof ControlAppliesTo>;
 
@@ -17,9 +21,13 @@ export type ControlAppliesTo = OpenEnum<typeof ControlAppliesTo>;
 export const ControlAppliesTo$inboundSchema: z.ZodMiniType<
   ControlAppliesTo,
   unknown
-> = openEnums.inboundSchema(ControlAppliesTo);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(ControlAppliesTo)
+);
 /** @internal */
 export const ControlAppliesTo$outboundSchema: z.ZodMiniType<
   string,
   ControlAppliesTo
-> = openEnums.outboundSchema(ControlAppliesTo);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.outboundSchema(ControlAppliesTo)
+);

@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -54,24 +54,26 @@ export type MCPApprovalRequestEvent = {
 export const MCPApprovalRequestEvent$inboundSchema: z.ZodMiniType<
   MCPApprovalRequestEvent,
   unknown
-> = z.pipe(
-  z.object({
-    type: types.literal("mcp_approval_request"),
-    id: z.optional(z.nullable(types.string())),
-    status: z.optional(z.nullable(EventStatus$inboundSchema)),
-    metadata: z.optional(z.nullable(z.record(z.string(), z.any()))),
-    error_message: z.optional(z.nullable(types.string())),
-    tool_name: z.optional(z.nullable(types.string())),
-    tool_invocation: z.optional(z.nullable(z.record(z.string(), z.any()))),
-    approved: z.optional(z.nullable(types.boolean())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "error_message": "errorMessage",
-      "tool_name": "toolName",
-      "tool_invocation": "toolInvocation",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      type: types.literal("mcp_approval_request"),
+      id: z.optional(z.nullable(types.string())),
+      status: z.optional(z.nullable(EventStatus$inboundSchema)),
+      metadata: z.optional(z.nullable(z.record(z.string(), z.any()))),
+      error_message: z.optional(z.nullable(types.string())),
+      tool_name: z.optional(z.nullable(types.string())),
+      tool_invocation: z.optional(z.nullable(z.record(z.string(), z.any()))),
+      approved: z.optional(z.nullable(types.boolean())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "error_message": "errorMessage",
+        "tool_name": "toolName",
+        "tool_invocation": "toolInvocation",
+      });
+    }),
+  )
 );
 /** @internal */
 export type MCPApprovalRequestEvent$Outbound = {
@@ -89,24 +91,26 @@ export type MCPApprovalRequestEvent$Outbound = {
 export const MCPApprovalRequestEvent$outboundSchema: z.ZodMiniType<
   MCPApprovalRequestEvent$Outbound,
   MCPApprovalRequestEvent
-> = z.pipe(
-  z.object({
-    type: z.literal("mcp_approval_request"),
-    id: z.optional(z.nullable(z.string())),
-    status: z.optional(z.nullable(EventStatus$outboundSchema)),
-    metadata: z.optional(z.nullable(z.record(z.string(), z.any()))),
-    errorMessage: z.optional(z.nullable(z.string())),
-    toolName: z.optional(z.nullable(z.string())),
-    toolInvocation: z.optional(z.nullable(z.record(z.string(), z.any()))),
-    approved: z.optional(z.nullable(z.boolean())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      errorMessage: "error_message",
-      toolName: "tool_name",
-      toolInvocation: "tool_invocation",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      type: z.literal("mcp_approval_request"),
+      id: z.optional(z.nullable(z.string())),
+      status: z.optional(z.nullable(EventStatus$outboundSchema)),
+      metadata: z.optional(z.nullable(z.record(z.string(), z.any()))),
+      errorMessage: z.optional(z.nullable(z.string())),
+      toolName: z.optional(z.nullable(z.string())),
+      toolInvocation: z.optional(z.nullable(z.record(z.string(), z.any()))),
+      approved: z.optional(z.nullable(z.boolean())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        errorMessage: "error_message",
+        toolName: "tool_name",
+        toolInvocation: "tool_invocation",
+      });
+    }),
+  )
 );
 
 export function mcpApprovalRequestEventToJSON(

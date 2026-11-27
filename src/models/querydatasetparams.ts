@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   DatasetContentFilter,
   DatasetContentFilter$Outbound,
@@ -30,10 +31,12 @@ export type QueryDatasetParams$Outbound = {
 export const QueryDatasetParams$outboundSchema: z.ZodMiniType<
   QueryDatasetParams$Outbound,
   QueryDatasetParams
-> = z.object({
-  filters: z.optional(z.array(DatasetContentFilter$outboundSchema)),
-  sort: z.optional(z.nullable(DatasetContentSortClause$outboundSchema)),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    filters: z.optional(z.array(DatasetContentFilter$outboundSchema)),
+    sort: z.optional(z.nullable(DatasetContentSortClause$outboundSchema)),
+  })
+);
 
 export function queryDatasetParamsToJSON(
   queryDatasetParams: QueryDatasetParams,

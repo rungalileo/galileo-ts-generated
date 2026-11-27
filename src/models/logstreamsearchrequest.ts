@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   LogStreamCreatedAtFilter,
   LogStreamCreatedAtFilter$Outbound,
@@ -91,13 +92,15 @@ export type LogStreamSearchRequestFilter$Outbound =
 export const LogStreamSearchRequestFilter$outboundSchema: z.ZodMiniType<
   LogStreamSearchRequestFilter$Outbound,
   LogStreamSearchRequestFilter
-> = z.union([
-  LogStreamCreatedAtFilter$outboundSchema,
-  LogStreamCreatedByFilter$outboundSchema,
-  LogStreamIDFilter$outboundSchema,
-  LogStreamNameFilter$outboundSchema,
-  LogStreamUpdatedAtFilter$outboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    LogStreamCreatedAtFilter$outboundSchema,
+    LogStreamCreatedByFilter$outboundSchema,
+    LogStreamIDFilter$outboundSchema,
+    LogStreamNameFilter$outboundSchema,
+    LogStreamUpdatedAtFilter$outboundSchema,
+  ])
+);
 
 export function logStreamSearchRequestFilterToJSON(
   logStreamSearchRequestFilter: LogStreamSearchRequestFilter,
@@ -119,11 +122,13 @@ export type LogStreamSearchRequestSort$Outbound =
 export const LogStreamSearchRequestSort$outboundSchema: z.ZodMiniType<
   LogStreamSearchRequestSort$Outbound,
   LogStreamSearchRequestSort
-> = z.union([
-  LogStreamCreatedAtSort$outboundSchema,
-  LogStreamNameSort$outboundSchema,
-  LogStreamUpdatedAtSort$outboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    LogStreamCreatedAtSort$outboundSchema,
+    LogStreamNameSort$outboundSchema,
+    LogStreamUpdatedAtSort$outboundSchema,
+  ])
+);
 
 export function logStreamSearchRequestSortToJSON(
   logStreamSearchRequestSort: LogStreamSearchRequestSort,
@@ -159,38 +164,40 @@ export type LogStreamSearchRequest$Outbound = {
 export const LogStreamSearchRequest$outboundSchema: z.ZodMiniType<
   LogStreamSearchRequest$Outbound,
   LogStreamSearchRequest
-> = z.pipe(
-  z.object({
-    startingToken: z._default(z.int(), 0),
-    limit: z._default(z.int(), 100),
-    filters: z.optional(
-      z.array(
-        z.union([
-          LogStreamCreatedAtFilter$outboundSchema,
-          LogStreamCreatedByFilter$outboundSchema,
-          LogStreamIDFilter$outboundSchema,
-          LogStreamNameFilter$outboundSchema,
-          LogStreamUpdatedAtFilter$outboundSchema,
-        ]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      startingToken: z._default(z.int(), 0),
+      limit: z._default(z.int(), 100),
+      filters: z.optional(
+        z.array(
+          z.union([
+            LogStreamCreatedAtFilter$outboundSchema,
+            LogStreamCreatedByFilter$outboundSchema,
+            LogStreamIDFilter$outboundSchema,
+            LogStreamNameFilter$outboundSchema,
+            LogStreamUpdatedAtFilter$outboundSchema,
+          ]),
+        ),
       ),
-    ),
-    sort: z.optional(
-      z.nullable(
-        z.union([
-          LogStreamCreatedAtSort$outboundSchema,
-          LogStreamNameSort$outboundSchema,
-          LogStreamUpdatedAtSort$outboundSchema,
-        ]),
+      sort: z.optional(
+        z.nullable(
+          z.union([
+            LogStreamCreatedAtSort$outboundSchema,
+            LogStreamNameSort$outboundSchema,
+            LogStreamUpdatedAtSort$outboundSchema,
+          ]),
+        ),
       ),
-    ),
-    includeCounts: z._default(z.boolean(), false),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      startingToken: "starting_token",
-      includeCounts: "include_counts",
-    });
-  }),
+      includeCounts: z._default(z.boolean(), false),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        startingToken: "starting_token",
+        includeCounts: "include_counts",
+      });
+    }),
+  )
 );
 
 export function logStreamSearchRequestToJSON(

@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { smartUnion } from "../types/smartUnion.js";
 import {
   ControlResult,
@@ -12,10 +13,10 @@ import {
   ControlResult$outboundSchema,
 } from "./controlresult.js";
 import {
-  Document,
-  Document$Outbound,
-  Document$outboundSchema,
-} from "./document.js";
+  DocumentInput,
+  DocumentInput$Outbound,
+  DocumentInput$outboundSchema,
+} from "./documentinput.js";
 import {
   FileContentPart,
   FileContentPart$Outbound,
@@ -55,7 +56,7 @@ export type LogSpanUpdateRequestOutput2 =
   | GalileoCoreSchemasLoggingLlmMessage
   | ControlResult
   | string
-  | Array<Document>
+  | Array<DocumentInput>
   | Array<FileContentPart | TextContentPart>;
 
 /**
@@ -77,7 +78,7 @@ export type LogSpanUpdateRequest = {
   loggingMethod?: LoggingMethod | undefined;
   clientVersion?: string | null | undefined;
   /**
-   * Whether or not to use reliable logging.  If set to False, the method will respond immediately before verifying that the traces have been successfully ingested, and no error message will be returned if ingestion fails.  If set to True, the method will wait for the traces to be successfully ingested or return an error message if there is an ingestion failure.
+   * Whether or not to use reliable logging.  If set to False, the method will respond immediately before verifying that the traces have been successfully ingested, and no error message will be returned if ingestion fails.  If set to True, the method will wait for the traces to be durably accepted or return an error message if there is an ingestion failure. On the streaming write path (kafka_metrics_pipeline) accepted means acknowledged by Kafka; the records become readable after the data-writer flush, about GALILEO_STREAMING_EXPECTED_LAG_SECONDS (default 2.5 s) later, so a read issued immediately after the response can miss them.
    */
   reliable?: boolean | undefined;
   /**
@@ -100,7 +101,7 @@ export type LogSpanUpdateRequest = {
     | GalileoCoreSchemasLoggingLlmMessage
     | ControlResult
     | string
-    | Array<Document>
+    | Array<DocumentInput>
     | Array<FileContentPart | TextContentPart>
     | null
     | undefined;
@@ -127,7 +128,9 @@ export type LogSpanUpdateRequestInput1$Outbound =
 export const LogSpanUpdateRequestInput1$outboundSchema: z.ZodMiniType<
   LogSpanUpdateRequestInput1$Outbound,
   LogSpanUpdateRequestInput1
-> = z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema])
+);
 
 export function logSpanUpdateRequestInput1ToJSON(
   logSpanUpdateRequestInput1: LogSpanUpdateRequestInput1,
@@ -147,13 +150,15 @@ export type LogSpanUpdateRequestInput2$Outbound =
 export const LogSpanUpdateRequestInput2$outboundSchema: z.ZodMiniType<
   LogSpanUpdateRequestInput2$Outbound,
   LogSpanUpdateRequestInput2
-> = smartUnion([
-  z.string(),
-  z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
-  z.array(
-    z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
-  ),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    z.string(),
+    z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
+    z.array(
+      z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
+    ),
+  ])
+);
 
 export function logSpanUpdateRequestInput2ToJSON(
   logSpanUpdateRequestInput2: LogSpanUpdateRequestInput2,
@@ -172,7 +177,9 @@ export type LogSpanUpdateRequestOutput1$Outbound =
 export const LogSpanUpdateRequestOutput1$outboundSchema: z.ZodMiniType<
   LogSpanUpdateRequestOutput1$Outbound,
   LogSpanUpdateRequestOutput1
-> = z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema])
+);
 
 export function logSpanUpdateRequestOutput1ToJSON(
   logSpanUpdateRequestOutput1: LogSpanUpdateRequestOutput1,
@@ -189,22 +196,24 @@ export type LogSpanUpdateRequestOutput2$Outbound =
   | GalileoCoreSchemasLoggingLlmMessage$Outbound
   | ControlResult$Outbound
   | string
-  | Array<Document$Outbound>
+  | Array<DocumentInput$Outbound>
   | Array<FileContentPart$Outbound | TextContentPart$Outbound>;
 
 /** @internal */
 export const LogSpanUpdateRequestOutput2$outboundSchema: z.ZodMiniType<
   LogSpanUpdateRequestOutput2$Outbound,
   LogSpanUpdateRequestOutput2
-> = smartUnion([
-  GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
-  ControlResult$outboundSchema,
-  z.string(),
-  z.array(Document$outboundSchema),
-  z.array(
-    z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
-  ),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
+    ControlResult$outboundSchema,
+    z.string(),
+    z.array(DocumentInput$outboundSchema),
+    z.array(
+      z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
+    ),
+  ])
+);
 
 export function logSpanUpdateRequestOutput2ToJSON(
   logSpanUpdateRequestOutput2: LogSpanUpdateRequestOutput2,
@@ -235,7 +244,7 @@ export type LogSpanUpdateRequest$Outbound = {
     | GalileoCoreSchemasLoggingLlmMessage$Outbound
     | ControlResult$Outbound
     | string
-    | Array<Document$Outbound>
+    | Array<DocumentInput$Outbound>
     | Array<FileContentPart$Outbound | TextContentPart$Outbound>
     | null
     | undefined;
@@ -248,61 +257,63 @@ export type LogSpanUpdateRequest$Outbound = {
 export const LogSpanUpdateRequest$outboundSchema: z.ZodMiniType<
   LogSpanUpdateRequest$Outbound,
   LogSpanUpdateRequest
-> = z.pipe(
-  z.object({
-    logStreamId: z.optional(z.nullable(z.string())),
-    experimentId: z.optional(z.nullable(z.string())),
-    metricsTestingId: z.optional(z.nullable(z.string())),
-    loggingMethod: z.optional(LoggingMethod$outboundSchema),
-    clientVersion: z.optional(z.nullable(z.string())),
-    reliable: z._default(z.boolean(), true),
-    spanId: z.string(),
-    input: z.optional(
-      z.nullable(
-        smartUnion([
-          z.string(),
-          z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
-          z.array(
-            z.union([
-              FileContentPart$outboundSchema,
-              TextContentPart$outboundSchema,
-            ]),
-          ),
-        ]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      logStreamId: z.optional(z.nullable(z.string())),
+      experimentId: z.optional(z.nullable(z.string())),
+      metricsTestingId: z.optional(z.nullable(z.string())),
+      loggingMethod: z.optional(LoggingMethod$outboundSchema),
+      clientVersion: z.optional(z.nullable(z.string())),
+      reliable: z._default(z.boolean(), true),
+      spanId: z.string(),
+      input: z.optional(
+        z.nullable(
+          smartUnion([
+            z.string(),
+            z.array(GalileoCoreSchemasLoggingLlmMessage$outboundSchema),
+            z.array(
+              z.union([
+                FileContentPart$outboundSchema,
+                TextContentPart$outboundSchema,
+              ]),
+            ),
+          ]),
+        ),
       ),
-    ),
-    output: z.optional(
-      z.nullable(
-        smartUnion([
-          GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
-          ControlResult$outboundSchema,
-          z.string(),
-          z.array(Document$outboundSchema),
-          z.array(
-            z.union([
-              FileContentPart$outboundSchema,
-              TextContentPart$outboundSchema,
-            ]),
-          ),
-        ]),
+      output: z.optional(
+        z.nullable(
+          smartUnion([
+            GalileoCoreSchemasLoggingLlmMessage$outboundSchema,
+            ControlResult$outboundSchema,
+            z.string(),
+            z.array(DocumentInput$outboundSchema),
+            z.array(
+              z.union([
+                FileContentPart$outboundSchema,
+                TextContentPart$outboundSchema,
+              ]),
+            ),
+          ]),
+        ),
       ),
-    ),
-    tags: z.optional(z.nullable(z.array(z.string()))),
-    statusCode: z.optional(z.nullable(z.int())),
-    durationNs: z.optional(z.nullable(z.int())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      logStreamId: "log_stream_id",
-      experimentId: "experiment_id",
-      metricsTestingId: "metrics_testing_id",
-      loggingMethod: "logging_method",
-      clientVersion: "client_version",
-      spanId: "span_id",
-      statusCode: "status_code",
-      durationNs: "duration_ns",
-    });
-  }),
+      tags: z.optional(z.nullable(z.array(z.string()))),
+      statusCode: z.optional(z.nullable(z.int())),
+      durationNs: z.optional(z.nullable(z.int())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        logStreamId: "log_stream_id",
+        experimentId: "experiment_id",
+        metricsTestingId: "metrics_testing_id",
+        loggingMethod: "logging_method",
+        clientVersion: "client_version",
+        spanId: "span_id",
+        statusCode: "status_code",
+        durationNs: "duration_ns",
+      });
+    }),
+  )
 );
 
 export function logSpanUpdateRequestToJSON(

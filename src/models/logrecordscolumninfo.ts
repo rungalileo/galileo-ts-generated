@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 import { Result as SafeParseResult } from "../types/fp.js";
@@ -26,7 +26,10 @@ import {
   MetricThreshold,
   MetricThreshold$inboundSchema,
 } from "./metricthreshold.js";
-import { ScorerConfig, ScorerConfig$inboundSchema } from "./scorerconfig.js";
+import {
+  RuntimeScorerConfig,
+  RuntimeScorerConfig$inboundSchema,
+} from "./runtimescorerconfig.js";
 import { StepType, StepType$inboundSchema } from "./steptype.js";
 
 export const LabelColor = {
@@ -98,9 +101,13 @@ export type LogRecordsColumnInfo = {
    */
   metricKeyAlias?: string | null | undefined;
   /**
+   * Thresholds for the column, if this is a metrics column.
+   */
+  threshold?: MetricThreshold | null | undefined;
+  /**
    * For metric columns only: Scorer config that produced the metric.
    */
-  scorerConfig?: ScorerConfig | null | undefined;
+  scorerConfig?: RuntimeScorerConfig | null | undefined;
   /**
    * For metric columns only: Scorer id that produced the metric. This is deprecated and will be removed in future versions.
    */
@@ -114,10 +121,6 @@ export type LogRecordsColumnInfo = {
    */
   filterType?: LogRecordsFilterType | null | undefined;
   /**
-   * Thresholds for the column, if this is a metrics column.
-   */
-  threshold?: MetricThreshold | null | undefined;
-  /**
    * Type of label color for the column, if this is a multilabel metric column.
    */
   labelColor?: LabelColor | null | undefined;
@@ -125,56 +128,58 @@ export type LogRecordsColumnInfo = {
 
 /** @internal */
 export const LabelColor$inboundSchema: z.ZodMiniType<LabelColor, unknown> =
-  openEnums.inboundSchema(LabelColor);
+  /* @__PURE__ */ lazySchema$(() => openEnums.inboundSchema(LabelColor));
 
 /** @internal */
 export const LogRecordsColumnInfo$inboundSchema: z.ZodMiniType<
   LogRecordsColumnInfo,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.string(),
-    label: z.optional(z.nullable(types.string())),
-    category: ColumnCategory$inboundSchema,
-    description: z.optional(z.nullable(types.string())),
-    group_label: z.optional(z.nullable(types.string())),
-    data_type: types.nullable(DataType$inboundSchema),
-    data_unit: z.optional(z.nullable(DataUnit$inboundSchema)),
-    multi_valued: z._default(types.boolean(), false),
-    allowed_values: z.optional(z.nullable(z.array(z.any()))),
-    sortable: types.optional(types.boolean()),
-    filterable: types.optional(types.boolean()),
-    is_empty: z._default(types.boolean(), false),
-    applicable_types: types.optional(z.array(StepType$inboundSchema)),
-    is_optional: z._default(types.boolean(), false),
-    roll_up_method: z.optional(z.nullable(types.string())),
-    metric_key_alias: z.optional(z.nullable(types.string())),
-    scorer_config: z.optional(z.nullable(ScorerConfig$inboundSchema)),
-    scorer_id: z.optional(z.nullable(types.string())),
-    insight_type: z.optional(z.nullable(InsightType$inboundSchema)),
-    filter_type: z.optional(z.nullable(LogRecordsFilterType$inboundSchema)),
-    threshold: z.optional(z.nullable(MetricThreshold$inboundSchema)),
-    label_color: z.optional(z.nullable(LabelColor$inboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "group_label": "groupLabel",
-      "data_type": "dataType",
-      "data_unit": "dataUnit",
-      "multi_valued": "multiValued",
-      "allowed_values": "allowedValues",
-      "is_empty": "isEmpty",
-      "applicable_types": "applicableTypes",
-      "is_optional": "isOptional",
-      "roll_up_method": "rollUpMethod",
-      "metric_key_alias": "metricKeyAlias",
-      "scorer_config": "scorerConfig",
-      "scorer_id": "scorerId",
-      "insight_type": "insightType",
-      "filter_type": "filterType",
-      "label_color": "labelColor",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.string(),
+      label: z.optional(z.nullable(types.string())),
+      category: ColumnCategory$inboundSchema,
+      description: z.optional(z.nullable(types.string())),
+      group_label: z.optional(z.nullable(types.string())),
+      data_type: types.nullable(DataType$inboundSchema),
+      data_unit: z.optional(z.nullable(DataUnit$inboundSchema)),
+      multi_valued: z._default(types.boolean(), false),
+      allowed_values: z.optional(z.nullable(z.array(z.any()))),
+      sortable: types.optional(types.boolean()),
+      filterable: types.optional(types.boolean()),
+      is_empty: z._default(types.boolean(), false),
+      applicable_types: types.optional(z.array(StepType$inboundSchema)),
+      is_optional: z._default(types.boolean(), false),
+      roll_up_method: z.optional(z.nullable(types.string())),
+      metric_key_alias: z.optional(z.nullable(types.string())),
+      threshold: z.optional(z.nullable(MetricThreshold$inboundSchema)),
+      scorer_config: z.optional(z.nullable(RuntimeScorerConfig$inboundSchema)),
+      scorer_id: z.optional(z.nullable(types.string())),
+      insight_type: z.optional(z.nullable(InsightType$inboundSchema)),
+      filter_type: z.optional(z.nullable(LogRecordsFilterType$inboundSchema)),
+      label_color: z.optional(z.nullable(LabelColor$inboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "group_label": "groupLabel",
+        "data_type": "dataType",
+        "data_unit": "dataUnit",
+        "multi_valued": "multiValued",
+        "allowed_values": "allowedValues",
+        "is_empty": "isEmpty",
+        "applicable_types": "applicableTypes",
+        "is_optional": "isOptional",
+        "roll_up_method": "rollUpMethod",
+        "metric_key_alias": "metricKeyAlias",
+        "scorer_config": "scorerConfig",
+        "scorer_id": "scorerId",
+        "insight_type": "insightType",
+        "filter_type": "filterType",
+        "label_color": "labelColor",
+      });
+    }),
+  )
 );
 
 export function logRecordsColumnInfoFromJSON(

@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 import { smartUnion } from "../types/smartUnion.js";
 
@@ -12,6 +13,7 @@ export const LogStreamNameFilterOperator = {
   Eq: "eq",
   Ne: "ne",
   Contains: "contains",
+  Regex: "regex",
   OneOf: "one_of",
   NotIn: "not_in",
 } as const;
@@ -31,7 +33,7 @@ export type LogStreamNameFilter = {
 /** @internal */
 export const LogStreamNameFilterOperator$outboundSchema: z.ZodMiniEnum<
   typeof LogStreamNameFilterOperator
-> = z.enum(LogStreamNameFilterOperator);
+> = /* @__PURE__ */ lazySchema$(() => z.enum(LogStreamNameFilterOperator));
 
 /** @internal */
 export type LogStreamNameFilterValue$Outbound = string | Array<string>;
@@ -40,7 +42,9 @@ export type LogStreamNameFilterValue$Outbound = string | Array<string>;
 export const LogStreamNameFilterValue$outboundSchema: z.ZodMiniType<
   LogStreamNameFilterValue$Outbound,
   LogStreamNameFilterValue
-> = smartUnion([z.string(), z.array(z.string())]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([z.string(), z.array(z.string())])
+);
 
 export function logStreamNameFilterValueToJSON(
   logStreamNameFilterValue: LogStreamNameFilterValue,
@@ -62,18 +66,20 @@ export type LogStreamNameFilter$Outbound = {
 export const LogStreamNameFilter$outboundSchema: z.ZodMiniType<
   LogStreamNameFilter$Outbound,
   LogStreamNameFilter
-> = z.pipe(
-  z.object({
-    name: z.literal("name"),
-    operator: LogStreamNameFilterOperator$outboundSchema,
-    value: smartUnion([z.string(), z.array(z.string())]),
-    caseSensitive: z._default(z.boolean(), true),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      caseSensitive: "case_sensitive",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: z.literal("name"),
+      operator: LogStreamNameFilterOperator$outboundSchema,
+      value: smartUnion([z.string(), z.array(z.string())]),
+      caseSensitive: z._default(z.boolean(), true),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        caseSensitive: "case_sensitive",
+      });
+    }),
+  )
 );
 
 export function logStreamNameFilterToJSON(

@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 /**
  * Request to delete multiple prompt templates.
@@ -22,15 +23,17 @@ export type BulkDeletePromptTemplatesRequest$Outbound = {
 export const BulkDeletePromptTemplatesRequest$outboundSchema: z.ZodMiniType<
   BulkDeletePromptTemplatesRequest$Outbound,
   BulkDeletePromptTemplatesRequest
-> = z.pipe(
-  z.object({
-    templateIds: z.array(z.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      templateIds: "template_ids",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      templateIds: z.array(z.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        templateIds: "template_ids",
+      });
+    }),
+  )
 );
 
 export function bulkDeletePromptTemplatesRequestToJSON(

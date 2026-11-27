@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import {
@@ -30,25 +30,27 @@ export type UserCollaborator = {
 export const UserCollaborator$inboundSchema: z.ZodMiniType<
   UserCollaborator,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.string(),
-    permissions: types.optional(z.array(Permission$inboundSchema)),
-    role: CollaboratorRole$inboundSchema,
-    created_at: types.date(),
-    user_id: types.string(),
-    first_name: types.nullable(types.string()),
-    last_name: types.nullable(types.string()),
-    email: types.string(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "created_at": "createdAt",
-      "user_id": "userId",
-      "first_name": "firstName",
-      "last_name": "lastName",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.string(),
+      permissions: types.optional(z.array(Permission$inboundSchema)),
+      role: CollaboratorRole$inboundSchema,
+      created_at: types.date(),
+      user_id: types.string(),
+      first_name: types.nullable(types.string()),
+      last_name: types.nullable(types.string()),
+      email: types.string(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "created_at": "createdAt",
+        "user_id": "userId",
+        "first_name": "firstName",
+        "last_name": "lastName",
+      });
+    }),
+  )
 );
 
 export function userCollaboratorFromJSON(

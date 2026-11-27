@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 /**
  * Queue-scoped filter for records rated across all queue templates.
@@ -32,21 +33,23 @@ export type LogRecordsFullyAnnotatedFilter$Outbound = {
 export const LogRecordsFullyAnnotatedFilter$outboundSchema: z.ZodMiniType<
   LogRecordsFullyAnnotatedFilter$Outbound,
   LogRecordsFullyAnnotatedFilter
-> = z.pipe(
-  z.object({
-    columnId: z._default(
-      z.literal("fully_annotated"),
-      "fully_annotated" as const,
-    ),
-    type: z.literal("fully_annotated"),
-    userIds: z.optional(z.nullable(z.array(z.string()))),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      columnId: "column_id",
-      userIds: "user_ids",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      columnId: z._default(
+        z.literal("fully_annotated"),
+        "fully_annotated" as const,
+      ),
+      type: z.literal("fully_annotated"),
+      userIds: z.optional(z.nullable(z.array(z.string()))),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        columnId: "column_id",
+        userIds: "user_ids",
+      });
+    }),
+  )
 );
 
 export function logRecordsFullyAnnotatedFilterToJSON(

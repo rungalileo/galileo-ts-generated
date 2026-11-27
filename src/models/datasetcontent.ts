@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { DatasetRow, DatasetRow$inboundSchema } from "./datasetrow.js";
@@ -25,24 +25,26 @@ export type DatasetContent = {
 export const DatasetContent$inboundSchema: z.ZodMiniType<
   DatasetContent,
   unknown
-> = z.pipe(
-  z.object({
-    starting_token: z._default(types.number(), 0),
-    limit: z._default(types.number(), 100),
-    paginated: z._default(types.boolean(), false),
-    next_starting_token: z.optional(z.nullable(types.number())),
-    column_names: types.optional(z.array(types.string())),
-    warning_message: z.optional(z.nullable(types.string())),
-    rows: types.optional(z.array(DatasetRow$inboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "starting_token": "startingToken",
-      "next_starting_token": "nextStartingToken",
-      "column_names": "columnNames",
-      "warning_message": "warningMessage",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      starting_token: z._default(types.number(), 0),
+      limit: z._default(types.number(), 100),
+      paginated: z._default(types.boolean(), false),
+      next_starting_token: z.optional(z.nullable(types.number())),
+      column_names: types.optional(z.array(types.string())),
+      warning_message: z.optional(z.nullable(types.string())),
+      rows: types.optional(z.array(DatasetRow$inboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "starting_token": "startingToken",
+        "next_starting_token": "nextStartingToken",
+        "column_names": "columnNames",
+        "warning_message": "warningMessage",
+      });
+    }),
+  )
 );
 
 export function datasetContentFromJSON(

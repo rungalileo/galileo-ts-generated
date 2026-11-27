@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { smartUnion } from "../types/smartUnion.js";
 
 export type DatasetUpdateRowValues1 = string | number | number;
@@ -30,7 +31,9 @@ export type DatasetUpdateRowValues1$Outbound = string | number | number;
 export const DatasetUpdateRowValues1$outboundSchema: z.ZodMiniType<
   DatasetUpdateRowValues1$Outbound,
   DatasetUpdateRowValues1
-> = smartUnion([z.string(), z.int(), z.number()]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([z.string(), z.int(), z.number()])
+);
 
 export function datasetUpdateRowValues1ToJSON(
   datasetUpdateRowValues1: DatasetUpdateRowValues1,
@@ -49,15 +52,17 @@ export type DatasetUpdateRowValues2$Outbound = string | number | number | {
 export const DatasetUpdateRowValues2$outboundSchema: z.ZodMiniType<
   DatasetUpdateRowValues2$Outbound,
   DatasetUpdateRowValues2
-> = smartUnion([
-  z.string(),
-  z.int(),
-  z.number(),
-  z.record(
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
     z.string(),
-    z.nullable(smartUnion([z.string(), z.int(), z.number()])),
-  ),
-]);
+    z.int(),
+    z.number(),
+    z.record(
+      z.string(),
+      z.nullable(smartUnion([z.string(), z.int(), z.number()])),
+    ),
+  ])
+);
 
 export function datasetUpdateRowValues2ToJSON(
   datasetUpdateRowValues2: DatasetUpdateRowValues2,
@@ -82,31 +87,33 @@ export type DatasetUpdateRow$Outbound = {
 export const DatasetUpdateRow$outboundSchema: z.ZodMiniType<
   DatasetUpdateRow$Outbound,
   DatasetUpdateRow
-> = z.pipe(
-  z.object({
-    rowId: z.string(),
-    editType: z.literal("update_row"),
-    values: z.record(
-      z.string(),
-      z.nullable(
-        smartUnion([
-          z.string(),
-          z.int(),
-          z.number(),
-          z.record(
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      rowId: z.string(),
+      editType: z.literal("update_row"),
+      values: z.record(
+        z.string(),
+        z.nullable(
+          smartUnion([
             z.string(),
-            z.nullable(smartUnion([z.string(), z.int(), z.number()])),
-          ),
-        ]),
+            z.int(),
+            z.number(),
+            z.record(
+              z.string(),
+              z.nullable(smartUnion([z.string(), z.int(), z.number()])),
+            ),
+          ]),
+        ),
       ),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      rowId: "row_id",
-      editType: "edit_type",
-    });
-  }),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        rowId: "row_id",
+        editType: "edit_type",
+      });
+    }),
+  )
 );
 
 export function datasetUpdateRowToJSON(

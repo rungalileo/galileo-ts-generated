@@ -5,11 +5,13 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../../lib/schemas.js";
 import * as models from "../index.js";
 
 export type UpdateUserIntegrationCollaboratorIntegrationsIntegrationIdUsersUserIdPatchSecurity =
   {
     apiKeyHeader?: string | undefined;
+    classicAPIKeyHeader?: string | undefined;
     oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
     httpBasic?: models.SchemeHTTPBasic | undefined;
   };
@@ -25,6 +27,7 @@ export type UpdateUserIntegrationCollaboratorIntegrationsIntegrationIdUsersUserI
 export type UpdateUserIntegrationCollaboratorIntegrationsIntegrationIdUsersUserIdPatchSecurity$Outbound =
   {
     APIKeyHeader?: string | undefined;
+    ClassicAPIKeyHeader?: string | undefined;
     OAuth2PasswordBearer?:
       | models.OAuth2PasswordBearerInput$Outbound
       | undefined;
@@ -36,21 +39,25 @@ export const UpdateUserIntegrationCollaboratorIntegrationsIntegrationIdUsersUser
   z.ZodMiniType<
     UpdateUserIntegrationCollaboratorIntegrationsIntegrationIdUsersUserIdPatchSecurity$Outbound,
     UpdateUserIntegrationCollaboratorIntegrationsIntegrationIdUsersUserIdPatchSecurity
-  > = z.pipe(
-    z.object({
-      apiKeyHeader: z.optional(z.string()),
-      oAuth2PasswordBearer: z.optional(
-        models.OAuth2PasswordBearerInput$outboundSchema,
-      ),
-      httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        apiKeyHeader: "APIKeyHeader",
-        oAuth2PasswordBearer: "OAuth2PasswordBearer",
-        httpBasic: "HTTPBasic",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        apiKeyHeader: z.optional(z.string()),
+        classicAPIKeyHeader: z.optional(z.string()),
+        oAuth2PasswordBearer: z.optional(
+          models.OAuth2PasswordBearerInput$outboundSchema,
+        ),
+        httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          apiKeyHeader: "APIKeyHeader",
+          classicAPIKeyHeader: "ClassicAPIKeyHeader",
+          oAuth2PasswordBearer: "OAuth2PasswordBearer",
+          httpBasic: "HTTPBasic",
+        });
+      }),
+    )
   );
 
 export function updateUserIntegrationCollaboratorIntegrationsIntegrationIdUsersUserIdPatchSecurityToJSON(
@@ -78,18 +85,20 @@ export const UpdateUserIntegrationCollaboratorIntegrationsIntegrationIdUsersUser
   z.ZodMiniType<
     UpdateUserIntegrationCollaboratorIntegrationsIntegrationIdUsersUserIdPatchRequest$Outbound,
     UpdateUserIntegrationCollaboratorIntegrationsIntegrationIdUsersUserIdPatchRequest
-  > = z.pipe(
-    z.object({
-      integrationId: z.string(),
-      userId: z.string(),
-      body: models.CollaboratorUpdate$outboundSchema,
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        integrationId: "integration_id",
-        userId: "user_id",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        integrationId: z.string(),
+        userId: z.string(),
+        body: models.CollaboratorUpdate$outboundSchema,
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          integrationId: "integration_id",
+          userId: "user_id",
+        });
+      }),
+    )
   );
 
 export function updateUserIntegrationCollaboratorIntegrationsIntegrationIdUsersUserIdPatchRequestToJSON(

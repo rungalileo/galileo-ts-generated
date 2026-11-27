@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 
 export const SyntheticDataTypes = {
@@ -19,4 +20,4 @@ export type SyntheticDataTypes = ClosedEnum<typeof SyntheticDataTypes>;
 /** @internal */
 export const SyntheticDataTypes$outboundSchema: z.ZodMiniEnum<
   typeof SyntheticDataTypes
-> = z.enum(SyntheticDataTypes);
+> = /* @__PURE__ */ lazySchema$(() => z.enum(SyntheticDataTypes));

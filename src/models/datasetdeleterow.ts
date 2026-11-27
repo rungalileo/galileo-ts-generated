@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type DatasetDeleteRow = {
   rowId: string;
@@ -21,17 +22,19 @@ export type DatasetDeleteRow$Outbound = {
 export const DatasetDeleteRow$outboundSchema: z.ZodMiniType<
   DatasetDeleteRow$Outbound,
   DatasetDeleteRow
-> = z.pipe(
-  z.object({
-    rowId: z.string(),
-    editType: z.literal("delete_row"),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      rowId: "row_id",
-      editType: "edit_type",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      rowId: z.string(),
+      editType: z.literal("delete_row"),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        rowId: "row_id",
+        editType: "edit_type",
+      });
+    }),
+  )
 );
 
 export function datasetDeleteRowToJSON(

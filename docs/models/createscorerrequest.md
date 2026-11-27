@@ -10,14 +10,24 @@ let value: CreateScorerRequest = {
   defaults: {
     filters: [
       {
-        name: "metadata",
-        operator: "ne",
-        key: "<key>",
+        name: "node_name",
+        operator: "regex",
         value: "<value>",
+        caseSensitive: true,
+      },
+    ],
+    childSpanFilters: [
+      {
+        name: "node_name",
+        operator: "contains",
+        value: [
+          "<value 1>",
+        ],
+        caseSensitive: true,
       },
     ],
   },
-  scorerType: "code",
+  scorerType: "llm",
 };
 ```
 
@@ -27,9 +37,11 @@ let value: CreateScorerRequest = {
 | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
 | `name`                                                                       | *string*                                                                     | :heavy_check_mark:                                                           | N/A                                                                          |
 | `id`                                                                         | *string*                                                                     | :heavy_minus_sign:                                                           | N/A                                                                          |
+| `label`                                                                      | *string*                                                                     | :heavy_minus_sign:                                                           | N/A                                                                          |
 | `description`                                                                | *string*                                                                     | :heavy_minus_sign:                                                           | N/A                                                                          |
 | `tags`                                                                       | *string*[]                                                                   | :heavy_minus_sign:                                                           | N/A                                                                          |
-| `defaults`                                                                   | [models.ScorerDefaults](../models/scorerdefaults.md)                         | :heavy_minus_sign:                                                           | N/A                                                                          |
+| `defaults`                                                                   | [models.ScorerDefaultsRequest](../models/scorerdefaultsrequest.md)           | :heavy_minus_sign:                                                           | N/A                                                                          |
+| `invocation`                                                                 | [models.ScorerInvocationConfig](../models/scorerinvocationconfig.md)         | :heavy_minus_sign:                                                           | N/A                                                                          |
 | `scorerType`                                                                 | [models.ScorerTypes](../models/scorertypes.md)                               | :heavy_check_mark:                                                           | N/A                                                                          |
 | `deprecated`                                                                 | *boolean*                                                                    | :heavy_minus_sign:                                                           | N/A                                                                          |
 | `modelType`                                                                  | [models.ModelType](../models/modeltype.md)                                   | :heavy_minus_sign:                                                           | N/A                                                                          |
@@ -44,3 +56,5 @@ let value: CreateScorerRequest = {
 | `requiredMetricIds`                                                          | *string*[]                                                                   | :heavy_minus_sign:                                                           | N/A                                                                          |
 | `rollUpMethod`                                                               | [models.RollUpMethodDisplayOptions](../models/rollupmethoddisplayoptions.md) | :heavy_minus_sign:                                                           | N/A                                                                          |
 | `metricColorPickerConfig`                                                    | *models.CreateScorerRequestMetricColorPickerConfig*                          | :heavy_minus_sign:                                                           | N/A                                                                          |
+| `isGlobal`                                                                   | *boolean*                                                                    | :heavy_minus_sign:                                                           | N/A                                                                          |
+| `projectIds`                                                                 | *string*[]                                                                   | :heavy_minus_sign:                                                           | N/A                                                                          |
