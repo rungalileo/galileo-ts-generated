@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 /**
  * Internal filter: excludes multimodal scorers (non-empty multimodal_capabilities).
@@ -25,9 +26,11 @@ export type ScorerExcludeMultimodalScorersFilter$Outbound = {
 export const ScorerExcludeMultimodalScorersFilter$outboundSchema: z.ZodMiniType<
   ScorerExcludeMultimodalScorersFilter$Outbound,
   ScorerExcludeMultimodalScorersFilter
-> = z.object({
-  name: z.literal("exclude_multimodal_scorers"),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    name: z.literal("exclude_multimodal_scorers"),
+  })
+);
 
 export function scorerExcludeMultimodalScorersFilterToJSON(
   scorerExcludeMultimodalScorersFilter: ScorerExcludeMultimodalScorersFilter,

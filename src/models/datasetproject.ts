@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -23,21 +23,23 @@ export type DatasetProject = {
 export const DatasetProject$inboundSchema: z.ZodMiniType<
   DatasetProject,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.string(),
-    created_at: types.date(),
-    updated_at: types.date(),
-    name: types.string(),
-    created_by_user: types.nullable(UserInfo$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-      "created_by_user": "createdByUser",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.string(),
+      created_at: types.date(),
+      updated_at: types.date(),
+      name: types.string(),
+      created_by_user: types.nullable(UserInfo$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+        "created_by_user": "createdByUser",
+      });
+    }),
+  )
 );
 
 export function datasetProjectFromJSON(

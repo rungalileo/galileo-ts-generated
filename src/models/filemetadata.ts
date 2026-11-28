@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import {
@@ -53,26 +53,28 @@ export type FileMetadata = {
 
 /** @internal */
 export const FileMetadata$inboundSchema: z.ZodMiniType<FileMetadata, unknown> =
-  z.pipe(
-    z.object({
-      file_id: types.string(),
-      modality: ContentModality$inboundSchema,
-      content_type: z.optional(z.nullable(types.string())),
-      url: z.optional(z.nullable(types.string())),
-      url_expires_at: z.optional(z.nullable(types.date())),
-      size_bytes: z.optional(z.nullable(types.number())),
-      filename: z.optional(z.nullable(types.string())),
-      source: FileSource$inboundSchema,
-      status: FileStatus$inboundSchema,
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "file_id": "fileId",
-        "content_type": "contentType",
-        "url_expires_at": "urlExpiresAt",
-        "size_bytes": "sizeBytes",
-      });
-    }),
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        file_id: types.string(),
+        modality: ContentModality$inboundSchema,
+        content_type: z.optional(z.nullable(types.string())),
+        url: z.optional(z.nullable(types.string())),
+        url_expires_at: z.optional(z.nullable(types.date())),
+        size_bytes: z.optional(z.nullable(types.number())),
+        filename: z.optional(z.nullable(types.string())),
+        source: FileSource$inboundSchema,
+        status: FileStatus$inboundSchema,
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "file_id": "fileId",
+          "content_type": "contentType",
+          "url_expires_at": "urlExpiresAt",
+          "size_bytes": "sizeBytes",
+        });
+      }),
+    )
   );
 
 export function fileMetadataFromJSON(

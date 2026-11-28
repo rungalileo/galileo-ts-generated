@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 
 export const LogRecordsBooleanFilterOperator = {
@@ -28,7 +29,7 @@ export type LogRecordsBooleanFilter = {
 /** @internal */
 export const LogRecordsBooleanFilterOperator$outboundSchema: z.ZodMiniEnum<
   typeof LogRecordsBooleanFilterOperator
-> = z.enum(LogRecordsBooleanFilterOperator);
+> = /* @__PURE__ */ lazySchema$(() => z.enum(LogRecordsBooleanFilterOperator));
 
 /** @internal */
 export type LogRecordsBooleanFilter$Outbound = {
@@ -42,18 +43,23 @@ export type LogRecordsBooleanFilter$Outbound = {
 export const LogRecordsBooleanFilter$outboundSchema: z.ZodMiniType<
   LogRecordsBooleanFilter$Outbound,
   LogRecordsBooleanFilter
-> = z.pipe(
-  z.object({
-    columnId: z.string(),
-    operator: z._default(LogRecordsBooleanFilterOperator$outboundSchema, "eq"),
-    value: z.boolean(),
-    type: z.literal("boolean"),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      columnId: "column_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      columnId: z.string(),
+      operator: z._default(
+        LogRecordsBooleanFilterOperator$outboundSchema,
+        "eq",
+      ),
+      value: z.boolean(),
+      type: z.literal("boolean"),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        columnId: "column_id",
+      });
+    }),
+  )
 );
 
 export function logRecordsBooleanFilterToJSON(

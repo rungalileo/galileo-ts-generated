@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 /**
  * This global operation filters a set of rows and discard the rest.
@@ -24,17 +25,19 @@ export type DatasetFilterRows$Outbound = {
 export const DatasetFilterRows$outboundSchema: z.ZodMiniType<
   DatasetFilterRows$Outbound,
   DatasetFilterRows
-> = z.pipe(
-  z.object({
-    editType: z.literal("filter_rows"),
-    rowIds: z.array(z.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      editType: "edit_type",
-      rowIds: "row_ids",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      editType: z.literal("filter_rows"),
+      rowIds: z.array(z.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        editType: "edit_type",
+        rowIds: "row_ids",
+      });
+    }),
+  )
 );
 
 export function datasetFilterRowsToJSON(

@@ -4,7 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
 import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import { Result as SafeParseResult } from "../types/fp.js";
@@ -57,10 +57,12 @@ export type GalileoCoreSchemasSharedMessageMessage = {
 /** @internal */
 export const GalileoCoreSchemasSharedMessageMessageContent1$inboundSchema:
   z.ZodMiniType<GalileoCoreSchemasSharedMessageMessageContent1, unknown> =
-    discriminatedUnion("type", {
-      file: FileContentPart$inboundSchema,
-      text: TextContentPart$inboundSchema,
-    });
+    /* @__PURE__ */ lazySchema$(() =>
+      discriminatedUnion("type", {
+        file: FileContentPart$inboundSchema,
+        text: TextContentPart$inboundSchema,
+      })
+    );
 /** @internal */
 export type GalileoCoreSchemasSharedMessageMessageContent1$Outbound =
   | FileContentPart$Outbound
@@ -71,7 +73,9 @@ export const GalileoCoreSchemasSharedMessageMessageContent1$outboundSchema:
   z.ZodMiniType<
     GalileoCoreSchemasSharedMessageMessageContent1$Outbound,
     GalileoCoreSchemasSharedMessageMessageContent1
-  > = z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]);
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema])
+  );
 
 export function galileoCoreSchemasSharedMessageMessageContent1ToJSON(
   galileoCoreSchemasSharedMessageMessageContent1:
@@ -102,15 +106,17 @@ export function galileoCoreSchemasSharedMessageMessageContent1FromJSON(
 /** @internal */
 export const GalileoCoreSchemasSharedMessageMessageContent2$inboundSchema:
   z.ZodMiniType<GalileoCoreSchemasSharedMessageMessageContent2, unknown> =
-    smartUnion([
-      types.string(),
-      z.array(
-        discriminatedUnion("type", {
-          file: FileContentPart$inboundSchema,
-          text: TextContentPart$inboundSchema,
-        }),
-      ),
-    ]);
+    /* @__PURE__ */ lazySchema$(() =>
+      smartUnion([
+        types.string(),
+        z.array(
+          discriminatedUnion("type", {
+            file: FileContentPart$inboundSchema,
+            text: TextContentPart$inboundSchema,
+          }),
+        ),
+      ])
+    );
 /** @internal */
 export type GalileoCoreSchemasSharedMessageMessageContent2$Outbound =
   | string
@@ -121,12 +127,17 @@ export const GalileoCoreSchemasSharedMessageMessageContent2$outboundSchema:
   z.ZodMiniType<
     GalileoCoreSchemasSharedMessageMessageContent2$Outbound,
     GalileoCoreSchemasSharedMessageMessageContent2
-  > = smartUnion([
-    z.string(),
-    z.array(
-      z.union([FileContentPart$outboundSchema, TextContentPart$outboundSchema]),
-    ),
-  ]);
+  > = /* @__PURE__ */ lazySchema$(() =>
+    smartUnion([
+      z.string(),
+      z.array(
+        z.union([
+          FileContentPart$outboundSchema,
+          TextContentPart$outboundSchema,
+        ]),
+      ),
+    ])
+  );
 
 export function galileoCoreSchemasSharedMessageMessageContent2ToJSON(
   galileoCoreSchemasSharedMessageMessageContent2:
@@ -155,19 +166,24 @@ export function galileoCoreSchemasSharedMessageMessageContent2FromJSON(
 }
 
 /** @internal */
-export const Role$inboundSchema: z.ZodMiniType<Role, unknown> = smartUnion([
-  types.string(),
-  GalileoCoreSchemasSharedMessageRoleMessageRole$inboundSchema,
-]);
+export const Role$inboundSchema: z.ZodMiniType<Role, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    smartUnion([
+      types.string(),
+      GalileoCoreSchemasSharedMessageRoleMessageRole$inboundSchema,
+    ])
+  );
 /** @internal */
 export type Role$Outbound = string | string;
 
 /** @internal */
 export const Role$outboundSchema: z.ZodMiniType<Role$Outbound, Role> =
-  smartUnion([
-    z.string(),
-    GalileoCoreSchemasSharedMessageRoleMessageRole$outboundSchema,
-  ]);
+  /* @__PURE__ */ lazySchema$(() =>
+    smartUnion([
+      z.string(),
+      GalileoCoreSchemasSharedMessageRoleMessageRole$outboundSchema,
+    ])
+  );
 
 export function roleToJSON(role: Role): string {
   return JSON.stringify(Role$outboundSchema.parse(role));
@@ -184,24 +200,27 @@ export function roleFromJSON(
 
 /** @internal */
 export const GalileoCoreSchemasSharedMessageMessage$inboundSchema:
-  z.ZodMiniType<GalileoCoreSchemasSharedMessageMessage, unknown> = z.catchall(
-    z.object({
-      content: smartUnion([
-        types.string(),
-        z.array(
-          discriminatedUnion("type", {
-            file: FileContentPart$inboundSchema,
-            text: TextContentPart$inboundSchema,
-          }),
-        ),
-      ]),
-      role: smartUnion([
-        types.string(),
-        GalileoCoreSchemasSharedMessageRoleMessageRole$inboundSchema,
-      ]),
-    }),
-    z.any(),
-  );
+  z.ZodMiniType<GalileoCoreSchemasSharedMessageMessage, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.catchall(
+        z.object({
+          content: smartUnion([
+            types.string(),
+            z.array(
+              discriminatedUnion("type", {
+                file: FileContentPart$inboundSchema,
+                text: TextContentPart$inboundSchema,
+              }),
+            ),
+          ]),
+          role: smartUnion([
+            types.string(),
+            GalileoCoreSchemasSharedMessageRoleMessageRole$inboundSchema,
+          ]),
+        }),
+        z.any(),
+      )
+    );
 /** @internal */
 export type GalileoCoreSchemasSharedMessageMessage$Outbound = {
   content: string | Array<FileContentPart$Outbound | TextContentPart$Outbound>;
@@ -214,23 +233,25 @@ export const GalileoCoreSchemasSharedMessageMessage$outboundSchema:
   z.ZodMiniType<
     GalileoCoreSchemasSharedMessageMessage$Outbound,
     GalileoCoreSchemasSharedMessageMessage
-  > = z.catchall(
-    z.object({
-      content: smartUnion([
-        z.string(),
-        z.array(
-          z.union([
-            FileContentPart$outboundSchema,
-            TextContentPart$outboundSchema,
-          ]),
-        ),
-      ]),
-      role: smartUnion([
-        z.string(),
-        GalileoCoreSchemasSharedMessageRoleMessageRole$outboundSchema,
-      ]),
-    }),
-    z.any(),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.catchall(
+      z.object({
+        content: smartUnion([
+          z.string(),
+          z.array(
+            z.union([
+              FileContentPart$outboundSchema,
+              TextContentPart$outboundSchema,
+            ]),
+          ),
+        ]),
+        role: smartUnion([
+          z.string(),
+          GalileoCoreSchemasSharedMessageRoleMessageRole$outboundSchema,
+        ]),
+      }),
+      z.any(),
+    )
   );
 
 export function galileoCoreSchemasSharedMessageMessageToJSON(

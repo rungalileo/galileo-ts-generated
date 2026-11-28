@@ -5,13 +5,14 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
 
 export type UpdateDatasetContentDatasetsDatasetIdContentPatchSecurity = {
   apiKeyHeader?: string | undefined;
+  classicAPIKeyHeader?: string | undefined;
   oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
   httpBasic?: models.SchemeHTTPBasic | undefined;
 };
@@ -33,6 +34,7 @@ export type UpdateDatasetContentDatasetsDatasetIdContentPatchResponse = {
 export type UpdateDatasetContentDatasetsDatasetIdContentPatchSecurity$Outbound =
   {
     APIKeyHeader?: string | undefined;
+    ClassicAPIKeyHeader?: string | undefined;
     OAuth2PasswordBearer?:
       | models.OAuth2PasswordBearerInput$Outbound
       | undefined;
@@ -44,21 +46,25 @@ export const UpdateDatasetContentDatasetsDatasetIdContentPatchSecurity$outboundS
   z.ZodMiniType<
     UpdateDatasetContentDatasetsDatasetIdContentPatchSecurity$Outbound,
     UpdateDatasetContentDatasetsDatasetIdContentPatchSecurity
-  > = z.pipe(
-    z.object({
-      apiKeyHeader: z.optional(z.string()),
-      oAuth2PasswordBearer: z.optional(
-        models.OAuth2PasswordBearerInput$outboundSchema,
-      ),
-      httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        apiKeyHeader: "APIKeyHeader",
-        oAuth2PasswordBearer: "OAuth2PasswordBearer",
-        httpBasic: "HTTPBasic",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        apiKeyHeader: z.optional(z.string()),
+        classicAPIKeyHeader: z.optional(z.string()),
+        oAuth2PasswordBearer: z.optional(
+          models.OAuth2PasswordBearerInput$outboundSchema,
+        ),
+        httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          apiKeyHeader: "APIKeyHeader",
+          classicAPIKeyHeader: "ClassicAPIKeyHeader",
+          oAuth2PasswordBearer: "OAuth2PasswordBearer",
+          httpBasic: "HTTPBasic",
+        });
+      }),
+    )
   );
 
 export function updateDatasetContentDatasetsDatasetIdContentPatchSecurityToJSON(
@@ -84,18 +90,20 @@ export const UpdateDatasetContentDatasetsDatasetIdContentPatchRequest$outboundSc
   z.ZodMiniType<
     UpdateDatasetContentDatasetsDatasetIdContentPatchRequest$Outbound,
     UpdateDatasetContentDatasetsDatasetIdContentPatchRequest
-  > = z.pipe(
-    z.object({
-      datasetId: z.string(),
-      ifMatch: z.optional(z.nullable(z.string())),
-      body: models.UpdateDatasetContentRequest$outboundSchema,
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        datasetId: "dataset_id",
-        ifMatch: "If-Match",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        datasetId: z.string(),
+        ifMatch: z.optional(z.nullable(z.string())),
+        body: models.UpdateDatasetContentRequest$outboundSchema,
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          datasetId: "dataset_id",
+          ifMatch: "If-Match",
+        });
+      }),
+    )
   );
 
 export function updateDatasetContentDatasetsDatasetIdContentPatchRequestToJSON(
@@ -113,15 +121,17 @@ export const UpdateDatasetContentDatasetsDatasetIdContentPatchResponse$inboundSc
   z.ZodMiniType<
     UpdateDatasetContentDatasetsDatasetIdContentPatchResponse,
     unknown
-  > = z.pipe(
-    z.object({
-      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "Headers": "headers",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "Headers": "headers",
+        });
+      }),
+    )
   );
 
 export function updateDatasetContentDatasetsDatasetIdContentPatchResponseFromJSON(

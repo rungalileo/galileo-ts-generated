@@ -4,7 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import {
@@ -40,10 +40,12 @@ export type MetricColorPickerBoolean = {
 export const MetricColorPickerBoolean$inboundSchema: z.ZodMiniType<
   MetricColorPickerBoolean,
   unknown
-> = z.object({
-  type: types.literal("boolean"),
-  constraints: z.array(BooleanColorConstraint$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    type: types.literal("boolean"),
+    constraints: z.array(BooleanColorConstraint$inboundSchema),
+  })
+);
 /** @internal */
 export type MetricColorPickerBoolean$Outbound = {
   type: "boolean";
@@ -54,10 +56,12 @@ export type MetricColorPickerBoolean$Outbound = {
 export const MetricColorPickerBoolean$outboundSchema: z.ZodMiniType<
   MetricColorPickerBoolean$Outbound,
   MetricColorPickerBoolean
-> = z.object({
-  type: z.literal("boolean"),
-  constraints: z.array(BooleanColorConstraint$outboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    type: z.literal("boolean"),
+    constraints: z.array(BooleanColorConstraint$outboundSchema),
+  })
+);
 
 export function metricColorPickerBooleanToJSON(
   metricColorPickerBoolean: MetricColorPickerBoolean,

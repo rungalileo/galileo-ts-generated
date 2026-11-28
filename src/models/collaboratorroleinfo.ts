@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import {
@@ -24,17 +24,19 @@ export type CollaboratorRoleInfo = {
 export const CollaboratorRoleInfo$inboundSchema: z.ZodMiniType<
   CollaboratorRoleInfo,
   unknown
-> = z.pipe(
-  z.object({
-    name: CollaboratorRole$inboundSchema,
-    display_name: types.string(),
-    description: types.string(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "display_name": "displayName",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: CollaboratorRole$inboundSchema,
+      display_name: types.string(),
+      description: types.string(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "display_name": "displayName",
+      });
+    }),
+  )
 );
 
 export function collaboratorRoleInfoFromJSON(

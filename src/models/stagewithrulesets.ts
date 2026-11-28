@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   Ruleset,
   Ruleset$Outbound,
@@ -50,21 +51,23 @@ export type StageWithRulesets$Outbound = {
 export const StageWithRulesets$outboundSchema: z.ZodMiniType<
   StageWithRulesets$Outbound,
   StageWithRulesets
-> = z.pipe(
-  z.object({
-    prioritizedRulesets: z.optional(z.array(Ruleset$outboundSchema)),
-    name: z.string(),
-    projectId: z.string(),
-    description: z.optional(z.nullable(z.string())),
-    type: z.optional(StageType$outboundSchema),
-    paused: z._default(z.boolean(), false),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      prioritizedRulesets: "prioritized_rulesets",
-      projectId: "project_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      prioritizedRulesets: z.optional(z.array(Ruleset$outboundSchema)),
+      name: z.string(),
+      projectId: z.string(),
+      description: z.optional(z.nullable(z.string())),
+      type: z.optional(StageType$outboundSchema),
+      paused: z._default(z.boolean(), false),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        prioritizedRulesets: "prioritized_rulesets",
+        projectId: "project_id",
+      });
+    }),
+  )
 );
 
 export function stageWithRulesetsToJSON(

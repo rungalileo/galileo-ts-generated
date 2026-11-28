@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   AgentSpan,
   AgentSpan$Outbound,
@@ -16,10 +17,15 @@ import {
   ControlSpan$outboundSchema,
 } from "./controlspan.js";
 import {
-  Document,
-  Document$Outbound,
-  Document$outboundSchema,
-} from "./document.js";
+  DocumentInput,
+  DocumentInput$Outbound,
+  DocumentInput$outboundSchema,
+} from "./documentinput.js";
+import {
+  HttpSpan,
+  HttpSpan$Outbound,
+  HttpSpan$outboundSchema,
+} from "./httpspan.js";
 import {
   LlmSpan,
   LlmSpan$Outbound,
@@ -57,11 +63,11 @@ export type RetrieverSpan = {
   /**
    * Output of the trace or span.
    */
-  output?: Array<Document> | undefined;
+  output?: Array<DocumentInput> | undefined;
   /**
    * Redacted output of the trace or span.
    */
-  redactedOutput?: Array<Document> | null | undefined;
+  redactedOutput?: Array<DocumentInput> | null | undefined;
   /**
    * Name of the trace, span or session.
    */
@@ -126,6 +132,7 @@ export type RetrieverSpan = {
     | Array<
       | AgentSpan
       | ControlSpan
+      | HttpSpan
       | LlmSpan
       | RetrieverSpan
       | ToolSpan
@@ -137,6 +144,7 @@ export type RetrieverSpan = {
 export type RetrieverSpanSpan =
   | AgentSpan
   | ControlSpan
+  | HttpSpan
   | LlmSpan
   | RetrieverSpan
   | ToolSpan
@@ -147,8 +155,8 @@ export type RetrieverSpan$Outbound = {
   type: "retriever";
   input: string;
   redacted_input?: string | null | undefined;
-  output?: Array<Document$Outbound> | undefined;
-  redacted_output?: Array<Document$Outbound> | null | undefined;
+  output?: Array<DocumentInput$Outbound> | undefined;
+  redacted_output?: Array<DocumentInput$Outbound> | null | undefined;
   name: string;
   created_at?: string | undefined;
   user_metadata?: { [k: string]: string } | undefined;
@@ -168,6 +176,7 @@ export type RetrieverSpan$Outbound = {
     | Array<
       | AgentSpan$Outbound
       | ControlSpan$Outbound
+      | HttpSpan$Outbound
       | LlmSpan$Outbound
       | RetrieverSpan$Outbound
       | ToolSpan$Outbound
@@ -180,56 +189,65 @@ export type RetrieverSpan$Outbound = {
 export const RetrieverSpan$outboundSchema: z.ZodMiniType<
   RetrieverSpan$Outbound,
   RetrieverSpan
-> = z.pipe(
-  z.object({
-    type: z.literal("retriever"),
-    input: z._default(z.string(), ""),
-    redactedInput: z.optional(z.nullable(z.string())),
-    output: z.optional(z.array(Document$outboundSchema)),
-    redactedOutput: z.optional(z.nullable(z.array(Document$outboundSchema))),
-    name: z._default(z.string(), ""),
-    createdAt: z.optional(z.pipe(z.date(), z.transform(v => v.toISOString()))),
-    userMetadata: z.optional(z.record(z.string(), z.string())),
-    tags: z.optional(z.array(z.string())),
-    statusCode: z.optional(z.nullable(z.int())),
-    metrics: z.optional(Metrics$outboundSchema),
-    externalId: z.optional(z.nullable(z.string())),
-    datasetInput: z.optional(z.nullable(z.string())),
-    datasetOutput: z.optional(z.nullable(z.string())),
-    datasetMetadata: z.optional(z.record(z.string(), z.string())),
-    id: z.optional(z.nullable(z.string())),
-    sessionId: z.optional(z.nullable(z.string())),
-    traceId: z.optional(z.nullable(z.string())),
-    stepNumber: z.optional(z.nullable(z.int())),
-    parentId: z.optional(z.nullable(z.string())),
-    spans: z.optional(z.array(z.union([
-      z.lazy(() => AgentSpan$outboundSchema),
-      ControlSpan$outboundSchema,
-      LlmSpan$outboundSchema,
-      z.lazy(() => RetrieverSpan$outboundSchema),
-      z.lazy(() => ToolSpan$outboundSchema),
-      z.lazy(() =>
-        WorkflowSpan$outboundSchema
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      type: z.literal("retriever"),
+      input: z._default(z.string(), ""),
+      redactedInput: z.optional(z.nullable(z.string())),
+      output: z.optional(z.array(DocumentInput$outboundSchema)),
+      redactedOutput: z.optional(
+        z.nullable(z.array(DocumentInput$outboundSchema)),
       ),
-    ]))),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      redactedInput: "redacted_input",
-      redactedOutput: "redacted_output",
-      createdAt: "created_at",
-      userMetadata: "user_metadata",
-      statusCode: "status_code",
-      externalId: "external_id",
-      datasetInput: "dataset_input",
-      datasetOutput: "dataset_output",
-      datasetMetadata: "dataset_metadata",
-      sessionId: "session_id",
-      traceId: "trace_id",
-      stepNumber: "step_number",
-      parentId: "parent_id",
-    });
-  }),
+      name: z._default(z.string(), ""),
+      createdAt: z.optional(
+        z.pipe(z.date(), z.transform(v => v.toISOString())),
+      ),
+      userMetadata: z.optional(z.record(z.string(), z.string())),
+      tags: z.optional(z.array(z.string())),
+      statusCode: z.optional(z.nullable(z.int())),
+      metrics: z.optional(Metrics$outboundSchema),
+      externalId: z.optional(z.nullable(z.string())),
+      datasetInput: z.optional(z.nullable(z.string())),
+      datasetOutput: z.optional(z.nullable(z.string())),
+      datasetMetadata: z.optional(z.record(z.string(), z.string())),
+      id: z.optional(z.nullable(z.string())),
+      sessionId: z.optional(z.nullable(z.string())),
+      traceId: z.optional(z.nullable(z.string())),
+      stepNumber: z.optional(z.nullable(z.int())),
+      parentId: z.optional(z.nullable(z.string())),
+      spans: z.optional(
+        z.array(z.union([
+          z.lazy(() => AgentSpan$outboundSchema),
+          ControlSpan$outboundSchema,
+          z.lazy(() => HttpSpan$outboundSchema),
+          LlmSpan$outboundSchema,
+          z.lazy(() => RetrieverSpan$outboundSchema),
+          z.lazy(() =>
+            ToolSpan$outboundSchema
+          ),
+          z.lazy(() => WorkflowSpan$outboundSchema),
+        ])),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        redactedInput: "redacted_input",
+        redactedOutput: "redacted_output",
+        createdAt: "created_at",
+        userMetadata: "user_metadata",
+        statusCode: "status_code",
+        externalId: "external_id",
+        datasetInput: "dataset_input",
+        datasetOutput: "dataset_output",
+        datasetMetadata: "dataset_metadata",
+        sessionId: "session_id",
+        traceId: "trace_id",
+        stepNumber: "step_number",
+        parentId: "parent_id",
+      });
+    }),
+  )
 );
 
 export function retrieverSpanToJSON(retrieverSpan: RetrieverSpan): string {
@@ -240,6 +258,7 @@ export function retrieverSpanToJSON(retrieverSpan: RetrieverSpan): string {
 export type RetrieverSpanSpan$Outbound =
   | AgentSpan$Outbound
   | ControlSpan$Outbound
+  | HttpSpan$Outbound
   | LlmSpan$Outbound
   | RetrieverSpan$Outbound
   | ToolSpan$Outbound
@@ -249,14 +268,17 @@ export type RetrieverSpanSpan$Outbound =
 export const RetrieverSpanSpan$outboundSchema: z.ZodMiniType<
   RetrieverSpanSpan$Outbound,
   RetrieverSpanSpan
-> = z.union([
-  z.lazy(() => AgentSpan$outboundSchema),
-  ControlSpan$outboundSchema,
-  LlmSpan$outboundSchema,
-  z.lazy(() => RetrieverSpan$outboundSchema),
-  z.lazy(() => ToolSpan$outboundSchema),
-  z.lazy(() => WorkflowSpan$outboundSchema),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    z.lazy(() => AgentSpan$outboundSchema),
+    ControlSpan$outboundSchema,
+    z.lazy(() => HttpSpan$outboundSchema),
+    LlmSpan$outboundSchema,
+    z.lazy(() => RetrieverSpan$outboundSchema),
+    z.lazy(() => ToolSpan$outboundSchema),
+    z.lazy(() => WorkflowSpan$outboundSchema),
+  ])
+);
 
 export function retrieverSpanSpanToJSON(
   retrieverSpanSpan: RetrieverSpanSpan,

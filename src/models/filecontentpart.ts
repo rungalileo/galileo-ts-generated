@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -28,16 +28,18 @@ export type FileContentPart = {
 export const FileContentPart$inboundSchema: z.ZodMiniType<
   FileContentPart,
   unknown
-> = z.pipe(
-  z.object({
-    type: types.literal("file"),
-    file_id: types.string(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "file_id": "fileId",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      type: types.literal("file"),
+      file_id: types.string(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "file_id": "fileId",
+      });
+    }),
+  )
 );
 /** @internal */
 export type FileContentPart$Outbound = {
@@ -49,16 +51,18 @@ export type FileContentPart$Outbound = {
 export const FileContentPart$outboundSchema: z.ZodMiniType<
   FileContentPart$Outbound,
   FileContentPart
-> = z.pipe(
-  z.object({
-    type: z.literal("file"),
-    fileId: z.string(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      fileId: "file_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      type: z.literal("file"),
+      fileId: z.string(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        fileId: "file_id",
+      });
+    }),
+  )
 );
 
 export function fileContentPartToJSON(

@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   LogRecordsBooleanFilter,
   LogRecordsBooleanFilter$Outbound,
@@ -76,15 +77,17 @@ export const FilterLeafAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRe
   z.ZodMiniType<
     FilterLeafAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorTypeFilter$Outbound,
     FilterLeafAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorTypeFilter
-  > = z.union([
-    LogRecordsBooleanFilter$outboundSchema,
-    LogRecordsCollectionFilter$outboundSchema,
-    LogRecordsDateFilter$outboundSchema,
-    LogRecordsFullyAnnotatedFilter$outboundSchema,
-    LogRecordsIDFilter$outboundSchema,
-    LogRecordsNumberFilter$outboundSchema,
-    LogRecordsTextFilter$outboundSchema,
-  ]);
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.union([
+      LogRecordsBooleanFilter$outboundSchema,
+      LogRecordsCollectionFilter$outboundSchema,
+      LogRecordsDateFilter$outboundSchema,
+      LogRecordsFullyAnnotatedFilter$outboundSchema,
+      LogRecordsIDFilter$outboundSchema,
+      LogRecordsNumberFilter$outboundSchema,
+      LogRecordsTextFilter$outboundSchema,
+    ])
+  );
 
 export function filterLeafAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorTypeFilterToJSON(
   filterLeafAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorTypeFilter:
@@ -116,17 +119,19 @@ export const FilterLeafAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRe
   z.ZodMiniType<
     FilterLeafAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType$Outbound,
     FilterLeafAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType
-  > = z.object({
-    filter: z.union([
-      LogRecordsBooleanFilter$outboundSchema,
-      LogRecordsCollectionFilter$outboundSchema,
-      LogRecordsDateFilter$outboundSchema,
-      LogRecordsFullyAnnotatedFilter$outboundSchema,
-      LogRecordsIDFilter$outboundSchema,
-      LogRecordsNumberFilter$outboundSchema,
-      LogRecordsTextFilter$outboundSchema,
-    ]),
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      filter: z.union([
+        LogRecordsBooleanFilter$outboundSchema,
+        LogRecordsCollectionFilter$outboundSchema,
+        LogRecordsDateFilter$outboundSchema,
+        LogRecordsFullyAnnotatedFilter$outboundSchema,
+        LogRecordsIDFilter$outboundSchema,
+        LogRecordsNumberFilter$outboundSchema,
+        LogRecordsTextFilter$outboundSchema,
+      ]),
+    })
+  );
 
 export function filterLeafAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorTypeToJSON(
   filterLeafAnnotatedUnionLogRecordsIDFilterLogRecordsDateFilterLogRecordsNumberFilterLogRecordsBooleanFilterLogRecordsCollectionFilterLogRecordsTextFilterLogRecordsFullyAnnotatedFilterFieldInfoAnnotationNoneTypeRequiredTrueDiscriminatorType:

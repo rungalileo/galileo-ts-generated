@@ -4,7 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import {
@@ -25,10 +25,12 @@ export type CreateCodeMetricGenerationResponse = {
 export const CreateCodeMetricGenerationResponse$inboundSchema: z.ZodMiniType<
   CreateCodeMetricGenerationResponse,
   unknown
-> = z.object({
-  id: types.string(),
-  status: CodeMetricGenerationStatus$inboundSchema,
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.string(),
+    status: CodeMetricGenerationStatus$inboundSchema,
+  })
+);
 
 export function createCodeMetricGenerationResponseFromJSON(
   jsonString: string,

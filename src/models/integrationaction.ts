@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
@@ -11,6 +12,7 @@ export const IntegrationAction = {
   Update: "update",
   Delete: "delete",
   Share: "share",
+  ReadSecrets: "read_secrets",
 } as const;
 export type IntegrationAction = OpenEnum<typeof IntegrationAction>;
 
@@ -18,4 +20,6 @@ export type IntegrationAction = OpenEnum<typeof IntegrationAction>;
 export const IntegrationAction$inboundSchema: z.ZodMiniType<
   IntegrationAction,
   unknown
-> = openEnums.inboundSchema(IntegrationAction);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(IntegrationAction)
+);

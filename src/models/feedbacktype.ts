@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
@@ -13,9 +14,11 @@ export const FeedbackType = {
   Score: "score",
   Tags: "tags",
   Text: "text",
+  Choice: "choice",
+  TreeChoice: "tree_choice",
 } as const;
 export type FeedbackType = OpenEnum<typeof FeedbackType>;
 
 /** @internal */
 export const FeedbackType$inboundSchema: z.ZodMiniType<FeedbackType, unknown> =
-  openEnums.inboundSchema(FeedbackType);
+  /* @__PURE__ */ lazySchema$(() => openEnums.inboundSchema(FeedbackType));

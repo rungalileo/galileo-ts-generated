@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   PromptRunSettings,
   PromptRunSettings$Outbound,
@@ -53,29 +54,31 @@ export type SyntheticDatasetExtensionRequest$Outbound = {
 export const SyntheticDatasetExtensionRequest$outboundSchema: z.ZodMiniType<
   SyntheticDatasetExtensionRequest$Outbound,
   SyntheticDatasetExtensionRequest
-> = z.pipe(
-  z.object({
-    promptSettings: z.optional(PromptRunSettings$outboundSchema),
-    prompt: z.optional(z.nullable(z.string())),
-    instructions: z.optional(z.nullable(z.string())),
-    examples: z.optional(z.array(z.string())),
-    sourceDataset: z.optional(
-      z.nullable(SyntheticDataSourceDataset$outboundSchema),
-    ),
-    dataTypes: z.optional(
-      z.nullable(z.array(SyntheticDataTypes$outboundSchema)),
-    ),
-    count: z._default(z.int(), 10),
-    projectId: z.optional(z.nullable(z.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      promptSettings: "prompt_settings",
-      sourceDataset: "source_dataset",
-      dataTypes: "data_types",
-      projectId: "project_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      promptSettings: z.optional(PromptRunSettings$outboundSchema),
+      prompt: z.optional(z.nullable(z.string())),
+      instructions: z.optional(z.nullable(z.string())),
+      examples: z.optional(z.array(z.string())),
+      sourceDataset: z.optional(
+        z.nullable(SyntheticDataSourceDataset$outboundSchema),
+      ),
+      dataTypes: z.optional(
+        z.nullable(z.array(SyntheticDataTypes$outboundSchema)),
+      ),
+      count: z._default(z.int(), 10),
+      projectId: z.optional(z.nullable(z.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        promptSettings: "prompt_settings",
+        sourceDataset: "source_dataset",
+        dataTypes: "data_types",
+        projectId: "project_id",
+      });
+    }),
+  )
 );
 
 export function syntheticDatasetExtensionRequestToJSON(

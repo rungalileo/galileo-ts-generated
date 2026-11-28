@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type DatasetContentSortClause = {
   columnName: string;
@@ -21,16 +22,18 @@ export type DatasetContentSortClause$Outbound = {
 export const DatasetContentSortClause$outboundSchema: z.ZodMiniType<
   DatasetContentSortClause$Outbound,
   DatasetContentSortClause
-> = z.pipe(
-  z.object({
-    columnName: z.string(),
-    ascending: z._default(z.boolean(), true),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      columnName: "column_name",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      columnName: z.string(),
+      ascending: z._default(z.boolean(), true),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        columnName: "column_name",
+      });
+    }),
+  )
 );
 
 export function datasetContentSortClauseToJSON(

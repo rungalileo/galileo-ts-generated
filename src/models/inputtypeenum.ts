@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
@@ -23,6 +24,7 @@ export const InputTypeEnum = {
   TraceOutputOnly: "trace_output_only",
   AgentSpans: "agent_spans",
   WorkflowSpans: "workflow_spans",
+  TraceSelectedSpans: "trace_selected_spans",
 } as const;
 /**
  * Enumeration of input types.
@@ -33,9 +35,9 @@ export type InputTypeEnum = OpenEnum<typeof InputTypeEnum>;
 export const InputTypeEnum$inboundSchema: z.ZodMiniType<
   InputTypeEnum,
   unknown
-> = openEnums.inboundSchema(InputTypeEnum);
+> = /* @__PURE__ */ lazySchema$(() => openEnums.inboundSchema(InputTypeEnum));
 /** @internal */
 export const InputTypeEnum$outboundSchema: z.ZodMiniType<
   string,
   InputTypeEnum
-> = openEnums.outboundSchema(InputTypeEnum);
+> = /* @__PURE__ */ lazySchema$(() => openEnums.outboundSchema(InputTypeEnum));

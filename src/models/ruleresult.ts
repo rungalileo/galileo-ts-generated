@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { smartUnion } from "../types/smartUnion.js";
@@ -49,12 +49,9 @@ export type RuleResult = {
 export const RuleResultTargetValue$inboundSchema: z.ZodMiniType<
   RuleResultTargetValue,
   unknown
-> = smartUnion([
-  types.string(),
-  types.number(),
-  types.number(),
-  z.array(z.any()),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([types.string(), types.number(), types.number(), z.array(z.any())])
+);
 
 export function ruleResultTargetValueFromJSON(
   jsonString: string,
@@ -67,29 +64,31 @@ export function ruleResultTargetValueFromJSON(
 }
 
 /** @internal */
-export const RuleResult$inboundSchema: z.ZodMiniType<RuleResult, unknown> = z
-  .pipe(
-    z.object({
-      status: types.optional(ExecutionStatus$inboundSchema),
-      metric: types.string(),
-      operator: RuleOperator$inboundSchema,
-      target_value: types.nullable(
-        smartUnion([
-          types.string(),
-          types.number(),
-          types.number(),
-          z.array(z.any()),
-        ]),
-      ),
-      value: z.optional(z.nullable(z.any())),
-      execution_time: z.optional(z.nullable(types.number())),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "target_value": "targetValue",
-        "execution_time": "executionTime",
-      });
-    }),
+export const RuleResult$inboundSchema: z.ZodMiniType<RuleResult, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        status: types.optional(ExecutionStatus$inboundSchema),
+        metric: types.string(),
+        operator: RuleOperator$inboundSchema,
+        target_value: types.nullable(
+          smartUnion([
+            types.string(),
+            types.number(),
+            types.number(),
+            z.array(z.any()),
+          ]),
+        ),
+        value: z.optional(z.nullable(z.any())),
+        execution_time: z.optional(z.nullable(types.number())),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "target_value": "targetValue",
+          "execution_time": "executionTime",
+        });
+      }),
+    )
   );
 
 export function ruleResultFromJSON(

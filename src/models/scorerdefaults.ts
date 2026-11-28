@@ -5,42 +5,49 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
 import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
-import {
-  InputTypeEnum,
-  InputTypeEnum$inboundSchema,
-  InputTypeEnum$outboundSchema,
-} from "./inputtypeenum.js";
+import { InputTypeEnum, InputTypeEnum$inboundSchema } from "./inputtypeenum.js";
 import {
   MetadataFilter,
   MetadataFilter$inboundSchema,
-  MetadataFilter$Outbound,
-  MetadataFilter$outboundSchema,
 } from "./metadatafilter.js";
 import {
   ModalityFilter,
   ModalityFilter$inboundSchema,
-  ModalityFilter$Outbound,
-  ModalityFilter$outboundSchema,
 } from "./modalityfilter.js";
 import {
   NodeNameFilter,
   NodeNameFilter$inboundSchema,
-  NodeNameFilter$Outbound,
-  NodeNameFilter$outboundSchema,
 } from "./nodenamefilter.js";
 import {
   OutputTypeEnum,
   OutputTypeEnum$inboundSchema,
-  OutputTypeEnum$outboundSchema,
 } from "./outputtypeenum.js";
+import {
+  ScorerInvocationConfig,
+  ScorerInvocationConfig$inboundSchema,
+} from "./scorerinvocationconfig.js";
+import {
+  ScorerMetadataSelection,
+  ScorerMetadataSelection$inboundSchema,
+} from "./scorermetadataselection.js";
+import {
+  SpanInputSelection,
+  SpanInputSelection$inboundSchema,
+} from "./spaninputselection.js";
 
 export type ScorerDefaultsFilter =
+  | MetadataFilter
+  | ModalityFilter
+  | NodeNameFilter
+  | discriminatedUnionTypes.Unknown<"name">;
+
+export type ScorerDefaultsChildSpanFilter =
   | MetadataFilter
   | ModalityFilter
   | NodeNameFilter
@@ -53,6 +60,18 @@ export type ScorerDefaults = {
    * List of filters to apply to the scorer.
    */
   filters?:
+    | Array<
+      | MetadataFilter
+      | ModalityFilter
+      | NodeNameFilter
+      | discriminatedUnionTypes.Unknown<"name">
+    >
+    | null
+    | undefined;
+  /**
+   * Filters applied to descendants of the trace.
+   */
+  childSpanFilters?:
     | Array<
       | MetadataFilter
       | ModalityFilter
@@ -77,40 +96,30 @@ export type ScorerDefaults = {
    * What type of input to use for model-based scorers (sessions_normalized, trace_io_only, etc..).
    */
   inputType?: InputTypeEnum | null | undefined;
+  metadataSelection?: ScorerMetadataSelection | null | undefined;
+  spanInputSelections?: Array<SpanInputSelection> | null | undefined;
+  /**
+   * For trace scorers with named span selections, require a matching child span.
+   */
+  requireMatchingSpan: boolean;
+  /**
+   * Deprecated compatibility location for direct-invocation metadata. Use ScorerInfo.invocation or BaseScorerDB.invocation instead.
+   */
+  invocation?: ScorerInvocationConfig | null | undefined;
 };
 
 /** @internal */
 export const ScorerDefaultsFilter$inboundSchema: z.ZodMiniType<
   ScorerDefaultsFilter,
   unknown
-> = discriminatedUnion("name", {
-  metadata: MetadataFilter$inboundSchema,
-  modality: ModalityFilter$inboundSchema,
-  node_name: NodeNameFilter$inboundSchema,
-});
-/** @internal */
-export type ScorerDefaultsFilter$Outbound =
-  | MetadataFilter$Outbound
-  | ModalityFilter$Outbound
-  | NodeNameFilter$Outbound;
+> = /* @__PURE__ */ lazySchema$(() =>
+  discriminatedUnion("name", {
+    metadata: MetadataFilter$inboundSchema,
+    modality: ModalityFilter$inboundSchema,
+    node_name: NodeNameFilter$inboundSchema,
+  })
+);
 
-/** @internal */
-export const ScorerDefaultsFilter$outboundSchema: z.ZodMiniType<
-  ScorerDefaultsFilter$Outbound,
-  ScorerDefaultsFilter
-> = z.union([
-  MetadataFilter$outboundSchema,
-  ModalityFilter$outboundSchema,
-  NodeNameFilter$outboundSchema,
-]);
-
-export function scorerDefaultsFilterToJSON(
-  scorerDefaultsFilter: ScorerDefaultsFilter,
-): string {
-  return JSON.stringify(
-    ScorerDefaultsFilter$outboundSchema.parse(scorerDefaultsFilter),
-  );
-}
 export function scorerDefaultsFilterFromJSON(
   jsonString: string,
 ): SafeParseResult<ScorerDefaultsFilter, SDKValidationError> {
@@ -122,97 +131,88 @@ export function scorerDefaultsFilterFromJSON(
 }
 
 /** @internal */
+export const ScorerDefaultsChildSpanFilter$inboundSchema: z.ZodMiniType<
+  ScorerDefaultsChildSpanFilter,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() =>
+  discriminatedUnion("name", {
+    metadata: MetadataFilter$inboundSchema,
+    modality: ModalityFilter$inboundSchema,
+    node_name: NodeNameFilter$inboundSchema,
+  })
+);
+
+export function scorerDefaultsChildSpanFilterFromJSON(
+  jsonString: string,
+): SafeParseResult<ScorerDefaultsChildSpanFilter, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ScorerDefaultsChildSpanFilter$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ScorerDefaultsChildSpanFilter' from JSON`,
+  );
+}
+
+/** @internal */
 export const ScorerDefaults$inboundSchema: z.ZodMiniType<
   ScorerDefaults,
   unknown
-> = z.pipe(
-  z.object({
-    model_name: z.optional(z.nullable(types.string())),
-    num_judges: z.optional(z.nullable(types.number())),
-    filters: z.optional(
-      z.nullable(
-        z.array(
-          discriminatedUnion("name", {
-            metadata: MetadataFilter$inboundSchema,
-            modality: ModalityFilter$inboundSchema,
-            node_name: NodeNameFilter$inboundSchema,
-          }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      model_name: z.optional(z.nullable(types.string())),
+      num_judges: z.optional(z.nullable(types.number())),
+      filters: z.optional(
+        z.nullable(
+          z.array(
+            discriminatedUnion("name", {
+              metadata: MetadataFilter$inboundSchema,
+              modality: ModalityFilter$inboundSchema,
+              node_name: NodeNameFilter$inboundSchema,
+            }),
+          ),
         ),
       ),
-    ),
-    scoreable_node_types: z.optional(z.nullable(z.array(types.string()))),
-    cot_enabled: z.optional(z.nullable(types.boolean())),
-    output_type: z.optional(z.nullable(OutputTypeEnum$inboundSchema)),
-    input_type: z.optional(z.nullable(InputTypeEnum$inboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "model_name": "modelName",
-      "num_judges": "numJudges",
-      "scoreable_node_types": "scoreableNodeTypes",
-      "cot_enabled": "cotEnabled",
-      "output_type": "outputType",
-      "input_type": "inputType",
-    });
-  }),
-);
-/** @internal */
-export type ScorerDefaults$Outbound = {
-  model_name?: string | null | undefined;
-  num_judges?: number | null | undefined;
-  filters?:
-    | Array<
-      | MetadataFilter$Outbound
-      | ModalityFilter$Outbound
-      | NodeNameFilter$Outbound
-    >
-    | null
-    | undefined;
-  scoreable_node_types?: Array<string> | null | undefined;
-  cot_enabled?: boolean | null | undefined;
-  output_type?: string | null | undefined;
-  input_type?: string | null | undefined;
-};
-
-/** @internal */
-export const ScorerDefaults$outboundSchema: z.ZodMiniType<
-  ScorerDefaults$Outbound,
-  ScorerDefaults
-> = z.pipe(
-  z.object({
-    modelName: z.optional(z.nullable(z.string())),
-    numJudges: z.optional(z.nullable(z.int())),
-    filters: z.optional(
-      z.nullable(
-        z.array(
-          z.union([
-            MetadataFilter$outboundSchema,
-            ModalityFilter$outboundSchema,
-            NodeNameFilter$outboundSchema,
-          ]),
+      child_span_filters: z.optional(
+        z.nullable(
+          z.array(
+            discriminatedUnion("name", {
+              metadata: MetadataFilter$inboundSchema,
+              modality: ModalityFilter$inboundSchema,
+              node_name: NodeNameFilter$inboundSchema,
+            }),
+          ),
         ),
       ),
-    ),
-    scoreableNodeTypes: z.optional(z.nullable(z.array(z.string()))),
-    cotEnabled: z.optional(z.nullable(z.boolean())),
-    outputType: z.optional(z.nullable(OutputTypeEnum$outboundSchema)),
-    inputType: z.optional(z.nullable(InputTypeEnum$outboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      modelName: "model_name",
-      numJudges: "num_judges",
-      scoreableNodeTypes: "scoreable_node_types",
-      cotEnabled: "cot_enabled",
-      outputType: "output_type",
-      inputType: "input_type",
-    });
-  }),
+      scoreable_node_types: z.optional(z.nullable(z.array(types.string()))),
+      cot_enabled: z.optional(z.nullable(types.boolean())),
+      output_type: z.optional(z.nullable(OutputTypeEnum$inboundSchema)),
+      input_type: z.optional(z.nullable(InputTypeEnum$inboundSchema)),
+      metadata_selection: z.optional(
+        z.nullable(ScorerMetadataSelection$inboundSchema),
+      ),
+      span_input_selections: z.optional(
+        z.nullable(z.array(SpanInputSelection$inboundSchema)),
+      ),
+      require_matching_span: z._default(types.boolean(), false),
+      invocation: z.optional(z.nullable(ScorerInvocationConfig$inboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "model_name": "modelName",
+        "num_judges": "numJudges",
+        "child_span_filters": "childSpanFilters",
+        "scoreable_node_types": "scoreableNodeTypes",
+        "cot_enabled": "cotEnabled",
+        "output_type": "outputType",
+        "input_type": "inputType",
+        "metadata_selection": "metadataSelection",
+        "span_input_selections": "spanInputSelections",
+        "require_matching_span": "requireMatchingSpan",
+      });
+    }),
+  )
 );
 
-export function scorerDefaultsToJSON(scorerDefaults: ScorerDefaults): string {
-  return JSON.stringify(ScorerDefaults$outboundSchema.parse(scorerDefaults));
-}
 export function scorerDefaultsFromJSON(
   jsonString: string,
 ): SafeParseResult<ScorerDefaults, SDKValidationError> {

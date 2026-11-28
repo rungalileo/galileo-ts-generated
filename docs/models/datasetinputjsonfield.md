@@ -15,7 +15,7 @@ let value: DatasetInputJsonField = {
 
 ## Fields
 
-| Field                | Type                 | Required             | Description          |
-| -------------------- | -------------------- | -------------------- | -------------------- |
-| `key`                | *string*             | :heavy_check_mark:   | N/A                  |
-| `values`             | *models.JsonValue*[] | :heavy_check_mark:   | N/A                  |
+| Field                                        | Type                                         | Required                                     | Description                                  |
+| -------------------------------------------- | -------------------------------------------- | -------------------------------------------- | -------------------------------------------- |
+| `key`                                        | *string*                                     | :heavy_check_mark:                           | N/A                                          |
+| `values`                                     | *models.ApiSchemasContentDatasetJsonValue*[] | :heavy_check_mark:                           | N/A                                          |

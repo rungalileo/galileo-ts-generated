@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import * as openEnums from "../types/enums.js";
 import { OpenEnum } from "../types/enums.js";
 
@@ -19,4 +20,4 @@ export type HealthScoreType = OpenEnum<typeof HealthScoreType>;
 export const HealthScoreType$inboundSchema: z.ZodMiniType<
   HealthScoreType,
   unknown
-> = openEnums.inboundSchema(HealthScoreType);
+> = /* @__PURE__ */ lazySchema$(() => openEnums.inboundSchema(HealthScoreType));

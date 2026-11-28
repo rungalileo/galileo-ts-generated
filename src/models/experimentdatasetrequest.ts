@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type ExperimentDatasetRequest = {
   datasetId: string;
@@ -21,17 +22,19 @@ export type ExperimentDatasetRequest$Outbound = {
 export const ExperimentDatasetRequest$outboundSchema: z.ZodMiniType<
   ExperimentDatasetRequest$Outbound,
   ExperimentDatasetRequest
-> = z.pipe(
-  z.object({
-    datasetId: z.string(),
-    versionIndex: z.int(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      datasetId: "dataset_id",
-      versionIndex: "version_index",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      datasetId: z.string(),
+      versionIndex: z.int(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        datasetId: "dataset_id",
+        versionIndex: "version_index",
+      });
+    }),
+  )
 );
 
 export function experimentDatasetRequestToJSON(

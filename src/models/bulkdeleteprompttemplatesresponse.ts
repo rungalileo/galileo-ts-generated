@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import {
@@ -27,20 +27,22 @@ export type BulkDeletePromptTemplatesResponse = {
 export const BulkDeletePromptTemplatesResponse$inboundSchema: z.ZodMiniType<
   BulkDeletePromptTemplatesResponse,
   unknown
-> = z.pipe(
-  z.object({
-    deleted_count: types.number(),
-    failed_deletions: types.optional(
-      z.array(ApiSchemasContentPromptBulkDeleteFailure$inboundSchema),
-    ),
-    message: types.string(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "deleted_count": "deletedCount",
-      "failed_deletions": "failedDeletions",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      deleted_count: types.number(),
+      failed_deletions: types.optional(
+        z.array(ApiSchemasContentPromptBulkDeleteFailure$inboundSchema),
+      ),
+      message: types.string(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "deleted_count": "deletedCount",
+        "failed_deletions": "failedDeletions",
+      });
+    }),
+  )
 );
 
 export function bulkDeletePromptTemplatesResponseFromJSON(

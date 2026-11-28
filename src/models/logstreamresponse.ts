@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -28,31 +28,33 @@ export type LogStreamResponse = {
 export const LogStreamResponse$inboundSchema: z.ZodMiniType<
   LogStreamResponse,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.string(),
-    created_at: types.date(),
-    updated_at: types.date(),
-    name: types.string(),
-    project_id: types.string(),
-    created_by: z.optional(z.nullable(types.string())),
-    created_by_user: z.optional(z.nullable(UserInfo$inboundSchema)),
-    num_spans: z.optional(z.nullable(types.number())),
-    num_traces: z.optional(z.nullable(types.number())),
-    has_user_created_sessions: z._default(types.boolean(), false),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-      "project_id": "projectId",
-      "created_by": "createdBy",
-      "created_by_user": "createdByUser",
-      "num_spans": "numSpans",
-      "num_traces": "numTraces",
-      "has_user_created_sessions": "hasUserCreatedSessions",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.string(),
+      created_at: types.date(),
+      updated_at: types.date(),
+      name: types.string(),
+      project_id: types.string(),
+      created_by: z.optional(z.nullable(types.string())),
+      created_by_user: z.optional(z.nullable(UserInfo$inboundSchema)),
+      num_spans: z.optional(z.nullable(types.number())),
+      num_traces: z.optional(z.nullable(types.number())),
+      has_user_created_sessions: z._default(types.boolean(), false),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+        "project_id": "projectId",
+        "created_by": "createdBy",
+        "created_by_user": "createdByUser",
+        "num_spans": "numSpans",
+        "num_traces": "numTraces",
+        "has_user_created_sessions": "hasUserCreatedSessions",
+      });
+    }),
+  )
 );
 
 export function logStreamResponseFromJSON(

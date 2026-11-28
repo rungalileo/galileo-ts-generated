@@ -5,11 +5,13 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../../lib/schemas.js";
 import * as models from "../index.js";
 
 export type UpsertScorersConfigProjectsProjectIdRunsRunIdScorerSettingsPostSecurity =
   {
     apiKeyHeader?: string | undefined;
+    classicAPIKeyHeader?: string | undefined;
     oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
     httpBasic?: models.SchemeHTTPBasic | undefined;
   };
@@ -25,6 +27,7 @@ export type UpsertScorersConfigProjectsProjectIdRunsRunIdScorerSettingsPostReque
 export type UpsertScorersConfigProjectsProjectIdRunsRunIdScorerSettingsPostSecurity$Outbound =
   {
     APIKeyHeader?: string | undefined;
+    ClassicAPIKeyHeader?: string | undefined;
     OAuth2PasswordBearer?:
       | models.OAuth2PasswordBearerInput$Outbound
       | undefined;
@@ -36,21 +39,25 @@ export const UpsertScorersConfigProjectsProjectIdRunsRunIdScorerSettingsPostSecu
   z.ZodMiniType<
     UpsertScorersConfigProjectsProjectIdRunsRunIdScorerSettingsPostSecurity$Outbound,
     UpsertScorersConfigProjectsProjectIdRunsRunIdScorerSettingsPostSecurity
-  > = z.pipe(
-    z.object({
-      apiKeyHeader: z.optional(z.string()),
-      oAuth2PasswordBearer: z.optional(
-        models.OAuth2PasswordBearerInput$outboundSchema,
-      ),
-      httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        apiKeyHeader: "APIKeyHeader",
-        oAuth2PasswordBearer: "OAuth2PasswordBearer",
-        httpBasic: "HTTPBasic",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        apiKeyHeader: z.optional(z.string()),
+        classicAPIKeyHeader: z.optional(z.string()),
+        oAuth2PasswordBearer: z.optional(
+          models.OAuth2PasswordBearerInput$outboundSchema,
+        ),
+        httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          apiKeyHeader: "APIKeyHeader",
+          classicAPIKeyHeader: "ClassicAPIKeyHeader",
+          oAuth2PasswordBearer: "OAuth2PasswordBearer",
+          httpBasic: "HTTPBasic",
+        });
+      }),
+    )
   );
 
 export function upsertScorersConfigProjectsProjectIdRunsRunIdScorerSettingsPostSecurityToJSON(
@@ -78,18 +85,20 @@ export const UpsertScorersConfigProjectsProjectIdRunsRunIdScorerSettingsPostRequ
   z.ZodMiniType<
     UpsertScorersConfigProjectsProjectIdRunsRunIdScorerSettingsPostRequest$Outbound,
     UpsertScorersConfigProjectsProjectIdRunsRunIdScorerSettingsPostRequest
-  > = z.pipe(
-    z.object({
-      projectId: z.string(),
-      runId: z.string(),
-      body: models.RunScorerSettingsPatchRequest$outboundSchema,
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        projectId: "project_id",
-        runId: "run_id",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        projectId: z.string(),
+        runId: z.string(),
+        body: models.RunScorerSettingsPatchRequest$outboundSchema,
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          projectId: "project_id",
+          runId: "run_id",
+        });
+      }),
+    )
   );
 
 export function upsertScorersConfigProjectsProjectIdRunsRunIdScorerSettingsPostRequestToJSON(

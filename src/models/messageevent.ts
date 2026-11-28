@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -15,10 +15,10 @@ import {
   EventStatus$outboundSchema,
 } from "./eventstatus.js";
 import {
-  GalileoCoreSchemasLoggingLlmMessageRole,
-  GalileoCoreSchemasLoggingLlmMessageRole$inboundSchema,
-  GalileoCoreSchemasLoggingLlmMessageRole$outboundSchema,
-} from "./galileocoreschemasloggingllmmessagerole.js";
+  MessageRoleOutput,
+  MessageRoleOutput$inboundSchema,
+  MessageRoleOutput$outboundSchema,
+} from "./messageroleoutput.js";
 
 /**
  * An output message from the model.
@@ -41,7 +41,7 @@ export type MessageEvent = {
    * Error message if the event failed
    */
   errorMessage?: string | null | undefined;
-  role: GalileoCoreSchemasLoggingLlmMessageRole;
+  role: MessageRoleOutput;
   /**
    * Text content of the message
    */
@@ -54,25 +54,27 @@ export type MessageEvent = {
 
 /** @internal */
 export const MessageEvent$inboundSchema: z.ZodMiniType<MessageEvent, unknown> =
-  z.pipe(
-    z.object({
-      type: types.literal("message"),
-      id: z.optional(z.nullable(types.string())),
-      status: z.optional(z.nullable(EventStatus$inboundSchema)),
-      metadata: z.optional(z.nullable(z.record(z.string(), z.any()))),
-      error_message: z.optional(z.nullable(types.string())),
-      role: GalileoCoreSchemasLoggingLlmMessageRole$inboundSchema,
-      content: z.optional(z.nullable(types.string())),
-      content_parts: z.optional(
-        z.nullable(z.array(z.record(z.string(), z.any()))),
-      ),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "error_message": "errorMessage",
-        "content_parts": "contentParts",
-      });
-    }),
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        type: types.literal("message"),
+        id: z.optional(z.nullable(types.string())),
+        status: z.optional(z.nullable(EventStatus$inboundSchema)),
+        metadata: z.optional(z.nullable(z.record(z.string(), z.any()))),
+        error_message: z.optional(z.nullable(types.string())),
+        role: MessageRoleOutput$inboundSchema,
+        content: z.optional(z.nullable(types.string())),
+        content_parts: z.optional(
+          z.nullable(z.array(z.record(z.string(), z.any()))),
+        ),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "error_message": "errorMessage",
+          "content_parts": "contentParts",
+        });
+      }),
+    )
   );
 /** @internal */
 export type MessageEvent$Outbound = {
@@ -90,25 +92,27 @@ export type MessageEvent$Outbound = {
 export const MessageEvent$outboundSchema: z.ZodMiniType<
   MessageEvent$Outbound,
   MessageEvent
-> = z.pipe(
-  z.object({
-    type: z.literal("message"),
-    id: z.optional(z.nullable(z.string())),
-    status: z.optional(z.nullable(EventStatus$outboundSchema)),
-    metadata: z.optional(z.nullable(z.record(z.string(), z.any()))),
-    errorMessage: z.optional(z.nullable(z.string())),
-    role: GalileoCoreSchemasLoggingLlmMessageRole$outboundSchema,
-    content: z.optional(z.nullable(z.string())),
-    contentParts: z.optional(
-      z.nullable(z.array(z.record(z.string(), z.any()))),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      errorMessage: "error_message",
-      contentParts: "content_parts",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      type: z.literal("message"),
+      id: z.optional(z.nullable(z.string())),
+      status: z.optional(z.nullable(EventStatus$outboundSchema)),
+      metadata: z.optional(z.nullable(z.record(z.string(), z.any()))),
+      errorMessage: z.optional(z.nullable(z.string())),
+      role: MessageRoleOutput$outboundSchema,
+      content: z.optional(z.nullable(z.string())),
+      contentParts: z.optional(
+        z.nullable(z.array(z.record(z.string(), z.any()))),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        errorMessage: "error_message",
+        contentParts: "content_parts",
+      });
+    }),
+  )
 );
 
 export function messageEventToJSON(messageEvent: MessageEvent): string {

@@ -5,11 +5,13 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../../lib/schemas.js";
 import * as models from "../index.js";
 
 export type DeleteUserPromptTemplateCollaboratorTemplatesTemplateIdUsersUserIdDeleteSecurity =
   {
     apiKeyHeader?: string | undefined;
+    classicAPIKeyHeader?: string | undefined;
     oAuth2PasswordBearer?: models.OAuth2PasswordBearerInput | undefined;
     httpBasic?: models.SchemeHTTPBasic | undefined;
   };
@@ -24,6 +26,7 @@ export type DeleteUserPromptTemplateCollaboratorTemplatesTemplateIdUsersUserIdDe
 export type DeleteUserPromptTemplateCollaboratorTemplatesTemplateIdUsersUserIdDeleteSecurity$Outbound =
   {
     APIKeyHeader?: string | undefined;
+    ClassicAPIKeyHeader?: string | undefined;
     OAuth2PasswordBearer?:
       | models.OAuth2PasswordBearerInput$Outbound
       | undefined;
@@ -35,21 +38,25 @@ export const DeleteUserPromptTemplateCollaboratorTemplatesTemplateIdUsersUserIdD
   z.ZodMiniType<
     DeleteUserPromptTemplateCollaboratorTemplatesTemplateIdUsersUserIdDeleteSecurity$Outbound,
     DeleteUserPromptTemplateCollaboratorTemplatesTemplateIdUsersUserIdDeleteSecurity
-  > = z.pipe(
-    z.object({
-      apiKeyHeader: z.optional(z.string()),
-      oAuth2PasswordBearer: z.optional(
-        models.OAuth2PasswordBearerInput$outboundSchema,
-      ),
-      httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        apiKeyHeader: "APIKeyHeader",
-        oAuth2PasswordBearer: "OAuth2PasswordBearer",
-        httpBasic: "HTTPBasic",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        apiKeyHeader: z.optional(z.string()),
+        classicAPIKeyHeader: z.optional(z.string()),
+        oAuth2PasswordBearer: z.optional(
+          models.OAuth2PasswordBearerInput$outboundSchema,
+        ),
+        httpBasic: z.optional(models.SchemeHTTPBasic$outboundSchema),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          apiKeyHeader: "APIKeyHeader",
+          classicAPIKeyHeader: "ClassicAPIKeyHeader",
+          oAuth2PasswordBearer: "OAuth2PasswordBearer",
+          httpBasic: "HTTPBasic",
+        });
+      }),
+    )
   );
 
 export function deleteUserPromptTemplateCollaboratorTemplatesTemplateIdUsersUserIdDeleteSecurityToJSON(
@@ -76,17 +83,19 @@ export const DeleteUserPromptTemplateCollaboratorTemplatesTemplateIdUsersUserIdD
   z.ZodMiniType<
     DeleteUserPromptTemplateCollaboratorTemplatesTemplateIdUsersUserIdDeleteRequest$Outbound,
     DeleteUserPromptTemplateCollaboratorTemplatesTemplateIdUsersUserIdDeleteRequest
-  > = z.pipe(
-    z.object({
-      templateId: z.string(),
-      userId: z.string(),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        templateId: "template_id",
-        userId: "user_id",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        templateId: z.string(),
+        userId: z.string(),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          templateId: "template_id",
+          userId: "user_id",
+        });
+      }),
+    )
   );
 
 export function deleteUserPromptTemplateCollaboratorTemplatesTemplateIdUsersUserIdDeleteRequestToJSON(

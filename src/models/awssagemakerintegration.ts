@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import {
@@ -37,25 +37,27 @@ export type AwsSageMakerIntegration = {
 export const AwsSageMakerIntegration$inboundSchema: z.ZodMiniType<
   AwsSageMakerIntegration,
   unknown
-> = z.pipe(
-  z.object({
-    credential_type: types.optional(AwsCredentialType$inboundSchema),
-    region: z._default(types.string(), "us-west-2"),
-    multi_modal_config: z.optional(
-      z.nullable(MultiModalModelIntegrationConfig$inboundSchema),
-    ),
-    models: types.optional(z.array(Model$inboundSchema)),
-    id: z.optional(z.nullable(types.string())),
-    name: z._default(types.literal("aws_sagemaker"), "aws_sagemaker"),
-    provider: types.literal("aws_sagemaker"),
-    extra: z.optional(z.nullable(z.record(z.string(), z.any()))),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "credential_type": "credentialType",
-      "multi_modal_config": "multiModalConfig",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      credential_type: types.optional(AwsCredentialType$inboundSchema),
+      region: z._default(types.string(), "us-west-2"),
+      multi_modal_config: z.optional(
+        z.nullable(MultiModalModelIntegrationConfig$inboundSchema),
+      ),
+      models: types.optional(z.array(Model$inboundSchema)),
+      id: z.optional(z.nullable(types.string())),
+      name: z._default(types.literal("aws_sagemaker"), "aws_sagemaker"),
+      provider: types.literal("aws_sagemaker"),
+      extra: z.optional(z.nullable(z.record(z.string(), z.any()))),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "credential_type": "credentialType",
+        "multi_modal_config": "multiModalConfig",
+      });
+    }),
+  )
 );
 
 export function awsSageMakerIntegrationFromJSON(

@@ -9,7 +9,7 @@ import { NodeNameFilter } from "galileo-generated/models";
 
 let value: NodeNameFilter = {
   name: "node_name",
-  operator: "contains",
+  operator: "regex",
   value: [
     "<value 1>",
   ],

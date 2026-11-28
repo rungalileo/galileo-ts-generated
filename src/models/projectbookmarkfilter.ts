@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 
 export type ProjectBookmarkFilter = {
   name: "bookmark";
@@ -20,10 +21,12 @@ export type ProjectBookmarkFilter$Outbound = {
 export const ProjectBookmarkFilter$outboundSchema: z.ZodMiniType<
   ProjectBookmarkFilter$Outbound,
   ProjectBookmarkFilter
-> = z.object({
-  name: z.literal("bookmark"),
-  value: z.boolean(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    name: z.literal("bookmark"),
+    value: z.boolean(),
+  })
+);
 
 export function projectBookmarkFilterToJSON(
   projectBookmarkFilter: ProjectBookmarkFilter,

@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 import { smartUnion } from "../types/smartUnion.js";
 
@@ -28,7 +29,7 @@ export type ScorerTypeFilter = {
 /** @internal */
 export const ScorerTypeFilterOperator$outboundSchema: z.ZodMiniEnum<
   typeof ScorerTypeFilterOperator
-> = z.enum(ScorerTypeFilterOperator);
+> = /* @__PURE__ */ lazySchema$(() => z.enum(ScorerTypeFilterOperator));
 
 /** @internal */
 export type ScorerTypeFilterValue$Outbound = string | Array<string>;
@@ -37,7 +38,9 @@ export type ScorerTypeFilterValue$Outbound = string | Array<string>;
 export const ScorerTypeFilterValue$outboundSchema: z.ZodMiniType<
   ScorerTypeFilterValue$Outbound,
   ScorerTypeFilterValue
-> = smartUnion([z.string(), z.array(z.string())]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([z.string(), z.array(z.string())])
+);
 
 export function scorerTypeFilterValueToJSON(
   scorerTypeFilterValue: ScorerTypeFilterValue,
@@ -58,11 +61,13 @@ export type ScorerTypeFilter$Outbound = {
 export const ScorerTypeFilter$outboundSchema: z.ZodMiniType<
   ScorerTypeFilter$Outbound,
   ScorerTypeFilter
-> = z.object({
-  name: z.literal("scorer_type"),
-  operator: ScorerTypeFilterOperator$outboundSchema,
-  value: smartUnion([z.string(), z.array(z.string())]),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    name: z.literal("scorer_type"),
+    operator: ScorerTypeFilterOperator$outboundSchema,
+    value: smartUnion([z.string(), z.array(z.string())]),
+  })
+);
 
 export function scorerTypeFilterToJSON(
   scorerTypeFilter: ScorerTypeFilter,

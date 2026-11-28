@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -46,25 +46,27 @@ export type HealthScoreResult = {
 export const HealthScoreResult$inboundSchema: z.ZodMiniType<
   HealthScoreResult,
   unknown
-> = z.pipe(
-  z.object({
-    health_score_type: types.nullable(HealthScoreType$inboundSchema),
-    value: types.nullable(types.number()),
-    skipped_rows: types.number(),
-    secondary: z.record(z.string(), types.nullable(types.number())),
-    total_scored_rows: types.number(),
-    total_mgt_rows: types.number(),
-    joined_rows: types.number(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "health_score_type": "healthScoreType",
-      "skipped_rows": "skippedRows",
-      "total_scored_rows": "totalScoredRows",
-      "total_mgt_rows": "totalMgtRows",
-      "joined_rows": "joinedRows",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      health_score_type: types.nullable(HealthScoreType$inboundSchema),
+      value: types.nullable(types.number()),
+      skipped_rows: types.number(),
+      secondary: z.record(z.string(), types.nullable(types.number())),
+      total_scored_rows: types.number(),
+      total_mgt_rows: types.number(),
+      joined_rows: types.number(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "health_score_type": "healthScoreType",
+        "skipped_rows": "skippedRows",
+        "total_scored_rows": "totalScoredRows",
+        "total_mgt_rows": "totalMgtRows",
+        "joined_rows": "joinedRows",
+      });
+    }),
+  )
 );
 
 export function healthScoreResultFromJSON(

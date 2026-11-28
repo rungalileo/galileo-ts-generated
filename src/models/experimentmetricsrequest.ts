@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   LogRecordsBooleanFilter,
   LogRecordsBooleanFilter$Outbound,
@@ -77,15 +78,17 @@ export type ExperimentMetricsRequestFilter$Outbound =
 export const ExperimentMetricsRequestFilter$outboundSchema: z.ZodMiniType<
   ExperimentMetricsRequestFilter$Outbound,
   ExperimentMetricsRequestFilter
-> = z.union([
-  LogRecordsBooleanFilter$outboundSchema,
-  LogRecordsCollectionFilter$outboundSchema,
-  LogRecordsDateFilter$outboundSchema,
-  LogRecordsFullyAnnotatedFilter$outboundSchema,
-  LogRecordsIDFilter$outboundSchema,
-  LogRecordsNumberFilter$outboundSchema,
-  LogRecordsTextFilter$outboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    LogRecordsBooleanFilter$outboundSchema,
+    LogRecordsCollectionFilter$outboundSchema,
+    LogRecordsDateFilter$outboundSchema,
+    LogRecordsFullyAnnotatedFilter$outboundSchema,
+    LogRecordsIDFilter$outboundSchema,
+    LogRecordsNumberFilter$outboundSchema,
+    LogRecordsTextFilter$outboundSchema,
+  ])
+);
 
 export function experimentMetricsRequestFilterToJSON(
   experimentMetricsRequestFilter: ExperimentMetricsRequestFilter,
@@ -116,21 +119,23 @@ export type ExperimentMetricsRequest$Outbound = {
 export const ExperimentMetricsRequest$outboundSchema: z.ZodMiniType<
   ExperimentMetricsRequest$Outbound,
   ExperimentMetricsRequest
-> = z.object({
-  filters: z.optional(
-    z.array(
-      z.union([
-        LogRecordsBooleanFilter$outboundSchema,
-        LogRecordsCollectionFilter$outboundSchema,
-        LogRecordsDateFilter$outboundSchema,
-        LogRecordsFullyAnnotatedFilter$outboundSchema,
-        LogRecordsIDFilter$outboundSchema,
-        LogRecordsNumberFilter$outboundSchema,
-        LogRecordsTextFilter$outboundSchema,
-      ]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    filters: z.optional(
+      z.array(
+        z.union([
+          LogRecordsBooleanFilter$outboundSchema,
+          LogRecordsCollectionFilter$outboundSchema,
+          LogRecordsDateFilter$outboundSchema,
+          LogRecordsFullyAnnotatedFilter$outboundSchema,
+          LogRecordsIDFilter$outboundSchema,
+          LogRecordsNumberFilter$outboundSchema,
+          LogRecordsTextFilter$outboundSchema,
+        ]),
+      ),
     ),
-  ),
-});
+  })
+);
 
 export function experimentMetricsRequestToJSON(
   experimentMetricsRequest: ExperimentMetricsRequest,

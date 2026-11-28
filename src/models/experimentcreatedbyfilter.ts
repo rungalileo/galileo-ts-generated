@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 
 export const ExperimentCreatedByFilterOperator = {
@@ -26,7 +27,9 @@ export type ExperimentCreatedByFilter = {
 /** @internal */
 export const ExperimentCreatedByFilterOperator$outboundSchema: z.ZodMiniEnum<
   typeof ExperimentCreatedByFilterOperator
-> = z.enum(ExperimentCreatedByFilterOperator);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.enum(ExperimentCreatedByFilterOperator)
+);
 
 /** @internal */
 export type ExperimentCreatedByFilter$Outbound = {
@@ -39,11 +42,16 @@ export type ExperimentCreatedByFilter$Outbound = {
 export const ExperimentCreatedByFilter$outboundSchema: z.ZodMiniType<
   ExperimentCreatedByFilter$Outbound,
   ExperimentCreatedByFilter
-> = z.object({
-  name: z.literal("created_by"),
-  operator: z._default(ExperimentCreatedByFilterOperator$outboundSchema, "eq"),
-  value: z.any(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    name: z.literal("created_by"),
+    operator: z._default(
+      ExperimentCreatedByFilterOperator$outboundSchema,
+      "eq",
+    ),
+    value: z.any(),
+  })
+);
 
 export function experimentCreatedByFilterToJSON(
   experimentCreatedByFilter: ExperimentCreatedByFilter,

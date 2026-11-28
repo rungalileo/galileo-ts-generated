@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 import { smartUnion } from "../types/smartUnion.js";
 
@@ -12,6 +13,7 @@ export const ProjectNameFilterOperator = {
   Eq: "eq",
   Ne: "ne",
   Contains: "contains",
+  Regex: "regex",
   OneOf: "one_of",
   NotIn: "not_in",
 } as const;
@@ -31,7 +33,7 @@ export type ProjectNameFilter = {
 /** @internal */
 export const ProjectNameFilterOperator$outboundSchema: z.ZodMiniEnum<
   typeof ProjectNameFilterOperator
-> = z.enum(ProjectNameFilterOperator);
+> = /* @__PURE__ */ lazySchema$(() => z.enum(ProjectNameFilterOperator));
 
 /** @internal */
 export type ProjectNameFilterValue$Outbound = string | Array<string>;
@@ -40,7 +42,9 @@ export type ProjectNameFilterValue$Outbound = string | Array<string>;
 export const ProjectNameFilterValue$outboundSchema: z.ZodMiniType<
   ProjectNameFilterValue$Outbound,
   ProjectNameFilterValue
-> = smartUnion([z.string(), z.array(z.string())]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([z.string(), z.array(z.string())])
+);
 
 export function projectNameFilterValueToJSON(
   projectNameFilterValue: ProjectNameFilterValue,
@@ -62,18 +66,20 @@ export type ProjectNameFilter$Outbound = {
 export const ProjectNameFilter$outboundSchema: z.ZodMiniType<
   ProjectNameFilter$Outbound,
   ProjectNameFilter
-> = z.pipe(
-  z.object({
-    name: z.literal("name"),
-    operator: ProjectNameFilterOperator$outboundSchema,
-    value: smartUnion([z.string(), z.array(z.string())]),
-    caseSensitive: z._default(z.boolean(), true),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      caseSensitive: "case_sensitive",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: z.literal("name"),
+      operator: ProjectNameFilterOperator$outboundSchema,
+      value: smartUnion([z.string(), z.array(z.string())]),
+      caseSensitive: z._default(z.boolean(), true),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        caseSensitive: "case_sensitive",
+      });
+    }),
+  )
 );
 
 export function projectNameFilterToJSON(

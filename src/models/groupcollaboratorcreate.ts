@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   CollaboratorRole,
   CollaboratorRole$outboundSchema,
@@ -25,16 +26,18 @@ export type GroupCollaboratorCreate$Outbound = {
 export const GroupCollaboratorCreate$outboundSchema: z.ZodMiniType<
   GroupCollaboratorCreate$Outbound,
   GroupCollaboratorCreate
-> = z.pipe(
-  z.object({
-    role: z.optional(CollaboratorRole$outboundSchema),
-    groupId: z.string(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      groupId: "group_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      role: z.optional(CollaboratorRole$outboundSchema),
+      groupId: z.string(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        groupId: "group_id",
+      });
+    }),
+  )
 );
 
 export function groupCollaboratorCreateToJSON(

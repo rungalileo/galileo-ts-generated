@@ -4,6 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../../lib/schemas.js";
 import * as types from "../../types/primitives.js";
 import * as models from "../index.js";
 import { GalileoGeneratedError } from "./galileogeneratederror.js";
@@ -37,18 +38,22 @@ export class HTTPValidationError extends GalileoGeneratedError {
 export const HTTPValidationError$inboundSchema: z.ZodMiniType<
   HTTPValidationError,
   unknown
-> = z.pipe(
-  z.object({
-    detail: types.optional(z.array(models.ValidationError$inboundSchema)),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new HTTPValidationError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      detail: types.optional(z.array(models.ValidationError$inboundSchema)),
+      request$: z.custom<Request>(x => x instanceof Request),
+      response$: z.custom<Response>(x => x instanceof Response),
+      body$: z.string(),
+    }),
+    z.transform((v) => {
+      const { request$, response$, body$, ...data } = v;
+
+      return new HTTPValidationError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
+      });
+    }),
+  )
 );

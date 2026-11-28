@@ -4,7 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import {
@@ -41,10 +41,12 @@ export type MetricColorPickerMultiLabel = {
 export const MetricColorPickerMultiLabel$inboundSchema: z.ZodMiniType<
   MetricColorPickerMultiLabel,
   unknown
-> = z.object({
-  type: types.literal("multi_label"),
-  constraints: z.array(CategoricalColorConstraint$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    type: types.literal("multi_label"),
+    constraints: z.array(CategoricalColorConstraint$inboundSchema),
+  })
+);
 /** @internal */
 export type MetricColorPickerMultiLabel$Outbound = {
   type: "multi_label";
@@ -55,10 +57,12 @@ export type MetricColorPickerMultiLabel$Outbound = {
 export const MetricColorPickerMultiLabel$outboundSchema: z.ZodMiniType<
   MetricColorPickerMultiLabel$Outbound,
   MetricColorPickerMultiLabel
-> = z.object({
-  type: z.literal("multi_label"),
-  constraints: z.array(CategoricalColorConstraint$outboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    type: z.literal("multi_label"),
+    constraints: z.array(CategoricalColorConstraint$outboundSchema),
+  })
+);
 
 export function metricColorPickerMultiLabelToJSON(
   metricColorPickerMultiLabel: MetricColorPickerMultiLabel,

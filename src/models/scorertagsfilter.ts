@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 import { smartUnion } from "../types/smartUnion.js";
 
@@ -30,7 +31,7 @@ export type ScorerTagsFilter = {
 /** @internal */
 export const ScorerTagsFilterOperator$outboundSchema: z.ZodMiniEnum<
   typeof ScorerTagsFilterOperator
-> = z.enum(ScorerTagsFilterOperator);
+> = /* @__PURE__ */ lazySchema$(() => z.enum(ScorerTagsFilterOperator));
 
 /** @internal */
 export type ScorerTagsFilterValue$Outbound = string | Array<string>;
@@ -39,7 +40,9 @@ export type ScorerTagsFilterValue$Outbound = string | Array<string>;
 export const ScorerTagsFilterValue$outboundSchema: z.ZodMiniType<
   ScorerTagsFilterValue$Outbound,
   ScorerTagsFilterValue
-> = smartUnion([z.string(), z.array(z.string())]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([z.string(), z.array(z.string())])
+);
 
 export function scorerTagsFilterValueToJSON(
   scorerTagsFilterValue: ScorerTagsFilterValue,
@@ -61,18 +64,20 @@ export type ScorerTagsFilter$Outbound = {
 export const ScorerTagsFilter$outboundSchema: z.ZodMiniType<
   ScorerTagsFilter$Outbound,
   ScorerTagsFilter
-> = z.pipe(
-  z.object({
-    name: z.literal("tags"),
-    operator: ScorerTagsFilterOperator$outboundSchema,
-    value: smartUnion([z.string(), z.array(z.string())]),
-    caseSensitive: z._default(z.boolean(), true),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      caseSensitive: "case_sensitive",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: z.literal("tags"),
+      operator: ScorerTagsFilterOperator$outboundSchema,
+      value: smartUnion([z.string(), z.array(z.string())]),
+      caseSensitive: z._default(z.boolean(), true),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        caseSensitive: "case_sensitive",
+      });
+    }),
+  )
 );
 
 export function scorerTagsFilterToJSON(

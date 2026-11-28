@@ -4,7 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { ColumnInfo, ColumnInfo$inboundSchema } from "./columninfo.js";
@@ -18,9 +18,11 @@ export type ExperimentsAvailableColumnsResponse = {
 export const ExperimentsAvailableColumnsResponse$inboundSchema: z.ZodMiniType<
   ExperimentsAvailableColumnsResponse,
   unknown
-> = z.object({
-  columns: types.optional(z.array(ColumnInfo$inboundSchema)),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    columns: types.optional(z.array(ColumnInfo$inboundSchema)),
+  })
+);
 
 export function experimentsAvailableColumnsResponseFromJSON(
   jsonString: string,

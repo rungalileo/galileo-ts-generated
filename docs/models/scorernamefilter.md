@@ -7,7 +7,7 @@ import { ScorerNameFilter } from "galileo-generated/models";
 
 let value: ScorerNameFilter = {
   name: "name",
-  operator: "contains",
+  operator: "regex",
   value: "<value>",
 };
 ```

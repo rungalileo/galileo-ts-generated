@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import * as discriminatedUnionTypes from "../types/discriminatedUnion.js";
 import { discriminatedUnion } from "../types/discriminatedUnion.js";
 import * as openEnums from "../types/enums.js";
@@ -75,11 +75,13 @@ export type AgenticWorkflowSuccessScorer = {
 export const AgenticWorkflowSuccessScorerFilter$inboundSchema: z.ZodMiniType<
   AgenticWorkflowSuccessScorerFilter,
   unknown
-> = discriminatedUnion("name", {
-  metadata: MetadataFilter$inboundSchema,
-  modality: ModalityFilter$inboundSchema,
-  node_name: NodeNameFilter$inboundSchema,
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  discriminatedUnion("name", {
+    metadata: MetadataFilter$inboundSchema,
+    modality: ModalityFilter$inboundSchema,
+    node_name: NodeNameFilter$inboundSchema,
+  })
+);
 /** @internal */
 export type AgenticWorkflowSuccessScorerFilter$Outbound =
   | MetadataFilter$Outbound
@@ -90,11 +92,13 @@ export type AgenticWorkflowSuccessScorerFilter$Outbound =
 export const AgenticWorkflowSuccessScorerFilter$outboundSchema: z.ZodMiniType<
   AgenticWorkflowSuccessScorerFilter$Outbound,
   AgenticWorkflowSuccessScorerFilter
-> = z.union([
-  MetadataFilter$outboundSchema,
-  ModalityFilter$outboundSchema,
-  NodeNameFilter$outboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    MetadataFilter$outboundSchema,
+    ModalityFilter$outboundSchema,
+    NodeNameFilter$outboundSchema,
+  ])
+);
 
 export function agenticWorkflowSuccessScorerFilterToJSON(
   agenticWorkflowSuccessScorerFilter: AgenticWorkflowSuccessScorerFilter,
@@ -120,41 +124,47 @@ export function agenticWorkflowSuccessScorerFilterFromJSON(
 export const AgenticWorkflowSuccessScorerType$inboundSchema: z.ZodMiniType<
   AgenticWorkflowSuccessScorerType,
   unknown
-> = openEnums.inboundSchema(AgenticWorkflowSuccessScorerType);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(AgenticWorkflowSuccessScorerType)
+);
 /** @internal */
 export const AgenticWorkflowSuccessScorerType$outboundSchema: z.ZodMiniType<
   string,
   AgenticWorkflowSuccessScorerType
-> = openEnums.outboundSchema(AgenticWorkflowSuccessScorerType);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.outboundSchema(AgenticWorkflowSuccessScorerType)
+);
 
 /** @internal */
 export const AgenticWorkflowSuccessScorer$inboundSchema: z.ZodMiniType<
   AgenticWorkflowSuccessScorer,
   unknown
-> = z.pipe(
-  z.object({
-    name: types.literal("agentic_workflow_success"),
-    filters: z.optional(
-      z.nullable(
-        z.array(
-          discriminatedUnion("name", {
-            metadata: MetadataFilter$inboundSchema,
-            modality: ModalityFilter$inboundSchema,
-            node_name: NodeNameFilter$inboundSchema,
-          }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: types.literal("agentic_workflow_success"),
+      filters: z.optional(
+        z.nullable(
+          z.array(
+            discriminatedUnion("name", {
+              metadata: MetadataFilter$inboundSchema,
+              modality: ModalityFilter$inboundSchema,
+              node_name: NodeNameFilter$inboundSchema,
+            }),
+          ),
         ),
       ),
-    ),
-    type: z._default(AgenticWorkflowSuccessScorerType$inboundSchema, "plus"),
-    model_name: z.optional(z.nullable(types.string())),
-    num_judges: z.optional(z.nullable(types.number())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "model_name": "modelName",
-      "num_judges": "numJudges",
-    });
-  }),
+      type: z._default(AgenticWorkflowSuccessScorerType$inboundSchema, "plus"),
+      model_name: z.optional(z.nullable(types.string())),
+      num_judges: z.optional(z.nullable(types.number())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "model_name": "modelName",
+        "num_judges": "numJudges",
+      });
+    }),
+  )
 );
 /** @internal */
 export type AgenticWorkflowSuccessScorer$Outbound = {
@@ -176,30 +186,32 @@ export type AgenticWorkflowSuccessScorer$Outbound = {
 export const AgenticWorkflowSuccessScorer$outboundSchema: z.ZodMiniType<
   AgenticWorkflowSuccessScorer$Outbound,
   AgenticWorkflowSuccessScorer
-> = z.pipe(
-  z.object({
-    name: z.literal("agentic_workflow_success"),
-    filters: z.optional(
-      z.nullable(
-        z.array(
-          z.union([
-            MetadataFilter$outboundSchema,
-            ModalityFilter$outboundSchema,
-            NodeNameFilter$outboundSchema,
-          ]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: z.literal("agentic_workflow_success"),
+      filters: z.optional(
+        z.nullable(
+          z.array(
+            z.union([
+              MetadataFilter$outboundSchema,
+              ModalityFilter$outboundSchema,
+              NodeNameFilter$outboundSchema,
+            ]),
+          ),
         ),
       ),
-    ),
-    type: z._default(AgenticWorkflowSuccessScorerType$outboundSchema, "plus"),
-    modelName: z.optional(z.nullable(z.string())),
-    numJudges: z.optional(z.nullable(z.int())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      modelName: "model_name",
-      numJudges: "num_judges",
-    });
-  }),
+      type: z._default(AgenticWorkflowSuccessScorerType$outboundSchema, "plus"),
+      modelName: z.optional(z.nullable(z.string())),
+      numJudges: z.optional(z.nullable(z.int())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        modelName: "model_name",
+        numJudges: "num_judges",
+      });
+    }),
+  )
 );
 
 export function agenticWorkflowSuccessScorerToJSON(

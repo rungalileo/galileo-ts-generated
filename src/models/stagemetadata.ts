@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -23,23 +23,25 @@ export type StageMetadata = {
 export const StageMetadata$inboundSchema: z.ZodMiniType<
   StageMetadata,
   unknown
-> = z.pipe(
-  z.object({
-    project_id: types.string(),
-    stage_id: types.string(),
-    stage_name: types.string(),
-    stage_version: types.number(),
-    stage_type: StageType$inboundSchema,
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "project_id": "projectId",
-      "stage_id": "stageId",
-      "stage_name": "stageName",
-      "stage_version": "stageVersion",
-      "stage_type": "stageType",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      project_id: types.string(),
+      stage_id: types.string(),
+      stage_name: types.string(),
+      stage_version: types.number(),
+      stage_type: StageType$inboundSchema,
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "project_id": "projectId",
+        "stage_id": "stageId",
+        "stage_name": "stageName",
+        "stage_version": "stageVersion",
+        "stage_type": "stageType",
+      });
+    }),
+  )
 );
 
 export function stageMetadataFromJSON(

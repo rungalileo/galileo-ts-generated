@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { smartUnion } from "../types/smartUnion.js";
 
 export type DatasetPrependRowValues1 = string | number | number;
@@ -30,7 +31,9 @@ export type DatasetPrependRowValues1$Outbound = string | number | number;
 export const DatasetPrependRowValues1$outboundSchema: z.ZodMiniType<
   DatasetPrependRowValues1$Outbound,
   DatasetPrependRowValues1
-> = smartUnion([z.string(), z.int(), z.number()]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([z.string(), z.int(), z.number()])
+);
 
 export function datasetPrependRowValues1ToJSON(
   datasetPrependRowValues1: DatasetPrependRowValues1,
@@ -49,15 +52,17 @@ export type DatasetPrependRowValues2$Outbound = string | number | number | {
 export const DatasetPrependRowValues2$outboundSchema: z.ZodMiniType<
   DatasetPrependRowValues2$Outbound,
   DatasetPrependRowValues2
-> = smartUnion([
-  z.string(),
-  z.int(),
-  z.number(),
-  z.record(
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
     z.string(),
-    z.nullable(smartUnion([z.string(), z.int(), z.number()])),
-  ),
-]);
+    z.int(),
+    z.number(),
+    z.record(
+      z.string(),
+      z.nullable(smartUnion([z.string(), z.int(), z.number()])),
+    ),
+  ])
+);
 
 export function datasetPrependRowValues2ToJSON(
   datasetPrependRowValues2: DatasetPrependRowValues2,
@@ -82,31 +87,33 @@ export type DatasetPrependRow$Outbound = {
 export const DatasetPrependRow$outboundSchema: z.ZodMiniType<
   DatasetPrependRow$Outbound,
   DatasetPrependRow
-> = z.pipe(
-  z.object({
-    editType: z.literal("prepend_row"),
-    values: z.record(
-      z.string(),
-      z.nullable(
-        smartUnion([
-          z.string(),
-          z.int(),
-          z.number(),
-          z.record(
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      editType: z.literal("prepend_row"),
+      values: z.record(
+        z.string(),
+        z.nullable(
+          smartUnion([
             z.string(),
-            z.nullable(smartUnion([z.string(), z.int(), z.number()])),
-          ),
-        ]),
+            z.int(),
+            z.number(),
+            z.record(
+              z.string(),
+              z.nullable(smartUnion([z.string(), z.int(), z.number()])),
+            ),
+          ]),
+        ),
       ),
-    ),
-    rowId: z.optional(z.nullable(z.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      editType: "edit_type",
-      rowId: "row_id",
-    });
-  }),
+      rowId: z.optional(z.nullable(z.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        editType: "edit_type",
+        rowId: "row_id",
+      });
+    }),
+  )
 );
 
 export function datasetPrependRowToJSON(

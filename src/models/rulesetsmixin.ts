@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   Ruleset,
   Ruleset$Outbound,
@@ -27,15 +28,17 @@ export type RulesetsMixin$Outbound = {
 export const RulesetsMixin$outboundSchema: z.ZodMiniType<
   RulesetsMixin$Outbound,
   RulesetsMixin
-> = z.pipe(
-  z.object({
-    prioritizedRulesets: z.optional(z.array(Ruleset$outboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      prioritizedRulesets: "prioritized_rulesets",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      prioritizedRulesets: z.optional(z.array(Ruleset$outboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        prioritizedRulesets: "prioritized_rulesets",
+      });
+    }),
+  )
 );
 
 export function rulesetsMixinToJSON(rulesetsMixin: RulesetsMixin): string {

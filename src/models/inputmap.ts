@@ -4,7 +4,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -16,12 +16,14 @@ export type InputMap = {
 };
 
 /** @internal */
-export const InputMap$inboundSchema: z.ZodMiniType<InputMap, unknown> = z
-  .object({
-    prompt: types.string(),
-    prefix: z._default(types.string(), ""),
-    suffix: z._default(types.string(), ""),
-  });
+export const InputMap$inboundSchema: z.ZodMiniType<InputMap, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      prompt: types.string(),
+      prefix: z._default(types.string(), ""),
+      suffix: z._default(types.string(), ""),
+    })
+  );
 /** @internal */
 export type InputMap$Outbound = {
   prompt: string;
@@ -33,11 +35,13 @@ export type InputMap$Outbound = {
 export const InputMap$outboundSchema: z.ZodMiniType<
   InputMap$Outbound,
   InputMap
-> = z.object({
-  prompt: z.string(),
-  prefix: z._default(z.string(), ""),
-  suffix: z._default(z.string(), ""),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    prompt: z.string(),
+    prefix: z._default(z.string(), ""),
+    suffix: z._default(z.string(), ""),
+  })
+);
 
 export function inputMapToJSON(inputMap: InputMap): string {
   return JSON.stringify(InputMap$outboundSchema.parse(inputMap));

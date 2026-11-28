@@ -11,10 +11,20 @@ let value: UpdateScorersScorerIdPatchRequest = {
     defaults: {
       filters: [
         {
-          name: "metadata",
-          operator: "ne",
-          key: "<key>",
+          name: "node_name",
+          operator: "regex",
           value: "<value>",
+          caseSensitive: true,
+        },
+      ],
+      childSpanFilters: [
+        {
+          name: "node_name",
+          operator: "contains",
+          value: [
+            "<value 1>",
+          ],
+          caseSensitive: true,
         },
       ],
     },

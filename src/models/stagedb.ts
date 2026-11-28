@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -35,24 +35,27 @@ export type StageDB = {
 };
 
 /** @internal */
-export const StageDB$inboundSchema: z.ZodMiniType<StageDB, unknown> = z.pipe(
-  z.object({
-    name: types.string(),
-    project_id: types.string(),
-    description: z.optional(z.nullable(types.string())),
-    type: types.optional(StageType$inboundSchema),
-    paused: z._default(types.boolean(), false),
-    created_by: types.string(),
-    id: types.string(),
-    version: z.optional(z.nullable(types.number())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "project_id": "projectId",
-      "created_by": "createdBy",
-    });
-  }),
-);
+export const StageDB$inboundSchema: z.ZodMiniType<StageDB, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        name: types.string(),
+        project_id: types.string(),
+        description: z.optional(z.nullable(types.string())),
+        type: types.optional(StageType$inboundSchema),
+        paused: z._default(types.boolean(), false),
+        created_by: types.string(),
+        id: types.string(),
+        version: z.optional(z.nullable(types.number())),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "project_id": "projectId",
+          "created_by": "createdBy",
+        });
+      }),
+    )
+  );
 
 export function stageDBFromJSON(
   jsonString: string,

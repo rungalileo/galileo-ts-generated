@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -18,15 +18,17 @@ export type GenerationResponse = {
 export const GenerationResponse$inboundSchema: z.ZodMiniType<
   GenerationResponse,
   unknown
-> = z.pipe(
-  z.object({
-    task_result_id: types.string(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "task_result_id": "taskResultId",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      task_result_id: types.string(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "task_result_id": "taskResultId",
+      });
+    }),
+  )
 );
 
 export function generationResponseFromJSON(

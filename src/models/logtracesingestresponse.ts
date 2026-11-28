@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -44,6 +44,10 @@ export type LogTracesIngestResponse = {
    */
   tracesCount: number;
   /**
+   * total number of spans ingested
+   */
+  spansCount: number;
+  /**
    * List of trace IDs that were ingested. Only included if include_trace_ids=True in request.
    */
   traceIds?: Array<string> | null | undefined;
@@ -53,31 +57,35 @@ export type LogTracesIngestResponse = {
 export const LogTracesIngestResponse$inboundSchema: z.ZodMiniType<
   LogTracesIngestResponse,
   unknown
-> = z.pipe(
-  z.object({
-    log_stream_id: z.optional(z.nullable(types.string())),
-    experiment_id: z.optional(z.nullable(types.string())),
-    metrics_testing_id: z.optional(z.nullable(types.string())),
-    project_id: types.string(),
-    project_name: types.string(),
-    session_id: z.optional(z.nullable(types.string())),
-    records_count: types.number(),
-    traces_count: types.number(),
-    trace_ids: z.optional(z.nullable(z.array(types.string()))),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "log_stream_id": "logStreamId",
-      "experiment_id": "experimentId",
-      "metrics_testing_id": "metricsTestingId",
-      "project_id": "projectId",
-      "project_name": "projectName",
-      "session_id": "sessionId",
-      "records_count": "recordsCount",
-      "traces_count": "tracesCount",
-      "trace_ids": "traceIds",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      log_stream_id: z.optional(z.nullable(types.string())),
+      experiment_id: z.optional(z.nullable(types.string())),
+      metrics_testing_id: z.optional(z.nullable(types.string())),
+      project_id: types.string(),
+      project_name: types.string(),
+      session_id: z.optional(z.nullable(types.string())),
+      records_count: types.number(),
+      traces_count: types.number(),
+      spans_count: types.number(),
+      trace_ids: z.optional(z.nullable(z.array(types.string()))),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "log_stream_id": "logStreamId",
+        "experiment_id": "experimentId",
+        "metrics_testing_id": "metricsTestingId",
+        "project_id": "projectId",
+        "project_name": "projectName",
+        "session_id": "sessionId",
+        "records_count": "recordsCount",
+        "traces_count": "tracesCount",
+        "spans_count": "spansCount",
+        "trace_ids": "traceIds",
+      });
+    }),
+  )
 );
 
 export function logTracesIngestResponseFromJSON(

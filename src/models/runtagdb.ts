@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -23,29 +23,32 @@ export type RunTagDB = {
 };
 
 /** @internal */
-export const RunTagDB$inboundSchema: z.ZodMiniType<RunTagDB, unknown> = z.pipe(
-  z.object({
-    key: types.string(),
-    value: types.string(),
-    tag_type: types.string(),
-    project_id: types.string(),
-    run_id: types.string(),
-    created_by: types.string(),
-    id: types.string(),
-    created_at: types.date(),
-    updated_at: types.date(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "tag_type": "tagType",
-      "project_id": "projectId",
-      "run_id": "runId",
-      "created_by": "createdBy",
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-    });
-  }),
-);
+export const RunTagDB$inboundSchema: z.ZodMiniType<RunTagDB, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        key: types.string(),
+        value: types.string(),
+        tag_type: types.string(),
+        project_id: types.string(),
+        run_id: types.string(),
+        created_by: types.string(),
+        id: types.string(),
+        created_at: types.date(),
+        updated_at: types.date(),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "tag_type": "tagType",
+          "project_id": "projectId",
+          "run_id": "runId",
+          "created_by": "createdBy",
+          "created_at": "createdAt",
+          "updated_at": "updatedAt",
+        });
+      }),
+    )
+  );
 
 export function runTagDBFromJSON(
   jsonString: string,

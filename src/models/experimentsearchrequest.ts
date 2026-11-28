@@ -5,6 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import {
   ExperimentCreatedAtFilter,
   ExperimentCreatedAtFilter$Outbound,
@@ -107,15 +108,17 @@ export type ExperimentSearchRequestFilter$Outbound =
 export const ExperimentSearchRequestFilter$outboundSchema: z.ZodMiniType<
   ExperimentSearchRequestFilter$Outbound,
   ExperimentSearchRequestFilter
-> = z.union([
-  ExperimentCreatedAtFilter$outboundSchema,
-  ExperimentCreatedByFilter$outboundSchema,
-  ExperimentGroupIDFilter$outboundSchema,
-  ExperimentGroupNameFilter$outboundSchema,
-  ExperimentIDFilter$outboundSchema,
-  ExperimentNameFilter$outboundSchema,
-  ExperimentUpdatedAtFilter$outboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    ExperimentCreatedAtFilter$outboundSchema,
+    ExperimentCreatedByFilter$outboundSchema,
+    ExperimentGroupIDFilter$outboundSchema,
+    ExperimentGroupNameFilter$outboundSchema,
+    ExperimentIDFilter$outboundSchema,
+    ExperimentNameFilter$outboundSchema,
+    ExperimentUpdatedAtFilter$outboundSchema,
+  ])
+);
 
 export function experimentSearchRequestFilterToJSON(
   experimentSearchRequestFilter: ExperimentSearchRequestFilter,
@@ -137,11 +140,13 @@ export type ExperimentSearchRequestSort$Outbound =
 export const ExperimentSearchRequestSort$outboundSchema: z.ZodMiniType<
   ExperimentSearchRequestSort$Outbound,
   ExperimentSearchRequestSort
-> = z.union([
-  ExperimentCreatedAtSort$outboundSchema,
-  ExperimentNameSort$outboundSchema,
-  ExperimentUpdatedAtSort$outboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    ExperimentCreatedAtSort$outboundSchema,
+    ExperimentNameSort$outboundSchema,
+    ExperimentUpdatedAtSort$outboundSchema,
+  ])
+);
 
 export function experimentSearchRequestSortToJSON(
   experimentSearchRequestSort: ExperimentSearchRequestSort,
@@ -181,40 +186,42 @@ export type ExperimentSearchRequest$Outbound = {
 export const ExperimentSearchRequest$outboundSchema: z.ZodMiniType<
   ExperimentSearchRequest$Outbound,
   ExperimentSearchRequest
-> = z.pipe(
-  z.object({
-    startingToken: z._default(z.int(), 0),
-    limit: z._default(z.int(), 100),
-    filters: z.optional(
-      z.array(
-        z.union([
-          ExperimentCreatedAtFilter$outboundSchema,
-          ExperimentCreatedByFilter$outboundSchema,
-          ExperimentGroupIDFilter$outboundSchema,
-          ExperimentGroupNameFilter$outboundSchema,
-          ExperimentIDFilter$outboundSchema,
-          ExperimentNameFilter$outboundSchema,
-          ExperimentUpdatedAtFilter$outboundSchema,
-        ]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      startingToken: z._default(z.int(), 0),
+      limit: z._default(z.int(), 100),
+      filters: z.optional(
+        z.array(
+          z.union([
+            ExperimentCreatedAtFilter$outboundSchema,
+            ExperimentCreatedByFilter$outboundSchema,
+            ExperimentGroupIDFilter$outboundSchema,
+            ExperimentGroupNameFilter$outboundSchema,
+            ExperimentIDFilter$outboundSchema,
+            ExperimentNameFilter$outboundSchema,
+            ExperimentUpdatedAtFilter$outboundSchema,
+          ]),
+        ),
       ),
-    ),
-    sort: z.optional(
-      z.nullable(
-        z.union([
-          ExperimentCreatedAtSort$outboundSchema,
-          ExperimentNameSort$outboundSchema,
-          ExperimentUpdatedAtSort$outboundSchema,
-        ]),
+      sort: z.optional(
+        z.nullable(
+          z.union([
+            ExperimentCreatedAtSort$outboundSchema,
+            ExperimentNameSort$outboundSchema,
+            ExperimentUpdatedAtSort$outboundSchema,
+          ]),
+        ),
       ),
-    ),
-    includeCounts: z._default(z.boolean(), false),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      startingToken: "starting_token",
-      includeCounts: "include_counts",
-    });
-  }),
+      includeCounts: z._default(z.boolean(), false),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        startingToken: "starting_token",
+        includeCounts: "include_counts",
+      });
+    }),
+  )
 );
 
 export function experimentSearchRequestToJSON(

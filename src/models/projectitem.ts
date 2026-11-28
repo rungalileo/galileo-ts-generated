@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -45,32 +45,36 @@ export type ProjectItem = {
 };
 
 /** @internal */
-export const ProjectItem$inboundSchema: z.ZodMiniType<ProjectItem, unknown> = z
-  .pipe(
-    z.object({
-      id: types.string(),
-      permissions: types.optional(z.array(Permission$inboundSchema)),
-      name: types.string(),
-      created_at: types.date(),
-      updated_at: types.date(),
-      bookmark: z._default(types.boolean(), false),
-      num_logstreams: z.optional(z.nullable(types.number())),
-      num_experiments: z.optional(z.nullable(types.number())),
-      created_by_user: z.optional(z.nullable(UserInfo$inboundSchema)),
-      description: z.optional(z.nullable(types.string())),
-      labels: types.optional(z.array(ProjectLabels$inboundSchema)),
-      log_streams: z.optional(z.nullable(z.array(LogStreamInfo$inboundSchema))),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "created_at": "createdAt",
-        "updated_at": "updatedAt",
-        "num_logstreams": "numLogstreams",
-        "num_experiments": "numExperiments",
-        "created_by_user": "createdByUser",
-        "log_streams": "logStreams",
-      });
-    }),
+export const ProjectItem$inboundSchema: z.ZodMiniType<ProjectItem, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        id: types.string(),
+        permissions: types.optional(z.array(Permission$inboundSchema)),
+        name: types.string(),
+        created_at: types.date(),
+        updated_at: types.date(),
+        bookmark: z._default(types.boolean(), false),
+        num_logstreams: z.optional(z.nullable(types.number())),
+        num_experiments: z.optional(z.nullable(types.number())),
+        created_by_user: z.optional(z.nullable(UserInfo$inboundSchema)),
+        description: z.optional(z.nullable(types.string())),
+        labels: types.optional(z.array(ProjectLabels$inboundSchema)),
+        log_streams: z.optional(
+          z.nullable(z.array(LogStreamInfo$inboundSchema)),
+        ),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "created_at": "createdAt",
+          "updated_at": "updatedAt",
+          "num_logstreams": "numLogstreams",
+          "num_experiments": "numExperiments",
+          "created_by_user": "createdByUser",
+          "log_streams": "logStreams",
+        });
+      }),
+    )
   );
 
 export function projectItemFromJSON(

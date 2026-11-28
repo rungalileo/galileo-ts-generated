@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -59,22 +59,24 @@ export type InternalToolCall = {
 export const InternalToolCall$inboundSchema: z.ZodMiniType<
   InternalToolCall,
   unknown
-> = z.pipe(
-  z.object({
-    type: types.literal("internal_tool_call"),
-    id: z.optional(z.nullable(types.string())),
-    status: z.optional(z.nullable(EventStatus$inboundSchema)),
-    metadata: z.optional(z.nullable(z.record(z.string(), z.any()))),
-    error_message: z.optional(z.nullable(types.string())),
-    name: types.string(),
-    input: z.optional(z.nullable(z.record(z.string(), z.any()))),
-    output: z.optional(z.nullable(z.record(z.string(), z.any()))),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "error_message": "errorMessage",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      type: types.literal("internal_tool_call"),
+      id: z.optional(z.nullable(types.string())),
+      status: z.optional(z.nullable(EventStatus$inboundSchema)),
+      metadata: z.optional(z.nullable(z.record(z.string(), z.any()))),
+      error_message: z.optional(z.nullable(types.string())),
+      name: types.string(),
+      input: z.optional(z.nullable(z.record(z.string(), z.any()))),
+      output: z.optional(z.nullable(z.record(z.string(), z.any()))),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "error_message": "errorMessage",
+      });
+    }),
+  )
 );
 /** @internal */
 export type InternalToolCall$Outbound = {
@@ -92,22 +94,24 @@ export type InternalToolCall$Outbound = {
 export const InternalToolCall$outboundSchema: z.ZodMiniType<
   InternalToolCall$Outbound,
   InternalToolCall
-> = z.pipe(
-  z.object({
-    type: z.literal("internal_tool_call"),
-    id: z.optional(z.nullable(z.string())),
-    status: z.optional(z.nullable(EventStatus$outboundSchema)),
-    metadata: z.optional(z.nullable(z.record(z.string(), z.any()))),
-    errorMessage: z.optional(z.nullable(z.string())),
-    name: z.string(),
-    input: z.optional(z.nullable(z.record(z.string(), z.any()))),
-    output: z.optional(z.nullable(z.record(z.string(), z.any()))),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      errorMessage: "error_message",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      type: z.literal("internal_tool_call"),
+      id: z.optional(z.nullable(z.string())),
+      status: z.optional(z.nullable(EventStatus$outboundSchema)),
+      metadata: z.optional(z.nullable(z.record(z.string(), z.any()))),
+      errorMessage: z.optional(z.nullable(z.string())),
+      name: z.string(),
+      input: z.optional(z.nullable(z.record(z.string(), z.any()))),
+      output: z.optional(z.nullable(z.record(z.string(), z.any()))),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        errorMessage: "error_message",
+      });
+    }),
+  )
 );
 
 export function internalToolCallToJSON(

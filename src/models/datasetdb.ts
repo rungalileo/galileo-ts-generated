@@ -5,7 +5,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import * as types from "../types/primitives.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -24,35 +24,40 @@ export type DatasetDB = {
   createdByUser: UserInfo | null;
   currentVersionIndex: number;
   draft: boolean;
+  draftRevision?: string | null | undefined;
 };
 
 /** @internal */
-export const DatasetDB$inboundSchema: z.ZodMiniType<DatasetDB, unknown> = z
-  .pipe(
-    z.object({
-      id: types.string(),
-      permissions: types.optional(z.array(Permission$inboundSchema)),
-      name: types.string(),
-      created_at: types.date(),
-      updated_at: types.date(),
-      project_count: types.number(),
-      num_rows: types.nullable(types.number()),
-      column_names: types.nullable(z.array(types.string())),
-      created_by_user: types.nullable(UserInfo$inboundSchema),
-      current_version_index: types.number(),
-      draft: types.boolean(),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "created_at": "createdAt",
-        "updated_at": "updatedAt",
-        "project_count": "projectCount",
-        "num_rows": "numRows",
-        "column_names": "columnNames",
-        "created_by_user": "createdByUser",
-        "current_version_index": "currentVersionIndex",
-      });
-    }),
+export const DatasetDB$inboundSchema: z.ZodMiniType<DatasetDB, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        id: types.string(),
+        permissions: types.optional(z.array(Permission$inboundSchema)),
+        name: types.string(),
+        created_at: types.date(),
+        updated_at: types.date(),
+        project_count: types.number(),
+        num_rows: types.nullable(types.number()),
+        column_names: types.nullable(z.array(types.string())),
+        created_by_user: types.nullable(UserInfo$inboundSchema),
+        current_version_index: types.number(),
+        draft: types.boolean(),
+        draft_revision: z.optional(z.nullable(types.string())),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "created_at": "createdAt",
+          "updated_at": "updatedAt",
+          "project_count": "projectCount",
+          "num_rows": "numRows",
+          "column_names": "columnNames",
+          "created_by_user": "createdByUser",
+          "current_version_index": "currentVersionIndex",
+          "draft_revision": "draftRevision",
+        });
+      }),
+    )
   );
 
 export function datasetDBFromJSON(
